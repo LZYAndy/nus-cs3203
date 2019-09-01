@@ -1,0 +1,6 @@
+D:/Users/Benedict/Source/Repos/nus-cs3203/team11-cp-spa-19s1/Team00/Code00/build_win/CMakeFiles/ALL_BUILD.dir
+D:/Users/Benedict/Source/Repos/nus-cs3203/team11-cp-spa-19s1/Team00/Code00/build_win/CMakeFiles/ZERO_CHECK.dir
+D:/Users/Benedict/Source/Repos/nus-cs3203/team11-cp-spa-19s1/Team00/Code00/build_win/src/spa/CMakeFiles/spa.dir
+D:/Users/Benedict/Source/Repos/nus-cs3203/team11-cp-spa-19s1/Team00/Code00/build_win/src/autotester/CMakeFiles/autotester.dir
+D:/Users/Benedict/Source/Repos/nus-cs3203/team11-cp-spa-19s1/Team00/Code00/build_win/src/unit_testing/CMakeFiles/unit_testing.dir
+D:/Users/Benedict/Source/Repos/nus-cs3203/team11-cp-spa-19s1/Team00/Code00/build_win/src/integration_testing/CMakeFiles/integration_testing.dir

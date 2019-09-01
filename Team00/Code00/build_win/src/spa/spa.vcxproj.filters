@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Users\Benedict\Source\Repos\nus-cs3203\team11-cp-spa-19s1\Team00\Code00\src\spa\src\DesignExtractor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Users\Benedict\Source\Repos\nus-cs3203\team11-cp-spa-19s1\Team00\Code00\src\spa\src\PKB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Users\Benedict\Source\Repos\nus-cs3203\team11-cp-spa-19s1\Team00\Code00\src\spa\src\Parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Users\Benedict\Source\Repos\nus-cs3203\team11-cp-spa-19s1\Team00\Code00\src\spa\src\TNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Users\Benedict\Source\Repos\nus-cs3203\team11-cp-spa-19s1\Team00\Code00\src\spa\src\pql_dto\Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Users\Benedict\Source\Repos\nus-cs3203\team11-cp-spa-19s1\Team00\Code00\src\spa\src\pql_dto\FollowsRelationship.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Users\Benedict\Source\Repos\nus-cs3203\team11-cp-spa-19s1\Team00\Code00\src\spa\src\pql_dto\ModifiesRelationship.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Users\Benedict\Source\Repos\nus-cs3203\team11-cp-spa-19s1\Team00\Code00\src\spa\src\pql_dto\ParentRelationship.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Users\Benedict\Source\Repos\nus-cs3203\team11-cp-spa-19s1\Team00\Code00\src\spa\src\pql_dto\Pattern.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Users\Benedict\Source\Repos\nus-cs3203\team11-cp-spa-19s1\Team00\Code00\src\spa\src\pql_dto\Relationships.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Users\Benedict\Source\Repos\nus-cs3203\team11-cp-spa-19s1\Team00\Code00\src\spa\src\pql_dto\UsesRelationship.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\Users\Benedict\Source\Repos\nus-cs3203\team11-cp-spa-19s1\Team00\Code00\src\spa\src\PKB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\Benedict\Source\Repos\nus-cs3203\team11-cp-spa-19s1\Team00\Code00\src\spa\src\Parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\Benedict\Source\Repos\nus-cs3203\team11-cp-spa-19s1\Team00\Code00\src\spa\src\TNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\Benedict\Source\Repos\nus-cs3203\team11-cp-spa-19s1\Team00\Code00\src\spa\src\pql_dto\Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\Benedict\Source\Repos\nus-cs3203\team11-cp-spa-19s1\Team00\Code00\src\spa\src\pql_dto\Pattern.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Users\Benedict\Source\Repos\nus-cs3203\team11-cp-spa-19s1\Team00\Code00\src\spa\src\pql_dto\Relationships.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Users\Benedict\Source\Repos\nus-cs3203\team11-cp-spa-19s1\Team00\Code00\src\spa\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{ED149918-AE36-3336-906A-60A93CFD1474}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{9E1FDCA5-9E1F-3296-8E69-E210CED0FF20}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

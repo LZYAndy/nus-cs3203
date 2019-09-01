@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\Users\Benedict\Source\Repos\nus-cs3203\team11-cp-spa-19s1\Team00\Code00\build_win\CMakeFiles\d81152b8eceb952ecc790a7bc66e88b0\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{BE615DAE-8812-34D5-9DA4-B841C95D20AC}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

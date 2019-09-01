@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Users\Benedict\Source\Repos\nus-cs3203\team11-cp-spa-19s1\Team00\Code00\src\unit_testing\src\TestAST.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Users\Benedict\Source\Repos\nus-cs3203\team11-cp-spa-19s1\Team00\Code00\src\unit_testing\src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Users\Benedict\Source\Repos\nus-cs3203\team11-cp-spa-19s1\Team00\Code00\src\unit_testing\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{9E1FDCA5-9E1F-3296-8E69-E210CED0FF20}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
