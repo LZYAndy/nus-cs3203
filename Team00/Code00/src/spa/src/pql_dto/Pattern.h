@@ -10,7 +10,8 @@
 
 using namespace std;
 
-namespace pql_dto {
+namespace pql_dto 
+{
 	class Pattern
 	{
 	private:
