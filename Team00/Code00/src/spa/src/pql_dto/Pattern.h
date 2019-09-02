@@ -10,25 +10,34 @@
 
 using namespace std;
 
+#include "Entity.h"
+
 namespace pql_dto 
 {
 	class Pattern
 	{
 	private:
-		string pattern_type;
-		string pattern_name;
-		string first_param;
-		string second_param;
+		Entity pattern_entity;
+		Entity first_param;
+		Entity second_param;
 
 	public:
-		string get_pattern_type();
-		string get_pattern_name();
-		string get_first_param();
-		string get_second_param();
+		// Returns the Pattern Entity.
+		Entity get_pattern_entity();
 
-		void set_pattern_type();
-		void set_pattern_name();
+		// Returns the First Parameter in the Pattern.
+		Entity get_first_param();
+
+		// Returns the Second Parameter in the Pattern.
+		Entity get_second_param();
+
+		// Sets and validates the pattern entity of the Pattern Object.
+		void set_pattern_entity();
+
+		// Sets and validates the first parameter of the Pattern Object.
 		void set_first_param();
+
+		// Sets and validates the second parameter of the Pattern Object.
 		void set_second_param();
 	};
 }
