@@ -9,31 +9,22 @@ using namespace std;
 
 namespace pql_dto 
 {
-	string Pattern::get_pattern_type() 
+	Entity Pattern::get_pattern_entity() 
 	{
-		return pattern_type;
+		return pattern_entity;
 	}
 
-	string Pattern::get_pattern_name() 
-	{
-		return pattern_name;
-	}
-
-	string Pattern::get_first_param() 
+	Entity Pattern::get_first_param()
 	{
 		return first_param;
 	}
 
-	string Pattern::get_second_param() 
+	Entity Pattern::get_second_param()
 	{
 		return second_param;
 	}
 
-	void Pattern::set_pattern_type() 
-	{
-	}
-
-	void Pattern::set_pattern_name() 
+	void Pattern::set_pattern_entity() 
 	{
 	}
 
