@@ -9,6 +9,7 @@ stages:
   - test
 
 before_script:
+  - cd Team00/Code00
   - mkdir build
   - cd build
 
