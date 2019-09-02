@@ -10,18 +10,21 @@
 
 using namespace std;
 
-namespace pql_dto {
+#include "Entity.h"
+
+namespace pql_dto 
+{
 	class Relationships
 	{
 	protected:
 		string relationship_type;
-		string first_param;
-		string second_param;
+		Entity first_param;
+		Entity second_param;
 
 	public:	
 		string get_relationship();
-		string get_first_param();
-		string get_second_param();
+		Entity get_first_param();
+		Entity get_second_param();
 
 		virtual void set_relationship() = 0;
 		virtual void set_first_param() = 0;
