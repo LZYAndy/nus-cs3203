@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <iostream>
-#include <string>
-#include <vector>
 
 using namespace std;
 
@@ -12,17 +8,17 @@ namespace pql_dto
 	class ParentRelationship : public Relationships
 	{
 	public:
-		void Relationships::set_relationship()
+		void set_relationship()
 		{
 
 		}
 
-		void Relationships::set_first_param()
+		void set_first_param()
 		{
 
 		}
 
-		void Relationships::set_second_param()
+		void set_second_param()
 		{
 
 		}
