@@ -1,0 +1,21 @@
+language: cpp
+compiler: clang
+os: linux
+dist: bionic
+
+stages:
+  - compile
+  - lint
+  - test
+
+before_script:
+  - mkdir build
+  - cd build
+
+jobs:
+  include:
+    - stage: compile
+      name: "Compilation"
+      script: 
+        - cmake ..
+        - make
