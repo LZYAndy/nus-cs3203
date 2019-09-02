@@ -12,17 +12,17 @@ namespace pql_dto
 	class UsesRelationship : public Relationships
 	{
 	public:
-		void UsesRelationship::set_relationship() 
+		void Relationships::set_relationship()
 		{
 
 		}
 
-		void UsesRelationship::set_first_param() 
+		void Relationships::set_first_param()
 		{
 
 		}
 
-		void UsesRelationship::set_second_param() 
+		void Relationships::set_second_param()
 		{
 
 		}
