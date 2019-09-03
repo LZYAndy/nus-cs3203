@@ -12,12 +12,12 @@ using namespace std;
 
 #include "Entity.h"
 
-enum RelationshipsType
+enum RelationshipTypes
 {
-	Follows,
-	Parent,
-	Uses,
-	Modifies
+	FOLLOWS,
+	PARENT,
+	USES,
+	MODIFIES
 };
 
 namespace pql_dto 

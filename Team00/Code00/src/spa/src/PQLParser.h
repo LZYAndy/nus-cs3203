@@ -16,5 +16,5 @@ Parses and validates the query. If validation succeeds, stores query in clause p
 @param such_that_clause The pointer to the such that clause vector.
 @param pattern_clause The pointer to the pattern clause vector.
 */
-void pql_parse_query(std::string query, vector<pql_dto::Entity>& declaration_clause, 
+string pql_parse_query(std::string query, vector<pql_dto::Entity>& declaration_clause,
 	vector<pql_dto::Entity>& select_clause, vector<pql_dto::Relationships>& such_that_clause, vector<pql_dto::Pattern>& pattern_clause);
