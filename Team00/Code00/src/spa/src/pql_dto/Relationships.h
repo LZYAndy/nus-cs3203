@@ -12,7 +12,7 @@ using namespace std;
 
 #include "Entity.h"
 
-enum RelationshipsType
+enum RelationshipType
 {
     FOLLOWS,
     PARENT,
@@ -25,7 +25,7 @@ namespace pql_dto
     class Relationships
     {
     protected:
-        string relationship_type;
+        RelationshipType relationship_type;
         Entity first_param;
         Entity second_param;
 
@@ -33,7 +33,7 @@ namespace pql_dto
 
     public:	
         // Returns the Relationship Type.
-        string get_relationship(); 
+        RelationshipType get_relationship();
 
         // Returns the First Parameter in the Relationship.
         Entity get_first_param(); 

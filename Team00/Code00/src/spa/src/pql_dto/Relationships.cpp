@@ -6,7 +6,7 @@ using namespace std;
 
 namespace pql_dto 
 {
-    string Relationships::get_relationship() 
+    RelationshipType Relationships::get_relationship()
     {
         return relationship_type;
     }

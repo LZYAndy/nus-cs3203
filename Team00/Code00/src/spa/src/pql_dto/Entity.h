@@ -29,14 +29,14 @@ namespace pql_dto
     class Entity
     {
     private:
-        string entity_type;
+        EntityType entity_type;
         string entity_name;
 
         bool is_declared_entity = false;
 
     public:
         // Returns the Entity Type.
-        string get_entity_type();
+        EntityType get_entity_type();
 
         // Returns the Entity Name.
         string get_entity_name();

@@ -9,7 +9,7 @@ using namespace std;
 
 namespace pql_dto 
 {
-    string Entity::get_entity_type() 
+    EntityType Entity::get_entity_type()
     {
         return entity_type;
     }
