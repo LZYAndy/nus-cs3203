@@ -23,7 +23,7 @@ std::string PQLParser::pql_parse_query(std::string query, vector<pql_dto::Entity
     {
         return error;
     }
-
+    return error;
 }
 
 std::vector<std::string> PQLParser::split(const std::string& query, std::string delimiter)

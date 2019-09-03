@@ -14,7 +14,7 @@ std::string PQLValidator::pql_validate_initial_query(std::string query)
     } 
     else if (query.find("Select") == 0)
     {
-        return "No Declarations."
+        return "No Declarations.";
     }
 
     return error;
