@@ -9,7 +9,7 @@
 #include <pql_dto/Entity.h>
 #include <pql_dto/Relationships.h>
 
-class FollowsEvaluator {
+class FollowsStarEvaluator {
 public:
     static vector<string> evaluate_non_trivial(pql_dto::Entity first_param,
             pql_dto::Entity second_param, pql_dto::Entity select_entity);
