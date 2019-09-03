@@ -1,8 +1,8 @@
 #pragma once
 
-#include "FollowsEvaluator.h"
+#include "FollowsStarEvaluator.h"
 
-vector<string> FollowsEvaluator::evaluate_non_trivial(pql_dto::Entity first_param,
+vector<string> FollowsStarEvaluator::evaluate_non_trivial(pql_dto::Entity first_param,
         pql_dto::Entity second_param, pql_dto::Entity select_entity) {
     vector<string> result;
     vector<string> empty_vec;
@@ -37,7 +37,7 @@ vector<string> FollowsEvaluator::evaluate_non_trivial(pql_dto::Entity first_para
     return result;
 }
 
-vector<string> FollowsEvaluator::evaluate_trivial(pql_dto::Entity first_param,
+vector<string> FollowsStarEvaluator::evaluate_trivial(pql_dto::Entity first_param,
         pql_dto::Entity second_param, pql_dto::Entity select_entity) {
     vector<string> result;
     vector<string> empty_vec;

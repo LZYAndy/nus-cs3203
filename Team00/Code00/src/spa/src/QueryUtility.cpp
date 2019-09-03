@@ -2,12 +2,13 @@
 // Created by 刘照宇 on 2/9/19.
 //
 
+#include <pql_dto/Entity.h>
 #include "QueryUtility.h"
 
 /*
 Checks if the string is an integer
 */
-bool QueryUtility::is_integer(std::string s) {
+bool QueryUtility::is_integer(string s) {
     for (size_t i = 0; i < s.length(); i++) {
         if (!isdigit(s[i])) {
             return false;
@@ -43,40 +44,41 @@ bool QueryUtility::has_reference(std::string s) {
 /*
  * Returns the list of certain type
  */
-vector<string> QueryUtility::get_certain_type_list(string type) {
-    if (type == "variable"){
+vector<string> QueryUtility::get_certain_type_list(EntityType type) {
+    vector<string> type_list;
+    if (type == EntityType::VARIABLE){
         type_list = {}; // get_var_list();
     }
 
-    if (type == "assign"){
+    if (type == EntityType::ASSIGN){
         type_list = {}; // get_assign_list();
     }
 
-    if (type == "stmt"){
+    if (type == EntityType::STMT){
         type_list = {}; // get_stmt_list();
     }
 
-    if (type == "procedure"){
+    if (type == EntityType::PROCEDURE){
         type_list = {}; // get_proc_list();
     }
 
-    if (type == "while"){
+    if (type == EntityType::WHILE){
         type_list = {}; // get_while_list();
     }
 
-    if (type == "if"){
+    if (type == EntityType::IF){
         type_list = {}; // get_if_list();
     }
 
-    if (type == "read"){
+    if (type == EntityType::READ){
         type_list = {}; // get_read_list();
     }
 
-    if (type == "print"){
+    if (type == EntityType::PRINT){
         type_list = {}; // get_print_list();
     }
 
-    if (type == "call"){
+    if (type == EntityType::CALL){
         type_list = {}; // get_call_list();
     }
     return type_list
