@@ -5,7 +5,7 @@ string whitespace = "\\s+";
 string const_value = "\\d+";
 string var_name, proc_name = "[a-zA-Z][a-zA-Z0-9]*";
 
-string spa_factor =  "(" + var_name + "|" + const_value + "| \\(" + spa_expr + "\\))";
+string spa_factor =  "(" + var_name + "|" + const_value +  ")"; // Add | "(" spa_expr ")" when used.
 string spa_term = "(" + spa_factor + "|" + spa_factor + "[*/%]" + spa_factor + ")";
 string spa_expr = "(" + spa_term + "|" + spa_term + "[+-]" + spa_term + ")";
 
