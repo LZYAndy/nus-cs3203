@@ -1,8 +1,10 @@
+#pragma once
 #ifndef AUTOTESTER_BANK_H
 #define AUTOTESTER_BANK_H
 
 #include <unordered_map>
 #include <vector>
+#include <string>
 
 template<class T, class S>
 class Bank
@@ -10,8 +12,8 @@ class Bank
 public:
     Bank<T, S>();
     void put(T key, S value);
-    std::vector<S> get(int key);
-    std::vector<T> get_reverse(int key);
+    std::vector<S> get(T key);
+    std::vector<T> get_reverse(S key);
     std::vector<T> get_all_keys();
 
 private:

@@ -1,6 +1,5 @@
 #include "catch.hpp"
 #include "Bank.h"
-#include "Bank.cpp"
 
 TEST_CASE("Bank<int, int> Test")
 {

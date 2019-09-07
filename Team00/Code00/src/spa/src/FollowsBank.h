@@ -1,3 +1,4 @@
+#pragma once
 #ifndef AUTOTESTER_FOLLOWSBANK_H
 #define AUTOTESTER_FOLLOWSBANK_H
 

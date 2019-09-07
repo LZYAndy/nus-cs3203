@@ -23,19 +23,19 @@ void Bank<T, S>::put(T key, S value)
 
     if (reverse_bank.find(value) != reverse_bank.end())
     {
-        std::vector<T> reverse_bank_value = reverse_bank.at(key);
+        std::vector<T> reverse_bank_value = reverse_bank.at(value);
         reverse_bank_value.push_back(key);
     }
     else
     {
         std::vector<T> key_list;
         key_list.push_back(key);
-        bank.insert({value, key_list});
+        reverse_bank.insert({value, key_list});
     }
 }
 
 template<class T, class S>
-std::vector<S> Bank<T, S>::get(int key)
+std::vector<S> Bank<T, S>::get(T key)
 {
     if (bank.find(key) != bank.end())
     {
@@ -46,7 +46,7 @@ std::vector<S> Bank<T, S>::get(int key)
 }
 
 template<class T, class S>
-std::vector<T> Bank<T, S>::get_reverse(int key)
+std::vector<T> Bank<T, S>::get_reverse(S key)
 {
     if (reverse_bank.find(key) != reverse_bank.end())
     {
@@ -67,3 +67,6 @@ std::vector<T> Bank<T,S>::get_all_keys()
 
     return keys;
 }
+
+template class Bank<int, int>;
+template class Bank<int, std::string>;
