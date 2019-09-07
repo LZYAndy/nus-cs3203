@@ -9,6 +9,6 @@ TEST_CASE("Bank<int, int> Test")
     int popped_value = bank.get(1).at(0);
     REQUIRE(popped_value == 2);
 
-    int popped_key = bank.get(2).at(0);
+    int popped_key = bank.get_reverse(2).at(0);
     REQUIRE(popped_key == 1);
 }
