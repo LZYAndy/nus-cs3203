@@ -12,6 +12,7 @@ public:
     void put(T key, S value);
     std::vector<S> get(int key);
     std::vector<T> get_reverse(int key);
+    std::vector<T> get_all_keys();
 
 private:
     std::unordered_map<T, std::vector<S>> bank;

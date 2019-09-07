@@ -55,3 +55,15 @@ std::vector<T> Bank<T, S>::get_reverse(int key)
 
     return std::vector<T>();
 }
+
+template<class T, class S>
+std::vector<T> Bank<T,S>::get_all_keys()
+{
+    std::vector<T> keys;
+    for (std::pair<T,std::vector<S>> element : bank)
+    {
+        keys.push_back(element.first);
+    }
+
+    return keys;
+}

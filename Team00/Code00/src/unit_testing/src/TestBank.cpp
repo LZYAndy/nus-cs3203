@@ -11,4 +11,8 @@ TEST_CASE("Bank<int, int> Test")
 
     int popped_key = bank.get(2).at(0);
     REQUIRE(popped_key == 1);
+
+    std::vector<int> expected_result;
+    expected_result.push_back(1);
+    REQUIRE(bank.get_all_keys() == expected_result);
 }
