@@ -1,9 +1,16 @@
 #include "CheckerUtil.h"
 
+// Do not auto format the following strings. Spaces are left intentionally for readability.
+string whitespace = "\\s+";
 string const_value = "\\d+";
 string var_name, proc_name = "[a-zA-Z][a-zA-Z0-9]*";
-string expr = "";
-string factor =  "(" + var_name + "|" + const_value + ")";
+
+string spa_factor =  "(" + var_name + "|" + const_value + "| \\(" + spa_expr + "\\))";
+string spa_term = "(" + spa_factor + "|" + spa_factor + "[*/%]" + spa_factor + ")";
+string spa_expr = "(" + spa_term + "|" + spa_term + "[+-]" + spa_term + ")";
+
+
+
 
 bool parser_checker::is_procedure_name_valid(string stmt)
 {
