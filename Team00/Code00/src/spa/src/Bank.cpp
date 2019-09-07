@@ -1,7 +1,3 @@
-//
-// Created by Koh Zheng Wei on 2019-09-04.
-//
-
 #include "Bank.h"
 
 template<class T, class S>
