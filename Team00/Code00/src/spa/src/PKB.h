@@ -42,7 +42,14 @@ public:
     vector<int> get_pattern_contains(string var, string pattern);
     vector<int> get_all_pattern_matches(string pattern);
     vector<int> get_all_pattern_contains(string pattern);
-
+    unordered_map<int, std::vector<int>> get_all_parent();
+    unordered_map<int, std::vector<int>> get_all_follows();
+    unordered_map<int, std::vector<int>> get_all_parent_star();
+    unordered_map<int, std::vector<int>> get_all_follows_star();
+    bool does_follows_exist();
+    bool does_follows_star_exist();
+    bool does_parent_exist();
+    bool does_children_exist();
 
 private:
     FollowsBank follows_bank;

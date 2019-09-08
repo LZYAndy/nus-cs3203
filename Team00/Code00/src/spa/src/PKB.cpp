@@ -131,3 +131,43 @@ vector<int> PKB::get_all_pattern_contains(string pattern)
 {
     return assign_bank.all_contains(pattern);
 }
+
+unordered_map<int, std::vector<int>> PKB::get_all_parent()
+{
+    return parent_bank.copy();
+}
+
+unordered_map<int, std::vector<int>> PKB::get_all_follows()
+{
+    return follows_bank.copy();
+}
+
+unordered_map<int, std::vector<int>> PKB::get_all_parent_star()
+{
+    return parent_star_bank.copy();
+}
+
+unordered_map<int, std::vector<int>> PKB::get_all_follows_star()
+{
+    return follows_star_bank.copy();
+}
+
+bool PKB::does_follows_exist()
+{
+    return follows_bank.empty();
+}
+
+bool PKB::does_follows_star_exist()
+{
+    return follows_star_bank.empty();
+}
+
+bool PKB::does_parent_exist()
+{
+    return parent_bank.empty();
+}
+
+bool PKB::does_children_exist()
+{
+    return parent_star_bank.empty();
+}

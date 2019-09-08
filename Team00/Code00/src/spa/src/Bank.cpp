@@ -80,5 +80,18 @@ std::vector<S> Bank<T,S>::get_all_values()
     return values;
 }
 
+template<class T, class S>
+bool Bank<T, S>::empty()
+{
+    return bank.empty() && reverse_bank.empty();
+}
+
+template<class T, class S>
+std::unordered_map<T, std::vector<S>> Bank<T, S>::copy()
+{
+    // TODO: check if shallow copy or deep copy
+    return bank;
+}
+
 template class Bank<int, int>;
 template class Bank<int, std::string>;
