@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <unordered_map>
 
 #include <PQLParser.h>
 #include <QueryUtility.h>

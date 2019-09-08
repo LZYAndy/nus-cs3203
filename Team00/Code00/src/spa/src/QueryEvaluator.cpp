@@ -8,9 +8,9 @@ vector<string> QueryEvaluator::get_result(string query) {
     vector<string> result;
     vector<string> empty_vec;
 
-    vector<string> select_list;
-    vector<string> such_that_list;
-    vector<string> pattern_list;
+    unordered_map<string, vector<string>> select_list;
+    unordered_map<string, vector<string>> such_that_list;
+    unordered_map<string, vector<string>> pattern_list;
 
     vector<pql_dto::Entity> declaration_clause;
     vector<pql_dto::Entity> select_clause;
@@ -27,34 +27,41 @@ vector<string> QueryEvaluator::get_result(string query) {
     }
 
     pql_dto::Entity select_entity = select_clause.front();
+    string select_name = select_entity.get_entity_name();
     pql_dto::Relationships & relation = such_that_clause.front();
     pql_dto::Pattern pattern = pattern_clause.front();
 
     if (!select_clause.empty()) { // has select
         EntityType select_type = select_entity.get_entity_type();
-        select_list = QueryUtility::get_certain_type_list(select_type);
+        select_list[select_name] = QueryUtility::get_certain_type_list(select_type);
     }
 
     if (!such_that_clause.empty()) { // has such that
         RelationshipType relation_type = relation.get_relationship();
         pql_dto::Entity first_param = relation.get_first_param();
         pql_dto::Entity second_param = relation.get_second_param();
+        string trivial_result;
 
         if (relation_type == RelationshipType::FOLLOWS) {
             if (!relation.is_relationship_star()) {
                 if (!first_param.is_entity_declared() && !second_param.is_entity_declared()) {
-                    such_that_list = FollowsEvaluator::evaluate_trivial(first_param, second_param, select_entity);
+                    trivial_result = FollowsEvaluator::evaluate_trivial(first_param, second_param);
+                    if(trivial_result == "False") {
+                        such_that_list[select_name] = empty_vec;
+                    }
                 } else {
-                    such_that_list = FollowsEvaluator::evaluate_non_trivial(first_param, second_param, select_entity);
+                    such_that_list = FollowsEvaluator::evaluate_non_trivial(first_param, second_param);
                 }
             } else {
                 if (!first_param.is_entity_declared() && !second_param.is_entity_declared()) {
-                    such_that_list = FollowsStarEvaluator::evaluate_trivial(first_param, second_param, select_entity);
+                    trivial_result = FollowsStarEvaluator::evaluate_trivial(first_param, second_param);
+                    if(trivial_result == "False") {
+                        such_that_list[select_name] = empty_vec;
+                    }
                 } else {
-                    such_that_list = FollowsStarEvaluator::evaluate_non_trivial(first_param, second_param, select_entity);
+                    such_that_list = FollowsStarEvaluator::evaluate_non_trivial(first_param, second_param);
                 }
             }
-
         }
 
         if (relation_type == RelationshipType::USES && !relation.is_relationship_star()) {
