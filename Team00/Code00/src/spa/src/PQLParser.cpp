@@ -8,6 +8,7 @@ std::string PQLParser::pql_parse_query(std::string query, vector<pql_dto::Entity
     vector<pql_dto::Pattern>& pattern_clause) 
 {
     std::string error;
+    std::unordered_map<string, string> declared_variables; // Maps variables' name to to entity type
 
     // Validates if query meets the basic grammer of select-cl
     error = PQLValidator::pql_validate_initial_query(query);
@@ -18,18 +19,27 @@ std::string PQLParser::pql_parse_query(std::string query, vector<pql_dto::Entity
 
     // Validates the declaration string
     std::vector<std::string> split_query_by_select = split(query, "Select");
-    error = parse_declaration_clause(split_query_by_select.front(), declaration_clause);
+    error = parse_declaration_clause(split_query_by_select.front(), declaration_clause, declared_variables);
     if (!error.empty())
     {
         return error;
     }
+
+    // Validates the declaration string
+    std::vector<std::string> split_query_by_such_that = split(query, "such that");
+    std::vector<std::string> split_query_by_pattern = split(split_query_by_such_that.front(), "pattern");
+    error = parse_select_clause(split_query_by_pattern.front(), select_clause, declared_variables);
+    if (!error.empty())
+    {
+        return error;
+    }
+
     return error;
 }
 
-std::string PQLParser::parse_declaration_clause(const std::string& query, std::vector<pql_dto::Entity>& declaration_clause)
+std::string PQLParser::parse_declaration_clause(const std::string& query, std::vector<pql_dto::Entity>& declaration_clause, 
+    std::unordered_map<string, string>& declared_variables)
 {
-    std::string error;
-
     std::vector<std::string> split_declaration_clause = split(query, ';');
     for each (std::string declaration in split_declaration_clause)
     {
@@ -49,17 +59,33 @@ std::string PQLParser::parse_declaration_clause(const std::string& query, std::v
             try 
             {
                 entity = pql_dto::Entity(entity_type, name);
+                declaration_clause.push_back(entity);
+                declared_variables[name] = entity_type;
             }
             catch (const std::exception& e)
             {
                 return e.what();
             }
-
-            declaration_clause.push_back(entity);
         }
     }
 
-    return error;
+    return "";
+}
+
+std::string PQLParser::parse_select_clause(const std::string& query, std::vector<pql_dto::Entity>& select_clause,
+    std::unordered_map<string, string>& declared_variables)
+{
+    // Checks if variable in select clause exists
+    if (declared_variables.find(query) == declared_variables.end())
+    {
+        return "No such variable exists!";
+    }
+
+    string entity_type = declared_variables.at(query);
+    pql_dto::Entity entity = pql_dto::Entity(entity_type, query);
+    select_clause.push_back(entity);
+
+    return "";
 }
 
 std::vector<std::string> PQLParser::split(const std::string& query, std::string delimiter)

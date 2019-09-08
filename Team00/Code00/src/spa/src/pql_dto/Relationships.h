@@ -26,15 +26,13 @@ namespace pql_dto
     {
 
     protected:
-        RelationshipType relationship_type;
+        RelationshipType relationship_type = RelationshipType::FOLLOWS;
         Entity first_param;
         Entity second_param;
 
         bool is_star = false;
 
     public:	
-        Relationships();
-
         // Returns the Relationship Type.
         RelationshipType get_relationship();
 
@@ -49,16 +47,16 @@ namespace pql_dto
         bool is_relationship_star();
 
         // Sets and validates the relationship of the Relationship Object.
-        string set_relationship();
+        void set_relationship(RelationshipType relationship_type);
 
         // Sets the @param is_star value to true if Relationship is Star.
         void set_relationship_star(bool is_relationship_star);
 
         // Sets and validates the first parameter of the Relationship Object.
-        virtual void set_first_param() = 0;
+        virtual void set_first_param(string param) = 0;
 
         // Sets and validates the second parameter of the Relationship Object.
-        virtual void set_second_param() = 0;
+        virtual void set_second_param(string param) = 0;
     };
 }
 

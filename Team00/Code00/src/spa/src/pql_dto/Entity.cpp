@@ -78,12 +78,14 @@ namespace pql_dto
         }
         else
         {
-            throw std::exception("Invalid Entity Name");
+            throw std::exception("Invalid Entity Name!");
         }
     }
 
     void Entity::set_entity_name(string name) 
     {
+        //checks entity names
+        entity_name = name;
     }
 
     void Entity::set_is_declared(bool is_declared)

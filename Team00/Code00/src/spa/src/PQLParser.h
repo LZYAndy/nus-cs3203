@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 #include <pql_dto/Entity.h>
 #include <pql_dto/Relationships.h>
@@ -10,7 +11,10 @@
 class PQLParser
 {
 private:
-    static std::string PQLParser::parse_declaration_clause(const std::string& query, std::vector<pql_dto::Entity>& declaration_clause);
+    static std::string PQLParser::parse_declaration_clause(const std::string& query, std::vector<pql_dto::Entity>& declaration_clause,
+        std::unordered_map<string, string>& declared_variables);
+    static std::string PQLParser::parse_select_clause(const std::string& query, std::vector<pql_dto::Entity>& select_clause,
+        std::unordered_map<string, string>& declared_variables);
 
 public:
     /*!

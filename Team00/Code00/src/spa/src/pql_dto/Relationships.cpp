@@ -6,11 +6,6 @@ using namespace std;
 
 namespace pql_dto 
 {
-    Relationships::Relationships()
-    {
-
-    }
-
     RelationshipType Relationships::get_relationship()
     {
         return relationship_type;
@@ -31,9 +26,9 @@ namespace pql_dto
         return is_star;
     }
 
-    std::string Relationships:: set_relationship()
+    void Relationships:: set_relationship(RelationshipType type)
     {
-
+        relationship_type = type;
     }
 
     void Relationships::set_relationship_star(bool is_relationship_star)
