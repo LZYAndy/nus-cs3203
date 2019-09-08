@@ -51,12 +51,12 @@ bool PKB::insert_parent(int stmt1, int stmt2)
     return true;
 }
 
-std::vector<int> PKB::get_all_follows_star(int stmt)
+std::vector<int> PKB::get_follows_star(int stmt)
 {
     return follows_star_bank.get(stmt);;
 }
 
-std::vector<int> PKB::get_all_followed_by(int stmt)
+std::vector<int> PKB::get_followed__star_by(int stmt)
 {
     return follows_star_bank.get_reverse(stmt);
 }
