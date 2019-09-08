@@ -2,9 +2,9 @@
 
 #include "FollowsStarEvaluator.h"
 
-vector<string> FollowsStarEvaluator::evaluate_non_trivial(pql_dto::Entity first_param,
-        pql_dto::Entity second_param, pql_dto::Entity select_entity) {
-    vector<string> result;
+unordered_map<string, vector<string>> FollowsStarEvaluator::evaluate_non_trivial(pql_dto::Entity first_param,
+        pql_dto::Entity second_param) {
+    unordered_map<string, vector<string>> result;
     vector<string> empty_vec;
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
@@ -19,7 +19,7 @@ vector<string> FollowsStarEvaluator::evaluate_non_trivial(pql_dto::Entity first_
 
         } else { // one SE and one OT
             if (first_name == select_name) {
-                return empty_vec;
+
             } else {
 
             }
@@ -37,9 +37,9 @@ vector<string> FollowsStarEvaluator::evaluate_non_trivial(pql_dto::Entity first_
     return result;
 }
 
-vector<string> FollowsStarEvaluator::evaluate_trivial(pql_dto::Entity first_param,
-        pql_dto::Entity second_param, pql_dto::Entity select_entity) {
-    vector<string> result;
+string FollowsStarEvaluator::evaluate_trivial(pql_dto::Entity first_param,
+        pql_dto::Entity second_param) {
+    string result;
     vector<string> empty_vec;
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 #include <QueryUtility.h>
 #include <pql_dto/Entity.h>
@@ -11,9 +12,9 @@
 
 class FollowsEvaluator {
 public:
-    static vector<string> evaluate_non_trivial(pql_dto::Entity first_param,
-            pql_dto::Entity second_param, pql_dto::Entity select_entity);
-    static vector<string> evaluate_trivial(pql_dto::Entity first_param,
-            pql_dto::Entity second_param, pql_dto::Entity select_entity)
+    static unordered_map<string, vector<string>> evaluate_non_trivial(pql_dto::Entity first_param,
+            pql_dto::Entity second_param);
+    static string evaluate_trivial(pql_dto::Entity first_param,
+            pql_dto::Entity second_param);
 };
 
