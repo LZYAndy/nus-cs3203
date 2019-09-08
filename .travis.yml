@@ -1,6 +1,8 @@
 language: cpp
-compiler: clang
-os: linux
+compiler: 
+  - clang
+os: 
+  - linux
 dist: bionic
 
 stages:
