@@ -1,12 +1,15 @@
 language: cpp
-compiler: clang
-os: linux
+compiler: 
+  - clang
+os: 
+  - linux
 dist: bionic
 
 stages:
   - compile
   - lint
   - test
+  - documentation
 
 before_script:
   - cd Team00/Code00
@@ -20,3 +23,19 @@ jobs:
       script: 
         - cmake ..
         - make
+    
+    - stage: test
+      name: "Unit Testing"
+      script:
+        - cmake ..
+        - make 
+        - cd src/unit_testing 
+        - ./unit_testing
+
+    - stage: test
+      name: "Integration Testing"
+      script:
+        - cmake ..
+        - make
+        - cd src/integration_testing
+        - ./integration_testing
