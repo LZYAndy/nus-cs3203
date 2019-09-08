@@ -17,7 +17,7 @@ private:
     @param declaration_clause The pointer to the declaration clause vector.
     @param declared_variables The pointer to the variables unordered map.
     */
-    static std::string PQLParser::parse_declaration_clause(const std::string& query, std::vector<pql_dto::Entity>& declaration_clause,
+    static std::string parse_declaration_clause(const std::string& query, std::vector<pql_dto::Entity>& declaration_clause,
         std::unordered_map<string, string>& declared_variables);
 
     /*!
@@ -26,7 +26,7 @@ private:
     @param declaration_clause The pointer to the declaration clause vector.
     @param declared_variables The pointer to the variables unordered map.
     */
-    static std::string PQLParser::parse_select_clause(const std::string& query, std::vector<pql_dto::Entity>& select_clause,
+    static std::string parse_select_clause(const std::string& query, std::vector<pql_dto::Entity>& select_clause,
         std::unordered_map<string, string>& declared_variables);
 
 public:

@@ -37,16 +37,16 @@ std::string PQLParser::pql_parse_query(std::string query, vector<pql_dto::Entity
     return error;
 }
 
-std::string parse_declaration_clause(const std::string& query, std::vector<pql_dto::Entity>& declaration_clause,
+std::string PQLParser::parse_declaration_clause(const std::string& query, std::vector<pql_dto::Entity>& declaration_clause,
     std::unordered_map<string, string>& declared_variables)
 {
     std::vector<std::string> split_declaration_clause = split(query, ';');
-    for each (std::string declaration in split_declaration_clause)
+    for (std::string declaration : split_declaration_clause)
     {
         /// Split declaration clause in the form "design-entity synonym (‘,’ synonym)*"
         std::string entity_type = declaration.substr(0, declaration.find(' '));
         std::string entity_names = declaration.substr(declaration.find(' '), declaration.length());
-        std::vector<std::string> entity_names_list = split(entity_names, ',');
+        std::vector<std::string> entity_names_list = PQLParser::split(entity_names, ',');
 
         if (entity_names_list.size() == 0)
         {
@@ -72,7 +72,7 @@ std::string parse_declaration_clause(const std::string& query, std::vector<pql_d
     return "";
 }
 
-std::string parse_select_clause(const std::string& query, std::vector<pql_dto::Entity>& select_clause,
+std::string PQLParser::parse_select_clause(const std::string& query, std::vector<pql_dto::Entity>& select_clause,
     std::unordered_map<string, string>& declared_variables)
 {
     // Checks if variable in select clause exists
