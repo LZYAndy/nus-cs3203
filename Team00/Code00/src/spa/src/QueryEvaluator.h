@@ -21,8 +21,9 @@ public:
     static vector<string> get_result(string query);
 
 private:
-    static vector<string> take_common_part(vector<string> select_list,
-                                                           vector<string> such_that_list,
-                                                           vector<string> pattern_list);
+    static vector<string> take_common_part(pql_dto::Entity select_entity,
+            unordered_map<string, vector<string>> select_list,
+            unordered_map<string, vector<string>> such_that_list,
+            unordered_map<string, vector<string>> pattern_list);
 };
 
