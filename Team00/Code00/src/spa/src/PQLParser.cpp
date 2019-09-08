@@ -37,7 +37,7 @@ std::string PQLParser::pql_parse_query(std::string query, vector<pql_dto::Entity
     return error;
 }
 
-std::string PQLParser::parse_declaration_clause(const std::string& query, std::vector<pql_dto::Entity>& declaration_clause,
+std::string parse_declaration_clause(const std::string& query, std::vector<pql_dto::Entity>& declaration_clause,
     std::unordered_map<string, string>& declared_variables)
 {
     std::vector<std::string> split_declaration_clause = split(query, ';');
@@ -53,7 +53,7 @@ std::string PQLParser::parse_declaration_clause(const std::string& query, std::v
             return "Invalid Query! Missing synonym.";
         }
 
-        for each (string name in entity_names_list)
+        for (string name : entity_names_list)
         {
             pql_dto::Entity entity;
             try
@@ -72,7 +72,7 @@ std::string PQLParser::parse_declaration_clause(const std::string& query, std::v
     return "";
 }
 
-std::string PQLParser::parse_select_clause(const std::string& query, std::vector<pql_dto::Entity>& select_clause,
+std::string parse_select_clause(const std::string& query, std::vector<pql_dto::Entity>& select_clause,
     std::unordered_map<string, string>& declared_variables)
 {
     // Checks if variable in select clause exists
