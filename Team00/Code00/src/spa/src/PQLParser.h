@@ -9,6 +9,9 @@
 
 class PQLParser
 {
+private:
+    static std::string PQLParser::parse_declaration_clause(const std::string& query, std::vector<pql_dto::Entity>& declaration_clause);
+
 public:
     /*!
     Parses and validates the query. If validation succeeds, stores query in clause pointers.

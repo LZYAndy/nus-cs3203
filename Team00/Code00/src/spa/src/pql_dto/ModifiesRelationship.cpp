@@ -12,11 +12,6 @@ namespace pql_dto
     class ModifiesRelationship : public Relationships
     {
     public:
-        void set_relationship()
-        {
-
-        }
-
         void set_first_param()
         {
 

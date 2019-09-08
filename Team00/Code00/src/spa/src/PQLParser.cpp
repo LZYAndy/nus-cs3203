@@ -17,12 +17,48 @@ std::string PQLParser::pql_parse_query(std::string query, vector<pql_dto::Entity
     }
 
     // Validates the declaration string
-    std::vector<std::string> split_declaration_query = split(query, "Select");
-    error = PQLValidator::pql_validate_declaration_clause(split_declaration_query.front());
+    std::vector<std::string> split_query_by_select = split(query, "Select");
+    error = parse_declaration_clause(split_query_by_select.front(), declaration_clause);
     if (!error.empty())
     {
         return error;
     }
+    return error;
+}
+
+std::string PQLParser::parse_declaration_clause(const std::string& query, std::vector<pql_dto::Entity>& declaration_clause)
+{
+    std::string error;
+
+    std::vector<std::string> split_declaration_clause = split(query, ';');
+    for each (std::string declaration in split_declaration_clause)
+    {
+        // Split declaration clause in the form "design-entity synonym (‘,’ synonym)*"
+        std::string entity_type = declaration.substr(0, declaration.find(' '));
+        std::string entity_names = declaration.substr(declaration.find(' '), declaration.length());
+        std::vector<std::string> entity_names_list = split(entity_names, ',');
+
+        if (entity_names_list.size() == 0)
+        {
+            return "Invalid Query! Missing synonym.";
+        }
+
+        for each (string name in entity_names_list)
+        {
+            pql_dto::Entity entity;
+            try 
+            {
+                entity = pql_dto::Entity(entity_type, name);
+            }
+            catch (const std::exception& e)
+            {
+                return e.what();
+            }
+
+            declaration_clause.push_back(entity);
+        }
+    }
+
     return error;
 }
 

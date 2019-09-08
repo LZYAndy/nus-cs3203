@@ -29,12 +29,17 @@ namespace pql_dto
     class Entity
     {
     private:
-        EntityType entity_type;
+        EntityType entity_type = STMT;
         string entity_name;
 
         bool is_declared_entity = false;
 
     public:
+        Entity();
+
+        // Constructor for Entity. Throws an exception if not properly initialised.
+        Entity(string entity_type, string entity_name);
+
         // Returns the Entity Type.
         EntityType get_entity_type();
 
@@ -46,10 +51,10 @@ namespace pql_dto
         bool is_entity_declared();
 
         // Sets and validates the entity type of the Entity Object.
-        void set_entity_type();
+        void set_entity_type(string type);
 
         // Sets and validates the entity name of the Entity Object.
-        void set_entity_name();
+        void set_entity_name(string name);
 
         // Sets the @param is_declared_entity value to true if Entity is declared.
         void set_is_declared(bool is_declared);

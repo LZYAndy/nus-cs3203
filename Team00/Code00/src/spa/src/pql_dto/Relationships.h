@@ -24,6 +24,7 @@ namespace pql_dto
 {
     class Relationships
     {
+
     protected:
         RelationshipType relationship_type;
         Entity first_param;
@@ -32,6 +33,8 @@ namespace pql_dto
         bool is_star = false;
 
     public:	
+        Relationships();
+
         // Returns the Relationship Type.
         RelationshipType get_relationship();
 
@@ -45,11 +48,11 @@ namespace pql_dto
         // Default value is false.
         bool is_relationship_star();
 
+        // Sets and validates the relationship of the Relationship Object.
+        string set_relationship();
+
         // Sets the @param is_star value to true if Relationship is Star.
         void set_relationship_star(bool is_relationship_star);
-
-        // Sets and validates the relationship type of the Relationship Object.
-        virtual void set_relationship() = 0;
 
         // Sets and validates the first parameter of the Relationship Object.
         virtual void set_first_param() = 0;
