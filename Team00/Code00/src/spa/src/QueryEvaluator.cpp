@@ -94,24 +94,43 @@ vector<string> QueryEvaluator::get_result(string query) {
         pql_dto::Entity first_param = pattern.get_first_param();
         pql_dto::Entity second_param = pattern.get_second_param();
         if (pattern_type == EntityType::ASSIGN) {
-            pattern_list = {}; // get_stmt_list_matching_pattern(first_param, second_param);
+
         }
     }
 
     // Merge three lists
-    result = QueryEvaluator::take_common_part(select_list, such_that_list, pattern_list);
+    result = QueryEvaluator::take_common_part(select_entity, select_list, such_that_list, pattern_list);
     return result;
 }
 
-vector<string> QueryEvaluator::take_common_part(
-        vector<string> select_list,
-        vector<string> such_that_list,
-        vector<string> pattern_list) {
+vector<string> QueryEvaluator::take_common_part(pql_dto::Entity select_entity,
+        unordered_map<string, vector<string>> select_list,
+        unordered_map<string, vector<string>> such_that_list,
+        unordered_map<string, vector<string>> pattern_list) {
+
+    string select_name = select_entity.get_entity_name();
     vector<string> vector_1;
     vector<string> vector_2;
-    set_intersection(select_list.begin(), select_list.end(), such_that_list.begin(),
-            such_that_list.end(), back_inserter(vector_1));
-    set_intersection(vector_1.begin(), vector_1.end(), pattern_list.begin(),
-                     pattern_list.end(), back_inserter(vector_2));
+    vector<string> select = select_list[select_name];
+    vector<string> such_that;
+    vector<string> pattern;
+
+    if (such_that_list.find(select_name) == such_that_list.end()) {
+        such_that = select;
+    } else {
+        such_that = such_that_list[select_name];
+    }
+
+    if (pattern_list.find(select_name) == pattern_list.end()) {
+        pattern = select;
+    } else {
+        pattern = pattern_list[select_name];
+    }
+
+    set_intersection(select.begin(), select.end(), such_that.begin(),
+            such_that.end(), back_inserter(vector_1));
+    set_intersection(vector_1.begin(), vector_1.end(), pattern.begin(),
+                     pattern.end(), back_inserter(vector_2));
+
     return vector_2;
 }
