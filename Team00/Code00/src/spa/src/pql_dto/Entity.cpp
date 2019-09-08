@@ -79,7 +79,7 @@ namespace pql_dto
         }
         else
         {
-            throw std::exception("Invalid Entity Name!");
+            throw std::runtime_error("Invalid Entity Name!");
         }
     }
 
