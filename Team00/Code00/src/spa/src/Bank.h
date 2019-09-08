@@ -15,6 +15,7 @@ public:
     std::vector<S> get(T key);
     std::vector<T> get_reverse(S key);
     std::vector<T> get_all_keys();
+    std::vector<S> get_all_values();
 
 private:
     std::unordered_map<T, std::vector<S>> bank;

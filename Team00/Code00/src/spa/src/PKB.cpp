@@ -56,7 +56,7 @@ std::vector<int> PKB::get_follows_star(int stmt)
     return follows_star_bank.get(stmt);;
 }
 
-std::vector<int> PKB::get_followed__star_by(int stmt)
+std::vector<int> PKB::get_followed_star_by(int stmt)
 {
     return follows_star_bank.get_reverse(stmt);
 }
@@ -106,9 +106,9 @@ std::vector<int> PKB::get_children(int stmt)
     return parent_bank.get_reverse(stmt);
 }
 
-bool PKB::insert_assign(int stmt, string line)
+bool PKB::insert_assign(int stmt, string var, string assignment)
 {
-    assign_bank.put(stmt, line);
+    assign_bank.put(stmt, var, assignment);
     return true;
 }
 

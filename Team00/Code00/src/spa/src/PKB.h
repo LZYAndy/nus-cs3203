@@ -28,10 +28,10 @@ public:
 	bool extract_design();
 	bool insert_follows(int stmt1, int stmt2);
     bool insert_parent(int stmt1, int stmt2);
-    bool insert_assign(int stmt, string line);
+    bool insert_assign(int stmt, string var, string assignment);
 
     vector<int> get_follows_star(int stmt);
-    vector<int> get_followed__star_by(int stmt);
+    vector<int> get_followed_star_by(int stmt);
     int get_follows(int stmt);
     int get_followed_by(int stmt);
     int get_parent(int stmt);
