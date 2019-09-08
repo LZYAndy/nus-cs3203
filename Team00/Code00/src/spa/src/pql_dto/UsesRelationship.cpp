@@ -1,5 +1,3 @@
-using namespace std;
-
 #include "Relationships.h"
 
 namespace pql_dto
@@ -16,12 +14,12 @@ namespace pql_dto
         }
 
     private:
-        void Relationships::set_first_param(string param)
+        void set_first_param(string param)
         {
             
         }
 
-        void Relationships::set_second_param(string param)
+        void set_second_param(string param)
         {
 
         }
