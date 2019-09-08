@@ -1,9 +1,8 @@
-
 using namespace std;
 
 #include "Relationships.h"
 
-namespace pql_dto 
+namespace pql_dto
 {
     class ParentRelationship : public Relationships
     {

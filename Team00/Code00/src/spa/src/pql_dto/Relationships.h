@@ -20,7 +20,7 @@ enum RelationshipType
     MODIFIES
 };
 
-namespace pql_dto 
+namespace pql_dto
 {
     class Relationships
     {
@@ -32,17 +32,17 @@ namespace pql_dto
 
         bool is_star = false;
 
-    public:	
+    public:
         // Returns the Relationship Type.
         RelationshipType get_relationship();
 
         // Returns the First Parameter in the Relationship.
-        Entity get_first_param(); 
+        Entity get_first_param();
 
         // Returns the Second Parameter in the Relationship.
-        Entity get_second_param(); 
+        Entity get_second_param();
 
-        // Returns true if the Relationship is a Star. 
+        // Returns true if the Relationship is a Star.
         // Default value is false.
         bool is_relationship_star();
 

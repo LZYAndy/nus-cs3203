@@ -7,16 +7,17 @@ using namespace std;
 
 #include "Entity.h"
 
-namespace pql_dto 
+namespace pql_dto
 {
     Entity::Entity()
     {
     }
 
-    Entity::Entity(string entity_type, string entity_name)
+    Entity::Entity(string entity_type, string entity_name, bool is_declared)
     {
         set_entity_type(entity_type);
         set_entity_name(entity_name);
+        set_is_declared(is_declared);
     }
 
     EntityType Entity::get_entity_type()
@@ -24,7 +25,7 @@ namespace pql_dto
         return entity_type;
     }
 
-    string Entity::get_entity_name() 
+    string Entity::get_entity_name()
     {
         return entity_name;
     }
@@ -34,7 +35,7 @@ namespace pql_dto
         return is_declared_entity;
     }
 
-    void Entity::set_entity_type(string type) 
+    void Entity::set_entity_type(string type)
     {
         if (type == "stmt")
         {
@@ -82,7 +83,7 @@ namespace pql_dto
         }
     }
 
-    void Entity::set_entity_name(string name) 
+    void Entity::set_entity_name(string name)
     {
         //checks entity names
         entity_name = name;

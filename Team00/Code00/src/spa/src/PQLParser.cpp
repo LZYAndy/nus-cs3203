@@ -4,8 +4,8 @@
 #include "PQLValidator.h"
 
 std::string PQLParser::pql_parse_query(std::string query, vector<pql_dto::Entity>& declaration_clause,
-    vector<pql_dto::Entity>& select_clause, vector<pql_dto::Relationships>& such_that_clause, 
-    vector<pql_dto::Pattern>& pattern_clause) 
+    vector<pql_dto::Entity>& select_clause, vector<pql_dto::Relationships>& such_that_clause,
+    vector<pql_dto::Pattern>& pattern_clause)
 {
     std::string error;
     std::unordered_map<string, string> declared_variables; // Maps variables' name to to entity type
@@ -37,13 +37,13 @@ std::string PQLParser::pql_parse_query(std::string query, vector<pql_dto::Entity
     return error;
 }
 
-std::string PQLParser::parse_declaration_clause(const std::string& query, std::vector<pql_dto::Entity>& declaration_clause, 
+std::string PQLParser::parse_declaration_clause(const std::string& query, std::vector<pql_dto::Entity>& declaration_clause,
     std::unordered_map<string, string>& declared_variables)
 {
     std::vector<std::string> split_declaration_clause = split(query, ';');
     for each (std::string declaration in split_declaration_clause)
     {
-        // Split declaration clause in the form "design-entity synonym (‘,’ synonym)*"
+        /// Split declaration clause in the form "design-entity synonym (‘,’ synonym)*"
         std::string entity_type = declaration.substr(0, declaration.find(' '));
         std::string entity_names = declaration.substr(declaration.find(' '), declaration.length());
         std::vector<std::string> entity_names_list = split(entity_names, ',');
@@ -56,9 +56,9 @@ std::string PQLParser::parse_declaration_clause(const std::string& query, std::v
         for each (string name in entity_names_list)
         {
             pql_dto::Entity entity;
-            try 
+            try
             {
-                entity = pql_dto::Entity(entity_type, name);
+                entity = pql_dto::Entity(entity_type, name, true);
                 declaration_clause.push_back(entity);
                 declared_variables[name] = entity_type;
             }
@@ -82,8 +82,15 @@ std::string PQLParser::parse_select_clause(const std::string& query, std::vector
     }
 
     string entity_type = declared_variables.at(query);
-    pql_dto::Entity entity = pql_dto::Entity(entity_type, query);
-    select_clause.push_back(entity);
+    try
+    {
+        pql_dto::Entity entity = pql_dto::Entity(entity_type, query, true);
+        select_clause.push_back(entity);
+    }
+    catch (const std::exception& e)
+    {
+        return e.what();
+    }
 
     return "";
 }
@@ -94,7 +101,7 @@ std::vector<std::string> PQLParser::split(const std::string& query, std::string 
     size_t pos_start = 0, pos_end, delim_len = delimiter.length();
     std::string token;
 
-    while ((pos_end = query.find(delimiter, pos_start)) != std::string::npos) 
+    while ((pos_end = query.find(delimiter, pos_start)) != std::string::npos)
     {
         token = query.substr(pos_start, pos_end - pos_start);
         pos_start = pos_end + delim_len;

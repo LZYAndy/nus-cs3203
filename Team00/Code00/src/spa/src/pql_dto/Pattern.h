@@ -12,7 +12,7 @@ using namespace std;
 
 #include "Entity.h"
 
-namespace pql_dto 
+namespace pql_dto
 {
     class Pattern
     {

@@ -24,7 +24,7 @@ enum EntityType
     PROCEDURE
 };
 
-namespace pql_dto 
+namespace pql_dto
 {
     class Entity
     {
@@ -38,7 +38,7 @@ namespace pql_dto
         Entity();
 
         // Constructor for Entity. Throws an exception if not properly initialised.
-        Entity(string entity_type, string entity_name);
+        Entity(string entity_type, string entity_name, bool is_declared);
 
         // Returns the Entity Type.
         EntityType get_entity_type();

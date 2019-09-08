@@ -7,11 +7,11 @@ std::string PQLValidator::pql_validate_initial_query(std::string query)
     if (query.length() <= 0)
     {
         return "Invalid Query! Query does not exists.";
-    } 
+    }
     else if (query.find("Select") == std::string::npos)
     {
         return "Invalid Query! Missing Select Clause.";
-    } 
+    }
     else if (query.find("Select") == 0)
     {
         return "No Declarations.";
