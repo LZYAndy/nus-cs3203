@@ -132,22 +132,22 @@ vector<int> PKB::get_all_pattern_contains(string pattern)
     return assign_bank.all_contains(pattern);
 }
 
-unordered_map<int, std::vector<int>> PKB::get_all_parent()
+unordered_map<int, std::vector<int>> PKB::get_all_parent_relationship()
 {
     return parent_bank.copy();
 }
 
-unordered_map<int, std::vector<int>> PKB::get_all_follows()
+unordered_map<int, std::vector<int>> PKB::get_all_follows_relationship()
 {
     return follows_bank.copy();
 }
 
-unordered_map<int, std::vector<int>> PKB::get_all_parent_star()
+unordered_map<int, std::vector<int>> PKB::get_all_parent_star_relationship()
 {
     return parent_star_bank.copy();
 }
 
-unordered_map<int, std::vector<int>> PKB::get_all_follows_star()
+unordered_map<int, std::vector<int>> PKB::get_all_follows_star_relationship()
 {
     return follows_star_bank.copy();
 }
@@ -170,4 +170,40 @@ bool PKB::does_parent_exist()
 bool PKB::does_children_exist()
 {
     return parent_star_bank.empty();
+}
+
+vector<int> PKB::get_all_follows()
+{
+    return follows_bank.get_all_keys();
+}
+
+vector<int> PKB::get_all_followed()
+{
+    return follows_bank.get_all_values();
+}
+
+vector<int> PKB::get_all_parent()
+{
+    return parent_bank.get_all_keys();
+}
+
+vector<int> PKB::get_all_children()
+{
+    return parent_bank.get_all_values();
+}
+bool PKB::is_follows(int stmt1, int stmt2)
+{
+    return follows_bank.is_follows(stmt1, stmt2);
+}
+bool PKB::is_parent(int stmt1, int stmt2)
+{
+    return parent_bank.is_parent(stmt1, stmt2);
+}
+bool PKB::is_follows_star(int stmt1, int stmt2)
+{
+    return follows_star_bank.is_follows_star(stmt1, stmt2);
+}
+bool PKB::is_parent_star(int stmt1, int stmt2)
+{
+    return parent_star_bank.is_parents_star(stmt1, stmt2);
 }
