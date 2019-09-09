@@ -28,12 +28,12 @@ public:
     @param whitespace The char that is used to trim the string.
     @return The string without the whitespace.
     */
-    static std::string trim(std::string& string, std::string& whitespace);
+    static std::string trim(const std::string& string, const std::string& whitespace);
 
     /*!
     Removes all whitespaces from the given string.
     @param string The string.
     @return The string without whitespaces.
     */
-    static std::string remove_all_white_spaces(std::string string);
+    static std::string remove_all_white_spaces(const std::string string);
 };

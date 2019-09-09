@@ -82,14 +82,14 @@ std::string PQLParser::parse_declaration_clause(const std::string& query, std::v
 std::string PQLParser::parse_select_clause(const std::string& query, std::vector<pql_dto::Entity>& select_clause,
     std::unordered_map<string, string>& declared_variables)
 {
-    query = StringUtil::trim(query, whitespace);
-    int select_index = query.find("Select");
+    std::string trimmed_query = StringUtil::trim(query, whitespace);
+    int select_index = trimmed_query.find("Select");
     if (select_index != 0)
     {
         return "Invalid query! Syntax Error.";
     }
 
-    std::string select_variable = StringUtil::trim(query.substr(query.find_first_of(whitespace)), whitespace);
+    std::string select_variable = StringUtil::trim(trimmed_query.substr(trimmed_query.find_first_of(whitespace)), whitespace);
     // Checks if variable in select clause exists
     if (declared_variables.find(select_variable) == declared_variables.end())
     {
@@ -99,7 +99,7 @@ std::string PQLParser::parse_select_clause(const std::string& query, std::vector
     string entity_type = declared_variables.at(select_variable);
     try
     {
-        pql_dto::Entity entity = pql_dto::Entity(entity_type, query, true);
+        pql_dto::Entity entity = pql_dto::Entity(entity_type, select_variable, true);
         select_clause.push_back(entity);
     }
     catch (const std::exception& e)
@@ -110,12 +110,12 @@ std::string PQLParser::parse_select_clause(const std::string& query, std::vector
     return "";
 }
 
-int PQLParser::get_select_clause_end_index(std::string& select_clause_string)
+int PQLParser::get_select_clause_end_index(std::string& select_clause_query)
 {
     int such_that_index = select_clause_query.find("such that");
     int pattern_index = select_clause_query.find("pattern");
     int indexes[] = { such_that_index, pattern_index };
     
-    return std::min_element(indexes, indexes + 2);
+    return std::min(such_that_index, pattern_index);
 }
 

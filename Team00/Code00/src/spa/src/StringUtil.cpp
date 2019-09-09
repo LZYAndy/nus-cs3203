@@ -31,7 +31,7 @@ std::vector<std::string> StringUtil::split(const std::string& query, char delimi
     return split_query;
 }
 
-std::string StringUtil::trim(std::string& string, std::string& whitespace)
+std::string StringUtil::trim(const std::string& string, const std::string& whitespace)
 {
     int strStart = string.find_first_not_of(whitespace);
     int strEnd = string.find_last_not_of(whitespace);
@@ -45,7 +45,7 @@ std::string StringUtil::trim(std::string& string, std::string& whitespace)
 
 }
 
-std::string StringUtil::remove_all_white_spaces(std::string string) {
+std::string StringUtil::remove_all_white_spaces(const std::string string) {
     string.erase(remove_if(string.begin(), string.end(), isspace), string.end());
     return string;
 }
