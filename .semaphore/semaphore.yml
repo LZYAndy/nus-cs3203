@@ -1,0 +1,45 @@
+# Find an example for your language and learn about the core features through
+# the guided tour:
+# https://docs.semaphoreci.com/category/58-programming-languages
+# https://docs.semaphoreci.com/category/56-guided-tour
+version: v1.0
+name: CICD
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: "Set things up"
+    task:
+      jobs:
+        - name: Compile
+          commands:
+            - sudo apt-get install cmake
+            - checkout
+            - echo "Compiling code"
+            - mkdir build
+            - cd build
+            - cmake ..
+            - make
+            
+  - name: "testing"
+    task:
+     prologue:
+        commands:
+            - sudo apt-get install cmake
+            - checkout
+            - echo "Compiling code"
+            - mkdir build
+            - cd build
+            - cmake ..
+            - make
+      jobs:
+        - name: Unit
+          commands:
+            - echo "Unit testing"
+            - ./src/unit_testing/unit_testing 
+        - name: Integration
+          commands:
+            - echo "Integration testing"
+            - ./src/integration_testing/integration_testing
+
