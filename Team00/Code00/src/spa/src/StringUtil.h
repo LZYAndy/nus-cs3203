@@ -37,5 +37,5 @@ public:
     @param string The string.
     @return The string without whitespaces.
     */
-    static std::string remove_all_white_spaces(const std::string string);
+    static std::string remove_all_white_spaces(std::string string);
 };
