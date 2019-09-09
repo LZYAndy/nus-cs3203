@@ -1,7 +1,3 @@
-# Find an example for your language and learn about the core features through
-# the guided tour:
-# https://docs.semaphoreci.com/category/58-programming-languages
-# https://docs.semaphoreci.com/category/56-guided-tour
 version: v1.0
 name: CICD
 agent:
@@ -9,7 +5,7 @@ agent:
     type: e1-standard-2
     os_image: ubuntu1804
 blocks:
-  - name: "Set things up"
+  - name: Build
     task:
       jobs:
         - name: Compile
@@ -22,26 +18,24 @@ blocks:
             - echo "Compiling code"
             - cmake ..
             - make
-            
-  - name: "testing"
+  - name: Test
     task:
       prologue:
         commands:
-            - sudo apt-get install cmake
-            - checkout
-            - cd Team00/Code00
-            - mkdir build
-            - cd build
-            - echo "Compiling code"
-            - cmake ..
-            - make
+          - sudo apt-get install cmake
+          - checkout
+          - cd Team00/Code00
+          - mkdir build
+          - cd build
+          - echo "Compiling code"
+          - cmake ..
+          - make
       jobs:
         - name: Unit
           commands:
             - echo "Unit testing"
-            - ./src/unit_testing/unit_testing 
+            - ./src/unit_testing/unit_testing
         - name: Integration
           commands:
             - echo "Integration testing"
             - ./src/integration_testing/integration_testing
-
