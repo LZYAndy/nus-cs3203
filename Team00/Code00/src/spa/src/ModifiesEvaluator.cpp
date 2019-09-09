@@ -36,7 +36,7 @@ unordered_map<string, vector<string>> ModifiesEvaluator::evaluate_non_trivial(pq
     return result;
 }
 
-string ModifiesEvaluator::evaluate_trivial(pql_dto::Entity first_param,
+bool ModifiesEvaluator::evaluate_trivial(pql_dto::Entity first_param,
         pql_dto::Entity second_param) {
     string result;
     vector<string> empty_vec;
@@ -45,7 +45,7 @@ string ModifiesEvaluator::evaluate_trivial(pql_dto::Entity first_param,
 
     if (QueryUtility::is_integer(first_name)) {
         if (QueryUtility::is_var_name(second_param)) { // e.g. Modifies(1, "x")
-
+            return
         } else if (second_name == "_") { // e.g. Modifies(1, _)
 
         }

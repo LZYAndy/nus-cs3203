@@ -43,7 +43,7 @@ unordered_map<string, vector<string>> FollowsEvaluator::evaluate_non_trivial(pql
     return result;
 }
 
-string FollowsEvaluator::evaluate_trivial(pql_dto::Entity first_param,
+bool FollowsEvaluator::evaluate_trivial(pql_dto::Entity first_param,
         pql_dto::Entity second_param) {
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
