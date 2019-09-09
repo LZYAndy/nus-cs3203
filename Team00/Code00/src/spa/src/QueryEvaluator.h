@@ -1,6 +1,6 @@
 #pragma once
 
-#include <stdio.h>
+#include <cstdio>
 #include <cstdlib>
 #include <iostream>
 #include <string>
@@ -12,6 +12,10 @@
 #include <QueryUtility.h>
 #include <FollowsEvaluator.h>
 #include <FollowsStarEvaluator.h>
+#include <ParentEvaluator.h>
+#include <ParentStarEvaluator.h>
+#include <ModifiesEvaluator.h>
+#include <UsesEvaluator.h>
 #include <pql_dto/Entity.h>
 #include <pql_dto/Relationships.h>
 #include <pql_dto/Pattern.h>
