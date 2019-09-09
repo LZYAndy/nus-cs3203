@@ -24,7 +24,7 @@ blocks:
             
   - name: "testing"
     task:
-     prologue:
+      prologue:
         commands:
             - sudo apt-get install cmake
             - checkout
