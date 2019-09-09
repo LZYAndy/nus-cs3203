@@ -1,5 +1,14 @@
-//
-// Created by Liu Xiaohang on 8/9/19.
-//
-
+#include <string>
 #include "ModifiesBank.h"
+
+
+template<>
+ModifiesBank<int, string>::ModifiesBank()
+{
+}
+
+
+bool insert_modifies(int statement, string variable)
+{
+
+}
