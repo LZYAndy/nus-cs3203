@@ -10,7 +10,7 @@ unordered_map<string, vector<string>> ParentEvaluator::evaluate_non_trivial(pql_
     string second_name = second_param.get_entity_name();
 
     if (first_param.is_entity_declared()) {
-        if (second_name == "_") {
+        if (second_name == "_") { // e.g. Parent(s, _)
 
         } else if (QueryUtility::is_integer(second_name)) {
 
@@ -32,7 +32,7 @@ unordered_map<string, vector<string>> ParentEvaluator::evaluate_non_trivial(pql_
     return result;
 }
 
-string ParentEvaluator::evaluate_trivial(pql_dto::Entity first_param,
+bool ParentEvaluator::evaluate_trivial(pql_dto::Entity first_param,
         pql_dto::Entity second_param) {
     string result;
     vector<string> empty_vec;

@@ -32,7 +32,7 @@ unordered_map<string, vector<string>> FollowsStarEvaluator::evaluate_non_trivial
     return result;
 }
 
-string FollowsStarEvaluator::evaluate_trivial(pql_dto::Entity first_param,
+bool FollowsStarEvaluator::evaluate_trivial(pql_dto::Entity first_param,
         pql_dto::Entity second_param) {
     string result;
     vector<string> empty_vec;

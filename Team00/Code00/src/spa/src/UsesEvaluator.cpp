@@ -36,7 +36,7 @@ unordered_map<string, vector<string>> UsesEvaluator::evaluate_non_trivial(pql_dt
     return result;
 }
 
-string UsesEvaluator::evaluate_trivial(pql_dto::Entity first_param,
+bool UsesEvaluator::evaluate_trivial(pql_dto::Entity first_param,
         pql_dto::Entity second_param) {
     string result;
     vector<string> empty_vec;
