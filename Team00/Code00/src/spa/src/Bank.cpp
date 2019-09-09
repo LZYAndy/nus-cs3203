@@ -1,7 +1,3 @@
-//
-// Created by Koh Zheng Wei on 2019-09-04.
-//
-
 #include "Bank.h"
 
 template<class T, class S>
@@ -34,7 +30,7 @@ void Bank<T, S>::put(T key, S value)
     {
         std::vector<T> key_list;
         key_list.push_back(key);
-        bank.insert({value, key_list});
+        reverse_bank.insert({value, key_list});
     }
 }
 
