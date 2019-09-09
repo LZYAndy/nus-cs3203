@@ -16,9 +16,10 @@ blocks:
           commands:
             - sudo apt-get install cmake
             - checkout
-            - echo "Compiling code"
+            - cd Team00/Code00
             - mkdir build
             - cd build
+            - echo "Compiling code"
             - cmake ..
             - make
             
@@ -28,9 +29,10 @@ blocks:
         commands:
             - sudo apt-get install cmake
             - checkout
-            - echo "Compiling code"
+            - cd Team00/Code00
             - mkdir build
             - cd build
+            - echo "Compiling code"
             - cmake ..
             - make
       jobs:
