@@ -1,7 +1,11 @@
 #include <sstream>
+#include <algorithm>
 
 #include "PQLParser.h"
+#include "StringUtil.h"
 #include "PQLValidator.h"
+
+std::string whitespace = " \f\n\r\t\v";
 
 std::string PQLParser::pql_parse_query(std::string query, vector<pql_dto::Entity>& declaration_clause,
     vector<pql_dto::Entity>& select_clause, vector<pql_dto::Relationships>& such_that_clause,
@@ -18,17 +22,18 @@ std::string PQLParser::pql_parse_query(std::string query, vector<pql_dto::Entity
     }
 
     // Validates the declaration string
-    std::vector<std::string> split_query_by_select = split(query, "Select");
-    error = parse_declaration_clause(split_query_by_select.front(), declaration_clause, declared_variables);
+    size_t last_semi_colon = query.find_last_of(';');
+    error = parse_declaration_clause(query.substr(0, last_semi_colon), declaration_clause, declared_variables);
     if (!error.empty())
     {
         return error;
     }
 
-    // Validates the declaration string
-    std::vector<std::string> split_query_by_such_that = split(query, "such that");
-    std::vector<std::string> split_query_by_pattern = split(split_query_by_such_that.front(), "pattern");
-    error = parse_select_clause(split_query_by_pattern.front(), select_clause, declared_variables);
+    // Validates the select string
+    std::string select_clause_query = query.substr(last_semi_colon + 1);
+    int select_clause_end_index = get_select_clause_end_index(select_clause_query);
+
+    error = parse_select_clause(select_clause_query.substr(0, select_clause_end_index - 1), select_clause, declared_variables);
     if (!error.empty())
     {
         return error;
@@ -40,13 +45,14 @@ std::string PQLParser::pql_parse_query(std::string query, vector<pql_dto::Entity
 std::string PQLParser::parse_declaration_clause(const std::string& query, std::vector<pql_dto::Entity>& declaration_clause,
     std::unordered_map<string, string>& declared_variables)
 {
-    std::vector<std::string> split_declaration_clause = split(query, ';');
+    std::vector<std::string> split_declaration_clause = StringUtil::split(query, ';');
     for (std::string declaration : split_declaration_clause)
     {
         /// Split declaration clause in the form "design-entity synonym (‘,’ synonym)*"
-        std::string entity_type = declaration.substr(0, declaration.find(' '));
-        std::string entity_names = declaration.substr(declaration.find(' '), declaration.length());
-        std::vector<std::string> entity_names_list = PQLParser::split(entity_names, ',');
+        declaration = StringUtil::trim(declaration, whitespace);
+        std::string entity_type = declaration.substr(0, declaration.find_first_of(whitespace) - 1);
+        std::string entity_names = declaration.substr(declaration.find_first_of(whitespace));
+        std::vector<std::string> entity_names_list = StringUtil::split(entity_names, ',');
 
         if (entity_names_list.size() == 0)
         {
@@ -56,6 +62,7 @@ std::string PQLParser::parse_declaration_clause(const std::string& query, std::v
         for (string name : entity_names_list)
         {
             pql_dto::Entity entity;
+            name = StringUtil::trim(name, whitespace);
             try
             {
                 entity = pql_dto::Entity(entity_type, name, true);
@@ -75,13 +82,21 @@ std::string PQLParser::parse_declaration_clause(const std::string& query, std::v
 std::string PQLParser::parse_select_clause(const std::string& query, std::vector<pql_dto::Entity>& select_clause,
     std::unordered_map<string, string>& declared_variables)
 {
+    query = StringUtil::trim(query, whitespace);
+    int select_index = query.find("Select");
+    if (select_index != 0)
+    {
+        return "Invalid query! Syntax Error.";
+    }
+
+    std::string select_variable = StringUtil::trim(query.substr(query.find_first_of(whitespace)), whitespace);
     // Checks if variable in select clause exists
-    if (declared_variables.find(query) == declared_variables.end())
+    if (declared_variables.find(select_variable) == declared_variables.end())
     {
         return "No such variable exists!";
     }
 
-    string entity_type = declared_variables.at(query);
+    string entity_type = declared_variables.at(select_variable);
     try
     {
         pql_dto::Entity entity = pql_dto::Entity(entity_type, query, true);
@@ -95,33 +110,12 @@ std::string PQLParser::parse_select_clause(const std::string& query, std::vector
     return "";
 }
 
-std::vector<std::string> PQLParser::split(const std::string& query, std::string delimiter)
+int PQLParser::get_select_clause_end_index(std::string& select_clause_string)
 {
-    std::vector<std::string> split_query;
-    size_t pos_start = 0, pos_end, delim_len = delimiter.length();
-    std::string token;
-
-    while ((pos_end = query.find(delimiter, pos_start)) != std::string::npos)
-    {
-        token = query.substr(pos_start, pos_end - pos_start);
-        pos_start = pos_end + delim_len;
-        split_query.push_back(token);
-    }
-
-    split_query.push_back(query.substr(pos_start));
-    return split_query;
+    int such_that_index = select_clause_query.find("such that");
+    int pattern_index = select_clause_query.find("pattern");
+    int indexes[] = { such_that_index, pattern_index };
+    
+    return std::min_element(indexes, indexes + 2);
 }
 
-std::vector<std::string> PQLParser::split(const std::string& query, char delimiter)
-{
-    std::vector<std::string> split_query;
-    std::istringstream iss(query);
-    std::string token;
-
-    while (std::getline(iss, token, delimiter))
-    {
-        split_query.push_back(token);
-    }
-
-    return split_query;
-}
