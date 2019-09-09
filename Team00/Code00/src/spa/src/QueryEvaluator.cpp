@@ -65,26 +65,46 @@ vector<string> QueryEvaluator::get_result(string query) {
         }
 
         if (relation_type == RelationshipType::USES && !relation.is_relationship_star()) {
-            if (!relation.is_relationship_star()) {
-
+            if (!first_param.is_entity_declared() && !second_param.is_entity_declared()) {
+                trivial_result = UsesEvaluator::evaluate_trivial(first_param, second_param);
+                if(trivial_result == "False") {
+                    such_that_list[select_name] = empty_vec;
+                }
             } else {
-
+                such_that_list = UsesEvaluator::evaluate_non_trivial(first_param, second_param);
             }
         }
 
         if (relation_type == RelationshipType::PARENT && !relation.is_relationship_star()) {
             if (!relation.is_relationship_star()) {
-
+                if (!first_param.is_entity_declared() && !second_param.is_entity_declared()) {
+                    trivial_result = ParentEvaluator::evaluate_trivial(first_param, second_param);
+                    if(trivial_result == "False") {
+                        such_that_list[select_name] = empty_vec;
+                    }
+                } else {
+                    such_that_list = ParentEvaluator::evaluate_non_trivial(first_param, second_param);
+                }
             } else {
-
+                if (!first_param.is_entity_declared() && !second_param.is_entity_declared()) {
+                    trivial_result = ParentStarEvaluator::evaluate_trivial(first_param, second_param);
+                    if(trivial_result == "False") {
+                        such_that_list[select_name] = empty_vec;
+                    }
+                } else {
+                    such_that_list = ParentStarEvaluator::evaluate_non_trivial(first_param, second_param);
+                }
             }
         }
 
         if (relation_type == RelationshipType::MODIFIES && !relation.is_relationship_star()) {
-            if (!relation.is_relationship_star()) {
-
+            if (!first_param.is_entity_declared() && !second_param.is_entity_declared()) {
+                trivial_result = ModifiesEvaluator::evaluate_trivial(first_param, second_param);
+                if(trivial_result == "False") {
+                    such_that_list[select_name] = empty_vec;
+                }
             } else {
-
+                such_that_list = ModifiesEvaluator::evaluate_non_trivial(first_param, second_param);
             }
         }
     }

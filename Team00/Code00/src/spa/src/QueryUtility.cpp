@@ -18,27 +18,24 @@ bool QueryUtility::is_integer(string s) {
 }
 
 /*
-Checks if the string is a synonym
+Checks if the entity is a procedure undeclared
 */
-bool QueryUtility::is_synonym(std::string s) {
-    bool result = !is_integer(s) && !is_quoted(s) && !has_reference(s) && s != "_";
-    return result;
+bool QueryUtility::is_proc_name(pql_dto::Entity entity) {
+    return !(entity.is_entity_declared() || entity.get_entity_type() != EntityType::PROCEDURE);
 }
 
 /*
-Checks if the string is quoted
+Checks if the entity is a procedure declared
 */
-bool QueryUtility::is_quoted(std::string s) {
-    bool result = s[0] == '"';
-    return result;
+bool QueryUtility::is_proc_declared(pql_dto::Entity entity) {
+    return (entity.is_entity_declared() && entity.get_entity_type() == EntityType::PROCEDURE);
 }
 
 /*
-Checks if the string contains a reference
+Checks if the entity is a variable undeclared
 */
-bool QueryUtility::has_reference(std::string s) {
-    bool result = s.find(".") != std::string::npos;
-    return result;
+bool QueryUtility::is_var_name(pql_dto::Entity entity) {
+    return !(entity.is_entity_declared() || entity.get_entity_type() != EntityType::VARIABLE);
 }
 
 /*
@@ -47,134 +44,81 @@ bool QueryUtility::has_reference(std::string s) {
 vector<string> QueryUtility::get_certain_type_list(EntityType type) {
     vector<string> type_list;
     if (type == EntityType::VARIABLE){
-        type_list = {}; // get_var_list();
+        type_list = PKB::get_var_list();
     }
 
     if (type == EntityType::ASSIGN){
-        type_list = {}; // get_assign_list();
+        type_list = PKB::get_assign_list();
     }
 
     if (type == EntityType::STMT){
-        type_list = {}; // get_stmt_list();
+        type_list = PKB::get_stmt_list();
     }
 
     if (type == EntityType::PROCEDURE){
-        type_list = {}; // get_proc_list();
+        type_list = PKB::get_proc_list();
     }
 
     if (type == EntityType::WHILE){
-        type_list = {}; // get_while_list();
+        type_list = PKB::get_while_list();
     }
 
     if (type == EntityType::IF){
-        type_list = {}; // get_if_list();
+        type_list = PKB::get_if_list();
     }
 
     if (type == EntityType::READ){
-        type_list = {}; // get_read_list();
+        type_list = PKB::get_read_list();
     }
 
     if (type == EntityType::PRINT){
-        type_list = {}; // get_print_list();
+        type_list = PKB::get_print_list();
     }
 
     if (type == EntityType::CALL){
-        type_list = {}; // get_call_list();
+        type_list = PKB::get_call_list();
     }
-    return type_list
+    return type_list;
 }
 
-
-
-
-
-
-
-
-
-
-/*
-The function transforms a boolean value
-into a string.
-*/
-std::string QueryUtility::truthValue(bool boolean) {
-    if (boolean) {
-        return "TRUE";
+unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity key, vector<int> int_vec) {
+    unordered_map<std::string, std::vector<std::string>> result;
+    vector<string> key_value;
+    for (int & iter : int_vec) {
+        if (PKB::get_statement_type(iter) == key.get_entity_type()) {
+            key_value.push_back(to_string(iter));
+        }
     }
-
-    return "FALSE";
-}
-
-/*
-Trims quote in front and end of a string.
-*/
-std::string QueryUtility::trimFrontEnd(std::string quotedString) {
-    return quotedString.substr(1, quotedString.size() - 2);
-}
-
-
-
-/*
-Checks if the string is quoted
-*/
-bool QueryUtility::isQuoted(std::string s) {
-    bool result = s[0] == '"';
+    result[key.get_entity_name()] = key_value;
     return result;
 }
 
-/*
-Checks if the string is a synonym
-*/
-bool QueryUtility::isSynonym(std::string s) {
-    bool result = !isInteger(s) && !isQuoted(s) && !hasReference(s) && s != "_";
-    return result;
-}
-
-/*
-Checks if the string contains a reference
-*/
-bool QueryUtility::hasReference(std::string s) {
-    bool result = s.find(".") != std::string::npos;
-    return result;
-}
-
-/*
-Checks if string s, which is an integer
-is not in the range of integers of source
-statements
-*/
-bool QueryUtility::isOutOfRange(std::string s) {
-    bool result = LexicalToken::verifyInteger(s)
-                  && ((s.compare("1") < 0)
-                      || (s.compare(std::to_string(PKB().getTotalStmNo())) > 0));
-    return result;
-}
-
-/*
-Get attribute of an
-attribute reference.
-*/
-std::string QueryUtility::attrOf(std::string s) {
-    std::size_t dotPos = s.find(".");
-    return s.substr(0, dotPos);
-}
-
-/*
-Get reference of an
-attribute reference.
-*/
-std::string QueryUtility::refOf(std::string s) {
-    std::size_t dotPos = s.find(".");
-    return s.substr(dotPos + 1, s.size() - dotPos - 1);
-}
-/*
-The function returns the list of all statements.
-*/
-std::unordered_set<std::string> QueryUtility::getAllStms() {
-    std::unordered_set<std::string> allStms;
-    for (int i = 1; i <= PKB().getTotalStmNo(); i++) {
-        allStms.insert(std::to_string(i));
+unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity key, int n) {
+    unordered_map<string, vector<string>> result;
+    std::vector<std::string> key_value;
+    if (PKB::get_statement_type(n) == key.get_entity_type()) {
+        key_value.push_back(to_string(n));
     }
-
-    return allStms;
+    result[key.get_entity_name()] = key_value;
+    return result;
 }
+
+unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity key_1, pql_dto::Entity key_2,
+        unordered_map<int, int> int_map) {
+    unordered_map<std::string, std::vector<std::string>> result;
+    vector<string> key_value_1;
+    vector<string> key_value_2;
+    for (unordered_map<int, int>::iterator iter = int_map.begin(); iter != int_map.end(); iter++) {
+        int first = iter->first;
+        int second = iter->second;
+        if (PKB::get_statement_type(first) == key_1.get_entity_type() &&
+        PKB::get_statement_type(second) == key_2.get_entity_type()) {
+            key_value_1.push_back(to_string(first));
+            key_value_2.push_back(to_string(second));
+        }
+    }
+    result[key_1.get_entity_name()] = key_value_1;
+    result[key_2.get_entity_name()] = key_value_2;
+    return result;
+}
+

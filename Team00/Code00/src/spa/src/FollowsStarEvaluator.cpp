@@ -8,21 +8,16 @@ unordered_map<string, vector<string>> FollowsStarEvaluator::evaluate_non_trivial
     vector<string> empty_vec;
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
-    string select_name = select_entity.get_entity_name();
 
     if (first_param.is_entity_declared()) {
         if (second_name == "_") {
 
         } else if (QueryUtility::is_integer(second_name)) {
 
-        } else if (first_name == second_name) { // two SEs or two OTs
+        } else if (first_name == second_name) {
 
-        } else { // one SE and one OT
-            if (first_name == select_name) {
+        } else {
 
-            } else {
-
-            }
         }
     }
 
