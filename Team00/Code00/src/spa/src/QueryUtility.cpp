@@ -10,9 +10,9 @@ Checks if the string is an integer
 */
 bool QueryUtility::is_integer(string s)
 {
-    for (size_t i = 0; i < s.length(); i++)
+    for (char i : s)
     {
-        if (!isdigit(s[i]))
+        if (!isdigit(i))
         {
             return false;
         }
@@ -45,9 +45,9 @@ bool QueryUtility::is_var_name(pql_dto::Entity entity)
 }
 
 /*
- * Returns the list of certain type
+ * Returns the string list of certain type
  */
-vector<string> QueryUtility::get_certain_type_list(EntityType type)
+vector<string> QueryUtility::get_certain_type_str_list(EntityType type)
 {
     vector<string> type_list;
     if (type == EntityType::VARIABLE)
@@ -55,6 +55,19 @@ vector<string> QueryUtility::get_certain_type_list(EntityType type)
         type_list = PKB::get_var_list();
     }
 
+    if (type == EntityType::PROCEDURE)
+    {
+        type_list = PKB::get_proc_list();
+    }
+    return type_list;
+}
+
+/*
+ * Returns the int list of certain type
+ */
+vector<int> QueryUtility::get_certain_type_int_list(EntityType type)
+{
+    vector<int> type_list;
     if (type == EntityType::ASSIGN)
     {
         type_list = PKB::get_assign_list();
@@ -63,11 +76,6 @@ vector<string> QueryUtility::get_certain_type_list(EntityType type)
     if (type == EntityType::STMT)
     {
         type_list = PKB::get_stmt_list();
-    }
-
-    if (type == EntityType::PROCEDURE)
-    {
-        type_list = PKB::get_proc_list();
     }
 
     if (type == EntityType::WHILE)
@@ -195,5 +203,40 @@ unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity key_
     result[key_1.get_entity_name()] = key_value_1;
     result[key_2.get_entity_name()] = key_value_2;
     return result;
+}
+
+unordered_map<string, vector<string>> QueryUtility::mapping(string str, vector<int>& int_vec) {
+    unordered_map<std::string, std::vector<std::string>> result;
+    vector<string> key_value;
+    for (auto & iter : int_vec)
+    {
+        key_value.push_back(to_string(iter));
+    }
+    result[str] = key_value;
+    return result;
+}
+
+unordered_map<string, vector<string>> QueryUtility::mapping(string str1, string str2, vector<int>& int_vec) {
+    unordered_map<std::string, std::vector<std::string>> result;
+    vector<string> key_value;
+    for (auto & iter : int_vec) {
+        if (PKB::assign_to_variable(iter) == str2) {
+            key_value.push_back(to_string(iter));
+        }
+    }
+    result[str1] = key_value;
+    return result;
+}
+
+unordered_map<string, vector<string>> QueryUtility::mapping(string str1, pql_dto::Entity key, vector<int>& int_vec) {
+    unordered_map<std::string, std::vector<std::string>> result;
+    vector<string> key_value_1;
+    vector<string> key_value_2;
+    for (auto & iter : int_vec) {
+        key_value_1.push_back(to_string(iter));
+        key_value_2.push_back(PKB::assign_to_variable(iter));
+    }
+    result[str1] = key_value_1;
+    result[key.get_entity_name()] = key_value_2;
 }
 

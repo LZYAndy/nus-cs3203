@@ -34,7 +34,15 @@ vector<string> QueryEvaluator::get_result(string query)
     if (!select_clause.empty())
     { // has select
         EntityType select_type = select_entity.get_entity_type();
-        select_list[select_name] = QueryUtility::get_certain_type_list(select_type);
+        if (select_type == EntityType::VARIABLE || select_type == EntityType::PROCEDURE)
+        {
+            select_list[select_name] = QueryUtility::get_certain_type_str_list(select_type);
+        }
+        else
+        {
+            select_list[select_name] = QueryUtility::get_certain_type_int_list(select_type);
+        }
+
     }
 
     if (!such_that_clause.empty())
@@ -152,7 +160,7 @@ vector<string> QueryEvaluator::get_result(string query)
         pql_dto::Entity second_param = pattern.get_second_param();
         if (pattern_type == EntityType::ASSIGN)
         {
-
+            pattern_list = AssignEvaluator::evaluate(pattern, first_param, second_param);
         }
     }
 
