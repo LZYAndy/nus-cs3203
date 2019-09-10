@@ -21,7 +21,8 @@ enum EntityType
     ASSIGN,
     VARIABLE,
     CONSTANT,
-    PROCEDURE
+    PROCEDURE,
+    STRING
 };
 
 namespace pql_dto

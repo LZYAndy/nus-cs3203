@@ -6,7 +6,7 @@
 #include "StringUtil.h"
 #include "PQLValidator.h"
 
-std::string whitespace = " \f\n\r\t\v";
+std::string whitespace = " \n\t\r\f\v";
 
 std::string PQLParser::pql_parse_query(std::string query, vector<pql_dto::Entity>& declaration_clause,
     vector<pql_dto::Entity>& select_clause, vector<pql_dto::Relationships>& such_that_clause,
@@ -21,6 +21,9 @@ std::string PQLParser::pql_parse_query(std::string query, vector<pql_dto::Entity
     {
         return error;
     }
+
+    /// Normalise the query for parsing
+    query = StringUtil::replace_all_white_spaces(query);
 
     /// Validates the declaration string
     size_t last_semi_colon = query.find_last_of(';');
@@ -39,16 +42,49 @@ std::string PQLParser::pql_parse_query(std::string query, vector<pql_dto::Entity
     {
         return error;
     }
+
+    /// Checks if there are any conditions for query
+    if (condition_query.empty())
+    {
+        return "";
+    }
     
+    size_t such_that_index = condition_query.find("such that ");
+    size_t pattern_index = condition_query.find("pattern ");
+
+    /// Checks if non-empty string has such that and pattern clause
+    if (such_that_index == std::string::npos && pattern_index == std::string::npos)
+    {
+        return "Invalid Syntax! Additional string after \"Select v\" with no conditions.";
+    }
+
+    std::string such_that_query, pattern_query;
+    size_t closing_bracket_index = condition_query.find_first_of(')');
+
+    if (such_that_index == 0)
+    {
+        such_that_query = condition_query.substr(0, closing_bracket_index + 1);
+        pattern_query = condition_query.substr(closing_bracket_index + 1);
+    }
+    else if (pattern_index == 0)
+    {
+        pattern_query = condition_query.substr(0, closing_bracket_index + 1);
+        such_that_query = condition_query.substr(closing_bracket_index + 1);
+    }
+    else
+    {
+        return "Invalid Syntax! Missing closing bracket.";
+    }
+
     /// Validates the such that string
-    error = parse_such_that_clause(condition_query, such_that_clause, declared_variables);
+    error = parse_such_that_clause(such_that_query, such_that_clause, declared_variables);
     if (!error.empty())
     {
         return error;
     }
 
     /// Validates the pattern string
-    error = parse_pattern_clause(condition_query, pattern_clause, declared_variables);
+    error = parse_pattern_clause(pattern_query, pattern_clause, declared_variables);
     if (!error.empty())
     {
         return error;
@@ -61,11 +97,12 @@ std::string PQLParser::parse_declaration_clause(const std::string& query, std::v
     std::unordered_map<string, string>& declared_variables)
 {
     std::vector<std::string> split_declaration_clause = StringUtil::split(query, ';');
+
     for (std::string declaration : split_declaration_clause)
     {
         /// Split declaration clause in the form "design-entity synonym (‘,’ synonym)*"
         declaration = StringUtil::trim(declaration, whitespace);
-        std::string entity_type = declaration.substr(0, declaration.find_first_of(whitespace) - 1);
+        std::string entity_type = declaration.substr(0, declaration.find_first_of(whitespace));
         std::string entity_names = declaration.substr(declaration.find_first_of(whitespace));
         std::vector<std::string> entity_names_list = StringUtil::split(entity_names, ',');
 
@@ -98,14 +135,14 @@ std::string PQLParser::parse_select_clause(const std::string& query, std::vector
     std::unordered_map<string, string>& declared_variables, std::string& condition_query)
 {
     std::string trimmed_query = StringUtil::trim(query, whitespace);
-    int select_index = trimmed_query.find("Select");
+    int select_index = trimmed_query.find("Select ");
     if (select_index != 0)
     {
         return "Invalid query! Syntax Error.";
     }
 
     std::string select_query = StringUtil::trim(trimmed_query.substr(trimmed_query.find_first_of(whitespace)), whitespace);
-    std::string select_variable = StringUtil::trim(trimmed_query.substr(select_query.find_first_of(whitespace)), whitespace);
+    std::string select_variable = StringUtil::trim(trimmed_query.substr(0, select_query.find_first_of(whitespace)), whitespace);
 
     /// Checks if variable in select clause exists
     if (declared_variables.find(select_variable) == declared_variables.end())
@@ -125,23 +162,52 @@ std::string PQLParser::parse_select_clause(const std::string& query, std::vector
     }
 
     /// Sets the condition query after the select clause
-    condition_query = select_query.substr(select_query.find_first_of(whitespace));
+    condition_query = StringUtil::trim(select_query.substr(select_query.find_first_of(whitespace)), whitespace);
     return "";
 }
 
 std::string PQLParser::parse_such_that_clause(const std::string& query, std::vector<pql_dto::Relationships>& such_that_clause,
     std::unordered_map<string, string>& declared_variables)
 {
+    /// Checks if query exists
+    if (query.length() == 0)
+    {
+        return "";
+    }
+
+    std::string trimmed_query = StringUtil::trim(query, whitespace);
+    if (trimmed_query.find("such that ") != 0)
+    {
+        return "Invalid Syntax! Such that clause syntax error.";
+    }
+
     /// Get relationship query
-    std::string relationship_query = query.substr(9); 
-    std::string trimmed_query = StringUtil::trim(relationship_query, whitespace);
-    size_t open_parentheses_index = trimmed_query.find_first_of('(');
-    size_t close_parentheses_index = trimmed_query.find_first_of(')');
+    std::string relationship_query = trimmed_query.substr(10);
+    size_t open_parentheses_index = relationship_query.find_first_of('(');
+    size_t close_parentheses_index = relationship_query.find_first_of(')');
 
     if (open_parentheses_index != std::string::npos && close_parentheses_index != std::string::npos
-        && open_parentheses_index < close_parentheses_index && trimmed_query.back() == ')')
+        && open_parentheses_index < close_parentheses_index && relationship_query.back() == ')')
     {
-        std::string relationship_type = trimmed_query.substr(0, open_parentheses_index);
+        std::string relationship_type = StringUtil::trim(relationship_query.substr(0, open_parentheses_index), whitespace);
+        std::string relationship_params = relationship_query.substr(open_parentheses_index);
+
+        size_t comma_index = relationship_params.find_first_of(',');
+        std::string first_param_string = StringUtil::trim(relationship_params.substr(1, comma_index - 1), whitespace);
+        std::string second_param_string = StringUtil::trim(relationship_params.substr(comma_index + 1,
+            relationship_params.length() - comma_index - 2), whitespace);
+
+        try
+        {
+            pql_dto::Entity first_param = create_entity(first_param_string, declared_variables);
+            pql_dto::Entity second_param = create_entity(second_param_string, declared_variables);
+            pql_dto::Relationships& relationship = create_relationship(relationship_type, first_param, second_param);
+            such_that_clause.push_back(relationship);
+        }
+        catch (std::exception& e)
+        {
+            return e.what();
+        }
     }
     else
     {
@@ -154,8 +220,111 @@ std::string PQLParser::parse_such_that_clause(const std::string& query, std::vec
 std::string PQLParser::parse_pattern_clause(const std::string& query, std::vector<pql_dto::Pattern>& pattern_clause,
     std::unordered_map<string, string>& declared_variables)
 {
+    /// Checks if query exists
+    if (query.length() == 0)
+    {
+        return "";
+    }
+
     std::string trimmed_query = StringUtil::trim(query, whitespace);
+    if (trimmed_query.find("pattern ") != 0)
+    {
+        return "Invalid Syntax! Pattern clause syntax error.";
+    }
+
+    /// Get pattern query
+    std::string pattern_query = trimmed_query.substr(8);
+    size_t open_parentheses_index = pattern_query.find_first_of('(');
+    size_t close_parentheses_index = pattern_query.find_first_of(')');
+
+    if (open_parentheses_index != std::string::npos && close_parentheses_index != std::string::npos
+        && open_parentheses_index < close_parentheses_index && pattern_query.back() == ')')
+    {
+        /// Check if pattern has correct entity
+        std::string entity_name = StringUtil::trim(pattern_query.substr(0, open_parentheses_index), whitespace);
+        if (declared_variables.find(entity_name) == declared_variables.end() || declared_variables.at(entity_name) != "assign")
+        {
+            return "Invalid Syntax! Invalid Entity for pattern.";
+        }
+
+        std::string pattern_params = pattern_query.substr(open_parentheses_index);
+
+        size_t comma_index = pattern_params.find_first_of(',');
+        std::string first_param_string = StringUtil::trim(pattern_params.substr(1, comma_index - 1), whitespace);
+        std::string second_param_string = StringUtil::trim(pattern_params.substr(comma_index + 1,
+            pattern_params.length() - comma_index - 2), whitespace);
+
+        try
+        {
+            pql_dto::Entity pattern_entity = pql_dto::Entity("assign", entity_name, true);
+            pql_dto::Entity first_param = create_entity(first_param_string, declared_variables);
+            pql_dto::Entity second_param = create_entity(second_param_string, declared_variables);
+            pql_dto::Pattern pattern = pql_dto::Pattern(pattern_entity, first_param, second_param);
+            pattern_clause.push_back(pattern);
+        }
+        catch (std::exception& e)
+        {
+            return e.what();
+        }
+    }
+    else
+    {
+        return "Invalid Pattern Format!";
+    }
 
     return "";
 }
 
+pql_dto::Entity PQLParser::create_entity(std::string& var_name, std::unordered_map<string, string>& declared_variables)
+{
+    pql_dto::Entity entity;
+
+    if (var_name.find_first_of('"') == std::string::npos)
+    {
+        if (declared_variables.find(var_name) == declared_variables.end())
+        {
+            throw std::runtime_error("No such variable exists!");
+        }
+
+        string entity_type = declared_variables.at(var_name);
+        entity = pql_dto::Entity(entity_type, var_name, true);
+    }
+    else
+    {
+        entity = pql_dto::Entity("string", var_name, false);
+    }
+
+    return entity;
+}
+
+pql_dto::Relationships PQLParser::create_relationship(std::string& relationship_type, pql_dto::Entity first_param, pql_dto::Entity second_param)
+{
+    if (relationship_type == "Follows")
+    {
+        return pql_dto::FollowsRelationship(first_param, second_param, false);
+    }
+    else if (relationship_type == "Follows*")
+    {
+        return pql_dto::FollowsRelationship(first_param, second_param, true);
+    }
+    else if (relationship_type == "Parent")
+    {
+        return pql_dto::ParentRelationship(first_param, second_param, false);
+    }
+    else if (relationship_type == "Parent*")
+    {
+        return pql_dto::ParentRelationship(first_param, second_param, true);
+    }
+    else if (relationship_type == "Uses")
+    {
+        return pql_dto::UsesRelationship(first_param, second_param, false);
+    }
+    else if (relationship_type == "Modifies")
+    {
+        return pql_dto::ModifiesRelationship(first_param, second_param, true);
+    }
+    else
+    {
+        throw std::runtime_error("Invalid name for relationship type!");
+    }
+}

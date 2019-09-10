@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <stdexcept>
 
 #include <pql_dto/Entity.h>
 #include <pql_dto/Relationships.h>
@@ -34,6 +35,10 @@ private:
 
     static std::string parse_pattern_clause(const std::string& query, std::vector<pql_dto::Pattern>& pattern_clause,
         std::unordered_map<string, string>& declared_variables);
+
+    static pql_dto::Entity create_entity(std::string& var_name, std::unordered_map<string, string>& declared_variables);
+
+    static pql_dto::Relationships create_relationship(std::string& relationship_type, pql_dto::Entity first_param, pql_dto::Entity second_param);
 
 public:
     /*!

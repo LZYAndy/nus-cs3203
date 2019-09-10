@@ -3,7 +3,9 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <cctype>
 #include <algorithm>
+#include <regex>
 
 class StringUtil
 {
@@ -33,9 +35,9 @@ public:
     static std::string trim(const std::string& string, const std::string& whitespace);
 
     /*!
-    Removes all whitespaces from the given string.
+    Replace all whitespaces from the given string with a space character.
     @param string The string.
     @return The string without whitespaces.
     */
-    static std::string remove_all_white_spaces(std::string string);
+    static std::string replace_all_white_spaces(std::string string);
 };

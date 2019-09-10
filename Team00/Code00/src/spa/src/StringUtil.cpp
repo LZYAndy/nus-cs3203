@@ -45,7 +45,8 @@ std::string StringUtil::trim(const std::string& string, const std::string& white
 
 }
 
-std::string StringUtil::remove_all_white_spaces(std::string string) {
-    string.erase(std::remove_if(string.begin(), string.end(), isspace), string.end());
+std::string StringUtil::replace_all_white_spaces(std::string string) {
+    std::regex r("\\s+");
+    string = std::regex_replace(string, r, " ");
     return string;
 }

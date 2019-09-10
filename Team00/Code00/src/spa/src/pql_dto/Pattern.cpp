@@ -9,6 +9,17 @@ using namespace std;
 
 namespace pql_dto
 {
+    Pattern::Pattern()
+    {
+    }
+
+    Pattern::Pattern(Entity pattern_entity, Entity first_param, Entity second_param)
+    {
+        set_pattern_entity(pattern_entity);
+        set_first_param(first_param);
+        set_second_param(second_param);
+    }
+
     Entity Pattern::get_pattern_entity()
     {
         return pattern_entity;
@@ -24,15 +35,15 @@ namespace pql_dto
         return second_param;
     }
 
-    void Pattern::set_pattern_entity()
+    void Pattern::set_pattern_entity(Entity pattern_entity)
     {
     }
 
-    void Pattern::set_first_param()
+    void Pattern::set_first_param(Entity first_param)
     {
     }
 
-    void Pattern::set_second_param()
+    void Pattern::set_second_param(Entity second_param)
     {
     }
 }

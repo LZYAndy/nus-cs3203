@@ -78,6 +78,10 @@ namespace pql_dto
         {
             entity_type = PROCEDURE;
         }
+        else if (type == "string")
+        {
+            entity_type = STRING;
+        }
         else
         {
             throw std::runtime_error("Invalid Entity Name!");
