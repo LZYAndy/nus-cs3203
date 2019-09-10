@@ -10,8 +10,8 @@ class Bank
 public:
     Bank<T, S>();
     void put(T key, S value);
-    std::vector<S> get(int key);
-    std::vector<T> get_reverse(int key);
+    std::vector<S> get(T key);
+    std::vector<T> get_reverse(S key);
 
 private:
     std::unordered_map<T, std::vector<S>> bank;

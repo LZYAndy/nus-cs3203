@@ -39,7 +39,7 @@ void Bank<T, S>::put(T key, S value)
 }
 
 template<class T, class S>
-std::vector<S> Bank<T, S>::get(int key)
+std::vector<S> Bank<T, S>::get(T key)
 {
     if (bank.find(key) != bank.end())
     {
@@ -50,7 +50,7 @@ std::vector<S> Bank<T, S>::get(int key)
 }
 
 template<class T, class S>
-std::vector<T> Bank<T, S>::get_reverse(int key)
+std::vector<T> Bank<T, S>::get_reverse(S key)
 {
     if (reverse_bank.find(key) != reverse_bank.end())
     {

@@ -14,8 +14,7 @@ enum stmtType
  CALL
 };
 
-template <class T, class S>
-class TypeBank: public Bank<T, S>
+class TypeBank: public Bank<int, stmtType>
 {
 public:
     TypeBank();
@@ -24,7 +23,7 @@ public:
      * Insert Type for a statement into the typeBank
      * Returns false if the statement already exists
      */
-    bool insert_type(int statement, string variable);
+    bool insert_type(int statement, stmtType variable);
 };
 
 

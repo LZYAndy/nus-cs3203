@@ -49,8 +49,8 @@ public:
     bool is_procvar_modifies(string procedure, string varible);
 
 private:
-    static std::unordered_set<std::string> varTable;
-    static std::unordered_set<std::string> procTable;
+    static std::unordered_set<string> varTable;
+    static std::unordered_set<string> procTable;
     static UsesBank<int, string> usesBankForStmt;
     static UsesBank<string, vector<string>> usesBankForProc;
     static ModifiesBank<int, vector<string>> modifiesBankForStmt;

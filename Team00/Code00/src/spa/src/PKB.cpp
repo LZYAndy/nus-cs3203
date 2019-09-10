@@ -59,27 +59,27 @@ std::unordered_set<std::string> PKB::get_all_statement_nums() {
 }
 
 vector<int> PKB::get_all_whiles() {
-    return vector<int>();
+    return typeBank.get_reverse(WHILE);
 }
 
 vector<int> PKB::get_all_ifs() {
-    return vector<int>();
+    return typeBank.get_reverse(IF);
 }
 
 vector<int> PKB::get_all_assigns() {
-    return vector<int>();
+    return typeBank.get_reverse(ASSIGN);
 }
 
 vector<int> PKB::get_all_reads() {
-    return vector<int>();
+    return typeBank.get_reverse(READ);
 }
 
 vector<int> PKB::get_all_prints() {
-    return vector<int>();
+    return typeBank.get_reverse(PRINT);
 }
 
 vector<int> PKB::get_all_calls() {
-    return vector<int>();
+    return typeBank.get_reverse(CALL);
 }
 
 std::unordered_set<std::string> PKB::get_all_procedures() {
@@ -87,7 +87,7 @@ std::unordered_set<std::string> PKB::get_all_procedures() {
 }
 
 stmtType PKB::get_statement_type(int statement) {
-    return READ;
+    return typeBank.get(statement)[0];
 }
 
 bool PKB::get_statements_modifies(string variable) {
