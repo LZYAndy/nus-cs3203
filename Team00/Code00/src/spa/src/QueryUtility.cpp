@@ -81,13 +81,23 @@ vector<string> QueryUtility::get_certain_type_list(EntityType type) {
     return type_list;
 }
 
-unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity key, vector<int> int_vec) {
+unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity key, const vector<int>& int_vec) {
     unordered_map<std::string, std::vector<std::string>> result;
     vector<string> key_value;
-    for (int & iter : int_vec) {
+    for (auto & iter : int_vec) {
         if (PKB::get_statement_type(iter) == key.get_entity_type()) {
             key_value.push_back(to_string(iter));
         }
+    }
+    result[key.get_entity_name()] = key_value;
+    return result;
+}
+
+unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity key, const vector<string>& str_vec) {
+    unordered_map<std::string, std::vector<std::string>> result;
+    vector<string> key_value;
+    for (auto & iter : str_vec) {
+        key_value.push_back(iter);
     }
     result[key.get_entity_name()] = key_value;
     return result;
@@ -104,17 +114,51 @@ unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity key,
 }
 
 unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity key_1, pql_dto::Entity key_2,
-        unordered_map<int, int> int_map) {
+        const unordered_map<int, int>& int_map) {
     unordered_map<std::string, std::vector<std::string>> result;
     vector<string> key_value_1;
     vector<string> key_value_2;
-    for (unordered_map<int, int>::iterator iter = int_map.begin(); iter != int_map.end(); iter++) {
-        int first = iter->first;
-        int second = iter->second;
+    for (auto & iter : int_map) {
+        int first = iter.first;
+        int second = iter.second;
         if (PKB::get_statement_type(first) == key_1.get_entity_type() &&
         PKB::get_statement_type(second) == key_2.get_entity_type()) {
             key_value_1.push_back(to_string(first));
             key_value_2.push_back(to_string(second));
+        }
+    }
+    result[key_1.get_entity_name()] = key_value_1;
+    result[key_2.get_entity_name()] = key_value_2;
+    return result;
+}
+
+unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity key_1, pql_dto::Entity key_2,
+        const unordered_map<string, string>& str_map) {
+    unordered_map<std::string, std::vector<std::string>> result;
+    vector<string> key_value_1;
+    vector<string> key_value_2;
+    for (auto & iter : str_map) {
+        string first = iter.first;
+        string second = iter.second;
+        key_value_1.push_back(first);
+        key_value_2.push_back(second);
+    }
+    result[key_1.get_entity_name()] = key_value_1;
+    result[key_2.get_entity_name()] = key_value_2;
+    return result;
+}
+
+unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity key_1, pql_dto::Entity key_2,
+        const unordered_map<int, string>& int_str_map) {
+    unordered_map<std::string, std::vector<std::string>> result;
+    vector<string> key_value_1;
+    vector<string> key_value_2;
+    for (auto & iter : int_str_map) {
+        int first = iter.first;
+        string second = iter.second;
+        if (PKB::get_statement_type(first) == key_1.get_entity_type()) {
+            key_value_1.push_back(to_string(first));
+            key_value_2.push_back(second);
         }
     }
     result[key_1.get_entity_name()] = key_value_1;
