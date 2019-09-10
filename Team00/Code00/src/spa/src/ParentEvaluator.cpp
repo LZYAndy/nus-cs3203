@@ -9,7 +9,7 @@ unordered_map<string, vector<string>> ParentEvaluator::evaluate_non_trivial(pql_
 
     if (first_param.is_entity_declared()) {
         if (second_name == "_") { // e.g. Parent(s, _)
-            result = QueryUtility::mapping(first_param, PKB::get_all_parents());
+            result = QueryUtility::mapping(first_param, PKB::get_all_parent());
         } else if (QueryUtility::is_integer(second_name)) { // e.g. Parent(s, 2)
             int first_stmt_num = PKB::get_parent(stoi(second_name));
             if (first_stmt_num > 0) {
