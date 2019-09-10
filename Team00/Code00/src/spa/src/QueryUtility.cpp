@@ -10,9 +10,9 @@ Checks if the string is an integer
 */
 bool QueryUtility::is_integer(string s)
 {
-    for (size_t i = 0; i < s.length(); i++)
+    for (char i : s)
     {
-        if (!isdigit(s[i]))
+        if (!isdigit(i))
         {
             return false;
         }
@@ -45,9 +45,9 @@ bool QueryUtility::is_var_name(pql_dto::Entity entity)
 }
 
 /*
- * Returns the list of certain type
+ * Returns the string list of certain type
  */
-vector<string> QueryUtility::get_certain_type_list(EntityType type)
+vector<string> QueryUtility::get_certain_type_str_list(EntityType type)
 {
     vector<string> type_list;
     if (type == EntityType::VARIABLE)
@@ -55,6 +55,19 @@ vector<string> QueryUtility::get_certain_type_list(EntityType type)
         type_list = PKB::get_var_list();
     }
 
+    if (type == EntityType::PROCEDURE)
+    {
+        type_list = PKB::get_proc_list();
+    }
+    return type_list;
+}
+
+/*
+ * Returns the int list of certain type
+ */
+vector<int> QueryUtility::get_certain_type_int_list(EntityType type)
+{
+    vector<int> type_list;
     if (type == EntityType::ASSIGN)
     {
         type_list = PKB::get_assign_list();
@@ -63,11 +76,6 @@ vector<string> QueryUtility::get_certain_type_list(EntityType type)
     if (type == EntityType::STMT)
     {
         type_list = PKB::get_stmt_list();
-    }
-
-    if (type == EntityType::PROCEDURE)
-    {
-        type_list = PKB::get_proc_list();
     }
 
     if (type == EntityType::WHILE)
