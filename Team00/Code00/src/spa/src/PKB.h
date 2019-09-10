@@ -40,20 +40,20 @@ public:
     std::unordered_set<std::string> get_all_procedures();
     stmtType get_statement_type(int statement);
 
-    bool get_statements_modifies(string variable);
-    bool get_procedures_modifies(string variable);
-    bool get_modified_by_statement(int statement);
-    bool get_modified_by_procedure(string procedure);
+    vector<int> get_statements_modifies(string variable);
+    vector<string> get_procedures_modifies(string variable);
+    vector<string> get_modified_by_statement(int statement);
+    vector<string> get_modified_by_procedure(string procedure);
 
-    bool get_statements_uses(string variable);
-    bool get_procedures_uses(string variable);
-    bool get_used_by_statement(int statement);
-    bool get_used_by_procedure(string procedure);
+    vector<int> get_statements_uses(string variable);
+    vector<string> get_procedures_uses(string variable);
+    vector<string> get_used_by_statement(int statement);
+    vector<string> get_used_by_procedure(string procedure);
 
     bool is_stmtvar_use(int statement, string variable);
     bool is_procvar_use(string procedure, string variable);
     bool is_stmtvar_modifies(int statement, string variable);
-    bool is_procvar_modifies(string procedure, string varible);
+    bool is_procvar_modifies(string procedure, string variable);
 
 	bool extract_design();
 	bool insert_follows(int stmt1, int stmt2);
