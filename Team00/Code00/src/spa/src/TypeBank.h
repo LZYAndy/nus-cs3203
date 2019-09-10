@@ -5,16 +5,8 @@
 
 using namespace std;
 
-enum stmtType
-{READ,
- PRINT,
- ASSIGN,
- WHILE,
- IF,
- CALL
-};
-
-class TypeBank: public Bank<int, stmtType>
+template<class T, class S>
+class TypeBank: public Bank<T, S>
 {
 public:
     TypeBank();

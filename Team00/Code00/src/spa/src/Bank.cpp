@@ -1,7 +1,3 @@
-//
-// Created by Koh Zheng Wei on 2019-09-04.
-//
-
 #include "Bank.h"
 
 template<class T, class S>
@@ -27,14 +23,14 @@ void Bank<T, S>::put(T key, S value)
 
     if (reverse_bank.find(value) != reverse_bank.end())
     {
-        std::vector<T> reverse_bank_value = reverse_bank.at(key);
+        std::vector<T> reverse_bank_value = reverse_bank.at(value);
         reverse_bank_value.push_back(key);
     }
     else
     {
         std::vector<T> key_list;
         key_list.push_back(key);
-        bank.insert({value, key_list});
+        reverse_bank.insert({value, key_list});
     }
 }
 
@@ -59,3 +55,46 @@ std::vector<T> Bank<T, S>::get_reverse(S key)
 
     return std::vector<T>();
 }
+
+template<class T, class S>
+std::vector<T> Bank<T,S>::get_all_keys()
+{
+    std::vector<T> keys;
+    for (std::pair<T,std::vector<S>> element : bank)
+    {
+        keys.push_back(element.first);
+    }
+
+    return keys;
+}
+
+template<class T, class S>
+std::vector<S> Bank<T,S>::get_all_values()
+{
+    std::vector<S> values;
+    for (std::pair<S,std::vector<T>> element : reverse_bank)
+    {
+        values.push_back(element.first);
+    }
+
+    return values;
+}
+
+template<class T, class S>
+bool Bank<T, S>::empty()
+{
+    return bank.empty() && reverse_bank.empty();
+}
+
+template<class T, class S>
+std::unordered_map<T, std::vector<S>> Bank<T, S>::copy()
+{
+    // TODO: check if shallow copy or deep copy
+    return bank;
+}
+
+template class Bank<int, int>;
+template class Bank<int, std::string>;
+template class Bank<std::string, std::string>;
+template class Bank<int, stmtType>;
+

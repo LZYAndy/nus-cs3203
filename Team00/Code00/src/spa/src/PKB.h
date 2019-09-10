@@ -9,6 +9,13 @@
 #include "ModifiesBank.h"
 #include "TypeBank.h"
 
+#include "FollowsBank.h"
+#include "FollowsStarBank.h"
+#include "DesignExtractor.h"
+#include "ParentBank.h"
+#include "ParentStarBank.h"
+#include "AssignBank.h"
+
 using namespace std;
 typedef short PROC;
 
@@ -48,12 +55,51 @@ public:
     bool is_stmtvar_modifies(int statement, string variable);
     bool is_procvar_modifies(string procedure, string varible);
 
+	bool extract_design();
+	bool insert_follows(int stmt1, int stmt2);
+    bool insert_parent(int stmt1, int stmt2);
+    bool insert_assign(int stmt, string var, string assignment);
+
+    vector<int> get_follows_star(int stmt);
+    vector<int> get_followed_star_by(int stmt);
+    int get_follows(int stmt);
+    int get_followed_by(int stmt);
+    int get_parent(int stmt);
+    vector<int> get_children(int stmt);
+    vector<int> get_parent_star(int stmt);
+    vector<int> get_children_star(int stmt);
+    vector<int> get_pattern_matches(string var, string pattern);
+    vector<int> get_pattern_contains(string var, string pattern);
+    vector<int> get_all_pattern_matches(string pattern);
+    vector<int> get_all_pattern_contains(string pattern);
+    vector<int> get_all_follows();
+    vector<int> get_all_followed();
+    vector<int> get_all_parent();
+    vector<int> get_all_children();
+    unordered_map<int, std::vector<int>> get_all_parent_relationship();
+    unordered_map<int, std::vector<int>> get_all_follows_relationship();
+    unordered_map<int, std::vector<int>> get_all_parent_star_relationship();
+    unordered_map<int, std::vector<int>> get_all_follows_star_relationship();
+    bool does_follows_exist();
+    bool does_follows_star_exist();
+    bool does_parent_exist();
+    bool does_children_exist();
+    bool is_follows(int stmt1, int stmt2);
+    bool is_parent(int stmt1, int stmt2);
+    bool is_follows_star(int stmt1, int stmt2);
+    bool is_parent_star(int stmt1, int stmt2);
+
 private:
-    static std::unordered_set<string> varTable;
-    static std::unordered_set<string> procTable;
-    static UsesBank<int, string> usesBankForStmt;
-    static UsesBank<string, vector<string>> usesBankForProc;
-    static ModifiesBank<int, vector<string>> modifiesBankForStmt;
-    static ModifiesBank<string, vector<string>> modifiesBankForProc;
-    static TypeBank<int, stmtType> typeBank;
+    FollowsBank follows_bank;
+    FollowsStarBank follows_star_bank;
+    ParentBank parent_bank;
+    ParentStarBank parent_star_bank;
+    AssignBank assign_bank;
+    std::unordered_set<string> varTable;
+    std::unordered_set<string> procTable;
+    UsesBank<int, string> usesBankForStmt;
+    UsesBank<string, string> usesBankForProc;
+    ModifiesBank<int, string> modifiesBankForStmt;
+    ModifiesBank<string, string> modifiesBankForProc;
+    TypeBank<int, stmtType> typeBank;
 };
