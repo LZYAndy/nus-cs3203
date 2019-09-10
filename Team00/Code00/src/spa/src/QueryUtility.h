@@ -10,7 +10,8 @@
 #include <pql_dto/Entity.h>
 
 
-class QueryUtility {
+class QueryUtility
+{
 public:
     static vector<std::string> get_certain_type_list(EntityType type);
     static bool is_integer(string s);
