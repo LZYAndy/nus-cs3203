@@ -29,7 +29,13 @@ private:
     static std::string parse_select_clause(const std::string& query, std::vector<pql_dto::Entity>& select_clause,
         std::unordered_map<string, string>& declared_variables);
 
-    static int get_select_clause_end_index(std::string& select_clause_string);
+    static std::string parse_such_that_clause(const std::string& query, std::vector<pql_dto::Relationships>& such_that_clause,
+        std::unordered_map<string, string>& declared_variables);
+
+    static std::string parse_pattern_clause(const std::string& query, std::vector<pql_dto::Pattern>& pattern_clause,
+        std::unordered_map<string, string>& declared_variables);
+
+    static int get_select_clause_end_index(const std::string& query, int* indexes);
 
 public:
     /*!
