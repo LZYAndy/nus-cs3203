@@ -11,10 +11,6 @@
 using namespace std;
 
 #include "Entity.h"
-#include "UsesRelationship.cpp"
-#include "ModifiesRelationship.cpp"
-#include "ParentRelationship.cpp"
-#include "FollowsRelationship.cpp"
 
 enum RelationshipType
 {

@@ -6,6 +6,11 @@
 #include "StringUtil.h"
 #include "PQLValidator.h"
 
+#include "pql_dto/UsesRelationship.cpp"
+#include "pql_dto/ModifiesRelationship.cpp"
+#include "pql_dto/ParentRelationship.cpp"
+#include "pql_dto/FollowsRelationship.cpp"
+
 std::string whitespace = " \n\t\r\f\v";
 
 std::string PQLParser::pql_parse_query(std::string query, vector<pql_dto::Entity>& declaration_clause,
@@ -321,7 +326,7 @@ pql_dto::Relationships PQLParser::create_relationship(std::string& relationship_
     }
     else if (relationship_type == "Modifies")
     {
-        return pql_dto::ModifiesRelationship(first_param, second_param, true);
+        return pql_dto::ModifiesRelationship(first_param, second_param, false);
     }
     else
     {
