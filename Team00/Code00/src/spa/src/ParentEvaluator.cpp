@@ -1,5 +1,3 @@
-#pragma once
-
 #include "ParentEvaluator.h"
 
 unordered_map<string, vector<string>> ParentEvaluator::evaluate_non_trivial(pql_dto::Entity first_param,

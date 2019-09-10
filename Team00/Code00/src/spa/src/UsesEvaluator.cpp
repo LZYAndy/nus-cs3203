@@ -1,5 +1,3 @@
-#pragma once
-
 #include "UsesEvaluator.h"
 
 unordered_map<string, vector<string>> UsesEvaluator::evaluate_non_trivial(pql_dto::Entity first_param,
