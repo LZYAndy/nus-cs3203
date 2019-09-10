@@ -40,41 +40,18 @@ std::string PQLParser::pql_parse_query(std::string query, vector<pql_dto::Entity
         return error;
     }
     
-    
     /// Validates the such that string
-    if (such_that_index != std::string::npos)
+    error = parse_such_that_clause(condition_query, such_that_clause, declared_variables);
+    if (!error.empty())
     {
-        if (such_that_index < pattern_index)
-        {
-            error = parse_such_that_clause(select_clause_query.substr(such_that_index, pattern_index), such_that_clause, declared_variables);
-        }
-        else
-        {
-            error = parse_such_that_clause(select_clause_query.substr(such_that_index), such_that_clause, declared_variables);
-        }
-        
-        if (!error.empty())
-        {
-            return error;
-        }
+        return error;
     }
 
     /// Validates the pattern string
-    if (pattern_index != std::string::npos)
+    error = parse_pattern_clause(condition_query, pattern_clause, declared_variables);
+    if (!error.empty())
     {
-        if (pattern_index < such_that_index)
-        {
-            error = parse_pattern_clause(select_clause_query.substr(pattern_index, such_that_index), pattern_clause, declared_variables);
-        }
-        else
-        {
-            error = parse_pattern_clause(select_clause_query.substr(pattern_index), pattern_clause, declared_variables);
-        }
-        
-        if (!error.empty())
-        {
-            return error;
-        }
+        return error;
     }
 
     return error;

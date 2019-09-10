@@ -35,8 +35,6 @@ private:
     static std::string parse_pattern_clause(const std::string& query, std::vector<pql_dto::Pattern>& pattern_clause,
         std::unordered_map<string, string>& declared_variables);
 
-    static int get_select_clause_end_index(const std::string& query, int* indexes);
-
 public:
     /*!
     Parses and validates the query. If validation succeeds, stores query in clause pointers.
