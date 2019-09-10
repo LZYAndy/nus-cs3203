@@ -1,0 +1,41 @@
+version: v1.0
+name: CICD
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: Build
+    task:
+      jobs:
+        - name: Compile
+          commands:
+            - sudo apt-get install cmake
+            - checkout
+            - cd Team00/Code00
+            - mkdir build
+            - cd build
+            - echo "Compiling code"
+            - cmake ..
+            - make
+  - name: Test
+    task:
+      prologue:
+        commands:
+          - sudo apt-get install cmake
+          - checkout
+          - cd Team00/Code00
+          - mkdir build
+          - cd build
+          - echo "Compiling code"
+          - cmake ..
+          - make
+      jobs:
+        - name: Unit
+          commands:
+            - echo "Unit testing"
+            - ./src/unit_testing/unit_testing
+        - name: Integration
+          commands:
+            - echo "Integration testing"
+            - ./src/integration_testing/integration_testing
