@@ -1,5 +1,6 @@
 #include <sstream>
 #include <algorithm>
+#include <StringUtil.cpp>
 
 #include "PQLParser.h"
 #include "StringUtil.h"
