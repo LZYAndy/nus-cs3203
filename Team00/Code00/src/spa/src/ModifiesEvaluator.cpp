@@ -1,5 +1,3 @@
-#pragma once
-
 #include "ModifiesEvaluator.h"
 
 unordered_map<string, vector<string>> ModifiesEvaluator::evaluate_non_trivial(pql_dto::Entity first_param,
@@ -45,7 +43,7 @@ bool ModifiesEvaluator::evaluate_trivial(pql_dto::Entity first_param,
 
     if (QueryUtility::is_integer(first_name)) {
         if (QueryUtility::is_var_name(second_param)) { // e.g. Modifies(1, "x")
-            return
+
         } else if (second_name == "_") { // e.g. Modifies(1, _)
 
         }
@@ -56,6 +54,4 @@ bool ModifiesEvaluator::evaluate_trivial(pql_dto::Entity first_param,
 
         }
     }
-
-    return result;
 }

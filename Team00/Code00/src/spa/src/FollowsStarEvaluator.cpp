@@ -1,5 +1,3 @@
-#pragma once
-
 #include "FollowsStarEvaluator.h"
 
 unordered_map<string, vector<string>> FollowsStarEvaluator::evaluate_non_trivial(pql_dto::Entity first_param,
