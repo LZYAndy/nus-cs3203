@@ -17,9 +17,14 @@ public:
     static bool is_proc_name(pql_dto::Entity entity);
     static bool is_proc_declared(pql_dto::Entity entity);
     static bool is_var_name(pql_dto::Entity entity);
-    static unordered_map<string, vector<string>> mapping(pql_dto::Entity key, vector<int> int_vec);
+    static unordered_map<string, vector<string>> mapping(pql_dto::Entity key, const vector<int>& int_vec);
+    static unordered_map<string, vector<string>> mapping(pql_dto::Entity key, const vector<string>& str_vec);
     static unordered_map<string, vector<string>> mapping(pql_dto::Entity key, int n);
     static unordered_map<string, vector<string>> mapping(pql_dto::Entity key_1, pql_dto::Entity key_2,
-            unordered_map<int, int> int_map);
+            const unordered_map<int, int>& int_map);
+    static unordered_map<string, vector<string>> mapping(pql_dto::Entity key_1, pql_dto::Entity key_2,
+            const unordered_map<string, string>& str_map);
+    static unordered_map<string, vector<string>> mapping(pql_dto::Entity key_1, pql_dto::Entity key_2,
+            const unordered_map<int, string>& int_str_map);
 };
 
