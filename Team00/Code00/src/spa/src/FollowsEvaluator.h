@@ -10,7 +10,8 @@
 #include <pql_dto/Entity.h>
 #include <pql_dto/Relationships.h>
 
-class FollowsEvaluator {
+class FollowsEvaluator
+{
 public:
     static unordered_map<string, vector<string>> evaluate_non_trivial(pql_dto::Entity first_param,
             pql_dto::Entity second_param);

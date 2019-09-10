@@ -20,7 +20,8 @@
 #include <pql_dto/Relationships.h>
 #include <pql_dto/Pattern.h>
 
-class QueryEvaluator {
+class QueryEvaluator
+{
 public:
     static vector<string> get_result(string query);
 
