@@ -3,6 +3,7 @@
 #define AUTOTESTER_PARENTBANK_H
 
 #include "Bank.h"
+#include <algorithm>
 
 class ParentBank : public Bank<int, int>
 {

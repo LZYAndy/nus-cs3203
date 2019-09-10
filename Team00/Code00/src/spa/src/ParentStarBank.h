@@ -2,6 +2,7 @@
 #define AUTOTESTER_PARENTSTARBANK_H
 
 #include "Bank.h"
+#include <algorithm>
 
 class ParentStarBank: public Bank<int, int>
 {

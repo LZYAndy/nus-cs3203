@@ -2,6 +2,7 @@
 #define AUTOTESTER_FOLLOWSSTARBANK_H
 
 #include "Bank.h"
+#include <algorithm>
 
 class FollowsStarBank: public Bank<int, int>
 {
