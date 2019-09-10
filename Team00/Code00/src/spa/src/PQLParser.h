@@ -27,9 +27,7 @@ private:
     @param declared_variables The pointer to the variables unordered map.
     */
     static std::string parse_select_clause(const std::string& query, std::vector<pql_dto::Entity>& select_clause,
-        std::unordered_map<string, string>& declared_variables);
-
-    static int get_select_clause_end_index(std::string& select_clause_string);
+        std::unordered_map<string, string>& declared_variables, std::string& condition_query);
 
 public:
     /*!

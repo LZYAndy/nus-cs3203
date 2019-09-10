@@ -21,7 +21,7 @@ std::string PQLParser::pql_parse_query(std::string query, vector<pql_dto::Entity
         return error;
     }
 
-    // Validates the declaration string
+    /// Validates the declaration string
     size_t last_semi_colon = query.find_last_of(';');
     error = parse_declaration_clause(query.substr(0, last_semi_colon), declaration_clause, declared_variables);
     if (!error.empty())
@@ -29,11 +29,11 @@ std::string PQLParser::pql_parse_query(std::string query, vector<pql_dto::Entity
         return error;
     }
 
-    // Validates the select string
+    /// Validates the select string
     std::string select_clause_query = query.substr(last_semi_colon + 1);
-    int select_clause_end_index = get_select_clause_end_index(select_clause_query);
+    std::string condition_query;
 
-    error = parse_select_clause(select_clause_query.substr(0, select_clause_end_index - 1), select_clause, declared_variables);
+    error = parse_select_clause(select_clause_query, select_clause, declared_variables, condition_query);
     if (!error.empty())
     {
         return error;
@@ -80,7 +80,7 @@ std::string PQLParser::parse_declaration_clause(const std::string& query, std::v
 }
 
 std::string PQLParser::parse_select_clause(const std::string& query, std::vector<pql_dto::Entity>& select_clause,
-    std::unordered_map<string, string>& declared_variables)
+    std::unordered_map<string, string>& declared_variables, std::string& condition_query)
 {
     std::string trimmed_query = StringUtil::trim(query, whitespace);
     int select_index = trimmed_query.find("Select");
@@ -89,8 +89,10 @@ std::string PQLParser::parse_select_clause(const std::string& query, std::vector
         return "Invalid query! Syntax Error.";
     }
 
-    std::string select_variable = StringUtil::trim(trimmed_query.substr(trimmed_query.find_first_of(whitespace)), whitespace);
-    // Checks if variable in select clause exists
+    std::string select_query = StringUtil::trim(trimmed_query.substr(trimmed_query.find_first_of(whitespace)), whitespace);
+    std::string select_variable = StringUtil::trim(trimmed_query.substr(select_query.find_first_of(whitespace)), whitespace);
+
+    /// Checks if variable in select clause exists
     if (declared_variables.find(select_variable) == declared_variables.end())
     {
         return "No such variable exists!";
@@ -107,15 +109,7 @@ std::string PQLParser::parse_select_clause(const std::string& query, std::vector
         return e.what();
     }
 
+    /// Sets the condition query after the select clause
+    condition_query = select_query.substr(select_query.find_first_of(whitespace));
     return "";
 }
-
-int PQLParser::get_select_clause_end_index(std::string& select_clause_query)
-{
-    int such_that_index = select_clause_query.find("such that");
-    int pattern_index = select_clause_query.find("pattern");
-    int indexes[] = { such_that_index, pattern_index };
-    
-    return std::min(such_that_index, pattern_index);
-}
-
