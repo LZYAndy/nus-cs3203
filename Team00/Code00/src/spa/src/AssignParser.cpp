@@ -50,10 +50,10 @@ vector<string> AssignParser::get_all_var(string sub_statement)
     {
         string current_word = match[0];
         sub_statement = match.suffix().str();
-//        if (is_name_valid(match[0]))
-//        {
-//            all_var.push_back(match[0]);
-//        }
+        if (CheckerUtil::is_name_valid(match[0]))
+        {
+            all_var.push_back(match[0]);
+        }
     }
 
     return all_var;

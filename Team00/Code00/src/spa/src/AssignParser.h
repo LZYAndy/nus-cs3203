@@ -4,6 +4,7 @@
 #include <string>
 #include <regex>
 #include "PKB.h"
+#include "CheckerUtil.h"
 
 using namespace std;
 
