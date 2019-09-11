@@ -17,16 +17,30 @@
 #include "AssignBank.h"
 
 using namespace std;
-typedef short PROC;
 
-class PKB {
+class PKB
+{
 public:
-	bool insert_procedure(string name);
-	bool insert_variable(string name);
-	bool insert_uses(int statement, string variable);
-	bool insert_uses(string procedure, string variable);
+    // Insert APIs
+    bool insert_procedure(string name);
+    bool insert_variable(string name);
+    bool insert_uses(int statement, string variable);
+    bool insert_uses(string procedure, string variable);
+    /*
+    * Insert Modifies relation for a statement into the ModifiesBank
+    * Returns false if the relation already exists
+    */
     bool insert_modifies(int statement, string variable);
+    /*
+    * Insert Modifies relation for a procedure into the ModifiesBank
+    * Returns false if the relation already exists
+    */
     bool insert_modifies(string procedure, string variable);
+    bool insert_follows(int stmt1, int stmt2);
+    bool insert_parent(int stmt1, int stmt2);
+    bool insert_assign(int stmt, string var, string assignment);
+
+    bool extract_design();
 
     std::unordered_set<std::string> get_all_variables();
     std::unordered_set<std::string> get_all_statement_nums();
@@ -38,26 +52,6 @@ public:
     vector<int> get_all_calls();
     std::unordered_set<std::string> get_all_procedures();
 
-    vector<int> get_statements_modifies(string variable);
-    vector<string> get_procedures_modifies(string variable);
-    vector<string> get_modified_by_statement(int statement);
-    vector<string> get_modified_by_procedure(string procedure);
-
-    vector<int> get_statements_uses(string variable);
-    vector<string> get_procedures_uses(string variable);
-    vector<string> get_used_by_statement(int statement);
-    vector<string> get_used_by_procedure(string procedure);
-
-    bool is_stmtvar_use(int statement, string variable);
-    bool is_procvar_use(string procedure, string variable);
-    bool is_stmtvar_modifies(int statement, string variable);
-    bool is_procvar_modifies(string procedure, string variable);
-
-	bool extract_design();
-	bool insert_follows(int stmt1, int stmt2);
-    bool insert_parent(int stmt1, int stmt2);
-    bool insert_assign(int stmt, string var, string assignment);
-
     vector<int> get_follows_star(int stmt);
     vector<int> get_followed_star_by(int stmt);
     int get_follows(int stmt);
@@ -66,26 +60,51 @@ public:
     vector<int> get_children(int stmt);
     vector<int> get_parent_star(int stmt);
     vector<int> get_children_star(int stmt);
+
+    vector<int> get_statements_uses(string variable);
+    vector<string> get_procedures_uses(string variable);
+    vector<string> get_used_by_statement(int statement);
+    vector<string> get_used_by_procedure(string procedure);
+
+    vector<int> get_statements_modifies(string variable);
+    vector<string> get_procedures_modifies(string variable);
+    vector<string> get_modified_by_statement(int statement);
+    vector<string> get_modified_by_procedure(string procedure);
+
     vector<int> get_pattern_matches(string var, string pattern);
     vector<int> get_pattern_contains(string var, string pattern);
     vector<int> get_all_pattern_matches(string pattern);
     vector<int> get_all_pattern_contains(string pattern);
-    vector<int> get_all_follows();
-    vector<int> get_all_followed();
-    vector<int> get_all_parent();
-    vector<int> get_all_children();
-    unordered_map<int, std::vector<int>> get_all_parent_relationship();
-    unordered_map<int, std::vector<int>> get_all_follows_relationship();
-    unordered_map<int, std::vector<int>> get_all_parent_star_relationship();
-    unordered_map<int, std::vector<int>> get_all_follows_star_relationship();
-    bool does_follows_exist();
-    bool does_follows_star_exist();
-    bool does_parent_exist();
-    bool does_parent_star_exist();
+
     bool is_follows(int stmt1, int stmt2);
     bool is_parent(int stmt1, int stmt2);
     bool is_follows_star(int stmt1, int stmt2);
     bool is_parent_star(int stmt1, int stmt2);
+
+    bool is_uses(int statement, string variable);
+    bool is_uses(string procedure, string variable);
+    bool is_modifies(int statement, string variable);
+    bool is_modifies(string procedure, string variable);
+
+    bool does_follows_exist();
+    bool does_follows_star_exist();
+    bool does_parent_exist();
+    bool does_parent_star_exist();
+
+    vector<int> get_all_follows();
+    vector<int> get_all_followed();
+    vector<int> get_all_parent();
+    vector<int> get_all_children();
+
+    unordered_map<int, std::vector<int>> get_all_parent_relationship();
+    unordered_map<int, std::vector<int>> get_all_follows_relationship();
+    unordered_map<int, std::vector<int>> get_all_parent_star_relationship();
+    unordered_map<int, std::vector<int>> get_all_follows_star_relationship();
+
+    vector<int> get_all_parent_star();
+    vector<int> get_all_follows_star();
+    vector<int> get_all_children_star();
+    vector<int> get_all_followed_star();
 
 private:
     FollowsBank follows_bank;
@@ -95,8 +114,6 @@ private:
     AssignBank assign_bank;
     std::unordered_set<string> varTable;
     std::unordered_set<string> procTable;
-    UsesBank<int, string> usesBankForStmt;
-    UsesBank<string, string> usesBankForProc;
-    ModifiesBank<int, string> modifiesBankForStmt;
-    ModifiesBank<string, string> modifiesBankForProc;
+    UsesBank uses_bank;
+    ModifiesBank modifies_bank;
 };

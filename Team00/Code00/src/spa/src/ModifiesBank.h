@@ -3,25 +3,29 @@
 
 #include "Bank.h"
 
-using namespace std;
-
-template <class T, class S>
-class ModifiesBank: public Bank<T, S>
+class ModifiesBank
 {
 public:
-    ModifiesBank();
-
     /*
      * Insert Modifies relation for a statement into the ModifiesBank
-     * Returns false if the relation already exists
      */
-    bool insert_modifies(int statement, string variable);
+    void insert_modifies(int statement, std::string variable);
 
     /*
      * Insert Modifies relation for a procedure into the ModifiesBank
-     * Returns false if the relation already exists
      */
-    bool insert_modifies(string procedure, string variable);
+    void insert_modifies(std::string procedure, std::string variable);
+
+    std::vector<int> get_statements_modifies(std::string variable);
+    std::vector<std::string> get_procedures_modifies(std::string variable);
+    std::vector<std::string> get_modified_by_statement(int statement);
+    std::vector<std::string> get_modified_by_procedure(std::string procedure);
+    bool is_modifies(int statement, std::string variable);
+    bool is_modifies(std::string procedure, std::string variable);
+
+private:
+    Bank<int, std::string> stmt_bank;
+    Bank<std::string, std::string> proc_bank;
 };
 
 

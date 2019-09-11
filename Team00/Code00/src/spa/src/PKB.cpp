@@ -22,25 +22,25 @@ bool PKB::insert_variable(string name)
 
 bool PKB::insert_uses(int statement, string variable)
 {
-    usesBankForStmt.put(statement, variable);
+    uses_bank.insert_uses(statement, variable);
     return true;
 }
 
 bool PKB::insert_uses(string procedure, string variable)
 {
-    usesBankForProc.put(procedure, variable);
+    uses_bank.insert_uses(procedure, variable);
     return true;
 }
 
 bool PKB::insert_modifies(int statement, string variable)
 {
-    modifiesBankForStmt.put(statement, variable);
+    modifies_bank.insert_modifies(statement, variable);
     return true;
 }
 
 bool PKB::insert_modifies(string procedure, string variable)
 {
-    modifiesBankForProc.put(procedure, variable);
+    modifies_bank.insert_modifies(procedure, variable);
     return true;
 }
 
@@ -57,119 +57,55 @@ std::unordered_set<std::string> PKB::get_all_procedures() {
 }
 
 vector<int> PKB::get_statements_modifies(string variable) {
-    return modifiesBankForStmt.get_reverse(variable);
+    return modifies_bank.get_statements_modifies(variable);
 }
 
 vector<string> PKB::get_procedures_modifies(string variable) {
-    return modifiesBankForProc.get_reverse(variable);
+    return modifies_bank.get_procedures_modifies(variable);
 }
 
 vector<string> PKB::get_modified_by_statement(int statement) {
-    return modifiesBankForStmt.get(statement);
+    return modifies_bank.get_modified_by_statement(statement);
 }
 
 vector<string> PKB::get_modified_by_procedure(string procedure) {
-    return modifiesBankForProc.get(procedure);
+    return modifies_bank.get_modified_by_procedure(procedure);
 }
 
 vector<int> PKB::get_statements_uses(string variable) {
-    return usesBankForStmt.get_reverse(variable);
+    return uses_bank.get_statements_uses(variable);
 }
 
 vector<string> PKB::get_procedures_uses(string variable) {
-    return usesBankForProc.get_reverse(variable);
+    return uses_bank.get_procedures_uses(variable);
 }
 
 vector<string> PKB::get_used_by_statement(int statement) {
-    return usesBankForStmt.get(statement);
+    return uses_bank.get_used_by_statement(statement);
 }
 
 vector<string> PKB::get_used_by_procedure(string procedure) {
-    return usesBankForProc.get(procedure);
+    return uses_bank.get_used_by_procedure(procedure);
 }
 
-bool PKB::is_stmtvar_use(int statement, string variable) {
-    if (usesBankForStmt.get(statement).size() == 0)
-    {
-        return false;
-    }
-    else
-    {
-        vector<string> tempBank = usesBankForStmt.get(statement);
-        vector<int> myVector;
-        for (std::vector<int>::iterator it = myVector.begin() ; it != myVector.end(); ++it)
-        {
-            int index = std::distance(myVector.begin(), it);
-            if(tempBank[index].compare(variable) == 0)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
+bool PKB::is_uses(int statement, string variable)
+{
+    uses_bank.is_uses(statement, variable);
 }
 
-bool PKB::is_procvar_use(string procedure, string variable) {
-    if (usesBankForProc.get(procedure).size() == 0)
-    {
-        return false;
-    }
-    else
-    {
-        vector<string> tempBank = usesBankForProc.get(procedure);
-        vector<int> myVector;
-        for (std::vector<int>::iterator it = myVector.begin() ; it != myVector.end(); ++it)
-        {
-            int index = std::distance(myVector.begin(), it);
-            if(tempBank[index].compare(variable) == 0)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
+bool PKB::is_uses(string procedure, string variable)
+{
+    uses_bank.is_uses(procedure, variable);
 }
 
-bool PKB::is_stmtvar_modifies(int statement, string variable) {
-    if (modifiesBankForStmt.get(statement).size() == 0)
-    {
-        return false;
-    }
-    else
-    {
-        vector<string> tempBank = modifiesBankForStmt.get(statement);
-        vector<int> myVector;
-        for (std::vector<int>::iterator it = myVector.begin() ; it != myVector.end(); ++it)
-        {
-            int index = std::distance(myVector.begin(), it);
-            if(tempBank[index].compare(variable) == 0)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
+bool PKB::is_modifies(int statement, string variable)
+{
+    return modifies_bank.is_modifies(statement, variable);
 }
 
-bool PKB::is_procvar_modifies(string procedure, string variable) {
-    if (modifiesBankForProc.get(procedure).size() == 0)
-    {
-        return false;
-    }
-    else
-    {
-        vector<string> tempBank = modifiesBankForProc.get(procedure);
-        vector<int> myVector;
-        for (std::vector<int>::iterator it = myVector.begin() ; it != myVector.end(); ++it)
-        {
-            int index = std::distance(myVector.begin(), it);
-            if(tempBank[index].compare(variable) == 0)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
+bool PKB::is_modifies(string procedure, string variable)
+{
+    return modifies_bank.is_modifies(procedure, variable);
 }
 
 bool PKB::insert_follows(int stmt1, int stmt2)
@@ -347,6 +283,7 @@ vector<int> PKB::get_all_children()
 {
     return parent_bank.get_all_values();
 }
+
 bool PKB::is_follows(int stmt1, int stmt2)
 {
     return follows_bank.is_follows(stmt1, stmt2);
@@ -363,3 +300,25 @@ bool PKB::is_parent_star(int stmt1, int stmt2)
 {
     return parent_star_bank.is_parents_star(stmt1, stmt2);
 }
+
+vector<int> PKB::get_all_follows_star()
+{
+    return follows_star_bank.get_all_keys();
+}
+
+vector<int> PKB::get_all_followed_star()
+{
+    return follows_star_bank.get_all_values();
+}
+
+vector<int> PKB::get_all_parent_star()
+{
+    return parent_star_bank.get_all_keys();
+}
+
+vector<int> PKB::get_all_children_star()
+{
+    return parent_star_bank.get_all_values();
+}
+
+
