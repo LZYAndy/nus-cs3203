@@ -17,7 +17,7 @@ private:
 
     string get_right(string statement);
 
-    string get_var(string sub_statement);
+    vector<string> get_all_var(string sub_statement);
 
 };
 

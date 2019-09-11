@@ -1,6 +1,7 @@
 #include "AssignParser.h"
 
 regex assign_pattern("^\\s*([a-zA-Z][a-zA-Z0-9]+)\\s*=\\s*(.+)\\s*$");
+regex all_word("\\w+");
 
 AssignParser::AssignParser(PKB pkb, string statement, int parent_prog_line)
 {
@@ -11,6 +12,7 @@ AssignParser::AssignParser(PKB pkb, string statement, int parent_prog_line)
 
     string left = get_left(statement); // Valid var
     string right = get_right(statement);
+    vector<string> all_var = get_all_var(right);
 
     // Insert var
     // Insert modifies
@@ -39,7 +41,20 @@ string AssignParser::get_right(string statement)
     }
 }
 
-string AssignParser::get_var(string sub_statement)
+vector<string> AssignParser::get_all_var(string sub_statement)
 {
-    return std::string();
+    std::smatch match;
+    std::vector<std::string> all_var;
+
+    while (regex_search(sub_statement, match, all_word))
+    {
+        string current_word = match[0];
+        sub_statement = match.suffix().str();
+//        if (is_name_valid(match[0]))
+//        {
+//            all_var.push_back(match[0]);
+//        }
+    }
+
+    return all_var;
 }
