@@ -3,18 +3,17 @@
 
 #include "Bank.h"
 
-using namespace std;
-
-template<class T, class S>
-class TypeBank: public Bank<T, S>
+class TypeBank
 {
 public:
-    TypeBank();
+
 
     /*
      * Insert Type for a statement into the typeBank
      * Returns false if the statement already exists
      */
+
+
 };
 
 

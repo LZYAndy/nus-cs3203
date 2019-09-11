@@ -204,22 +204,22 @@ bool PKB::insert_assign(int stmt, string var, string assignment)
     return true;
 }
 
-vector<int> PKB::get_pattern_matches(string var, string pattern)
+vector<int> PKB::get_assign_pattern_matches(string var, string pattern)
 {
     return assign_bank.matches(var, pattern);
 }
 
-vector<int> PKB::get_pattern_contains(string var, string pattern)
+vector<int> PKB::get_assign_pattern_contains(string var, string pattern)
 {
     return assign_bank.contains(var, pattern);
 }
 
-vector<int> PKB::get_all_pattern_matches(string pattern)
+vector<int> PKB::get_all_assign_pattern_matches(string pattern)
 {
     return assign_bank.all_matches(pattern);
 }
 
-vector<int> PKB::get_all_pattern_contains(string pattern)
+vector<int> PKB::get_all_assign_pattern_contains(string pattern)
 {
     return assign_bank.all_contains(pattern);
 }
@@ -288,14 +288,17 @@ bool PKB::is_follows(int stmt1, int stmt2)
 {
     return follows_bank.is_follows(stmt1, stmt2);
 }
+
 bool PKB::is_parent(int stmt1, int stmt2)
 {
     return parent_bank.is_parent(stmt1, stmt2);
 }
+
 bool PKB::is_follows_star(int stmt1, int stmt2)
 {
     return follows_star_bank.is_follows_star(stmt1, stmt2);
 }
+
 bool PKB::is_parent_star(int stmt1, int stmt2)
 {
     return parent_star_bank.is_parents_star(stmt1, stmt2);
@@ -359,4 +362,24 @@ unordered_map<int, vector<string>> PKB::get_all_uses_statements_relationship()
 {
     return uses_bank.get_all_uses_statements_relationship();
 }
+
+string PKB::assign_to_variable(int assign)
+{
+    return assign_bank.statement_to_variable(assign);
+}
+
+vector<string> PKB::assigns_to_variables(vector<int> assigns)
+{
+    vector<string> results;
+    for (int assign : assigns)
+    {
+        string result = assign_bank.statement_to_variable(assign);
+        if (result != "")
+        {
+            results.push_back(result);
+        }
+    }
+    return results;
+}
+
 

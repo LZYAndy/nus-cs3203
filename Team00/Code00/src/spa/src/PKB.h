@@ -71,10 +71,10 @@ public:
     vector<string> get_modified_by_statement(int statement);
     vector<string> get_modified_by_procedure(string procedure);
 
-    vector<int> get_pattern_matches(string var, string pattern);
-    vector<int> get_pattern_contains(string var, string pattern);
-    vector<int> get_all_pattern_matches(string pattern);
-    vector<int> get_all_pattern_contains(string pattern);
+    vector<int> get_assign_pattern_matches(string var, string pattern);
+    vector<int> get_assign_pattern_contains(string var, string pattern);
+    vector<int> get_all_assign_pattern_matches(string pattern);
+    vector<int> get_all_assign_pattern_contains(string pattern);
 
     bool is_follows(int stmt1, int stmt2);
     bool is_parent(int stmt1, int stmt2);
@@ -115,6 +115,9 @@ public:
     unordered_map<int, vector<string>> get_all_modifies_statements_relationship();
     unordered_map<string, vector<string>> get_all_uses_procedures_relationship();
     unordered_map<int, vector<string>> get_all_uses_statements_relationship();
+
+    string assign_to_variable(int assign);
+    vector<string> assigns_to_variables(vector<int> assigns);
 
 private:
     FollowsBank follows_bank;
