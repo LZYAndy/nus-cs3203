@@ -15,7 +15,6 @@ public:
      * Insert Type for a statement into the typeBank
      * Returns false if the statement already exists
      */
-    bool insert_type(int statement, stmtType variable);
 };
 
 

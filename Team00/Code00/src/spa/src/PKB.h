@@ -23,7 +23,6 @@ class PKB {
 public:
 	bool insert_procedure(string name);
 	bool insert_variable(string name);
-	bool insert_type(int statement, stmtType type);
 	bool insert_uses(int statement, string variable);
 	bool insert_uses(string procedure, string variable);
     bool insert_modifies(int statement, string variable);
@@ -38,7 +37,6 @@ public:
     vector<int> get_all_prints();
     vector<int> get_all_calls();
     std::unordered_set<std::string> get_all_procedures();
-    stmtType get_statement_type(int statement);
 
     vector<int> get_statements_modifies(string variable);
     vector<string> get_procedures_modifies(string variable);
@@ -101,5 +99,4 @@ private:
     UsesBank<string, string> usesBankForProc;
     ModifiesBank<int, string> modifiesBankForStmt;
     ModifiesBank<string, string> modifiesBankForProc;
-    TypeBank<int, stmtType> typeBank;
 };

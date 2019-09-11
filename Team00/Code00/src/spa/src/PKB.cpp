@@ -20,12 +20,6 @@ bool PKB::insert_variable(string name)
     return true;
 }
 
-bool PKB::insert_type(int statement, stmtType type)
-{
-    typeBank.put(statement, type);
-    return true;
-}
-
 bool PKB::insert_uses(int statement, string variable)
 {
     usesBankForStmt.put(statement, variable);
@@ -58,36 +52,8 @@ std::unordered_set<std::string> PKB::get_all_statement_nums() {
     return procTable;
 }
 
-vector<int> PKB::get_all_whiles() {
-    return typeBank.get_reverse(stmtType::WHILE);
-}
-
-vector<int> PKB::get_all_ifs() {
-    return typeBank.get_reverse(stmtType::IF);
-}
-
-vector<int> PKB::get_all_assigns() {
-    return typeBank.get_reverse(stmtType::ASSIGN);
-}
-
-vector<int> PKB::get_all_reads() {
-    return typeBank.get_reverse(stmtType::READ);
-}
-
-vector<int> PKB::get_all_prints() {
-    return typeBank.get_reverse(stmtType::PRINT);
-}
-
-vector<int> PKB::get_all_calls() {
-    return typeBank.get_reverse(stmtType::CALL);
-}
-
 std::unordered_set<std::string> PKB::get_all_procedures() {
     return procTable;
-}
-
-stmtType PKB::get_statement_type(int statement) {
-    return typeBank.get(statement)[0];
 }
 
 vector<int> PKB::get_statements_modifies(string variable) {
