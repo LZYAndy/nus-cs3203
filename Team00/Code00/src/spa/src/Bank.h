@@ -6,6 +6,15 @@
 #include <vector>
 #include <string>
 
+enum class stmtType
+{READ,
+    PRINT,
+    ASSIGN,
+    WHILE,
+    IF,
+    CALL
+};
+
 template<class T, class S>
 class Bank
 {
