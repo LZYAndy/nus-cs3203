@@ -1,9 +1,5 @@
 #include "Bank.h"
 
-template<class T, class S>
-Bank<T, S>::Bank()
-{
-}
 
 template<class T, class S>
 void Bank<T, S>::put(T key, S value)

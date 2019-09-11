@@ -381,5 +381,40 @@ vector<string> PKB::assigns_to_variables(vector<int> assigns)
     }
     return results;
 }
+bool PKB::insert_type(int stmt, EntityType type)
+{
+    type_bank.insert_type(stmt, type);
+    return true;
+}
+
+vector<int> PKB::get_all_whiles()
+{
+    return type_bank.get_all_of_type(WHILE);
+}
+
+vector<int> PKB::get_all_ifs()
+{
+    return type_bank.get_all_of_type(IF);
+}
+
+vector<int> PKB::get_all_assigns()
+{
+    return type_bank.get_all_of_type(ASSIGN);
+}
+
+vector<int> PKB::get_all_reads()
+{
+    return type_bank.get_all_of_type(READ);
+}
+
+vector<int> PKB::get_all_prints()
+{
+    return type_bank.get_all_of_type(PRINT);
+}
+
+vector<int> PKB::get_all_calls()
+{
+    return type_bank.get_all_of_type(CALL);
+}
 
 

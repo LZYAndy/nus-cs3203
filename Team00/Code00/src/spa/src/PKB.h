@@ -5,10 +5,10 @@
 #include <string>
 #include <vector>
 #include <unordered_set>
+
 #include "UsesBank.h"
 #include "ModifiesBank.h"
 #include "TypeBank.h"
-
 #include "FollowsBank.h"
 #include "FollowsStarBank.h"
 #include "DesignExtractor.h"
@@ -39,6 +39,7 @@ public:
     bool insert_follows(int stmt1, int stmt2);
     bool insert_parent(int stmt1, int stmt2);
     bool insert_assign(int stmt, string var, string assignment);
+    bool insert_type(int stmt, EntityType type);
 
     bool extract_design();
 
@@ -129,4 +130,5 @@ private:
     std::unordered_set<string> procTable;
     UsesBank uses_bank;
     ModifiesBank modifies_bank;
+    TypeBank type_bank;
 };

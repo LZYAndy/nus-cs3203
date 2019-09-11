@@ -5,13 +5,12 @@
 #include <unordered_map>
 #include <vector>
 #include <string>
-
+#include <pql_dto/Entity.h>
 
 template<class T, class S>
 class Bank
 {
 public:
-    Bank<T, S>();
     void put(T key, S value);
     std::vector<S> get(T key);
     std::vector<T> get_reverse(S key);
