@@ -90,12 +90,12 @@ vector<string> PKB::get_used_by_procedure(string procedure) {
 
 bool PKB::is_uses(int statement, string variable)
 {
-    uses_bank.is_uses(statement, variable);
+    return uses_bank.is_uses(statement, variable);
 }
 
 bool PKB::is_uses(string procedure, string variable)
 {
-    uses_bank.is_uses(procedure, variable);
+    return uses_bank.is_uses(procedure, variable);
 }
 
 bool PKB::is_modifies(int statement, string variable)
@@ -321,4 +321,42 @@ vector<int> PKB::get_all_children_star()
     return parent_star_bank.get_all_values();
 }
 
+vector<string> PKB::get_all_modifies_procedures()
+{
+    return modifies_bank.get_all_modifies_procedures();
+}
+
+vector<int> PKB::get_all_modifies_statements()
+{
+    return modifies_bank.get_all_modifies_statements();
+}
+vector<string> PKB::get_all_uses_procedures()
+{
+    return uses_bank.get_all_uses_procedures();
+}
+
+vector<int> PKB::get_all_uses_statements()
+{
+    return uses_bank.get_all_uses_statements();
+}
+
+unordered_map<string, vector<string>> PKB::get_all_modifies_procedures_relationship()
+{
+    return modifies_bank.get_all_modifies_procedures_relationship();
+}
+
+unordered_map<int, vector<string>> PKB::get_all_modifies_statements_relationship()
+{
+    return modifies_bank.get_all_modifies_statements_relationship();
+}
+
+unordered_map<string, vector<string>> PKB::get_all_uses_procedures_relationship()
+{
+    return uses_bank.get_all_uses_procedures_relationship();
+}
+
+unordered_map<int, vector<string>> PKB::get_all_uses_statements_relationship()
+{
+    return uses_bank.get_all_uses_statements_relationship();
+}
 

@@ -73,3 +73,22 @@ bool ModifiesBank::is_modifies(std::string procedure, std::string variable)
     }
 }
 
+std::vector<std::string> ModifiesBank::get_all_modifies_procedures()
+{
+    return proc_bank.get_all_keys();
+}
+
+std::vector<int> ModifiesBank::get_all_modifies_statements()
+{
+    return stmt_bank.get_all_keys();
+}
+
+std::unordered_map<std::string, std::vector<std::string>> ModifiesBank::get_all_modifies_procedures_relationship()
+{
+    return proc_bank.copy();
+}
+std::unordered_map<int, std::vector<std::string>> ModifiesBank::get_all_modifies_statements_relationship()
+{
+    return stmt_bank.copy();
+}
+

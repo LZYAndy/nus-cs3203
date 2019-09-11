@@ -106,6 +106,16 @@ public:
     vector<int> get_all_children_star();
     vector<int> get_all_followed_star();
 
+    vector<int> get_all_modifies_statements();
+    vector<string> get_all_modifies_procedures();
+    vector<int> get_all_uses_statements();
+    vector<string> get_all_uses_procedures();
+
+    unordered_map<string, vector<string>> get_all_modifies_procedures_relationship();
+    unordered_map<int, vector<string>> get_all_modifies_statements_relationship();
+    unordered_map<string, vector<string>> get_all_uses_procedures_relationship();
+    unordered_map<int, vector<string>> get_all_uses_statements_relationship();
+
 private:
     FollowsBank follows_bank;
     FollowsStarBank follows_star_bank;

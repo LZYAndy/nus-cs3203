@@ -22,7 +22,11 @@ public:
     std::vector<std::string> get_modified_by_procedure(std::string procedure);
     bool is_modifies(int statement, std::string variable);
     bool is_modifies(std::string procedure, std::string variable);
+    std::vector<std::string> get_all_modifies_procedures();
+    std::vector<int> get_all_modifies_statements();
 
+    std::unordered_map<std::string, std::vector<std::string>> get_all_modifies_procedures_relationship();
+    std::unordered_map<int, std::vector<std::string>> get_all_modifies_statements_relationship();
 private:
     Bank<int, std::string> stmt_bank;
     Bank<std::string, std::string> proc_bank;

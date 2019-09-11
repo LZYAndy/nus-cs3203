@@ -1,10 +1,10 @@
 #include "UsesBank.h"
-bool UsesBank::insert_uses(std::string procedure, std::string variable)
+void UsesBank::insert_uses(std::string procedure, std::string variable)
 {
     proc_bank.put(procedure, variable);
 }
 
-bool UsesBank::insert_uses(int statement, std::string variable)
+void UsesBank::insert_uses(int statement, std::string variable)
 {
     stmt_bank.put(statement, variable);
 }
@@ -27,6 +27,7 @@ std::vector<std::string> UsesBank::get_used_by_statement(int statement)
 {
     return stmt_bank.get(statement);
 }
+
 bool UsesBank::is_uses(std::string procedure, std::string variable)
 {
     if (proc_bank.get(procedure).size() == 0)
@@ -69,6 +70,25 @@ bool UsesBank::is_uses(int statement, std::string variable)
         }
         return false;
     }
+}
+std::vector<int> UsesBank::get_all_uses_statements()
+{
+    return stmt_bank.get_all_keys();
+}
+
+std::vector<std::string> UsesBank::get_all_uses_procedures()
+{
+    return proc_bank.get_all_keys();
+}
+
+std::unordered_map<int, std::vector<std::string>> UsesBank::get_all_uses_statements_relationship()
+{
+    return stmt_bank.copy();
+}
+
+std::unordered_map<std::string, std::vector<std::string>> UsesBank::get_all_uses_procedures_relationship()
+{
+    return proc_bank.copy();
 }
 
 
