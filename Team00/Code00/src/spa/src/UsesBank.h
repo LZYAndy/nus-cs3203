@@ -31,6 +31,7 @@ public:
     std::unordered_map<std::string, std::vector<std::string>> get_all_uses_procedures_relationship();
     std::unordered_map<int, std::vector<std::string>> get_all_uses_statements_relationship();
 
+    bool empty();
 private:
     Bank<int, std::string> stmt_bank;
     Bank<std::string, std::string> proc_bank;

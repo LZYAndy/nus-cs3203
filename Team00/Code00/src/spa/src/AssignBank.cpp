@@ -150,7 +150,7 @@ std::vector<int> AssignBank::all_contains(std::string pattern)
     }
     return result;
 }
-std::string AssignBank::statement_to_variable(int stmt)
+std::string AssignBank::get_variable_from_statement(int stmt)
 {
     std::vector<std::string> result = var_bank.get(stmt);
     if (result.empty())
@@ -162,7 +162,7 @@ std::string AssignBank::statement_to_variable(int stmt)
         return result[0];
     }
 }
-int AssignBank::variable_to_statement(std::string var)
+int AssignBank::get_statement_from_variable(std::string var)
 {
     std::vector<int> result = var_bank.get_reverse(var);
     if (result.empty())

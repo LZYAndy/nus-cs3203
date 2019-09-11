@@ -365,7 +365,7 @@ unordered_map<int, vector<string>> PKB::get_all_uses_statements_relationship()
 
 string PKB::assign_to_variable(int assign)
 {
-    return assign_bank.statement_to_variable(assign);
+    return assign_bank.get_variable_from_statement(assign);
 }
 
 vector<string> PKB::assigns_to_variables(vector<int> assigns)
@@ -373,7 +373,7 @@ vector<string> PKB::assigns_to_variables(vector<int> assigns)
     vector<string> results;
     for (int assign : assigns)
     {
-        string result = assign_bank.statement_to_variable(assign);
+        string result = assign_bank.get_variable_from_statement(assign);
         if (result != "")
         {
             results.push_back(result);
@@ -417,4 +417,12 @@ vector<int> PKB::get_all_calls()
     return type_bank.get_all_of_type(CALL);
 }
 
+bool PKB::does_uses_exist()
+{
+    return uses_bank.empty();
+}
 
+bool PKB::does_modifies_exist()
+{
+    return modifies_bank.empty();
+}

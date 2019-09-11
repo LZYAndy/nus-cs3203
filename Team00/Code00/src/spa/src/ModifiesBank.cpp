@@ -91,4 +91,8 @@ std::unordered_map<int, std::vector<std::string>> ModifiesBank::get_all_modifies
 {
     return stmt_bank.copy();
 }
+bool ModifiesBank::empty()
+{
+    return proc_bank.empty() && stmt_bank.empty();
+}
 

@@ -24,7 +24,7 @@ enum EntityType
     PROCEDURE
 };
 
-namespace pql_dto 
+namespace pql_dto
 {
     class Entity
     {

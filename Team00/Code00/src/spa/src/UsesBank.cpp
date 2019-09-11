@@ -90,5 +90,9 @@ std::unordered_map<std::string, std::vector<std::string>> UsesBank::get_all_uses
 {
     return proc_bank.copy();
 }
+bool UsesBank::empty()
+{
+    return proc_bank.empty() && stmt_bank.empty();
+}
 
 

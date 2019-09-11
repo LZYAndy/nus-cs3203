@@ -112,6 +112,9 @@ public:
     vector<int> get_all_uses_statements();
     vector<string> get_all_uses_procedures();
 
+    bool does_uses_exist();
+    bool does_modifies_exist();
+
     unordered_map<string, vector<string>> get_all_modifies_procedures_relationship();
     unordered_map<int, vector<string>> get_all_modifies_statements_relationship();
     unordered_map<string, vector<string>> get_all_uses_procedures_relationship();
