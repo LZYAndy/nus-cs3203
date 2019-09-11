@@ -53,7 +53,7 @@ public:
     bool does_follows_exist();
     bool does_follows_star_exist();
     bool does_parent_exist();
-    bool does_children_exist();
+    bool does_parent_star_exist();
     bool is_follows(int stmt1, int stmt2);
     bool is_parent(int stmt1, int stmt2);
     bool is_follows_star(int stmt1, int stmt2);

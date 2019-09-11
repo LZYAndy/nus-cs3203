@@ -167,7 +167,7 @@ bool PKB::does_parent_exist()
     return parent_bank.empty();
 }
 
-bool PKB::does_children_exist()
+bool PKB::does_parent_star_exist()
 {
     return parent_star_bank.empty();
 }
