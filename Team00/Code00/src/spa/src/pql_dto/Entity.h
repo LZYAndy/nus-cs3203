@@ -35,7 +35,7 @@ namespace pql_dto
         bool is_declared_entity = false;
 
     public:
-        // Returns the Entity TypeBank.
+        // Returns the Entity Type.
         EntityType get_entity_type();
 
         // Returns the Entity Name.

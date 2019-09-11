@@ -32,7 +32,7 @@ namespace pql_dto
         bool is_star = false;
 
     public:	
-        // Returns the Relationship TypeBank.
+        // Returns the Relationship Type.
         RelationshipType get_relationship();
 
         // Returns the First Parameter in the Relationship.

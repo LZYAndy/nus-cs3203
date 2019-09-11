@@ -4545,13 +4545,13 @@ public:
 
 template <typename T>
 GeneratorWrapper<T> range(T const& start, T const& end, T const& step) {
-    static_assert(std::is_integral<T>::value && !std::is_same<T, bool>::value, "TypeBank must be an integer");
+    static_assert(std::is_integral<T>::value && !std::is_same<T, bool>::value, "Type must be an integer");
     return GeneratorWrapper<T>(pf::make_unique<RangeGenerator<T>>(start, end, step));
 }
 
 template <typename T>
 GeneratorWrapper<T> range(T const& start, T const& end) {
-    static_assert(std::is_integral<T>::value && !std::is_same<T, bool>::value, "TypeBank must be an integer");
+    static_assert(std::is_integral<T>::value && !std::is_same<T, bool>::value, "Type must be an integer");
     return GeneratorWrapper<T>(pf::make_unique<RangeGenerator<T>>(start, end));
 }
 
