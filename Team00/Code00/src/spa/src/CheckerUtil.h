@@ -17,7 +17,7 @@ public:
 
     static bool is_condition_valid(string stmt);
 private:
-    bool is_bracket_balanced(string stmt);
+    static bool is_bracket_balanced(string stmt);
 };
 
 
