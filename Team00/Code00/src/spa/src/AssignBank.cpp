@@ -150,6 +150,7 @@ std::vector<int> AssignBank::all_contains(std::string pattern)
     }
     return result;
 }
+
 std::string AssignBank::get_variable_from_statement(int stmt)
 {
     std::vector<std::string> result = var_bank.get(stmt);
@@ -162,6 +163,7 @@ std::string AssignBank::get_variable_from_statement(int stmt)
         return result[0];
     }
 }
+
 int AssignBank::get_statement_from_variable(std::string var)
 {
     std::vector<int> result = var_bank.get_reverse(var);
