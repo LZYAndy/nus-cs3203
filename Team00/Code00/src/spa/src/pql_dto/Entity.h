@@ -12,6 +12,7 @@ using namespace std;
 
 enum EntityType
 {
+    ANY,
     STMT,
     READ,
     PRINT,
@@ -22,7 +23,8 @@ enum EntityType
     VARIABLE,
     CONSTANT,
     PROCEDURE,
-    STRING
+    STRING,
+    PATTEXPR
 };
 
 namespace pql_dto
@@ -30,7 +32,7 @@ namespace pql_dto
     class Entity
     {
     private:
-        EntityType entity_type = STMT;
+        EntityType entity_type = ANY;
         string entity_name;
 
         bool is_declared_entity = false;

@@ -16,12 +16,26 @@ namespace pql_dto
     private:
         void set_first_param(Entity param)
         {
-            
+            if (param.get_entity_type() == CONSTANT || param.get_entity_type() == VARIABLE
+                || param.get_entity_type() == STRING)
+            {
+                throw std::runtime_error("Invalid Uses Relationship First Parameter Type!");
+            }
+
+            first_param = param;
         }
 
         void set_second_param(Entity param)
         {
-
+            if (param.get_entity_type() == CONSTANT || param.get_entity_type() == VARIABLE
+                || param.get_entity_type() == STRING)
+            {
+                second_param = param;   
+            }
+            else
+            {
+                throw std::runtime_error("Invalid Uses Relationship Second Parameter Type!");
+            }
         }
     };
 }

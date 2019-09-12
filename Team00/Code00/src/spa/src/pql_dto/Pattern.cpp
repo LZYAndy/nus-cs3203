@@ -35,15 +35,32 @@ namespace pql_dto
         return second_param;
     }
 
-    void Pattern::set_pattern_entity(Entity pattern_entity)
+    void Pattern::set_pattern_entity(Entity entity)
     {
+        if (pattern_entity.get_entity_type() != ASSIGN)
+        {
+            throw std::runtime_error("Invalid Entity Type For Pattern Entity!");
+        }
+        pattern_entity = entity;
     }
 
-    void Pattern::set_first_param(Entity first_param)
+    void Pattern::set_first_param(Entity first_entity_param)
     {
+        if (pattern_entity.get_entity_type() != ANY || pattern_entity.get_entity_type() != STRING
+            || pattern_entity.get_entity_type() != VARIABLE)
+        {
+            throw std::runtime_error("Invalid Entity Type For Pattern Entity!");
+        }
+        first_param = first_entity_param;
     }
 
-    void Pattern::set_second_param(Entity second_param)
+    void Pattern::set_second_param(Entity second_entity_param)
     {
+        if (pattern_entity.get_entity_type() != ANY || pattern_entity.get_entity_type() != STRING
+            || pattern_entity.get_entity_type() != VARIABLE)
+        {
+            throw std::runtime_error("Invalid Entity Type For Pattern Entity!");
+        }
+        second_param = second_entity_param;
     }
 }

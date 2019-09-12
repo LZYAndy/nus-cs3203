@@ -120,6 +120,10 @@ std::string PQLParser::parse_declaration_clause(const std::string& query, std::v
         {
             pql_dto::Entity entity;
             name = StringUtil::trim(name, whitespace);
+            if (declared_variables.find(name) != declared_variables.end())
+            {
+                return "Invalid Query! Duplicate Names for entities in Declaration Clause.";
+            }
             try
             {
                 entity = pql_dto::Entity(entity_type, name, true);
@@ -261,7 +265,7 @@ std::string PQLParser::parse_pattern_clause(const std::string& query, std::vecto
 
         try
         {
-            pql_dto::Entity pattern_entity = pql_dto::Entity("assign", entity_name, true);
+            pql_dto::Entity pattern_entity = pql_dto::Entity(entity_name, entity_name, true);
             pql_dto::Entity first_param = create_entity(first_param_string, declared_variables);
             pql_dto::Entity second_param = create_entity(second_param_string, declared_variables);
             pql_dto::Pattern pattern = pql_dto::Pattern(pattern_entity, first_param, second_param);
@@ -286,17 +290,39 @@ pql_dto::Entity PQLParser::create_entity(std::string& var_name, std::unordered_m
 
     if (var_name.find_first_of('"') == std::string::npos)
     {
-        if (declared_variables.find(var_name) == declared_variables.end())
+        /// Checks if variable name is an INTEGER
+        if (!var_name.empty() && std::all_of(var_name.begin(), var_name.end(), ::isdigit))
+        {
+            entity = pql_dto::Entity("stmt", var_name, false);
+        }
+        else if (var_name == "_")
+        {
+            entity = pql_dto::Entity("any", var_name, false);
+        }
+        else if (declared_variables.find(var_name) != declared_variables.end())
+        {
+            string entity_type = declared_variables.at(var_name);
+            entity = pql_dto::Entity(entity_type, var_name, true);
+        }
+        else
         {
             throw std::runtime_error("No such variable exists!");
         }
-
-        string entity_type = declared_variables.at(var_name);
-        entity = pql_dto::Entity(entity_type, var_name, true);
     }
     else
     {
-        entity = pql_dto::Entity("string", var_name, false);
+        if (var_name.front() == '"' && var_name.back() == '"' && var_name.length() != 1)
+        {
+            entity = pql_dto::Entity("string", var_name.substr(1, var_name.length() - 2), false);
+        }
+        else if (var_name.front() == '_' && var_name.back() == '_' && var_name.length() != 1)
+        {
+            entity = pql_dto::Entity("pattexpr", var_name, false);
+        }
+        else
+        {
+            throw std::runtime_error("Invalid Syntax! C");
+        }
     }
 
     return entity;

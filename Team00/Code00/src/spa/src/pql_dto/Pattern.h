@@ -37,13 +37,13 @@ namespace pql_dto
         Entity get_second_param();
 
         // Sets and validates the pattern entity of the Pattern Object.
-        void set_pattern_entity(Entity pattern_entity);
+        void set_pattern_entity(Entity entity);
 
         // Sets and validates the first parameter of the Pattern Object.
-        void set_first_param(Entity first_param);
+        void set_first_param(Entity first_entity_param);
 
         // Sets and validates the second parameter of the Pattern Object.
-        void set_second_param(Entity second_param);
+        void set_second_param(Entity second_entity_param);
     };
 }
 

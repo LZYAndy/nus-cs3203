@@ -17,8 +17,9 @@ namespace pql_dto
     Entity::Entity(string entity_type, string entity_name, bool is_declared)
     {
         set_entity_type(entity_type);
-        set_entity_name(entity_name);
         set_is_declared(is_declared);
+        set_entity_name(entity_name);
+        
     }
 
     EntityType Entity::get_entity_type()
@@ -38,7 +39,11 @@ namespace pql_dto
 
     void Entity::set_entity_type(string type)
     {
-        if (type == "stmt")
+        if (type == "any")
+        {
+            entity_type = ANY;
+        }
+        else if (type == "stmt")
         {
             entity_type = STMT;
         }
@@ -82,15 +87,43 @@ namespace pql_dto
         {
             entity_type = STRING;
         }
+        else if (type == "pattexpr")
+        {
+            entity_type = PATTEXPR;
+        }
         else
         {
-            throw std::runtime_error("Invalid Entity Name!");
+            throw std::runtime_error("Invalid Entity Type!");
         }
     }
 
     void Entity::set_entity_name(string name)
     {
         //checks entity names
+        if (entity_type == ANY)
+        {
+            if (name != "_")
+            {
+                throw std::runtime_error("Invalid Entity Name For Any!");
+            }
+            entity_name = "_";
+        }
+        else if (entity_type == PATTEXPR)
+        {
+            if (entity_name.find_first_of("_\"") == std::string::npos || entity_name.find_last_of("\"_") == std::string::npos)
+            {
+                throw std::runtime_error("Invalid Entity Name For Pattern Expression!");
+            }
+            entity_name = name;
+        }
+        else if (entity_type == STMT && !is_declared_entity)
+        {
+            /// Checks if var_name is integer
+        }
+        else
+        {
+            /// Checks if var_name is alphanumeric
+        }
         entity_name = name;
     }
 
