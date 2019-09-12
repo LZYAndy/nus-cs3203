@@ -1,9 +1,5 @@
 #include "Bank.h"
 
-template<class T, class S>
-Bank<T, S>::Bank()
-{
-}
 
 template<class T, class S>
 void Bank<T, S>::put(T key, S value)
@@ -23,7 +19,7 @@ void Bank<T, S>::put(T key, S value)
 
     if (reverse_bank.find(value) != reverse_bank.end())
     {
-        std::vector<T> reverse_bank_value = reverse_bank.at(key);
+        std::vector<T> reverse_bank_value = reverse_bank.at(value);
         reverse_bank_value.push_back(key);
     }
     else
@@ -35,7 +31,7 @@ void Bank<T, S>::put(T key, S value)
 }
 
 template<class T, class S>
-std::vector<S> Bank<T, S>::get(int key)
+std::vector<S> Bank<T, S>::get(T key)
 {
     if (bank.find(key) != bank.end())
     {
@@ -46,7 +42,7 @@ std::vector<S> Bank<T, S>::get(int key)
 }
 
 template<class T, class S>
-std::vector<T> Bank<T, S>::get_reverse(int key)
+std::vector<T> Bank<T, S>::get_reverse(S key)
 {
     if (reverse_bank.find(key) != reverse_bank.end())
     {
@@ -55,3 +51,45 @@ std::vector<T> Bank<T, S>::get_reverse(int key)
 
     return std::vector<T>();
 }
+
+template<class T, class S>
+std::vector<T> Bank<T,S>::get_all_keys()
+{
+    std::vector<T> keys;
+    for (std::pair<T,std::vector<S>> element : bank)
+    {
+        keys.push_back(element.first);
+    }
+
+    return keys;
+}
+
+template<class T, class S>
+std::vector<S> Bank<T,S>::get_all_values()
+{
+    std::vector<S> values;
+    for (std::pair<S,std::vector<T>> element : reverse_bank)
+    {
+        values.push_back(element.first);
+    }
+
+    return values;
+}
+
+template<class T, class S>
+bool Bank<T, S>::empty()
+{
+    return bank.empty() && reverse_bank.empty();
+}
+
+template<class T, class S>
+std::unordered_map<T, std::vector<S>> Bank<T, S>::copy()
+{
+    // TODO: check if shallow copy or deep copy
+    return bank;
+}
+
+template class Bank<int, int>;
+template class Bank<int, std::string>;
+template class Bank<std::string, std::string>;
+
