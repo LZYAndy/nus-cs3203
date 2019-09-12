@@ -13,6 +13,7 @@ public:
     std::vector<int> all_contains(std::string pattern);
     std::string get_variable_from_statement(int stmt);
     int get_statement_from_variable(std::string var);
+
 private:
     Bank<int, std::string> var_bank; // Internal variable bank.
     Bank<int, std::string> assignment_bank;

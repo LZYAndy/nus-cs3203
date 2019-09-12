@@ -32,10 +32,10 @@ public:
     std::unordered_map<int, std::vector<std::string>> get_all_uses_statements_relationship();
 
     bool empty();
+
 private:
     Bank<int, std::string> stmt_bank;
     Bank<std::string, std::string> proc_bank;
 };
-
 
 #endif //AUTOTESTER_USESBANK_H

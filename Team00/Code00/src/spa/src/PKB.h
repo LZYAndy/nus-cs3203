@@ -43,15 +43,15 @@ public:
 
     bool extract_design();
 
-    std::unordered_set<std::string> get_all_variables();
-    std::unordered_set<std::string> get_all_statement_nums();
+    unordered_set<std::string> get_all_variables();
+    unordered_set<std::string> get_all_statement_nums();
     vector<int> get_all_whiles();
     vector<int> get_all_ifs();
     vector<int> get_all_assigns();
     vector<int> get_all_reads();
     vector<int> get_all_prints();
     vector<int> get_all_calls();
-    std::unordered_set<std::string> get_all_procedures();
+    unordered_set<std::string> get_all_procedures();
 
     vector<int> get_follows_star(int stmt);
     vector<int> get_followed_star_by(int stmt);
@@ -129,8 +129,8 @@ private:
     ParentBank parent_bank;
     ParentStarBank parent_star_bank;
     AssignBank assign_bank;
-    std::unordered_set<string> varTable;
-    std::unordered_set<string> procTable;
+    unordered_set<string> varTable;
+    unordered_set<string> procTable;
     UsesBank uses_bank;
     ModifiesBank modifies_bank;
     TypeBank type_bank;

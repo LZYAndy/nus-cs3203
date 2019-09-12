@@ -30,6 +30,7 @@ std::vector<std::string> ModifiesBank::get_modified_by_statement(int statement)
 {
     return stmt_bank.get(statement);
 }
+
 bool ModifiesBank::is_modifies(int statement, std::string variable)
 {
     if (stmt_bank.get(statement).size() == 0)
@@ -51,6 +52,7 @@ bool ModifiesBank::is_modifies(int statement, std::string variable)
         return false;
     }
 }
+
 bool ModifiesBank::is_modifies(std::string procedure, std::string variable)
 {
     if (proc_bank.get(procedure).size() == 0)
@@ -87,12 +89,13 @@ std::unordered_map<std::string, std::vector<std::string>> ModifiesBank::get_all_
 {
     return proc_bank.copy();
 }
+
 std::unordered_map<int, std::vector<std::string>> ModifiesBank::get_all_modifies_statements_relationship()
 {
     return stmt_bank.copy();
 }
+
 bool ModifiesBank::empty()
 {
     return proc_bank.empty() && stmt_bank.empty();
 }
-

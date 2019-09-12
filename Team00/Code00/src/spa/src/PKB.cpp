@@ -44,15 +44,15 @@ bool PKB::insert_modifies(string procedure, string variable)
     return true;
 }
 
-std::unordered_set<std::string> PKB::get_all_variables() {
+unordered_set<string> PKB::get_all_variables() {
     return varTable;
 }
 
-std::unordered_set<std::string> PKB::get_all_statement_nums() {
+unordered_set<string> PKB::get_all_statement_nums() {
     return procTable;
 }
 
-std::unordered_set<std::string> PKB::get_all_procedures() {
+unordered_set<string> PKB::get_all_procedures() {
     return procTable;
 }
 
@@ -143,29 +143,29 @@ bool PKB::insert_parent(int stmt1, int stmt2)
     return true;
 }
 
-std::vector<int> PKB::get_follows_star(int stmt)
+vector<int> PKB::get_follows_star(int stmt)
 {
     return follows_star_bank.get(stmt);;
 }
 
-std::vector<int> PKB::get_followed_star_by(int stmt)
+vector<int> PKB::get_followed_star_by(int stmt)
 {
     return follows_star_bank.get_reverse(stmt);
 }
 
-std::vector<int> PKB::get_parent_star(int stmt)
+vector<int> PKB::get_parent_star(int stmt)
 {
     return parent_star_bank.get(stmt);
 }
 
-std::vector<int> PKB::get_children_star(int stmt)
+vector<int> PKB::get_children_star(int stmt)
 {
     return parent_star_bank.get_reverse(stmt);
 }
 
 int PKB::get_follows(int stmt)
 {
-    std::vector<int> result = follows_bank.get(stmt);
+    vector<int> result = follows_bank.get(stmt);
     if (result.empty())
     {
         return -1;
@@ -175,7 +175,7 @@ int PKB::get_follows(int stmt)
 
 int PKB::get_followed_by(int stmt)
 {
-    std::vector<int> result = follows_bank.get_reverse(stmt);
+    vector<int> result = follows_bank.get_reverse(stmt);
     if (result.empty())
     {
         return -1;
@@ -185,7 +185,7 @@ int PKB::get_followed_by(int stmt)
 
 int PKB::get_parent(int stmt)
 {
-    std::vector<int> result = parent_bank.get(stmt);
+    vector<int> result = parent_bank.get(stmt);
     if (result.empty())
     {
         return -1;
@@ -193,7 +193,7 @@ int PKB::get_parent(int stmt)
     return result.back();
 }
 
-std::vector<int> PKB::get_children(int stmt)
+vector<int> PKB::get_children(int stmt)
 {
     return parent_bank.get_reverse(stmt);
 }
@@ -224,22 +224,22 @@ vector<int> PKB::get_all_assign_pattern_contains(string pattern)
     return assign_bank.all_contains(pattern);
 }
 
-unordered_map<int, std::vector<int>> PKB::get_all_parent_relationship()
+unordered_map<int, vector<int>> PKB::get_all_parent_relationship()
 {
     return parent_bank.copy();
 }
 
-unordered_map<int, std::vector<int>> PKB::get_all_follows_relationship()
+unordered_map<int, vector<int>> PKB::get_all_follows_relationship()
 {
     return follows_bank.copy();
 }
 
-unordered_map<int, std::vector<int>> PKB::get_all_parent_star_relationship()
+unordered_map<int, vector<int>> PKB::get_all_parent_star_relationship()
 {
     return parent_star_bank.copy();
 }
 
-unordered_map<int, std::vector<int>> PKB::get_all_follows_star_relationship()
+unordered_map<int, vector<int>> PKB::get_all_follows_star_relationship()
 {
     return follows_star_bank.copy();
 }

@@ -13,6 +13,7 @@ std::vector<int> UsesBank::get_statements_uses(std::string variable)
 {
     return stmt_bank.get_reverse(variable);
 }
+
 std::vector<std::string> UsesBank::get_procedures_uses(std::string variable)
 {
     return proc_bank.get_reverse(variable);
@@ -71,6 +72,7 @@ bool UsesBank::is_uses(int statement, std::string variable)
         return false;
     }
 }
+
 std::vector<int> UsesBank::get_all_uses_statements()
 {
     return stmt_bank.get_all_keys();
@@ -90,9 +92,8 @@ std::unordered_map<std::string, std::vector<std::string>> UsesBank::get_all_uses
 {
     return proc_bank.copy();
 }
+
 bool UsesBank::empty()
 {
     return proc_bank.empty() && stmt_bank.empty();
 }
-
-
