@@ -10,7 +10,7 @@ using namespace std;
 class ReadParser
 {
 public:
-    ReadParser(PKB pkb, string statement, int parent_prog_line);
+    ReadParser(PKB pkb, string statement, string parent_prog_line);
 
 private:
     bool is_read_valid(string statement);

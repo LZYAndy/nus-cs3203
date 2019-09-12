@@ -10,7 +10,7 @@ using namespace std;
 class PrintParser
 {
 public:
-    PrintParser(PKB pkb, string statement, int parent_prog_line);
+    PrintParser(PKB pkb, string statement, string parent_prog_line);
 
 private:
     bool is_print_stmt_valid(string statement);

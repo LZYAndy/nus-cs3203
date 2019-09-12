@@ -2,7 +2,7 @@
 
 regex print_statement_pattern("^\\s*print\\s+([a-zA-Z][a-zA-Z0-9]*\\s*)$");
 
-PrintParser::PrintParser(PKB pkb, string statement, int parent_prog_line)
+PrintParser::PrintParser(PKB pkb, string statement, string parent_prog_line)
 {
     if (!is_print_stmt_valid(statement))
     {

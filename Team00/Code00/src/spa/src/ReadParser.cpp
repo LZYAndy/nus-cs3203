@@ -2,7 +2,7 @@
 
 regex read_statement_pattern("^\\s*read\\s+([a-zA-Z][a-zA-Z0-9]*\\s*)$");
 
-ReadParser::ReadParser(PKB pkb, string statement, int parent_prog_line)
+ReadParser::ReadParser(PKB pkb, string statement, string parent_prog_line)
 {
     if (!is_read_valid(statement))
     {
