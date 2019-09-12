@@ -11,7 +11,7 @@ using namespace std;
 class AssignParser
 {
 public:
-    AssignParser(PKB pkb, string statement, int parent_prog_line);
+    AssignParser(PKB pkb, string statement, string parent_prog_line);
 
 private:
     string get_left(string statement);

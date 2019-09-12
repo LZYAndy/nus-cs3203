@@ -3,7 +3,7 @@
 regex assign_pattern("^\\s*([a-zA-Z][a-zA-Z0-9]+)\\s*=\\s*(.+)\\s*$");
 regex all_word("\\w+");
 
-AssignParser::AssignParser(PKB pkb, string statement, int parent_prog_line)
+AssignParser::AssignParser(PKB pkb, string statement, string parent_prog_line)
 {
     if (!regex_match(statement, assign_pattern))
     {
