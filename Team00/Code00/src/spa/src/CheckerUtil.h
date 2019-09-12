@@ -9,15 +9,15 @@ using namespace std;
 class CheckerUtil
 {
 public:
-    bool is_name_valid(string stmt);
+    static bool is_name_valid(string stmt);
 
-    bool is_const_valid(string stmt);
+    static bool is_const_valid(string stmt);
 
-    bool is_expr_valid(string stmt);
+    static bool is_expr_valid(string stmt);
 
-    bool is_condition_valid(string stmt);
+    static bool is_condition_valid(string stmt);
 private:
-    bool is_bracket_balanced(string stmt);
+    static bool is_bracket_balanced(string stmt);
 };
 
 
