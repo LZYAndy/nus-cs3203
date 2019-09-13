@@ -25,13 +25,13 @@ private:
     string statement;
 public:
     // Constructor
-    Statement(StatementType statement_type, int statement_line, string statement);
+    Statement(StatementType statement_type, int prog_line, string statement);
 
     // Returns the StatementType.
     StatementType get_statement_type();
 
-    // Returns the statement line number.
-    int get_statement_line();
+    // Returns the program line number.
+    int get_prog_line();
 
     // Returns the original statement as string.
     string get_statement();

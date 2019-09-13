@@ -27,7 +27,7 @@ enum EntityType
     PATTEXPR
 };
 
-namespace pql_dto 
+namespace pql_dto
 {
     class Entity
     {
