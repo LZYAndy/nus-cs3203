@@ -5,6 +5,8 @@ regex valid_name("^[a-zA-Z][a-zA-Z0-9]*$");
 regex valid_const("^\\d+$");
 //(_word_)  (_[+-*/%]_(_word_))*  <- Do not remove the space.
 regex valid_expr("^([\\(\\s]*(\\w*)[\\s\\)]*)(\\s*[+\\-*\\/%]\\s*([\\(\\s]*(\\w+)[\\s\\)]*))*$");
+regex valid_cond(
+        "^\\s*[\\(\\s!]*([a-zA-Z][a-zA-Z0-9]*|[\\d]+)[\\s\\)]*(([+\\-*/%><]|[><=!]=)[\\s]*[\\(\\s!]*([a-zA-Z][a-zA-Z0-9]*|[\\d]+)[\\s\\)]*)*$");
 
 bool CheckerUtil::is_name_valid(string stmt)
 {
@@ -53,7 +55,38 @@ bool CheckerUtil::is_expr_valid(string stmt)
 
 bool CheckerUtil::is_condition_valid(string stmt)
 {
-    return false;
+    if (!is_bracket_balanced(stmt))
+    {
+        return false;
+    }
+
+    // Split by && and ||
+    vector<string> sections;
+    size_t prev = 0, pos;
+    while ((pos = stmt.find_first_of("&|", prev))!=string::npos)
+    {
+        if (pos>prev)
+        {
+            sections.push_back(stmt.substr(prev, pos-prev));
+        }
+
+        prev = pos+1;
+    }
+    if (prev<stmt.length())
+    {
+        sections.push_back(stmt.substr(prev, string::npos));
+    }
+
+    // Check condition
+    for (auto section: sections)
+    {
+        if (!regex_match(section, valid_cond))
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 bool CheckerUtil::is_bracket_balanced(string stmt)
@@ -76,4 +109,3 @@ bool CheckerUtil::is_bracket_balanced(string stmt)
     }
     return count==0;
 }
-

@@ -11,6 +11,7 @@ blocks:
         - name: Compile
           commands:
             - sudo apt-get install cmake
+            - sem-version c 8
             - checkout
             - cd Team00/Code00
             - mkdir build
@@ -18,18 +19,17 @@ blocks:
             - echo "Compiling code"
             - cmake ..
             - make
+            - cache store build-$SEMAPHORE_WORKFLOW_ID .
+
   - name: Test
     task:
       prologue:
         commands:
-          - sudo apt-get install cmake
           - checkout
           - cd Team00/Code00
           - mkdir build
           - cd build
-          - echo "Compiling code"
-          - cmake ..
-          - make
+          - cache restore build-$SEMAPHORE_WORKFLOW_ID
       jobs:
         - name: Unit
           commands:
