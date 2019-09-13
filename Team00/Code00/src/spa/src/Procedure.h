@@ -5,13 +5,15 @@
 
 using namespace std;
 
-class Procedure{
+class Procedure
+{
 private:
     string proc_name;
     string body_of_proc;
+
 public:
     // Constructor
-    Procedure(string, string);
+    Procedure(string name, string body);
 
     string get_name();
     string get_body();

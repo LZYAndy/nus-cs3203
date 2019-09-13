@@ -7,16 +7,17 @@
 
 using namespace std;
 
-class ProcedureAnalyser{
+class ProcedureAnalyser
+{
 private:
-    string rawData;
-    vector<string> listOfProc;
+    string raw_data;
+
 public:
     // Constructor
     ProcedureAnalyser(string raw);
 
     // Find all the procedures and return as a vector of procedure.
-    vector<string> analyse();
+    vector<Procedure> analyse();
 
     Procedure parse_procedure(string proc_string);
 
