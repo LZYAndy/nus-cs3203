@@ -331,32 +331,32 @@ pql_dto::Relationships& PQLParser::create_relationship(std::string& relationship
 {
     if (relationship_type == "Follows")
     {
-        pql_dto::Relationships& relationship = pql_dto::FollowsRelationship(first_param, second_param, false);
+        pql_dto::Relationships relationship = pql_dto::FollowsRelationship(first_param, second_param, false);
         return relationship;
     }
     else if (relationship_type == "Follows*")
     {
-        pql_dto::Relationships& relationship = pql_dto::FollowsRelationship(first_param, second_param, true);
+        pql_dto::Relationships relationship = pql_dto::FollowsRelationship(first_param, second_param, true);
         return relationship;
     }
     else if (relationship_type == "Parent")
     {
-        pql_dto::Relationships& relationship = pql_dto::ParentRelationship(first_param, second_param, false);
+        pql_dto::Relationships relationship = pql_dto::ParentRelationship(first_param, second_param, false);
         return relationship;
     }
     else if (relationship_type == "Parent*")
     {
-        pql_dto::Relationships& relationship = pql_dto::ParentRelationship(first_param, second_param, true);
+        pql_dto::Relationships relationship = pql_dto::ParentRelationship(first_param, second_param, true);
         return relationship;
     }
     else if (relationship_type == "Uses")
     {
-        pql_dto::Relationships& relationship = pql_dto::UsesRelationship(first_param, second_param, false);
+        pql_dto::Relationships relationship = pql_dto::UsesRelationship(first_param, second_param, false);
         return relationship;
     }
     else if (relationship_type == "Modifies")
     {
-        pql_dto::Relationships& relationship = pql_dto::ModifiesRelationship(first_param, second_param, false);
+        pql_dto::Relationships relationship = pql_dto::ModifiesRelationship(first_param, second_param, false);
         return relationship;
     }
     else
