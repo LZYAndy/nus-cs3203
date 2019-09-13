@@ -7,7 +7,7 @@ void Bank<T, S>::put(T key, S value)
 
     if (bank.find(key) != bank.end())
     {
-        std::vector<S> bank_value = bank.at(key);
+        std::vector<S> &bank_value = bank.at(key);
         bank_value.push_back(value);
     }
     else
@@ -19,7 +19,7 @@ void Bank<T, S>::put(T key, S value)
 
     if (reverse_bank.find(value) != reverse_bank.end())
     {
-        std::vector<T> reverse_bank_value = reverse_bank.at(value);
+        std::vector<T> &reverse_bank_value = reverse_bank.at(value);
         reverse_bank_value.push_back(key);
     }
     else

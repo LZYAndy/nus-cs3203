@@ -1,17 +1,76 @@
 #include "catch.hpp"
 #include "Bank.h"
 
-TEST_CASE("Bank<int, int> Test")
+TEST_CASE("Bank<int, int>::put()")
+{
+    Bank<int, int> bank;
+    SECTION("put successful")
+    {
+        bank.put(1, 2);
+    }
+}
+
+TEST_CASE("Bank<int, int>::get()")
 {
     Bank<int, int> bank;
     bank.put(1, 2);
-    int popped_value = bank.get(1).at(0);
-    REQUIRE(popped_value == 2);
+    SECTION("get successful 1 value")
+    {
+        std::vector<int> result = bank.get(1);
+        REQUIRE(result.size() == 1);
+        int popped_value = result.at(0);
+        REQUIRE(popped_value == 2);
+    }
 
-    int popped_key = bank.get_reverse(2).at(0);
-    REQUIRE(popped_key == 1);
+    SECTION("get successful >1 value")
+    {
+        bank.put(1, 3);
+        std::vector<int> result = bank.get(1);
+        REQUIRE(result.size() == 2);
+        std::vector<int> expected_result;
+        expected_result.push_back(2);
+        expected_result.push_back(3 );
+        REQUIRE(result == expected_result);
+    }
 
-    std::vector<int> expected_result;
-    expected_result.push_back(1);
-    REQUIRE(bank.get_all_keys() == expected_result);
+    SECTION("get failed")
+    {
+        std::vector<int> values = bank.get(2);
+        REQUIRE(values.empty());
+    }
+}
+
+TEST_CASE("Bank<int, int>::get_reverse()")
+{
+    Bank<int, int> bank;
+    bank.put(1, 2);
+
+    SECTION("get_reverse success 1 value")
+    {
+        std::vector<int> result = bank.get_reverse(2);
+        REQUIRE(result.size() == 1);
+        int popped_key = result.at(0);
+        REQUIRE(popped_key == 1);
+    }
+
+    SECTION("get_reverse success >1 value")
+    {
+        bank.put(2, 2);
+        std::vector<int> result = bank.get_reverse(2);
+        REQUIRE(result.size() == 2);
+        std::vector<int> expected_result;
+        expected_result.push_back(1);
+        expected_result.push_back(2);
+        REQUIRE(result == expected_result);
+    }
+
+    SECTION("get_all_keys success")
+    {
+        std::vector<int> expected_result;
+        expected_result.push_back(1);
+        expected_result.push_back(2);
+        REQUIRE(bank.get_all_keys() == expected_result);
+    }
+
+    SECTION("get_all_keys success")
 }
