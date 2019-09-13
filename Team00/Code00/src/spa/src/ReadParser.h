@@ -4,13 +4,14 @@
 #include <string>
 #include <regex>
 #include "PKB.h"
+#include "Statement.h"
 
 using namespace std;
 
 class ReadParser
 {
 public:
-    ReadParser(PKB pkb, string statement, string parent_prog_line);
+    ReadParser(PKB pkb, Statement statement, string parent_prog_line);
 
 private:
     bool is_read_valid(string statement);

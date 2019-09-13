@@ -6,7 +6,7 @@ PrintParser::PrintParser(PKB pkb, Statement statement, string parent_prog_line)
 {
     if (!is_print_stmt_valid(statement.get_statement()))
     {
-        throw "Invalid read statement";
+        throw "Invalid print statement";
     }
 
     string print_var = get_var(statement.get_statement());
@@ -43,4 +43,5 @@ string PrintParser::get_var(string statement)
     {
         return match.str(1);
     }
+    return "";
 }
