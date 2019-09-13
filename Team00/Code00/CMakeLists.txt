@@ -26,8 +26,8 @@ else()
         message("\n\n*********************\n\nRELEASE Build Type\n\n*********************\n\n")
     endif()
 
-    set(CMAKE_CXX_FLAGS_DEBUG "-g -fPIC")
-    set(CMAKE_CXX_FLAGS_RELEASE "-O3 -fPIC")
+    set(CMAKE_CXX_FLAGS_DEBUG "-g -fPIC -no-pie")
+    set(CMAKE_CXX_FLAGS_RELEASE "-O3 -fPIC -no-pie")
     
     if (APPLE)
         set(AUTOTESTER_ROOT "${CMAKE_CURRENT_LIST_DIR}/lib/autotester/apple")
