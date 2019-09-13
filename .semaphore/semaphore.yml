@@ -24,6 +24,7 @@ blocks:
       prologue:
         commands:
           - sudo apt-get install cmake
+          - sem-version c 8
           - checkout
           - cd Team00/Code00
           - mkdir build
