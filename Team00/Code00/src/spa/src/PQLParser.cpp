@@ -104,7 +104,7 @@ std::string PQLParser::parse_declaration_clause(const std::string& query, std::v
 
     for (std::string declaration : split_declaration_clause)
     {
-        /// Split declaration clause in the form "design-entity synonym (‘,’ synonym)*"
+        /// Split declaration clause in the form "design-entity synonym (â€˜,â€™ synonym)*"
         declaration = StringUtil::trim(declaration, whitespace);
         std::string entity_type = declaration.substr(0, declaration.find_first_of(whitespace));
         std::string entity_names = declaration.substr(declaration.find_first_of(whitespace));
@@ -290,7 +290,7 @@ pql_dto::Entity PQLParser::create_entity(std::string& var_name, std::unordered_m
     if (var_name.find_first_of('"') == std::string::npos)
     {
         /// Checks if variable name is an INTEGER
-        if (!var_name.empty() && std::all_of(var_name.begin(), var_name.end(), ::isdigit))
+        if (!var_name.empty() && std::all_of(var_name.begin(), var_name.end(), std::isdigit))
         {
             entity = pql_dto::Entity("stmt", var_name, false);
         }
