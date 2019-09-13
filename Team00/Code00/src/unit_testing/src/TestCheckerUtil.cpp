@@ -1,5 +1,5 @@
 #include "catch.hpp"
-#include "CheckerUtil.cpp"
+#include "CheckerUtil.h"
 
 TEST_CASE("CheckerUtil is_name_valid")
 {

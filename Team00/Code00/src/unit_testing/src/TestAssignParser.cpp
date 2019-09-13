@@ -1,5 +1,5 @@
 #include "catch.hpp"
-#include "AssignParser.cpp"
+#include "AssignParser.h"
 
 TEST_CASE("AssignParser")
 {
