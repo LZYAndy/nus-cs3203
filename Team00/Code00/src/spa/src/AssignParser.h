@@ -5,13 +5,14 @@
 #include <regex>
 #include "PKB.h"
 #include "CheckerUtil.h"
+#include "Statement.h"
 
 using namespace std;
 
 class AssignParser
 {
 public:
-    AssignParser(PKB pkb, string statement, string parent_prog_line);
+    AssignParser(PKB pkb, Statement statement, string parent_prog_line);
 
 private:
     string get_left(string statement);
