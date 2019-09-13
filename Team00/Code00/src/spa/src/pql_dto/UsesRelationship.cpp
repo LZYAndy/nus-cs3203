@@ -34,7 +34,7 @@ namespace pql_dto
             }
             else
             {
-                throw std::runtime_error("Invalid Uses Relationship Second Parameter Type!");
+                throw runtime_error("Invalid Uses Relationship Second Parameter Type!");
             }
         }
     };

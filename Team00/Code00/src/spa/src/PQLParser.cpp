@@ -1,6 +1,5 @@
 #include <sstream>
 #include <algorithm>
-#include <StringUtil.cpp>
 
 #include "PQLParser.h"
 #include "StringUtil.h"
@@ -95,7 +94,7 @@ std::string PQLParser::pql_parse_query(std::string query, vector<pql_dto::Entity
         return error;
     }
 
-    return error;
+    return "";
 }
 
 std::string PQLParser::parse_declaration_clause(const std::string& query, std::vector<pql_dto::Entity>& declaration_clause,
@@ -111,7 +110,7 @@ std::string PQLParser::parse_declaration_clause(const std::string& query, std::v
         std::string entity_names = declaration.substr(declaration.find_first_of(whitespace));
         std::vector<std::string> entity_names_list = StringUtil::split(entity_names, ',');
 
-        if (entity_names_list.size() == 0)
+        if (entity_names_list.empty())
         {
             return "Invalid Query! Missing synonym.";
         }
@@ -122,7 +121,7 @@ std::string PQLParser::parse_declaration_clause(const std::string& query, std::v
             name = StringUtil::trim(name, whitespace);
             if (declared_variables.find(name) != declared_variables.end())
             {
-                return "Invalid Query! Duplicate Names for entities in Declaration Clause.";
+                return "Invalid Query! Duplicate Synonyms for entities in Declaration Clause.";
             }
             try
             {

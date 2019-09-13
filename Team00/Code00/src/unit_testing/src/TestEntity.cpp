@@ -1,6 +1,6 @@
 #include "catch.hpp"
 #include "pql_dto/Entity.h"
-#include "pql_dto/Entity.cpp"
+
 #include <string>
 
 TEST_CASE("Entity variables can be set and get correctly")
