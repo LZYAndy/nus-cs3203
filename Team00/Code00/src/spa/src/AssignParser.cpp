@@ -56,6 +56,7 @@ string AssignParser::get_left(string statement)
     {
         return match.str(1);
     }
+    return "";
 }
 
 string AssignParser::get_right(string statement)
@@ -65,6 +66,7 @@ string AssignParser::get_right(string statement)
     {
         return match.str(2);
     }
+    return "";
 }
 
 vector<string> AssignParser::get_all_var(string sub_statement)
