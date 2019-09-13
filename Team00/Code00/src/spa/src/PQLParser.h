@@ -38,7 +38,7 @@ private:
 
     static pql_dto::Entity create_entity(std::string& var_name, std::unordered_map<string, string>& declared_variables);
 
-    static const pql_dto::Relationships& create_relationship(std::string& relationship_type, pql_dto::Entity first_param, pql_dto::Entity second_param);
+    static pql_dto::Relationships& create_relationship(std::string& relationship_type, pql_dto::Entity first_param, pql_dto::Entity second_param);
 
 public:
     /*!
