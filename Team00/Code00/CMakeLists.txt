@@ -45,4 +45,4 @@ add_subdirectory(src/autotester)
 add_subdirectory(src/unit_testing)
 add_subdirectory(src/integration_testing)
 
-set_property(TARGET autotester PROPERTY POSITION_INDEPENDENT_CODE FALSE)
+set_property(TARGET autotester PROPERTY POSITION_INDEPENDENT_CODE ON)
