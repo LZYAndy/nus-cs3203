@@ -4,7 +4,7 @@ regex read_statement_pattern("^[\\s]*read[\\s]+([a-zA-Z][a-zA-Z0-9]*[\\s]*)$");
 
 ReadParser::ReadParser(PKB pkb, Statement statement, string parent_prog_line)
 {
-    if (!is_read_valid(statement.get_statement()))
+    if (!is_read_stmt_valid(statement.get_statement()))
     {
         throw "Invalid read statement";
     }
@@ -31,7 +31,7 @@ ReadParser::ReadParser(PKB pkb, Statement statement, string parent_prog_line)
     pkb.insert_type(statement.get_prog_line(), statement.get_statement_type());
 }
 
-bool ReadParser::is_read_valid(string statement)
+bool ReadParser::is_read_stmt_valid(string statement)
 {
     if (regex_match(statement, read_statement_pattern))
     {

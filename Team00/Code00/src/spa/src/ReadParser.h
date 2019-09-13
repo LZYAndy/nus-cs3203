@@ -14,7 +14,7 @@ public:
     ReadParser(PKB pkb, Statement statement, string parent_prog_line);
 
 private:
-    bool is_read_valid(string statement);
+    bool is_read_stmt_valid(string statement);
 
     string get_var(string statement);
 };
