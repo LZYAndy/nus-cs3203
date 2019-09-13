@@ -23,6 +23,10 @@ private:
     StatementType statement_type;
     int statement_line;
     string statement;
+    string condition;
+    string first_block;
+    string second_block;
+
 public:
     // Constructor
     Statement(StatementType statement_type, int prog_line, string statement);
@@ -35,6 +39,15 @@ public:
 
     // Returns the original statement as string.
     string get_statement();
+
+    // Returns the condition.
+    string get_condition();
+
+    // Returns the first block;
+    string get_first_block();
+
+    // Returns the second block.
+    string get_second_block();
 };
 
 #endif //SPA_STATEMENT_H
