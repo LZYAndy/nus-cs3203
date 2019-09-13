@@ -11,6 +11,8 @@ blocks:
         - name: Compile
           commands:
             - sudo apt-get install cmake
+            - echo "Enviroment Version"
+            - gcc --version  
             - checkout
             - cd Team00/Code00
             - mkdir build
