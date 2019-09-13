@@ -12,8 +12,6 @@ blocks:
           commands:
             - sudo apt-get install cmake
             - sem-version c 8
-            - echo "Enviroment Version"
-            - gcc --version  
             - checkout
             - cd Team00/Code00
             - mkdir build
