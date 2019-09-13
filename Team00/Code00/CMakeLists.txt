@@ -26,8 +26,8 @@ else()
         message("\n\n*********************\n\nRELEASE Build Type\n\n*********************\n\n")
     endif()
 
-    set(CMAKE_CXX_FLAGS_DEBUG "-g")
-    set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+    set(CMAKE_CXX_FLAGS_DEBUG "-g -fPIC")
+    set(CMAKE_CXX_FLAGS_RELEASE "-O3 -fPIC")
     
     if (APPLE)
         set(AUTOTESTER_ROOT "${CMAKE_CURRENT_LIST_DIR}/lib/autotester/apple")
@@ -44,5 +44,3 @@ add_subdirectory(src/autotester)
 #add_subdirectory(src/autotester_gui)
 add_subdirectory(src/unit_testing)
 add_subdirectory(src/integration_testing)
-
-set_property(TARGET autotester PROPERTY POSITION_INDEPENDENT_CODE ON)
