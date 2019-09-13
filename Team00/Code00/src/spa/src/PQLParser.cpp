@@ -209,7 +209,7 @@ std::string PQLParser::parse_such_that_clause(const std::string& query, std::vec
         {
             pql_dto::Entity first_param = create_entity(first_param_string, declared_variables);
             pql_dto::Entity second_param = create_entity(second_param_string, declared_variables);
-            pql_dto::Relationships& relationship = create_relationship(relationship_type, first_param, second_param);
+            pql_dto::Relationships relationship = create_relationship(relationship_type, first_param, second_param);
             such_that_clause.push_back(relationship);
         }
         catch (std::exception& e)
@@ -327,7 +327,7 @@ pql_dto::Entity PQLParser::create_entity(std::string& var_name, std::unordered_m
     return entity;
 }
 
-pql_dto::Relationships& PQLParser::create_relationship(std::string& relationship_type, pql_dto::Entity first_param, pql_dto::Entity second_param)
+pql_dto::Relationships PQLParser::create_relationship(std::string& relationship_type, pql_dto::Entity first_param, pql_dto::Entity second_param)
 {
     if (relationship_type == "Follows")
     {
