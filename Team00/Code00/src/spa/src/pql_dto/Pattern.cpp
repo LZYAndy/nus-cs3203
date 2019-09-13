@@ -57,7 +57,7 @@ namespace pql_dto
     void Pattern::set_second_param(Entity second_entity_param)
     {
         if (pattern_entity.get_entity_type() != ANY || pattern_entity.get_entity_type() != STRING
-            || pattern_entity.get_entity_type() != VARIABLE)
+            || pattern_entity.get_entity_type() != PATTEXPR)
         {
             throw std::runtime_error("Invalid Entity Type For Pattern Entity!");
         }

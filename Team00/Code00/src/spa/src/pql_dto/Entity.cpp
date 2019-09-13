@@ -7,6 +7,7 @@
 using namespace std;
 
 #include "Entity.h"
+#include "..//CheckerUtil.h"
 
 namespace pql_dto
 {
@@ -110,21 +111,35 @@ namespace pql_dto
         }
         else if (entity_type == PATTEXPR)
         {
-            if (entity_name.find_first_of("_\"") == std::string::npos || entity_name.find_last_of("\"_") == std::string::npos)
+            if (name.length() > 3 && name.find("_\"") == 0 && name.find("\"_") == name.length() - 2)
+            {
+                throw std::runtime_error("Invalid Entity Name For Pattern Expression!");
+            }
+            std::string name_string = name.substr(2, name.length() - 4);
+            if (!CheckerUtil::is_expr_valid(name_string))
+            {
+                throw std::runtime_error("Invalid Entity Params For Pattern Expression!");
+            }
+            entity_name = name_string;
+        }
+        else if (entity_type == STMT && !is_declared_entity)
+        {
+            /// Checks if var_name is integer
+            if (!CheckerUtil::is_const_valid(name))
             {
                 throw std::runtime_error("Invalid Entity Name For Pattern Expression!");
             }
             entity_name = name;
         }
-        else if (entity_type == STMT && !is_declared_entity)
-        {
-            /// Checks if var_name is integer
-        }
         else
         {
             /// Checks if var_name is alphanumeric
+            if (!CheckerUtil::is_name_valid(name))
+            {
+                throw std::runtime_error("Invalid Entity Name For Pattern Expression!");
+            }
+            entity_name = name;
         }
-        entity_name = name;
     }
 
     void Entity::set_is_declared(bool is_declared)
