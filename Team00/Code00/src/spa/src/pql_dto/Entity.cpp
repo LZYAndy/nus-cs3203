@@ -111,7 +111,7 @@ namespace pql_dto
         }
         else if (entity_type == PATTEXPR)
         {
-            if (name.length() > 3 && name.find("_\"") == 0 && name.find("\"_") == name.length() - 2)
+            if (name.length() <= 4 || name.find("_\"") != 0 || name.find("\"_") != name.length() - 2)
             {
                 throw std::runtime_error("Invalid Entity Name For Pattern Expression!");
             }
@@ -127,7 +127,16 @@ namespace pql_dto
             /// Checks if var_name is integer
             if (!CheckerUtil::is_const_valid(name))
             {
-                throw std::runtime_error("Invalid Entity Name For Pattern Expression!");
+                throw std::runtime_error("Invalid Statement Number Value!");
+            }
+            entity_name = name;
+        }
+        else if (entity_type == STRING && !is_declared_entity)
+        {
+            /// Checks if var_name is integer
+            if (!CheckerUtil::is_const_valid(name) && !CheckerUtil::is_name_valid(name))
+            {
+                throw std::runtime_error("Invalid String!");
             }
             entity_name = name;
         }
@@ -136,7 +145,7 @@ namespace pql_dto
             /// Checks if var_name is alphanumeric
             if (!CheckerUtil::is_name_valid(name))
             {
-                throw std::runtime_error("Invalid Entity Name For Pattern Expression!");
+                throw std::runtime_error("Invalid Entity Name!");
             }
             entity_name = name;
         }

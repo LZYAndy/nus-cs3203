@@ -5,7 +5,7 @@
 #include "Bank.h"
 #include <algorithm>
 
-class FollowsBank: public Bank<int, int>::Bank
+class FollowsBank: public Bank<int, int>
 {
 public:
     bool is_follows(int stmt1, int stmt2);
