@@ -328,7 +328,7 @@ pql_dto::Entity PQLParser::create_entity(std::string& var_name, std::unordered_m
     return entity;
 }
 
-pql_dto::Relationships PQLParser::create_relationship(std::string& relationship_type, pql_dto::Entity first_param, pql_dto::Entity second_param)
+pql_dto::Relationships& PQLParser::create_relationship(std::string& relationship_type, pql_dto::Entity first_param, pql_dto::Entity second_param)
 {
     if (relationship_type == "Follows")
     {
