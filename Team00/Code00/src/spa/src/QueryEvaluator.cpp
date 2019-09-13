@@ -160,7 +160,7 @@ vector<string> QueryEvaluator::get_result(string query)
         pql_dto::Entity second_param = pattern.get_second_param();
         if (pattern_type == EntityType::ASSIGN)
         {
-
+            pattern_list = AssignEvaluator::evaluate(pattern, first_param, second_param);
         }
     }
 

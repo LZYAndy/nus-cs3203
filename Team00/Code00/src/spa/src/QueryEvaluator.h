@@ -16,6 +16,7 @@
 #include <ParentStarEvaluator.h>
 #include <ModifiesEvaluator.h>
 #include <UsesEvaluator.h>
+#include <AssignEvaluator.h>
 #include <pql_dto/Entity.h>
 #include <pql_dto/Relationships.h>
 #include <pql_dto/Pattern.h>

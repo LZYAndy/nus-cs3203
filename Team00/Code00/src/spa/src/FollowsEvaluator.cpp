@@ -1,4 +1,3 @@
-#include <unordered_map>
 #include "FollowsEvaluator.h"
 
 unordered_map<string, vector<string>> FollowsEvaluator::evaluate_non_trivial(pql_dto::Entity first_param,

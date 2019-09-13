@@ -205,3 +205,38 @@ unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity key_
     return result;
 }
 
+unordered_map<string, vector<string>> QueryUtility::mapping(string str, vector<int>& int_vec) {
+    unordered_map<std::string, std::vector<std::string>> result;
+    vector<string> key_value;
+    for (auto & iter : int_vec)
+    {
+        key_value.push_back(to_string(iter));
+    }
+    result[str] = key_value;
+    return result;
+}
+
+unordered_map<string, vector<string>> QueryUtility::mapping(string str1, string str2, vector<int>& int_vec) {
+    unordered_map<std::string, std::vector<std::string>> result;
+    vector<string> key_value;
+    for (auto & iter : int_vec) {
+        if (PKB::assign_to_variable(iter) == str2) {
+            key_value.push_back(to_string(iter));
+        }
+    }
+    result[str1] = key_value;
+    return result;
+}
+
+unordered_map<string, vector<string>> QueryUtility::mapping(string str1, pql_dto::Entity key, vector<int>& int_vec) {
+    unordered_map<std::string, std::vector<std::string>> result;
+    vector<string> key_value_1;
+    vector<string> key_value_2;
+    for (auto & iter : int_vec) {
+        key_value_1.push_back(to_string(iter));
+        key_value_2.push_back(PKB::assign_to_variable(iter));
+    }
+    result[str1] = key_value_1;
+    result[key.get_entity_name()] = key_value_2;
+}
+

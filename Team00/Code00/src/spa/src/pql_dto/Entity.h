@@ -12,6 +12,7 @@ using namespace std;
 
 enum EntityType
 {
+    ANY,
     STMT,
     READ,
     PRINT,
@@ -21,7 +22,9 @@ enum EntityType
     ASSIGN,
     VARIABLE,
     CONSTANT,
-    PROCEDURE
+    PROCEDURE,
+    STRING,
+    PATTEXPR
 };
 
 namespace pql_dto 
