@@ -21,3 +21,18 @@ string Statement::get_statement()
 {
     return statement;
 }
+
+string Statement::get_condition()
+{
+    return condition;
+}
+
+string Statement::get_first_block()
+{
+    return first_block;
+}
+
+string Statement::get_second_block()
+{
+    return second_block;
+}
