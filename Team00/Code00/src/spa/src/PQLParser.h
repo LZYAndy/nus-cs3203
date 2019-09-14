@@ -14,7 +14,7 @@ class PQLParser
 private:
     /*!
     Parses and validates the declaration clause. If validation succeeds, stores query in clause pointers.
-    @param query The declaration clause.
+    @param query The pointer to the user's query.
     @param declaration_clause The pointer to the declaration clause vector.
     @param declared_variables The pointer to the variables unordered map.
     */
@@ -23,7 +23,7 @@ private:
 
     /*!
     Parses and validates the declaration clause. If validation succeeds, stores query in clause pointers.
-    @param query The declaration clause.
+    @param query The pointer to the declaration query.
     @param declaration_clause The pointer to the declaration clause vector.
     @param declared_variables The pointer to the variables unordered map.
     */

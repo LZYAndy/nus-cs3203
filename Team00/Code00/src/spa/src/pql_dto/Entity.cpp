@@ -4,10 +4,8 @@
 #include <vector>
 #include <stdexcept>
 
-using namespace std;
-
 #include "Entity.h"
-#include "..//CheckerUtil.h"
+#include "../CheckerUtil.h"
 
 namespace pql_dto
 {
@@ -20,7 +18,6 @@ namespace pql_dto
         set_entity_type(entity_type);
         set_is_declared(is_declared);
         set_entity_name(entity_name);
-        
     }
 
     EntityType Entity::get_entity_type()

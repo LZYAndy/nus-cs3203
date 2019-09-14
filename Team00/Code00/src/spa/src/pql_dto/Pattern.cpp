@@ -3,8 +3,6 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
 #include "Pattern.h"
 
 namespace pql_dto

@@ -8,8 +8,6 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
 #include "Entity.h"
 
 namespace pql_dto

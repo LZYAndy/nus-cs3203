@@ -115,7 +115,7 @@ std::string PQLParser::parse_declaration_clause(const std::string& query, std::v
             return "Invalid Query! Missing synonym.";
         }
 
-        for (string name : entity_names_list)
+        for (std::string name : entity_names_list)
         {
             pql_dto::Entity entity;
             name = StringUtil::trim(name, whitespace);
@@ -158,7 +158,7 @@ std::string PQLParser::parse_select_clause(const std::string& query, std::vector
         return "No such variable exists!";
     }
 
-    string entity_type = declared_variables.at(select_variable);
+    std::string entity_type = declared_variables.at(select_variable);
     try
     {
         pql_dto::Entity entity = pql_dto::Entity(entity_type, select_variable, true);
@@ -300,7 +300,7 @@ pql_dto::Entity PQLParser::create_entity(std::string& var_name, std::unordered_m
         }
         else if (declared_variables.find(var_name) != declared_variables.end())
         {
-            string entity_type = declared_variables.at(var_name);
+            std::string entity_type = declared_variables.at(var_name);
             entity = pql_dto::Entity(entity_type, var_name, true);
         }
         else
@@ -320,7 +320,7 @@ pql_dto::Entity PQLParser::create_entity(std::string& var_name, std::unordered_m
         }
         else
         {
-            throw std::runtime_error("Invalid Syntax! C");
+            throw std::runtime_error("Invalid Syntax!");
         }
     }
 
@@ -331,33 +331,27 @@ pql_dto::Relationships PQLParser::create_relationship(std::string& relationship_
 {
     if (relationship_type == "Follows")
     {
-        pql_dto::Relationships relationship = pql_dto::FollowsRelationship(first_param, second_param, false);
-        return relationship;
+        return pql_dto::FollowsRelationship(first_param, second_param, false);
     }
     else if (relationship_type == "Follows*")
     {
-        pql_dto::Relationships relationship = pql_dto::FollowsRelationship(first_param, second_param, true);
-        return relationship;
+        return pql_dto::FollowsRelationship(first_param, second_param, true);
     }
     else if (relationship_type == "Parent")
     {
-        pql_dto::Relationships relationship = pql_dto::ParentRelationship(first_param, second_param, false);
-        return relationship;
+        return pql_dto::ParentRelationship(first_param, second_param, false);
     }
     else if (relationship_type == "Parent*")
     {
-        pql_dto::Relationships relationship = pql_dto::ParentRelationship(first_param, second_param, true);
-        return relationship;
+        return pql_dto::ParentRelationship(first_param, second_param, true);
     }
     else if (relationship_type == "Uses")
     {
-        pql_dto::Relationships relationship = pql_dto::UsesRelationship(first_param, second_param, false);
-        return relationship;
+        return pql_dto::UsesRelationship(first_param, second_param, false);
     }
     else if (relationship_type == "Modifies")
     {
-        pql_dto::Relationships relationship = pql_dto::ModifiesRelationship(first_param, second_param, false);
-        return relationship;
+        return pql_dto::ModifiesRelationship(first_param, second_param, false);
     }
     else
     {

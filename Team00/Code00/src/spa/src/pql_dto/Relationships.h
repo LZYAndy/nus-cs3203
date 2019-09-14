@@ -8,8 +8,6 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
 #include "Entity.h"
 
 enum RelationshipType

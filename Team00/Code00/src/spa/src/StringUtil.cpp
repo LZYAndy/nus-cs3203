@@ -31,22 +31,22 @@ std::vector<std::string> StringUtil::split(const std::string& query, char delimi
     return split_query;
 }
 
-std::string StringUtil::trim(const std::string& string, const std::string& whitespace)
+std::string StringUtil::trim(const std::string& s, const std::string& whitespace)
 {
-    int strStart = string.find_first_not_of(whitespace);
-    int strEnd = string.find_last_not_of(whitespace);
+    int strStart = s.find_first_not_of(whitespace);
+    int strEnd = s.find_last_not_of(whitespace);
 
     if (strStart == std::string::npos) {
         return "";
     }
 
     int strLength = strEnd - strStart + 1;
-    return string.substr(strStart, strLength);
+    return s.substr(strStart, strLength);
 
 }
 
-std::string StringUtil::replace_all_white_spaces(std::string string) {
+std::string StringUtil::replace_all_white_spaces(std::string& s) {
     std::regex r("\\s+");
-    string = std::regex_replace(string, r, " ");
-    return string;
+    s = std::regex_replace(s, r, " ");
+    return s;
 }
