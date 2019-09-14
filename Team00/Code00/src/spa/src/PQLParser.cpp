@@ -3,7 +3,6 @@
 
 #include "PQLParser.h"
 #include "StringUtil.h"
-#include "PQLValidator.h"
 
 #include "pql_dto/UsesRelationship.cpp"
 #include "pql_dto/ModifiesRelationship.cpp"
@@ -20,7 +19,7 @@ std::string PQLParser::pql_parse_query(std::string query, std::vector<pql_dto::E
     std::unordered_map<std::string, std::string> declared_variables; // Maps variables' name to to entity type
 
     /// Validates if query meets the basic grammer of select-cl
-    error = PQLValidator::pql_validate_initial_query(query);
+    error = pql_validate_initial_query(query);
     if (!error.empty())
     {
         return error;
@@ -281,6 +280,26 @@ std::string PQLParser::parse_pattern_clause(const std::string& query, std::vecto
     }
 
     return "";
+}
+
+std::string PQLParser::pql_validate_initial_query(std::string& query)
+{
+    std::string error;
+
+    if (query.length() == 0)
+    {
+        return "Invalid Query! Query does not exists.";
+    }
+    else if (query.find("Select") == std::string::npos)
+    {
+        return "Invalid Query! Missing Select Clause.";
+    }
+    else if (query.find("Select") == 0)
+    {
+        return "No Declarations.";
+    }
+
+    return error;
 }
 
 pql_dto::Entity PQLParser::create_entity(std::string& var_name, std::unordered_map<std::string, std::string>& declared_variables)
