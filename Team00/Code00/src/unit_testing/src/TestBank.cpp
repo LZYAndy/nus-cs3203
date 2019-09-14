@@ -1,7 +1,8 @@
 #include "catch.hpp"
 #include "Bank.h"
 
-TEST_CASE("Bank<int, int>::get()")
+
+TEST_CASE("Bank<int, int>::get()/put()")
 {
     Bank<int, int> bank;
     bank.put(1, 2);
@@ -12,7 +13,14 @@ TEST_CASE("Bank<int, int>::get()")
         int popped_value = result.at(0);
         REQUIRE(popped_value == 2);
     }
-
+    SECTION("get successful 1 value with duplicate insert")
+    {
+        bank.put(1, 2);
+        std::vector<int> result = bank.get(1);
+        REQUIRE(result.size() == 1);
+        int popped_value = result.at(0);
+        REQUIRE(popped_value == 2);
+    }
     SECTION("get successful >1 value")
     {
         bank.put(1, 3);
