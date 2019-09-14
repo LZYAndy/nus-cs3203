@@ -12,12 +12,12 @@
 
 std::string whitespace = " \n\t\r\f\v";
 
-std::string PQLParser::pql_parse_query(std::string query, vector<pql_dto::Entity>& declaration_clause,
-    vector<pql_dto::Entity>& select_clause, vector<pql_dto::Relationships>& such_that_clause,
-    vector<pql_dto::Pattern>& pattern_clause)
+std::string PQLParser::pql_parse_query(std::string query, std::vector<pql_dto::Entity>& declaration_clause,
+    std::vector<pql_dto::Entity>& select_clause, std::vector<pql_dto::Relationships>& such_that_clause,
+    std::vector<pql_dto::Pattern>& pattern_clause)
 {
     std::string error;
-    std::unordered_map<string, string> declared_variables; // Maps variables' name to to entity type
+    std::unordered_map<std::string, std::string> declared_variables; // Maps variables' name to to entity type
 
     /// Validates if query meets the basic grammer of select-cl
     error = PQLValidator::pql_validate_initial_query(query);
@@ -98,7 +98,7 @@ std::string PQLParser::pql_parse_query(std::string query, vector<pql_dto::Entity
 }
 
 std::string PQLParser::parse_declaration_clause(const std::string& query, std::vector<pql_dto::Entity>& declaration_clause,
-    std::unordered_map<string, string>& declared_variables)
+    std::unordered_map<std::string, std::string>& declared_variables)
 {
     std::vector<std::string> split_declaration_clause = StringUtil::split(query, ';');
 
@@ -140,7 +140,7 @@ std::string PQLParser::parse_declaration_clause(const std::string& query, std::v
 }
 
 std::string PQLParser::parse_select_clause(const std::string& query, std::vector<pql_dto::Entity>& select_clause,
-    std::unordered_map<string, string>& declared_variables, std::string& condition_query)
+    std::unordered_map<std::string, std::string>& declared_variables, std::string& condition_query)
 {
     std::string trimmed_query = StringUtil::trim(query, whitespace);
     int select_index = trimmed_query.find("Select ");
@@ -175,7 +175,7 @@ std::string PQLParser::parse_select_clause(const std::string& query, std::vector
 }
 
 std::string PQLParser::parse_such_that_clause(const std::string& query, std::vector<pql_dto::Relationships>& such_that_clause,
-    std::unordered_map<string, string>& declared_variables)
+    std::unordered_map<std::string, std::string>& declared_variables)
 {
     /// Checks if query exists
     if (query.length() == 0)
@@ -226,7 +226,7 @@ std::string PQLParser::parse_such_that_clause(const std::string& query, std::vec
 }
 
 std::string PQLParser::parse_pattern_clause(const std::string& query, std::vector<pql_dto::Pattern>& pattern_clause,
-    std::unordered_map<string, string>& declared_variables)
+    std::unordered_map<std::string, std::string>& declared_variables)
 {
     /// Checks if query exists
     if (query.length() == 0)
@@ -283,14 +283,14 @@ std::string PQLParser::parse_pattern_clause(const std::string& query, std::vecto
     return "";
 }
 
-pql_dto::Entity PQLParser::create_entity(std::string& var_name, std::unordered_map<string, string>& declared_variables)
+pql_dto::Entity PQLParser::create_entity(std::string& var_name, std::unordered_map<std::string, std::string>& declared_variables)
 {
     pql_dto::Entity entity;
 
     if (var_name.find_first_of('"') == std::string::npos)
     {
         /// Checks if variable name is an INTEGER
-        if (!var_name.empty() && std::all_of(var_name.begin(), var_name.end(), std::isdigit))
+        if (!var_name.empty() && std::all_of(var_name.begin(), var_name.end(), ::isdigit))
         {
             entity = pql_dto::Entity("stmt", var_name, false);
         }

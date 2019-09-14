@@ -19,7 +19,7 @@ private:
     @param declared_variables The pointer to the variables unordered map.
     */
     static std::string parse_declaration_clause(const std::string& query, std::vector<pql_dto::Entity>& declaration_clause,
-        std::unordered_map<string, string>& declared_variables);
+        std::unordered_map<std::string, std::string>& declared_variables);
 
     /*!
     Parses and validates the declaration clause. If validation succeeds, stores query in clause pointers.
@@ -28,15 +28,15 @@ private:
     @param declared_variables The pointer to the variables unordered map.
     */
     static std::string parse_select_clause(const std::string& query, std::vector<pql_dto::Entity>& select_clause,
-        std::unordered_map<string, string>& declared_variables, std::string& condition_query);
+        std::unordered_map<std::string, std::string>& declared_variables, std::string& condition_query);
 
     static std::string parse_such_that_clause(const std::string& query, std::vector<pql_dto::Relationships>& such_that_clause,
-        std::unordered_map<string, string>& declared_variables);
+        std::unordered_map<std::string, std::string>& declared_variables);
 
     static std::string parse_pattern_clause(const std::string& query, std::vector<pql_dto::Pattern>& pattern_clause,
-        std::unordered_map<string, string>& declared_variables);
+        std::unordered_map<std::string, std::string>& declared_variables);
 
-    static pql_dto::Entity create_entity(std::string& var_name, std::unordered_map<string, string>& declared_variables);
+    static pql_dto::Entity create_entity(std::string& var_name, std::unordered_map<std::string, std::string>& declared_variables);
 
     static pql_dto::Relationships create_relationship(std::string& relationship_type, pql_dto::Entity first_param, pql_dto::Entity second_param);
 
