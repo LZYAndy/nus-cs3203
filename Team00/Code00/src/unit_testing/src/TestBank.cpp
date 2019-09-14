@@ -99,7 +99,17 @@ TEST_CASE("Bank<int, int>::get_all_values()")
 TEST_CASE("Bank<int, int>::empty()")
 {
     Bank<int, int> bank;
-    REQUIRE(bank.empty());
+    
+    SECTION("empty true")
+    {
+        REQUIRE(bank.empty());
+    }
+
+    SECTION("empty false")
+    {
+        bank.put(1, 2);
+        REQUIRE_FALSE(bank.empty());
+    }
 }
 
 TEST_CASE("Bank<int, int>::copy()")
