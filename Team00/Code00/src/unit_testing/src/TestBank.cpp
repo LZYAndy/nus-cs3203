@@ -119,3 +119,13 @@ TEST_CASE("Bank<int, int>::copy()")
     REQUIRE(hashmap.size() == 1); // test if shallow copy or deep clone
     }
 }
+
+TEST_CASE("Bank<int, std::string>")
+{
+    Bank<int, std::string> bank;
+}
+
+TEST_CASE("Bank<std::string, std::string>")
+{
+    Bank<std::string, std::string> bank;
+}
