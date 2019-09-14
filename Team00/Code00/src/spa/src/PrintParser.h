@@ -1,22 +1,19 @@
 #ifndef AUTOTESTER_PRINTPARSER_H
 #define AUTOTESTER_PRINTPARSER_H
 
-#include <string>
 #include <regex>
 #include "PKB.h"
 #include "Statement.h"
 
-using namespace std;
-
 class PrintParser
 {
 public:
-    PrintParser(PKB pkb, Statement statement, string parent_prog_line);
+    PrintParser(PKB pkb, Statement statement, std::string parent_prog_line);
 
 private:
-    bool is_print_stmt_valid(string statement);
+    bool is_print_stmt_valid(std::string statement);
 
-    string get_var(string statement);
+    std::string get_var(std::string statement);
 };
 
 #endif //AUTOTESTER_PRINTPARSER_H

@@ -5,16 +5,16 @@
 regex assign_pattern("^\\s*([a-zA-Z][a-zA-Z0-9]+)\\s*=\\s*(.+)\\s*$");
 regex all_word("\\w+");
 
-AssignParser::AssignParser(PKB pkb, Statement statement, string parent_prog_line)
+AssignParser::AssignParser(PKB pkb, Statement statement, std::string parent_prog_line)
 {
     if (!regex_match(statement.get_statement(), assign_pattern))
     {
         throw "Invalid assignment statement";
     }
 
-    string left = get_left(statement.get_statement()); // Valid var
-    string right = get_right(statement.get_statement());
-    vector<string> all_var = get_all_var(right);
+    std::string left = get_left(statement.get_statement()); // Valid var
+    std::string right = get_right(statement.get_statement());
+    vector<std::string> all_var = get_all_var(right);
 
     // Insert var
     pkb.insert_variable(left);
@@ -49,7 +49,7 @@ AssignParser::AssignParser(PKB pkb, Statement statement, string parent_prog_line
     pkb.insert_type(statement.get_prog_line(), statement.get_statement_type());
 }
 
-string AssignParser::get_left(string statement)
+std::string AssignParser::get_left(std::string statement)
 {
     smatch match;
     if (regex_search(statement, match, assign_pattern))
@@ -59,7 +59,7 @@ string AssignParser::get_left(string statement)
     return "";
 }
 
-string AssignParser::get_right(string statement)
+std::string AssignParser::get_right(std::string statement)
 {
     smatch match;
     if (regex_search(statement, match, assign_pattern))
@@ -69,14 +69,14 @@ string AssignParser::get_right(string statement)
     return "";
 }
 
-vector<string> AssignParser::get_all_var(string sub_statement)
+vector<std::string> AssignParser::get_all_var(std::string sub_statement)
 {
     std::smatch match;
     std::vector<std::string> all_var;
 
     while (regex_search(sub_statement, match, all_word))
     {
-        string current_word = match[0];
+        std::string current_word = match[0];
         sub_statement = match.suffix().str();
         if (CheckerUtil::is_name_valid(match[0]))
         {

@@ -1,25 +1,25 @@
 #include "CheckerUtil.h"
 
-regex all_word("\\w+");
-regex valid_name("^[a-zA-Z][a-zA-Z0-9]*$");
-regex valid_const("^\\d+$");
+std::regex all_word("\\w+");
+std::regex valid_name("^[a-zA-Z][a-zA-Z0-9]*$");
+std::regex valid_const("^\\d+$");
 //(_word_)  (_[+-*/%]_(_word_))*  <- Do not remove the space.
-regex valid_expr("^([\\(\\s]*(\\w*)[\\s\\)]*)(\\s*[+\\-*\\/%]\\s*([\\(\\s]*(\\w+)[\\s\\)]*))*$");
-regex valid_cond(
+std::regex valid_expr("^([\\(\\s]*(\\w*)[\\s\\)]*)(\\s*[+\\-*\\/%]\\s*([\\(\\s]*(\\w+)[\\s\\)]*))*$");
+std::regex valid_cond(
         "^\\s*[\\(\\s!]*([a-zA-Z][a-zA-Z0-9]*|[\\d]+)[\\s\\)]*(([+\\-*/%><]|[><=!]=)[\\s]*[\\(\\s!]*([a-zA-Z][a-zA-Z0-9]*|[\\d]+)[\\s\\)]*)*$");
 
-bool CheckerUtil::is_name_valid(string stmt)
+bool CheckerUtil::is_name_valid(std::string stmt)
 {
-    if (!regex_match(stmt, valid_name))
+    if (!std::regex_match(stmt, valid_name))
     {
         return false;
     }
     return true;
 }
 
-bool CheckerUtil::is_const_valid(string stmt)
+bool CheckerUtil::is_const_valid(std::string stmt)
 {
-    if (!regex_match(stmt, valid_const))
+    if (!std::regex_match(stmt, valid_const))
     {
         return false;
     }
@@ -27,22 +27,22 @@ bool CheckerUtil::is_const_valid(string stmt)
 }
 
 // Note: Statement containing empty spaces only is considered valid for this function.
-bool CheckerUtil::is_expr_valid(string stmt)
+bool CheckerUtil::is_expr_valid(std::string stmt)
 {
     if (!is_bracket_balanced(stmt))
     {
         return false;
     }
 
-    if (!regex_match(stmt, valid_expr))
+    if (!std::regex_match(stmt, valid_expr))
     {
         return false;
     }
 
-    smatch match;
-    while (regex_search(stmt, match, all_word)) // Get all word, checks performed in while.
+    std::smatch match;
+    while (std::regex_search(stmt, match, all_word)) // Get all word, checks performed in while.
     {
-        string current_word = match[0];
+        std::string current_word = match[0];
         stmt = match.suffix().str(); // Remove current word from statement.
         if (!is_name_valid(current_word) && !is_const_valid(current_word)) // Invalid type.
         {
@@ -53,7 +53,7 @@ bool CheckerUtil::is_expr_valid(string stmt)
     return true;
 }
 
-bool CheckerUtil::is_condition_valid(string stmt)
+bool CheckerUtil::is_condition_valid(std::string stmt)
 {
     if (!is_bracket_balanced(stmt))
     {
@@ -61,16 +61,16 @@ bool CheckerUtil::is_condition_valid(string stmt)
     }
 
     // Single var
-    regex single_var("^[\\s]*[a-zA-Z0-9][\\s]*$");
-    if (regex_match(stmt, single_var))
+    std::regex single_var("^[\\s]*[a-zA-Z0-9][\\s]*$");
+    if (std::regex_match(stmt, single_var))
     {
         return false;
     }
 
     // Split by && and ||
-    vector<string> sections;
+    std::vector<std::string> sections;
     size_t prev = 0, pos;
-    while ((pos = stmt.find_first_of("&|", prev))!=string::npos)
+    while ((pos = stmt.find_first_of("&|", prev))!=std::string::npos)
     {
         if (pos>prev)
         {
@@ -81,13 +81,13 @@ bool CheckerUtil::is_condition_valid(string stmt)
     }
     if (prev<stmt.length())
     {
-        sections.push_back(stmt.substr(prev, string::npos));
+        sections.push_back(stmt.substr(prev, std::string::npos));
     }
 
     // Check condition
     for (auto section: sections)
     {
-        if (!regex_match(section, valid_cond))
+        if (!std::regex_match(section, valid_cond))
         {
             return false;
         }
@@ -96,7 +96,7 @@ bool CheckerUtil::is_condition_valid(string stmt)
     return true;
 }
 
-bool CheckerUtil::is_bracket_balanced(string stmt)
+bool CheckerUtil::is_bracket_balanced(std::string stmt)
 {
     int count = 0;
     for (int i = 0; i<stmt.length(); i++)
