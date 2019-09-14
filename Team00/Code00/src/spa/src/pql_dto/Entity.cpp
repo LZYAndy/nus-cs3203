@@ -39,55 +39,55 @@ namespace pql_dto
     {
         if (type == "any")
         {
-            entity_type = ANY;
+            entity_type = EntityType::ANY;
         }
         else if (type == "stmt")
         {
-            entity_type = STMT;
+            entity_type = EntityType::STMT;
         }
         else if (type == "read")
         {
-            entity_type = READ;
+            entity_type = EntityType::READ;
         }
         else if (type == "print")
         {
-            entity_type = PRINT;
+            entity_type = EntityType::PRINT;
         }
         else if (type == "call")
         {
-            entity_type = CALL;
+            entity_type = EntityType::CALL;
         }
         else if (type == "while")
         {
-            entity_type = WHILE;
+            entity_type = EntityType::WHILE;
         }
         else if (type == "if")
         {
-            entity_type = IF;
+            entity_type = EntityType::IF;
         }
         else if (type == "assign")
         {
-            entity_type = ASSIGN;
+            entity_type = EntityType::ASSIGN;
         }
         else if (type == "variable")
         {
-            entity_type = VARIABLE;
+            entity_type = EntityType::VARIABLE;
         }
         else if (type == "constant")
         {
-            entity_type = CONSTANT;
+            entity_type = EntityType::CONSTANT;
         }
         else if (type == "procedure")
         {
-            entity_type = PROCEDURE;
+            entity_type = EntityType::PROCEDURE;
         }
         else if (type == "string")
         {
-            entity_type = STRING;
+            entity_type = EntityType::STRING;
         }
         else if (type == "pattexpr")
         {
-            entity_type = PATTEXPR;
+            entity_type = EntityType::PATTEXPR;
         }
         else
         {
@@ -98,7 +98,7 @@ namespace pql_dto
     void Entity::set_entity_name(string name)
     {
         //checks entity names
-        if (entity_type == ANY)
+        if (entity_type == EntityType::ANY)
         {
             if (name != "_")
             {
@@ -106,7 +106,7 @@ namespace pql_dto
             }
             entity_name = "_";
         }
-        else if (entity_type == PATTEXPR)
+        else if (entity_type == EntityType::PATTEXPR)
         {
             if (name.length() <= 4 || name.find("_\"") != 0 || name.find("\"_") != name.length() - 2)
             {
@@ -119,7 +119,7 @@ namespace pql_dto
             }
             entity_name = name_string;
         }
-        else if (entity_type == STMT && !is_declared_entity)
+        else if (entity_type == EntityType::STMT && !is_declared_entity)
         {
             /// Checks if var_name is integer
             if (!CheckerUtil::is_const_valid(name))
@@ -128,7 +128,7 @@ namespace pql_dto
             }
             entity_name = name;
         }
-        else if (entity_type == STRING && !is_declared_entity)
+        else if (entity_type == EntityType::STRING && !is_declared_entity)
         {
             /// Checks if var_name is integer
             if (!CheckerUtil::is_const_valid(name) && !CheckerUtil::is_name_valid(name))

@@ -389,32 +389,32 @@ bool PKB::insert_type(int stmt, EntityType type)
 
 vector<int> PKB::get_all_whiles()
 {
-    return type_bank.get_all_of_type(WHILE);
+    return type_bank.get_all_of_type(EntityType::WHILE);
 }
 
 vector<int> PKB::get_all_ifs()
 {
-    return type_bank.get_all_of_type(IF);
+    return type_bank.get_all_of_type(EntityType::IF);
 }
 
 vector<int> PKB::get_all_assigns()
 {
-    return type_bank.get_all_of_type(ASSIGN);
+    return type_bank.get_all_of_type(EntityType::ASSIGN);
 }
 
 vector<int> PKB::get_all_reads()
 {
-    return type_bank.get_all_of_type(READ);
+    return type_bank.get_all_of_type(EntityType::READ);
 }
 
 vector<int> PKB::get_all_prints()
 {
-    return type_bank.get_all_of_type(PRINT);
+    return type_bank.get_all_of_type(EntityType::PRINT);
 }
 
 vector<int> PKB::get_all_calls()
 {
-    return type_bank.get_all_of_type(CALL);
+    return type_bank.get_all_of_type(EntityType::CALL);
 }
 
 bool PKB::does_uses_exist()

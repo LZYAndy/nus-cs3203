@@ -10,7 +10,7 @@
 
 #include "Entity.h"
 
-enum RelationshipType
+enum class RelationshipType
 {
     FOLLOWS,
     PARENT,

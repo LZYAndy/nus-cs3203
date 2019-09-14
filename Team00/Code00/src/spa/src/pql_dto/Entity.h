@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-enum EntityType
+enum class EntityType
 {
     ANY,
     STMT,
@@ -30,7 +30,7 @@ namespace pql_dto
     class Entity
     {
     private:
-        EntityType entity_type = ANY;
+        EntityType entity_type = EntityType::ANY;
         std::string entity_name;
 
         bool is_declared_entity = false;
