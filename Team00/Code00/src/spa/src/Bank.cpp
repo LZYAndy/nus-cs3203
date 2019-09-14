@@ -85,7 +85,7 @@ bool Bank<T, S>::empty()
 template<class T, class S>
 std::unordered_map<T, std::vector<S>> Bank<T, S>::copy()
 {
-    // TODO: check if shallow copy or deep copy
+    // deep copy
     return bank;
 }
 

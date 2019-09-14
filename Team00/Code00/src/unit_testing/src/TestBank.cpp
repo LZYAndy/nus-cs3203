@@ -1,15 +1,6 @@
 #include "catch.hpp"
 #include "Bank.h"
 
-TEST_CASE("Bank<int, int>::put()")
-{
-    Bank<int, int> bank;
-    SECTION("put successful")
-    {
-        bank.put(1, 2);
-    }
-}
-
 TEST_CASE("Bank<int, int>::get()")
 {
     Bank<int, int> bank;
@@ -63,14 +54,68 @@ TEST_CASE("Bank<int, int>::get_reverse()")
         expected_result.push_back(2);
         REQUIRE(result == expected_result);
     }
+}
 
-    SECTION("get_all_keys success")
+TEST_CASE("Bank<int, int>::get_all_keys()")
+{
+    Bank<int, int> bank;
+
+    SECTION("get_all_keys empty")
     {
-        std::vector<int> expected_result;
-        expected_result.push_back(1);
-        expected_result.push_back(2);
-        REQUIRE(bank.get_all_keys() == expected_result);
+        REQUIRE(bank.get_all_keys().empty());
     }
 
     SECTION("get_all_keys success")
+    {
+        bank.put(1, 2);
+        bank.put(2, 3);
+        std::vector<int> expected_result;
+        expected_result.push_back(2);
+        expected_result.push_back(1);
+        REQUIRE(bank.get_all_keys() == expected_result);
+    }
+}
+
+TEST_CASE("Bank<int, int>::get_all_values()")
+{
+     Bank<int, int> bank;
+
+    SECTION("get_all_values empty")
+    {
+        REQUIRE(bank.get_all_values().empty());
+    }
+
+    SECTION("get_all_values success")
+    {
+        bank.put(1, 2);
+        bank.put(2, 3);
+        std::vector<int> expected_result;
+        expected_result.push_back(3);
+        expected_result.push_back(2);
+        REQUIRE(bank.get_all_values() == expected_result);
+    }
+}
+
+TEST_CASE("Bank<int, int>::empty()")
+{
+    Bank<int, int> bank;
+    REQUIRE(bank.empty());
+}
+
+TEST_CASE("Bank<int, int>::copy()")
+{
+    Bank<int, int> bank;
+    SECTION("empty copy")
+    {
+        std::unordered_map<int, std::vector<int>> hashmap = bank.copy();
+        REQUIRE(hashmap.empty());
+    }
+    SECTION("deep copy")
+    {
+    bank.put(1,2);
+    std::unordered_map<int, std::vector<int>> hashmap = bank.copy();
+    REQUIRE(hashmap.size() == 1);
+    bank.put(2,3);
+    REQUIRE(hashmap.size() == 1); // test if shallow copy or deep clone
+    }
 }
