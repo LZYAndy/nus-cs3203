@@ -156,7 +156,8 @@ unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity key_
         vector<int> second = iter.second;
         if (PKB.get_statement_type(first) == key_1.get_entity_type())
         {
-            for (auto & it : second) {
+            for (auto & it : second)
+            {
                 if (PKB.get_statement_type(it) == key_2.get_entity_type())
                 {
                     key_value_1.push_back(to_string(first));
@@ -215,7 +216,8 @@ unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity key_
     return result;
 }
 
-unordered_map<string, vector<string>> QueryUtility::mapping(const string& str, vector<int>& int_vec) {
+unordered_map<string, vector<string>> QueryUtility::mapping(const string& str, vector<int>& int_vec)
+{
     unordered_map<std::string, std::vector<std::string>> result;
     vector<string> key_value;
     key_value.reserve(int_vec.size());
@@ -228,7 +230,8 @@ unordered_map<string, vector<string>> QueryUtility::mapping(const string& str, v
 }
 
 unordered_map<string, vector<string>> QueryUtility::mapping(const string& str1, const string& str2,
-        vector<int>& int_vec) {
+        vector<int>& int_vec)
+{
     unordered_map<std::string, std::vector<std::string>> result;
     vector<string> key_value;
     for (auto & iter : int_vec)
@@ -243,7 +246,8 @@ unordered_map<string, vector<string>> QueryUtility::mapping(const string& str1, 
 }
 
 unordered_map<string, vector<string>> QueryUtility::mapping(const string& str1, pql_dto::Entity key,
-        vector<int>& int_vec) {
+        vector<int>& int_vec)
+{
     unordered_map<std::string, std::vector<std::string>> result;
     vector<string> key_value_1;
     vector<string> key_value_2;
