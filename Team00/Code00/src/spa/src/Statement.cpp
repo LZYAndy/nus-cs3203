@@ -1,7 +1,7 @@
 #include <pql_dto/Entity.h>
 #include "Statement.h"
 
-Statement::Statement(EntityType statement_type, int prog_line, string statement)
+Statement::Statement(EntityType statement_type, int prog_line, std::string statement)
 {
     statement_type = statement_type;
     prog_line = prog_line;
@@ -18,37 +18,37 @@ int Statement::get_prog_line()
     return statement_line;
 }
 
-string Statement::get_statement()
+std::string Statement::get_statement()
 {
     return statement;
 }
 
-string Statement::get_condition()
+std::string Statement::get_condition()
 {
     return condition;
 }
 
-void Statement::set_condition(string condi)
+void Statement::set_condition(std::string condi)
 {
     condition = condi;
 }
 
-vector<Statement> Statement::get_first_block()
+std::vector<Statement> Statement::get_first_block()
 {
     return first_block;
 }
 
-void Statement::set_first_block(vector <Statement> fb)
+void Statement::set_first_block(std::vector<Statement> fb)
 {
     first_block = fb;
 }
 
-vector<Statement> Statement::get_second_block()
+std::vector<Statement> Statement::get_second_block()
 {
     return second_block;
 }
 
-void Statement::set_second_block(vector <Statement> sb)
+void Statement::set_second_block(std::vector <Statement> sb)
 {
     second_block = sb;
 }
