@@ -20,12 +20,12 @@ std::vector<Procedure> ProcedureAnalyser::analyse()
 
     int number_of_proc = distance(words_begin, words_end);
     std::vector<int> positions_of_proc;
-    std::vector<string> list_of_statement;
+    std::vector<std::string> list_of_statement;
     std::vector<Procedure> list_of_proc;
 
-    for (sregex_iterator k = words_begin;k != words_end;++k)
+    for (std::sregex_iterator k = words_begin;k != words_end;++k)
     {
-        smatch match = *k;
+        std::smatch match = *k;
         std::string match_str = match.str();
         positions_of_proc.push_back(match.position(0));
     }
