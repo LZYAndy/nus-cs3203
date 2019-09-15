@@ -10,7 +10,7 @@ std::string Procedure::get_body()
     return body_of_proc;
 }
 
-Procedure::Procedure(std::string name, std::std::string body)
+Procedure::Procedure(std::string name, std::string body)
 {
     proc_name = name;
     body_of_proc = body;
