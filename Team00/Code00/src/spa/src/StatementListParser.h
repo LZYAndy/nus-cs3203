@@ -1,7 +1,6 @@
 #ifndef AUTOTESTER_STATEMENTLISTPARSER_H
 #define AUTOTESTER_STATEMENTLISTPARSER_H
 
-#include <string>
 #include <regex>
 #include "Statement.h"
 #include "StringUtil.h"
