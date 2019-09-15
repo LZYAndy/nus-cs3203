@@ -124,8 +124,8 @@ bool PKB::insert_follows(int stmt1, int stmt2)
 
 bool PKB::extract_design()
 {
-    DesignExtractor::extract_follows_star(&follows_bank, &follows_star_bank);
-    DesignExtractor::extract_parent_star(&parent_bank, &parent_star_bank);
+    DesignExtractor::extract_follows_star(follows_bank, follows_star_bank);
+    DesignExtractor::extract_parent_star(parent_bank, parent_star_bank);
     return true;
 }
 

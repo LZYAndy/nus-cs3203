@@ -1,30 +1,31 @@
 #include "DesignExtractor.h"
 
-void DesignExtractor::extract_follows_star(FollowsBank* bank_in, FollowsStarBank* bank_out)
+void DesignExtractor::extract_follows_star(FollowsBank &bank_in, FollowsStarBank &bank_out)
 {
     extract_star(bank_in, bank_out);
 }
 
-void DesignExtractor::extract_parent_star(ParentBank* bank_in, ParentStarBank* bank_out)
+void DesignExtractor::extract_parent_star(ParentBank &bank_in, ParentStarBank &bank_out)
 {
     extract_star(bank_in, bank_out);
 }
 
-void DesignExtractor::extract_star(Bank<int, int>* bank_in, Bank<int, int>* bank_out)
+void DesignExtractor::extract_star(Bank<int, int> &bank_in, Bank<int, int> &bank_out)
 {
-    std::vector<int> keys = bank_in->get_all_keys();
+    std::vector<int> keys = bank_in.get_all_keys();
     for (int key : keys)
     {
+        int current = key;
         while (true)
         {
-            int current = key;
-            std::vector<int> result = bank_in->get(current);
+            std::vector<int> result = bank_in.get(current);
             if (result.empty())
             {
                 break;
             }
             int value = result.back();
-            bank_out->put(key, value);
+            bank_out.put(key, value);
+            current = value;
         }
     }
 }
