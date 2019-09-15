@@ -4,7 +4,7 @@ using namespace std;
 
 #include "Relationships.h"
 
-namespace pql_dto 
+namespace pql_dto
 {
     RelationshipType Relationships::get_relationship()
     {
@@ -24,6 +24,11 @@ namespace pql_dto
     bool Relationships::is_relationship_star()
     {
         return is_star;
+    }
+
+    void Relationships:: set_relationship(RelationshipType type)
+    {
+        relationship_type = type;
     }
 
     void Relationships::set_relationship_star(bool is_relationship_star)
