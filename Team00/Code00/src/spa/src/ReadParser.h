@@ -1,21 +1,19 @@
 #ifndef AUTOTESTER_READPARSER_H
 #define AUTOTESTER_READPARSER_H
 
-#include <string>
 #include <regex>
 #include "PKB.h"
-
-using namespace std;
+#include "Statement.h"
 
 class ReadParser
 {
 public:
-    ReadParser(PKB pkb, string statement, string parent_prog_line);
+    ReadParser(PKB pkb, Statement statement, std::string parent_prog_line);
 
 private:
-    bool is_read_valid(string statement);
+    bool is_read_stmt_valid(std::string statement);
 
-    string get_var(string statement);
+    std::string get_var(std::string statement);
 };
 
 #endif //AUTOTESTER_READPARSER_H
