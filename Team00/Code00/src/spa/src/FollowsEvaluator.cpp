@@ -65,6 +65,7 @@ unordered_map<string, vector<string>> FollowsEvaluator::evaluate_non_trivial(pql
 bool FollowsEvaluator::evaluate_trivial(pql_dto::Entity first_param,
         pql_dto::Entity second_param)
 {
+    bool result = false;
     PKB PKB;
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
@@ -73,11 +74,11 @@ bool FollowsEvaluator::evaluate_trivial(pql_dto::Entity first_param,
     {
         if (second_name == "_")
         { // e.g. Follows(_, _)
-            return PKB.does_follows_exist();
+            result = PKB.does_follows_exist();
         }
         else if (QueryUtility::is_integer(second_name))
         { // e.g. Follows(_, 2)
-            return PKB.get_followed_by(stoi(second_name)) > 0;
+            result = PKB.get_followed_by(stoi(second_name)) > 0;
         }
     }
 
@@ -85,11 +86,12 @@ bool FollowsEvaluator::evaluate_trivial(pql_dto::Entity first_param,
     {
         if (second_name == "_")
         { // e.g. Follows(1, _)
-            return PKB.get_follows(stoi(first_name)) > 0;
+            result = PKB.get_follows(stoi(first_name)) > 0;
         }
         else if (QueryUtility::is_integer(second_name))
         { // e.g. Follows(1, 2)
-            return PKB.is_follows(stoi(first_name), stoi(second_name));
+            result = PKB.is_follows(stoi(first_name), stoi(second_name));
         }
     }
+    return result;
 }
