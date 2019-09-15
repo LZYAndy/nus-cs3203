@@ -15,7 +15,7 @@ private:
     string raw_stmt_list;
     vector<Statement> stmt_list;
     StringUtil strUti;
-    static int next_line_number = 1;
+    static int next_line_number;
 
 public:
     // Constructor

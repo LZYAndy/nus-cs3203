@@ -1,5 +1,7 @@
 #include "StatementListParser.h"
 
+int StatementListParser::next_line_number = 1;
+
 StatementListParser::StatementListParser(string raw)
 {
     raw_stmt_list = raw;
