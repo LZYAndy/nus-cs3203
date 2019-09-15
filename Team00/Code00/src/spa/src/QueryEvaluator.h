@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <unordered_map>
 
+#include <PKB.h>
 #include <PQLParser.h>
 #include <QueryUtility.h>
 #include <FollowsEvaluator.h>

@@ -6,9 +6,11 @@
 #include <vector>
 #include <unordered_map>
 
+#include <PKB.h>
 #include <QueryUtility.h>
 #include <pql_dto/Entity.h>
 #include <pql_dto/Relationships.h>
+#include <pql_dto/Pattern.h>
 
 class AssignEvaluator
 {
