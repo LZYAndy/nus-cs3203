@@ -22,7 +22,8 @@ enum class EntityType
     CONSTANT,
     PROCEDURE,
     STRING,
-    PATTEXPR
+    PATTEXPR,
+    INVALID
 };
 
 namespace pql_dto

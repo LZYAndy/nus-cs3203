@@ -27,13 +27,13 @@ void TypeBank::insert_type(int stmt, EntityType type)
     }
 }
 
-std::vector<EntityType> TypeBank::get_statement_type(int stmt)
+EntityType TypeBank::get_statement_type(int stmt)
 {
     if (bank.find(stmt) != bank.end())
     {
-        return bank[stmt];
+        return bank[stmt][0];
     }
-    return std::vector<EntityType>();
+    return EntityType::INVALID;
 }
 
 std::vector<int> TypeBank::get_all_of_type(EntityType type)
