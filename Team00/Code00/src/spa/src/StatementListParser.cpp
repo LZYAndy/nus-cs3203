@@ -1,6 +1,6 @@
 #include "StatementListParser.h"
 
-StatementListParser::StatementListParser(string raw, int following_line)
+StatementListParser::StatementListParser(string raw)
 {
     raw_stmt_list = raw;
 }
@@ -56,33 +56,104 @@ void StatementListParser::parse_stmt_list()
     }
 }
 
-string StatementListParser::parse_while(string src)
+void StatementListParser::invoke_parser()
 {
 
+}
+
+string StatementListParser::parse_while(string src)
+{
+    Statement while_stmt = Statement(EntityType::WHILE, next_line_number, "");
+    next_line_number++;
+
+    // Remove "while".
+    src = src.substr(5);
+    src = strUti.trim_left(src);
+
+    // Find the condition.
+    int condi_idx = parse_bracket(src, "(", ")");
+    string condition = src.substr(1, condi_idx - 2);
+    src = src.substr(condi_idx);
+    src = strUti.trim_left(src);
+
+    // Find the loop part.
+    int loop_idx = parse_bracket(src, "{", "}");
+    string first_blk_raw = src.substr(1, loop_idx - 2);
+    src = src.substr(loop_idx);
+    src = strUti.trim_left(src);
+
+    StatementListParser loop_parser = StatementListParser(first_blk_raw);
+    loop_parser.parse_stmt_list();
+    vector<Statement> first_block = loop_parser.get_stmt_list();
+
+    while_stmt.set_condition(condition);
+    while_stmt.set_first_block(first_block);
+
+    stmt_list.push_back(while_stmt);
+    return src;
 }
 
 string StatementListParser::parse_print(string src)
 {
+    int idx = find_semicolon(src);
+    string rest = src.substr(idx);
+    string print_body = src.substr(0, idx);
 
+    Statement print_stmt = Statement(EntityType::PRINT, next_line_number, print_body);
+    next_line_number++;
+
+    stmt_list.push_back(print_stmt);
+
+    return rest;
 }
 
 string StatementListParser::parse_read(string src)
 {
+    int idx = find_semicolon(src);
+    string rest = src.substr(idx);
+    string read_body = src.substr(0, idx);
 
+    Statement read_stmt = Statement(EntityType::READ, next_line_number, read_body);
+    next_line_number++;
+
+    stmt_list.push_back(read_stmt);
+
+    return rest;
 }
 
 string StatementListParser::parse_call(string src)
 {
+    int idx = find_semicolon(src);
+    string rest = src.substr(idx);
+    string call_body = src.substr(0, idx);
 
+    Statement call_stmt = Statement(EntityType::CALL, next_line_number, call_body);
+    next_line_number++;
+
+    stmt_list.push_back(call_stmt);
+
+    return rest;
 }
 
 string StatementListParser::parse_assign(string src)
 {
+    int idx = find_semicolon(src);
+    string rest = src.substr(idx);
+    string assign_body = src.substr(0, idx);
 
+    Statement assign_stmt = Statement(EntityType::ASSIGN, next_line_number, assign_body);
+    next_line_number++;
+
+    stmt_list.push_back(assign_stmt);
+
+    return rest;
 }
 
 string StatementListParser::parse_if(string src)
 {
+    Statement if_stmt = Statement(EntityType::IF, next_line_number, "");
+    next_line_number++;
+
     // Remove "if".
     src = src.substr(2);
     src = strUti.trim_left(src);
@@ -98,24 +169,32 @@ string StatementListParser::parse_if(string src)
     src = strUti.trim_left(src);
 
     int then_idx = parse_bracket(src, "{", "}");
-    string first_blk = src.substr(1, then_idx - 2);
+    string first_blk_raw = src.substr(1, then_idx - 2);
     src = src.substr(then_idx);
     src = strUti.trim_left(src);
+
+    StatementListParser then_parser = StatementListParser(first_blk_raw);
+    then_parser.parse_stmt_list();
+    vector<Statement> first_block = then_parser.get_stmt_list();
 
     // Remove "else" and find the else part.
     src = src.substr(4);
     src = strUti.trim_left(src);
 
     int else_idx = parse_bracket(src, "{", "}");
-    string second_blk = src.substr(1, else_idx - 2);
+    string second_blk_raw = src.substr(1, else_idx - 2);
     src = src.substr(else_idx);
     src = strUti.trim_left(src);
 
-    // TODO: Finish this line once the Statement class updated.
-    //Statement if_stmt = Statement(next_line_number, );
-    next_line_number++;
+    StatementListParser else_parser = StatementListParser(second_blk_raw);
+    else_parser.parse_stmt_list();
+    vector<Statement> second_block = else_parser.get_stmt_list();
 
-    // TODO: Insert statement.
+    if_stmt.set_condition(condition);
+    if_stmt.set_first_block(first_block);
+    if_stmt.set_second_block(second_block);
+
+    stmt_list.push_back(if_stmt);
 
     return src;
 }
@@ -141,4 +220,18 @@ int StatementListParser::parse_bracket(string src, string opening, string closin
         index = index + 1;
     }
     return index;
+}
+
+int StatementListParser::find_semicolon(string src)
+{
+    int index = 0;
+    while (true)
+    {
+        string this_pos = src.substr(0, 1);
+        if (this_pos.compare(";") == 0)
+        {
+            return index + 1;
+        }
+        index++;
+    }
 }

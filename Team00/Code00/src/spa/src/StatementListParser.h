@@ -5,6 +5,7 @@
 #include <regex>
 #include "Statement.h"
 #include "StringUtil.h"
+#include "pql_dto/Entity.h"
 
 using namespace std;
 
@@ -18,7 +19,7 @@ private:
 
 public:
     // Constructor
-    StatementListParser(string raw, int following_line);
+    StatementListParser(string raw);
 
     vector<Statement> get_stmt_list();
 
@@ -48,6 +49,10 @@ public:
 
     // This method is to parse parentheses, and returns the index of the ending bracket.
     int parse_bracket(string src, string opening, string closing);
+
+    // This method will find the first occurrence of semicolon,
+    // and returns the index of the next character of that semicolon.
+    int find_semicolon(string src);
 };
 
 
