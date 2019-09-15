@@ -3,6 +3,7 @@
 
 #include "PQLParser.h"
 #include "StringUtil.h"
+#include "CheckerUtil.h"
 
 #include "pql_dto/UsesRelationship.cpp"
 #include "pql_dto/ModifiesRelationship.cpp"
@@ -206,8 +207,8 @@ std::string PQLParser::parse_such_that_clause(const std::string& query, std::vec
 
         try
         {
-            pql_dto::Entity first_param = create_entity(first_param_string, declared_variables);
-            pql_dto::Entity second_param = create_entity(second_param_string, declared_variables);
+            pql_dto::Entity first_param = create_entity(first_param_string, declared_variables, false);
+            pql_dto::Entity second_param = create_entity(second_param_string, declared_variables, false);
             pql_dto::Relationships relationship = create_relationship(relationship_type, first_param, second_param);
             such_that_clause.push_back(relationship);
         }
@@ -264,8 +265,8 @@ std::string PQLParser::parse_pattern_clause(const std::string& query, std::vecto
         try
         {
             pql_dto::Entity pattern_entity = pql_dto::Entity(entity_name, entity_name, true);
-            pql_dto::Entity first_param = create_entity(first_param_string, declared_variables);
-            pql_dto::Entity second_param = create_entity(second_param_string, declared_variables);
+            pql_dto::Entity first_param = create_entity(first_param_string, declared_variables, false);
+            pql_dto::Entity second_param = create_entity(second_param_string, declared_variables, true);
             pql_dto::Pattern pattern = pql_dto::Pattern(pattern_entity, first_param, second_param);
             pattern_clause.push_back(pattern);
         }
@@ -302,7 +303,8 @@ std::string PQLParser::pql_validate_initial_query(std::string& query)
     return error;
 }
 
-pql_dto::Entity PQLParser::create_entity(std::string& var_name, std::unordered_map<std::string, std::string>& declared_variables)
+pql_dto::Entity PQLParser::create_entity(std::string& var_name, std::unordered_map<std::string, std::string>& declared_variables,
+    bool is_pattern_expr)
 {
     pql_dto::Entity entity;
 
@@ -329,9 +331,24 @@ pql_dto::Entity PQLParser::create_entity(std::string& var_name, std::unordered_m
     }
     else
     {
-        if (var_name.front() == '"' && var_name.back() == '"' && var_name.length() != 1)
+        if (var_name.front() == '"' && var_name.back() == '"' && var_name.length() > 2)
         {
-            entity = pql_dto::Entity("string", var_name.substr(1, var_name.length() - 2), false);
+            if (is_pattern_expr)
+            {
+                entity = pql_dto::Entity("pattexpr", var_name.substr(1, var_name.length() - 2), false);
+            }
+            else
+            {
+                std::string var_value = var_name.substr(1, var_name.length() - 2);
+                if (CheckerUtil::is_const_valid(var_value))
+                {
+                    entity = pql_dto::Entity("constant", var_value, false);
+                }
+                else
+                {
+                    entity = pql_dto::Entity("string", var_value, false);
+                }
+            }
         }
         else if (var_name.front() == '_' && var_name.back() == '_' && var_name.length() != 1)
         {

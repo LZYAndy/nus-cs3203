@@ -38,9 +38,11 @@ private:
 
     static std::string pql_validate_initial_query(std::string& query);
 
-    static pql_dto::Entity create_entity(std::string& var_name, std::unordered_map<std::string, std::string>& declared_variables);
+    static pql_dto::Entity create_entity(std::string& var_name, std::unordered_map<std::string, std::string>& declared_variables,
+        bool is_pattern_expr);
 
-    static pql_dto::Relationships create_relationship(std::string& relationship_type, pql_dto::Entity first_param, pql_dto::Entity second_param);
+    static pql_dto::Relationships create_relationship(std::string& relationship_type, pql_dto::Entity first_param,
+        pql_dto::Entity second_param);
 
 public:
     /*!
