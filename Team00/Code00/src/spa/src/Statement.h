@@ -1,7 +1,10 @@
 #ifndef AUTOTESTER_STATEMENT_H
 #define AUTOTESTER_STATEMENT_H
 
+#include "pql_dto/Entity.h"
+
 using namespace std;
+
 class Statement
 {
 private:
