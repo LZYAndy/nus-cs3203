@@ -4,14 +4,14 @@ using namespace std;
 
 bool PKB::insert_procedure(string name)
 {
-    procTable.emplace(name);
-    return true;
+    auto result = procTable.emplace(name);
+    return result.second;
 }
 
 bool PKB::insert_variable(string name)
 {
-    varTable.emplace(name);
-    return true;
+    auto result =  varTable.emplace(name);
+    return result.second;
 }
 
 bool PKB::insert_uses(int statement, string variable)
