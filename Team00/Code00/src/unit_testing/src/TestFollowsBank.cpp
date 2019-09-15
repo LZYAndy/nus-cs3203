@@ -1,14 +1,19 @@
 #include "catch.hpp"
 #include "FollowsBank.h"
 
-TEST_CASE("FollowBank<int, int> Test")
+TEST_CASE("FollowBank::isfollows()")
 {
     FollowsBank follows_bank;
-    std::vector<int> expected_result({1,2});
-    follows_bank.put(1,2);
-    follows_bank.put(2, 3);
-    std::vector<int> result = follows_bank.get_all_keys();
-    std::sort(result.begin(), result.end(), std::greater<int>());
-    std::sort(expected_result.begin(), expected_result.end(), std::greater<int>());
-    REQUIRE(result == expected_result);
+    follows_bank.put(1, 2);
+
+    SECTION("is_follow true")
+    {
+        REQUIRE(follows_bank.is_follows(1,2));
+    }
+
+    SECTION("is_follow false")
+    {
+        REQUIRE_FALSE(follows_bank.is_follows(1, 3));
+        REQUIRE_FALSE(follows_bank.is_follows(2, 3));
+    }
 }
