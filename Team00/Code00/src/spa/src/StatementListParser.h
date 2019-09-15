@@ -13,6 +13,7 @@ class StatementListParser
 private:
     string raw_stmt_list;
     vector<Statement> stmt_list;
+    StringModification strMod;
 
 public:
     // Constructor
@@ -22,6 +23,12 @@ public:
 
     // The main parser.
     void parse_stmt_list();
+
+    // This method is to parse if statement, and returns the remaining statements.
+    string parse_if(string src);
+
+    // This method is to parse parentheses, and returns the index of the ending bracket.
+    int parse_bracket(string src, string opening, string closing);
 };
 
 
