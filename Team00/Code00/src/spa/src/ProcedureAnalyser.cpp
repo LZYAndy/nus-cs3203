@@ -1,6 +1,6 @@
 #include "ProcedureAnalyser.h"
 
-regex proc_name_pattern("\\s*procedure\\s+([a-zA-Z][a-zA-Z0-9]*\\s*){");
+std::regex proc_name_pattern("\\s*procedure\\s+([a-zA-Z][a-zA-Z0-9]*\\s*){");
 
 ProcedureAnalyser::ProcedureAnalyser(std::string raw)
 {
@@ -12,11 +12,11 @@ ProcedureAnalyser::ProcedureAnalyser(std::string raw)
 // This method will find all the procedures.
 std::vector<Procedure> ProcedureAnalyser::analyse()
 {
-    auto words_begin = sregex_iterator(
+    auto words_begin = std::sregex_iterator(
             raw_data.begin(),
             raw_data.end(),
             proc_name_pattern);
-    auto words_end = sregex_iterator();
+    auto words_end = std::sregex_iterator();
 
     int number_of_proc = distance(words_begin, words_end);
     std::vector<int> positions_of_proc;
