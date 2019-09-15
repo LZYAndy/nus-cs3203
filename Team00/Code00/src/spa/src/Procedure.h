@@ -1,6 +1,8 @@
 #ifndef AUTOTESTER_PROCEDURE_H
 #define AUTOTESTER_PROCEDURE_H
 
+#include <string>
+
 class Procedure
 {
 private:
