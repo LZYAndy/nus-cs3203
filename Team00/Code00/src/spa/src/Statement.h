@@ -1,5 +1,5 @@
-#ifndef SPA_STATEMENT_H
-#define SPA_STATEMENT_H
+#ifndef AUTOTESTER_STATEMENT_H
+#define AUTOTESTER_STATEMENT_H
 
 #include <string>
 
@@ -50,4 +50,4 @@ public:
     string get_second_block();
 };
 
-#endif //SPA_STATEMENT_H
+#endif //AUTOTESTER_STATEMENT_H
