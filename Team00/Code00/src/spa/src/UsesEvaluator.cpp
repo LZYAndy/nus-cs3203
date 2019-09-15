@@ -5,6 +5,7 @@ unordered_map<string, vector<string>> UsesEvaluator::evaluate_non_trivial(pql_dt
 {
     unordered_map<string, vector<string>> result;
     vector<string> empty_vec;
+    PKB PKB;
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
 
@@ -12,41 +13,49 @@ unordered_map<string, vector<string>> UsesEvaluator::evaluate_non_trivial(pql_dt
     {
         if (QueryUtility::is_integer(first_name))
         { // e.g. Uses(1, v)
-            result = QueryUtility::mapping(second_param, PKB::get_used_by_statement(stoi(first_name)));
+            vector<string> str_vec = PKB.get_used_by_statement(stoi(first_name));
+            result = QueryUtility::mapping(second_param, str_vec);
         }
         else if (QueryUtility::is_proc_name(first_param))
         { // e.g. Uses("main", v)
-            result = QueryUtility::mapping(second_param, PKB::get_used_by_procedure(first_name));
+            vector<string> str_vec = PKB.get_used_by_procedure(first_name);
+            result = QueryUtility::mapping(second_param, str_vec);
         }
         else if (QueryUtility::is_proc_declared(first_param))
         { // e.g. Uses(p, v)
-            result = QueryUtility::mapping(first_param, second_param, PKB::get_all_uses_procedure_relationship());
+            unordered_map<string, vector<string>> str_map = PKB.get_all_uses_procedures_relationship();
+            result = QueryUtility::mapping(first_param, second_param, str_map);
         }
         else
         { // e.g. Uses(s, v)
-            result = QueryUtility::mapping(first_param, second_param, PKB::get_all_uses_statement_relationship());
+            unordered_map<int, vector<string>> int_str_map = PKB.get_all_uses_statements_relationship();
+            result = QueryUtility::mapping(first_param, second_param, int_str_map);
         }
     }
     else if (QueryUtility::is_proc_declared(first_param))
     {
         if (second_name == "_")
         { // e.g. Uses(p, _)
-            result = QueryUtility::mapping(first_param, PKB::get_all_uses_procedure());
+            vector<string> str_vec = PKB.get_all_uses_procedures();
+            result = QueryUtility::mapping(first_param, str_vec);
         }
         else if (QueryUtility::is_var_name(second_param))
         { // e.g. Uses(p, "x")
-            result = QueryUtility::mapping(first_param, PKB::get_procedures_uses(second_name));
+            vector<string> str_vec = PKB.get_procedures_uses(second_name);
+            result = QueryUtility::mapping(first_param, str_vec);
         }
     }
     else
     {
         if (second_name == "_")
         { // e.g. Uses(s, _)
-            result = QueryUtility::mapping(first_param, PKB::get_all_uses_statement());
+            vector<int> int_vec = PKB.get_all_uses_statements();
+            result = QueryUtility::mapping(first_param, int_vec);
         }
         else if (QueryUtility::is_var_name(second_param))
         { // e.g. Uses(s, "x")
-            result = QueryUtility::mapping(first_param, PKB::get_statements_uses(second_name));
+            vector<int> int_vec = PKB.get_statements_uses(second_name);
+            result = QueryUtility::mapping(first_param, int_vec);
         }
     }
 
@@ -57,6 +66,7 @@ bool UsesEvaluator::evaluate_trivial(pql_dto::Entity first_param,
         pql_dto::Entity second_param)
 {
     vector<string> empty_vec;
+    PKB PKB;
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
 
@@ -64,22 +74,22 @@ bool UsesEvaluator::evaluate_trivial(pql_dto::Entity first_param,
     {
         if (QueryUtility::is_var_name(second_param))
         { // e.g. Uses(1, "x")
-            return PKB::is_uses(stoi(first_name), second_name);
+            return PKB.is_uses(stoi(first_name), second_name);
         }
         else if (second_name == "_")
         { // e.g. Uses(1, _)
-            return !PKB::get_used_by_statement(stoi(first_name)).empty();
+            return !PKB.get_used_by_statement(stoi(first_name)).empty();
         }
     }
     else if (QueryUtility::is_proc_name(first_param))
     {
         if (QueryUtility::is_var_name(second_param))
         { // e.g. Uses("main", "x")
-            return PKB::is_uses(first_name, second_name);
+            return PKB.is_uses(first_name, second_name);
         }
         else if (second_name == "_")
         { // e.g. Uses("main", _)
-            return !PKB::get_used_by_procedure().empty(first_name);
+            return !PKB.get_used_by_procedure(first_name).empty();
         }
     }
 }

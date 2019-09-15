@@ -5,6 +5,7 @@ unordered_map<string, vector<string>> ModifiesEvaluator::evaluate_non_trivial(pq
 {
     unordered_map<string, vector<string>> result;
     vector<string> empty_vec;
+    PKB PKB;
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
 
@@ -12,50 +13,59 @@ unordered_map<string, vector<string>> ModifiesEvaluator::evaluate_non_trivial(pq
     {
         if (QueryUtility::is_integer(first_name))
         { // e.g. Modifies(1, v)
-            result = QueryUtility::mapping(second_param, PKB::get_modified_by_statement(stoi(first_name)));
+            vector<string> str_vec = PKB.get_modified_by_statement(stoi(first_name));
+            result = QueryUtility::mapping(second_param, str_vec);
         }
         else if (QueryUtility::is_proc_name(first_param))
         { // e.g. Modifies("main", v)
-            result = QueryUtility::mapping(second_param, PKB::get_modified_by_procedure(first_name));
+            vector<string> str_vec = PKB.get_modified_by_procedure(first_name);
+            result = QueryUtility::mapping(second_param, str_vec);
         }
         else if (QueryUtility::is_proc_declared(first_param))
         { // e.g. Modifies(p, v)
-            result = QueryUtility::mapping(first_param, second_param, PKB::get_all_modifies_procedure_relationship());
+            unordered_map<string, vector<string>> str_map = PKB.get_all_modifies_procedures_relationship();
+            result = QueryUtility::mapping(first_param, second_param, str_map);
         }
         else
         { // e.g. Modifies(s, v)
-            result = QueryUtility::mapping(first_param, second_param, PKB::get_all_modifies_statement_relationship());
+            unordered_map<int, vector<string>> int_str_vec = PKB.get_all_modifies_statements_relationship();
+            result = QueryUtility::mapping(first_param, second_param, int_str_vec);
         }
     }
     else if (QueryUtility::is_proc_declared(first_param))
     {
         if (second_name == "_")
         { // e.g. Modifies(p, _)
-            result = QueryUtility::mapping(first_param, PKB::get_all_modifies_procedure());
+            vector<string> str_vec = PKB.get_all_modifies_procedures();
+            result = QueryUtility::mapping(first_param, str_vec);
         }
         else if (QueryUtility::is_var_name(second_param))
         { // e.g. Modifies(p, "x")
-            result = QueryUtility::mapping(first_param, PKB::get_procedures_modifies(second_name));
+            vector<string> str_vec = PKB.get_procedures_modifies(second_name);
+            result = QueryUtility::mapping(first_param, str_vec);
         }
     }
     else
     {
         if (second_name == "_")
         { // e.g. Modifies(s, _)
-            result = QueryUtility::mapping(first_param, PKB::get_all_modifies_statement());
+            vector<int> int_vec = PKB.get_all_modifies_statements();
+            result = QueryUtility::mapping(first_param, int_vec);
         }
         else if (QueryUtility::is_var_name(second_param))
         { // e.g. Modifies(s, "x")
-            result = QueryUtility::mapping(first_param, PKB::get_statements_modifies(second_name));
+            vector<int> int_vec = PKB.get_statements_modifies(second_name);
+            result = QueryUtility::mapping(first_param, int_vec);
         }
     }
-
     return result;
 }
 
 bool ModifiesEvaluator::evaluate_trivial(pql_dto::Entity first_param,
         pql_dto::Entity second_param)
 {
+    PKB PKB;
+    bool result = false;
     vector<string> empty_vec;
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
@@ -64,22 +74,23 @@ bool ModifiesEvaluator::evaluate_trivial(pql_dto::Entity first_param,
     {
         if (QueryUtility::is_var_name(second_param))
         { // e.g. Modifies(1, "x")
-            return PKB::is_modifies(stoi(first_name), second_name);
+            result = PKB.is_modifies(stoi(first_name), second_name);
         }
         else if (second_name == "_")
         { // e.g. Modifies(1, _)
-            return !PKB::get_modified_by_statement(stoi(first_name)).empty();
+            result = !PKB.get_modified_by_statement(stoi(first_name)).empty();
         }
     }
     else if (QueryUtility::is_proc_name(first_param))
     {
         if (QueryUtility::is_var_name(second_param))
         { // e.g. Modifies("main", "x")
-            return PKB::is_modifies(first_name, second_name);
+            result = PKB.is_modifies(first_name, second_name);
         }
         else if (second_name == "_")
         { // e.g. Modifies("main", _)
-            return !PKB::get_modified_by_procedure().empty(first_name);
+            result = !PKB.get_modified_by_procedure(first_name).empty();
         }
     }
+    return result;
 }
