@@ -29,8 +29,8 @@ public:
             unordered_map<string, vector<string>>& str_map);
     static unordered_map<string, vector<string>> mapping(pql_dto::Entity key_1, pql_dto::Entity key_2,
             unordered_map<int, vector<string>>& int_str_map);
-    static unordered_map<string, vector<string>> mapping(string str, vector<int>& int_vec);
-    static unordered_map<string, vector<string>> mapping(string str1, string str2, vector<int>& int_vec);
-    static unordered_map<string, vector<string>> mapping(string str1, pql_dto::Entity key, vector<int>& int_vec);
+    static unordered_map<string, vector<string>> mapping(const string& str, vector<int>& int_vec);
+    static unordered_map<string, vector<string>> mapping(const string& str1, const string& str2, vector<int>& int_vec);
+    static unordered_map<string, vector<string>> mapping(const string& str1, pql_dto::Entity key, vector<int>& int_vec);
 };
 

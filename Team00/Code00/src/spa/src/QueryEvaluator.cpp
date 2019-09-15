@@ -1,5 +1,7 @@
 #include "QueryEvaluator.h"
 
+#include <utility>
+
 vector<string> QueryEvaluator::get_result(string query)
 {
 
@@ -19,7 +21,7 @@ vector<string> QueryEvaluator::get_result(string query)
     /*
      * parse the PQL query
      */
-    error_msg = PQLParser::pql_parse_query(query, declaration_clause, select_clause,
+    error_msg = PQLParser::pql_parse_query(move(query), declaration_clause, select_clause,
             such_that_clause, pattern_clause);
     if (error_msg.empty())
     {
@@ -28,7 +30,7 @@ vector<string> QueryEvaluator::get_result(string query)
 
     pql_dto::Entity select_entity = select_clause.front();
     string select_name = select_entity.get_entity_name();
-    pql_dto::Relationships & relation = such_that_clause.front();
+    pql_dto::Relationships relation = such_that_clause.front();
     pql_dto::Pattern pattern = pattern_clause.front();
 
     if (!select_clause.empty())
@@ -44,6 +46,9 @@ vector<string> QueryEvaluator::get_result(string query)
         }
 
     }
+
+    such_that_list = select_list; // initialize such_that_list
+    pattern_list = select_list; // initialize pattern_list
 
     if (!such_that_clause.empty())
     { // has such that
@@ -165,45 +170,155 @@ vector<string> QueryEvaluator::get_result(string query)
     }
 
     // Merge three lists
-    result = QueryEvaluator::take_common_part(select_entity, select_list, such_that_list, pattern_list);
+    result = QueryEvaluator::merge(select_entity, select_list, such_that_list, pattern_list);
     return result;
 }
 
-vector<string> QueryEvaluator::take_common_part(pql_dto::Entity select_entity,
+vector<string> QueryEvaluator::merge(pql_dto::Entity select_entity,
         unordered_map<string, vector<string>> select_list,
         unordered_map<string, vector<string>> such_that_list,
         unordered_map<string, vector<string>> pattern_list)
 {
-
+    vector<string> result;
     string select_name = select_entity.get_entity_name();
-    vector<string> vector_1;
-    vector<string> vector_2;
-    vector<string> select = select_list[select_name];
-    vector<string> such_that;
-    vector<string> pattern;
-
-    if (such_that_list.find(select_name) == such_that_list.end())
+    unordered_map<string, vector<string>> final_list;
+    vector<string> common_synonyms = QueryEvaluator::get_common_synonyms(such_that_list, pattern_list);
+    if (!common_synonyms.empty())
     {
-        such_that = select;
+        final_list = QueryEvaluator::get_final_list(such_that_list, pattern_list, common_synonyms);
+        for (const auto& iter : final_list)
+        {
+            string name = iter.first;
+            vector<string> str_vec = iter.second;
+            if (str_vec.empty())
+            {
+                return vector<string>();
+            }
+            if (name == select_name)
+            {
+                return QueryEvaluator::get_common_part(str_vec, select_list.at(select_name));
+            }
+        }
+        result = select_list.at(select_name);
     }
     else
     {
-        such_that = such_that_list[select_name];
+        if (such_that_list.empty() or pattern_list.empty())
+        {
+            result = vector<string>();
+        }
+        else
+        {
+            if (such_that_list.find(select_name) != such_that_list.end())
+            {
+                result = QueryEvaluator::get_common_part(such_that_list.at(select_name), select_list.at(select_name));
+            }
+            else if (pattern_list.find(select_name) != pattern_list.end())
+            {
+                result = QueryEvaluator::get_common_part(pattern_list.at(select_name), select_list.at(select_name));
+            }
+            else
+            {
+                result = select_list.at(select_name);
+            }
+        }
     }
+    return result;
+}
 
-    if (pattern_list.find(select_name) == pattern_list.end())
+vector<string> QueryEvaluator::get_common_synonyms(const unordered_map<string, vector<string>>& map_1,
+        unordered_map<string, vector<string>> map_2)
+{
+    vector<string> result;
+    for (const auto& iter : map_1)
     {
-        pattern = select;
+        string synonym_name = iter.first;
+        if (map_2.find(synonym_name) == map_2.end())
+        { // does not present
+            continue;
+        }
+        else
+        {
+            result.push_back(synonym_name);
+        }
     }
-    else
+    return result;
+}
+
+unordered_map<string, vector<string>> QueryEvaluator::get_final_list(unordered_map<string, vector<string>> map_1,
+        unordered_map<string, vector<string>> map_2, vector<string> common_synonyms)
+{
+    unordered_map<string, vector<string>> result;
+    vector<pair<int, int>> position;
+    int i = 0;
+    for (const auto& element_1 : map_1.at(common_synonyms[0]))
     {
-        pattern = pattern_list[select_name];
+        int j = 0;
+        bool is_same = true;
+        for (const auto& element_2 : map_2.at(common_synonyms[0]))
+        {
+            if (element_1 == element_2)
+            {
+                for (const auto& synonym : common_synonyms)
+                {
+                    if (map_1.at(synonym)[i] != map_2.at(synonym)[j])
+                    {
+                        is_same = false;
+                        break;
+                    }
+                }
+                if (is_same)
+                {
+                    pair<int, int> int_pair (i, j);
+                    position.push_back(int_pair);
+                }
+            }
+            j++;
+        }
+        i++;
     }
+    for (const auto& iter : map_1)
+    {
+        string synonym_name = iter.first;
+        vector<string> list_1 = iter.second;
+        vector<string> key_value;
+        for (auto p : position)
+        {
+            int pos = p.first;
+            key_value.push_back(list_1[pos]);
+        }
+        result[synonym_name] = key_value;
+    }
+    for (const auto& iter : map_2)
+    {
+        string synonym_name = iter.first;
+        if (result.find(synonym_name) != result.end())
+        { // presented
+            continue;
+        }
+        vector<string> list_2 = iter.second;
+        vector<string> key_value;
+        for (auto p : position)
+        {
+            int pos = p.second;
+            key_value.push_back(list_2[pos]);
+        }
+        result[synonym_name] = key_value;
+    }
+    return result;
+}
 
-    set_intersection(select.begin(), select.end(), such_that.begin(),
-            such_that.end(), back_inserter(vector_1));
-    set_intersection(vector_1.begin(), vector_1.end(), pattern.begin(),
-            pattern.end(), back_inserter(vector_2));
-
-    return vector_2;
+vector<string> QueryEvaluator::get_common_part(vector<string> str_vec_1, vector<string> str_vec_2)
+{
+    vector<string> result;
+    int i = 0;
+    for (const auto& iter : str_vec_1)
+    {
+        if (iter == str_vec_2[i])
+        {
+            result.push_back(iter);
+        }
+        i++;
+    }
+    return result;
 }

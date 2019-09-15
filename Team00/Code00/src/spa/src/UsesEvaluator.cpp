@@ -66,6 +66,7 @@ bool UsesEvaluator::evaluate_trivial(pql_dto::Entity first_param,
         pql_dto::Entity second_param)
 {
     vector<string> empty_vec;
+    bool result = false;
     PKB PKB;
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
@@ -74,22 +75,23 @@ bool UsesEvaluator::evaluate_trivial(pql_dto::Entity first_param,
     {
         if (QueryUtility::is_var_name(second_param))
         { // e.g. Uses(1, "x")
-            return PKB.is_uses(stoi(first_name), second_name);
+            result = PKB.is_uses(stoi(first_name), second_name);
         }
         else if (second_name == "_")
         { // e.g. Uses(1, _)
-            return !PKB.get_used_by_statement(stoi(first_name)).empty();
+            result = !PKB.get_used_by_statement(stoi(first_name)).empty();
         }
     }
     else if (QueryUtility::is_proc_name(first_param))
     {
         if (QueryUtility::is_var_name(second_param))
         { // e.g. Uses("main", "x")
-            return PKB.is_uses(first_name, second_name);
+            result = PKB.is_uses(first_name, second_name);
         }
         else if (second_name == "_")
         { // e.g. Uses("main", _)
-            return !PKB.get_used_by_procedure(first_name).empty();
+            result = !PKB.get_used_by_procedure(first_name).empty();
         }
     }
+    return result;
 }

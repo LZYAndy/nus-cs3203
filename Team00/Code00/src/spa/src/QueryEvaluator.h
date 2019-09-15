@@ -28,9 +28,14 @@ public:
     static vector<string> get_result(string query);
 
 private:
-    static vector<string> take_common_part(pql_dto::Entity select_entity,
+    static vector<string> merge(pql_dto::Entity select_entity,
             unordered_map<string, vector<string>> select_list,
             unordered_map<string, vector<string>> such_that_list,
             unordered_map<string, vector<string>> pattern_list);
+    static vector<string> get_common_synonyms(const unordered_map<string, vector<string>>& map_1,
+            unordered_map<string, vector<string>> map_2);
+    static unordered_map<string, vector<string>> get_final_list(unordered_map<string, vector<string>> map_1,
+            unordered_map<string, vector<string>> map_2, vector<string> common_synonym);
+    static vector<string> get_common_part(vector<string> str_vec_1, vector<string> str_vec_2);
 };
 
