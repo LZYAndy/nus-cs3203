@@ -1,26 +1,7 @@
-//
-// Created by 刘照宇 on 2/9/19.
-//
-
 #include <pql_dto/Entity.h>
 #include "QueryUtility.h"
 
 PKB PKB;
-
-/*
-Checks if the string is an integer
-*/
-bool QueryUtility::is_integer(string& s)
-{
-    for (char i : s)
-    {
-        if (!isdigit(i))
-        {
-            return false;
-        }
-    }
-    return true;
-}
 
 /*
 Checks if the entity is a procedure undeclared
@@ -64,7 +45,8 @@ vector<string> QueryUtility::get_certain_type_str_list(EntityType type)
         type_list = PKB.get_all_procedures();
     }
 
-    for (iter = type_list.begin(); iter != type_list.end(); iter++) {
+    for (iter = type_list.begin(); iter != type_list.end(); iter++)
+    {
         result.push_back(*iter);
     }
 
@@ -114,7 +96,8 @@ vector<string> QueryUtility::get_certain_type_int_list(EntityType type)
     }
 
     result.reserve(type_list.size());
-    for (auto iter : type_list) {
+    for (auto iter : type_list)
+    {
         result.push_back(to_string(iter));
     }
 
@@ -174,7 +157,8 @@ unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity key_
         if (PKB.get_statement_type(first) == key_1.get_entity_type())
         {
             for (auto & it : second) {
-                if (PKB.get_statement_type(it) == key_2.get_entity_type()) {
+                if (PKB.get_statement_type(it) == key_2.get_entity_type())
+                {
                     key_value_1.push_back(to_string(first));
                     key_value_2.push_back(to_string(it));
                 }
@@ -196,7 +180,8 @@ unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity key_
     {
         string first = iter.first;
         vector<string> second = iter.second;
-        for (const auto& it : second) {
+        for (const auto& it : second)
+        {
             key_value_1.push_back(first);
             key_value_2.push_back(it);
         }
@@ -218,7 +203,8 @@ unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity key_
         vector<string> second = iter.second;
         if (PKB.get_statement_type(first) == key_1.get_entity_type())
         {
-            for (auto & it : second) {
+            for (auto & it : second)
+            {
                 key_value_1.push_back(to_string(first));
                 key_value_2.push_back(it);
             }
@@ -245,8 +231,10 @@ unordered_map<string, vector<string>> QueryUtility::mapping(const string& str1, 
         vector<int>& int_vec) {
     unordered_map<std::string, std::vector<std::string>> result;
     vector<string> key_value;
-    for (auto & iter : int_vec) {
-        if (PKB.assign_to_variable(iter) == str2) {
+    for (auto & iter : int_vec)
+    {
+        if (PKB.assign_to_variable(iter) == str2)
+        {
             key_value.push_back(to_string(iter));
         }
     }
@@ -259,7 +247,8 @@ unordered_map<string, vector<string>> QueryUtility::mapping(const string& str1, 
     unordered_map<std::string, std::vector<std::string>> result;
     vector<string> key_value_1;
     vector<string> key_value_2;
-    for (auto & iter : int_vec) {
+    for (auto & iter : int_vec)
+    {
         key_value_1.push_back(to_string(iter));
         key_value_2.push_back(PKB.assign_to_variable(iter));
     }
@@ -267,4 +256,3 @@ unordered_map<string, vector<string>> QueryUtility::mapping(const string& str1, 
     result[key.get_entity_name()] = key_value_2;
     return result;
 }
-

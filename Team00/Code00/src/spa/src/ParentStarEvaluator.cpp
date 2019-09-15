@@ -16,7 +16,7 @@ unordered_map<string, vector<string>> ParentStarEvaluator::evaluate_non_trivial(
             vector<int> int_vec = PKB.get_all_parent();
             result = QueryUtility::mapping(first_param, int_vec);
         }
-        else if (QueryUtility::is_integer(second_name))
+        else if (CheckerUtil::is_const_valid(second_name))
         { // e.g. Parent*(s, 3)
             vector<int> int_vec = PKB.get_parent_star(stoi(second_name));
             result = QueryUtility::mapping(first_param, int_vec);
@@ -39,7 +39,7 @@ unordered_map<string, vector<string>> ParentStarEvaluator::evaluate_non_trivial(
             vector<int> int_vec = PKB.get_all_children();
             result = QueryUtility::mapping(second_param, int_vec);
         }
-        else if (QueryUtility::is_integer(first_name))
+        else if (CheckerUtil::is_const_valid(first_name))
         { // e.g. Parent*(1, s)
             vector<int> int_vec = PKB.get_children_star(stoi(first_name));
             result = QueryUtility::mapping(second_param, int_vec);
@@ -64,19 +64,19 @@ bool ParentStarEvaluator::evaluate_trivial(pql_dto::Entity first_param,
         { // e.g. Parent*(_, _)
             result = PKB.does_parent_star_exist();
         }
-        else if (QueryUtility::is_integer(second_name))
+        else if (CheckerUtil::is_const_valid(second_name))
         { // e.g. Parent*(_, 2)
             result = !PKB.get_parent_star(stoi(second_name)).empty();
         }
     }
 
-    if (QueryUtility::is_integer(first_name))
+    if (CheckerUtil::is_const_valid(first_name))
     {
         if (second_name == "_")
         { // e.g. Parent*(1, _)
             result = !PKB.get_children_star(stoi(first_name)).empty();
         }
-        else if (QueryUtility::is_integer(second_name))
+        else if (CheckerUtil::is_const_valid(second_name))
         { // e.g. Parent*(1, 2)
             result = PKB.is_parent_star(stoi(first_name), stoi(second_name));
         }

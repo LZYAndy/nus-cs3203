@@ -8,6 +8,7 @@
 
 #include <PKB.h>
 #include <QueryUtility.h>
+#include <CheckerUtil.h>
 #include <pql_dto/Entity.h>
 #include <pql_dto/Relationships.h>
 
@@ -19,4 +20,3 @@ public:
     static bool evaluate_trivial(pql_dto::Entity first_param,
             pql_dto::Entity second_param);
 };
-

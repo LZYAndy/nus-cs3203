@@ -8,6 +8,7 @@
 
 #include <PKB.h>
 #include <QueryUtility.h>
+#include <CheckerUtil.h>
 #include <pql_dto/Entity.h>
 #include <pql_dto/Relationships.h>
 

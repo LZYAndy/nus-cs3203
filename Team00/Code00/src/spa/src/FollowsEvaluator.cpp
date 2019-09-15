@@ -16,7 +16,7 @@ unordered_map<string, vector<string>> FollowsEvaluator::evaluate_non_trivial(pql
             vector<int> int_vec = PKB.get_all_followed();
             result = QueryUtility::mapping(first_param, int_vec);
         }
-        else if (QueryUtility::is_integer(second_name))
+        else if (CheckerUtil::is_const_valid(second_name))
         { // e.g. Follows(s, 2)
             int first_stmt_num = PKB.get_followed_by(stoi(second_name));
             if (first_stmt_num > 0)
@@ -46,7 +46,8 @@ unordered_map<string, vector<string>> FollowsEvaluator::evaluate_non_trivial(pql
             vector<int> int_vec = PKB.get_all_follows();
             result = QueryUtility::mapping(second_param, int_vec);
         }
-        else if (QueryUtility::is_integer(first_name)) { // e.g. Follows(1, s)
+        else if (CheckerUtil::is_const_valid(first_name))
+        { // e.g. Follows(1, s)
             int second_stmt_num = PKB.get_follows(stoi(first_name));
             if (second_stmt_num > 0)
             {
@@ -76,19 +77,19 @@ bool FollowsEvaluator::evaluate_trivial(pql_dto::Entity first_param,
         { // e.g. Follows(_, _)
             result = PKB.does_follows_exist();
         }
-        else if (QueryUtility::is_integer(second_name))
+        else if (CheckerUtil::is_const_valid(second_name))
         { // e.g. Follows(_, 2)
             result = PKB.get_followed_by(stoi(second_name)) > 0;
         }
     }
 
-    if (QueryUtility::is_integer(first_name))
+    if (CheckerUtil::is_const_valid(first_name))
     {
         if (second_name == "_")
         { // e.g. Follows(1, _)
             result = PKB.get_follows(stoi(first_name)) > 0;
         }
-        else if (QueryUtility::is_integer(second_name))
+        else if (CheckerUtil::is_const_valid(second_name))
         { // e.g. Follows(1, 2)
             result = PKB.is_follows(stoi(first_name), stoi(second_name));
         }
