@@ -18,7 +18,7 @@ AssignParser::AssignParser(PKB pkb, Statement statement, std::string parent_prog
 
     // Insert var
     pkb.insert_variable(left);
-    for (auto var: all_var)
+    for (const auto& var: all_var)
     {
         pkb.insert_variable(var);
     }

@@ -1,7 +1,6 @@
 #ifndef AUTOTESTER_ASSIGNPARSER_H
 #define AUTOTESTER_ASSIGNPARSER_H
 
-#include <regex>
 #include "PKB.h"
 #include "CheckerUtil.h"
 #include "Statement.h"
@@ -17,7 +16,6 @@ private:
     std::string get_right(std::string statement);
 
     vector<std::string> get_all_var(std::string sub_statement);
-
 };
 
 #endif //AUTOTESTER_ASSIGNPARSER_H

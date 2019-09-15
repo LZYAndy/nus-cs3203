@@ -10,20 +10,12 @@ std::regex valid_cond(
 
 bool CheckerUtil::is_name_valid(std::string stmt)
 {
-    if (!std::regex_match(stmt, valid_name))
-    {
-        return false;
-    }
-    return true;
+    return std::regex_match(stmt, valid_name);
 }
 
 bool CheckerUtil::is_const_valid(std::string stmt)
 {
-    if (!std::regex_match(stmt, valid_const))
-    {
-        return false;
-    }
-    return true;
+    return std::regex_match(stmt, valid_const);
 }
 
 // Note: Statement containing empty spaces only is considered valid for this function.
@@ -85,7 +77,7 @@ bool CheckerUtil::is_condition_valid(std::string stmt)
     }
 
     // Check condition
-    for (auto section: sections)
+    for (const auto& section: sections)
     {
         if (!std::regex_match(section, valid_cond))
         {
@@ -99,13 +91,13 @@ bool CheckerUtil::is_condition_valid(std::string stmt)
 bool CheckerUtil::is_bracket_balanced(std::string stmt)
 {
     int count = 0;
-    for (int i = 0; i<stmt.length(); i++)
+    for (char i : stmt)
     {
-        if (stmt.at(i)=='(')
+        if (i=='(')
         {
             count++;
         }
-        if (stmt.at(i)==')')
+        if (i==')')
         {
             count--;
         }
