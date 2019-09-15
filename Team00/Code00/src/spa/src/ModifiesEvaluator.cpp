@@ -11,7 +11,7 @@ unordered_map<string, vector<string>> ModifiesEvaluator::evaluate_non_trivial(pq
 
     if (second_param.is_entity_declared())
     {
-        if (QueryUtility::is_integer(first_name))
+        if (CheckerUtil::is_const_valid(first_name))
         { // e.g. Modifies(1, v)
             vector<string> str_vec = PKB.get_modified_by_statement(stoi(first_name));
             result = QueryUtility::mapping(second_param, str_vec);
@@ -70,7 +70,7 @@ bool ModifiesEvaluator::evaluate_trivial(pql_dto::Entity first_param,
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
 
-    if (QueryUtility::is_integer(first_name))
+    if (CheckerUtil::is_const_valid(first_name))
     {
         if (QueryUtility::is_var_name(second_param))
         { // e.g. Modifies(1, "x")

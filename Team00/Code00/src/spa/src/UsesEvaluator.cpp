@@ -11,7 +11,7 @@ unordered_map<string, vector<string>> UsesEvaluator::evaluate_non_trivial(pql_dt
 
     if (second_param.is_entity_declared())
     {
-        if (QueryUtility::is_integer(first_name))
+        if (CheckerUtil::is_const_valid(first_name))
         { // e.g. Uses(1, v)
             vector<string> str_vec = PKB.get_used_by_statement(stoi(first_name));
             result = QueryUtility::mapping(second_param, str_vec);
@@ -71,7 +71,7 @@ bool UsesEvaluator::evaluate_trivial(pql_dto::Entity first_param,
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
 
-    if (QueryUtility::is_integer(first_name))
+    if (CheckerUtil::is_const_valid(first_name))
     {
         if (QueryUtility::is_var_name(second_param))
         { // e.g. Uses(1, "x")

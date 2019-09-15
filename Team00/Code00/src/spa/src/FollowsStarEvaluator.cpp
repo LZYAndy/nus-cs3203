@@ -16,7 +16,7 @@ unordered_map<string, vector<string>> FollowsStarEvaluator::evaluate_non_trivial
             vector<int> int_vec = PKB.get_all_followed();
             result = QueryUtility::mapping(first_param, int_vec);
         }
-        else if (QueryUtility::is_integer(second_name))
+        else if (CheckerUtil::is_const_valid(second_name))
         { // e.g. Follows*(s, 2)
             vector<int> int_vec = PKB.get_followed_star_by(stoi(second_name));
             result = QueryUtility::mapping(first_param, int_vec);
@@ -39,7 +39,7 @@ unordered_map<string, vector<string>> FollowsStarEvaluator::evaluate_non_trivial
             vector<int> int_vec = PKB.get_all_follows();
             result = QueryUtility::mapping(second_param, int_vec);
         }
-        else if (QueryUtility::is_integer(first_name))
+        else if (CheckerUtil::is_const_valid(first_name))
         { // e.g. Follows*(1, s)
             vector<int> int_vec = PKB.get_follows_star(stoi(first_name));
             result = QueryUtility::mapping(second_param, int_vec);
@@ -64,23 +64,22 @@ bool FollowsStarEvaluator::evaluate_trivial(pql_dto::Entity first_param,
         { // e.g. Follows*(_, _)
             result = PKB.does_follows_star_exist();
         }
-        else if (QueryUtility::is_integer(second_name))
+        else if (CheckerUtil::is_const_valid(second_name))
         { // e.g. Follows*(_, 2)
             result = !PKB.get_followed_star_by(stoi(second_name)).empty();
         }
     }
 
-    if (QueryUtility::is_integer(first_name))
+    if (CheckerUtil::is_const_valid(first_name))
     {
         if (second_name == "_")
         { // e.g. Follows*(1, _)
             result = !PKB.get_follows_star(stoi(first_name)).empty();
         }
-        else if (QueryUtility::is_integer(second_name))
+        else if (CheckerUtil::is_const_valid(second_name))
         { // e.g. Follows*(1, 2)
             result = PKB.is_follows_star(stoi(first_name), stoi(second_name));
         }
     }
     return result;
 }
-

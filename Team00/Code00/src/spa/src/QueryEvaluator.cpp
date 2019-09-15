@@ -23,7 +23,7 @@ vector<string> QueryEvaluator::get_result(string query)
      */
     error_msg = PQLParser::pql_parse_query(move(query), declaration_clause, select_clause,
             such_that_clause, pattern_clause);
-    if (error_msg.empty())
+    if (!error_msg.empty())
     {
         return empty_vec;
     }
@@ -44,7 +44,6 @@ vector<string> QueryEvaluator::get_result(string query)
         {
             select_list[select_name] = QueryUtility::get_certain_type_int_list(select_type);
         }
-
     }
 
     such_that_list = select_list; // initialize such_that_list

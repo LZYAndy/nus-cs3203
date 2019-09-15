@@ -36,4 +36,3 @@ public:
             unordered_map<string, vector<string>> map_2, vector<string> common_synonym);
     static vector<string> get_common_part(vector<string> str_vec_1, vector<string> str_vec_2);
 };
-

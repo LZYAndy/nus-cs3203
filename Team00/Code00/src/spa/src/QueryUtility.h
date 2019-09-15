@@ -16,7 +16,6 @@ class QueryUtility
 public:
     static vector<string> get_certain_type_str_list(EntityType type);
     static vector<string> get_certain_type_int_list(EntityType type);
-    static bool is_integer(string& s);
     static bool is_proc_name(pql_dto::Entity entity);
     static bool is_proc_declared(pql_dto::Entity entity);
     static bool is_var_name(pql_dto::Entity entity);
@@ -33,4 +32,3 @@ public:
     static unordered_map<string, vector<string>> mapping(const string& str1, const string& str2, vector<int>& int_vec);
     static unordered_map<string, vector<string>> mapping(const string& str1, pql_dto::Entity key, vector<int>& int_vec);
 };
-
