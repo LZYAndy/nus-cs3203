@@ -26,9 +26,16 @@ else()
         message("\n\n*********************\n\nRELEASE Build Type\n\n*********************\n\n")
     endif()
 
-    set(CMAKE_CXX_FLAGS_DEBUG "-g")
-    set(CMAKE_CXX_FLAGS_RELEASE "-O3")
-    
+    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+        # using Clang
+        set(CMAKE_CXX_FLAGS_DEBUG "-g -fPIC")
+        set(CMAKE_CXX_FLAGS_RELEASE "-O3 -fPIC")
+    elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+        # using GCC
+        set(CMAKE_CXX_FLAGS_DEBUG "-g -fPIC -no-pie")
+        set(CMAKE_CXX_FLAGS_RELEASE "-O3 -fPIC -no-pie")
+    endif()
+
     if (APPLE)
         set(AUTOTESTER_ROOT "${CMAKE_CURRENT_LIST_DIR}/lib/autotester/apple")
     elseif (UNIX)

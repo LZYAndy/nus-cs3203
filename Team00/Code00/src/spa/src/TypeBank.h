@@ -21,7 +21,7 @@ public:
      * Returns false if the statement already exists
      */
     void insert_type(int stmt, EntityType type);
-    std::vector<EntityType> get_statement_type(int stmt);
+    EntityType get_statement_type(int stmt);
     std::vector<int> get_all_of_type(EntityType type);
     std::unordered_map<int, std::vector<EntityType>> copy();
 

@@ -1,10 +1,11 @@
 #pragma once
 
-#include<stdio.h>
+#include <stdio.h>
 #include <iostream>
 #include <string>
 #include <vector>
 #include <unordered_set>
+#include <numeric>
 
 #include "UsesBank.h"
 #include "ModifiesBank.h"
@@ -44,7 +45,7 @@ public:
     bool extract_design();
 
     unordered_set<std::string> get_all_variables();
-    unordered_set<std::string> get_all_statement_nums();
+    vector<int> get_all_statement_nums();
     vector<int> get_all_whiles();
     vector<int> get_all_ifs();
     vector<int> get_all_assigns();
@@ -53,6 +54,7 @@ public:
     vector<int> get_all_calls();
     unordered_set<std::string> get_all_procedures();
 
+    EntityType get_statement_type(int stmt);
     vector<int> get_follows_star(int stmt);
     vector<int> get_followed_star_by(int stmt);
     int get_follows(int stmt);
@@ -134,4 +136,5 @@ private:
     UsesBank uses_bank;
     ModifiesBank modifies_bank;
     TypeBank type_bank;
+    int last_statement_num = 0;
 };

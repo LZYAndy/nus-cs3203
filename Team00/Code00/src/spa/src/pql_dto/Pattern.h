@@ -8,11 +8,9 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
 #include "Entity.h"
 
-namespace pql_dto 
+namespace pql_dto
 {
     class Pattern
     {
@@ -22,6 +20,11 @@ namespace pql_dto
         Entity second_param;
 
     public:
+        Pattern();
+
+        // Constructor for Pattern. Throws an exception if not properly initialised.
+        Pattern(Entity pattern_entity, Entity first_param, Entity second_param);
+
         // Returns the Pattern Entity.
         Entity get_pattern_entity();
 
@@ -32,13 +35,13 @@ namespace pql_dto
         Entity get_second_param();
 
         // Sets and validates the pattern entity of the Pattern Object.
-        void set_pattern_entity();
+        void set_pattern_entity(Entity entity);
 
         // Sets and validates the first parameter of the Pattern Object.
-        void set_first_param();
+        void set_first_param(Entity first_entity_param);
 
         // Sets and validates the second parameter of the Pattern Object.
-        void set_second_param();
+        void set_second_param(Entity second_entity_param);
     };
 }
 
