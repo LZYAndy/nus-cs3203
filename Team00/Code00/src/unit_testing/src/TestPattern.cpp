@@ -55,7 +55,7 @@ TEST_CASE("Pattern throws error for incorrect entity types.")
     SECTION("Trivial Pattern with first param as an expression.", "Pattern a(\"x+y\",_)")
     {
         pql_dto::Entity pattern_entity = pql_dto::Entity("assign", "a", true);
-        pql_dto::Entity first_param_entity = pql_dto::Entity("pattexpr", "\"x+y\"", false);
+        pql_dto::Entity first_param_entity = pql_dto::Entity("pattexpr", "x+y", false);
         pql_dto::Entity second_param_entity = pql_dto::Entity("any", "_", false);
         REQUIRE_THROWS_WITH(pql_dto::Pattern(pattern_entity, first_param_entity,
             second_param_entity), "Invalid Entity Type For Pattern First Param!");
@@ -73,7 +73,7 @@ TEST_CASE("Pattern throws error for incorrect entity types.")
     SECTION("Pattern with second param as a declared constant.", "Pattern a(\"x\",c)")
     {
         pql_dto::Entity pattern_entity = pql_dto::Entity("assign", "a", true);
-        pql_dto::Entity first_param_entity = pql_dto::Entity("string", "\"x\"", false);
+        pql_dto::Entity first_param_entity = pql_dto::Entity("string", "x", false);
         pql_dto::Entity second_param_entity = pql_dto::Entity("constant", "c", true);
         REQUIRE_THROWS_WITH(pql_dto::Pattern(pattern_entity, first_param_entity,
             second_param_entity), "Invalid Entity Type For Pattern Second Param!");
@@ -82,7 +82,7 @@ TEST_CASE("Pattern throws error for incorrect entity types.")
     SECTION("Pattern with second param as a declared variable.", "Pattern a(\"x\",v)")
     {
         pql_dto::Entity pattern_entity = pql_dto::Entity("assign", "a", true);
-        pql_dto::Entity first_param_entity = pql_dto::Entity("string", "\"x\"", false);
+        pql_dto::Entity first_param_entity = pql_dto::Entity("string", "x", false);
         pql_dto::Entity second_param_entity = pql_dto::Entity("variable", "v", true);
         REQUIRE_THROWS_WITH(pql_dto::Pattern(pattern_entity, first_param_entity,
             second_param_entity), "Invalid Entity Type For Pattern Second Param!");
