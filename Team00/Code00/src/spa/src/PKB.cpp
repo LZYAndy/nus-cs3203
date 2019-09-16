@@ -1,12 +1,6 @@
-#include<stdio.h>
-#include <iostream>
-#include <string>
-#include <vector>
+#include "PKB.h"
 
 using namespace std;
-
-#include "PKB.h"
-#include "TNode.h"
 
 bool PKB::insert_procedure(string name)
 {
@@ -48,8 +42,14 @@ unordered_set<string> PKB::get_all_variables() {
     return varTable;
 }
 
-unordered_set<string> PKB::get_all_statement_nums() {
-    return procTable;
+vector<int> PKB::get_all_statement_nums() {
+    vector<int> statement_nums({last_statement_num});
+    if (last_statement_num <= 0)
+    {
+        return statement_nums;
+    }
+    iota(statement_nums.begin(), statement_nums.end(), 1);
+    return statement_nums;
 }
 
 unordered_set<string> PKB::get_all_procedures() {
@@ -304,6 +304,11 @@ bool PKB::is_parent_star(int stmt1, int stmt2)
     return parent_star_bank.is_parent_star(stmt1, stmt2);
 }
 
+EntityType PKB::get_statement_type(int stmt)
+{
+    return type_bank.get_statement_type(stmt);
+}
+
 vector<int> PKB::get_all_follows_star()
 {
     return follows_star_bank.get_all_keys();
@@ -384,37 +389,41 @@ vector<string> PKB::assigns_to_variables(vector<int> assigns)
 bool PKB::insert_type(int stmt, EntityType type)
 {
     type_bank.insert_type(stmt, type);
+    if (last_statement_num < stmt)
+    {
+        last_statement_num = stmt;
+    }
     return true;
 }
 
 vector<int> PKB::get_all_whiles()
 {
-    return type_bank.get_all_of_type(WHILE);
+    return type_bank.get_all_of_type(EntityType::WHILE);
 }
 
 vector<int> PKB::get_all_ifs()
 {
-    return type_bank.get_all_of_type(IF);
+    return type_bank.get_all_of_type(EntityType::IF);
 }
 
 vector<int> PKB::get_all_assigns()
 {
-    return type_bank.get_all_of_type(ASSIGN);
+    return type_bank.get_all_of_type(EntityType::ASSIGN);
 }
 
 vector<int> PKB::get_all_reads()
 {
-    return type_bank.get_all_of_type(READ);
+    return type_bank.get_all_of_type(EntityType::READ);
 }
 
 vector<int> PKB::get_all_prints()
 {
-    return type_bank.get_all_of_type(PRINT);
+    return type_bank.get_all_of_type(EntityType::PRINT);
 }
 
 vector<int> PKB::get_all_calls()
 {
-    return type_bank.get_all_of_type(CALL);
+    return type_bank.get_all_of_type(EntityType::CALL);
 }
 
 bool PKB::does_uses_exist()

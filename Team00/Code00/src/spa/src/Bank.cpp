@@ -8,6 +8,14 @@ void Bank<T, S>::put(T key, S value)
     if (bank.find(key) != bank.end())
     {
         std::vector<S> &bank_value = bank.at(key);
+        // check if value exists already
+        for (S val : bank_value)
+        {
+            if (value == val)
+            {
+                return;
+            }
+        }
         bank_value.push_back(value);
     }
     else
@@ -20,6 +28,14 @@ void Bank<T, S>::put(T key, S value)
     if (reverse_bank.find(value) != reverse_bank.end())
     {
         std::vector<T> &reverse_bank_value = reverse_bank.at(value);
+        // check if value exists already
+        for (T val : reverse_bank_value)
+        {
+            if (key == val)
+            {
+                return;
+            }
+        }        
         reverse_bank_value.push_back(key);
     }
     else

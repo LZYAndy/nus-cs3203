@@ -1,7 +1,8 @@
 #include "catch.hpp"
 #include "Bank.h"
 
-TEST_CASE("Bank<int, int>::get()")
+
+TEST_CASE("Bank<int, int>::get()/put()")
 {
     Bank<int, int> bank;
     bank.put(1, 2);
@@ -12,7 +13,14 @@ TEST_CASE("Bank<int, int>::get()")
         int popped_value = result.at(0);
         REQUIRE(popped_value == 2);
     }
-
+    SECTION("get successful 1 value with duplicate insert")
+    {
+        bank.put(1, 2);
+        std::vector<int> result = bank.get(1);
+        REQUIRE(result.size() == 1);
+        int popped_value = result.at(0);
+        REQUIRE(popped_value == 2);
+    }
     SECTION("get successful >1 value")
     {
         bank.put(1, 3);
@@ -99,7 +107,17 @@ TEST_CASE("Bank<int, int>::get_all_values()")
 TEST_CASE("Bank<int, int>::empty()")
 {
     Bank<int, int> bank;
-    REQUIRE(bank.empty());
+    
+    SECTION("empty true")
+    {
+        REQUIRE(bank.empty());
+    }
+
+    SECTION("empty false")
+    {
+        bank.put(1, 2);
+        REQUIRE_FALSE(bank.empty());
+    }
 }
 
 TEST_CASE("Bank<int, int>::copy()")
@@ -112,10 +130,21 @@ TEST_CASE("Bank<int, int>::copy()")
     }
     SECTION("deep copy")
     {
-    bank.put(1,2);
-    std::unordered_map<int, std::vector<int>> hashmap = bank.copy();
-    REQUIRE(hashmap.size() == 1);
-    bank.put(2,3);
-    REQUIRE(hashmap.size() == 1); // test if shallow copy or deep clone
+        bank.put(1,2);
+        std::unordered_map<int, std::vector<int>> hashmap = bank.copy();
+        REQUIRE(hashmap.size() == 1);
+        // check if .copy() is deep copy and not shallow copy
+        bank.put(2,3);
+        REQUIRE(hashmap.size() == 1);
     }
+}
+
+TEST_CASE("Bank<int, std::string>")
+{
+    Bank<int, std::string> bank;
+}
+
+TEST_CASE("Bank<std::string, std::string>")
+{
+    Bank<std::string, std::string> bank;
 }
