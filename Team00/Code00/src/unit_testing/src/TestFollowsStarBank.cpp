@@ -4,8 +4,8 @@
 TEST_CASE("FollowStarBank::isfollows()")
 {
     FollowsStarBank follows_star_bank;
-    follows_star_bank.put(1, 2);
-    follows_star_bank.put(1, 3);
+    follows_star_bank.insert_follows_star(1, 2);
+    follows_star_bank.insert_follows_star(1, 3);
 
     SECTION("is_follows_star true")
     {

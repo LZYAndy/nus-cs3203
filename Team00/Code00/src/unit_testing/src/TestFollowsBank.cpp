@@ -4,7 +4,7 @@
 TEST_CASE("FollowBank::isfollows()")
 {
     FollowsBank follows_bank;
-    follows_bank.put(1, 2);
+    follows_bank.insert_follows(1, 2);
 
     SECTION("is_follow true")
     {

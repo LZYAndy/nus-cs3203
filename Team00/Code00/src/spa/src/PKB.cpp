@@ -43,11 +43,11 @@ unordered_set<string> PKB::get_all_variables() {
 }
 
 vector<int> PKB::get_all_statement_nums() {
-    vector<int> statement_nums({last_statement_num});
     if (last_statement_num <= 0)
     {
-        return statement_nums;
+        return vector<int>();
     }
+    vector<int> statement_nums({last_statement_num});
     iota(statement_nums.begin(), statement_nums.end(), 1);
     return statement_nums;
 }
@@ -118,8 +118,7 @@ bool PKB::insert_follows(int stmt1, int stmt2)
     {
         return false;
     }
-    follows_bank.put(stmt1, stmt2);
-    return true;
+    return follows_bank.insert_follows(stmt1, stmt2);
 }
 
 bool PKB::extract_design()
@@ -139,63 +138,47 @@ bool PKB::insert_parent(int stmt1, int stmt2)
     {
         return false;
     }
-    parent_bank.put(stmt1, stmt2);
-    return true;
+    return parent_bank.insert_parent(stmt1, stmt2);
 }
 
 vector<int> PKB::get_follows_star(int stmt)
 {
-    return follows_star_bank.get(stmt);;
+    return follows_star_bank.get_follows_star(stmt);
 }
 
 vector<int> PKB::get_followed_star_by(int stmt)
 {
-    return follows_star_bank.get_reverse(stmt);
+    return follows_star_bank.get_followed_star_by(stmt);
 }
 
 vector<int> PKB::get_parent_star(int stmt)
 {
-    return parent_star_bank.get(stmt);
+    return parent_star_bank.get_parent_star(stmt);
 }
 
 vector<int> PKB::get_children_star(int stmt)
 {
-    return parent_star_bank.get_reverse(stmt);
+    return parent_star_bank.get_children_star(stmt);
 }
 
 int PKB::get_follows(int stmt)
 {
-    vector<int> result = follows_bank.get(stmt);
-    if (result.empty())
-    {
-        return -1;
-    }
-    return result.back();
+    return follows_bank.get_follows(stmt);
 }
 
 int PKB::get_followed_by(int stmt)
 {
-    vector<int> result = follows_bank.get_reverse(stmt);
-    if (result.empty())
-    {
-        return -1;
-    }
-    return result.back();
+    return follows_bank.get_followed_by(stmt);
 }
 
 int PKB::get_parent(int stmt)
 {
-    vector<int> result = parent_bank.get(stmt);
-    if (result.empty())
-    {
-        return -1;
-    }
-    return result.back();
+    return parent_bank.get_parent(stmt);
 }
 
 vector<int> PKB::get_children(int stmt)
 {
-    return parent_bank.get_reverse(stmt);
+    return parent_bank.get_children(stmt);
 }
 
 bool PKB::insert_assign(int stmt, string var, string assignment)
@@ -226,62 +209,62 @@ vector<int> PKB::get_all_assign_pattern_contains(string pattern)
 
 unordered_map<int, vector<int>> PKB::get_all_parent_relationship()
 {
-    return parent_bank.copy();
+    return parent_bank.get_all_parent_relationship();
 }
 
 unordered_map<int, vector<int>> PKB::get_all_follows_relationship()
 {
-    return follows_bank.copy();
+    return follows_bank.get_all_follows_relationship();
 }
 
 unordered_map<int, vector<int>> PKB::get_all_parent_star_relationship()
 {
-    return parent_star_bank.copy();
+    return parent_star_bank.get_all_parent_star_relationship();
 }
 
 unordered_map<int, vector<int>> PKB::get_all_follows_star_relationship()
 {
-    return follows_star_bank.copy();
+    return follows_star_bank.get_all_follows_star_relationship();
 }
 
 bool PKB::does_follows_exist()
 {
-    return follows_bank.empty();
+    return follows_bank.does_follows_exists();
 }
 
 bool PKB::does_follows_star_exist()
 {
-    return follows_star_bank.empty();
+    return follows_star_bank.does_follows_star_exist();
 }
 
 bool PKB::does_parent_exist()
 {
-    return parent_bank.empty();
+    return parent_bank.does_parent_exist();
 }
 
 bool PKB::does_parent_star_exist()
 {
-    return parent_star_bank.empty();
+    return parent_star_bank.does_parent_star_exist();
 }
 
 vector<int> PKB::get_all_follows()
 {
-    return follows_bank.get_all_keys();
+    return follows_bank.get_all_follows();
 }
 
 vector<int> PKB::get_all_followed()
 {
-    return follows_bank.get_all_values();
+    return follows_bank.get_all_followed();
 }
 
 vector<int> PKB::get_all_parent()
 {
-    return parent_bank.get_all_keys();
+    return parent_bank.get_all_parent();
 }
 
 vector<int> PKB::get_all_children()
 {
-    return parent_bank.get_all_values();
+    return parent_bank.get_all_children();
 }
 
 bool PKB::is_follows(int stmt1, int stmt2)
@@ -311,22 +294,22 @@ EntityType PKB::get_statement_type(int stmt)
 
 vector<int> PKB::get_all_follows_star()
 {
-    return follows_star_bank.get_all_keys();
+    return follows_star_bank.get_all_follows_star();
 }
 
 vector<int> PKB::get_all_followed_star()
 {
-    return follows_star_bank.get_all_values();
+    return follows_star_bank.get_all_follows_star();
 }
 
 vector<int> PKB::get_all_parent_star()
 {
-    return parent_star_bank.get_all_keys();
+    return parent_star_bank.get_all_parent_star();
 }
 
 vector<int> PKB::get_all_children_star()
 {
-    return parent_star_bank.get_all_values();
+    return parent_star_bank.get_all_children_star();
 }
 
 vector<string> PKB::get_all_modifies_procedures()
@@ -375,25 +358,28 @@ string PKB::assign_to_variable(int assign)
 
 vector<string> PKB::assigns_to_variables(vector<int> assigns)
 {
+    unordered_set<string> temp;
     vector<string> results;
     for (int assign : assigns)
     {
         string result = assign_bank.get_variable_from_statement(assign);
         if (result != "")
         {
-            results.push_back(result);
+            temp.emplace(result);
         }
     }
+    results.insert(results.end(), temp.begin(), temp.end());
     return results;
 }
 bool PKB::insert_type(int stmt, EntityType type)
 {
-    type_bank.insert_type(stmt, type);
+    bool resp = type_bank.insert_type(stmt, type);
+
     if (last_statement_num < stmt)
     {
         last_statement_num = stmt;
     }
-    return true;
+    return resp;
 }
 
 vector<int> PKB::get_all_whiles()

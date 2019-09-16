@@ -4,7 +4,7 @@
 TEST_CASE("ParentBank::is_parent()")
 {
     ParentBank parent_bank;
-    parent_bank.put(1, 2);
+    parent_bank.insert_parent(1, 2);
 
     SECTION("is_parent true")
     {

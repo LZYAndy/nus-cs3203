@@ -15,7 +15,7 @@ public:
     static void extract_parent_star(ParentBank &bank_in, ParentStarBank &bank_out);
 
 private:
-    static void extract_star(Bank<int,int> &bank_in, Bank<int,int> &bank_out);
+    static void extract_further_parents_child(ParentBank &bank_in, ParentStarBank &bank_out, std::vector<int> parents, int child);
 };
 
 #endif //AUTOTESTER_DESIGNEXTRACTOR_H
