@@ -4,8 +4,6 @@
 
 #include "Bank.h"
 
-#include <algorithm>
-
 class FollowsBank
 {
 public:

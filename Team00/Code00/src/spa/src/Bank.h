@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <vector>
 #include <string>
+#include <algorithm>
 #include <pql_dto/Entity.h>
 
 template<class T, class S>

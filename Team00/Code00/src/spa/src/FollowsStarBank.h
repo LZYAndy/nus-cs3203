@@ -2,7 +2,6 @@
 #define AUTOTESTER_FOLLOWSSTARBANK_H
 
 #include "Bank.h"
-#include <algorithm>
 
 class FollowsStarBank
 {
