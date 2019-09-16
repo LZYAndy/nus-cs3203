@@ -748,5 +748,58 @@ TEST_CASE("PKB::get_all_modifies_procedures_relationship()")
     }
 }
 
-bool does_uses_exist();
-bool does_modifies_exist();
+TEST_CASE("PKB::does_uses_exist()")
+{
+    PKB pkb1;
+    PKB pkb2;
+
+    SECTION("does not exist")
+    {
+        REQUIRE_FALSE(pkb1.does_uses_exist());
+        REQUIRE_FALSE(pkb2.does_uses_exist());
+    }
+
+    pkb1.insert_uses(1, "x");
+    pkb2.insert_uses("main", "y");
+
+    SECTION("exists")
+    {
+        REQUIRE(pkb1.does_uses_exist());
+        REQUIRE(pkb2.does_uses_exist());
+    }
+
+    pkb1.insert_uses("main", "x");
+
+    SECTION("exists multiple uses relationships")
+    {
+        REQUIRE(pkb1.does_uses_exist());
+    }
+}
+
+TEST_CASE("PKB::does_modifies_exist()")
+{
+    PKB pkb1;
+    PKB pkb2;
+
+    SECTION("does not exist")
+    {
+        REQUIRE_FALSE(pkb1.does_modifies_exist());
+        REQUIRE_FALSE(pkb2.does_modifies_exist());
+    }
+
+    pkb1.insert_modifies(1, "x");
+    pkb2.insert_modifies("main", "y");
+
+    SECTION("exists")
+    {
+        REQUIRE(pkb1.does_modifies_exist());
+        REQUIRE(pkb2.does_modifies_exist());
+    }
+
+    pkb1.insert_modifies("main", "x");
+
+    SECTION("exists multiple uses relationships")
+    {
+        REQUIRE(pkb1.does_modifies_exist());
+    }
+}
