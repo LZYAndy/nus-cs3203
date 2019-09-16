@@ -9,7 +9,6 @@
 #include <pql_dto/Relationships.h>
 #include <pql_dto/Pattern.h>
 
-<<<<<<< HEAD
 class PQLParser
 {
 private:
