@@ -35,4 +35,12 @@ namespace pql_dto
     {
         is_star = is_relationship_star;
     }
+
+    bool Relationships::equals(Relationships relationship)
+    {
+        return relationship_type == relationship.relationship_type
+            && first_param.equals(relationship.first_param)
+            && second_param.equals(relationship.second_param)
+            && is_star == relationship.is_star;
+    }
 }

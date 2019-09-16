@@ -11,7 +11,20 @@
 
 class PQLParser
 {
-private:
+
+public:
+    /*!
+    Parses and validates the query. If validation succeeds, stores query in clause pointers.
+    @param query The user's query statement.
+    @param declaration_clause The pointer to the declaration clause vector.
+    @param select_clause The pointer to the select clause vector.
+    @param such_that_clause The pointer to the such that clause vector.
+    @param pattern_clause The pointer to the pattern clause vector.
+    */
+    static std::string pql_parse_query(std::string query, std::vector<pql_dto::Entity>& declaration_clause,
+        std::vector<pql_dto::Entity>& select_clause, std::vector<pql_dto::Relationships>& such_that_clause,
+        std::vector<pql_dto::Pattern>& pattern_clause);
+
     /*!
     Parses and validates the declaration clause. If validation succeeds, stores query in clause pointers.
     @param query The pointer to the user's query.
@@ -43,17 +56,4 @@ private:
 
     static pql_dto::Relationships create_relationship(std::string& relationship_type, pql_dto::Entity first_param,
         pql_dto::Entity second_param);
-
-public:
-    /*!
-    Parses and validates the query. If validation succeeds, stores query in clause pointers.
-    @param query The user's query statement.
-    @param declaration_clause The pointer to the declaration clause vector.
-    @param select_clause The pointer to the select clause vector.
-    @param such_that_clause The pointer to the such that clause vector.
-    @param pattern_clause The pointer to the pattern clause vector.
-    */
-    static std::string pql_parse_query(std::string query, std::vector<pql_dto::Entity>& declaration_clause,
-        std::vector<pql_dto::Entity>& select_clause, std::vector<pql_dto::Relationships>& such_that_clause,
-        std::vector<pql_dto::Pattern>& pattern_clause);
 };
