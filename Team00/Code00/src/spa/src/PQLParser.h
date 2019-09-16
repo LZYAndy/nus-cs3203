@@ -70,3 +70,4 @@ public:
     static std::string parse_pattern_clause(const std::string& query, std::vector<pql_dto::Pattern>& pattern_clause,
         std::unordered_map<std::string, std::string>& declared_variables);
 };
+

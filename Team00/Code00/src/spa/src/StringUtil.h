@@ -40,4 +40,11 @@ public:
     @return The string without whitespaces.
     */
     static std::string replace_all_white_spaces(std::string& s);
+
+    /*!
+     Removes all spaces from the beginning of the string.
+     @param s The string.
+     @return The string starting from a non-space character.
+     */
+     static std::string trim_left(std::string& s);
 };
