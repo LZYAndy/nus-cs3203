@@ -181,9 +181,9 @@ TEST_CASE("Uses Relationships can store and retrieve correct entity types.")
         REQUIRE(second_param.equals(second_param_entity));
     }
 
-    SECTION("Uses Relationship with both unknown param.", "Uses(v1,v2)")
+    SECTION("Uses Relationship with both unknown param.", "Uses(s1,v2)")
     {
-        pql_dto::Entity first_param_entity = pql_dto::Entity("variable", "v1", true);
+        pql_dto::Entity first_param_entity = pql_dto::Entity("stmt", "s1", true);
         pql_dto::Entity second_param_entity = pql_dto::Entity("variable", "v2", true);
         REQUIRE_NOTHROW(pql_dto::UsesRelationship(first_param_entity,
             second_param_entity, false));
@@ -271,6 +271,14 @@ TEST_CASE("Uses Relationships throws error for incorrect entity types.")
         REQUIRE_THROWS_WITH(pql_dto::UsesRelationship(first_param_entity,
             second_param_entity, false), "Invalid Uses Relationship First Parameter Type!");
     }
+
+    SECTION("Uses Relationship with invalid variable first param entity.", "Uses(v1,v2)")
+    {
+        pql_dto::Entity first_param_entity = pql_dto::Entity("variable", "v1", true);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("variable", "v2", true);
+        REQUIRE_THROWS_WITH(pql_dto::UsesRelationship(first_param_entity,
+            second_param_entity, false), "Invalid Uses Relationship First Parameter Type!");
+    }
 }
 
 TEST_CASE("Modifies Relationships can store and retrieve correct entity types.")
@@ -291,9 +299,9 @@ TEST_CASE("Modifies Relationships can store and retrieve correct entity types.")
         REQUIRE(second_param.equals(second_param_entity));
     }
 
-    SECTION("Modifies Relationship with both unknown param.", "Modifies(v1,v2)")
+    SECTION("Modifies Relationship with both unknown param.", "Modifies(s1,v2)")
     {
-        pql_dto::Entity first_param_entity = pql_dto::Entity("variable", "v1", true);
+        pql_dto::Entity first_param_entity = pql_dto::Entity("stmt", "s1", true);
         pql_dto::Entity second_param_entity = pql_dto::Entity("variable", "v2", true);
         REQUIRE_NOTHROW(pql_dto::ModifiesRelationship(first_param_entity,
             second_param_entity, false));
@@ -370,6 +378,14 @@ TEST_CASE("Modifies Relationships throws error for incorrect entity types.")
     {
         pql_dto::Entity first_param_entity = pql_dto::Entity("print", "prt", true);
         pql_dto::Entity second_param_entity = pql_dto::Entity("string", "x", false);
+        REQUIRE_THROWS_WITH(pql_dto::ModifiesRelationship(first_param_entity,
+            second_param_entity, false), "Invalid Modifies Relationship First Parameter Type!");
+    }
+
+    SECTION("Modifies Relationship with invalid variable param entity.", "Modifies(v1,v2)")
+    {
+        pql_dto::Entity first_param_entity = pql_dto::Entity("variable", "v1", true);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("variable", "v2", true);
         REQUIRE_THROWS_WITH(pql_dto::ModifiesRelationship(first_param_entity,
             second_param_entity, false), "Invalid Modifies Relationship First Parameter Type!");
     }

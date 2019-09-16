@@ -18,7 +18,7 @@ namespace pql_dto
         {
             if (param.get_entity_type() == EntityType::CONSTANT || param.get_entity_type() == EntityType::PATTEXPR
                 || param.get_entity_type() == EntityType::ANY || param.get_entity_type() == EntityType::PRINT
-                || param.get_entity_type() == EntityType::INVALID)
+                || param.get_entity_type() == EntityType::INVALID || param.get_entity_type() == EntityType::VARIABLE)
             {
                 throw std::runtime_error("Invalid Modifies Relationship First Parameter Type!");
             }

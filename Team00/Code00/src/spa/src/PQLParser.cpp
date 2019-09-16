@@ -268,13 +268,18 @@ std::string PQLParser::parse_pattern_clause(const std::string& query, std::vecto
         std::string pattern_params = pattern_query.substr(open_parentheses_index);
 
         size_t comma_index = pattern_params.find_first_of(',');
+        if (comma_index == std::string::npos)
+        {
+            return "Invalid Syntax! Pattern clause syntax error. Missing parameters.";
+        }
+
         std::string first_param_string = StringUtil::trim(pattern_params.substr(1, comma_index - 1), whitespace);
         std::string second_param_string = StringUtil::trim(pattern_params.substr(comma_index + 1,
             pattern_params.length() - comma_index - 2), whitespace);
 
         try
         {
-            pql_dto::Entity pattern_entity = pql_dto::Entity(entity_name, entity_name, true);
+            pql_dto::Entity pattern_entity = pql_dto::Entity(declared_variables.at(entity_name), entity_name, true);
             pql_dto::Entity first_param = create_entity(first_param_string, declared_variables, false);
             pql_dto::Entity second_param = create_entity(second_param_string, declared_variables, true);
             pql_dto::Pattern pattern = pql_dto::Pattern(pattern_entity, first_param, second_param);

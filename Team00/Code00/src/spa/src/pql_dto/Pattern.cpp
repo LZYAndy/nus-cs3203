@@ -67,4 +67,11 @@ namespace pql_dto
             throw std::runtime_error("Invalid Entity Type For Pattern Second Param!");
         }
     }
+
+    bool Pattern::equals(Pattern pattern)
+    {
+        return pattern_entity.equals(pattern.pattern_entity)
+            && first_param.equals(pattern.first_param)
+            && second_param.equals(pattern.second_param);
+    }
 }
