@@ -25,12 +25,12 @@ void TestWrapper::parse(std::string filename)
   // ...rest of your code...
     try
     {
-        std::ifstream file(filename);
+        std::ifstream t(filename);
         std::string contents;
 
-        file.seekg(0, std::ios::end);
-        contents.reverse(file.tellg());
-        file.seekg(0, std::ios::beg);
+        t.seekg(0, std::ios::end);
+        contents.reserve(t.tellg());
+        t.seekg(0, std::ios::beg);
 
         contents.assign((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
 
