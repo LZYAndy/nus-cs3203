@@ -40,8 +40,12 @@ TEST_CASE("ModifiesBank::get_statements_modifies()")
     {
         result = modifies_bank.get_statements_modifies("a");
         REQUIRE(result.size() == 2);
-        REQUIRE(result[0] == 1);
-        REQUIRE(result[1] == 7);
+        std::vector<int> expected;
+        expected.push_back(1);
+        expected.push_back(7);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(expected == result);
     }
 
 }
@@ -281,5 +285,69 @@ TEST_CASE("ModifiesBank::get_all_modifies_statements()")
         std::sort(expected.begin(), expected.end());
         std::sort(result.begin(), result.end());
         REQUIRE(expected == result);
+    }
+}
+
+TEST_CASE("ModifiesBank::get_all_modifies_statements_relationship()")
+{
+    ModifiesBank modifies_bank;
+
+    std::unordered_map<int, std::vector<std::string>> result;
+    std::unordered_map<int, std::vector<std::string>> expected;
+
+    SECTION("bank without element")
+    {
+        result = modifies_bank.get_all_modifies_statements_relationship();
+        REQUIRE(result.empty());
+    }
+
+    modifies_bank.insert_modifies(1, "a");
+    modifies_bank.insert_modifies(1, "b");
+    modifies_bank.insert_modifies(5, "b");
+
+    SECTION("bank with element(s)")
+    {
+        std::vector<std::string> value1;
+        std::vector<std::string> value2;
+        value1.push_back("a");
+        value1.push_back("b");
+        value2.push_back("b");
+        expected.emplace(1, value1);
+        expected.emplace(5,value2);
+        result = modifies_bank.get_all_modifies_statements_relationship();
+        REQUIRE(result.size() == expected.size());
+        REQUIRE(result == expected);
+    }
+}
+
+TEST_CASE("ModifiesBank::get_all_modifies_procedures_relationship()")
+{
+    ModifiesBank modifies_bank;
+
+    std::unordered_map<std::string, std::vector<std::string>> result;
+    std::unordered_map<std::string, std::vector<std::string>> expected;
+
+    SECTION("bank without element")
+    {
+        result = modifies_bank.get_all_modifies_procedures_relationship();
+        REQUIRE(result.empty());
+    }
+
+    modifies_bank.insert_modifies("main", "a");
+    modifies_bank.insert_modifies("main", "b");
+    modifies_bank.insert_modifies("procX", "b");
+
+    SECTION("bank with element(s)")
+    {
+        std::vector<std::string> value1;
+        std::vector<std::string> value2;
+        value1.push_back("a");
+        value1.push_back("b");
+        value2.push_back("b");
+        expected.emplace("main", value1);
+        expected.emplace("procX",value2);
+        result = modifies_bank.get_all_modifies_procedures_relationship();
+        REQUIRE(result.size() == expected.size());
+        REQUIRE(result == expected);
     }
 }

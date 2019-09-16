@@ -1,7 +1,7 @@
 #include "catch.hpp"
-#include "ModifiesBank.h"
+#include "PKB.h"
 
 TEST_CASE("Init ModifiesBank")
 {
-ModifiesBank modifies_bank;
+
 }
