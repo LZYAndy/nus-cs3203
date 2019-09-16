@@ -346,13 +346,7 @@ pql_dto::Entity PQLParser::create_entity(std::string& var_name, std::unordered_m
     return entity;
 }
 
-<<<<<<< HEAD
 pql_dto::Relationships PQLParser::create_relationship(std::string& relationship_type, pql_dto::Entity first_param, pql_dto::Entity second_param)
-=======
-string pql_parse_query(std::string query, vector<pql_dto::Entity>& declaration_clause,
-	vector<pql_dto::Entity>& select_clause, vector<pql_dto::Relationships>& such_that_clause, 
-	vector<pql_dto::Pattern>& pattern_clause) 
->>>>>>> 67cf58f... add FollowsEvaluator, QueryUtility classes
 {
     if (relationship_type == "Follows")
     {
