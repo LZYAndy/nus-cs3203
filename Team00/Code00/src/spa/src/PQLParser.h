@@ -55,4 +55,3 @@ public:
         std::vector<pql_dto::Entity>& select_clause, std::vector<pql_dto::Relationships>& such_that_clause,
         std::vector<pql_dto::Pattern>& pattern_clause);
 };
-
