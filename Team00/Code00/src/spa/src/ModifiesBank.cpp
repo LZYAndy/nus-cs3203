@@ -1,4 +1,4 @@
-#include <string>
+#include <algorithm>
 #include "ModifiesBank.h"
 
 void ModifiesBank::insert_modifies(int statement, std::string variable)

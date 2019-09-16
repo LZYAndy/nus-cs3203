@@ -1,4 +1,6 @@
+#include <algorithm>
 #include "UsesBank.h"
+
 void UsesBank::insert_uses(std::string procedure, std::string variable)
 {
     proc_bank.put(procedure, variable);
