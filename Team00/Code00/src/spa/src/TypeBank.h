@@ -1,8 +1,9 @@
 #ifndef AUTOTESTER_TYPEBANK_H
 #define AUTOTESTER_TYPEBANK_H
 
-#include "pql_dto/Entity.h"
 #include <unordered_map>
+
+#include "pql_dto/Entity.h"
 
 struct EnumClassHash
 {
