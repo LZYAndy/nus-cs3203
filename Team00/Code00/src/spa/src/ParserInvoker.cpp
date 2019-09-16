@@ -1,6 +1,6 @@
 #include "ParserInvoker.h"
 
-ParserInvoker::ParserInvoker(PKB pkb, std::vector<Statement> stmtlist, std::string parent_line)
+ParserInvoker::ParserInvoker(PKB pkbi, std::vector<Statement> stmtlist, std::string parent_line)
 {
     pkb = pkbi;
     list_of_statement = stmtlist;
@@ -27,7 +27,7 @@ void ParserInvoker::invoke_parser()
         {
             ReadParser readParser = ReadParser(pkb, this_statement, parent_prog_line);
         }
-        else if (this_statement.get_statement_type() == CallParser)
+        else if (this_statement.get_statement_type() == EntityType::CALL)
         {
             CallParser callParser = CallParser(pkb, this_statement, parent_prog_line);
         }
