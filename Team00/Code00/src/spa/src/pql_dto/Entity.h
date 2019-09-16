@@ -22,12 +22,8 @@ enum class EntityType
     CONSTANT,
     PROCEDURE,
     STRING,
-<<<<<<< HEAD
     PATTEXPR,
     INVALID
-=======
-    PATTEXPR
->>>>>>> 7ad0d27... implement AssignEvaluator class
 };
 
 namespace pql_dto

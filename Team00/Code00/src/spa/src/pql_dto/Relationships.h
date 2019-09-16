@@ -10,21 +10,12 @@
 
 #include "Entity.h"
 
-<<<<<<< HEAD
 enum class RelationshipType
 {
     FOLLOWS,
     PARENT,
     USES,
     MODIFIES
-=======
-enum RelationshipTypes
-{
-	FOLLOWS,
-	PARENT,
-	USES,
-	MODIFIES
->>>>>>> 67cf58f... add FollowsEvaluator, QueryUtility classes
 };
 
 namespace pql_dto
