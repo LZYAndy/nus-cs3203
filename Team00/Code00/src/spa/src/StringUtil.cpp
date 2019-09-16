@@ -36,7 +36,8 @@ std::string StringUtil::trim(const std::string& s, const std::string& whitespace
     int strStart = s.find_first_not_of(whitespace);
     int strEnd = s.find_last_not_of(whitespace);
 
-    if (strStart == std::string::npos) {
+    if (strStart == std::string::npos)
+    {
         return "";
     }
 
@@ -45,8 +46,26 @@ std::string StringUtil::trim(const std::string& s, const std::string& whitespace
 
 }
 
-std::string StringUtil::replace_all_white_spaces(std::string& s) {
+std::string StringUtil::replace_all_white_spaces(std::string& s)
+{
     std::regex r("\\s+");
     s = std::regex_replace(s, r, " ");
     return s;
+}
+
+std::string StringUtil::trim_left(std::string& s)
+{
+    while (true)
+    {
+        std::string this_pos = s.substr(0,1);
+        if (this_pos.compare(" ") == 0)
+        {
+            s = s.substr(1);
+            continue;
+        }
+        else
+        {
+            return s;
+        }
+    }
 }
