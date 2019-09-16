@@ -8,7 +8,7 @@ class ParentStarBank: public Bank<int, int>
 {
 
 public:
-    bool is_parents_star(int stmt1, int stmt2);
+    bool is_parent_star(int stmt1, int stmt2);
 };
 
 #endif //AUTOTESTER_PARENTSTARBANK_H
