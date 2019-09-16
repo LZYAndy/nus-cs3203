@@ -3,20 +3,18 @@
 
 #include <string>
 
-using namespace std;
-
 class Procedure
 {
 private:
-    string proc_name;
-    string body_of_proc;
+    std::string proc_name;
+    std::string body_of_proc;
 
 public:
     // Constructor
-    Procedure(string name, string body);
+    Procedure(std::string name, std::string body);
 
-    string get_name();
-    string get_body();
+    std::string get_name();
+    std::string get_body();
 };
 
 #endif //AUTOTESTER_PROCEDURE_H

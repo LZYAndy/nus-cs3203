@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <iostream>
-#include <string>
 #include <vector>
 #include <stdexcept>
 
@@ -13,7 +12,7 @@ namespace pql_dto
     {
     }
 
-    Entity::Entity(string entity_type, string entity_name, bool is_declared)
+    Entity::Entity(std::string entity_type, std::string entity_name, bool is_declared)
     {
         set_entity_type(entity_type);
         set_is_declared(is_declared);
@@ -25,7 +24,7 @@ namespace pql_dto
         return entity_type;
     }
 
-    string Entity::get_entity_name()
+std::string Entity::get_entity_name()
     {
         return entity_name;
     }
@@ -35,7 +34,7 @@ namespace pql_dto
         return is_declared_entity;
     }
 
-    void Entity::set_entity_type(string type)
+    void Entity::set_entity_type(std::string type)
     {
         if (type == "any")
         {
@@ -95,7 +94,7 @@ namespace pql_dto
         }
     }
 
-    void Entity::set_entity_name(string name)
+    void Entity::set_entity_name(std::string name)
     {
         //checks entity names
         if (entity_type == EntityType::ANY)

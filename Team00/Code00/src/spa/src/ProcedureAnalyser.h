@@ -5,23 +5,21 @@
 #include <regex>
 #include <Procedure.h>
 
-using namespace std;
-
 class ProcedureAnalyser
 {
 private:
-    string raw_data;
+    std::string raw_data;
 
 public:
     // Constructor
-    ProcedureAnalyser(string raw);
+    ProcedureAnalyser(std::string raw);
 
     // Find all the procedures and return as a vector of procedure.
-    vector<Procedure> analyse();
+    std::vector<Procedure> analyse();
 
-    Procedure parse_procedure(string proc_string);
+    Procedure parse_procedure(std::string proc_string);
 
-    string trim_left(string proc_string);
+    std::string trim_left(std::string proc_string);
 };
 
 #endif //AUTOTESTER_PROCEDUREANALYSER_H
