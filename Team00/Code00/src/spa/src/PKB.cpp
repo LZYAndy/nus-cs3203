@@ -299,7 +299,7 @@ vector<int> PKB::get_all_follows_star()
 
 vector<int> PKB::get_all_followed_star()
 {
-    return follows_star_bank.get_all_follows_star();
+    return follows_star_bank.get_all_followed_star();
 }
 
 vector<int> PKB::get_all_parent_star()

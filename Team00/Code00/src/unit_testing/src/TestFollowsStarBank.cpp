@@ -4,6 +4,7 @@
 TEST_CASE("FollowStarBank::isfollows()")
 {
     FollowsStarBank follows_star_bank;
+    
     follows_star_bank.insert_follows_star(1, 2);
     follows_star_bank.insert_follows_star(1, 3);
 
@@ -17,12 +18,14 @@ TEST_CASE("FollowStarBank::isfollows()")
     {
         REQUIRE_FALSE(follows_star_bank.is_follows_star(1, 4));
         REQUIRE_FALSE(follows_star_bank.is_follows_star(2, 3));
+        REQUIRE_FALSE(follows_star_bank.is_follows_star(2, 1));
     }
 }
 
 TEST_CASE("FollowStarBank::get_follows_star()")
 {
     FollowsStarBank follows_star_bank;
+    
     follows_star_bank.insert_follows_star(1, 2);
     follows_star_bank.insert_follows_star(1, 3);
     follows_star_bank.insert_follows_star(5, 6);
@@ -53,6 +56,7 @@ TEST_CASE("FollowStarBank::get_follows_star()")
 TEST_CASE("FollowStarBank::get_followed_star_by()")
 {
     FollowsStarBank follows_star_bank;
+    
     follows_star_bank.insert_follows_star(1, 2);
     follows_star_bank.insert_follows_star(1, 3);
     follows_star_bank.insert_follows_star(2, 3);
@@ -169,6 +173,7 @@ TEST_CASE("FollowStarBank::get_all_follows_star()")
 TEST_CASE("FollowStarBank::get_all_followed_star()")
 {
     FollowsStarBank follows_star_bank;
+    
     SECTION("empty")
     {
         REQUIRE(follows_star_bank.get_all_followed_star().empty());
