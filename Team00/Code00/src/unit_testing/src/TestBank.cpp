@@ -28,7 +28,7 @@ TEST_CASE("Bank<int, int>::get()/put()")
         REQUIRE(result.size() == 2);
         std::vector<int> expected_result;
         expected_result.push_back(2);
-        expected_result.push_back(3 );
+        expected_result.push_back(3);
         std::sort(expected_result.begin(), expected_result.end());
         std::sort(result.begin(), result.end());
         REQUIRE(result == expected_result);

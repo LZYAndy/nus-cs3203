@@ -6,6 +6,10 @@ bool FollowsStarBank::is_follows_star(int stmt1, int stmt2)
 
 bool FollowsStarBank::insert_follows_star(int stmt1, int stmt2)
 {
+    if (stmt1 == stmt2)
+    {
+        return false;
+    }
     follows_star_bank.put(stmt1, stmt2);
     return true;
 }
