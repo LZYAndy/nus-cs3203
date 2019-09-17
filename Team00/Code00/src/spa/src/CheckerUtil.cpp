@@ -52,9 +52,8 @@ bool CheckerUtil::is_condition_valid(std::string stmt)
         return false;
     }
 
-    // Single var
-    std::regex single_var("^[\\s]*[a-zA-Z0-9][\\s]*$");
-    if (std::regex_match(stmt, single_var))
+    // Single expression e.g. (x + 1)
+    if (std::regex_match(stmt, valid_expr))
     {
         return false;
     }

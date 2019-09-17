@@ -50,7 +50,7 @@ REQUIRE(CheckerUtil::is_condition_valid(" a ") == 0);
 REQUIRE(CheckerUtil::is_condition_valid(" a + a_ ") == 0);
 REQUIRE(CheckerUtil::is_condition_valid(" (a==2)) ") == 0);
 REQUIRE(CheckerUtil::is_condition_valid(" a!==2 ") == 0);
-//REQUIRE(CheckerUtil::is_condition_valid(" abc + cde ") == 0); // Not working
+REQUIRE(CheckerUtil::is_condition_valid(" abc + cde ") == 0);
 
 REQUIRE(CheckerUtil::is_condition_valid(" a == b ") == 1);
 REQUIRE(CheckerUtil::is_condition_valid(" a >= b ") == 1);
