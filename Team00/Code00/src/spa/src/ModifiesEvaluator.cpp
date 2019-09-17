@@ -11,7 +11,7 @@ unordered_map<string, vector<string>> ModifiesEvaluator::evaluate_non_trivial(pq
 
     if (second_param.is_entity_declared())
     {
-        if (CheckerUtil::is_const_valid(first_name))
+        if (QueryUtility::is_statement_num(first_param))
         { // e.g. Modifies(1, v)
             vector<string> str_vec = PKB.get_modified_by_statement(stoi(first_name));
             result = QueryUtility::mapping(second_param, str_vec);
@@ -34,7 +34,7 @@ unordered_map<string, vector<string>> ModifiesEvaluator::evaluate_non_trivial(pq
     }
     else if (QueryUtility::is_proc_declared(first_param))
     {
-        if (second_name == "_")
+        if (second_param.get_entity_type() == EntityType::ANY)
         { // e.g. Modifies(p, _)
             vector<string> str_vec = PKB.get_all_modifies_procedures();
             result = QueryUtility::mapping(first_param, str_vec);
@@ -47,7 +47,7 @@ unordered_map<string, vector<string>> ModifiesEvaluator::evaluate_non_trivial(pq
     }
     else
     {
-        if (second_name == "_")
+        if (second_param.get_entity_type() == EntityType::ANY)
         { // e.g. Modifies(s, _)
             vector<int> int_vec = PKB.get_all_modifies_statements();
             result = QueryUtility::mapping(first_param, int_vec);
@@ -64,19 +64,18 @@ unordered_map<string, vector<string>> ModifiesEvaluator::evaluate_non_trivial(pq
 bool ModifiesEvaluator::evaluate_trivial(pql_dto::Entity first_param,
         pql_dto::Entity second_param)
 {
-    PKB PKB;
     bool result = false;
-    vector<string> empty_vec;
+    PKB PKB;
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
 
-    if (CheckerUtil::is_const_valid(first_name))
+    if (QueryUtility::is_statement_num(first_param))
     {
         if (QueryUtility::is_var_name(second_param))
         { // e.g. Modifies(1, "x")
             result = PKB.is_modifies(stoi(first_name), second_name);
         }
-        else if (second_name == "_")
+        else if (second_param.get_entity_type() == EntityType::ANY)
         { // e.g. Modifies(1, _)
             result = !PKB.get_modified_by_statement(stoi(first_name)).empty();
         }
@@ -87,7 +86,7 @@ bool ModifiesEvaluator::evaluate_trivial(pql_dto::Entity first_param,
         { // e.g. Modifies("main", "x")
             result = PKB.is_modifies(first_name, second_name);
         }
-        else if (second_name == "_")
+        else if (second_param.get_entity_type() == EntityType::ANY)
         { // e.g. Modifies("main", _)
             result = !PKB.get_modified_by_procedure(first_name).empty();
         }
