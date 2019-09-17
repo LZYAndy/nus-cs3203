@@ -35,7 +35,7 @@ public:
 
     /*!
     Parses and validates the declaration clause. If validation succeeds, stores query in clause pointers.
-    @param query The pointer to the user's query.
+    @param query The pointer to the user's query. String contains start of string to the last semi-colon.
     @param declaration_clause The pointer to the declaration clause vector.
     @param declared_variables The pointer to the variables unordered map.
     */
@@ -44,10 +44,10 @@ public:
 
     /*!
     Parses and validates the select clause. If validation succeeds, stores query in clause pointers.
-    @param query The pointer to the select query.
+    @param query The pointer to the select query. String contains everything after the last semi-colon.
     @param declaration_clause The pointer to the select clause vector.
     @param declared_variables The pointer to the variables unordered map.
-    @param condition_query The pointer to the string of condition in the param @query.
+    @param condition_query The pointer to the string of condition in the param @query. The condition query is trimmed.
     */
     static std::string parse_select_clause(const std::string& query, std::vector<pql_dto::Entity>& select_clause,
         std::unordered_map<std::string, std::string>& declared_variables, std::string& condition_query);
