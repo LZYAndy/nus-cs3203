@@ -35,8 +35,9 @@ TEST_CASE("Correct entity params does not throw error.")
     SECTION("Set entity with correct name where entity is NOT declared.")
     {
         REQUIRE_NOTHROW(pql_dto::Entity("stmt", "5", false));
-        REQUIRE_NOTHROW(pql_dto::Entity("string", "5", false));
+        REQUIRE_NOTHROW(pql_dto::Entity("string", "stringtest", false));
         REQUIRE_NOTHROW(pql_dto::Entity("any", "_", false));
+        REQUIRE_NOTHROW(pql_dto::Entity("pattexpr", "x+y", false));
         REQUIRE_NOTHROW(pql_dto::Entity("pattexpr", "_\"x\"_", false));
         REQUIRE_NOTHROW(pql_dto::Entity("pattexpr", "_\"x + y\"_", false));
     }
@@ -61,8 +62,8 @@ TEST_CASE("Wrong entity params throws error correctly")
     {
         REQUIRE_THROWS_WITH(pql_dto::Entity("stmt", "a", false), "Invalid Statement Number Value!");
         REQUIRE_THROWS_WITH(pql_dto::Entity("string", "a2@", false), "Invalid String!");
+        REQUIRE_THROWS_WITH(pql_dto::Entity("string", "5", false), "Invalid String!");
         REQUIRE_THROWS_WITH(pql_dto::Entity("any", "s", false), "Invalid Entity Name For Any!");
-        REQUIRE_THROWS_WITH(pql_dto::Entity("pattexpr", "s", false), "Invalid Entity Name For Pattern Expression!");
         REQUIRE_THROWS_WITH(pql_dto::Entity("pattexpr", "_\"_", false), "Invalid Entity Name For Pattern Expression!");
         REQUIRE_THROWS_WITH(pql_dto::Entity("pattexpr", "_\"\"_", false), "Invalid Entity Name For Pattern Expression!");
         REQUIRE_THROWS_WITH(pql_dto::Entity("pattexpr", "_\"ser#\"_", false), "Invalid Entity Params For Pattern Expression!");

@@ -60,6 +60,8 @@ namespace pql_dto
 
         // Sets the @param is_declared_entity value to true if Entity is declared.
         void set_is_declared(bool is_declared);
+
+        bool equals(Entity entity);
     };
 }
 
