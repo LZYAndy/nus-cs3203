@@ -313,7 +313,7 @@ TEST_CASE("ModifiesBank::get_all_modifies_statements_relationship()")
         value1.push_back("b");
         value2.push_back("b");
         expected.emplace(1, value1);
-        expected.emplace(5,value2);
+        expected.emplace(5, value2);
         result = modifies_bank.get_all_modifies_statements_relationship();
         REQUIRE(result.size() == expected.size());
         REQUIRE(result == expected);
