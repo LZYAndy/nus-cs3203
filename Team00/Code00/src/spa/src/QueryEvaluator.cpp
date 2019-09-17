@@ -318,17 +318,15 @@ unordered_map<string, unordered_set<string>> QueryEvaluator::get_final_list(unor
     return result;
 }
 
-unordered_set<string> QueryEvaluator::get_common_part(const vector<string> str_vec_1, vector<string> str_vec_2)
+unordered_set<string> QueryEvaluator::get_common_part(const vector<string>& str_vec_1, vector<string> str_vec_2)
 {
     unordered_set<string> result;
-    int i = 0;
     for (const auto& iter : str_vec_1)
     {
-        if (iter == str_vec_2[i])
+        if (count(str_vec_2.begin(), str_vec_2.end(), iter))
         {
             result.insert(iter);
         }
-        i++;
     }
     return result;
 }

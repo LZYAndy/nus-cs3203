@@ -3,19 +3,6 @@
 
 PKB PKB;
 
-unordered_map<string, unordered_set<string>> QueryUtility::change_map_vector_to_set(unordered_map<string, vector<string>> map_vec)
-{
-    unordered_map<string, unordered_set<string>> result;
-    for (const auto& iter : map_vec)
-    {
-        string key = iter.first;
-        vector<string> str_vec = iter.second;
-        unordered_set<string> str_set(str_vec.begin(), str_vec.end());
-        result[key] = str_set;
-    }
-    return result;
-}
-
 /*
 Checks if the entity is a statement number
  */
