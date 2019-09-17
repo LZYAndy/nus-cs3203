@@ -19,3 +19,8 @@ TEST_CASE("ParentStarBank::is_parent_star")
         REQUIRE_FALSE(parent_star_bank.is_parent_star(2, 3));
     }
 }
+
+TEST_CASE("ParentStarBanl::insert_parent()")
+{
+    
+}
