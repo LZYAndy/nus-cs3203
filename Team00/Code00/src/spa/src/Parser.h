@@ -1,10 +1,7 @@
 #pragma once
 
-#include "PKB.h"
 #include "StatementListParser.h"
-#include "Procedure.h"
 #include "ParserInvoker.h"
-#include "Procedure.h"
 #include "ProcedureAnalyser.h"
 
 class Parser

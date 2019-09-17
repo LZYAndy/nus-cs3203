@@ -1,7 +1,15 @@
+#pragma once
 #ifndef AUTOTESTER_CHECKERUTIL_H
 #define AUTOTESTER_CHECKERUTIL_H
 
 #include <regex>
+
+extern std::regex all_word;
+extern std::regex valid_name;
+extern std::regex valid_const;
+//(_word_)  (_[+-*/%]_(_word_))*  <- Do not remove the space.
+extern std::regex valid_expr;
+extern std::regex valid_cond;
 
 class CheckerUtil
 {

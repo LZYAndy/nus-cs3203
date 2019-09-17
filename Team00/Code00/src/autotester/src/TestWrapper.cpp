@@ -39,7 +39,7 @@ void TestWrapper::parse(std::string filename)
     }
     catch (std::string exception)
     {
-        //std::cout << exception << std::flush;
+        std::cout << exception << std::flush;
         exit(0);
     }
 }

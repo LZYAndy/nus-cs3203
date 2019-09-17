@@ -9,7 +9,6 @@
 
 // include your other headers here
 #include "AbstractWrapper.h"
-#include "./../../spa/src/PKB.h"
 #include "./../../spa/src/Parser.h"
 
 class TestWrapper : public AbstractWrapper {
