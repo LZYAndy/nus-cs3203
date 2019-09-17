@@ -43,5 +43,4 @@ namespace error_messages
     constexpr const char* invalid_query_pattern_clause_syntax(R"(Invalid Query! Pattern Clause Syntax Error.)");
     constexpr const char* invalid_query_wrong_pattern_entity(R"(Invalid Syntax! Invalid Entity for pattern.)");
     constexpr const char* invalid_relationship_type(R"(Invalid Relationship Type!)");
-
 }
