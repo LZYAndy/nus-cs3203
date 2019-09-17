@@ -202,7 +202,7 @@ vector<string> QueryEvaluator::merge(pql_dto::Entity select_entity,
     }
     else
     {
-        if (such_that_list.empty() or pattern_list.empty())
+        if (such_that_list.empty() || pattern_list.empty())
         {
             result = vector<string>();
         }
