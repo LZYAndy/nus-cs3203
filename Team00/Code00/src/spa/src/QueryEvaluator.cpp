@@ -9,9 +9,9 @@ vector<string> QueryEvaluator::get_result(string query)
     vector<string> result;
     vector<string> empty_vec;
 
-    unordered_map<string, vector<string>> select_list;
-    unordered_map<string, vector<string>> such_that_list;
-    unordered_map<string, vector<string>> pattern_list;
+    unordered_map<string, vector<string>> select_list = unordered_map<string, vector<string>>();
+    unordered_map<string, vector<string>> such_that_list = unordered_map<string, vector<string>>();
+    unordered_map<string, vector<string>> pattern_list = unordered_map<string, vector<string>>();
 
     vector<pql_dto::Entity> declaration_clause;
     vector<pql_dto::Entity> select_clause;
@@ -202,7 +202,7 @@ vector<string> QueryEvaluator::merge(pql_dto::Entity select_entity,
     }
     else
     {
-        if (such_that_list.empty() or pattern_list.empty())
+        if (such_that_list.empty() || pattern_list.empty())
         {
             result = vector<string>();
         }
@@ -247,7 +247,7 @@ vector<string> QueryEvaluator::get_common_synonyms(const unordered_map<string, v
 unordered_map<string, vector<string>> QueryEvaluator::get_final_list(unordered_map<string, vector<string>> map_1,
         unordered_map<string, vector<string>> map_2, vector<string> common_synonyms)
 {
-    unordered_map<string, vector<string>> result;
+    unordered_map<string, vector<string>> result = unordered_map<string, vector<string>>();
     vector<pair<int, int>> position;
     int i = 0;
     for (const auto& element_1 : map_1.at(common_synonyms[0]))
@@ -260,7 +260,7 @@ unordered_map<string, vector<string>> QueryEvaluator::get_final_list(unordered_m
             {
                 for (const auto& synonym : common_synonyms)
                 {
-                    if (map_1.at(synonym)[i] != map_2.at(synonym)[j])
+                    if (map_1.at(synonym).at(i) != map_2.at(synonym).at(j))
                     {
                         is_same = false;
                         break;
@@ -307,13 +307,13 @@ unordered_map<string, vector<string>> QueryEvaluator::get_final_list(unordered_m
     return result;
 }
 
-vector<string> QueryEvaluator::get_common_part(vector<string> str_vec_1, vector<string> str_vec_2)
+vector<string> QueryEvaluator::get_common_part(const vector<string>& str_vec_1, vector<string> str_vec_2)
 {
     vector<string> result;
     int i = 0;
     for (const auto& iter : str_vec_1)
     {
-        if (iter == str_vec_2[i])
+        if (count(str_vec_2.begin(), str_vec_2.end(), iter))
         {
             result.push_back(iter);
         }
