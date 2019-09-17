@@ -29,6 +29,8 @@ TEST_CASE("Bank<int, int>::get()/put()")
         std::vector<int> expected_result;
         expected_result.push_back(2);
         expected_result.push_back(3 );
+        std::sort(expected_result.begin(), expected_result.end());
+        std::sort(result.begin(), result.end());
         REQUIRE(result == expected_result);
     }
 
@@ -60,6 +62,8 @@ TEST_CASE("Bank<int, int>::get_reverse()")
         std::vector<int> expected_result;
         expected_result.push_back(1);
         expected_result.push_back(2);
+        std::sort(expected_result.begin(), expected_result.end());
+        std::sort(result.begin(), result.end());
         REQUIRE(result == expected_result);
     }
 }
@@ -80,7 +84,10 @@ TEST_CASE("Bank<int, int>::get_all_keys()")
         std::vector<int> expected_result;
         expected_result.push_back(2);
         expected_result.push_back(1);
-        REQUIRE(bank.get_all_keys() == expected_result);
+        std::vector<int> result = bank.get_all_keys();
+        std::sort(expected_result.begin(), expected_result.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(result == expected_result);
     }
 }
 
@@ -100,7 +107,10 @@ TEST_CASE("Bank<int, int>::get_all_values()")
         std::vector<int> expected_result;
         expected_result.push_back(3);
         expected_result.push_back(2);
-        REQUIRE(bank.get_all_values() == expected_result);
+        std::vector<int> result = bank.get_all_values();
+        std::sort(expected_result.begin(), expected_result.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(result == expected_result);
     }
 }
 
