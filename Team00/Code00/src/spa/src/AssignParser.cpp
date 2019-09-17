@@ -1,9 +1,6 @@
 #include "AssignParser.h"
-#include "CheckerUtil.h"
-#include "Statement.h"
 
-regex assign_pattern("^\\s*([a-zA-Z][a-zA-Z0-9]+)\\s*=\\s*(.+)\\s*$");
-regex all_word("\\w+");
+std::regex assign_pattern("^\\s*([a-zA-Z][a-zA-Z0-9]+)\\s*=\\s*(.+)\\s*$");
 
 AssignParser::AssignParser(PKB pkb, Statement statement, std::string parent_prog_line)
 {
