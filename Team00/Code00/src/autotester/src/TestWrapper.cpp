@@ -23,25 +23,25 @@ void TestWrapper::parse(std::string filename)
 {
 	// call your parser to do the parsing
   // ...rest of your code...
-//    try
-//    {
-//        std::ifstream t(filename);
-//        std::string contents;
-//
-//        t.seekg(0, std::ios::end);
-//        contents.reserve(t.tellg());
-//        t.seekg(0, std::ios::beg);
-//
-//        contents.assign((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
-//
-//        Parser parser = Parser(contents);
-//        parser.Parse();
-//    }
-//    catch (std::string exception)
-//    {
-//        std::cout << exception << std::flush;
-//        exit(0);
-//    }
+    try
+    {
+        std::ifstream t(filename);
+        std::string contents;
+
+        t.seekg(0, std::ios::end);
+        contents.reserve(t.tellg());
+        t.seekg(0, std::ios::beg);
+
+        contents.assign((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+
+        Parser parser = Parser(contents);
+        parser.Parse();
+    }
+    catch (std::string exception)
+    {
+        std::cout << exception << std::flush;
+        exit(0);
+    }
 }
 
 // method to evaluating a query
