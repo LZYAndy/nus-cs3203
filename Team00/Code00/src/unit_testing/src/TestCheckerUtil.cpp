@@ -56,7 +56,7 @@ TEST_CASE("CheckerUtil is_expr_valid")
 TEST_CASE("CheckerUtil is_condition_valid")
 {
     REQUIRE_FALSE(CheckerUtil::is_condition_valid(" a ")); // A single var is invalid for condition
-//REQUIRE_FALSE(CheckerUtil::is_condition_valid(" !a "));
+    REQUIRE_FALSE(CheckerUtil::is_condition_valid(" !a ")); // Not a condition
     REQUIRE_FALSE(CheckerUtil::is_condition_valid(" a + a_ ")); // Underscore is not allowed for var_name
     REQUIRE_FALSE(CheckerUtil::is_condition_valid(" (a==2)) ")); // Bracket is not balanced
     REQUIRE_FALSE(CheckerUtil::is_condition_valid(" a!==2 ")); // No "!==" comparator
@@ -78,7 +78,8 @@ TEST_CASE("CheckerUtil is_condition_valid")
     REQUIRE(CheckerUtil::is_condition_valid(" a0a >= b ")); // Comparing greater and equals than
     REQUIRE(CheckerUtil::is_condition_valid(" a <= bAz ")); // Comparing lesser and equals than
     REQUIRE(CheckerUtil::is_condition_valid(" a != 1 ")); // Not equals against a const
-    REQUIRE(CheckerUtil::is_condition_valid(" ( a < b ) && (c > d)")); // fuck
+    REQUIRE(CheckerUtil::is_condition_valid(" ( a < b ) && (c > d)"));
+    REQUIRE(CheckerUtil::is_condition_valid(" ( a <    b12 ) || ((c >= d) && !  (e ==   f )    )"));
     REQUIRE(CheckerUtil::is_condition_valid(" ((((( a + b ) - c ) * d) / e ) % f ) && ( (a - 1) || (b / 9 ) )"));
 
 

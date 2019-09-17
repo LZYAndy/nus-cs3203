@@ -75,16 +75,13 @@ bool CheckerUtil::is_condition_valid(std::string stmt)
         sections.push_back(stmt.substr(prev, std::string::npos));
     }
 
-    printf("Size: %d\n",sections.size());
     // Check condition
     for (const auto& section: sections)
     {
         if (sections.size() > 1){
-            printf("%s | %s\n",section.c_str(), stmt.c_str());
-            std::regex test("^[\\s]*\\(.*\\)[\\s]*$");
-            if (!std::regex_match(section, test))
+            std::regex bracket_check("^[\\s!]*\\(.*\\)[\\s]*$");
+            if (!std::regex_match(section, bracket_check))
             {
-                printf("Fail bracket check");
                 return false;
             }
         }
