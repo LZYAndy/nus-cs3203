@@ -4,7 +4,15 @@ void TypeBank::insert_type(int stmt, EntityType type)
 {
     if (bank.find(stmt) != bank.end())
     {
-        std::vector<EntityType> bank_value = bank.at(stmt);
+        std::vector<EntityType> &bank_value = bank.at(stmt);
+         // check if value exists already
+        for (EntityType val : bank_value)
+        {
+            if (type == val)
+            {
+                return;
+            }
+        }
         bank_value.push_back(type);
     }
     else
@@ -16,7 +24,15 @@ void TypeBank::insert_type(int stmt, EntityType type)
 
     if (reverse_bank.find(type) != reverse_bank.end())
     {
-        std::vector<int> reverse_bank_value = reverse_bank.at(type);
+        std::vector<int> &reverse_bank_value = reverse_bank.at(type);
+         // check if value exists already
+        for (int key : reverse_bank_value)
+        {
+            if (stmt == key)
+            {
+                return;
+            }
+        }
         reverse_bank_value.push_back(stmt);
     }
     else

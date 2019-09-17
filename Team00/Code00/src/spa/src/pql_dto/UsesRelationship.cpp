@@ -16,8 +16,9 @@ namespace pql_dto
     private:
         void set_first_param(Entity param)
         {
-            if (param.get_entity_type() == EntityType::CONSTANT || param.get_entity_type() == EntityType::VARIABLE
-                || param.get_entity_type() == EntityType::STRING)
+            if (param.get_entity_type() == EntityType::CONSTANT || param.get_entity_type() == EntityType::PATTEXPR
+                || param.get_entity_type() == EntityType::ANY || param.get_entity_type() == EntityType::READ
+                || param.get_entity_type() == EntityType::INVALID || param.get_entity_type() == EntityType::VARIABLE)
             {
                 throw std::runtime_error("Invalid Uses Relationship First Parameter Type!");
             }
@@ -28,7 +29,7 @@ namespace pql_dto
         void set_second_param(Entity param)
         {
             if (param.get_entity_type() == EntityType::CONSTANT || param.get_entity_type() == EntityType::VARIABLE
-                || param.get_entity_type() == EntityType::STRING)
+                || param.get_entity_type() == EntityType::STRING || param.get_entity_type() == EntityType::ANY)
             {
                 second_param = param;   
             }
