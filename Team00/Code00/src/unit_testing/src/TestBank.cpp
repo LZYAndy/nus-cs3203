@@ -140,11 +140,12 @@ TEST_CASE("Bank<int, int>::copy()")
     }
     SECTION("deep copy")
     {
-    bank.put(1,2);
-    std::unordered_map<int, std::vector<int>> hashmap = bank.copy();
-    REQUIRE(hashmap.size() == 1);
-    bank.put(2,3);
-    REQUIRE(hashmap.size() == 1); // test if shallow copy or deep clone
+        bank.put(1,2);
+        std::unordered_map<int, std::vector<int>> hashmap = bank.copy();
+        REQUIRE(hashmap.size() == 1);
+        // check if .copy() is deep copy and not shallow copy
+        bank.put(2,3);
+        REQUIRE(hashmap.size() == 1);
     }
 }
 

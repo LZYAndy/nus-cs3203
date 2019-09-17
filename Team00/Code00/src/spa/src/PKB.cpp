@@ -414,10 +414,10 @@ vector<int> PKB::get_all_calls()
 
 bool PKB::does_uses_exist()
 {
-    return uses_bank.empty();
+    return !uses_bank.empty();
 }
 
 bool PKB::does_modifies_exist()
 {
-    return modifies_bank.empty();
+    return !modifies_bank.empty();
 }

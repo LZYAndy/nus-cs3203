@@ -1,5 +1,7 @@
-#ifndef SPA_STATEMENT_H
-#define SPA_STATEMENT_H
+#ifndef AUTOTESTER_STATEMENT_H
+#define AUTOTESTER_STATEMENT_H
+
+#include "pql_dto/Entity.h"
 
 class Statement
 {
@@ -8,8 +10,8 @@ private:
     int statement_line;
     std::string statement;
     std::string condition;
-    std::string first_block;
-    std::string second_block;
+    std::vector<Statement> first_block;
+    std::vector<Statement> second_block;
 
 public:
     // Constructor
@@ -27,11 +29,20 @@ public:
     // Returns the condition.
     std::string get_condition();
 
+    // Set the condition.
+    void set_condition(std::string condi);
+
     // Returns the first block;
-    std::string get_first_block();
+    std::vector<Statement> get_first_block();
+
+    // Set the first block.
+    void set_first_block(std::vector<Statement> fb);
 
     // Returns the second block.
-    std::string get_second_block();
+    std::vector<Statement> get_second_block();
+
+    // Set the second block.
+    void set_second_block(std::vector<Statement> sb);
 };
 
-#endif //SPA_STATEMENT_H
+#endif //AUTOTESTER_STATEMENT_H
