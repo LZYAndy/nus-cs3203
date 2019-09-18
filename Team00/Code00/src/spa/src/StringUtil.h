@@ -6,6 +6,7 @@
 #include <cctype>
 #include <algorithm>
 #include <regex>
+#include "CheckerUtil.h"
 
 class StringUtil
 {
@@ -47,4 +48,11 @@ public:
      @return The string starting from a non-space character.
      */
      static std::string trim_left(std::string& s);
+
+     /*!
+      Gets all valid variable from a string.
+      * @param input The string.
+      * @return The vector of variables in string.
+      */
+     static std::vector<std::string> get_all_var(std::string input);
 };
