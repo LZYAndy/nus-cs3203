@@ -26,7 +26,7 @@ unordered_map<string, vector<string>> FollowsStarEvaluator::evaluate_non_trivial
             result[first_name] = empty_vec;
         }
         else
-        { // e.g. Follows(s1, s2)
+        { // e.g. Follows*(s1, s2)
             unordered_map<int, vector<int>> int_map = PKB.get_all_follows_star_relationship();
             result = QueryUtility::mapping(first_param, second_param, int_map);
         }
@@ -35,7 +35,7 @@ unordered_map<string, vector<string>> FollowsStarEvaluator::evaluate_non_trivial
     if (second_param.is_entity_declared())
     {
         if (first_param.get_entity_type() == EntityType::ANY)
-        { // e.g. Follows(_, s)
+        { // e.g. Follows*(_, s)
             vector<int> int_vec = PKB.get_all_follows();
             result = QueryUtility::mapping(second_param, int_vec);
         }
