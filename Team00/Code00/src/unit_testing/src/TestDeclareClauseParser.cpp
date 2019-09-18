@@ -1,5 +1,6 @@
 #include "catch.hpp"
 #include "PQLParser.h"
+#include "ErrorMessages.h"
 
 TEST_CASE("Parses and validate declaration clause.")
 {
@@ -31,7 +32,7 @@ TEST_CASE("Parses and validate declaration clause.")
         std::string test_query = "variable v1, v2; print prt; assign v1";
         std::string error = PQLParser::parse_declaration_clause(test_query, declaration_clause, declared_variables);
 
-        REQUIRE(error == "Invalid Query! Duplicate Synonyms for entities in Declaration Clause.");
+        REQUIRE(error == error_messages::invalid_query_declaration_duplicate_synonyms);
     }
 
     SECTION("Invalid Declaration Clause With Missing Synonyms")
@@ -39,7 +40,7 @@ TEST_CASE("Parses and validate declaration clause.")
         std::string test_query = "variable; print; assign";
         std::string error = PQLParser::parse_declaration_clause(test_query, declaration_clause, declared_variables);
 
-        REQUIRE(error == "Invalid Query! Missing synonym.");
+        REQUIRE(error == error_messages::invalid_query_declaration_clause_syntax);
     }
 
     SECTION("Invalid Declaration Clause With Missing Synonyms with extra space")
@@ -47,31 +48,7 @@ TEST_CASE("Parses and validate declaration clause.")
         std::string test_query = "variable v1; print ; assign a";
         std::string error = PQLParser::parse_declaration_clause(test_query, declaration_clause, declared_variables);
 
-        REQUIRE(error == "Invalid Query! Missing synonym.");
-    }
-
-    SECTION("Invalid Declaration Clause With Wrong Synonyms name")
-    {
-        std::string test_query = "variable v1@; print prt; assign a";
-        std::string error = PQLParser::parse_declaration_clause(test_query, declaration_clause, declared_variables);
-
-        REQUIRE(error == "Invalid Entity Name!");
-    }
-
-    SECTION("Invalid Declaration Clause With underscore as entity name")
-    {
-        std::string test_query = "variable _; print prt; assign a";
-        std::string error = PQLParser::parse_declaration_clause(test_query, declaration_clause, declared_variables);
-
-        REQUIRE(error == "Invalid Entity Name!");
-    }
-
-    SECTION("Invalid Declaration Clause With Wrong Entity Type")
-    {
-        std::string test_query = "varible v1; print prt; assign a";
-        std::string error = PQLParser::parse_declaration_clause(test_query, declaration_clause, declared_variables);
-
-        REQUIRE(error == "Invalid Entity Type!");
+        REQUIRE(error == error_messages::invalid_query_declaration_clause_syntax);
     }
 
     SECTION("Invalid Declaration Clause With No Spaces")
@@ -79,6 +56,6 @@ TEST_CASE("Parses and validate declaration clause.")
         std::string test_query = "variablev1;printprt;assigna";
         std::string error = PQLParser::parse_declaration_clause(test_query, declaration_clause, declared_variables);
 
-        REQUIRE(error == "Invalid Query! Missing synonym.");
+        REQUIRE(error == error_messages::invalid_query_declaration_clause_syntax);
     }
 }
