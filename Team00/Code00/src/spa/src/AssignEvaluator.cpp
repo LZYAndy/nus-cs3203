@@ -10,9 +10,9 @@ unordered_map<string, vector<string>> AssignEvaluator::evaluate(pql_dto::Pattern
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
 
-    if (second_name == "_")
+    if (second_param.get_entity_type() == EntityType::ANY)
     {
-        if (first_name == "_")
+        if (first_param.get_entity_type() == EntityType::ANY)
         { // e.g. pattern a(_, _)
             vector<int> int_vec = PKB.get_all_assigns();
             result = QueryUtility::mapping(pattern_name, int_vec);
@@ -30,7 +30,7 @@ unordered_map<string, vector<string>> AssignEvaluator::evaluate(pql_dto::Pattern
     }
     else if (second_param.get_entity_type() == EntityType::PATTEXPR)
     {
-        if (first_name == "_")
+        if (first_param.get_entity_type() == EntityType::ANY)
         { // e.g. pattern a(_, _"x"_)
             vector<int> int_vec = PKB.get_all_assign_pattern_contains(second_name);
             result = QueryUtility::mapping(pattern_name, int_vec);
@@ -48,7 +48,7 @@ unordered_map<string, vector<string>> AssignEvaluator::evaluate(pql_dto::Pattern
     }
     else
     {
-        if (first_name == "_")
+        if (first_param.get_entity_type() == EntityType::ANY)
         { // e.g. pattern a(_, "x")
             vector<int> int_vec = PKB.get_all_assign_pattern_matches(second_name);
             result = QueryUtility::mapping(pattern_name, int_vec);
@@ -64,6 +64,5 @@ unordered_map<string, vector<string>> AssignEvaluator::evaluate(pql_dto::Pattern
             result = QueryUtility::mapping(pattern_name, first_param, int_vec);
         }
     }
-
     return result;
 }

@@ -11,7 +11,7 @@ unordered_map<string, vector<string>> UsesEvaluator::evaluate_non_trivial(pql_dt
 
     if (second_param.is_entity_declared())
     {
-        if (CheckerUtil::is_const_valid(first_name))
+        if (QueryUtility::is_statement_num(first_param))
         { // e.g. Uses(1, v)
             vector<string> str_vec = PKB.get_used_by_statement(stoi(first_name));
             result = QueryUtility::mapping(second_param, str_vec);
@@ -34,7 +34,7 @@ unordered_map<string, vector<string>> UsesEvaluator::evaluate_non_trivial(pql_dt
     }
     else if (QueryUtility::is_proc_declared(first_param))
     {
-        if (second_name == "_")
+        if (second_param.get_entity_type() == EntityType::ANY)
         { // e.g. Uses(p, _)
             vector<string> str_vec = PKB.get_all_uses_procedures();
             result = QueryUtility::mapping(first_param, str_vec);
@@ -47,7 +47,7 @@ unordered_map<string, vector<string>> UsesEvaluator::evaluate_non_trivial(pql_dt
     }
     else
     {
-        if (second_name == "_")
+        if (second_param.get_entity_type() == EntityType::ANY)
         { // e.g. Uses(s, _)
             vector<int> int_vec = PKB.get_all_uses_statements();
             result = QueryUtility::mapping(first_param, int_vec);
@@ -58,26 +58,24 @@ unordered_map<string, vector<string>> UsesEvaluator::evaluate_non_trivial(pql_dt
             result = QueryUtility::mapping(first_param, int_vec);
         }
     }
-
     return result;
 }
 
 bool UsesEvaluator::evaluate_trivial(pql_dto::Entity first_param,
         pql_dto::Entity second_param)
 {
-    vector<string> empty_vec;
     bool result = false;
     PKB PKB;
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
 
-    if (CheckerUtil::is_const_valid(first_name))
+    if (QueryUtility::is_statement_num(first_param))
     {
         if (QueryUtility::is_var_name(second_param))
         { // e.g. Uses(1, "x")
             result = PKB.is_uses(stoi(first_name), second_name);
         }
-        else if (second_name == "_")
+        else if (second_param.get_entity_type() == EntityType::ANY)
         { // e.g. Uses(1, _)
             result = !PKB.get_used_by_statement(stoi(first_name)).empty();
         }
@@ -88,7 +86,7 @@ bool UsesEvaluator::evaluate_trivial(pql_dto::Entity first_param,
         { // e.g. Uses("main", "x")
             result = PKB.is_uses(first_name, second_name);
         }
-        else if (second_name == "_")
+        else if (second_param.get_entity_type() == EntityType::ANY)
         { // e.g. Uses("main", _)
             result = !PKB.get_used_by_procedure(first_name).empty();
         }
