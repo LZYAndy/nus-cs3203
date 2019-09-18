@@ -218,4 +218,3 @@ TEST_CASE("Test get_common_part function")
     REQUIRE(my_result_1 == expected_result_1);
     REQUIRE(my_result_2 == expected_result_2);
 }
-
