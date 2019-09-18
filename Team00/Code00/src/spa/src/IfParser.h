@@ -4,6 +4,7 @@
 #include "PKB.h"
 #include "CheckerUtil.h"
 #include "ParserInvoker.h"
+#include "StringUtil.h"
 
 class IfParser
 {

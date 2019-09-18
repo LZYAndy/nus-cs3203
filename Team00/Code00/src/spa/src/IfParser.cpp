@@ -12,7 +12,7 @@ IfParser::IfParser(PKB pkb, Statement statement, std::string parent_prog_line)
         throw "Invalid if statement";
     }
 
-    std::vector<std::string> all_variables = AssignParser::get_all_var(condition);
+    std::vector<std::string> all_variables = StringUtil::get_all_var(condition);
     int num_of_control_var = all_variables.size();
     for (int i = 0;i < num_of_control_var;i++)
     {
@@ -41,9 +41,9 @@ IfParser::IfParser(PKB pkb, Statement statement, std::string parent_prog_line)
         pkb.insert_parent(statement.get_prog_line(), this_stmt.get_prog_line());
     }
 
-    ParserInvoker thenInvoker = ParserInvoker(pkb, then_part, std::to_string(statement.get_prog_line()));
-    thenInvoker.invoke_parser();
+    ParserInvoker then_invoker = ParserInvoker(pkb, then_part, std::to_string(statement.get_prog_line()));
+    then_invoker.invoke_parser();
 
-    ParserInvoker elseInvoker = ParserInvoker(pkb, else_part, std::to_string(statement.get_prog_line()));
-    elseInvoker.invoke_parser();
+    ParserInvoker else_invoker = ParserInvoker(pkb, else_part, std::to_string(statement.get_prog_line()));
+    else_invoker.invoke_parser();
 }

@@ -10,7 +10,7 @@ WhileParser::WhileParser(PKB pkb, Statement statement, std::string parent_prog_l
         throw "Invalid while statement";
     }
 
-    std::vector<std::string> all_variables = AssignParser::get_all_var(condition);
+    std::vector<std::string> all_variables = StringUtil::get_all_var(condition);
     int num_of_control_var = all_variables.size();
     for (int i = 0;i < num_of_control_var;i++)
     {
@@ -32,6 +32,6 @@ WhileParser::WhileParser(PKB pkb, Statement statement, std::string parent_prog_l
         pkb.insert_parent(statement.get_prog_line(), this_stmt.get_prog_line());
     }
 
-    ParserInvoker loopInvoker = ParserInvoker(pkb, loop_part, std::to_string(statement.get_prog_line()));
-    loopInvoker.invoke_parser();
+    ParserInvoker loop_invoker = ParserInvoker(pkb, loop_part, std::to_string(statement.get_prog_line()));
+    loop_invoker.invoke_parser();
 }
