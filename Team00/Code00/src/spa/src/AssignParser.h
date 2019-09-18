@@ -4,6 +4,7 @@
 #include "PKB.h"
 #include "CheckerUtil.h"
 #include "Statement.h"
+#include "StringUtil.h"
 
 class AssignParser
 {

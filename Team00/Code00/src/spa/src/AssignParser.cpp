@@ -11,7 +11,7 @@ AssignParser::AssignParser(PKB pkb, Statement statement, std::string parent_prog
 
     std::string left = get_left(statement.get_statement()); // Valid var
     std::string right = get_right(statement.get_statement());
-    vector<std::string> all_var = get_all_var(right);
+    vector<std::string> all_var = StringUtil::get_all_var(right);
 
     // Insert var
     pkb.insert_variable(left);
@@ -64,22 +64,4 @@ std::string AssignParser::get_right(std::string statement)
         return match.str(2);
     }
     return "";
-}
-
-vector<std::string> AssignParser::get_all_var(std::string sub_statement)
-{
-    std::smatch match;
-    std::vector<std::string> all_var;
-
-    while (regex_search(sub_statement, match, all_word))
-    {
-        std::string current_word = match[0];
-        sub_statement = match.suffix().str();
-        if (CheckerUtil::is_name_valid(match[0]))
-        {
-            all_var.push_back(match[0]);
-        }
-    }
-
-    return all_var;
 }
