@@ -5,6 +5,7 @@
 
 #include "Entity.h"
 #include "../CheckerUtil.h"
+#include "../ErrorMessages.h"
 
 namespace pql_dto
 {
@@ -80,75 +81,101 @@ std::string Entity::get_entity_name()
         {
             entity_type = EntityType::PROCEDURE;
         }
-        else if (type == "string")
-        {
-            entity_type = EntityType::STRING;
-        }
         else if (type == "pattexpr")
         {
             entity_type = EntityType::PATTEXPR;
         }
+        else if (type == "matchexpr")
+        {
+            entity_type = EntityType::MATCHEXPR;
+        }
+
         else
         {
-            throw std::runtime_error("Invalid Entity Type!");
+            throw std::runtime_error(error_messages::invalid_entity_type);
         }
     }
 
     void Entity::set_entity_name(std::string name)
     {
-        //checks entity names
-        if (entity_type == EntityType::ANY)
+        // Validates entity names
+        if (is_declared_entity)
         {
-            if (name != "_")
+            /// Checks if var_name is alphanumeric
+            if (!CheckerUtil::is_name_valid(name))
             {
-                throw std::runtime_error("Invalid Entity Name For Any!");
-            }
-            entity_name = "_";
-        }
-        else if (entity_type == EntityType::PATTEXPR)
-        {
-            if (name.length() <= 4 || name.find("_\"") != 0 || name.find("\"_") != name.length() - 2)
-            {
-                throw std::runtime_error("Invalid Entity Name For Pattern Expression!");
-            }
-            std::string name_string = name.substr(2, name.length() - 4);
-            if (!CheckerUtil::is_expr_valid(name_string))
-            {
-                throw std::runtime_error("Invalid Entity Params For Pattern Expression!");
-            }
-            entity_name = name_string;
-        }
-        else if (entity_type == EntityType::STMT && !is_declared_entity)
-        {
-            /// Checks if var_name is integer
-            if (!CheckerUtil::is_const_valid(name))
-            {
-                throw std::runtime_error("Invalid Statement Number Value!");
-            }
-            entity_name = name;
-        }
-        else if (entity_type == EntityType::STRING && !is_declared_entity)
-        {
-            /// Checks if var_name is integer
-            if (!CheckerUtil::is_const_valid(name) && !CheckerUtil::is_name_valid(name))
-            {
-                throw std::runtime_error("Invalid String!");
+                throw std::runtime_error(error_messages::invalid_declared_entity_name);
             }
             entity_name = name;
         }
         else
         {
-            /// Checks if var_name is alphanumeric
-            if (!CheckerUtil::is_name_valid(name))
+            // Entity are not declared 
+            if (entity_type == EntityType::ANY)
             {
-                throw std::runtime_error("Invalid Entity Name!");
+                entity_name = name;
             }
-            entity_name = name;
+            else if (entity_type == EntityType::PATTEXPR)
+            {
+                if (!CheckerUtil::is_expr_valid(name))
+                {
+                    if (name.length() <= 4 || name.find("_\"") != 0 || name.find("\"_") != name.length() - 2)
+                    {
+                        throw std::runtime_error(error_messages::invalid_pattern_expression_format);
+                    }
+                    name = name.substr(2, name.length() - 4);
+                    if (!CheckerUtil::is_expr_valid(name))
+                    {
+                        throw std::runtime_error(error_messages::invalid_pattern_expression_format);
+                    }
+                    entity_name = name;
+                }
+                else
+                {
+                    throw std::runtime_error(error_messages::invalid_pattern_expression_format);
+                }
+            }
+            else if (entity_type == EntityType::MATCHEXPR)
+            {
+                if (!CheckerUtil::is_expr_valid(name))
+                {
+                    throw std::runtime_error(error_messages::invalid_pattern_expression_format);
+                }
+                entity_name = name;
+            }
+            else if (entity_type == EntityType::PROCEDURE || entity_type == EntityType::VARIABLE)
+            {
+                if (!CheckerUtil::is_name_valid(name))
+                {
+                    throw std::runtime_error(error_messages::invalid_synonym_name);
+                }
+                entity_name = name;
+            }
+            else if (entity_type == EntityType::STMT)
+            {
+                /// Checks if var_name is integer
+                if (!CheckerUtil::is_const_valid(name))
+                {
+                    throw std::runtime_error(error_messages::invalid_statement_number);
+                }
+                entity_name = name;
+            }
+            else
+            {
+                throw std::runtime_error(error_messages::invalid_undeclared_entity_name);
+            }
         }
     }
 
     void Entity::set_is_declared(bool is_declared)
     {
         is_declared_entity = is_declared;
+    }
+
+    bool Entity::equals(Entity entity)
+    {
+        return entity_type == entity.entity_type
+            && entity_name == entity.entity_name
+            && is_declared_entity == entity.is_declared_entity;
     }
 }

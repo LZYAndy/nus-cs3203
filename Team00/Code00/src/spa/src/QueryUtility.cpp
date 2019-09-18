@@ -4,6 +4,14 @@
 PKB PKB;
 
 /*
+Checks if the entity is a statement number
+ */
+bool QueryUtility::is_statement_num(pql_dto::Entity entity)
+{
+    return !(entity.is_entity_declared() || entity.get_entity_type() != EntityType::STMT);
+}
+
+/*
 Checks if the entity is a procedure undeclared
 */
 bool QueryUtility::is_proc_name(pql_dto::Entity entity)

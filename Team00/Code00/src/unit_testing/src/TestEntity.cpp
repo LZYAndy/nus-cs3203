@@ -1,5 +1,6 @@
 #include "catch.hpp"
 #include "pql_dto/Entity.h"
+#include "ErrorMessages.h"
 
 #include <string>
 
@@ -35,8 +36,9 @@ TEST_CASE("Correct entity params does not throw error.")
     SECTION("Set entity with correct name where entity is NOT declared.")
     {
         REQUIRE_NOTHROW(pql_dto::Entity("stmt", "5", false));
-        REQUIRE_NOTHROW(pql_dto::Entity("string", "5", false));
         REQUIRE_NOTHROW(pql_dto::Entity("any", "_", false));
+        REQUIRE_NOTHROW(pql_dto::Entity("procedure", "main", false));
+        REQUIRE_NOTHROW(pql_dto::Entity("matchexpr", "x+y", false));
         REQUIRE_NOTHROW(pql_dto::Entity("pattexpr", "_\"x\"_", false));
         REQUIRE_NOTHROW(pql_dto::Entity("pattexpr", "_\"x + y\"_", false));
     }
@@ -46,25 +48,22 @@ TEST_CASE("Wrong entity params throws error correctly")
 {
     SECTION("Set entity with wrong type.")
     {
-        REQUIRE_THROWS_WITH(pql_dto::Entity("varible", "v", true), "Invalid Entity Type!");
+        REQUIRE_THROWS_WITH(pql_dto::Entity("varible", "v", true), error_messages::invalid_entity_type);
     }
 
     SECTION("Set declared entity with wrong name.")
     {
-        REQUIRE_THROWS_WITH(pql_dto::Entity("stmt", "stre@2", true), "Invalid Entity Name!");
-        REQUIRE_THROWS_WITH(pql_dto::Entity("variable", "1s", true), "Invalid Entity Name!");
-        REQUIRE_THROWS_WITH(pql_dto::Entity("read", "", true), "Invalid Entity Name!");
-        REQUIRE_THROWS_WITH(pql_dto::Entity("constant", "0", true), "Invalid Entity Name!");
+        REQUIRE_THROWS_WITH(pql_dto::Entity("stmt", "stre@2", true), error_messages::invalid_declared_entity_name);
+        REQUIRE_THROWS_WITH(pql_dto::Entity("variable", "1s", true), error_messages::invalid_declared_entity_name);
+        REQUIRE_THROWS_WITH(pql_dto::Entity("read", "", true), error_messages::invalid_declared_entity_name);
+        REQUIRE_THROWS_WITH(pql_dto::Entity("constant", "0", true), error_messages::invalid_declared_entity_name);
     }
 
     SECTION("Set undeclared entity with wrong name.")
     {
-        REQUIRE_THROWS_WITH(pql_dto::Entity("stmt", "a", false), "Invalid Statement Number Value!");
-        REQUIRE_THROWS_WITH(pql_dto::Entity("string", "a2@", false), "Invalid String!");
-        REQUIRE_THROWS_WITH(pql_dto::Entity("any", "s", false), "Invalid Entity Name For Any!");
-        REQUIRE_THROWS_WITH(pql_dto::Entity("pattexpr", "s", false), "Invalid Entity Name For Pattern Expression!");
-        REQUIRE_THROWS_WITH(pql_dto::Entity("pattexpr", "_\"_", false), "Invalid Entity Name For Pattern Expression!");
-        REQUIRE_THROWS_WITH(pql_dto::Entity("pattexpr", "_\"\"_", false), "Invalid Entity Name For Pattern Expression!");
-        REQUIRE_THROWS_WITH(pql_dto::Entity("pattexpr", "_\"ser#\"_", false), "Invalid Entity Params For Pattern Expression!");
+        REQUIRE_THROWS_WITH(pql_dto::Entity("stmt", "a", false), error_messages::invalid_statement_number);
+        REQUIRE_THROWS_WITH(pql_dto::Entity("pattexpr", "_\"_", false), error_messages::invalid_pattern_expression_format);
+        REQUIRE_THROWS_WITH(pql_dto::Entity("pattexpr", "_\"\"_", false), error_messages::invalid_pattern_expression_format);
+        REQUIRE_THROWS_WITH(pql_dto::Entity("pattexpr", "_\"ser#\"_", false), error_messages::invalid_pattern_expression_format);
     }
 }

@@ -17,9 +17,10 @@ namespace pql_dto
         void set_first_param(Entity param)
         {
             if (param.get_entity_type() == EntityType::CONSTANT || param.get_entity_type() == EntityType::VARIABLE
-                || param.get_entity_type() == EntityType::PROCEDURE || param.get_entity_type() == EntityType::STRING)
+                || param.get_entity_type() == EntityType::PROCEDURE || param.get_entity_type() == EntityType::PATTEXPR
+                || param.get_entity_type() == EntityType::INVALID || param.get_entity_type() == EntityType::MATCHEXPR)
             {
-                throw std::runtime_error("Invalid Parent Relationship First Parameter Type!");
+                throw std::runtime_error(error_messages::invalid_parent_relationship_first_param);
             }
 
             first_param = param;
@@ -28,9 +29,17 @@ namespace pql_dto
         void set_second_param(Entity param)
         {
             if (param.get_entity_type() == EntityType::CONSTANT || param.get_entity_type() == EntityType::VARIABLE
-                || param.get_entity_type() == EntityType::PROCEDURE || param.get_entity_type() == EntityType::STRING)
+                || param.get_entity_type() == EntityType::PROCEDURE || param.get_entity_type() == EntityType::PATTEXPR
+                || param.get_entity_type() == EntityType::INVALID || param.get_entity_type() == EntityType::MATCHEXPR)
             {
-                throw std::runtime_error("Invalid Parent Relationship Second Parameter Type!");
+                throw std::runtime_error(error_messages::invalid_parent_relationship_second_param);
+            }
+
+            if ((first_param.get_entity_type() == EntityType::STMT && !first_param.is_entity_declared())
+                && (param.get_entity_type() == EntityType::STMT && !param.is_entity_declared())
+                && std::stoi(first_param.get_entity_name()) >= std::stoi(param.get_entity_name()))
+            {
+                throw std::runtime_error(error_messages::invalid_order_of_params);
             }
 
             second_param = param;

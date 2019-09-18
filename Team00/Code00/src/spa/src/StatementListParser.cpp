@@ -58,11 +58,6 @@ void StatementListParser::parse_stmt_list()
     }
 }
 
-void StatementListParser::invoke_parser()
-{
-
-}
-
 std::string StatementListParser::parse_while(std::string src)
 {
     Statement while_stmt = Statement(EntityType::WHILE, next_line_number, "");

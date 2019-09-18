@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "Entity.h"
+#include "ErrorMessages.h"
 
 namespace pql_dto
 {
@@ -42,6 +43,8 @@ namespace pql_dto
 
         // Sets and validates the second parameter of the Pattern Object.
         void set_second_param(Entity second_entity_param);
+
+        bool equals(Pattern pattern);
     };
 }
 

@@ -3,58 +3,184 @@
 
 TEST_CASE("Test get_final_list function")
 {
-    unordered_map<string, vector<string>> such_that_list;
-    unordered_map<string, vector<string>> pattern_list;
+    unordered_map<string, vector<string>> such_that_map;
+    unordered_map<string, vector<string>> pattern_map;
     vector<string> such_that_vec_1 {"4", "4", "5", "4", "5", "6", "4", "5", "6", "7", "12", "12", "13", "12", "13", "14"};
     vector<string> such_that_vec_2 {"5", "6", "6", "7", "7", "7", "9", "9", "9", "9", "13", "14", "14", "15", "15", "15"};
     vector<string> pattern_vec {"9", "16"};
-    such_that_list["s"] = such_that_vec_1;
-    such_that_list["a"] = such_that_vec_2;
-    pattern_list["a"] = pattern_vec;
-    vector<string> common_synonyms = {"a"};
-    unordered_map<string, vector<string>> my_map = QueryEvaluator::get_final_list(such_that_list, pattern_list, common_synonyms);
-    unordered_map<string, unordered_set<string>> my_result;
-    for (const auto& iter : my_map)
-    {
-        string synonym_name = iter.first;
-        vector<string> str_vec = iter.second;
-        unordered_set<string> my_str_set(str_vec.begin(), str_vec.end());
-        my_result[synonym_name] = my_str_set;
-    }
+    such_that_map["s"] = such_that_vec_1;
+    such_that_map["a"] = such_that_vec_2;
+    pattern_map["a"] = pattern_vec;
+    unordered_set<string> common_synonyms = {"a"};
+    unordered_map<string, unordered_set<string>> my_map = QueryEvaluator::get_final_list(such_that_map, pattern_map, common_synonyms);
     unordered_map<string, unordered_set<string>> expected_result;
     expected_result["s"] = unordered_set<string> {"4", "5", "6", "7"};
     expected_result["a"] = unordered_set<string> {"9"};
-    REQUIRE(my_result == expected_result);
+    REQUIRE(my_map == expected_result);
 }
 
 TEST_CASE("Test merge function")
 {
-    pql_dto::Entity select_entity = pql_dto::Entity("stmt", "s", true);
-    unordered_map<string, vector<string>> select_list;
-    unordered_map<string, vector<string>> such_that_list;
-    unordered_map<string, vector<string>> pattern_list;
+    unordered_map<string, vector<string>> select_map;
+    unordered_map<string, vector<string>> such_that_map;
+    unordered_map<string, vector<string>> pattern_map;
     SECTION("have no such that and pattern clauses")
     {
+        pql_dto::Entity select_entity = pql_dto::Entity("stmt", "s", true);
         vector<string> select_vec {"4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"};
-        select_list["s"];
+        select_map["s"] = select_vec;
+        such_that_map = select_map;
+        pattern_map = select_map;
+        unordered_set<string> my_result = QueryEvaluator::merge(select_entity, select_map, such_that_map, pattern_map);
+        unordered_set<string> expected_result {"4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"};
+        REQUIRE(my_result == expected_result);
+    }
+
+    SECTION("have only such that clause with one synonym same as select but no pattern clause")
+    {
+        pql_dto::Entity select_entity = pql_dto::Entity("stmt", "s", true);
+        vector<string> select_vec {"4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"};
+        vector<string> such_that_vec {"4", "5", "6", "17", "18"};
+        select_map["s"] = select_vec;
+        such_that_map["s"] = such_that_vec;
+        pattern_map = select_map;
+        unordered_set<string> my_result = QueryEvaluator::merge(select_entity, select_map, such_that_map, pattern_map);
+        unordered_set<string> expected_result {"4", "5", "6", "17"};
+        REQUIRE(my_result == expected_result);
+    }
+
+    SECTION("have only such that clause with one synonym not the same as select but no pattern clause")
+    {
+        pql_dto::Entity select_entity = pql_dto::Entity("stmt", "s", true);
+        vector<string> select_vec {"4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"};
+        vector<string> such_that_vec {"4", "5", "6", "17", "18"};
+        select_map["s"] = select_vec;
+        such_that_map["a"] = such_that_vec;
+        pattern_map = select_map;
+        unordered_set<string> my_result = QueryEvaluator::merge(select_entity, select_map, such_that_map, pattern_map);
+        unordered_set<string> expected_result {"4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"};
+        REQUIRE(my_result == expected_result);
+    }
+
+    SECTION("have only such that clause with two synonyms with one same as select but no pattern clause")
+    {
+        pql_dto::Entity select_entity = pql_dto::Entity("stmt", "s", true);
+        vector<string> select_vec {"4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"};
+        vector<string> such_that_vec_1 {"4", "4", "5", "4", "5", "6", "4", "5", "6", "7", "12", "12", "13", "12", "13", "14"};
+        vector<string> such_that_vec_2 {"5", "6", "6", "7", "7", "7", "9", "9", "9", "9", "13", "14", "14", "15", "15", "15"};
+        select_map["s"] = select_vec;
+        such_that_map["s"] = such_that_vec_1;
+        such_that_map["a"] = such_that_vec_2;
+        pattern_map = select_map;
+        unordered_set<string> my_result = QueryEvaluator::merge(select_entity, select_map, such_that_map, pattern_map);
+        unordered_set<string> expected_result {"4", "5", "6", "7", "12", "13", "14"};
+        REQUIRE(my_result == expected_result);
+    }
+
+    SECTION("have only such that clause with two synonyms with none same as select but no pattern clause")
+    {
+        pql_dto::Entity select_entity = pql_dto::Entity("stmt", "s", true);
+        vector<string> select_vec {"4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"};
+        vector<string> such_that_vec_1 {"4", "4", "5", "4", "5", "6", "4", "5", "6", "7", "12", "12", "13", "12", "13", "14"};
+        vector<string> such_that_vec_2 {"5", "6", "6", "7", "7", "7", "9", "9", "9", "9", "13", "14", "14", "15", "15", "15"};
+        select_map["s"] = select_vec;
+        such_that_map["s1"] = such_that_vec_1;
+        such_that_map["a"] = such_that_vec_2;
+        pattern_map = select_map;
+        unordered_set<string> my_result = QueryEvaluator::merge(select_entity, select_map, such_that_map, pattern_map);
+        unordered_set<string> expected_result {"4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"};
+        REQUIRE(my_result == expected_result);
+    }
+
+    SECTION("have only pattern clause with one synonyms same as select but no such that clause")
+    {
+        pql_dto::Entity select_entity = pql_dto::Entity("assign", "a", true);
+        vector<string> select_vec {"4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"};
+        vector<string> pattern_vec {"9", "16"};
+        select_map["a"] = select_vec;
+        such_that_map = select_map;
+        pattern_map["a"] = pattern_vec;
+        unordered_set<string> my_result = QueryEvaluator::merge(select_entity, select_map, such_that_map, pattern_map);
+        unordered_set<string> expected_result {"9", "16"};
+        REQUIRE(my_result == expected_result);
+    }
+
+    SECTION("have only pattern clause with one synonyms not same as select but no such that clause")
+    {
+        pql_dto::Entity select_entity = pql_dto::Entity("stmt", "s", true);
+        vector<string> select_vec {"4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"};
+        vector<string> pattern_vec {"9", "16"};
+        select_map["s"] = select_vec;
+        such_that_map = select_map;
+        pattern_map["a"] = pattern_vec;
+        unordered_set<string> my_result = QueryEvaluator::merge(select_entity, select_map, such_that_map, pattern_map);
+        unordered_set<string> expected_result {"4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"};
+        REQUIRE(my_result == expected_result);
+    }
+
+    SECTION("have only pattern clause with two synonyms one same as select but no such that clause")
+    {
+        pql_dto::Entity select_entity = pql_dto::Entity("assign", "a", true);
+        vector<string> select_vec {"4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"};
+        vector<string> pattern_vec_1 {"9", "16"};
+        vector<string> pattern_vec_2 {"x", "y"};
+        select_map["a"] = select_vec;
+        such_that_map = select_map;
+        pattern_map["a"] = pattern_vec_1;
+        pattern_map["v"] = pattern_vec_2;
+        unordered_set<string> my_result = QueryEvaluator::merge(select_entity, select_map, such_that_map, pattern_map);
+        unordered_set<string> expected_result {"9", "16"};
+        REQUIRE(my_result == expected_result);
+    }
+
+    SECTION("have only pattern clause with two synonyms none same as select but no such that clause")
+    {
+        pql_dto::Entity select_entity = pql_dto::Entity("stmt", "s", true);
+        vector<string> select_vec {"4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"};
+        vector<string> pattern_vec_1 {"9", "16"};
+        vector<string> pattern_vec_2 {"x", "y"};
+        select_map["s"] = select_vec;
+        such_that_map = select_map;
+        pattern_map["a"] = pattern_vec_1;
+        pattern_map["v"] = pattern_vec_2;
+        unordered_set<string> my_result = QueryEvaluator::merge(select_entity, select_map, such_that_map, pattern_map);
+        unordered_set<string> expected_result {"4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"};
+        REQUIRE(my_result == expected_result);
     }
 
     SECTION("have both such that and pattern clauses")
     {
+        pql_dto::Entity select_entity = pql_dto::Entity("stmt", "s", true);
         vector<string> select_vec {"4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"};
         vector<string> such_that_vec_1 {"4", "4", "5", "4", "5", "6", "4", "5", "6", "7", "12", "12", "13", "12", "13", "14"};
         vector<string> such_that_vec_2 {"5", "6", "6", "7", "7", "7", "9", "9", "9", "9", "13", "14", "14", "15", "15", "15"};
         vector<string> pattern_vec {"9", "16"};
-        select_list["s"] = select_vec;
-        such_that_list["s"] = such_that_vec_1;
-        such_that_list["a"] = such_that_vec_2;
-        pattern_list["a"] = pattern_vec;
+        select_map["s"] = select_vec;
+        such_that_map["s"] = such_that_vec_1;
+        such_that_map["a"] = such_that_vec_2;
+        pattern_map["a"] = pattern_vec;
+        unordered_set<string> my_result = QueryEvaluator::merge(select_entity, select_map, such_that_map, pattern_map);
         unordered_set<string> expected_result {"4", "5", "6", "7"};
-        vector<string> my_str_vec = QueryEvaluator::merge(select_entity, select_list, such_that_list, pattern_list);
-        unordered_set<string> my_result(my_str_vec.begin(), my_str_vec.end());
         REQUIRE(my_result == expected_result);
     }
 
+    SECTION("have both such that and pattern clauses")
+    {
+        pql_dto::Entity select_entity = pql_dto::Entity("variable", "v", true);
+        vector<string> select_vec {"x", "y", "z", "a", "b", "c", "i"};
+        vector<string> such_that_vec_1 {"x", "y", "z", "x", "a", "b", "i", "x", "z", "b", "z", "a", "b", "x", "y", "c"};
+        vector<string> such_that_vec_2 {"5", "6", "6", "7", "7", "7", "9", "9", "9", "9", "13", "14", "14", "15", "15", "15"};
+        vector<string> pattern_vec_1 {"9", "13", "16"};
+        vector<string> pattern_vec_2 {"x", "z", "i"};
+        select_map["v"] = select_vec;
+        such_that_map["v"] = such_that_vec_1;
+        such_that_map["a"] = such_that_vec_2;
+        pattern_map["a"] = pattern_vec_1;
+        pattern_map["v"] = pattern_vec_2;
+        unordered_set<string> my_result = QueryEvaluator::merge(select_entity, select_map, such_that_map, pattern_map);
+        unordered_set<string> expected_result {"x", "z"};
+        REQUIRE(my_result == expected_result);
+    }
 }
 
 TEST_CASE("Test get_common_synonyms function")
@@ -76,8 +202,7 @@ TEST_CASE("Test get_common_synonyms function")
     map_2["v1"] = str_vec_2;
     map_2["v2"] = str_vec_2;
     unordered_set<string> expected_result = {"s2", "a3", "v1", "v2"};
-    vector<string> my_str_vec = QueryEvaluator::get_common_synonyms(map_1, map_2);
-    unordered_set<string> my_result(my_str_vec.begin(), my_str_vec.end());
+    unordered_set<string> my_result = QueryEvaluator::get_common_synonyms(map_1, map_2);
     REQUIRE(my_result == expected_result);
 }
 
@@ -86,10 +211,8 @@ TEST_CASE("Test get_common_part function")
     vector<string> str_vec_1 = {"1", "2", "3", "7", "9"};
     vector<string> str_vec_2 = {"1", "3", "7", "15", "20"};
     vector<string> str_vec_3 = {"6", "8", "10", "15", "20"};
-    vector<string> my_str_vec_1 = QueryEvaluator::get_common_part(str_vec_1, str_vec_2);
-    vector<string> my_str_vec_2 = QueryEvaluator::get_common_part(str_vec_1, str_vec_3);
-    unordered_set<string> my_result_1(my_str_vec_1.begin(), my_str_vec_1.end());
-    unordered_set<string> my_result_2(my_str_vec_2.begin(), my_str_vec_2.end());
+    unordered_set<string> my_result_1 = QueryEvaluator::get_common_part(str_vec_1, str_vec_2);
+    unordered_set<string> my_result_2 = QueryEvaluator::get_common_part(str_vec_1, str_vec_3);
     unordered_set<string> expected_result_1 = {"1", "3", "7"};
     unordered_set<string> expected_result_2 = {};
     REQUIRE(my_result_1 == expected_result_1);

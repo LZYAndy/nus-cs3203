@@ -3,10 +3,13 @@
 
 #include <string>
 #include <iostream>
+#include <fstream>
+#include <streambuf>
 #include <list>
 
 // include your other headers here
 #include "AbstractWrapper.h"
+#include "./../../spa/src/Parser.h"
 
 class TestWrapper : public AbstractWrapper {
  public:

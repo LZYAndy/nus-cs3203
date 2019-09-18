@@ -15,29 +15,18 @@ std::vector<int> AssignBank::matches(std::string var, std::string pattern)
     {
         return result;
     }
-    std::vector<std::string> assignments = var_assignment_bank.get(var);
-    if (assignments.empty())
+    
+    for (int stmt : var_stmts)
     {
-        return result;
-    }
-    for (std::string assignment : assignments)
-    {
+        std::vector<std::string> assignments = assignment_bank.get(stmt);
+        if (assignments.empty())
+        {
+            continue;
+        }
+        std::string assignment = assignments[0];
         if (assignment.compare(pattern) == 0)
         {
-            std::vector<int> assignment_stmts = assignment_bank.get_reverse(assignment);
-            for (int i = 0; i < assignment_stmts.size(); ++i)
-            {
-                int assign_no = assignment_stmts[i];
-                for (int j = 0; j < var_stmts.size(); ++j)
-                {
-                    int var_no = var_stmts[j];
-                    if (assign_no == var_no)
-                    {
-                        result.push_back(assign_no);
-                        break;
-                    }
-                }
-            }
+            result.push_back(stmt);
         }
     }
     return result;
@@ -51,29 +40,21 @@ std::vector<int> AssignBank::contains(std::string var, std::string pattern)
     {
         return result;
     }
-    std::vector<std::string> assignments = var_assignment_bank.get(var);
-    if (assignments.empty())
+    for (int stmt : var_stmts)
     {
-        return result;
-    }
-    for (std::string assignment : assignments)
-    {
-        if (assignment.find(pattern) != std::string::npos) // TODO: will not work for iteration 2 onwards
+        std::vector<std::string> assignments = assignment_bank.get(stmt);
+        if (assignments.empty())
         {
-            std::vector<int> assignment_stmts = assignment_bank.get_reverse(assignment);
-            for (int i = 0; i < assignment_stmts.size(); ++i)
-            {
-                int assign_no = assignment_stmts[i];
-                for (int j = 0; j < var_stmts.size(); ++j)
-                {
-                    int var_no = var_stmts[j];
-                    if (assign_no == var_no)
-                    {
-                        result.push_back(assign_no);
-                        break;
-                    }
-                }
-            }
+            continue;
+        }
+        std::string assignment = assignments[0];
+        // TODO: will not work for iteration 2 onwards
+        // Iteration 1 hack: pad front and end with space to not match other variable
+        std::string padded_pattern = " " + pattern + " ";
+        std::string padded_assignment = " " + assignment + " ";
+        if (padded_assignment.find(padded_pattern) != std::string::npos) 
+        {
+            result.push_back(stmt);
         }
     }
     return result;
@@ -87,29 +68,17 @@ std::vector<int> AssignBank::all_matches(std::string pattern)
     {
         return result;
     }
-    std::vector<std::string> assignments = assignment_bank.get_all_values();
-    if (assignments.empty())
+    for (int stmt : var_stmts)
     {
-        return result;
-    }
-    for (std::string assignment : assignments)
-    {
+        std::vector<std::string> assignments = assignment_bank.get(stmt);
+        if (assignments.empty())
+        {
+            continue;
+        }
+        std::string assignment = assignments[0];
         if (assignment.compare(pattern) == 0)
         {
-            std::vector<int> assignment_stmts = assignment_bank.get_reverse(assignment);
-            for (int i = 0; i < assignment_stmts.size(); ++i)
-            {
-                int assign_no = assignment_stmts[i];
-                for (int j = 0; j < var_stmts.size(); ++j)
-                {
-                    int var_no = var_stmts[j];
-                    if (assign_no == var_no)
-                    {
-                        result.push_back(assign_no);
-                        break;
-                    }
-                }
-            }
+            result.push_back(stmt);
         }
     }
     return result;
@@ -123,29 +92,21 @@ std::vector<int> AssignBank::all_contains(std::string pattern)
     {
         return result;
     }
-    std::vector<std::string> assignments = assignment_bank.get_all_values();
-    if (assignments.empty())
+    for (int stmt : var_stmts)
     {
-        return result;
-    }
-    for (std::string assignment : assignments)
-    {
-        if (assignment.find(pattern) != std::string::npos) // TODO: will not work for iteration 2 onwards
+        std::vector<std::string> assignments = assignment_bank.get(stmt);
+        if (assignments.empty())
         {
-            std::vector<int> assignment_stmts = assignment_bank.get_reverse(assignment);
-            for (int i = 0; i < assignment_stmts.size(); ++i)
-            {
-                int assign_no = assignment_stmts[i];
-                for (int j = 0; j < var_stmts.size(); ++j)
-                {
-                    int var_no = var_stmts[j];
-                    if (assign_no == var_no)
-                    {
-                        result.push_back(assign_no);
-                        break;
-                    }
-                }
-            }
+            continue;
+        }
+        std::string assignment = assignments[0];
+        // TODO: will not work for iteration 2 onwards
+        // Iteration 1 hack: pad front and end with space to not match other variable
+        std::string padded_pattern = " " + pattern + " ";
+        std::string padded_assignment = " " + assignment + " ";
+        if (padded_assignment.find(padded_pattern) != std::string::npos) 
+        {
+            result.push_back(stmt);
         }
     }
     return result;
@@ -157,19 +118,6 @@ std::string AssignBank::get_variable_from_statement(int stmt)
     if (result.empty())
     {
         return "";
-    }
-    else
-    {
-        return result[0];
-    }
-}
-
-int AssignBank::get_statement_from_variable(std::string var)
-{
-    std::vector<int> result = var_bank.get_reverse(var);
-    if (result.empty())
-    {
-        return -1;
     }
     else
     {

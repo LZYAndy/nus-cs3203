@@ -301,7 +301,7 @@ bool PKB::is_follows_star(int stmt1, int stmt2)
 
 bool PKB::is_parent_star(int stmt1, int stmt2)
 {
-    return parent_star_bank.is_parents_star(stmt1, stmt2);
+    return parent_star_bank.is_parent_star(stmt1, stmt2);
 }
 
 EntityType PKB::get_statement_type(int stmt)
@@ -428,10 +428,10 @@ vector<int> PKB::get_all_calls()
 
 bool PKB::does_uses_exist()
 {
-    return uses_bank.empty();
+    return !uses_bank.empty();
 }
 
 bool PKB::does_modifies_exist()
 {
-    return modifies_bank.empty();
+    return !modifies_bank.empty();
 }
