@@ -12,7 +12,12 @@ IfParser::IfParser(PKB pkb, Statement statement, std::string parent_prog_line)
         throw "Invalid if statement";
     }
 
-    // TODO: Any control variable to update?
+    std::vector<std::string> all_variables = AssignParser::get_all_var(condition);
+    int num_of_control_var = all_variables.size();
+    for (int i = 0;i < num_of_control_var;i++)
+    {
+        pkb.insert_uses(statement.get_prog_line(), all_variables[i]);
+    }
 
     int num_of_stmt_then = then_part.size();
     int num_of_stmt_else = else_part.size();
