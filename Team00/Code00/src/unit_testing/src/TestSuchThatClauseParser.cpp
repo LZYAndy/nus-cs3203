@@ -67,7 +67,7 @@ TEST_CASE("Parses and validate Follows such that clause.")
         std::string test_query = "such that Follows(7, 6)";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == "First param for Follows Relationship is greater than the second param.");
+        REQUIRE(error == error_messages::invalid_order_of_params);
     }
 
     SECTION("Invalid Such that Clause with Follows variables. Variables as parameters.")
@@ -75,7 +75,7 @@ TEST_CASE("Parses and validate Follows such that clause.")
         std::string test_query = "such that Follows(v1, 6)";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == "Invalid Follows Relationship First Parameter Type!");
+        REQUIRE(error == error_messages::invalid_follows_relationship_first_param);
     }
 
     SECTION("Invalid Such that Clause with Follows variables. Missing parameters.")
@@ -83,7 +83,7 @@ TEST_CASE("Parses and validate Follows such that clause.")
         std::string test_query = "such that Follows(a, )";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == "No such variable exists!");
+        REQUIRE(error == error_messages::invalid_declared_entity_name);
     }
 
     SECTION("Invalid Such that Clause with Follows variables. Invalid Syntax. Missing Params.")
@@ -91,7 +91,7 @@ TEST_CASE("Parses and validate Follows such that clause.")
         std::string test_query = "such that Follows()";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == "Invalid Syntax! Such that clause syntax error. Missing parameters.");
+        REQUIRE(error == error_messages::invalid_query_such_that_clause_syntax);
     }
 
     SECTION("Invalid Such that Clause with Follows variables. Invalid Syntax. Missing such that")
@@ -99,7 +99,7 @@ TEST_CASE("Parses and validate Follows such that clause.")
         std::string test_query = "that Follows(5, 6)";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == "Invalid Syntax! Such that clause syntax error.");
+        REQUIRE(error == error_messages::invalid_query_such_that_clause_syntax);
     }
 
     SECTION("Invalid Such that Clause with Follows variables. Wrong format.")
@@ -107,7 +107,7 @@ TEST_CASE("Parses and validate Follows such that clause.")
         std::string test_query = "such that Follows)()";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == "Invalid Relationship Format!");
+        REQUIRE(error == error_messages::invalid_query_such_that_clause_syntax);
     }
 
     SECTION("Invalid Such that Clause with Follows variables. Wrong entity.")
@@ -115,7 +115,7 @@ TEST_CASE("Parses and validate Follows such that clause.")
         std::string test_query = "such that Follows(\"5\", \"x\")";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == "Invalid Follows Relationship First Parameter Type!");
+        REQUIRE(error == error_messages::invalid_undeclared_entity_name);
     }
 
     SECTION("Valid Such that Clause with Follows*.")
@@ -183,7 +183,7 @@ TEST_CASE("Parses and validate Parent such that clause.")
         std::string test_query = "such that Parent(7, 6)";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == "First param for Parent Relationship is greater than the second param.");
+        REQUIRE(error == error_messages::invalid_order_of_params);
     }
 
     SECTION("Invalid Such that Clause with Parent variables. Variables as parameters.")
@@ -191,7 +191,7 @@ TEST_CASE("Parses and validate Parent such that clause.")
         std::string test_query = "such that Parent(v1, 6)";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == "Invalid Parent Relationship First Parameter Type!");
+        REQUIRE(error == error_messages::invalid_parent_relationship_first_param);
     }
 
     SECTION("Invalid Such that Clause with Parent variables. Missing parameters.")
@@ -199,7 +199,7 @@ TEST_CASE("Parses and validate Parent such that clause.")
         std::string test_query = "such that Parent(a, )";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == "No such variable exists!");
+        REQUIRE(error == error_messages::invalid_declared_entity_name);
     }
 
     SECTION("Invalid Such that Clause with Parent variables. Invalid Syntax. Missing Params.")
@@ -207,7 +207,7 @@ TEST_CASE("Parses and validate Parent such that clause.")
         std::string test_query = "such that Parent()";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == "Invalid Syntax! Such that clause syntax error. Missing parameters.");
+        REQUIRE(error == error_messages::invalid_query_such_that_clause_syntax);
     }
 
     SECTION("Invalid Such that Clause with Parent variables. Invalid Syntax. Missing such that")
@@ -215,7 +215,7 @@ TEST_CASE("Parses and validate Parent such that clause.")
         std::string test_query = "that Parent(5, 6)";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == "Invalid Syntax! Such that clause syntax error.");
+        REQUIRE(error == error_messages::invalid_query_such_that_clause_syntax);
     }
 
     SECTION("Invalid Such that Clause with Parent variables. Wrong format.")
@@ -223,7 +223,7 @@ TEST_CASE("Parses and validate Parent such that clause.")
         std::string test_query = "such that Parent)()";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == "Invalid Relationship Format!");
+        REQUIRE(error == error_messages::invalid_query_such_that_clause_syntax);
     }
 
     SECTION("Invalid Such that Clause with Parent variables. Wrong entity.")
@@ -231,7 +231,7 @@ TEST_CASE("Parses and validate Parent such that clause.")
         std::string test_query = "such that Parent(\"5\", \"x\")";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == "Invalid Parent Relationship First Parameter Type!");
+        REQUIRE(error == error_messages::invalid_undeclared_entity_name);
     }
 
     SECTION("Valid Such that Clause with Parent*.")
@@ -267,7 +267,7 @@ TEST_CASE("Parses and validate Uses such that clause.")
         REQUIRE(such_that_clause.size() == 1);
 
         CHECK(such_that_clause.at(0).equals(pql_dto::UsesRelationship(pql_dto::Entity("stmt", "2", false),
-            pql_dto::Entity("string", "x", false), false)));
+            pql_dto::Entity("variable", "x", false), false)));
     }
 
     SECTION("Valid Such that Clause with Uses. 2 declared")
@@ -291,7 +291,7 @@ TEST_CASE("Parses and validate Uses such that clause.")
         REQUIRE(such_that_clause.size() == 1);
 
         CHECK(such_that_clause.at(0).equals(pql_dto::UsesRelationship(pql_dto::Entity("procedure", "p", true),
-            pql_dto::Entity("string", "y", false), false)));
+            pql_dto::Entity("variable", "y", false), false)));
     }
 
     SECTION("Valid Such that Clause with Uses. 1 declared, underscore as second param")
@@ -311,7 +311,7 @@ TEST_CASE("Parses and validate Uses such that clause.")
         std::string test_query = "such that Uses(p, a)";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == "Invalid Uses Relationship Second Parameter Type!");
+        REQUIRE(error == error_messages::invalid_uses_relationship_second_param);
     }
 
     SECTION("Invalid Such that Clause with Uses. Wrong first entity")
@@ -319,7 +319,7 @@ TEST_CASE("Parses and validate Uses such that clause.")
         std::string test_query = "such that Uses(v2, v1)";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == "Invalid Uses Relationship First Parameter Type!");
+        REQUIRE(error == error_messages::invalid_uses_relationship_first_param);
     }
 
     SECTION("Invalid Such that Clause with Uses. Missing Params")
@@ -327,7 +327,7 @@ TEST_CASE("Parses and validate Uses such that clause.")
         std::string test_query = "such that Uses()";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == "Invalid Syntax! Such that clause syntax error. Missing parameters.");
+        REQUIRE(error == error_messages::invalid_query_such_that_clause_syntax);
     }
 
     SECTION("Invalid Such that Clause with Uses. Invalid Syntax")
@@ -335,7 +335,7 @@ TEST_CASE("Parses and validate Uses such that clause.")
         std::string test_query = "such that Uses)()";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == "Invalid Relationship Format!");
+        REQUIRE(error == error_messages::invalid_query_such_that_clause_syntax);
     }
 
     SECTION("Invalid Such that Clause with Uses. Wrong relationship spelling")
@@ -343,7 +343,7 @@ TEST_CASE("Parses and validate Uses such that clause.")
         std::string test_query = "such that Uss(a, v1)";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == "Invalid name for relationship type!");
+        REQUIRE(error == error_messages::invalid_relationship_type);
     }
 
     SECTION("Invalid Such that Clause with Uses. Underscore as first param")
@@ -351,7 +351,7 @@ TEST_CASE("Parses and validate Uses such that clause.")
         std::string test_query = "such that Uses(_, v1)";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == "Invalid Uses Relationship First Parameter Type!");
+        REQUIRE(error == error_messages::invalid_uses_relationship_first_param);
     }
 }
 
@@ -375,7 +375,7 @@ TEST_CASE("Parses and validate Modifies such that clause.")
         REQUIRE(such_that_clause.size() == 1);
 
         CHECK(such_that_clause.at(0).equals(pql_dto::ModifiesRelationship(pql_dto::Entity("assign", "a", true),
-            pql_dto::Entity("string", "x", false), false)));
+            pql_dto::Entity("variable", "x", false), false)));
     }
 
     SECTION("Valid Such that Clause with Modifies. 2 declared")
@@ -399,7 +399,7 @@ TEST_CASE("Parses and validate Modifies such that clause.")
         REQUIRE(such_that_clause.size() == 1);
 
         CHECK(such_that_clause.at(0).equals(pql_dto::ModifiesRelationship(pql_dto::Entity("procedure", "p", true),
-            pql_dto::Entity("string", "y", false), false)));
+            pql_dto::Entity("variable", "y", false), false)));
     }
 
     SECTION("Valid Such that Clause with Modifies. 1 declared, underscore as second param")
@@ -419,7 +419,7 @@ TEST_CASE("Parses and validate Modifies such that clause.")
         std::string test_query = "such that Modifies(p, a)";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == "Invalid Modifies Relationship Second Parameter Type!");
+        REQUIRE(error == error_messages::invalid_modifies_relationship_second_param);
     }
 
     SECTION("Invalid Such that Clause with Modifies. Wrong first entity")
@@ -427,7 +427,7 @@ TEST_CASE("Parses and validate Modifies such that clause.")
         std::string test_query = "such that Modifies(v2, v1)";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == "Invalid Modifies Relationship First Parameter Type!");
+        REQUIRE(error == error_messages::invalid_modifies_relationship_first_param);
     }
 
     SECTION("Invalid Such that Clause with Modifies. Missing Params")
@@ -435,7 +435,7 @@ TEST_CASE("Parses and validate Modifies such that clause.")
         std::string test_query = "such that Modifies()";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == "Invalid Syntax! Such that clause syntax error. Missing parameters.");
+        REQUIRE(error == error_messages::invalid_query_such_that_clause_syntax);
     }
 
     SECTION("Invalid Such that Clause with Modifies. Invalid Syntax")
@@ -443,7 +443,7 @@ TEST_CASE("Parses and validate Modifies such that clause.")
         std::string test_query = "such that Modifies)()";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == "Invalid Relationship Format!");
+        REQUIRE(error == error_messages::invalid_query_such_that_clause_syntax);
     }
 
     SECTION("Invalid Such that Clause with Modifies. Wrong relationship spelling")
@@ -451,7 +451,7 @@ TEST_CASE("Parses and validate Modifies such that clause.")
         std::string test_query = "such that Uss(a, v1)";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == "Invalid name for relationship type!");
+        REQUIRE(error == error_messages::invalid_relationship_type);
     }
 
     SECTION("Invalid Such that Clause with Modifies. Underscore as first param")
@@ -459,6 +459,6 @@ TEST_CASE("Parses and validate Modifies such that clause.")
         std::string test_query = "such that Modifies(_, v1)";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == "Invalid Modifies Relationship First Parameter Type!");
+        REQUIRE(error == error_messages::invalid_modifies_relationship_first_param);
     }
 }

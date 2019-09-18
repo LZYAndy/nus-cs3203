@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "Entity.h"
+#include "../ErrorMessages.h"
 
 enum class RelationshipType
 {
