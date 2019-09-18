@@ -105,6 +105,21 @@ std::unordered_map<T, std::vector<S>> Bank<T, S>::copy()
     return bank;
 }
 
+template<class T, class S>
+bool Bank<T,S>::check_relationship(T key, S value)
+{
+    if (bank.find(key) == bank.end())
+        {
+            return false;
+        }
+        else
+        {
+            std::vector<S> values = bank.at(key);
+            return std::any_of(values.begin(), values.end(), [value](S i)
+            { return i == value; });
+        }
+}
+
 template class Bank<int, int>;
 template class Bank<int, std::string>;
 template class Bank<std::string, std::string>;
