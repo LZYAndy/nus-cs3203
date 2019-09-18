@@ -4,6 +4,7 @@
 #include "PKB.h"
 #include "CheckerUtil.h"
 #include "Statement.h"
+#include "StringUtil.h"
 
 class AssignParser
 {
@@ -14,8 +15,6 @@ private:
     std::string get_left(std::string statement);
 
     std::string get_right(std::string statement);
-
-    vector<std::string> get_all_var(std::string sub_statement);
 };
 
 #endif //AUTOTESTER_ASSIGNPARSER_H

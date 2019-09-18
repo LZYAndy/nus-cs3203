@@ -82,5 +82,5 @@ TEST_CASE("CheckerUtil is_condition_valid")
     REQUIRE(CheckerUtil::is_condition_valid(" ( a <    b12 ) || ((c >= d) && !  (e ==   f )    )"));
     REQUIRE(CheckerUtil::is_condition_valid(" ((((( a + b ) - c ) * d) / e ) % f ) && ( (a - 1) || (b / 9 ) )"));
 
-
+//    REQUIRE(CheckerUtil::is_condition_valid(" (a + b) || (c /d)"));
 }
