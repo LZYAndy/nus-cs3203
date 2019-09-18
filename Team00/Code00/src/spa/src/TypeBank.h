@@ -21,7 +21,7 @@ public:
      * Insert Type for a statement into the typeBank
      * Returns false if the statement already exists
      */
-    void insert_type(int stmt, EntityType type);
+    bool insert_type(int stmt, EntityType type);
     EntityType get_statement_type(int stmt);
     std::vector<int> get_all_of_type(EntityType type);
     std::unordered_map<int, std::vector<EntityType>> copy();
