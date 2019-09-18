@@ -7,6 +7,8 @@
 #include "CallParser.h"
 #include "PrintParser.h"
 #include "ReadParser.h"
+#include "IfParser.h"
+#include "WhileParser.h"
 #include "PKB.h"
 #include "pql_dto/Entity.h"
 
