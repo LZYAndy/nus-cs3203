@@ -69,3 +69,21 @@ std::string StringUtil::trim_left(std::string& s)
         }
     }
 }
+
+std::vector<std::string> StringUtil::get_all_var(std::string input)
+{
+    std::smatch match;
+    std::vector<std::string> all_var;
+
+    while (regex_search(input, match, all_word))
+    {
+        std::string current_word = match[0];
+        input = match.suffix().str();
+        if (CheckerUtil::is_name_valid(match[0]))
+        {
+            all_var.push_back(match[0]);
+        }
+    }
+
+    return all_var;
+}

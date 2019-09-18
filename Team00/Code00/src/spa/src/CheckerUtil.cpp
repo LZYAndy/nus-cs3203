@@ -6,7 +6,7 @@ std::regex valid_const("^\\d+$");
 //(_word_)  (_[+-*/%]_(_word_))*  <- Do not remove the space.
 std::regex valid_expr("^([\\(\\s]*(\\w*)[\\s\\)]*)(\\s*[+\\-*\\/%]\\s*([\\(\\s]*(\\w+)[\\s\\)]*))*$");
 std::regex valid_cond(
-        "^\\s*[\\(\\s!]*([a-zA-Z][a-zA-Z0-9]*|[\\d]+)[\\s\\)]*(([+\\-*/%><]|[><=!]=)[\\s]*[\\(\\s!]*([a-zA-Z][a-zA-Z0-9]*|[\\d]+)[\\s\\)]*)*$");
+        "^\\s*[\\(\\s!]*([a-zA-Z][a-zA-Z0-9]*|[\\d]+)[\\s\\)]*(([+\\-*/%><]|[><=!]=)[\\s]*[\\(\\s!]*([a-zA-Z][a-zA-Z0-9]*|[\\d]+)[\\s\\)]*)+$");
 
 bool CheckerUtil::is_name_valid(std::string stmt)
 {
@@ -52,9 +52,8 @@ bool CheckerUtil::is_condition_valid(std::string stmt)
         return false;
     }
 
-    // Single var
-    std::regex single_var("^[\\s]*[a-zA-Z0-9][\\s]*$");
-    if (std::regex_match(stmt, single_var))
+    // Single expression e.g. (x + 1)
+    if (std::regex_match(stmt, valid_expr))
     {
         return false;
     }
@@ -79,6 +78,14 @@ bool CheckerUtil::is_condition_valid(std::string stmt)
     // Check condition
     for (const auto& section: sections)
     {
+        if (sections.size() > 1){
+            std::regex bracket_check("^[\\s!]*\\(.*\\)[\\s]*$");
+            if (!std::regex_match(section, bracket_check))
+            {
+                return false;
+            }
+        }
+
         if (!std::regex_match(section, valid_cond))
         {
             return false;

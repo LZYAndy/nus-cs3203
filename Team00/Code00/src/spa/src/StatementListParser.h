@@ -12,7 +12,6 @@ class StatementListParser
 private:
     std::string raw_stmt_list;
     std::vector<Statement> stmt_list;
-    StringUtil strUti;
     static int next_line_number;
 
 public:
@@ -47,7 +46,10 @@ public:
 
     // This method will find the first occurrence of semicolon,
     // and returns the index of the next character of that semicolon.
-    int find_semicolon(std::string src);
+    static int find_semicolon(std::string src);
+
+    // Check the first non-space character is the given character or not.
+    static bool is_beginning_with(std::string src, const std::string& match_char);
 };
 
 
