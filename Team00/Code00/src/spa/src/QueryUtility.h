@@ -16,6 +16,7 @@ class QueryUtility
 public:
     static vector<string> get_certain_type_str_list(EntityType type);
     static vector<string> get_certain_type_int_list(EntityType type);
+    static bool is_statement_num(pql_dto::Entity entity);
     static bool is_proc_name(pql_dto::Entity entity);
     static bool is_proc_declared(pql_dto::Entity entity);
     static bool is_var_name(pql_dto::Entity entity);
