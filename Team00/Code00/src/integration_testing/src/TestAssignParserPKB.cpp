@@ -4,7 +4,7 @@
 
 TEST_CASE("AssignParser integration with PKB")
 {
-    SECTION("get_all_variables")
+    SECTION("insert_variable")
     {
         PKB pkb;
         Statement stmt = Statement(EntityType::ASSIGN, 2, "a123 = a0 + (2 + BC)");
@@ -55,16 +55,26 @@ TEST_CASE("AssignParser integration with PKB")
         int expected = 2;
         REQUIRE(result == expected);
     }
-    SECTION("!insert_uses (procedure)")
+    SECTION("insert_uses (statement)")
     {
-//        PKB pkb;
-//        Statement stmt = Statement(EntityType::ASSIGN, 1, "a = e + f * g");
-//        AssignParser (pkb, stmt, "Proc1");
-//        std::vector<std::string> result = pkb.get_used_by_procedure("Proc1");
-//        for (std::string i : result)
-//            std::cout << i << "\n";
-//        std::vector<std::string> expected({"e", "f", "g"});
-//        REQUIRE(result == expected);
-//
+        PKB pkb;
+        Statement stmt = Statement(EntityType::ASSIGN, 12, "a = aZ+ 1 + b0 % c0A");
+        AssignParser (pkb, stmt, "Proc1");
+        std::vector<std::string> result = pkb.get_used_by_statement(12);
+        std::vector<std::string> expected({"aZ", "b0", "c0A"});
+        REQUIRE(result == expected);
+    }
+    SECTION("insert_uses (procedure)")
+    {
+        PKB pkb;
+        Statement stmt = Statement(EntityType::ASSIGN, 1, "a = e + f * g");
+        AssignParser (pkb, stmt, "Proc1");
+        std::vector<std::string> result = pkb.get_used_by_procedure("Proc1");
+        std::vector<std::string> expected({"e", "f", "g"});
+        REQUIRE(result == expected);
+
+    }
+    SECTION("!insert_type")
+    {
     }
 }

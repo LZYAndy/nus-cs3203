@@ -21,6 +21,10 @@ PrintParser::PrintParser(PKB &pkb, Statement statement, std::string parent_prog_
 
     //Insert uses
     pkb.insert_uses(statement.get_prog_line(), print_var);
+    if (std::regex_match(parent_prog_line, std::regex("^[a-zA-Z][a-zA-Z0-9]+$")))
+    {
+        pkb.insert_uses(parent_prog_line, print_var);
+    }
 
     //Insert parents
     if (std::regex_match(parent_prog_line, std::regex("^\\s*[0-9]+\\s*$")))
