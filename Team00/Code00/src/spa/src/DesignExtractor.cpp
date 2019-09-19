@@ -2,7 +2,7 @@
 
 void DesignExtractor::extract_follows_star(FollowsBank &bank_in, FollowsStarBank &bank_out)
 {
-    std::vector<int> keys = bank_in.get_all_follows();
+    std::vector<int> keys = bank_in.get_all_followed();
     for (int key : keys)
     {
         int current = key;
