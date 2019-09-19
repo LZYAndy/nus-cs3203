@@ -34,17 +34,15 @@ TEST_CASE("AssignParser integration with PKB")
         REQUIRE(result.size() == 1);
         REQUIRE(result == expected);
     }
-    SECTION("!insert_assign")
+    SECTION("insert_assign")
     {
-//        PKB pkb;
-//        Statement stmt = Statement(EntityType::ASSIGN, 3, "a = b + c * d");
-//        AssignParser (pkb, stmt, "2");
-//        std::vector<int> result = pkb.get_assign_pattern_contains("a","b+c*d");
-//        std::vector<int> expected({});
-//        for (int i : result)
-//            std::cout << i << "\n";
-//        REQUIRE(result.size() == 1);
-//        REQUIRE(result == expected);
+        PKB pkb;
+        Statement stmt = Statement(EntityType::ASSIGN, 3, "a = b + c * d");
+        AssignParser (pkb, stmt, "2");
+        std::vector<int> result = pkb.get_all_assigns();
+        std::vector<int> expected({3});
+        REQUIRE(result.size() == 1);
+        REQUIRE(result == expected);
     }
     SECTION("insert_parent")
     {
