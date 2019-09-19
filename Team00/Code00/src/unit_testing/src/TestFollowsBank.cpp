@@ -68,7 +68,7 @@ TEST_CASE("FollowsBank::get_all_follows()")
     SECTION("return size of 1")
     {
         REQUIRE(follows_bank.get_all_follows().size() == 1);
-        REQUIRE(follows_bank.get_all_follows()[0] == 1);
+        REQUIRE(follows_bank.get_all_follows()[0] == 2);
     }
 
     follows_bank.insert_follows(2, 3);
@@ -76,7 +76,7 @@ TEST_CASE("FollowsBank::get_all_follows()")
     SECTION("return size of >1")
     {
         REQUIRE(follows_bank.get_all_follows().size() == 2);
-        std::vector<int> expected({1, 2});
+        std::vector<int> expected({2, 3});
         std::vector<int> result = follows_bank.get_all_follows();
         std::sort(result.begin(), result.end());
         std::sort(expected.begin(), expected.end());
@@ -98,7 +98,7 @@ TEST_CASE("FollowsBank::get_all_followed()")
     SECTION("return size of 1")
     {
         REQUIRE(follows_bank.get_all_followed().size() == 1);
-        REQUIRE(follows_bank.get_all_followed()[0] == 2);
+        REQUIRE(follows_bank.get_all_followed()[0] == 1);
     }
 
     follows_bank.insert_follows(2, 3);
@@ -106,7 +106,7 @@ TEST_CASE("FollowsBank::get_all_followed()")
     SECTION("return size of >1")
     {
         REQUIRE(follows_bank.get_all_followed().size() == 2);
-        std::vector<int> expected({2, 3});
+        std::vector<int> expected({1, 2});
         std::vector<int> result = follows_bank.get_all_followed();
         std::sort(result.begin(), result.end());
         std::sort(expected.begin(), expected.end());

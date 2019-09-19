@@ -36,11 +36,11 @@ bool FollowsStarBank::does_follows_star_exist()
 
 std::vector<int> FollowsStarBank::get_all_follows_star()
 {
-    return follows_star_bank.get_all_keys();
+    return follows_star_bank.get_all_values();
 }
 
 std::vector<int> FollowsStarBank::get_all_followed_star()
 {
-        return follows_star_bank.get_all_values();
+        return follows_star_bank.get_all_keys();
 
 }

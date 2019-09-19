@@ -67,8 +67,9 @@ TEST_CASE("PKB::get_all_statement_nums()")
     SECTION(">1 stmt")
     {
         pkb.insert_type(1, EntityType::PRINT);
-        pkb.insert_type(2, EntityType::PRINT);
-        REQUIRE(pkb.get_all_statement_nums().size() == 1);
+        pkb.insert_type(2, EntityType::IF);        
+        pkb.insert_type(3, EntityType::PRINT);
+        REQUIRE(pkb.get_all_statement_nums().size() == 3);
     }
 
 }
@@ -741,7 +742,7 @@ TEST_CASE("PKB::get_all_follows()")
     {
         vector<int> result = pkb.get_all_follows();
         REQUIRE(result.size() == 1);
-        REQUIRE(result[0] == 1);
+        REQUIRE(result[0] == 2);
     }
 
     pkb.insert_follows(2, 3);
@@ -751,7 +752,7 @@ TEST_CASE("PKB::get_all_follows()")
     {
         vector<int> result = pkb.get_all_follows();
         REQUIRE(result.size() == 3);
-        vector<int> expected({1, 2, 3});
+        vector<int> expected({3, 2, 4});
         sort(result.begin(), result.end());
         sort(expected.begin(), expected.end());
         REQUIRE(result == expected);
@@ -1138,7 +1139,7 @@ TEST_CASE("PKB::get_all_followed()")
     {
         vector<int> result = pkb.get_all_followed();
         REQUIRE(result.size() == 1);
-        REQUIRE(result[0] == 2);
+        REQUIRE(result[0] == 1);
     }
 
     pkb.insert_follows(2, 3);
@@ -1148,7 +1149,7 @@ TEST_CASE("PKB::get_all_followed()")
     {
         vector<int> result = pkb.get_all_followed();
         REQUIRE(result.size() == 3);
-        vector<int> expected({2, 3, 4});
+        vector<int> expected({2, 3, 1});
         sort(result.begin(), result.end());
         sort(expected.begin(), expected.end());
         REQUIRE(result == expected);
@@ -1315,7 +1316,7 @@ TEST_CASE("PKB::get_all_follows_star()")
         pkb.insert_follows(1, 2);
         pkb.extract_design();
         REQUIRE(pkb.get_all_follows_star().size() == 1);
-        REQUIRE(pkb.get_all_follows_star()[0] == 1);
+        REQUIRE(pkb.get_all_follows_star()[0] == 2);
     }
 
     SECTION("return size of >1")
@@ -1324,7 +1325,7 @@ TEST_CASE("PKB::get_all_follows_star()")
         pkb.insert_follows(2, 3);
         pkb.extract_design();
         REQUIRE(pkb.get_all_follows_star().size() == 2);
-        std::vector<int> expected({1, 2});
+        std::vector<int> expected({3, 2});
         std::vector<int> result = pkb.get_all_follows_star();
         std::sort(result.begin(), result.end());
         std::sort(expected.begin(), expected.end());
@@ -1426,7 +1427,7 @@ TEST_CASE("PKB::get_all_followed_star()")
         pkb.insert_follows(1, 2);
         pkb.extract_design();
         REQUIRE(pkb.get_all_followed_star().size() == 1);
-        REQUIRE(pkb.get_all_followed_star()[0] == 2);
+        REQUIRE(pkb.get_all_followed_star()[0] == 1);
     }
 
     SECTION("return size of >1")
@@ -1435,7 +1436,7 @@ TEST_CASE("PKB::get_all_followed_star()")
         pkb.insert_follows(2, 3);
         pkb.extract_design();
         REQUIRE(pkb.get_all_followed_star().size() == 2);
-        std::vector<int> expected({2, 3});
+        std::vector<int> expected({2, 1});
         std::vector<int> result = pkb.get_all_followed_star();
         std::sort(result.begin(), result.end());
         std::sort(expected.begin(), expected.end());
