@@ -7,6 +7,7 @@ unordered_set<string> QueryEvaluator::get_result(string query, PKB &PKB)
     string error_msg;
     unordered_set<string> result;
     unordered_set<string> empty_set;
+    pql_dto::Entity select_entity;
 
     unordered_map<string, vector<string>> select_map;
     unordered_map<string, vector<string>> such_that_map;
@@ -20,22 +21,17 @@ unordered_set<string> QueryEvaluator::get_result(string query, PKB &PKB)
     /*
      * parse the PQL query
      */
-    cout << query << "\n";
     error_msg = PQLParser::pql_parse_query(move(query), declaration_clause, select_clause,
             such_that_clause, pattern_clause);
-    cout << error_msg << "\n";
     if (!error_msg.empty())
     {
         return empty_set;
     }
 
-    pql_dto::Entity select_entity = select_clause.front();
-    string select_name = select_entity.get_entity_name();
-    pql_dto::Relationships relation = such_that_clause.front();
-    pql_dto::Pattern pattern = pattern_clause.front();
-
     if (!select_clause.empty())
     { // has select
+        select_entity = select_clause.front();
+        string select_name = select_entity.get_entity_name();
         EntityType select_type = select_entity.get_entity_type();
         if (select_type == EntityType::VARIABLE || select_type == EntityType::PROCEDURE)
         {
@@ -52,6 +48,7 @@ unordered_set<string> QueryEvaluator::get_result(string query, PKB &PKB)
 
     if (!such_that_clause.empty())
     { // has such that
+        pql_dto::Relationships relation = such_that_clause.front();
         RelationshipType relation_type = relation.get_relationship();
         pql_dto::Entity first_param = relation.get_first_param();
         pql_dto::Entity second_param = relation.get_second_param();
@@ -160,6 +157,7 @@ unordered_set<string> QueryEvaluator::get_result(string query, PKB &PKB)
 
     if (!pattern_clause.empty())
     { // has pattern
+        pql_dto::Pattern pattern = pattern_clause.front();
         EntityType pattern_type = pattern.get_pattern_entity().get_entity_type();
         pql_dto::Entity first_param = pattern.get_first_param();
         pql_dto::Entity second_param = pattern.get_second_param();
