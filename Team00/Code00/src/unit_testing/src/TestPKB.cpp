@@ -67,8 +67,9 @@ TEST_CASE("PKB::get_all_statement_nums()")
     SECTION(">1 stmt")
     {
         pkb.insert_type(1, EntityType::PRINT);
-        pkb.insert_type(2, EntityType::PRINT);
-        REQUIRE(pkb.get_all_statement_nums().size() == 1);
+        pkb.insert_type(2, EntityType::IF);        
+        pkb.insert_type(3, EntityType::PRINT);
+        REQUIRE(pkb.get_all_statement_nums().size() == 3);
     }
 
 }
