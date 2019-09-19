@@ -21,8 +21,8 @@ enum class EntityType
     VARIABLE,
     CONSTANT,
     PROCEDURE,
-    STRING,
     PATTEXPR,
+    MATCHEXPR,
     INVALID
 };
 

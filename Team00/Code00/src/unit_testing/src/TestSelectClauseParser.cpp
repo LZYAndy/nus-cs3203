@@ -1,5 +1,6 @@
 #include "catch.hpp"
 #include "PQLParser.h"
+#include "ErrorMessages.h"
 
 TEST_CASE("Parses and validate select clause.")
 {
@@ -41,7 +42,7 @@ TEST_CASE("Parses and validate select clause.")
         std::string test_query = "prt such that Modifies(4, v1) pattern a(_,_) ";
         std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
-        REQUIRE(error == "Invalid query! Syntax Error.");
+        REQUIRE(error == error_messages::invalid_query_select_clause_syntax);
     }
 
     SECTION("Invalid Select Clause with no declared variable.")
@@ -49,7 +50,7 @@ TEST_CASE("Parses and validate select clause.")
         std::string test_query = "Select s1 such that Modifies(4, v1) pattern a(_,_) ";
         std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
-        REQUIRE(error == "No such variable exists!");
+        REQUIRE(error == error_messages::invalid_query_variables_not_declared);
     }
 
     SECTION("Invalid Select Clause with no tuple variables. (Iteration 1)")
@@ -57,7 +58,7 @@ TEST_CASE("Parses and validate select clause.")
         std::string test_query = "Select <v2, v1> such that Modifies(4, v1) pattern a(_,_) ";
         std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
-        REQUIRE(error == "No such variable exists!");
+        REQUIRE(error == error_messages::invalid_query_variables_not_declared);
     }
 
     SECTION("Invalid Select Clause with missing variables.")
@@ -65,7 +66,7 @@ TEST_CASE("Parses and validate select clause.")
         std::string test_query = "Select such that Modifies(4, v1) pattern a(_,_) ";
         std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
-        REQUIRE(error == "No such variable exists!");
+        REQUIRE(error == error_messages::invalid_query_variables_not_declared);
     }
 
     SECTION("Invalid Select Clause with addition word before Select.")
@@ -73,7 +74,7 @@ TEST_CASE("Parses and validate select clause.")
         std::string test_query = "var Select v1 such that Modifies(4, v1) pattern a(_,_) ";
         std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
-        REQUIRE(error == "Invalid query! Syntax Error.");
+        REQUIRE(error == error_messages::invalid_query_select_clause_syntax);
     }
 
     SECTION("Invalid Select Clause with string after Select.")
@@ -81,6 +82,6 @@ TEST_CASE("Parses and validate select clause.")
         std::string test_query = "Select \"v1 \" such that Modifies(4, v1) pattern a(_,_) ";
         std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
-        REQUIRE(error == "No such variable exists!");
+        REQUIRE(error == error_messages::invalid_query_variables_not_declared);
     }
 }

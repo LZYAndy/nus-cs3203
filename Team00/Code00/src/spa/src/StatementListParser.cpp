@@ -14,47 +14,78 @@ std::vector<Statement> StatementListParser::get_stmt_list()
 
 void StatementListParser::parse_stmt_list()
 {
-    std::string source = strUti.replace_all_white_spaces(raw_stmt_list);
+    std::string source = StringUtil::replace_all_white_spaces(raw_stmt_list);
     
     while (!source.empty())
     {
-        source = strUti.trim_left(source);
+        source = StringUtil::trim_left(source);
         std::string stmt_syn = source.substr(0,2);
         if (stmt_syn.compare("if") == 0)
         {
-            source = parse_if(source);
-            source = strUti.trim_left(source);
-            continue;
+            std::string check = source.substr(2);
+
+            // If there is no ( after word "if", then it is still not a if statement
+            if (is_beginning_with(check, "("))
+            {
+                source = parse_if(source);
+                source = StringUtil::trim_left(source);
+                continue;
+            }
         }
         stmt_syn = source.substr(0, 5);
         if (stmt_syn.compare("while") == 0)
         {
-            source = parse_while(source);
-            source = strUti.trim_left(source);
-            continue;
+            std::string check = source.substr(5);
+
+            // If there is no ( after word "while", then it is still not a while statement
+            if (is_beginning_with(check, "("))
+            {
+                source = parse_while(source);
+                source = StringUtil::trim_left(source);
+                continue;
+            }
         }
         else if (stmt_syn.compare("print") == 0)
         {
-            source = parse_print(source);
-            source = strUti.trim_left(source);
-            continue;
+            std::string check = source.substr(5);
+
+            // If there is = after word "print", then it is still not a print statement
+            if (!is_beginning_with(check, "="))
+            {
+                source = parse_print(source);
+                source = StringUtil::trim_left(source);
+                continue;
+            }
         }
         stmt_syn = source.substr(0, 4);
         if (stmt_syn.compare("read") == 0)
         {
-            source = parse_read(source);
-            source = strUti.trim_left(source);
-            continue;
+            std::string check = source.substr(4);
+
+            // If there is = after word "read", then it is still not a read statement
+            if (!is_beginning_with(check, "="))
+            {
+                source = parse_read(source);
+                source = StringUtil::trim_left(source);
+                continue;
+            }
         }
         else if (stmt_syn.compare("call") == 0)
         {
-            source = parse_call(source);
-            source = strUti.trim_left(source);
-            continue;
+            std::string check = source.substr(4);
+
+            // If there is = after word "call", then it is still not a call statement
+            if (!is_beginning_with(check, "="))
+            {
+                source = parse_call(source);
+                source = StringUtil::trim_left(source);
+                continue;
+            }
         }
+
         // If the statement does not belong to the statement type above, then it should be an assign statement.
         source = parse_assign(source);
-        source = strUti.trim_left(source);
+        source = StringUtil::trim_left(source);
     }
 }
 
@@ -65,19 +96,19 @@ std::string StatementListParser::parse_while(std::string src)
 
     // Remove "while".
     src = src.substr(5);
-    src = strUti.trim_left(src);
+    src = StringUtil::trim_left(src);
 
     // Find the condition.
     int condi_idx = parse_bracket(src, "(", ")");
     std::string condition = src.substr(1, condi_idx - 2);
     src = src.substr(condi_idx);
-    src = strUti.trim_left(src);
+    src = StringUtil::trim_left(src);
 
     // Find the loop part.
     int loop_idx = parse_bracket(src, "{", "}");
     std::string first_blk_raw = src.substr(1, loop_idx - 2);
     src = src.substr(loop_idx);
-    src = strUti.trim_left(src);
+    src = StringUtil::trim_left(src);
 
     StatementListParser loop_parser = StatementListParser(first_blk_raw);
     loop_parser.parse_stmt_list();
@@ -153,22 +184,22 @@ std::string StatementListParser::parse_if(std::string src)
 
     // Remove "if".
     src = src.substr(2);
-    src = strUti.trim_left(src);
+    src = StringUtil::trim_left(src);
 
     // Find the condition.
     int condi_idx = parse_bracket(src, "(", ")");
     std::string condition = src.substr(1, condi_idx - 2);
     src = src.substr(condi_idx);
-    src = strUti.trim_left(src);
+    src = StringUtil::trim_left(src);
 
     // Remove "then" and find the then part.
     src = src.substr(4);
-    src = strUti.trim_left(src);
+    src = StringUtil::trim_left(src);
 
     int then_idx = parse_bracket(src, "{", "}");
     std::string first_blk_raw = src.substr(1, then_idx - 2);
     src = src.substr(then_idx);
-    src = strUti.trim_left(src);
+    src = StringUtil::trim_left(src);
 
     StatementListParser then_parser = StatementListParser(first_blk_raw);
     then_parser.parse_stmt_list();
@@ -176,12 +207,12 @@ std::string StatementListParser::parse_if(std::string src)
 
     // Remove "else" and find the else part.
     src = src.substr(4);
-    src = strUti.trim_left(src);
+    src = StringUtil::trim_left(src);
 
     int else_idx = parse_bracket(src, "{", "}");
     std::string second_blk_raw = src.substr(1, else_idx - 2);
     src = src.substr(else_idx);
-    src = strUti.trim_left(src);
+    src = StringUtil::trim_left(src);
 
     StatementListParser else_parser = StatementListParser(second_blk_raw);
     else_parser.parse_stmt_list();
@@ -231,4 +262,11 @@ int StatementListParser::find_semicolon(std::string src)
         }
         index++;
     }
+}
+
+bool StatementListParser::is_beginning_with(std::string src, const std::string& match_char)
+{
+    src = StringUtil::trim_left(src);
+    std::string this_char = src.substr(0, 1);
+    return this_char.compare(match_char) == 0;
 }

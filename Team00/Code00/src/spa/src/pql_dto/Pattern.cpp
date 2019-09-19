@@ -37,34 +37,33 @@ namespace pql_dto
     {
         if (entity.get_entity_type() != EntityType::ASSIGN)
         {
-            throw std::runtime_error("Invalid Entity Type For Pattern Entity!");
+            throw std::runtime_error(error_messages::invalid_pattern_entity);
         }
         pattern_entity = entity;
     }
 
     void Pattern::set_first_param(Entity first_entity_param)
     {
-        if (first_entity_param.get_entity_type() == EntityType::ANY || first_entity_param.get_entity_type() == EntityType::STRING
-            || first_entity_param.get_entity_type() == EntityType::VARIABLE)
+        if (first_entity_param.get_entity_type() == EntityType::ANY || first_entity_param.get_entity_type() == EntityType::VARIABLE)
         {
             first_param = first_entity_param;
         }
         else
         {
-            throw std::runtime_error("Invalid Entity Type For Pattern First Param!");
-        }
-        
+            throw std::runtime_error(error_messages::invalid_pattern_first_param);
+        }   
     }
 
     void Pattern::set_second_param(Entity second_entity_param)
     {
-        if (second_entity_param.get_entity_type() == EntityType::ANY || second_entity_param.get_entity_type() == EntityType::PATTEXPR)
+        if (second_entity_param.get_entity_type() == EntityType::ANY || second_entity_param.get_entity_type() == EntityType::PATTEXPR
+            || second_entity_param.get_entity_type() == EntityType::MATCHEXPR)
         {
             second_param = second_entity_param;
         }
         else
         {
-            throw std::runtime_error("Invalid Entity Type For Pattern Second Param!");
+            throw std::runtime_error(error_messages::invalid_pattern_second_param);
         }
     }
 
