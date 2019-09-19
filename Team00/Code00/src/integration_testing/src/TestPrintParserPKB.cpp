@@ -41,7 +41,13 @@ TEST_CASE("PrintParser integration with PKB")
         int expected = 10;
         REQUIRE(result == expected);
     }
-    SECTION("!insert_type")
+    SECTION("insert_type")
     {
+        PKB pkb;
+        Statement stmt = Statement(EntityType::PRINT, 1, "print a0");
+        PrintParser (pkb, stmt, "Proc1");
+        EntityType result = pkb.get_statement_type(1);
+        EntityType expected(EntityType::PRINT);
+        REQUIRE(result == expected);
     }
 }

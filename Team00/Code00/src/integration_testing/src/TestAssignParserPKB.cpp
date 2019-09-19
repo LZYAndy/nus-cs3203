@@ -72,9 +72,14 @@ TEST_CASE("AssignParser integration with PKB")
         std::vector<std::string> result = pkb.get_used_by_procedure("Proc1");
         std::vector<std::string> expected({"e", "f", "g"});
         REQUIRE(result == expected);
-
     }
-    SECTION("!insert_type")
+    SECTION("insert_type")
     {
+        PKB pkb;
+        Statement stmt = Statement(EntityType::ASSIGN, 1, "a = e + f * g");
+        AssignParser (pkb, stmt, "Proc1");
+        EntityType result = pkb.get_statement_type(1);
+        EntityType expected(EntityType::ASSIGN);
+        REQUIRE(result == expected);
     }
 }

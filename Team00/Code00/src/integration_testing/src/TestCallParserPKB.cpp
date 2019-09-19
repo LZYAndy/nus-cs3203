@@ -13,7 +13,13 @@ TEST_CASE("CallParser integration with PKB")
         int expected = 2;
         REQUIRE(result == expected);
     }
-    SECTION("!insert_type")
+    SECTION("insert_type")
     {
+        PKB pkb;
+        Statement stmt = Statement(EntityType::CALL, 1, "call proc9");
+        CallParser (pkb, stmt, "Proc1");
+        EntityType result = pkb.get_statement_type(1);
+        EntityType expected(EntityType::CALL);
+        REQUIRE(result == expected);
     }
 }

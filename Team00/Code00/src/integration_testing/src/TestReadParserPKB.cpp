@@ -43,7 +43,13 @@ TEST_CASE("ReadParser integration with PKB")
         int expected = 10;
         REQUIRE(result == expected);
     }
-    SECTION("!insert_type")
+    SECTION("insert_type")
     {
+        PKB pkb;
+        Statement stmt = Statement(EntityType::READ, 1, "read a1");
+        ReadParser (pkb, stmt, "Proc1");
+        EntityType result = pkb.get_statement_type(1);
+        EntityType expected(EntityType::READ);
+        REQUIRE(result == expected);
     }
 }
