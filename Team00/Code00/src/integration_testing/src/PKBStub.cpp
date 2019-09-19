@@ -1,4 +1,4 @@
-#include "./../../spa/src/PKB.h"
+#include "PKB.h"
 
 class PKBStub: public PKB
 {
@@ -194,7 +194,7 @@ public:
         insert_variable("normSq");
         insert_variable("cenX");
         insert_variable("cenY");
-        insert_assign(23, "normSq", "cenX * cenX / cenY * cenY");
+        insert_assign(23, "normSq", "cenX * cenX + cenY * cenY");
         insert_modifies(23, "normSq");
         insert_uses(23, "cenX");
         insert_uses(23, "cenY");
@@ -206,6 +206,3 @@ public:
         extract_design();
     }
 };
-
-
-
