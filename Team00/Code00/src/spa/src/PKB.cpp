@@ -47,7 +47,7 @@ vector<int> PKB::get_all_statement_nums() {
     {
         return vector<int>();
     }
-    vector<int> statement_nums({last_statement_num});
+    vector<int> statement_nums(last_statement_num);
     iota(statement_nums.begin(), statement_nums.end(), 1);
     return statement_nums;
 }
