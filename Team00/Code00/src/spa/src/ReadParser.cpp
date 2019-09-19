@@ -2,7 +2,7 @@
 
 std::regex read_statement_pattern("^[\\s]*read[\\s]+([a-zA-Z][a-zA-Z0-9]*[\\s]*)$");
 
-ReadParser::ReadParser(PKB pkb, Statement statement, std::string parent_prog_line)
+ReadParser::ReadParser(PKB &pkb, Statement statement, std::string parent_prog_line)
 {
     if (!is_read_stmt_valid(statement.get_statement()))
     {

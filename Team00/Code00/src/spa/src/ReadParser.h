@@ -8,7 +8,7 @@
 class ReadParser
 {
 public:
-    ReadParser(PKB pkb, Statement statement, std::string parent_prog_line);
+    ReadParser(PKB &pkb, Statement statement, std::string parent_prog_line);
 
 private:
     bool is_read_stmt_valid(std::string statement);
