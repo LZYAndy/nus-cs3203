@@ -118,7 +118,7 @@ public:
         insert_modifies(14, "cenX");
         insert_assign(16, "cenX", "cenX + x");
         insert_parent(14, 16);
-        insert_follows(14, 15);
+        insert_follows(15, 16);
 
         insert_type(17, EntityType::ASSIGN);
         insert_variable("cenY");

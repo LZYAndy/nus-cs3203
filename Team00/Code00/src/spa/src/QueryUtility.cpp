@@ -110,13 +110,36 @@ vector<string> QueryUtility::get_certain_type_int_list(EntityType type, PKB &PKB
     return result;
 }
 
+bool QueryUtility::is_same_type(EntityType type_1, EntityType type_2)
+{
+    if (type_1 == EntityType::STMT)
+    {
+        if (type_2 == EntityType::STMT || type_2 == EntityType::ASSIGN || type_2 == EntityType::CALL ||
+            type_2 == EntityType::IF || type_2 == EntityType::PRINT || type_2 == EntityType::READ ||
+            type_2 == EntityType::WHILE)
+        {
+            return true;
+        }
+    }
+    if (type_2 == EntityType::STMT)
+    {
+        if (type_1 == EntityType::STMT || type_1 == EntityType::ASSIGN || type_1 == EntityType::CALL ||
+            type_1 == EntityType::IF || type_1 == EntityType::PRINT || type_1 == EntityType::READ ||
+            type_1 == EntityType::WHILE)
+        {
+            return true;
+        }
+    }
+    return type_1 == type_2;
+}
+
 unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity key, vector<int>& int_vec, PKB PKB)
 {
     unordered_map<std::string, std::vector<std::string>> result;
     vector<string> key_value;
     for (auto & iter : int_vec)
     {
-        if (PKB.get_statement_type(iter) == key.get_entity_type())
+        if (QueryUtility::is_same_type(PKB.get_statement_type(iter), key.get_entity_type()))
         {
             key_value.push_back(to_string(iter));
         }
@@ -142,7 +165,7 @@ unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity key,
 {
     unordered_map<string, vector<string>> result;
     std::vector<std::string> key_value;
-    if (PKB.get_statement_type(n) == key.get_entity_type())
+    if (QueryUtility::is_same_type(PKB.get_statement_type(n), key.get_entity_type()))
     {
         key_value.push_back(to_string(n));
     }
@@ -160,11 +183,11 @@ unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity key_
     {
         int first = iter.first;
         vector<int> second = iter.second;
-        if (PKB.get_statement_type(first) == key_1.get_entity_type())
+        if (QueryUtility::is_same_type(PKB.get_statement_type(first), key_1.get_entity_type()))
         {
             for (auto & it : second)
             {
-                if (PKB.get_statement_type(it) == key_2.get_entity_type())
+                if (QueryUtility::is_same_type(PKB.get_statement_type(it), key_2.get_entity_type()))
                 {
                     key_value_1.push_back(to_string(first));
                     key_value_2.push_back(to_string(it));
@@ -208,7 +231,7 @@ unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity key_
     {
         int first = iter.first;
         vector<string> second = iter.second;
-        if (PKB.get_statement_type(first) == key_1.get_entity_type())
+        if (QueryUtility::is_same_type(PKB.get_statement_type(first), key_1.get_entity_type()))
         {
             for (auto & it : second)
             {
