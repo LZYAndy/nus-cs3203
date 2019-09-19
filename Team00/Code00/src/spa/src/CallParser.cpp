@@ -9,6 +9,10 @@ CallParser::CallParser(PKB pkb, Statement statement, std::string parent_prog_lin
         throw "Invalid call statement";
     }
 
+    if (statement.get_statement_type() != EntityType::CALL){
+        throw "Incorrect call type";
+    }
+
     std::string call_proc = get_proc(statement.get_statement());
 
     //Insert parents

@@ -9,6 +9,11 @@ PrintParser::PrintParser(PKB pkb, Statement statement, std::string parent_prog_l
         throw "Invalid print statement";
     }
 
+    if (statement.get_statement_type() != EntityType::PRINT)
+    {
+        throw "Incorrect print type";
+    }
+
     std::string print_var = get_var(statement.get_statement());
 
     //Insert var
@@ -18,7 +23,7 @@ PrintParser::PrintParser(PKB pkb, Statement statement, std::string parent_prog_l
     pkb.insert_uses(statement.get_prog_line(), print_var);
 
     //Insert parents
-    if (std::regex_match(parent_prog_line, std::regex("^[0-9]+$")))
+    if (std::regex_match(parent_prog_line, std::regex("^\\s*[0-9]+\\s*$")))
     {
         pkb.insert_parent(stoi(parent_prog_line), statement.get_prog_line());
     }

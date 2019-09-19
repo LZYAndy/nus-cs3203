@@ -9,6 +9,10 @@ ReadParser::ReadParser(PKB pkb, Statement statement, std::string parent_prog_lin
         throw "Invalid read statement";
     }
 
+    if (statement.get_statement_type() != EntityType::READ){
+        throw "Incorrect read type";
+    }
+
     std::string read_var = get_var(statement.get_statement());
 
     //Insert var
