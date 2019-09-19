@@ -2,7 +2,7 @@
 
 #include <utility>
 
-unordered_set<string> QueryEvaluator::get_result(string query)
+unordered_set<string> QueryEvaluator::get_result(string query, PKB &PKB)
 {
     string error_msg;
     unordered_set<string> result;
@@ -20,8 +20,10 @@ unordered_set<string> QueryEvaluator::get_result(string query)
     /*
      * parse the PQL query
      */
+    cout << query << "\n";
     error_msg = PQLParser::pql_parse_query(move(query), declaration_clause, select_clause,
             such_that_clause, pattern_clause);
+    cout << error_msg << "\n";
     if (!error_msg.empty())
     {
         return empty_set;
@@ -37,11 +39,11 @@ unordered_set<string> QueryEvaluator::get_result(string query)
         EntityType select_type = select_entity.get_entity_type();
         if (select_type == EntityType::VARIABLE || select_type == EntityType::PROCEDURE)
         {
-            select_map[select_name] = QueryUtility::get_certain_type_str_list(select_type);
+            select_map[select_name] = QueryUtility::get_certain_type_str_list(select_type, PKB);
         }
         else
         {
-            select_map[select_name] = QueryUtility::get_certain_type_int_list(select_type);
+            select_map[select_name] = QueryUtility::get_certain_type_int_list(select_type, PKB);
         }
     }
 
@@ -61,7 +63,7 @@ unordered_set<string> QueryEvaluator::get_result(string query)
             {
                 if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
                 {
-                    trivial_result = FollowsEvaluator::evaluate_trivial(first_param, second_param);
+                    trivial_result = FollowsEvaluator::evaluate_trivial(first_param, second_param, PKB);
                     if(!trivial_result)
                     {
                         return empty_set;
@@ -69,14 +71,14 @@ unordered_set<string> QueryEvaluator::get_result(string query)
                 }
                 else
                 {
-                    such_that_map = FollowsEvaluator::evaluate_non_trivial(first_param, second_param);
+                    such_that_map = FollowsEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
                 }
             }
             else
             {
                 if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
                 {
-                    trivial_result = FollowsStarEvaluator::evaluate_trivial(first_param, second_param);
+                    trivial_result = FollowsStarEvaluator::evaluate_trivial(first_param, second_param, PKB);
                     if(!trivial_result)
                     {
                         return empty_set;
@@ -84,7 +86,7 @@ unordered_set<string> QueryEvaluator::get_result(string query)
                 }
                 else
                 {
-                    such_that_map = FollowsStarEvaluator::evaluate_non_trivial(first_param, second_param);
+                    such_that_map = FollowsStarEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
                 }
             }
         }
@@ -93,7 +95,7 @@ unordered_set<string> QueryEvaluator::get_result(string query)
         {
             if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
             {
-                trivial_result = UsesEvaluator::evaluate_trivial(first_param, second_param);
+                trivial_result = UsesEvaluator::evaluate_trivial(first_param, second_param, PKB);
                 if(!trivial_result)
                 {
                     return empty_set;
@@ -101,7 +103,7 @@ unordered_set<string> QueryEvaluator::get_result(string query)
             }
             else
             {
-                such_that_map = UsesEvaluator::evaluate_non_trivial(first_param, second_param);
+                such_that_map = UsesEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
             }
         }
 
@@ -111,7 +113,7 @@ unordered_set<string> QueryEvaluator::get_result(string query)
             {
                 if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
                 {
-                    trivial_result = ParentEvaluator::evaluate_trivial(first_param, second_param);
+                    trivial_result = ParentEvaluator::evaluate_trivial(first_param, second_param, PKB);
                     if(!trivial_result)
                     {
                         return empty_set;
@@ -119,14 +121,14 @@ unordered_set<string> QueryEvaluator::get_result(string query)
                 }
                 else
                 {
-                    such_that_map = ParentEvaluator::evaluate_non_trivial(first_param, second_param);
+                    such_that_map = ParentEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
                 }
             }
             else
             {
                 if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
                 {
-                    trivial_result = ParentStarEvaluator::evaluate_trivial(first_param, second_param);
+                    trivial_result = ParentStarEvaluator::evaluate_trivial(first_param, second_param, PKB);
                     if(!trivial_result)
                     {
                         return empty_set;
@@ -134,7 +136,7 @@ unordered_set<string> QueryEvaluator::get_result(string query)
                 }
                 else
                 {
-                    such_that_map = ParentStarEvaluator::evaluate_non_trivial(first_param, second_param);
+                    such_that_map = ParentStarEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
                 }
             }
         }
@@ -143,7 +145,7 @@ unordered_set<string> QueryEvaluator::get_result(string query)
         {
             if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
             {
-                trivial_result = ModifiesEvaluator::evaluate_trivial(first_param, second_param);
+                trivial_result = ModifiesEvaluator::evaluate_trivial(first_param, second_param, PKB);
                 if(!trivial_result)
                 {
                     return empty_set;
@@ -151,7 +153,7 @@ unordered_set<string> QueryEvaluator::get_result(string query)
             }
             else
             {
-                such_that_map = ModifiesEvaluator::evaluate_non_trivial(first_param, second_param);
+                such_that_map = ModifiesEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
             }
         }
     }
@@ -163,7 +165,7 @@ unordered_set<string> QueryEvaluator::get_result(string query)
         pql_dto::Entity second_param = pattern.get_second_param();
         if (pattern_type == EntityType::ASSIGN)
         {
-            pattern_map = AssignEvaluator::evaluate(pattern, first_param, second_param);
+            pattern_map = AssignEvaluator::evaluate(pattern, first_param, second_param, PKB);
         }
     }
 

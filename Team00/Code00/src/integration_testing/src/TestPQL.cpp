@@ -10,18 +10,18 @@ TEST_CASE("No such that or pattern clauses") {
     SECTION("variable")
     {
         string pql_query = "variable v; Select v";
-        unordered_set<string> my_result = QueryEvaluator::get_result(pql_query);
+        unordered_set<string> my_result = QueryEvaluator::get_result(pql_query, PKB);
         unordered_set<string> expected_result {"flag", "count", "cenX", "cenY", "x", "y", "normSq"};
         REQUIRE(my_result == expected_result);
     }
 
-    SECTION("assign")
-    {
-        string pql_query = "assign a; Select a";
-        unordered_set<string> my_result = QueryEvaluator::get_result(pql_query);
-        unordered_set<string> expected_result {"1", "10", "11", "12", "15", "16", "17", "20", "21", "22", "23"};
-        REQUIRE(my_result == expected_result);
-    }
+//    SECTION("assign")
+//    {
+//        string pql_query = "assign a; Select a";
+//        unordered_set<string> my_result = QueryEvaluator::get_result(pql_query, PKB);
+//        unordered_set<string> expected_result {"1", "10", "11", "12", "15", "16", "17", "20", "21", "22", "23"};
+//        REQUIRE(my_result == expected_result);
+//    }
 }
 
 //TEST_CASE("One such that clause: Follows and Follows*")
