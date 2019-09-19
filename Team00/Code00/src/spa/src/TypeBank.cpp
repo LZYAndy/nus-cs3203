@@ -1,7 +1,19 @@
 #include "TypeBank.h"
 
-void TypeBank::insert_type(int stmt, EntityType type)
+bool TypeBank::insert_type(int stmt, EntityType type)
 {
+    // check if valid type
+    switch (type)
+    {
+        case EntityType::ASSIGN :
+        case EntityType::CALL :
+        case EntityType::IF :
+        case EntityType::PRINT :
+        case EntityType::READ :
+        case EntityType::WHILE : break;
+        default: return false;
+    }
+
     if (bank.find(stmt) != bank.end())
     {
         std::vector<EntityType> &bank_value = bank.at(stmt);
@@ -10,7 +22,7 @@ void TypeBank::insert_type(int stmt, EntityType type)
         {
             if (type == val)
             {
-                return;
+                return false;
             }
         }
         bank_value.push_back(type);
@@ -30,7 +42,7 @@ void TypeBank::insert_type(int stmt, EntityType type)
         {
             if (stmt == key)
             {
-                return;
+                return true;
             }
         }
         reverse_bank_value.push_back(stmt);
@@ -41,6 +53,7 @@ void TypeBank::insert_type(int stmt, EntityType type)
         key_list.push_back(stmt);
         reverse_bank.insert({type, key_list});
     }
+    return true;
 }
 
 EntityType TypeBank::get_statement_type(int stmt)
