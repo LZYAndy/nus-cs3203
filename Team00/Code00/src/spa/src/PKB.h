@@ -104,9 +104,32 @@ public:
     vector<int> get_parent_star(int stmt);
     vector<int> get_children_star(int stmt);
 
+    /**
+     * Get all statements that uses the input variable
+     * @param variable
+     * @return Return an integer vector of all statement that uses the variable.
+     */
     vector<int> get_statements_uses(string variable);
+
+    /**
+     * Get all procedures that uses the input variable
+     * @param variable
+     * @return Return an integer vector of all procedure that uses the variable.
+     */
     vector<string> get_procedures_uses(string variable);
+
+    /**
+     * Get all variables used by the input statement.
+     * @param statement
+     * @return Return a string vector of variables used by the statement.
+     */
     vector<string> get_used_by_statement(int statement);
+
+    /**
+     * Get all variables used by the input procedure.
+     * @param procedure
+     * @return Return a string vector of variables used by the procedure.
+     */
     vector<string> get_used_by_procedure(string procedure);
 
     /**
@@ -200,20 +223,63 @@ public:
     vector<int> get_all_followed_star();
 
     /**
-     * 
-     * @return
+     * Get all statements having one or more Modifies relationships.
+     * @return Return an integer vector of statements having one or more Modifies relationships.
      */
     vector<int> get_all_modifies_statements();
+
+    /**
+     * Get all procedures having one or more Modifies relationships.
+     * @return Return a string vector of procedures having one or more Modifies relationships.
+     */
     vector<string> get_all_modifies_procedures();
+
+    /**
+     * Get all statements having one or more Uses relationships.
+     * @return Return an integer vector of statements having one or more Uses relationships.
+     */
     vector<int> get_all_uses_statements();
+
+    /**
+     * Get all procedures having one or more Uses relationships.
+     * @return Return a string vector of procedures having one or more Uses relationships.
+     */
     vector<string> get_all_uses_procedures();
 
+    /**
+     * Return true if there exists at least one Uses relationship in this program.
+     * @return Return true if there exists at least one Uses relationship in this program.
+     */
     bool does_uses_exist();
+
+    /**
+     * Return true if there exists at least one Modifies relationship in this program.
+     * @return Return true if there exists at least one Modifies relationship in this program.
+     */
     bool does_modifies_exist();
 
+    /**
+     * Get all procedure-variable Modifies relationships.
+     * @return Return an unordered_map<string, vector<string>> with procedure name as key and variable(s) as value.
+     */
     unordered_map<string, vector<string>> get_all_modifies_procedures_relationship();
+
+    /**
+     * Get all statement-variable Modifies relationships.
+     * @return Return an unordered_map<int, vector<string>> with statement number as key and variable(s) as value.
+     */
     unordered_map<int, vector<string>> get_all_modifies_statements_relationship();
+
+    /**
+     * Get all procedure-variable Uses relationships.
+     * @return Return an unordered_map<string, vector<string>> with procedure name as key and variable(s) as value.
+     */
     unordered_map<string, vector<string>> get_all_uses_procedures_relationship();
+
+    /**
+     * Get all statement-variable Uses relationships.
+     * @return Return an unordered_map<int, vector<string>> with statement number as key and variable(s) as value.
+     */
     unordered_map<int, vector<string>> get_all_uses_statements_relationship();
 
     string assign_to_variable(int assign);
