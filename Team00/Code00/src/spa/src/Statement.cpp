@@ -3,9 +3,9 @@
 
 Statement::Statement(EntityType statement_type, int prog_line, std::string statement)
 {
-    statement_type = statement_type;
-    prog_line = prog_line;
-    statement = statement;
+    this->statement_type = statement_type;
+    this->statement_line = prog_line;
+    this->statement = statement;
 }
 
 EntityType Statement::get_statement_type()

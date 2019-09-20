@@ -52,13 +52,6 @@ bool CheckerUtil::is_condition_valid(std::string stmt)
         return false;
     }
 
-    // Single expression e.g. (x + 1)
-    if (std::regex_match(stmt, valid_expr))
-    {
-        return false;
-    }
-
-    // Split by && and ||
     std::vector<std::string> sections;
     size_t prev = 0, pos;
     while ((pos = stmt.find_first_of("&|", prev))!=std::string::npos)
@@ -84,6 +77,11 @@ bool CheckerUtil::is_condition_valid(std::string stmt)
             {
                 return false;
             }
+        }
+
+        // No operators. Should be comparator.
+        if (std::regex_match(section, valid_expr)){
+            return false;
         }
 
         if (!std::regex_match(section, valid_cond))

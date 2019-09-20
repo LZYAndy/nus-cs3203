@@ -8,7 +8,7 @@
 class PrintParser
 {
 public:
-    PrintParser(PKB pkb, Statement statement, std::string parent_prog_line);
+    PrintParser(PKB &pkb, Statement statement, std::string parent_prog_line);
 
 private:
     bool is_print_stmt_valid(std::string statement);
