@@ -7,9 +7,9 @@ TEST_CASE("AssignParser")
     PKB pkb;
     SECTION("Success test case")
     {
-        Statement stmt = Statement(EntityType::ASSIGN, 2, "a1 = 2");
+        Statement stmt = Statement(EntityType::ASSIGN, 2, "a1 = 2;");
         REQUIRE_NOTHROW(AssignParser (pkb, stmt, "Parent"));
-        stmt = Statement(EntityType::ASSIGN, 2, "a = 2 + b");
+        stmt = Statement(EntityType::ASSIGN, 2, "a = 2 + b;");
         REQUIRE_NOTHROW(AssignParser (pkb, stmt, "Parent"));
     }
 
@@ -21,7 +21,7 @@ TEST_CASE("AssignParser")
 
     SECTION("Invalid statement type")
     {
-        Statement stmt = Statement(EntityType::ANY, 1, "a = 1");
+        Statement stmt = Statement(EntityType::ANY, 1, "a = 1;");
         REQUIRE_THROWS_WITH(AssignParser (pkb, stmt, "Parent"), "Incorrect assign type");
     }
 }

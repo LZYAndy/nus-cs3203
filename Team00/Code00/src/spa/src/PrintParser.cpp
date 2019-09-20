@@ -1,6 +1,6 @@
 #include "PrintParser.h"
 
-std::regex print_statement_pattern("^[\\s]*print[\\s]+([a-zA-Z][a-zA-Z0-9]*[\\s]*)$");
+std::regex print_statement_pattern("^[\\s]*print[\\s]+([a-zA-Z][a-zA-Z0-9]*[\\s]*);$");
 
 PrintParser::PrintParser(PKB &pkb, Statement statement, std::string parent_prog_line)
 {
