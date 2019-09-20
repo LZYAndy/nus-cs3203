@@ -2,6 +2,8 @@
 #define AUTOTESTER_PROCEDURE_H
 
 #include <string>
+#include "CheckerUtil.h"
+#include "ErrorMessages.h"
 
 class Procedure
 {

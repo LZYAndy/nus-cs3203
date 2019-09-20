@@ -4,6 +4,9 @@
 
 namespace error_messages
 {
+    // Error messages for Procedure.cpp
+    constexpr const char* invalid_proc_name(R"(Invalid procedure name!)");
+
     // Error messages for Entity.cpp
     constexpr const char* invalid_entity_type(R"(Invalid Entity Type!)");
     constexpr const char* invalid_declared_entity_name(R"(Invalid Declared Entity Name!)");
