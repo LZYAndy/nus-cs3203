@@ -21,7 +21,7 @@ unordered_set<string> QueryEvaluator::get_result(string query, PKB &PKB)
     /*
      * parse the PQL query
      */
-    error_msg = PQLParser::pql_parse_query(move(query), declaration_clause, select_clause,
+    error_msg = PQLParser::pql_parse_query(query, declaration_clause, select_clause,
             such_that_clause, pattern_clause);
     if (!error_msg.empty())
     {
@@ -88,7 +88,7 @@ unordered_set<string> QueryEvaluator::get_result(string query, PKB &PKB)
             }
         }
 
-        if (relation_type == RelationshipType::USES && !relation.is_relationship_star())
+        if (relation_type == RelationshipType::USES)
         {
             if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
             {
@@ -104,7 +104,7 @@ unordered_set<string> QueryEvaluator::get_result(string query, PKB &PKB)
             }
         }
 
-        if (relation_type == RelationshipType::PARENT && !relation.is_relationship_star())
+        if (relation_type == RelationshipType::PARENT)
         {
             if (!relation.is_relationship_star())
             {
@@ -138,7 +138,7 @@ unordered_set<string> QueryEvaluator::get_result(string query, PKB &PKB)
             }
         }
 
-        if (relation_type == RelationshipType::MODIFIES && !relation.is_relationship_star())
+        if (relation_type == RelationshipType::MODIFIES)
         {
             if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
             {

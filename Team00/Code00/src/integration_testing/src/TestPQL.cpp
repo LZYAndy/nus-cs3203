@@ -155,45 +155,40 @@ TEST_CASE("One such that clause: Parent and Parent*")
         REQUIRE(QueryEvaluator::get_result(pql_query_2, PKB) == expected_result_2);
     }
 
-//    SECTION("Parent*(s, 18)")
-//    {
-//        string pql_query = "stmt s; Select s such that Parent*(s, 18)";
-//        unordered_set<string> my_result = QueryEvaluator::get_result(pql_query, PKB);
-//        unordered_set<string> expected_result {"14"};
-//        REQUIRE(my_result == expected_result);
-//    }
-//
-//    SECTION("Parent*(19, s)")
-//    {
-//        string pql_query = "stmt s; Select s such that Parent*(19, s)";
-//        unordered_set<string> my_result = QueryEvaluator::get_result(pql_query, PKB);
-//        unordered_set<string> expected_result {"20", "21", "22"};
-//        REQUIRE(my_result == expected_result);
-//    }
+    SECTION("Parent*(s, 18)")
+    {
+        string pql_query = "stmt s; Select s such that Parent*(s, 18)";
+        unordered_set<string> expected_result {"14"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
 
-//    SECTION("Parent*(s, cl)")
-//    {
-//        string pql_query = "call cl; stmt s; Select s such that Parent*(s, cl)";
-//        unordered_set<string> my_result = QueryEvaluator::get_result(pql_query, PKB);
-//        unordered_set<string> expected_result {"14"};
-//        REQUIRE(my_result == expected_result);
-//    }
+    SECTION("Parent*(19, s)")
+    {
+        string pql_query = "stmt s; Select s such that Parent*(19, s)";
+        unordered_set<string> expected_result {"20", "21", "22"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
 
-//    SECTION("Parent*(_, _)")
-//    {
-//        string pql_query = "call cl; Select cl such that Parent*(_, _)";
-//        unordered_set<string> my_result = QueryEvaluator::get_result(pql_query, PKB);
-//        unordered_set<string> expected_result {"2", "3", "13", "18"};
-//        REQUIRE(my_result == expected_result);
-//    }
-//
-//    SECTION("Parent*(_, 12)")
-//    {
-//        string pql_query = "assign a; Select a such that Parent*(_, 12)";
-//        unordered_set<string> my_result = QueryEvaluator::get_result(pql_query, PKB);
-//        unordered_set<string> expected_result {"1", "10", "11", "12", "15", "16", "17", "20", "21", "22", "23"};
-//        REQUIRE(my_result == expected_result);
-//    }
+    SECTION("Parent*(s, cl)")
+    {
+        string pql_query = "call cl; stmt s; Select s such that Parent*(s, cl)";
+        unordered_set<string> expected_result {"14"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("Parent*(_, _)")
+    {
+        string pql_query = "call cl; Select cl such that Parent*(_, _)";
+        unordered_set<string> expected_result {"2", "3", "13", "18"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("Parent*(_, 17)")
+    {
+        string pql_query = "assign a; Select a such that Parent*(_, 17)";
+        unordered_set<string> expected_result {"1", "10", "11", "12", "15", "16", "17", "20", "21", "22", "23"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
 }
 
 TEST_CASE("One such that clause: Modifies")
