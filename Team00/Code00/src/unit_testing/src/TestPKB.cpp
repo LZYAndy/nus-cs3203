@@ -255,14 +255,14 @@ TEST_CASE("PKB::get_parent_star()")
     SECTION("return size of 1")
     {
         REQUIRE(pkb.get_parent_star(2).size() == 1);
-        REQUIRE(pkb.get_parent_star(1)[0] == 3);
+        REQUIRE(pkb.get_parent_star(2)[0] == 1);
     }
 
     SECTION("return size of >1")
     {
-        REQUIRE(pkb.get_parent_star(1).size() == 2);
-        std::vector<int> result = pkb.get_parent_star(1);
-        std::vector<int> expected({3, 2});
+        REQUIRE(pkb.get_parent_star(3).size() == 2);
+        std::vector<int> result = pkb.get_parent_star(3);
+        std::vector<int> expected({1, 2});
         std::sort(result.begin(), result.end());
         std::sort(expected.begin(), expected.end());
         REQUIRE(result == expected);
@@ -281,20 +281,20 @@ TEST_CASE("PKB::get_children_star()")
     SECTION("empty")
     {
         REQUIRE(pkb.get_children_star(-1).empty());
-        REQUIRE(pkb.get_children_star(1).empty());
+        REQUIRE(pkb.get_children_star(11).empty());
     }
 
     SECTION("return size of 1")
     {
-        REQUIRE(pkb.get_children_star(11).size() == 1);
-        REQUIRE(pkb.get_children_star(11)[0] == 1);
+        REQUIRE(pkb.get_children_star(2).size() == 1);
+        REQUIRE(pkb.get_children_star(2)[0] == 3);
     }
 
     SECTION("return size of >1")
     {
-        REQUIRE(pkb.get_children_star(3).size() == 2);
-        std::vector<int> result = pkb.get_children_star(3);
-        std::vector<int> expected({1, 2});
+        REQUIRE(pkb.get_children_star(1).size() == 3);
+        std::vector<int> result = pkb.get_children_star(1);
+        std::vector<int> expected({2, 3, 11});
         std::sort(result.begin(), result.end());
         std::sort(expected.begin(), expected.end());
         REQUIRE(result == expected);
