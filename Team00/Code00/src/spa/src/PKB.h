@@ -23,19 +23,50 @@ class PKB
 {
 public:
     // Insert APIs
+    /**
+     * Insert a procedure into the procTable.
+     * @param name
+     * @return Return true if the procedure is inserted successfully, otherwise false.
+     */
     bool insert_procedure(string name);
+
+    /**
+     * Insert a variable into the varTable.
+     * @param name
+     * @return Return true if the variable is inserted successfully, otherwise false.
+     */
     bool insert_variable(string name);
+
+    /**
+     * Insert a Uses relationship between the input statement and the input variable into uses_bank.
+     * @param statement
+     * @param variable
+     * @return Return true if the Uses relationship is inserted successfully, otherwise false.
+     */
     bool insert_uses(int statement, string variable);
+
+    /**
+     * Insert a Uses relationship between the input procedure and the input variable into uses_bank.
+     * @param procedure
+     * @param variable
+     * @return Return true if the Uses relationship is inserted successfully, otherwise false.
+     */
     bool insert_uses(string procedure, string variable);
-    /*
-    * Insert Modifies relation for a statement into the ModifiesBank
-    * Returns false if the relation already exists
-    */
+
+    /**
+     * Insert a Modifies relationship between the input statement and the input variable into modifies_bank.
+     * @param statement
+     * @param variable
+     * @return Return true if the Uses relationship is inserted successfully, otherwise false.
+     */
     bool insert_modifies(int statement, string variable);
-    /*
-    * Insert Modifies relation for a procedure into the ModifiesBank
-    * Returns false if the relation already exists
-    */
+
+    /**
+     * Insert a Modifies relationship between the input procedure and the input variable into modifies_bank.
+     * @param procedure
+     * @param variable
+     * @return Return true if the Uses relationship is inserted successfully, otherwise false.
+     */
     bool insert_modifies(string procedure, string variable);
     bool insert_follows(int stmt1, int stmt2);
     bool insert_parent(int stmt1, int stmt2);
@@ -44,6 +75,10 @@ public:
 
     bool extract_design();
 
+    /**
+     * Get all variables in the varTable.
+     * @return Return a string unordered_set of variables that are contained in the varTable.
+     */
     unordered_set<std::string> get_all_variables();
     vector<int> get_all_statement_nums();
     vector<int> get_all_whiles();
@@ -52,6 +87,11 @@ public:
     vector<int> get_all_reads();
     vector<int> get_all_prints();
     vector<int> get_all_calls();
+
+    /**
+     * Get all procedures in the procTable.
+     * @return Return a string unordered_set of procedures that are contained in the procTable.
+     */
     unordered_set<std::string> get_all_procedures();
 
     EntityType get_statement_type(int stmt);
@@ -69,9 +109,32 @@ public:
     vector<string> get_used_by_statement(int statement);
     vector<string> get_used_by_procedure(string procedure);
 
+    /**
+     * Get all statements that modifies the input variable
+     * @param variable
+     * @return Return an integer vector of all statement that modifies the variable.
+     */
     vector<int> get_statements_modifies(string variable);
+
+    /**
+     * Get all procedures that modifies the input variable
+     * @param variable
+     * @return Return a string vector of all procedures that modifies the variable.
+     */
     vector<string> get_procedures_modifies(string variable);
+
+    /**
+     * Get all variables modifies by the input statement.
+     * @param statement
+     * @return Return a string vector of variables modifies by the statement.
+     */
     vector<string> get_modified_by_statement(int statement);
+
+    /**
+     * Get all variables modifies by the input procedure.
+     * @param procedure
+     * @return Return a string vector of variables modifies by the statement.
+     */
     vector<string> get_modified_by_procedure(string procedure);
 
     vector<int> get_assign_pattern_matches(string var, string pattern);
@@ -84,9 +147,36 @@ public:
     bool is_follows_star(int stmt1, int stmt2);
     bool is_parent_star(int stmt1, int stmt2);
 
+    /**
+     * Return true if there is a Uses relationship between the input statement and the input variable.
+     * @param statement
+     * @param variable
+     * @return Return true if there is a Uses relationship between the input statement and the input variable.
+     */
     bool is_uses(int statement, string variable);
+
+    /**
+     * Return true if there is a Uses relationship between the input procedure and the input variable.
+     * @param procedure
+     * @param variable
+     * @return Return true if there is a Uses relationship between the input procedure and the input variable.
+     */
     bool is_uses(string procedure, string variable);
+
+    /**
+     * Return true if there is a Modifies relationship between the input statement and the input variable.
+     * @param statement
+     * @param variable
+     * @return Return true if there is a Modifies relationship between the input statement and the input variable.
+     */
     bool is_modifies(int statement, string variable);
+
+    /**
+     * Return true if there is a Modifies relationship between the input procedure and the input variable.
+     * @param procedure
+     * @param variable
+     * @return Return true if there is a Modifies relationship between the input procedure and the input variable.
+     */
     bool is_modifies(string procedure, string variable);
 
     bool does_follows_exist();
@@ -109,6 +199,10 @@ public:
     vector<int> get_all_children_star();
     vector<int> get_all_followed_star();
 
+    /**
+     * 
+     * @return
+     */
     vector<int> get_all_modifies_statements();
     vector<string> get_all_modifies_procedures();
     vector<int> get_all_uses_statements();
