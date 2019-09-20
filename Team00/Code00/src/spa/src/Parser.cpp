@@ -23,7 +23,7 @@ int Parser::Parse()
     for (int i = 0;i < num_of_proc;i++)
     {
         Procedure this_procedure = list_of_proc[i];
-        StatementListParser statementListParser = StatementListParser(this_procedure.get_body());
+        StatementListParser statementListParser = StatementListParser(this_procedure.get_body(), 0);
         statementListParser.parse_stmt_list();
         std::vector<Statement> list_of_stmt = statementListParser.get_stmt_list();
         ParserInvoker parserInvoker = ParserInvoker(pkb, list_of_stmt, this_procedure.get_name());

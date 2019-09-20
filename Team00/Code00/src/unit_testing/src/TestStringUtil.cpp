@@ -79,3 +79,12 @@ TEST_CASE("Test replace whitespace function with single space.")
         REQUIRE(result == "variable v; Select v");
     }
 }
+
+TEST_CASE("Test trim_left")
+{
+    std::string to_be_trim = "  left";
+    std::string trimed = StringUtil::trim_left(to_be_trim);
+
+    std::string correct_trimed = "left";
+    REQUIRE(trimed == correct_trimed);
+}

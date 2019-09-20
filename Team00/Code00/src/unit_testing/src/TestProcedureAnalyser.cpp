@@ -30,3 +30,5 @@ TEST_CASE("Test analyse() method for one procedure input.")
     REQUIRE(correct_name == name_got);
     REQUIRE(correct_body == body_got);
 }
+
+// TODO: Parse multiple procedures.
