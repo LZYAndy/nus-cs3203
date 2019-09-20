@@ -2,11 +2,16 @@
 
 std::regex print_statement_pattern("^[\\s]*print[\\s]+([a-zA-Z][a-zA-Z0-9]*[\\s]*)$");
 
-PrintParser::PrintParser(PKB pkb, Statement statement, std::string parent_prog_line)
+PrintParser::PrintParser(PKB &pkb, Statement statement, std::string parent_prog_line)
 {
     if (!is_print_stmt_valid(statement.get_statement()))
     {
         throw "Invalid print statement";
+    }
+
+    if (statement.get_statement_type() != EntityType::PRINT)
+    {
+        throw "Incorrect print type";
     }
 
     std::string print_var = get_var(statement.get_statement());
@@ -16,9 +21,13 @@ PrintParser::PrintParser(PKB pkb, Statement statement, std::string parent_prog_l
 
     //Insert uses
     pkb.insert_uses(statement.get_prog_line(), print_var);
+    if (std::regex_match(parent_prog_line, std::regex("^[a-zA-Z][a-zA-Z0-9]+$")))
+    {
+        pkb.insert_uses(parent_prog_line, print_var);
+    }
 
     //Insert parents
-    if (std::regex_match(parent_prog_line, std::regex("^[0-9]+$")))
+    if (std::regex_match(parent_prog_line, std::regex("^\\s*[0-9]+\\s*$")))
     {
         pkb.insert_parent(stoi(parent_prog_line), statement.get_prog_line());
     }

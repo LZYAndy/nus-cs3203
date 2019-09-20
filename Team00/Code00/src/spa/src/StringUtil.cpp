@@ -1,3 +1,4 @@
+#include <iostream>
 #include "StringUtil.h"
 
 std::vector<std::string> StringUtil::split(const std::string& query, std::string delimiter)
@@ -70,18 +71,18 @@ std::string StringUtil::trim_left(std::string& s)
     }
 }
 
-std::vector<std::string> StringUtil::get_all_var(std::string input)
+std::vector<std::string> StringUtil::get_all_var(std::string statement)
 {
     std::smatch match;
     std::vector<std::string> all_var;
 
-    while (regex_search(input, match, all_word))
+    while (regex_search(statement, match, all_word))
     {
         std::string current_word = match[0];
-        input = match.suffix().str();
-        if (CheckerUtil::is_name_valid(match[0]))
+        statement = match.suffix().str();
+        if (CheckerUtil::is_name_valid(current_word))
         {
-            all_var.push_back(match[0]);
+            all_var.push_back(current_word);
         }
     }
 
