@@ -20,7 +20,7 @@ void StatementListParser::parse_stmt_list()
     {
         source = StringUtil::trim_left(source);
         std::string stmt_syn = source.substr(0,2);
-        if (stmt_syn.compare("if") == 0)
+        if (stmt_syn == "if")
         {
             std::string check = source.substr(2);
 
@@ -33,7 +33,7 @@ void StatementListParser::parse_stmt_list()
             }
         }
         stmt_syn = source.substr(0, 5);
-        if (stmt_syn.compare("while") == 0)
+        if (stmt_syn == "while")
         {
             std::string check = source.substr(5);
 
@@ -45,7 +45,7 @@ void StatementListParser::parse_stmt_list()
                 continue;
             }
         }
-        else if (stmt_syn.compare("print") == 0)
+        else if (stmt_syn == "print")
         {
             std::string check = source.substr(5);
 
@@ -58,7 +58,7 @@ void StatementListParser::parse_stmt_list()
             }
         }
         stmt_syn = source.substr(0, 4);
-        if (stmt_syn.compare("read") == 0)
+        if (stmt_syn == "read")
         {
             std::string check = source.substr(4);
 
@@ -70,7 +70,7 @@ void StatementListParser::parse_stmt_list()
                 continue;
             }
         }
-        else if (stmt_syn.compare("call") == 0)
+        else if (stmt_syn == "call")
         {
             std::string check = source.substr(4);
 
@@ -236,11 +236,11 @@ int StatementListParser::parse_bracket(std::string src, std::string opening, std
     while (count > 0)
     {
         std::string this_pos = src.substr(0, 1);
-        if (this_pos.compare(opening) == 0)
+        if (this_pos == opening)
         {
             count = count + 1;
         }
-        else if (this_pos.compare(closing) == 0)
+        else if (this_pos == closing)
         {
             count = count - 1;
         }
@@ -256,7 +256,7 @@ int StatementListParser::find_semicolon(std::string src)
     while (true)
     {
         std::string this_pos = src.substr(0, 1);
-        if (this_pos.compare(";") == 0)
+        if (this_pos == ";")
         {
             return index + 1;
         }
@@ -268,5 +268,5 @@ bool StatementListParser::is_beginning_with(std::string src, const std::string& 
 {
     src = StringUtil::trim_left(src);
     std::string this_char = src.substr(0, 1);
-    return this_char.compare(match_char) == 0;
+    return this_char == match_char;
 }

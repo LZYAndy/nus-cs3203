@@ -1,6 +1,6 @@
 #include "ProcedureAnalyser.h"
 
-std::regex proc_name_pattern("\\s*procedure\\s+([a-zA-Z][a-zA-Z0-9]*\\s*){");
+std::regex proc_name_pattern("\\s*procedure\\s+([a-zA-Z][a-zA-Z0-9]*\\s*)\\s*\\{[\\s\\S]*\\}");
 
 ProcedureAnalyser::ProcedureAnalyser(std::string raw)
 {
