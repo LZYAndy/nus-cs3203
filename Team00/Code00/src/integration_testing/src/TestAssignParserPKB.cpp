@@ -7,7 +7,7 @@ TEST_CASE("AssignParser integration with PKB")
     SECTION("insert_variable")
     {
         PKB pkb;
-        Statement stmt = Statement(EntityType::ASSIGN, 2, "a123 = a0 + (2 + BC)");
+        Statement stmt = Statement(EntityType::ASSIGN, 2, "a123 = a0 + (2 + BC);");
         AssignParser (pkb, stmt, "Parent");
         std::unordered_set<std::string> result = pkb.get_all_variables();
         std::unordered_set<std::string> expected({"a123", "a0", "BC"});
@@ -17,7 +17,7 @@ TEST_CASE("AssignParser integration with PKB")
     SECTION("insert_modifies (procedure)")
     {
         PKB pkb;
-        Statement stmt = Statement(EntityType::ASSIGN, 3, "a = b + c + d");
+        Statement stmt = Statement(EntityType::ASSIGN, 3, "a = b + c + d;");
         AssignParser (pkb, stmt, "Proc1");
         std::vector<std::string> result = pkb.get_modified_by_procedure("Proc1");
         std::vector<std::string> expected({"a"});
@@ -27,7 +27,7 @@ TEST_CASE("AssignParser integration with PKB")
     SECTION("insert_modifies (statement)")
     {
         PKB pkb;
-        Statement stmt = Statement(EntityType::ASSIGN, 3, "a = b + c * d");
+        Statement stmt = Statement(EntityType::ASSIGN, 3, "a = b + c * d;");
         AssignParser (pkb, stmt, "2");
         std::vector<std::string> result = pkb.get_modified_by_statement(3);
         std::vector<std::string> expected({"a"});
@@ -37,7 +37,7 @@ TEST_CASE("AssignParser integration with PKB")
     SECTION("insert_assign")
     {
         PKB pkb;
-        Statement stmt = Statement(EntityType::ASSIGN, 3, "a = b + c * d");
+        Statement stmt = Statement(EntityType::ASSIGN, 3, "a = b + c * d;");
         AssignParser (pkb, stmt, "2");
         std::vector<int> result = pkb.get_all_assigns();
         std::vector<int> expected({3});
@@ -47,7 +47,7 @@ TEST_CASE("AssignParser integration with PKB")
     SECTION("insert_parent")
     {
         PKB pkb;
-        Statement stmt = Statement(EntityType::ASSIGN, 3, "a = b + c * d");
+        Statement stmt = Statement(EntityType::ASSIGN, 3, "a = b + c * d;");
         AssignParser (pkb, stmt, "2");
         int result = pkb.get_parent(3);
         int expected = 2;
@@ -56,7 +56,7 @@ TEST_CASE("AssignParser integration with PKB")
     SECTION("insert_uses (statement)")
     {
         PKB pkb;
-        Statement stmt = Statement(EntityType::ASSIGN, 12, "a = aZ+ 1 + b0 % c0A");
+        Statement stmt = Statement(EntityType::ASSIGN, 12, "a = aZ+ 1 + b0 % c0A;");
         AssignParser (pkb, stmt, "Proc1");
         std::vector<std::string> result = pkb.get_used_by_statement(12);
         std::vector<std::string> expected({"aZ", "b0", "c0A"});
@@ -65,7 +65,7 @@ TEST_CASE("AssignParser integration with PKB")
     SECTION("insert_uses (procedure)")
     {
         PKB pkb;
-        Statement stmt = Statement(EntityType::ASSIGN, 1, "a = e + f * g");
+        Statement stmt = Statement(EntityType::ASSIGN, 1, "a = e + f * g;");
         AssignParser (pkb, stmt, "Proc1");
         std::vector<std::string> result = pkb.get_used_by_procedure("Proc1");
         std::vector<std::string> expected({"e", "f", "g"});
@@ -74,7 +74,7 @@ TEST_CASE("AssignParser integration with PKB")
     SECTION("insert_type")
     {
         PKB pkb;
-        Statement stmt = Statement(EntityType::ASSIGN, 1, "a = e + f * g");
+        Statement stmt = Statement(EntityType::ASSIGN, 1, "a = e + f * g;");
         AssignParser (pkb, stmt, "Proc1");
         EntityType result = pkb.get_statement_type(1);
         EntityType expected(EntityType::ASSIGN);

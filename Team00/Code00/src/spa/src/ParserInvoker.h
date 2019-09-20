@@ -12,7 +12,8 @@
 #include "PKB.h"
 #include "pql_dto/Entity.h"
 
-class ParserInvoker {
+class ParserInvoker
+{
 private:
     std::vector<Statement> list_of_statement;
     PKB pkb;

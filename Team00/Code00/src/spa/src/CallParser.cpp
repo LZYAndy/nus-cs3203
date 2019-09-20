@@ -1,6 +1,6 @@
 #include "CallParser.h"
 
-regex call_statement_pattern("^[\\s]*call[\\s]+([a-zA-Z][a-zA-Z0-9]*[\\s]*)$");
+regex call_statement_pattern("^[\\s]*call[\\s]+([a-zA-Z][a-zA-Z0-9]*[\\s]*);$");
 
 CallParser::CallParser(PKB &pkb, Statement statement, std::string parent_prog_line)
 {

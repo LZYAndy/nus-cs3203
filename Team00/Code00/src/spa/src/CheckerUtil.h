@@ -21,6 +21,7 @@ public:
     static bool is_expr_valid(std::string stmt);
 
     static bool is_condition_valid(std::string stmt);
+
 private:
     static bool is_bracket_balanced(std::string stmt);
 };
