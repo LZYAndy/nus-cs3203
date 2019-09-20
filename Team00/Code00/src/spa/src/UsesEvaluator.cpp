@@ -1,11 +1,10 @@
 #include "UsesEvaluator.h"
 
 unordered_map<string, vector<string>> UsesEvaluator::evaluate_non_trivial(pql_dto::Entity first_param,
-        pql_dto::Entity second_param)
+        pql_dto::Entity second_param, PKB PKB)
 {
     unordered_map<string, vector<string>> result;
     vector<string> empty_vec;
-    PKB PKB;
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
 
@@ -29,7 +28,7 @@ unordered_map<string, vector<string>> UsesEvaluator::evaluate_non_trivial(pql_dt
         else
         { // e.g. Uses(s, v)
             unordered_map<int, vector<string>> int_str_map = PKB.get_all_uses_statements_relationship();
-            result = QueryUtility::mapping(first_param, second_param, int_str_map);
+            result = QueryUtility::mapping(first_param, second_param, int_str_map, PKB);
         }
     }
     else if (QueryUtility::is_proc_declared(first_param))
@@ -50,22 +49,21 @@ unordered_map<string, vector<string>> UsesEvaluator::evaluate_non_trivial(pql_dt
         if (second_param.get_entity_type() == EntityType::ANY)
         { // e.g. Uses(s, _)
             vector<int> int_vec = PKB.get_all_uses_statements();
-            result = QueryUtility::mapping(first_param, int_vec);
+            result = QueryUtility::mapping(first_param, int_vec, PKB);
         }
         else if (QueryUtility::is_var_name(second_param))
         { // e.g. Uses(s, "x")
             vector<int> int_vec = PKB.get_statements_uses(second_name);
-            result = QueryUtility::mapping(first_param, int_vec);
+            result = QueryUtility::mapping(first_param, int_vec, PKB);
         }
     }
     return result;
 }
 
 bool UsesEvaluator::evaluate_trivial(pql_dto::Entity first_param,
-        pql_dto::Entity second_param)
+        pql_dto::Entity second_param, PKB PKB)
 {
     bool result = false;
-    PKB PKB;
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
 

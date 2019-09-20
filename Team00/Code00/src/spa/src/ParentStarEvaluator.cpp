@@ -1,11 +1,10 @@
 #include "ParentStarEvaluator.h"
 
 unordered_map<string, vector<string>> ParentStarEvaluator::evaluate_non_trivial(pql_dto::Entity first_param,
-        pql_dto::Entity second_param)
+        pql_dto::Entity second_param, PKB PKB)
 {
     unordered_map<string, vector<string>> result;
     vector<string> empty_vec;
-    PKB PKB;
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
 
@@ -14,12 +13,12 @@ unordered_map<string, vector<string>> ParentStarEvaluator::evaluate_non_trivial(
         if (second_param.get_entity_type() == EntityType::ANY)
         { // e.g. Parent*(s, _)
             vector<int> int_vec = PKB.get_all_parent();
-            result = QueryUtility::mapping(first_param, int_vec);
+            result = QueryUtility::mapping(first_param, int_vec, PKB);
         }
         else if (QueryUtility::is_statement_num(second_param))
         { // e.g. Parent*(s, 3)
             vector<int> int_vec = PKB.get_parent_star(stoi(second_name));
-            result = QueryUtility::mapping(first_param, int_vec);
+            result = QueryUtility::mapping(first_param, int_vec, PKB);
         }
         else if (first_param.equals(second_param))
         { // e.g. Parent*(s, s)
@@ -28,7 +27,7 @@ unordered_map<string, vector<string>> ParentStarEvaluator::evaluate_non_trivial(
         else
         { // e.g. Parent*(s1, s2)
             unordered_map<int, vector<int>> int_map = PKB.get_all_parent_star_relationship();
-            result = QueryUtility::mapping(first_param, second_param, int_map);
+            result = QueryUtility::mapping(first_param, second_param, int_map, PKB);
         }
     }
 
@@ -37,22 +36,21 @@ unordered_map<string, vector<string>> ParentStarEvaluator::evaluate_non_trivial(
         if (first_param.get_entity_type() == EntityType::ANY)
         { // e.g. Parent*(_, s)
             vector<int> int_vec = PKB.get_all_children();
-            result = QueryUtility::mapping(second_param, int_vec);
+            result = QueryUtility::mapping(second_param, int_vec, PKB);
         }
         else if (QueryUtility::is_statement_num(first_param))
         { // e.g. Parent*(1, s)
             vector<int> int_vec = PKB.get_children_star(stoi(first_name));
-            result = QueryUtility::mapping(second_param, int_vec);
+            result = QueryUtility::mapping(second_param, int_vec, PKB);
         }
     }
     return result;
 }
 
 bool ParentStarEvaluator::evaluate_trivial(pql_dto::Entity first_param,
-        pql_dto::Entity second_param)
+        pql_dto::Entity second_param, PKB PKB)
 {
     bool result = false;
-    PKB PKB;
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
 
