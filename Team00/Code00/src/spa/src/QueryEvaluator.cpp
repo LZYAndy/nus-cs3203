@@ -2,7 +2,7 @@
 
 #include <utility>
 
-unordered_set<string> QueryEvaluator::get_result(string query, PKB &PKB)
+unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
 {
     string error_msg;
     unordered_set<string> result;
@@ -21,7 +21,7 @@ unordered_set<string> QueryEvaluator::get_result(string query, PKB &PKB)
     /*
      * parse the PQL query
      */
-    error_msg = PQLParser::pql_parse_query(query, declaration_clause, select_clause,
+    error_msg = PQLParser::pql_parse_query(move(query), declaration_clause, select_clause,
             such_that_clause, pattern_clause);
     if (!error_msg.empty())
     {
@@ -172,10 +172,10 @@ unordered_set<string> QueryEvaluator::get_result(string query, PKB &PKB)
     return result;
 }
 
-unordered_set<string> QueryEvaluator::merge(pql_dto::Entity select_entity,
-        unordered_map<string, vector<string>> select_map,
-        unordered_map<string, vector<string>> such_that_map,
-        unordered_map<string, vector<string>> pattern_map)
+unordered_set<string> QueryEvaluator::merge(pql_dto::Entity &select_entity,
+        unordered_map<string, vector<string>> &select_map,
+        unordered_map<string, vector<string>> &such_that_map,
+        unordered_map<string, vector<string>> &pattern_map)
 {
     unordered_set<string> result;
     string select_name = select_entity.get_entity_name();
@@ -234,8 +234,8 @@ unordered_set<string> QueryEvaluator::merge(pql_dto::Entity select_entity,
     return result;
 }
 
-unordered_set<string> QueryEvaluator::get_common_synonyms(const unordered_map<string, vector<string>>& map_1,
-        unordered_map<string, vector<string>> map_2)
+unordered_set<string> QueryEvaluator::get_common_synonyms(const unordered_map<string, vector<string>> &map_1,
+        unordered_map<string, vector<string>> &map_2)
 {
     unordered_set<string> result;
     for (const auto& iter : map_1)
@@ -253,8 +253,8 @@ unordered_set<string> QueryEvaluator::get_common_synonyms(const unordered_map<st
     return result;
 }
 
-unordered_map<string, unordered_set<string>> QueryEvaluator::get_final_list(unordered_map<string, vector<string>> map_1,
-        unordered_map<string, vector<string>> map_2, unordered_set<string> common_part)
+unordered_map<string, unordered_set<string>> QueryEvaluator::get_final_list(unordered_map<string, vector<string>> &map_1,
+        unordered_map<string, vector<string>> &map_2, unordered_set<string> &common_part)
 {
     unordered_map<string, unordered_set<string>> result;
     vector<string> common_synonyms(common_part.size());
@@ -318,7 +318,7 @@ unordered_map<string, unordered_set<string>> QueryEvaluator::get_final_list(unor
     return result;
 }
 
-unordered_set<string> QueryEvaluator::get_common_part(const vector<string>& str_vec_1, vector<string> str_vec_2)
+unordered_set<string> QueryEvaluator::get_common_part(const vector<string> &str_vec_1, vector<string> &str_vec_2)
 {
     unordered_set<string> result;
     for (const auto& iter : str_vec_1)
