@@ -369,3 +369,83 @@ TEST_CASE("One such that clause: Uses")
         REQUIRE(my_result == expected_result);
     }
 }
+
+TEST_CASE("One pattern clause: Assign")
+{
+    SECTION("pattern a(_, _)")
+    {
+        string pql_query = "assign a; Select a pattern a(_, _)";
+        unordered_set<string> my_result = QueryEvaluator::get_result(pql_query, PKB);
+        unordered_set<string> expected_result {"1", "10", "11", "12", "15", "16", "17", "20", "21", "22", "23"};
+        REQUIRE(my_result == expected_result);
+    }
+
+    SECTION("pattern a(\"flag\", _)")
+    {
+        string pql_query = "assign a; Select a pattern a(\"flag\", _)";
+        unordered_set<string> my_result = QueryEvaluator::get_result(pql_query, PKB);
+        unordered_set<string> expected_result {"1", "20"};
+        REQUIRE(my_result == expected_result);
+    }
+
+    SECTION("pattern a(v, _)")
+    {
+        string pql_query = "assign a; variable v; Select v pattern a(v, _)";
+        unordered_set<string> my_result = QueryEvaluator::get_result(pql_query, PKB);
+        unordered_set<string> expected_result {"flag", "count", "cenX", "cenY", "normSq"};
+        REQUIRE(my_result == expected_result);
+    }
+
+    SECTION("pattern a(_, _\"x\"_)")
+    {
+        string pql_query = "assign a; Select a pattern a(_, _\"cenX\"_)";
+        unordered_set<string> my_result = QueryEvaluator::get_result(pql_query, PKB);
+        unordered_set<string> expected_result {"16", "20", "21", "23"};
+        REQUIRE(my_result == expected_result);
+    }
+
+    SECTION("pattern a(\"cenX\", _\"cenX\"_)")
+    {
+        string pql_query = R"(assign a; Select a pattern a("cenX", _"cenX"_))";
+        unordered_set<string> my_result = QueryEvaluator::get_result(pql_query, PKB);
+        unordered_set<string> expected_result {"16", "21"};
+        REQUIRE(my_result == expected_result);
+    }
+
+    SECTION("pattern a(v, _\"cenX\"_)")
+    {
+        string pql_query = "assign a; variable v; Select v pattern a(v, _\"cenX\"_)";
+        unordered_set<string> my_result = QueryEvaluator::get_result(pql_query, PKB);
+        unordered_set<string> expected_result {"cenX", "flag", "normSq"};
+        REQUIRE(my_result == expected_result);
+    }
+
+    SECTION("pattern a(_, \"0\")")
+    {
+        string pql_query = "assign a; Select a pattern a(_, \"0\")";
+        unordered_set<string> my_result = QueryEvaluator::get_result(pql_query, PKB);
+        unordered_set<string> expected_result {"1", "10", "11", "12"};
+        REQUIRE(my_result == expected_result);
+    }
+
+    SECTION("pattern a(\"count\", \"0\")")
+    {
+        string pql_query = R"(assign a; Select a pattern a("count", "0"))";
+        unordered_set<string> my_result = QueryEvaluator::get_result(pql_query, PKB);
+        unordered_set<string> expected_result {"10"};
+        REQUIRE(my_result == expected_result);
+    }
+
+    SECTION("pattern a(v, \"0\")")
+    {
+        string pql_query = "assign a; variable v; Select v pattern a(v, \"0\")";
+        unordered_set<string> my_result = QueryEvaluator::get_result(pql_query, PKB);
+        unordered_set<string> expected_result {"flag", "count", "cenX", "cenY"};
+        REQUIRE(my_result == expected_result);
+    }
+}
+
+//TEST_CASE("One such that clause and one pattern clause")
+//{
+//
+//}
