@@ -105,14 +105,14 @@ public:
     vector<int> get_children_star(int stmt);
 
     /**
-     * Get all statements that uses the input variable
+     * Get all statements that uses the input variable.
      * @param variable
      * @return Return an integer vector of all statement that uses the variable.
      */
     vector<int> get_statements_uses(string variable);
 
     /**
-     * Get all procedures that uses the input variable
+     * Get all procedures that uses the input variable.
      * @param variable
      * @return Return an integer vector of all procedure that uses the variable.
      */
@@ -133,14 +133,14 @@ public:
     vector<string> get_used_by_procedure(string procedure);
 
     /**
-     * Get all statements that modifies the input variable
+     * Get all statements that modifies the input variable.
      * @param variable
      * @return Return an integer vector of all statement that modifies the variable.
      */
     vector<int> get_statements_modifies(string variable);
 
     /**
-     * Get all procedures that modifies the input variable
+     * Get all procedures that modifies the input variable.
      * @param variable
      * @return Return a string vector of all procedures that modifies the variable.
      */
