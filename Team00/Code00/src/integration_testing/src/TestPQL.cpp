@@ -200,13 +200,12 @@ TEST_CASE("One such that clause: Modifies")
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 
-//    SECTION("Modifies(\"main\", v)")
-//    {
-//        string pql_query = "variable v; Select v such that Modifies(\"main\", v)";
-//        unordered_set<string> my_result = QueryEvaluator::get_result(pql_query, PKB);
-//        unordered_set<string> expected_result {"flag", "count", "cenX", "cenY", "x", "y", "normSq"};
-//        REQUIRE(my_result == expected_result);
-//    }
+    SECTION("Modifies(\"readPoint\", v)")
+    {
+        string pql_query = "variable v; Select v such that Modifies(\"readPoint\", v)";
+        unordered_set<string> expected_result {"x", "y"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
 
     SECTION("Modifies(p, v)")
     {
@@ -215,14 +214,12 @@ TEST_CASE("One such that clause: Modifies")
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 
-//    SECTION("Modifies(s, v)")
-//    {
-//        string pql_query = "variable v; stmt s; Select s such that Modifies(s, v)";
-//        unordered_set<string> my_result = QueryEvaluator::get_result(pql_query, PKB);
-//        unordered_set<string> expected_result {"1", "2", "4", "5", "10", "11", "12", "13", "14", "15", "16", "17",
-//                                               "18", "19", "20", "21", "22", "23"};
-//        REQUIRE(my_result == expected_result);
-//    }
+    SECTION("Modifies(r, v)")
+    {
+        string pql_query = "variable v; read r; Select r such that Modifies(r, v)";
+        unordered_set<string> expected_result {"4", "5"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
 
     SECTION("Modifies(p, _)")
     {
@@ -276,13 +273,12 @@ TEST_CASE("One such that clause: Uses")
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 
-//    SECTION("Uses(p, v)")
-//    {
-//        string pql_query = "procedure p; variable v; Select p such that Uses(p, v)";
-//        unordered_set<string> my_result = QueryEvaluator::get_result(pql_query, PKB);
-//        unordered_set<string> expected_result {"main", "readPoint", "computeCentroid"};
-//        REQUIRE(my_result == expected_result);
-//    }
+    SECTION("Uses(p, v)")
+    { // since no call implemented yet, so just regard procedure main first
+        string pql_query = "procedure p; variable v; Select p such that Uses(p, v)";
+        unordered_set<string> expected_result {"printResults", "computeCentroid"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
 
     SECTION("Uses(a, v)")
     {
@@ -395,12 +391,24 @@ TEST_CASE("One pattern clause: Assign")
 
 TEST_CASE("One such that clause and one pattern clause")
 {
-    SECTION("Uses(a, v) pattern a(v, _)")
+    SECTION("such that Uses(a, v) pattern a(v, _)")
     {
         string pql_query = "assign a; variable v; Select v such that Uses(a, v) pattern a(v, _)";
         unordered_set<string> expected_result {"count", "cenX", "cenY"};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 
+    SECTION("pattern a(\"count\", _) such that Parent*(w, a)")
+    {
+        string pql_query = "assign a; while w; Select a pattern a(\"count\", _) such that Parent*(w, a)";
+        unordered_set<string> expected_result {"15"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
 
+    SECTION("such that Uses(a, \"x\") pattern a(\"x\", _)")
+    {
+        string pql_query = R"(assign a; Select a pattern such that Uses(a, "x") pattern a("x", _))";
+        unordered_set<string> expected_result {};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
 }
