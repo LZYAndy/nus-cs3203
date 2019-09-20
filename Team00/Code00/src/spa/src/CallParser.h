@@ -8,7 +8,7 @@
 class CallParser
 {
 public:
-    CallParser(PKB pkb, Statement statement, std::string parent_prog_line);
+    CallParser(PKB &pkb, Statement statement, std::string parent_prog_line);
 
 private:
     bool is_call_stmt_valid(std::string statement);
