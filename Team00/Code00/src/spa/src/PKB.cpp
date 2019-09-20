@@ -16,26 +16,22 @@ bool PKB::insert_variable(string name)
 
 bool PKB::insert_uses(int statement, string variable)
 {
-    uses_bank.insert_uses(statement, variable);
-    return true;
+    return uses_bank.insert_uses(statement, variable);
 }
 
 bool PKB::insert_uses(string procedure, string variable)
 {
-    uses_bank.insert_uses(procedure, variable);
-    return true;
+    return uses_bank.insert_uses(procedure, variable);
 }
 
 bool PKB::insert_modifies(int statement, string variable)
 {
-    modifies_bank.insert_modifies(statement, variable);
-    return true;
+    return modifies_bank.insert_modifies(statement, variable);
 }
 
 bool PKB::insert_modifies(string procedure, string variable)
 {
-    modifies_bank.insert_modifies(procedure, variable);
-    return true;
+    return modifies_bank.insert_modifies(procedure, variable);
 }
 
 unordered_set<string> PKB::get_all_variables() {

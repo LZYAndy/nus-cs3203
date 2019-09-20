@@ -10,15 +10,17 @@ public:
      * Insert a Modifies relationship between the input statement and the input variable into stmt_bank.
      * @param statement
      * @param variable
+     * @return Return true if there is a Modifies relationship between the input statement and the input variable.
      */
-    void insert_modifies(int statement, std::string variable);
+    bool insert_modifies(int statement, std::string variable);
 
     /**
      * Insert a Modifies relationship between the input procedure and the input variable into proc_bank.
      * @param procedure
      * @param variable
+     * @return Return true if there is a Modifies relationship between the input procedure and the input variable.
      */
-    void insert_modifies(std::string procedure, std::string variable);
+    bool insert_modifies(std::string procedure, std::string variable);
 
     /**
      * Get all statements that modifies the input variable.
