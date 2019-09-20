@@ -203,6 +203,85 @@ public:
         insert_uses("computeCentroid", "cenY");
         insert_follows(19, 23);
 
+        insert_type(24, EntityType::WHILE);
+        insert_variable("x");
+        insert_uses(24, "x");
+
+        insert_type(25, EntityType::IF);
+        insert_variable("y");
+        insert_uses(24, "y");
+        insert_uses(25, "y");
+        insert_parent(24, 25);
+
+        insert_type(26, EntityType::WHILE);
+        insert_variable("count");
+        insert_uses(24, "count");
+        insert_uses(25, "count");
+        insert_uses(26, "count");
+        insert_parent(25, 26);
+
+        insert_type(27, EntityType::IF);
+        insert_variable("cenX");
+        insert_uses(24, "cenX");
+        insert_uses(25, "cenX");
+        insert_uses(26, "cenX");
+        insert_uses(27, "cenX");
+        insert_parent(26, 27);
+
+        insert_type(28, EntityType::ASSIGN);
+        insert_variable("count");
+        insert_variable("y");
+        insert_assign(28, "count", "2 * y");
+        insert_modifies(24, "count");
+        insert_modifies(25, "count");
+        insert_modifies(26, "count");
+        insert_modifies(27, "count");
+        insert_modifies(28, "count");
+        insert_uses(24, "y");
+        insert_uses(25, "y");
+        insert_uses(26, "y");
+        insert_uses(27, "y");
+        insert_uses(28, "y");
+        insert_parent(27, 28);
+
+        insert_type(29, EntityType::ASSIGN);
+        insert_variable("count");
+        insert_assign(29, "count", "0");
+        insert_modifies(24, "count");
+        insert_modifies(25, "count");
+        insert_modifies(26, "count");
+        insert_modifies(27, "count");
+        insert_modifies(29, "count");
+        insert_parent(27, 29);
+
+        insert_type(30, EntityType::ASSIGN);
+        insert_variable("x");
+        insert_assign(30, "x", "1");
+        insert_modifies(24, "x");
+        insert_modifies(25, "x");
+        insert_modifies(26, "x");
+        insert_modifies(27, "x");
+        insert_modifies(30, "x");
+        insert_parent(27, 30);
+        insert_follows(29, 30);
+
+        insert_type(31, EntityType::ASSIGN);
+        insert_variable("count");
+        insert_assign(31, "count", "2");
+        insert_modifies(24, "count");
+        insert_modifies(25, "count");
+        insert_modifies(31, "count");
+        insert_parent(25, 31);
+
+        insert_type(32, EntityType::ASSIGN);
+        insert_variable("y");
+        insert_assign(32, "y", "3");
+        insert_modifies(24, "y");
+        insert_modifies(25, "y");
+        insert_modifies(32, "y");
+        insert_parent(25, 32);
+        insert_follows(31, 32);
+
         extract_design();
     }
 };
