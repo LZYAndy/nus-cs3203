@@ -12,7 +12,8 @@
 #include "AbstractWrapper.h"
 #include "./../../spa/src/Parser.h"
 
-class TestWrapper : public AbstractWrapper {
+class TestWrapper : public AbstractWrapper
+{
 private:
     PKB pkb;
     Parser parser;
@@ -25,7 +26,7 @@ public:
     ~TestWrapper();
 
     // method for parsing the SIMPLE source
-    virtual void parse(std::string filename);
+    virtual void parse(std::string file_name);
 
     // method for evaluating a query
     virtual void evaluate(std::string query, std::list<std::string>& results);

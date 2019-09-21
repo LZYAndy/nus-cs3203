@@ -12,7 +12,8 @@ AbstractWrapper* WrapperFactory::createWrapper()
 volatile bool AbstractWrapper::GlobalStop = false;
 
 // a default constructor
-TestWrapper::TestWrapper(Parser parser) : parser(parser) {
+TestWrapper::TestWrapper(Parser parser) : parser(parser)
+{
   // create any objects here as instance variables of this class
   // as well as any initialization required for your spa program
   pkb = PKB();
@@ -20,13 +21,13 @@ TestWrapper::TestWrapper(Parser parser) : parser(parser) {
 }
 
 // method for parsing the SIMPLE source
-void TestWrapper::parse(std::string filename)
+void TestWrapper::parse(std::string file_name)
 {
 	// call your parser to do the parsing
   // ...rest of your code...
     try
     {
-        std::ifstream t(filename);
+        std::ifstream t(file_name);
         std::string contents;
 
         t.seekg(0, std::ios::end);

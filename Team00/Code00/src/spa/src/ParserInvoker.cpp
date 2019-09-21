@@ -1,9 +1,9 @@
 #include "ParserInvoker.h"
 
-ParserInvoker::ParserInvoker(PKB &pkb, std::vector<Statement> stmtlist, std::string parent_line)
+ParserInvoker::ParserInvoker(PKB &pkb, std::vector<Statement> stmt_list, std::string parent_line)
 {
     this->pkb = &pkb;
-    list_of_statement = stmtlist;
+    list_of_statement = stmt_list;
     parent_prog_line = parent_line;
 }
 
