@@ -1,6 +1,7 @@
 #include "IfParser.h"
+#include "iostream"
 
-IfParser::IfParser(PKB pkb, Statement statement, std::string parent_prog_line)
+IfParser::IfParser(PKB &pkb, Statement statement, std::string parent_prog_line)
 {
 
     std::string condition = statement.get_condition();
@@ -41,9 +42,9 @@ IfParser::IfParser(PKB pkb, Statement statement, std::string parent_prog_line)
         pkb.insert_parent(statement.get_prog_line(), this_stmt.get_prog_line());
     }
 
-    ParserInvoker then_invoker = ParserInvoker(pkb, then_part, std::to_string(statement.get_prog_line()));
+    ParserInvoker then_invoker = ParserInvoker(reinterpret_cast<PKB &>(pkb), then_part, std::to_string(statement.get_prog_line()));
     then_invoker.invoke_parser();
 
-    ParserInvoker else_invoker = ParserInvoker(pkb, else_part, std::to_string(statement.get_prog_line()));
+    ParserInvoker else_invoker = ParserInvoker(reinterpret_cast<PKB &>(pkb), else_part, std::to_string(statement.get_prog_line()));
     else_invoker.invoke_parser();
 }

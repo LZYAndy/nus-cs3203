@@ -4,8 +4,16 @@
 
 namespace error_messages
 {
-    // Error messages for Procedure.cpp
+    // Error messages for Parser
     constexpr const char* invalid_proc_name(R"(Invalid procedure name!)");
+    constexpr const char* invalid_no_semicolon(R"(Invalid SIMPLE code. No semicolon!)");
+    constexpr const char* invalid_if_statement(R"(Invalid if statement in the SIMPLE code.)");
+    constexpr const char* invalid_while_statement(R"(Invalid while statement in the SIMPLE code.)");
+    constexpr const char* invalid_call_statement(R"(Invalid call statement in the SIMPLE code.)");
+    constexpr const char* invalid_print_statement(R"(Invalid print statement in the SIMPLE code.)");
+    constexpr const char* invalid_assign_statement(R"(Invalid assign statement in the SIMPLE code.)");
+    constexpr const char* invalid_read_statement(R"(Invalid read statement in the SIMPLE code.)");
+    constexpr const char* invalid_SIMPLE(R"(Invalid SIMPLE code.)");
 
     // Error messages for Entity.cpp
     constexpr const char* invalid_entity_type(R"(Invalid Entity Type!)");

@@ -4,7 +4,7 @@
 AbstractWrapper* WrapperFactory::wrapper = 0;
 AbstractWrapper* WrapperFactory::createWrapper()
 {
-  if (wrapper == 0) wrapper = new TestWrapper;
+  if (wrapper == 0) wrapper = new TestWrapper(Parser(nullptr));
   return wrapper;
 }
 
@@ -12,20 +12,22 @@ AbstractWrapper* WrapperFactory::createWrapper()
 volatile bool AbstractWrapper::GlobalStop = false;
 
 // a default constructor
-TestWrapper::TestWrapper()
+TestWrapper::TestWrapper(Parser parser) : parser(parser)
 {
   // create any objects here as instance variables of this class
   // as well as any initialization required for your spa program
+  pkb = PKB();
+  parser = Parser(&pkb);
 }
 
 // method for parsing the SIMPLE source
-void TestWrapper::parse(std::string filename)
+void TestWrapper::parse(std::string file_name)
 {
 	// call your parser to do the parsing
   // ...rest of your code...
     try
     {
-        std::ifstream t(filename);
+        std::ifstream t(file_name);
         std::string contents;
 
         t.seekg(0, std::ios::end);
@@ -34,10 +36,9 @@ void TestWrapper::parse(std::string filename)
 
         contents.assign((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
 
-        Parser parser = Parser(contents);
-        parser.Parse();
+        parser.Parse(contents);
     }
-    catch (std::string exception)
+    catch (char const* &exception)
     {
         std::cout << exception << std::flush;
         exit(0);
