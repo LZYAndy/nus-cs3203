@@ -9,7 +9,7 @@
 class IfParser
 {
 public:
-    IfParser(PKB pkb, Statement statement, std::string parent_prog_line);
+    IfParser(PKB &pkb, Statement statement, std::string parent_prog_line);
 };
 
 #endif //AUTOTESTER_IFPARSER_H

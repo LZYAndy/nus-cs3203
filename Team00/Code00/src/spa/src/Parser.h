@@ -7,12 +7,12 @@
 class Parser
 {
 private:
-    PKB pkb;
+    PKB *pkb;
     std::string SIMPLE_prog;
 
 public:
     // Constructor
-    Parser(std::string simple);
+    Parser(PKB *pkb);
 
-    int Parse();
+    int Parse(std::string SIMPLE_prog);
 };

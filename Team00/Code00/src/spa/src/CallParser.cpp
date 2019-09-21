@@ -1,12 +1,16 @@
 #include "CallParser.h"
 
-regex call_statement_pattern("^[\\s]*call[\\s]+([a-zA-Z][a-zA-Z0-9]*[\\s]*)$");
+regex call_statement_pattern("^[\\s]*call[\\s]+([a-zA-Z][a-zA-Z0-9]*[\\s]*);$");
 
-CallParser::CallParser(PKB pkb, Statement statement, std::string parent_prog_line)
+CallParser::CallParser(PKB &pkb, Statement statement, std::string parent_prog_line)
 {
     if (!is_call_stmt_valid(statement.get_statement()))
     {
         throw "Invalid call statement";
+    }
+
+    if (statement.get_statement_type() != EntityType::CALL){
+        throw "Incorrect call type";
     }
 
     std::string call_proc = get_proc(statement.get_statement());

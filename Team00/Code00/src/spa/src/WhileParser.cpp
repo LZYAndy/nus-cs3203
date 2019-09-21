@@ -1,6 +1,6 @@
 #include "WhileParser.h"
 
-WhileParser::WhileParser(PKB pkb, Statement statement, std::string parent_prog_line)
+WhileParser::WhileParser(PKB &pkb, Statement statement, std::string parent_prog_line)
 {
     std::string condition = statement.get_condition();
     std::vector<Statement> loop_part = statement.get_first_block();

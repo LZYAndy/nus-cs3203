@@ -151,9 +151,8 @@ TEST_CASE("FollowStarBank::get_all_follows_star()")
     SECTION("return size of 1")
     {
         follows_star_bank.insert_follows_star(1, 2);
-        follows_star_bank.insert_follows_star(1, 3);
         REQUIRE(follows_star_bank.get_all_follows_star().size() == 1);
-        REQUIRE(follows_star_bank.get_all_follows_star()[0] == 1);
+        REQUIRE(follows_star_bank.get_all_follows_star()[0] == 2);
     }
 
     SECTION("return size of >1")
@@ -162,7 +161,7 @@ TEST_CASE("FollowStarBank::get_all_follows_star()")
         follows_star_bank.insert_follows_star(1, 3);
         follows_star_bank.insert_follows_star(2, 3);
         REQUIRE(follows_star_bank.get_all_follows_star().size() == 2);
-        std::vector<int> expected({1, 2});
+        std::vector<int> expected({3, 2});
         std::vector<int> result = follows_star_bank.get_all_follows_star();
         std::sort(result.begin(), result.end());
         std::sort(expected.begin(), expected.end());
@@ -184,7 +183,7 @@ TEST_CASE("FollowStarBank::get_all_followed_star()")
     {
         follows_star_bank.insert_follows_star(1, 2);
         REQUIRE(follows_star_bank.get_all_followed_star().size() == 1);
-        REQUIRE(follows_star_bank.get_all_followed_star()[0] == 2);
+        REQUIRE(follows_star_bank.get_all_followed_star()[0] == 1);
     }
 
     SECTION("return size of >1")
@@ -193,7 +192,7 @@ TEST_CASE("FollowStarBank::get_all_followed_star()")
         follows_star_bank.insert_follows_star(1, 3);
         follows_star_bank.insert_follows_star(2, 3);
         REQUIRE(follows_star_bank.get_all_followed_star().size() == 2);
-        std::vector<int> expected({2, 3});
+        std::vector<int> expected({2, 1});
         std::vector<int> result = follows_star_bank.get_all_followed_star();
         std::sort(result.begin(), result.end());
         std::sort(expected.begin(), expected.end());

@@ -1,11 +1,10 @@
 #include "FollowsStarEvaluator.h"
 
 unordered_map<string, vector<string>> FollowsStarEvaluator::evaluate_non_trivial(pql_dto::Entity first_param,
-        pql_dto::Entity second_param)
+        pql_dto::Entity second_param, PKB PKB)
 {
     unordered_map<string, vector<string>> result;
     vector<string> empty_vec;
-    PKB PKB;
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
 
@@ -14,45 +13,44 @@ unordered_map<string, vector<string>> FollowsStarEvaluator::evaluate_non_trivial
         if (second_param.get_entity_type() == EntityType::ANY)
         { // e.g. Follows*(s, _)
             vector<int> int_vec = PKB.get_all_followed();
-            result = QueryUtility::mapping(first_param, int_vec);
+            result = QueryUtility::mapping(first_param, int_vec, PKB);
         }
         else if (QueryUtility::is_statement_num(second_param))
         { // e.g. Follows*(s, 2)
             vector<int> int_vec = PKB.get_followed_star_by(stoi(second_name));
-            result = QueryUtility::mapping(first_param, int_vec);
+            result = QueryUtility::mapping(first_param, int_vec, PKB);
         }
         else if (first_param.equals(second_param))
         { // e.g. Follows*(s, s)
             result[first_name] = empty_vec;
         }
         else
-        { // e.g. Follows(s1, s2)
+        { // e.g. Follows*(s1, s2)
             unordered_map<int, vector<int>> int_map = PKB.get_all_follows_star_relationship();
-            result = QueryUtility::mapping(first_param, second_param, int_map);
+            result = QueryUtility::mapping(first_param, second_param, int_map, PKB);
         }
     }
 
     if (second_param.is_entity_declared())
     {
         if (first_param.get_entity_type() == EntityType::ANY)
-        { // e.g. Follows(_, s)
+        { // e.g. Follows*(_, s)
             vector<int> int_vec = PKB.get_all_follows();
-            result = QueryUtility::mapping(second_param, int_vec);
+            result = QueryUtility::mapping(second_param, int_vec, PKB);
         }
         else if (QueryUtility::is_statement_num(first_param))
         { // e.g. Follows*(1, s)
             vector<int> int_vec = PKB.get_follows_star(stoi(first_name));
-            result = QueryUtility::mapping(second_param, int_vec);
+            result = QueryUtility::mapping(second_param, int_vec, PKB);
         }
     }
     return result;
 }
 
 bool FollowsStarEvaluator::evaluate_trivial(pql_dto::Entity first_param,
-        pql_dto::Entity second_param)
+        pql_dto::Entity second_param, PKB PKB)
 {
     bool result = false;
-    PKB PKB;
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
 

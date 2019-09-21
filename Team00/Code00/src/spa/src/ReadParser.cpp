@@ -1,12 +1,16 @@
 #include "ReadParser.h"
 
-std::regex read_statement_pattern("^[\\s]*read[\\s]+([a-zA-Z][a-zA-Z0-9]*[\\s]*)$");
+std::regex read_statement_pattern("^[\\s]*read[\\s]+([a-zA-Z][a-zA-Z0-9]*[\\s]*);$");
 
-ReadParser::ReadParser(PKB pkb, Statement statement, std::string parent_prog_line)
+ReadParser::ReadParser(PKB &pkb, Statement statement, std::string parent_prog_line)
 {
     if (!is_read_stmt_valid(statement.get_statement()))
     {
         throw "Invalid read statement";
+    }
+
+    if (statement.get_statement_type() != EntityType::READ){
+        throw "Incorrect read type";
     }
 
     std::string read_var = get_var(statement.get_statement());

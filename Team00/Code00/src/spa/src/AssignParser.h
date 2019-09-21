@@ -9,9 +9,7 @@
 class AssignParser
 {
 public:
-    AssignParser(PKB pkb, Statement statement, std::string parent_prog_line);
-
-    static vector<std::string> get_all_var(std::string sub_statement);
+    AssignParser(PKB &pkb, Statement statement, std::string parent_prog_line);
 
 private:
     std::string get_left(std::string statement);
