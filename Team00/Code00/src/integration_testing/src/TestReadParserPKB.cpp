@@ -7,7 +7,7 @@ TEST_CASE("ReadParser integration with PKB")
     SECTION("insert_variable")
     {
         PKB pkb;
-        Statement stmt = Statement(EntityType::READ, 5, "read a101");
+        Statement stmt = Statement(EntityType::READ, 5, "read a101;");
         ReadParser (pkb, stmt, "Parent");
         std::unordered_set<std::string> result = pkb.get_all_variables();
         std::unordered_set<std::string> expected({"a101"});
@@ -17,7 +17,7 @@ TEST_CASE("ReadParser integration with PKB")
     SECTION("insert_modifies (procedure)")
     {
         PKB pkb;
-        Statement stmt = Statement(EntityType::READ, 3, "  read a00m ");
+        Statement stmt = Statement(EntityType::READ, 3, "  read a00m ;");
         ReadParser (pkb, stmt, "Proc1");
         std::vector<std::string> result = pkb.get_modified_by_procedure("Proc1");
         std::vector<std::string> expected({"a00m "});
@@ -27,7 +27,7 @@ TEST_CASE("ReadParser integration with PKB")
     SECTION("insert_modifies (statement)")
     {
         PKB pkb;
-        Statement stmt = Statement(EntityType::READ, 30, " read a11n");
+        Statement stmt = Statement(EntityType::READ, 30, " read a11n;");
         ReadParser (pkb, stmt, "10");
         std::vector<std::string> result = pkb.get_modified_by_statement(30);
         std::vector<std::string> expected({"a11n"});
@@ -37,7 +37,7 @@ TEST_CASE("ReadParser integration with PKB")
     SECTION("insert_parent")
     {
         PKB pkb;
-        Statement stmt = Statement(EntityType::READ, 20, "read D0l2Z");
+        Statement stmt = Statement(EntityType::READ, 20, "read D0l2Z;");
         ReadParser (pkb, stmt, "10");
         int result = pkb.get_parent(20);
         int expected = 10;
@@ -46,7 +46,7 @@ TEST_CASE("ReadParser integration with PKB")
     SECTION("insert_type")
     {
         PKB pkb;
-        Statement stmt = Statement(EntityType::READ, 1, "read a1");
+        Statement stmt = Statement(EntityType::READ, 1, "read a1;");
         ReadParser (pkb, stmt, "Proc1");
         EntityType result = pkb.get_statement_type(1);
         EntityType expected(EntityType::READ);
