@@ -16,5 +16,11 @@ TEST_CASE("Test while parser successfully.")
 
     while_statement.set_first_block(loop_p);
     PKB pkb = PKB();
-    REQUIRE_NOTHROW(WhileParser(pkb, while_statement, "main"));
+    WhileParser whileParser = WhileParser(pkb, while_statement, "main");
+
+    std::vector<int> parent = pkb.get_all_parent();
+    std::vector<int> children = pkb.get_all_children();
+
+    REQUIRE(parent.size() == 1);
+    REQUIRE(children.size() == 1);
 }
