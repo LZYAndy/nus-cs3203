@@ -6,12 +6,12 @@ PrintParser::PrintParser(PKB &pkb, Statement statement, std::string parent_prog_
 {
     if (!is_print_stmt_valid(statement.get_statement()))
     {
-        throw "Invalid print statement";
+        throw error_messages::invalid_print_statement;
     }
 
     if (statement.get_statement_type() != EntityType::PRINT)
     {
-        throw "Incorrect print type";
+        throw error_messages::invalid_print_type;
     }
 
     std::string print_var = get_var(statement.get_statement());
@@ -38,11 +38,7 @@ PrintParser::PrintParser(PKB &pkb, Statement statement, std::string parent_prog_
 
 bool PrintParser::is_print_stmt_valid(std::string statement)
 {
-    if (std::regex_match(statement, print_statement_pattern))
-    {
-        return true;
-    }
-    return false;
+    return std::regex_match(statement, print_statement_pattern);
 }
 
 std::string PrintParser::get_var(std::string statement)

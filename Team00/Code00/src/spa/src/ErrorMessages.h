@@ -10,9 +10,13 @@ namespace error_messages
     constexpr const char* invalid_if_statement(R"(Invalid if statement in the SIMPLE code.)");
     constexpr const char* invalid_while_statement(R"(Invalid while statement in the SIMPLE code.)");
     constexpr const char* invalid_call_statement(R"(Invalid call statement in the SIMPLE code.)");
+    constexpr const char* invalid_call_type(R"(Invalid call type.)");
     constexpr const char* invalid_print_statement(R"(Invalid print statement in the SIMPLE code.)");
+    constexpr const char* invalid_print_type(R"(Invalid print type.)");
     constexpr const char* invalid_assign_statement(R"(Invalid assign statement in the SIMPLE code.)");
+    constexpr const char* invalid_assign_type(R"(Invalid assign type.)");
     constexpr const char* invalid_read_statement(R"(Invalid read statement in the SIMPLE code.)");
+    constexpr const char* invalid_read_type(R"(Invalid read type.)");
     constexpr const char* invalid_SIMPLE(R"(Invalid SIMPLE code.)");
 
     // Error messages for Entity.cpp
