@@ -16,6 +16,8 @@ TestWrapper::TestWrapper()
 {
   // create any objects here as instance variables of this class
   // as well as any initialization required for your spa program
+  pkb = PKB();
+  parser = Parser(&pkb);
 }
 
 // method for parsing the SIMPLE source
@@ -34,7 +36,7 @@ void TestWrapper::parse(std::string filename)
 
         contents.assign((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
 
-        parser.Parse(&pkb);
+        parser.Parse(contents);
     }
     catch (char const* &exception)
     {
