@@ -4,7 +4,7 @@
 AbstractWrapper* WrapperFactory::wrapper = 0;
 AbstractWrapper* WrapperFactory::createWrapper()
 {
-  if (wrapper == 0) wrapper = new TestWrapper;
+  if (wrapper == 0) wrapper = new TestWrapper(Parser(nullptr));
   return wrapper;
 }
 
@@ -12,8 +12,7 @@ AbstractWrapper* WrapperFactory::createWrapper()
 volatile bool AbstractWrapper::GlobalStop = false;
 
 // a default constructor
-TestWrapper::TestWrapper()
-{
+TestWrapper::TestWrapper(Parser parser) : parser(parser) {
   // create any objects here as instance variables of this class
   // as well as any initialization required for your spa program
   pkb = PKB();

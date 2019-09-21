@@ -19,7 +19,7 @@ private:
 
 public:
     // default constructor
-    TestWrapper();
+    TestWrapper(Parser parser);
 
     // destructor
     ~TestWrapper();
