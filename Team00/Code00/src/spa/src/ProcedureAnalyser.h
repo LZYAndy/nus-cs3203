@@ -3,7 +3,7 @@
 
 #include <string>
 #include <regex>
-#include <Procedure.h>
+#include "Procedure.h"
 #include "StringUtil.h"
 #include "StatementListParser.h"
 #include "ErrorMessages.h"

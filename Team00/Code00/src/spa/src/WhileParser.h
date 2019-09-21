@@ -8,7 +8,7 @@
 class WhileParser
 {
 public:
-    WhileParser(PKB pkb, Statement statement, std::string parent_prog_line);
+    WhileParser(PKB &pkb, Statement statement, std::string parent_prog_line);
 };
 
 #endif //AUTOTESTER_WHILEPARSER_H

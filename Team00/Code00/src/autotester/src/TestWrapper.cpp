@@ -34,10 +34,9 @@ void TestWrapper::parse(std::string filename)
 
         contents.assign((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
 
-        Parser parser = Parser(contents);
-        parser.Parse();
+        parser.Parse(&pkb);
     }
-    catch (std::string exception)
+    catch (char const* &exception)
     {
         std::cout << exception << std::flush;
         exit(0);

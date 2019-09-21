@@ -6,14 +6,14 @@
 #include "Parser.h"
 #include "TNode.h"
 
-Parser::Parser(std::string simple)
+Parser::Parser(PKB *pkb)
 {
-    this->pkb = PKB();
-    this->SIMPLE_prog = simple;
+    this->pkb = pkb;
 }
 
-int Parser::Parse()
+int Parser::Parse(std::string simple)
 {
+    SIMPLE_prog = simple;
     ProcedureAnalyser procedureAnalyser = ProcedureAnalyser(SIMPLE_prog);
 
     std::vector<Procedure> list_of_proc = procedureAnalyser.analyse();
@@ -26,7 +26,7 @@ int Parser::Parse()
         StatementListParser statementListParser = StatementListParser(this_procedure.get_body(), 0);
         statementListParser.parse_stmt_list();
         std::vector<Statement> list_of_stmt = statementListParser.get_stmt_list();
-        ParserInvoker parserInvoker = ParserInvoker(pkb, list_of_stmt, this_procedure.get_name());
+        ParserInvoker parserInvoker = ParserInvoker(reinterpret_cast<PKB &>(pkb), list_of_stmt, this_procedure.get_name());
         parserInvoker.invoke_parser();
     }
 
