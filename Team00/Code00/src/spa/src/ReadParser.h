@@ -4,6 +4,7 @@
 #include <regex>
 #include "PKB.h"
 #include "Statement.h"
+#include "ErrorMessages.h"
 
 class ReadParser
 {

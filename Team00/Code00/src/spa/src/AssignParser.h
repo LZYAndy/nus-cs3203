@@ -5,6 +5,7 @@
 #include "CheckerUtil.h"
 #include "Statement.h"
 #include "StringUtil.h"
+#include "ErrorMessages.h"
 
 class AssignParser
 {
