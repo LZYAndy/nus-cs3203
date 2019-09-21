@@ -182,7 +182,11 @@ std::string PQLParser::parse_select_clause(const std::string& query, std::vector
     }
 
     /// Sets the condition query after the select clause
-    condition_query = StringUtil::trim(select_query.substr(select_query.find_first_of(whitespace)), whitespace);
+    if (!(select_query.find_first_of(whitespace) == std::string::npos))
+    {
+        condition_query = StringUtil::trim(select_query.substr(select_query.find_first_of(whitespace)), whitespace);
+    }
+
     return "";
 }
 
