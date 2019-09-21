@@ -6,11 +6,11 @@ CallParser::CallParser(PKB &pkb, Statement statement, std::string parent_prog_li
 {
     if (!is_call_stmt_valid(statement.get_statement()))
     {
-        throw "Invalid call statement";
+        throw error_messages::invalid_call_statement;
     }
 
     if (statement.get_statement_type() != EntityType::CALL){
-        throw "Incorrect call type";
+        throw error_messages::invalid_call_type;
     }
 
     std::string call_proc = get_proc(statement.get_statement());
@@ -27,11 +27,7 @@ CallParser::CallParser(PKB &pkb, Statement statement, std::string parent_prog_li
 
 bool CallParser::is_call_stmt_valid(std::string statement)
 {
-    if (regex_match(statement, call_statement_pattern))
-    {
-        return true;
-    }
-    return false;
+    return regex_match(statement, call_statement_pattern);
 }
 
 std::string CallParser::get_proc(std::string statement)

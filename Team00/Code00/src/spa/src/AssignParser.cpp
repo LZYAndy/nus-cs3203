@@ -6,11 +6,11 @@ AssignParser::AssignParser(PKB &pkb, Statement statement, std::string parent_pro
 {
     if (!regex_match(statement.get_statement(), assign_pattern))
     {
-        throw "Invalid assignment statement";
+        throw std::runtime_error(error_messages::invalid_assign_statement);
     }
 
     if (statement.get_statement_type() != EntityType::ASSIGN){
-        throw "Incorrect assign type";
+        throw std::runtime_error(error_messages::invalid_assign_type);
     }
 
     std::string left = get_left(statement.get_statement()); // Valid var
