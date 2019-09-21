@@ -13,6 +13,7 @@ namespace error_messages
     constexpr const char* invalid_print_statement(R"(Invalid print statement in the SIMPLE code.)");
     constexpr const char* invalid_assign_statement(R"(Invalid assign statement in the SIMPLE code.)");
     constexpr const char* invalid_read_statement(R"(Invalid read statement in the SIMPLE code.)");
+    constexpr const char* invalid_SIMPLE(R"(Invalid SIMPLE code.)");
 
     // Error messages for Entity.cpp
     constexpr const char* invalid_entity_type(R"(Invalid Entity Type!)");
