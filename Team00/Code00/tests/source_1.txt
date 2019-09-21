@@ -1,0 +1,17 @@
+procedure computeSeq {
+1.    first = 1;
+2.    d = 7;
+3.    read b;
+4.    count = 0;
+5.    read first;
+6.    d = a;
+7.    if (d > limit) then {
+8.        while (count < limit) {
+9.            p = first;
+10.            x = first;
+11.            first = p;
+12.            count = count; }}
+    else {
+13.        x = 4; }
+14.     print x;
+}
