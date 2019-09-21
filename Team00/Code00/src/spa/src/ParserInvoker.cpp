@@ -24,27 +24,27 @@ void ParserInvoker::invoke_parser()
         }
         if (this_statement.get_statement_type() == EntityType::ASSIGN)
         {
-            AssignParser assignParser = AssignParser(reinterpret_cast<PKB &>(pkb), this_statement, parent_prog_line);
+            AssignParser assignParser = AssignParser(*pkb, this_statement, parent_prog_line);
         }
         else if (this_statement.get_statement_type() ==  EntityType::PRINT)
         {
-            PrintParser printParser = PrintParser(reinterpret_cast<PKB &>(pkb), this_statement, parent_prog_line);
+            PrintParser printParser = PrintParser(*pkb, this_statement, parent_prog_line);
         }
         else if (this_statement.get_statement_type() == EntityType::READ)
         {
-            ReadParser readParser = ReadParser(reinterpret_cast<PKB &>(pkb), this_statement, parent_prog_line);
+            ReadParser readParser = ReadParser(*pkb, this_statement, parent_prog_line);
         }
         else if (this_statement.get_statement_type() == EntityType::CALL)
         {
-            CallParser callParser = CallParser(reinterpret_cast<PKB &>(pkb), this_statement, parent_prog_line);
+            CallParser callParser = CallParser(*pkb, this_statement, parent_prog_line);
         }
         else if (this_statement.get_statement_type() == EntityType::IF)
         {
-            IfParser ifParser = IfParser(reinterpret_cast<PKB &>(pkb), this_statement, parent_prog_line);
+            IfParser ifParser = IfParser(*pkb, this_statement, parent_prog_line);
         }
         else if (this_statement.get_statement_type() == EntityType::WHILE)
         {
-            WhileParser whileParser = WhileParser(reinterpret_cast<PKB &>(pkb), this_statement, parent_prog_line);
+            WhileParser whileParser = WhileParser(*pkb, this_statement, parent_prog_line);
         }
 
         last_stmt_num = this_statement.get_prog_line();
