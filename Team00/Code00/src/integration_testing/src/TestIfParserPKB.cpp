@@ -1,4 +1,3 @@
-#include "iostream"
 #include "catch.hpp"
 #include "ErrorMessages.h"
 #include "IfParser.h"
@@ -19,5 +18,10 @@ TEST_CASE("Test if parser successfully.")
     if_statement.set_first_block(then_p);
     if_statement.set_second_block(else_p);
     PKB pkb = PKB();
-    REQUIRE_NOTHROW(IfParser(pkb, if_statement, "main"));
+    IfParser ifParser = IfParser(pkb, if_statement, "main");
+    std::vector<int> parent = pkb.get_all_parent();
+    std::vector<int> children = pkb.get_all_children();
+
+    REQUIRE(parent.size() == 1);
+    REQUIRE(children.size() == 2);
 }
