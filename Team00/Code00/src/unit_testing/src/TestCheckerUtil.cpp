@@ -73,6 +73,8 @@ TEST_CASE("CheckerUtil is_condition_valid")
     REQUIRE_FALSE(CheckerUtil::is_condition_valid(" a+b && (b-1) ")); // Expr AND expr
     REQUIRE_FALSE(CheckerUtil::is_condition_valid(" ( a ) || b-1 ")); // Expr OR expr
     REQUIRE_FALSE(CheckerUtil::is_condition_valid(" (a + b)")); // Single expression
+    REQUIRE_FALSE(CheckerUtil::is_condition_valid(" ( a >= (b + c )) && (c > d) && ")); // Ends with &&
+    REQUIRE_FALSE(CheckerUtil::is_condition_valid(" || ( a >= (b + c )) && (c > d)")); // Starts with ||
     REQUIRE_FALSE(CheckerUtil::is_condition_valid(" ((((( a + b ) - c ) * d) / e ) % f ) && ( a - 1 || b / 9 )")); // a-1 not wrapped in brackets
 
     REQUIRE(CheckerUtil::is_condition_valid(" a0 == A0Z ")); // Var compare against var

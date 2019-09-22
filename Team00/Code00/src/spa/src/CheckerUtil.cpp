@@ -52,19 +52,26 @@ bool CheckerUtil::is_condition_valid(std::string stmt)
         return false;
     }
 
+    // Check if statement ends or starts with || or &&
+    if (std::regex_match(stmt, std::regex ("^\\s*[&|]+.*$")) || std::regex_match(stmt, std::regex ("^.*[&|]+\\s*$")))
+    {
+        return false;
+    }
+
     std::vector<std::string> sections;
     size_t prev = 0, pos;
     bool second_symbol = false;
     while ((pos = stmt.find_first_of("&|", prev)) != std::string::npos)
     {
-        // Check if && and || is in pairs
-        if ((stmt[pos] == '&' || stmt[pos] == '|') && !second_symbol){
+        // Check if && and || is in pairs legitimacy of || &&
+        if ((stmt[pos] == '&' || stmt[pos] == '|') && !second_symbol)
+        {
             second_symbol = true;
             if (stmt[pos] != stmt[pos + 1])
             {
                 return false;
             }
-        } else{
+        } else {
             second_symbol = false;
         }
 
