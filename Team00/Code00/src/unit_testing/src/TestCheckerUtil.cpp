@@ -61,6 +61,10 @@ TEST_CASE("CheckerUtil is_condition_valid")
     REQUIRE_FALSE(CheckerUtil::is_condition_valid(" (a==2)) ")); // Bracket is not balanced
     REQUIRE_FALSE(CheckerUtil::is_condition_valid(" a!==2 ")); // No "!==" comparator
     REQUIRE_FALSE(CheckerUtil::is_condition_valid(" abc + cde ")); // A comparator is required for condition
+    REQUIRE_FALSE(CheckerUtil::is_condition_valid(" (abc) & (cde) ")); // Lack of one symbol
+    REQUIRE_FALSE(CheckerUtil::is_condition_valid(" (abc) &&& (cde) ")); // Extra &
+    REQUIRE_FALSE(CheckerUtil::is_condition_valid(" (abc) |||| (cde) ")); // Extra |
+    REQUIRE_FALSE(CheckerUtil::is_condition_valid(" (abc) |& (cde) ")); // Invalid symbol
 
     REQUIRE_FALSE(CheckerUtil::is_condition_valid(" (a) && (b) ")); // Var AND var
     REQUIRE_FALSE(CheckerUtil::is_condition_valid(" a && 100 ")); // Var AND const
@@ -68,7 +72,10 @@ TEST_CASE("CheckerUtil is_condition_valid")
     REQUIRE_FALSE(CheckerUtil::is_condition_valid(" 100 || b ")); // Const OR var
     REQUIRE_FALSE(CheckerUtil::is_condition_valid(" a+b && (b-1) ")); // Expr AND expr
     REQUIRE_FALSE(CheckerUtil::is_condition_valid(" ( a ) || b-1 ")); // Expr OR expr
-    REQUIRE_FALSE(CheckerUtil::is_condition_valid(" ((((( a + b ) - c ) * d) / e ) % f ) && ( a - 1 || b / 9 )"));
+    REQUIRE_FALSE(CheckerUtil::is_condition_valid(" (a + b)")); // Single expression
+    REQUIRE_FALSE(CheckerUtil::is_condition_valid(" ( a >= (b + c )) && (c > d) && ")); // Ends with &&
+    REQUIRE_FALSE(CheckerUtil::is_condition_valid(" || ( a >= (b + c )) && (c > d)")); // Starts with ||
+    REQUIRE_FALSE(CheckerUtil::is_condition_valid(" ((((( a + b ) - c ) * d) / e ) % f ) && ( a - 1 || b / 9 )")); // a-1 not wrapped in brackets
 
     REQUIRE(CheckerUtil::is_condition_valid(" a0 == A0Z ")); // Var compare against var
     REQUIRE(CheckerUtil::is_condition_valid(" A0z == 123 ")); // Var compare against const
@@ -78,9 +85,8 @@ TEST_CASE("CheckerUtil is_condition_valid")
     REQUIRE(CheckerUtil::is_condition_valid(" a0a >= b ")); // Comparing greater and equals than
     REQUIRE(CheckerUtil::is_condition_valid(" a <= bAz ")); // Comparing lesser and equals than
     REQUIRE(CheckerUtil::is_condition_valid(" a != 1 ")); // Not equals against a const
-    REQUIRE(CheckerUtil::is_condition_valid(" ( a < b ) && (c > d)"));
-    REQUIRE(CheckerUtil::is_condition_valid(" ( a <    b12 ) || ((c >= d) && !  (e ==   f )    )"));
-    REQUIRE(CheckerUtil::is_condition_valid(" ((((( a + b ) - c ) * d) / e ) % f ) && ( (a - 1) || (b / 9 ) )"));
-
-//    REQUIRE(CheckerUtil::is_condition_valid(" (a + b) || (c /d)"));
+    REQUIRE(CheckerUtil::is_condition_valid(" ( a < b ) && (c > d)")); // Expression and expression
+    REQUIRE(CheckerUtil::is_condition_valid(" ! ( a == ( a +3 )    ) ")); // Not outside of comparing var with expression
+    REQUIRE(CheckerUtil::is_condition_valid(" ! ( a <    b12 ) || ((c >= d) && !  (e ==   f )    )"));
+    REQUIRE(CheckerUtil::is_condition_valid(" ( a >= (b + c )) && (c > d)"));
 }

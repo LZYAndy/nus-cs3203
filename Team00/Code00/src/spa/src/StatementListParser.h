@@ -6,17 +6,18 @@
 #include "Statement.h"
 #include "StringUtil.h"
 #include "pql_dto/Entity.h"
+#include "ErrorMessages.h"
 
 class StatementListParser
 {
 private:
     std::string raw_stmt_list;
     std::vector<Statement> stmt_list;
-    static int next_line_number;
+    int next_line_number;
 
 public:
     // Constructor
-    StatementListParser(std::string raw);
+    StatementListParser(std::string raw, int parent_line_number);
 
     std::vector<Statement> get_stmt_list();
 
@@ -41,8 +42,8 @@ public:
     // This method is to parse assign statement, and returns the remaining statements.
     std::string parse_assign(std::string src);
 
-    // This method is to parse parentheses, and returns the index of the ending bracket.
-    int parse_bracket(std::string src, std::string opening, std::string closing);
+    // This method is to parse brackets, and returns the index of the ending bracket + 1.
+    static int parse_bracket(std::string src, std::string opening, std::string closing);
 
     // This method will find the first occurrence of semicolon,
     // and returns the index of the next character of that semicolon.

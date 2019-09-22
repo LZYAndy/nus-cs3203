@@ -22,12 +22,12 @@ std::unordered_map<int, std::vector<int>> FollowsBank::get_all_follows_relations
 
 std::vector<int> FollowsBank::get_all_follows()
 {
-    return follows_bank.get_all_keys();
+    return follows_bank.get_all_values();
 }
 
 std::vector<int> FollowsBank::get_all_followed()
 {
-    return follows_bank.get_all_values();
+    return follows_bank.get_all_keys();
 }
 
 int FollowsBank::get_followed_by(int stmt)

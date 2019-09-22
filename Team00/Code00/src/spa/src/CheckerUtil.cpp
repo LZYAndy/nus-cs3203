@@ -52,17 +52,29 @@ bool CheckerUtil::is_condition_valid(std::string stmt)
         return false;
     }
 
-    // Single expression e.g. (x + 1)
-    if (std::regex_match(stmt, valid_expr))
+    // Check if statement ends or starts with || or &&
+    if (std::regex_match(stmt, std::regex ("^\\s*[&|]+.*$")) || std::regex_match(stmt, std::regex ("^.*[&|]+\\s*$")))
     {
         return false;
     }
 
-    // Split by && and ||
     std::vector<std::string> sections;
     size_t prev = 0, pos;
-    while ((pos = stmt.find_first_of("&|", prev))!=std::string::npos)
+    bool second_symbol = false;
+    while ((pos = stmt.find_first_of("&|", prev)) != std::string::npos)
     {
+        // Check if && and || is in pairs legitimacy of || &&
+        if ((stmt[pos] == '&' || stmt[pos] == '|') && !second_symbol)
+        {
+            second_symbol = true;
+            if (stmt[pos] != stmt[pos + 1])
+            {
+                return false;
+            }
+        } else {
+            second_symbol = false;
+        }
+
         if (pos>prev)
         {
             sections.push_back(stmt.substr(prev, pos-prev));
@@ -84,6 +96,11 @@ bool CheckerUtil::is_condition_valid(std::string stmt)
             {
                 return false;
             }
+        }
+
+        // No operators. Should be comparator.
+        if (std::regex_match(section, valid_expr)){
+            return false;
         }
 
         if (!std::regex_match(section, valid_cond))

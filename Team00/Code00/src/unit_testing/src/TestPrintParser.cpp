@@ -1,13 +1,16 @@
 #include "catch.hpp"
 #include "PrintParser.h"
+#include "ErrorMessages.h"
 
 TEST_CASE("PrintParser")
 {
-REQUIRE_THROWS_WITH(PrintParser(PKB (), Statement(EntityType::PRINT, 1, "x"), "parent"), "Invalid print statement");
-REQUIRE_THROWS_WITH(PrintParser(PKB (), Statement(EntityType::PRINT, 1, "print "), "parent"), "Invalid print statement");
-REQUIRE_THROWS_WITH(PrintParser(PKB (), Statement(EntityType::PRINT, 1, "print a_"), "parent"), "Invalid print statement");
-REQUIRE_THROWS_WITH(PrintParser(PKB (), Statement(EntityType::PRINT, 1, "print a a"), "parent"), "Invalid print statement");
-REQUIRE_NOTHROW(PKB (), Statement(EntityType::PRINT, 1, "print x"), "parent");
-REQUIRE_NOTHROW(PKB (), Statement(EntityType::PRINT, 1, " print x1a "), "0");
-REQUIRE_NOTHROW(PKB (), Statement(EntityType::PRINT, 1, "       print            x            "), "0");
+    PKB pkb;
+    REQUIRE_THROWS_WITH(PrintParser(pkb, Statement(EntityType::PRINT, 1, "x"), "parent"), error_messages::invalid_print_statement);
+    REQUIRE_THROWS_WITH(PrintParser(pkb, Statement(EntityType::PRINT, 1, "print "), "parent"), error_messages::invalid_print_statement);
+    REQUIRE_THROWS_WITH(PrintParser(pkb, Statement(EntityType::PRINT, 1, "print a_"), "parent"), error_messages::invalid_print_statement);
+    REQUIRE_THROWS_WITH(PrintParser(pkb, Statement(EntityType::PRINT, 1, "print a a"), "parent"), error_messages::invalid_print_statement);
+    REQUIRE_THROWS_WITH(PrintParser(pkb, Statement(EntityType::ANY, 1, "print a;"), "parent"), error_messages::invalid_print_type);
+    REQUIRE_NOTHROW(pkb, Statement(EntityType::PRINT, 1, "print x;"), "parent");
+    REQUIRE_NOTHROW(pkb, Statement(EntityType::PRINT, 1, " print x1a ;"), "0");
+    REQUIRE_NOTHROW(pkb, Statement(EntityType::PRINT, 1, "       print            x            ;"), "0");
 }

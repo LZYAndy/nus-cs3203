@@ -1,14 +1,30 @@
 #include <algorithm>
 #include "ModifiesBank.h"
 
-void ModifiesBank::insert_modifies(int statement, std::string variable)
+bool ModifiesBank::insert_modifies(int statement, std::string variable)
 {
-    stmt_bank.put(statement, variable);
+    if(variable == "")
+    {
+        return false;
+    }
+    else
+    {
+        stmt_bank.put(statement, variable);
+        return true;
+    }
 }
 
-void ModifiesBank::insert_modifies(std::string procedure, std::string variable)
+bool ModifiesBank::insert_modifies(std::string procedure, std::string variable)
 {
-    proc_bank.put(procedure, variable);
+    if(variable == "")
+    {
+        return false;
+    }
+    else
+    {
+        proc_bank.put(procedure, variable);
+        return true;
+    }
 }
 
 std::vector<int> ModifiesBank::get_statements_modifies(std::string variable)

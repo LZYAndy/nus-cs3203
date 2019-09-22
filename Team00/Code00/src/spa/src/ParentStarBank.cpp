@@ -12,12 +12,12 @@ bool ParentStarBank::insert_parent_star(int stmt1, int stmt2)
 
 std::vector<int> ParentStarBank::get_parent_star(int stmt)
 {
-    return parent_star_bank.get(stmt);
+    return parent_star_bank.get_reverse(stmt);
 }
 
 std::vector<int> ParentStarBank::get_children_star(int stmt)
 {
-    return parent_star_bank.get_reverse(stmt);
+    return parent_star_bank.get(stmt);
 }
 
 std::unordered_map<int, std::vector<int>> ParentStarBank::get_all_parent_star_relationship()
