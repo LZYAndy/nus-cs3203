@@ -91,18 +91,18 @@ TEST_CASE("Test trim_left")
 
 TEST_CASE("Test get_all_var")
 {
-std::string to_extract = " ! ( a <    b12 ) || ((c >= d) && !  (e ==   f )    )";
-std::vector<std::string> result = StringUtil::get_all_var(to_extract);
+    std::string to_extract = " ! ( a <    b12 ) || ((c >= d) && !  (e ==   f )    )";
+    std::vector<std::string> result = StringUtil::get_all_var(to_extract);
 
-std::vector<std::string> expected({"a", "b12", "c", "d", "e", "f"});
-REQUIRE(result == expected);
+    std::vector<std::string> expected({"a", "b12", "c", "d", "e", "f"});
+    REQUIRE(result == expected);
 }
 
 TEST_CASE("Test get_all_const")
 {
-std::string to_extract = "((((( a +20) -   12  )*16) / 9) % f ) && (( a - 1) || (6 /9 ))";
-std::vector<std::string> result = StringUtil::get_all_const(to_extract);
+    std::string to_extract = "((((( a +20) -   12  )*16) / 9) % f ) && (( a - 1) || (6 /9 ))";
+    std::vector<std::string> result = StringUtil::get_all_const(to_extract);
 
-std::vector<std::string> expected({"20", "12", "16", "9", "1", "6", "9"});
-REQUIRE(result == expected);
+    std::vector<std::string> expected({"20", "12", "16", "9", "1", "6", "9"});
+    REQUIRE(result == expected);
 }
