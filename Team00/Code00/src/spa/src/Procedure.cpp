@@ -12,6 +12,13 @@ std::string Procedure::get_body()
 
 Procedure::Procedure(std::string name, std::string body)
 {
-    proc_name = name;
+    if (CheckerUtil::is_name_valid(name))
+    {
+        proc_name = name;
+    }
+    else
+    {
+        throw std::runtime_error(error_messages::invalid_proc_name);
+    }
     body_of_proc = body;
 }

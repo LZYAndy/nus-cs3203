@@ -1,12 +1,16 @@
 #include "AssignParser.h"
 
-std::regex assign_pattern("^\\s*([a-zA-Z][a-zA-Z0-9]+)\\s*=\\s*(.+)\\s*$");
+std::regex assign_pattern("^\\s*([a-zA-Z][a-zA-Z0-9]*)\\s*=\\s*(.+)\\s*\\;$");
 
-AssignParser::AssignParser(PKB pkb, Statement statement, std::string parent_prog_line)
+AssignParser::AssignParser(PKB &pkb, Statement statement, std::string parent_prog_line)
 {
     if (!regex_match(statement.get_statement(), assign_pattern))
     {
-        throw "Invalid assignment statement";
+        throw std::runtime_error(error_messages::invalid_assign_statement);
+    }
+
+    if (statement.get_statement_type() != EntityType::ASSIGN){
+        throw std::runtime_error(error_messages::invalid_assign_type);
     }
 
     std::string left = get_left(statement.get_statement()); // Valid var
@@ -40,6 +44,11 @@ AssignParser::AssignParser(PKB pkb, Statement statement, std::string parent_prog
     for (auto var: all_var)
     {
         pkb.insert_uses(statement.get_prog_line(), var);
+
+        if (std::regex_match(parent_prog_line, std::regex("^[a-zA-Z][a-zA-Z0-9]+$")))
+        {
+            pkb.insert_uses(parent_prog_line, var);
+        }
     }
 
     // Insert type
