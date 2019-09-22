@@ -88,3 +88,21 @@ TEST_CASE("Test trim_left")
     std::string correct_trimed = "left";
     REQUIRE(trimed == correct_trimed);
 }
+
+TEST_CASE("Test get_all_var")
+{
+std::string to_extract = " ! ( a <    b12 ) || ((c >= d) && !  (e ==   f )    )";
+std::vector<std::string> result = StringUtil::get_all_var(to_extract);
+
+std::vector<std::string> expected({"a", "b12", "c", "d", "e", "f"});
+REQUIRE(result == expected);
+}
+
+TEST_CASE("Test get_all_const")
+{
+std::string to_extract = "((((( a +20) -   12  )*16) / 9) % f ) && (( a - 1) || (6 /9 ))";
+std::vector<std::string> result = StringUtil::get_all_const(to_extract);
+
+std::vector<std::string> expected({"20", "12", "16", "9", "1", "6", "9"});
+REQUIRE(result == expected);
+}
