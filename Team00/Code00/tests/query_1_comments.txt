@@ -1,0 +1,72 @@
+1 - stmt no clause
+2 - read no clause
+3 - print no clause
+4 - variable no clause
+5 - if no clause
+6 - assign no clause
+7 - constant no clause
+8 - while no clause
+9 - procedure no clause
+10 - Follows with 2 wildcards
+11 - Follows with LHS wildcard
+12 - Follows with RHS wildcard 
+13 - Follows with RHS wildcard, LHS syn
+14 - Follows with LHS wildcard, RHS syn
+15 - Follows with LHS syn
+16 - Follows with RHS syn
+17 - Follows with 2 syn get LHS syn
+18 - Follows with 2 syn get RHS syn
+19 - Follows* with 2 wildcards
+20 - Follows* with LHS wildcard
+21 - Follows* with RHS wildcard
+22 - Follows* with LHS wildcard, RHS syn
+23 - Follows* with RHS wildcard, LHS syn
+24 - Follows* with 2 syn get LHS syn
+25 - Follows* with 2 syn get RHS syn
+26 - Parent with 2 wildcards
+27 - Parent* with LHS wildcard
+28 - Parent* with RHS wildcard
+29 - Parent* with LHS wildcard, RHS syn
+30 - Parent* with RHS wildcard, LHS syn
+31 - Parent* with 2 syn get LHS syn
+32 - Parent* with 2 syn get RHS syn
+33 - Parent* with 2 wildcards
+34 - Parent* with LHS wildcard
+35 - Parent* with RHS wildcard
+36 - Parent* with LHS wildcard, RHS syn
+37 - Parent* with RHS wildcard, LHS syn
+38 - Parent* with 2 syn get LHS syn
+39 - Parent* with 2 syn get RHS syn
+40 - Modifies with LHS syn, RHS wildcard
+41 - Modifies with LHS syn, RHS syn
+42 - Modifies with LHS syn, RHS IDENT
+43 - Modifies with LHS stmt#, RHS syn
+44 - Uses with LHS syn, RHS wildcard
+45 - Uses with LHS syn, RHS syn
+46 - Uses with LHS syn, RHS IDENT
+47 - Uses with LHS stmt#, RHS syn
+48 - Assign Pattern with 2 wildcards
+49 - Assign Pattern with LHS wildcard, RHS exact match
+50 - Assign Pattern with LHS wildcard, RHS partial match
+51 - Assign Pattern with LHS syn, RHS exact match
+52 - Assign Pattern with LHS syn, RHS partial match
+53 - Assign Pattern with LHS IDENT, RHS exact match
+54 - Assign Pattern with LHS IDENT, RHS partial match
+55 - Assign Pattern with LHS IDENT, RHS exact match + Follows with 2 syn
+56 - Assign Pattern with LHS syn, RHS partial match + Follows* with 2 syn
+57 - Assign Pattern with LHS IDENT, RHS partial match + Parent with 2 syn
+58 - Assign Pattern LHS syn, RHS exact match + Parent* with LHS wildcard, RHS syn
+59 - Assign Pattern with LHS wildcard, RHS exact match + Uses LHS syn, RHS wildcard
+60 - Assign Pattern with 2 wildcards + Modifies with LHS syn, RHS wildcard
+61 - Follows with 2 INT + Assign Pattern with LHS wildcard, RHS partial match
+62 - Follows* with LHS syn + Assign Pattern with 2 wildcards
+63 - Parent with 2 syn + Assign Pattern with LHS IDENT, RHS wildcard
+64 - Parent* with 2 syn + Assign Pattern with both IDENT
+65 - Uses with 2 syn + Assign Pattern with both IDENT
+66 - Modifies with 2 syn + Assign Pattern with LHS syn, RHS exact match
+67 - Follows with 2 INT
+68 - Follows* with 2 INT
+69 - Parent with 2 INT
+70 - Parent* with 2 INT
+71 - Uses with LHS stmt#, RHS IDENT
+72 - Modifies with LHS stmt#, RHS IDENT
