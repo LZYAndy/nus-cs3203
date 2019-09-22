@@ -11,7 +11,19 @@
 class DesignExtractor
 {
 public:
+    /**
+     * Extract Follows* relationships and populate into PKB.
+     * This method should only be called after all insertion have been done so that the method 
+     * can extract all possible relationships based on the inserts.
+     * @return true if the extract and populate process is successful.
+     */
     static void extract_follows_star(FollowsBank &bank_in, FollowsStarBank &bank_out);
+    /**
+     * Extract Parent* relationships and populate into PKB.
+     * This method should only be called after all insertion have been done so that the method 
+     * can extract all possible relationships based on the inserts.
+     * @return true if the extract and populate process is successful.
+     */
     static void extract_parent_star(ParentBank &bank_in, ParentStarBank &bank_out);
 
 private:
