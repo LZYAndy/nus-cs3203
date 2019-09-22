@@ -3,7 +3,6 @@
 
 #include "PQLParser.h"
 #include "StringUtil.h"
-#include "CheckerUtil.h"
 #include "ErrorMessages.h"
 
 #include "pql_dto/UsesRelationship.cpp"
@@ -366,14 +365,7 @@ pql_dto::Entity PQLParser::create_entity(std::string& var_name, std::unordered_m
             else
             {
                 std::string var_value = var_name.substr(1, var_name.length() - 2);
-                if (CheckerUtil::is_name_valid(var_value))
-                {
-                    entity = pql_dto::Entity("variable", var_value, false);
-                }
-                else
-                {
-                    throw std::runtime_error(error_messages::invalid_undeclared_entity_name);
-                }
+                entity = pql_dto::Entity("variable", var_value, false);
             }
         }
         else if (var_name.front() == '_' && var_name.back() == '_' && var_name.length() != 1)

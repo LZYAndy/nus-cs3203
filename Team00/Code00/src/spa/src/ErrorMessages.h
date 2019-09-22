@@ -4,6 +4,9 @@
 
 namespace error_messages
 {
+    // Error messgage for TestWrapper.cpp
+    constexpr const char* invalid_file(R"(File not found!)");
+
     // Error messages for Parser
     constexpr const char* invalid_proc_name(R"(Invalid procedure name!)");
     constexpr const char* invalid_no_semicolon(R"(Invalid SIMPLE code. No semicolon!)");
