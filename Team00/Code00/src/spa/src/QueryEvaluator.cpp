@@ -234,7 +234,7 @@ unordered_set<string> QueryEvaluator::merge(pql_dto::Entity &select_entity,
     return result;
 }
 
-unordered_set<string> QueryEvaluator::get_common_synonyms(const unordered_map<string, vector<string>> &map_1,
+unordered_set<string> QueryEvaluator::get_common_synonyms(unordered_map<string, vector<string>> &map_1,
         unordered_map<string, vector<string>> &map_2)
 {
     unordered_set<string> result;
@@ -318,7 +318,7 @@ unordered_map<string, unordered_set<string>> QueryEvaluator::get_final_list(unor
     return result;
 }
 
-unordered_set<string> QueryEvaluator::get_common_part(const vector<string> &str_vec_1, vector<string> &str_vec_2)
+unordered_set<string> QueryEvaluator::get_common_part(vector<string> &str_vec_1, vector<string> &str_vec_2)
 {
     unordered_set<string> result;
     for (const auto& iter : str_vec_1)
