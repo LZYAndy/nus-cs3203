@@ -115,7 +115,7 @@ TEST_CASE("Parses and validate Follows such that clause.")
         std::string test_query = "such that Follows(\"5\", \"x\")";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == error_messages::invalid_undeclared_entity_name);
+        REQUIRE(error == error_messages::invalid_synonym_name);
     }
 
     SECTION("Valid Such that Clause with Follows*.")
@@ -231,7 +231,7 @@ TEST_CASE("Parses and validate Parent such that clause.")
         std::string test_query = "such that Parent(\"5\", \"x\")";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == error_messages::invalid_undeclared_entity_name);
+        REQUIRE(error == error_messages::invalid_synonym_name);
     }
 
     SECTION("Valid Such that Clause with Parent*.")
