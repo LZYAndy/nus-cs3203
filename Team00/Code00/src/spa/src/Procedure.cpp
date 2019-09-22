@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Procedure.h"
 
 std::string Procedure::get_name()

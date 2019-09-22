@@ -1,6 +1,7 @@
 #include "catch.hpp"
 #include "AssignParser.h"
 #include "pql_dto/Entity.h"
+#include "ErrorMessages.h"
 
 TEST_CASE("AssignParser")
 {
@@ -16,12 +17,12 @@ TEST_CASE("AssignParser")
     SECTION("Invalid assign statement")
     {
         Statement stmt = Statement(EntityType::ASSIGN, 1, "10");
-        REQUIRE_THROWS_WITH(AssignParser (pkb, stmt, "Parent"), "Invalid assignment statement");
+        REQUIRE_THROWS_WITH(AssignParser (pkb, stmt, "Parent"), error_messages::invalid_assign_statement);
     }
 
     SECTION("Invalid statement type")
     {
         Statement stmt = Statement(EntityType::ANY, 1, "a = 1;");
-        REQUIRE_THROWS_WITH(AssignParser (pkb, stmt, "Parent"), "Incorrect assign type");
+        REQUIRE_THROWS_WITH(AssignParser (pkb, stmt, "Parent"), error_messages::invalid_assign_type);
     }
 }

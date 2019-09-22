@@ -49,10 +49,17 @@ public:
      */
      static std::string trim_left(std::string& s);
 
-     /*!
-      Gets all valid variable from a string.
-      * @param input The string.
-      * @return The vector of variables in string.
-      */
-     static std::vector<std::string> get_all_var(std::string input);
+    /*!
+     * Gets all valid variable from a string.
+     * @param input The string.
+     * @return The vector of variables in string.
+     */
+    static std::vector<std::string> get_all_var(std::string input);
+
+    /*!
+     * Gets all valid constant from a string.
+     * @param input The string.
+     * @return The vector of constants in string.
+     */
+    static std::vector<std::string> get_all_const(std::string input);
 };

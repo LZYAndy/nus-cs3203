@@ -6,12 +6,16 @@
 #include "Parser.h"
 #include "TNode.h"
 
+Parser::Parser()
+{
+}
+
 Parser::Parser(PKB *pkb)
 {
     this->pkb = pkb;
 }
 
-int Parser::Parse(std::string simple)
+int Parser::parse(std::string simple)
 {
     SIMPLE_prog = simple;
     ProcedureAnalyser procedureAnalyser = ProcedureAnalyser(SIMPLE_prog);
