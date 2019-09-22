@@ -88,3 +88,21 @@ std::vector<std::string> StringUtil::get_all_var(std::string statement)
 
     return all_var;
 }
+
+std::vector<std::string> StringUtil::get_all_const(std::string statement)
+{
+    std::smatch match;
+    std::vector<std::string> all_const;
+
+    while (regex_search(statement, match, all_word))
+    {
+        std::string current_word = match[0];
+        statement = match.suffix().str();
+        if (CheckerUtil::is_const_valid(current_word))
+        {
+            all_const.push_back(current_word);
+        }
+    }
+
+    return all_const;
+}
