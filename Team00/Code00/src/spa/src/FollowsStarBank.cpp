@@ -41,6 +41,6 @@ std::vector<int> FollowsStarBank::get_all_follows_star()
 
 std::vector<int> FollowsStarBank::get_all_followed_star()
 {
-        return follows_star_bank.get_all_keys();
+    return follows_star_bank.get_all_keys();
 
 }

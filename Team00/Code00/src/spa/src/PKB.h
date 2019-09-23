@@ -74,7 +74,7 @@ public:
     bool insert_type(int stmt, EntityType type);
     /**
      * Insert constant into PKB.
-     * @param constant 
+     * @param constant
      * @return true if insert is successful.
      */
     bool insert_constant(int constant);

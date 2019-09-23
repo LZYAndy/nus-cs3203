@@ -12,7 +12,7 @@ WhileParser::WhileParser(PKB &pkb, Statement statement, std::string parent_prog_
 
     std::vector<std::string> all_variables = StringUtil::get_all_var(condition);
     int num_of_control_var = all_variables.size();
-    for (int i = 0;i < num_of_control_var;i++)
+    for (int i = 0; i < num_of_control_var; i++)
     {
         pkb.insert_uses(statement.get_prog_line(), all_variables[i]);
     }
@@ -26,7 +26,7 @@ WhileParser::WhileParser(PKB &pkb, Statement statement, std::string parent_prog_
 
     // Update parent relationship for while statement
 
-    for (int i = 0;i < num_of_stmt_loop;i++)
+    for (int i = 0; i < num_of_stmt_loop; i++)
     {
         Statement this_stmt = loop_part[i];
         pkb.insert_parent(statement.get_prog_line(), this_stmt.get_prog_line());

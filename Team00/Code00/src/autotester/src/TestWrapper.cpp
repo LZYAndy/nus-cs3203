@@ -4,7 +4,7 @@
 AbstractWrapper* WrapperFactory::wrapper = 0;
 AbstractWrapper* WrapperFactory::createWrapper()
 {
-    if (wrapper == 0) 
+    if (wrapper == 0)
     {
         wrapper = new TestWrapper;
     }
@@ -16,16 +16,16 @@ volatile bool AbstractWrapper::GlobalStop = false;
 // a default constructor
 TestWrapper::TestWrapper()
 {
-  // create any objects here as instance variables of this class
-  // as well as any initialization required for your spa program
-  parser = Parser(&pkb);
+    // create any objects here as instance variables of this class
+    // as well as any initialization required for your spa program
+    parser = Parser(&pkb);
 }
 
 // method for parsing the SIMPLE source
 void TestWrapper::parse(std::string file_name)
 {
-	// call your parser to do the parsing
-  // ...rest of your code...
+    // call your parser to do the parsing
+    // ...rest of your code...
     try
     {
         std::ifstream t(file_name);
@@ -52,7 +52,7 @@ void TestWrapper::parse(std::string file_name)
 }
 
 // method to evaluating a query
-void TestWrapper::evaluate(std::string query, std::list<std::string>& results)
+void TestWrapper::evaluate(std::string query, std::list<std::string> &results)
 {
     // call your evaluator to evaluate the query here
     // ...code to evaluate query...

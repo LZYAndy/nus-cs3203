@@ -50,7 +50,7 @@ public:
     static int find_semicolon(std::string src);
 
     // Check the first non-space character is the given character or not.
-    static bool is_beginning_with(std::string src, const std::string& match_char);
+    static bool is_beginning_with(std::string src, const std::string &match_char);
 };
 
 
