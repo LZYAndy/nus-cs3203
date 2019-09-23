@@ -4,9 +4,11 @@
 #include "WhileParser.h"
 #include "Statement.h"
 #include "pql_dto/Entity.h"
+#include "ParserInvoker.h"
 
 TEST_CASE("Test while parser successfully.")
 {
+    std::vector<Statement> stmts;
     Statement while_statement = Statement(EntityType::WHILE, 1, " ");
 
     while_statement.set_condition("a > 0");
@@ -16,7 +18,9 @@ TEST_CASE("Test while parser successfully.")
 
     while_statement.set_first_block(loop_p);
     PKB pkb = PKB();
-    WhileParser whileParser = WhileParser(pkb, while_statement, "main");
+    stmts.push_back(while_statement);
+    ParserInvoker parserInvoker = ParserInvoker(pkb, stmts, "main");
+    parserInvoker.invoke_parser();
 
     std::vector<int> parent = pkb.get_all_parent();
     std::vector<int> children = pkb.get_all_children();

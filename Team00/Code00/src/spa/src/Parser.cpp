@@ -34,5 +34,7 @@ int Parser::parse(std::string simple)
         parserInvoker.invoke_parser();
     }
 
+    this->pkb->extract_design();
+
 	return 0;
 }
