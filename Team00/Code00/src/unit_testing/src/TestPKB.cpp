@@ -2148,3 +2148,47 @@ TEST_CASE("PKB::does_modifies_exist()")
         REQUIRE(pkb1.does_modifies_exist());
     }
 }
+
+TEST_CASE("PKB::insert_constant()")
+{
+    PKB pkb;
+    SECTION("success")
+    {
+        REQUIRE(pkb.insert_constant(1));
+        REQUIRE(pkb.insert_constant(-1));
+    }
+    
+    SECTION("fail")
+    {
+        REQUIRE(pkb.insert_constant(1));
+        REQUIRE_FALSE(pkb.insert_constant(1));
+    }
+}
+
+TEST_CASE("PKB::get_all_constants()")
+{
+    PKB pkb;
+    SECTION("return empty")
+    {
+        REQUIRE(pkb.get_all_constants().empty());
+    }
+
+    SECTION("return 1")
+    {
+        pkb.insert_constant(1);
+        pkb.insert_constant(1);
+        REQUIRE(pkb.get_all_constants().size() == 1);
+        REQUIRE(pkb.get_all_constants().count(1) == 1);
+    }
+
+    SECTION("return >1")
+    {
+        pkb.insert_constant(1);
+        pkb.insert_constant(2);
+        pkb.insert_constant(3);
+        REQUIRE(pkb.get_all_constants().size() == 3);
+        REQUIRE(pkb.get_all_constants().count(1) == 1);
+        REQUIRE(pkb.get_all_constants().count(2) == 1);
+        REQUIRE(pkb.get_all_constants().count(3) == 1);
+    }
+}

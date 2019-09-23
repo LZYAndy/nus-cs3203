@@ -417,3 +417,14 @@ bool PKB::does_modifies_exist()
 {
     return !modifies_bank.empty();
 }
+
+bool PKB::insert_constant(int constant)
+{
+    auto result = const_table.emplace(constant);
+    return result.second;
+}
+
+unordered_set<int> PKB::get_all_constants()
+{
+    return const_table;
+}
