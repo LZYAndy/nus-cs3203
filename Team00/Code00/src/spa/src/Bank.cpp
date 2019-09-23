@@ -35,7 +35,7 @@ void Bank<T, S>::put(T key, S value)
             {
                 return;
             }
-        }        
+        }
         reverse_bank_value.push_back(key);
     }
     else
@@ -109,15 +109,17 @@ template<class T, class S>
 bool Bank<T,S>::check_relationship(T key, S value)
 {
     if (bank.find(key) == bank.end())
+    {
+        return false;
+    }
+    else
+    {
+        std::vector<S> values = bank.at(key);
+        return std::any_of(values.begin(), values.end(), [value](S i)
         {
-            return false;
-        }
-        else
-        {
-            std::vector<S> values = bank.at(key);
-            return std::any_of(values.begin(), values.end(), [value](S i)
-            { return i == value; });
-        }
+            return i == value;
+        });
+    }
 }
 
 template class Bank<int, int>;

@@ -34,11 +34,13 @@ bool PKB::insert_modifies(string procedure, string variable)
     return modifies_bank.insert_modifies(procedure, variable);
 }
 
-unordered_set<string> PKB::get_all_variables() {
+unordered_set<string> PKB::get_all_variables()
+{
     return varTable;
 }
 
-vector<int> PKB::get_all_statement_nums() {
+vector<int> PKB::get_all_statement_nums()
+{
     if (last_statement_num <= 0)
     {
         return vector<int>();
@@ -48,39 +50,48 @@ vector<int> PKB::get_all_statement_nums() {
     return statement_nums;
 }
 
-unordered_set<string> PKB::get_all_procedures() {
+unordered_set<string> PKB::get_all_procedures()
+{
     return procTable;
 }
 
-vector<int> PKB::get_statements_modifies(string variable) {
+vector<int> PKB::get_statements_modifies(string variable)
+{
     return modifies_bank.get_statements_modifies(variable);
 }
 
-vector<string> PKB::get_procedures_modifies(string variable) {
+vector<string> PKB::get_procedures_modifies(string variable)
+{
     return modifies_bank.get_procedures_modifies(variable);
 }
 
-vector<string> PKB::get_modified_by_statement(int statement) {
+vector<string> PKB::get_modified_by_statement(int statement)
+{
     return modifies_bank.get_modified_by_statement(statement);
 }
 
-vector<string> PKB::get_modified_by_procedure(string procedure) {
+vector<string> PKB::get_modified_by_procedure(string procedure)
+{
     return modifies_bank.get_modified_by_procedure(procedure);
 }
 
-vector<int> PKB::get_statements_uses(string variable) {
+vector<int> PKB::get_statements_uses(string variable)
+{
     return uses_bank.get_statements_uses(variable);
 }
 
-vector<string> PKB::get_procedures_uses(string variable) {
+vector<string> PKB::get_procedures_uses(string variable)
+{
     return uses_bank.get_procedures_uses(variable);
 }
 
-vector<string> PKB::get_used_by_statement(int statement) {
+vector<string> PKB::get_used_by_statement(int statement)
+{
     return uses_bank.get_used_by_statement(statement);
 }
 
-vector<string> PKB::get_used_by_procedure(string procedure) {
+vector<string> PKB::get_used_by_procedure(string procedure)
+{
     return uses_bank.get_used_by_procedure(procedure);
 }
 
@@ -416,4 +427,15 @@ bool PKB::does_uses_exist()
 bool PKB::does_modifies_exist()
 {
     return !modifies_bank.empty();
+}
+
+bool PKB::insert_constant(int constant)
+{
+    auto result = const_table.emplace(constant);
+    return result.second;
+}
+
+unordered_set<int> PKB::get_all_constants()
+{
+    return const_table;
 }

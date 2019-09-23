@@ -1,7 +1,7 @@
 #include <iostream>
 #include "StringUtil.h"
 
-std::vector<std::string> StringUtil::split(const std::string& query, std::string delimiter)
+std::vector<std::string> StringUtil::split(const std::string &query, std::string delimiter)
 {
     std::vector<std::string> split_query;
     size_t pos_start = 0, pos_end, delim_len = delimiter.length();
@@ -18,7 +18,7 @@ std::vector<std::string> StringUtil::split(const std::string& query, std::string
     return split_query;
 }
 
-std::vector<std::string> StringUtil::split(const std::string& query, char delimiter)
+std::vector<std::string> StringUtil::split(const std::string &query, char delimiter)
 {
     std::vector<std::string> split_query;
     std::istringstream iss(query);
@@ -32,7 +32,7 @@ std::vector<std::string> StringUtil::split(const std::string& query, char delimi
     return split_query;
 }
 
-std::string StringUtil::trim(const std::string& s, const std::string& whitespace)
+std::string StringUtil::trim(const std::string &s, const std::string &whitespace)
 {
     int strStart = s.find_first_not_of(whitespace);
     int strEnd = s.find_last_not_of(whitespace);
@@ -47,14 +47,14 @@ std::string StringUtil::trim(const std::string& s, const std::string& whitespace
 
 }
 
-std::string StringUtil::replace_all_white_spaces(std::string& s)
+std::string StringUtil::replace_all_white_spaces(std::string &s)
 {
     std::regex r("\\s+");
     s = std::regex_replace(s, r, " ");
     return s;
 }
 
-std::string StringUtil::trim_left(std::string& s)
+std::string StringUtil::trim_left(std::string &s)
 {
     while (true)
     {

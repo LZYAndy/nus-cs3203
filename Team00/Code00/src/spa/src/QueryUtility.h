@@ -21,16 +21,16 @@ public:
     static bool is_proc_name(pql_dto::Entity entity);
     static bool is_proc_declared(pql_dto::Entity entity);
     static bool is_var_name(pql_dto::Entity entity);
-    static unordered_map<string, vector<string>> mapping(pql_dto::Entity key, vector<int>& int_vec, PKB PKB);
-    static unordered_map<string, vector<string>> mapping(pql_dto::Entity key, vector<string>& str_vec);
+    static unordered_map<string, vector<string>> mapping(pql_dto::Entity key, vector<int> &int_vec, PKB PKB);
+    static unordered_map<string, vector<string>> mapping(pql_dto::Entity key, vector<string> &str_vec);
     static unordered_map<string, vector<string>> mapping(pql_dto::Entity key, int n, PKB PKB);
     static unordered_map<string, vector<string>> mapping(pql_dto::Entity key_1, pql_dto::Entity key_2,
-            unordered_map<int, vector<int>>& int_map, PKB PKB);
+            unordered_map<int, vector<int>> &int_map, PKB PKB);
     static unordered_map<string, vector<string>> mapping(pql_dto::Entity key_1, pql_dto::Entity key_2,
-            unordered_map<string, vector<string>>& str_map);
+            unordered_map<string, vector<string>> &str_map);
     static unordered_map<string, vector<string>> mapping(pql_dto::Entity key_1, pql_dto::Entity key_2,
-            unordered_map<int, vector<string>>& int_str_map, PKB PKB);
-    static unordered_map<string, vector<string>> mapping(const string& str, vector<int>& int_vec);
-    static unordered_map<string, vector<string>> mapping(const string& str1, const string& str2, vector<int>& int_vec, PKB PKB);
-    static unordered_map<string, vector<string>> mapping(const string& str1, pql_dto::Entity key, vector<int>& int_vec, PKB PKB);
+            unordered_map<int, vector<string>> &int_str_map, PKB PKB);
+    static unordered_map<string, vector<string>> mapping(const string &str, vector<int> &int_vec);
+    static unordered_map<string, vector<string>> mapping(const string &str1, const string &str2, vector<int> &int_vec, PKB PKB);
+    static unordered_map<string, vector<string>> mapping(const string &str1, pql_dto::Entity key, vector<int> &int_vec, PKB PKB);
 };

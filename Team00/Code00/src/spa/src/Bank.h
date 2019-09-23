@@ -20,7 +20,7 @@ public:
     bool empty();
     std::unordered_map<T, std::vector<S>> copy();
     bool check_relationship(T key, S value);
-    
+
 protected:
     std::unordered_map<T, std::vector<S>> bank;
     std::unordered_map<S, std::vector<T>> reverse_bank;

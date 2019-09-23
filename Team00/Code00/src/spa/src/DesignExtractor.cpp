@@ -21,7 +21,7 @@ void DesignExtractor::extract_follows_star(FollowsBank &bank_in, FollowsStarBank
 
 void DesignExtractor::extract_parent_star(ParentBank &bank_in, ParentStarBank &bank_out)
 {
-    
+
     std::vector<int> keys = bank_in.get_all_parent();
     for (int key : keys)
     {

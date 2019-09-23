@@ -72,7 +72,12 @@ public:
     bool insert_parent(int stmt1, int stmt2);
     bool insert_assign(int stmt, string var, string assignment);
     bool insert_type(int stmt, EntityType type);
-
+    /**
+     * Insert constant into PKB.
+     * @param constant
+     * @return true if insert is successful.
+     */
+    bool insert_constant(int constant);
     bool extract_design();
 
     /**
@@ -284,6 +289,7 @@ public:
 
     string assign_to_variable(int assign);
     vector<string> assigns_to_variables(vector<int> assigns);
+    unordered_set<int> get_all_constants();
 
 private:
     FollowsBank follows_bank;
@@ -293,6 +299,7 @@ private:
     AssignBank assign_bank;
     unordered_set<string> varTable;
     unordered_set<string> procTable;
+    unordered_set<int> const_table;
     UsesBank uses_bank;
     ModifiesBank modifies_bank;
     TypeBank type_bank;

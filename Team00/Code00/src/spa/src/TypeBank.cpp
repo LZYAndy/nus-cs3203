@@ -5,19 +5,21 @@ bool TypeBank::insert_type(int stmt, EntityType type)
     // check if valid type
     switch (type)
     {
-        case EntityType::ASSIGN :
-        case EntityType::CALL :
-        case EntityType::IF :
-        case EntityType::PRINT :
-        case EntityType::READ :
-        case EntityType::WHILE : break;
-        default: return false;
+    case EntityType::ASSIGN :
+    case EntityType::CALL :
+    case EntityType::IF :
+    case EntityType::PRINT :
+    case EntityType::READ :
+    case EntityType::WHILE :
+        break;
+    default:
+        return false;
     }
 
     if (bank.find(stmt) != bank.end())
     {
         std::vector<EntityType> &bank_value = bank.at(stmt);
-         // check if value exists already
+        // check if value exists already
         for (EntityType val : bank_value)
         {
             if (type == val)
@@ -37,7 +39,7 @@ bool TypeBank::insert_type(int stmt, EntityType type)
     if (reverse_bank.find(type) != reverse_bank.end())
     {
         std::vector<int> &reverse_bank_value = reverse_bank.at(type);
-         // check if value exists already
+        // check if value exists already
         for (int key : reverse_bank_value)
         {
             if (stmt == key)
