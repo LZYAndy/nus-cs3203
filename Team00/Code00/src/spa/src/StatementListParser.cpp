@@ -1,14 +1,15 @@
+#include "iostream"
 #include "StatementListParser.h"
 
-StatementListParser::StatementListParser(std::string raw, int parent_line_num)
+StatementListParser::StatementListParser(std::string raw, int this_line_num)
 {
-    if (parent_line_num == 0)
+    if (this_line_num == 0)
     {
         next_line_number = 1;
     }
     else
     {
-        next_line_number = parent_line_num + 1;
+        next_line_number = this_line_num;
     }
     raw_stmt_list = raw;
 }
@@ -126,6 +127,8 @@ std::string StatementListParser::parse_while(std::string src)
         StatementListParser loop_parser = StatementListParser(first_blk_raw, next_line_number);
         loop_parser.parse_stmt_list();
         std::vector<Statement> first_block = loop_parser.get_stmt_list();
+        int num_of_stmt_in_loop = first_block.size();
+        next_line_number = next_line_number + num_of_stmt_in_loop;
 
         while_stmt.set_condition(condition);
         while_stmt.set_first_block(first_block);
@@ -278,6 +281,9 @@ std::string StatementListParser::parse_if(std::string src)
         then_parser.parse_stmt_list();
         std::vector<Statement> first_block = then_parser.get_stmt_list();
 
+        int num_of_stmt_in_then = first_block.size();
+        next_line_number = next_line_number + num_of_stmt_in_then;
+
         // Remove "else" and find the else part.
         if (src.substr(0, 4) != "else")
         {
@@ -294,6 +300,9 @@ std::string StatementListParser::parse_if(std::string src)
         StatementListParser else_parser = StatementListParser(second_blk_raw, next_line_number);
         else_parser.parse_stmt_list();
         std::vector<Statement> second_block = else_parser.get_stmt_list();
+
+        int num_of_stmt_in_else = second_block.size();
+        next_line_number = next_line_number + num_of_stmt_in_else;
 
         if_stmt.set_condition(condition);
         if_stmt.set_first_block(first_block);
