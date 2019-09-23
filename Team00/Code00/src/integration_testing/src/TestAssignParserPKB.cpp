@@ -14,6 +14,16 @@ TEST_CASE("AssignParser integration with PKB")
         REQUIRE(result.size() == 3);
         REQUIRE(result == expected);
     }
+    SECTION("insert_constant")
+    {
+        PKB pkb;
+        Statement stmt = Statement(EntityType::ASSIGN, 2, "a = 1 + 20 - 300 / 400 ;");
+        AssignParser (pkb, stmt, "Parent");
+        std::unordered_set<int> result = pkb.get_all_constants();
+        std::unordered_set<int> expected({1, 20, 300, 400});
+        REQUIRE(result.size() == 4);
+        REQUIRE(result == expected);
+    }
     SECTION("insert_modifies (procedure)")
     {
         PKB pkb;
