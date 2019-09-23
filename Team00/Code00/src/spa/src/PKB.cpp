@@ -435,7 +435,9 @@ bool PKB::insert_constant(int constant)
     return result.second;
 }
 
-unordered_set<int> PKB::get_all_constants()
+vector<int> PKB::get_all_constants()
 {
-    return const_table;
+    vector<int> result;
+    result.insert(result.end(), const_table.begin(), const_table.end());
+    return result;
 }
