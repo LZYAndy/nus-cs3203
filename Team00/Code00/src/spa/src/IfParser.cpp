@@ -15,7 +15,7 @@ IfParser::IfParser(PKB &pkb, Statement statement, std::string parent_prog_line)
 
     std::vector<std::string> all_variables = StringUtil::get_all_var(condition);
     int num_of_control_var = all_variables.size();
-    for (int i = 0;i < num_of_control_var;i++)
+    for (int i = 0; i < num_of_control_var; i++)
     {
         pkb.insert_uses(statement.get_prog_line(), all_variables[i]);
     }
@@ -30,13 +30,13 @@ IfParser::IfParser(PKB &pkb, Statement statement, std::string parent_prog_line)
 
     // Update parent relationship for if statement
 
-    for (int i = 0;i < num_of_stmt_then;i++)
+    for (int i = 0; i < num_of_stmt_then; i++)
     {
         Statement this_stmt = then_part[i];
         pkb.insert_parent(statement.get_prog_line(), this_stmt.get_prog_line());
     }
 
-    for (int i = 0;i < num_of_stmt_else;i++)
+    for (int i = 0; i < num_of_stmt_else; i++)
     {
         Statement this_stmt = else_part[i];
         pkb.insert_parent(statement.get_prog_line(), this_stmt.get_prog_line());

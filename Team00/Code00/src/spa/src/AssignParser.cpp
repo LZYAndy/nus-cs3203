@@ -9,7 +9,8 @@ AssignParser::AssignParser(PKB &pkb, Statement statement, std::string parent_pro
         throw std::runtime_error(error_messages::invalid_assign_statement);
     }
 
-    if (statement.get_statement_type() != EntityType::ASSIGN){
+    if (statement.get_statement_type() != EntityType::ASSIGN)
+    {
         throw std::runtime_error(error_messages::invalid_assign_type);
     }
 
@@ -19,7 +20,7 @@ AssignParser::AssignParser(PKB &pkb, Statement statement, std::string parent_pro
 
     // Insert var
     pkb.insert_variable(left);
-    for (const auto& var: all_var)
+    for (const auto &var: all_var)
     {
         pkb.insert_variable(var);
     }

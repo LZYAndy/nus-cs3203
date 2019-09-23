@@ -22,14 +22,15 @@ unordered_set<string> QueryEvaluator::get_result(string query, PKB &PKB)
      * parse the PQL query
      */
     error_msg = PQLParser::pql_parse_query(query, declaration_clause, select_clause,
-            such_that_clause, pattern_clause);
+                                           such_that_clause, pattern_clause);
     if (!error_msg.empty())
     {
         return empty_set;
     }
 
     if (!select_clause.empty())
-    { // has select
+    {
+        // has select
         select_entity = select_clause.front();
         string select_name = select_entity.get_entity_name();
         EntityType select_type = select_entity.get_entity_type();
@@ -47,7 +48,8 @@ unordered_set<string> QueryEvaluator::get_result(string query, PKB &PKB)
     pattern_map = select_map; // initialize pattern_map
 
     if (!such_that_clause.empty())
-    { // has such that
+    {
+        // has such that
         pql_dto::Relationships relation = such_that_clause.front();
         RelationshipType relation_type = relation.get_relationship();
         pql_dto::Entity first_param = relation.get_first_param();
@@ -156,7 +158,8 @@ unordered_set<string> QueryEvaluator::get_result(string query, PKB &PKB)
     }
 
     if (!pattern_clause.empty())
-    { // has pattern
+    {
+        // has pattern
         pql_dto::Pattern pattern = pattern_clause.front();
         EntityType pattern_type = pattern.get_pattern_entity().get_entity_type();
         pql_dto::Entity first_param = pattern.get_first_param();
@@ -184,7 +187,7 @@ unordered_set<string> QueryEvaluator::merge(pql_dto::Entity select_entity,
     if (!common_synonyms.empty())
     {
         final_list = QueryEvaluator::get_final_list(such_that_map, pattern_map, common_synonyms);
-        for (const auto& iter : final_list)
+        for (const auto &iter : final_list)
         {
             string name = iter.first;
             unordered_set<string> str_set = iter.second;
@@ -200,7 +203,7 @@ unordered_set<string> QueryEvaluator::merge(pql_dto::Entity select_entity,
             }
         }
         vector<string> result_vec = select_map.at(select_name);
-        for (const auto& iter : result_vec)
+        for (const auto &iter : result_vec)
         {
             result.insert(iter);
         }
@@ -224,7 +227,7 @@ unordered_set<string> QueryEvaluator::merge(pql_dto::Entity select_entity,
             else
             {
                 vector<string> result_vec = select_map.at(select_name);
-                for (const auto& iter : result_vec)
+                for (const auto &iter : result_vec)
                 {
                     result.insert(iter);
                 }
@@ -234,15 +237,16 @@ unordered_set<string> QueryEvaluator::merge(pql_dto::Entity select_entity,
     return result;
 }
 
-unordered_set<string> QueryEvaluator::get_common_synonyms(const unordered_map<string, vector<string>>& map_1,
+unordered_set<string> QueryEvaluator::get_common_synonyms(const unordered_map<string, vector<string>> &map_1,
         unordered_map<string, vector<string>> map_2)
 {
     unordered_set<string> result;
-    for (const auto& iter : map_1)
+    for (const auto &iter : map_1)
     {
         string synonym_name = iter.first;
         if (map_2.find(synonym_name) == map_2.end())
-        { // does not present
+        {
+            // does not present
             continue;
         }
         else
@@ -261,15 +265,15 @@ unordered_map<string, unordered_set<string>> QueryEvaluator::get_final_list(unor
     copy(common_part.begin(), common_part.end(), common_synonyms.begin());
     vector<pair<int, int>> position;
     int i = 0;
-    for (const auto& element_1 : map_1.at(common_synonyms[0]))
+    for (const auto &element_1 : map_1.at(common_synonyms[0]))
     {
         int j = 0;
         bool is_same = true;
-        for (const auto& element_2 : map_2.at(common_synonyms[0]))
+        for (const auto &element_2 : map_2.at(common_synonyms[0]))
         {
             if (element_1 == element_2)
             {
-                for (const auto& synonym : common_synonyms)
+                for (const auto &synonym : common_synonyms)
                 {
                     if (map_1.at(synonym).at(i) != map_2.at(synonym).at(j))
                     {
@@ -287,7 +291,7 @@ unordered_map<string, unordered_set<string>> QueryEvaluator::get_final_list(unor
         }
         i++;
     }
-    for (const auto& iter : map_1)
+    for (const auto &iter : map_1)
     {
         string synonym_name = iter.first;
         vector<string> list_1 = iter.second;
@@ -299,11 +303,12 @@ unordered_map<string, unordered_set<string>> QueryEvaluator::get_final_list(unor
         }
         result[synonym_name] = key_value;
     }
-    for (const auto& iter : map_2)
+    for (const auto &iter : map_2)
     {
         string synonym_name = iter.first;
         if (result.find(synonym_name) != result.end())
-        { // presented
+        {
+            // presented
             continue;
         }
         vector<string> list_2 = iter.second;
@@ -318,10 +323,10 @@ unordered_map<string, unordered_set<string>> QueryEvaluator::get_final_list(unor
     return result;
 }
 
-unordered_set<string> QueryEvaluator::get_common_part(const vector<string>& str_vec_1, vector<string> str_vec_2)
+unordered_set<string> QueryEvaluator::get_common_part(const vector<string> &str_vec_1, vector<string> str_vec_2)
 {
     unordered_set<string> result;
-    for (const auto& iter : str_vec_1)
+    for (const auto &iter : str_vec_1)
     {
         if (count(str_vec_2.begin(), str_vec_2.end(), iter))
         {

@@ -359,7 +359,7 @@ int StatementListParser::find_semicolon(std::string src)
     }
 }
 
-bool StatementListParser::is_beginning_with(std::string src, const std::string& match_char)
+bool StatementListParser::is_beginning_with(std::string src, const std::string &match_char)
 {
     src = StringUtil::trim_left(src);
     std::string this_char = src.substr(0, 1);

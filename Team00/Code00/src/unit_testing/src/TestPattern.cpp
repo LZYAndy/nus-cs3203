@@ -11,7 +11,7 @@ TEST_CASE("Pattern can store and retrieve correct entity types.")
         pql_dto::Entity first_param_entity = pql_dto::Entity("variable", "x", false);
         pql_dto::Entity second_param_entity = pql_dto::Entity("matchexpr", "y+z", false);
         pql_dto::Pattern pattern = pql_dto::Pattern(pattern_entity, first_param_entity,
-            second_param_entity);
+                                   second_param_entity);
 
         pql_dto::Entity entity = pattern.get_pattern_entity();
         pql_dto::Entity first_param = pattern.get_first_param();
@@ -28,7 +28,7 @@ TEST_CASE("Pattern can store and retrieve correct entity types.")
         pql_dto::Entity first_param_entity = pql_dto::Entity("any", "_", false);
         pql_dto::Entity second_param_entity = pql_dto::Entity("any", "_", false);
         REQUIRE_NOTHROW(pql_dto::Pattern(pattern_entity, first_param_entity,
-            second_param_entity));
+                                         second_param_entity));
     }
 
     SECTION("Pattern with any first param.", "Pattern a(_,\"x\")")
@@ -37,7 +37,7 @@ TEST_CASE("Pattern can store and retrieve correct entity types.")
         pql_dto::Entity first_param_entity = pql_dto::Entity("any", "_", false);
         pql_dto::Entity second_param_entity = pql_dto::Entity("matchexpr", "x", false);
         REQUIRE_NOTHROW(pql_dto::Pattern(pattern_entity, first_param_entity,
-            second_param_entity));
+                                         second_param_entity));
     }
 
     SECTION("Pattern with _ expr _ in second param.", "Pattern a(_,_\"x+y\"_)")
@@ -46,7 +46,7 @@ TEST_CASE("Pattern can store and retrieve correct entity types.")
         pql_dto::Entity first_param_entity = pql_dto::Entity("any", "_", false);
         pql_dto::Entity second_param_entity = pql_dto::Entity("pattexpr", "_\"x+y\"_", false);
         REQUIRE_NOTHROW(pql_dto::Pattern(pattern_entity, first_param_entity,
-            second_param_entity));
+                                         second_param_entity));
     }
 }
 
@@ -58,7 +58,7 @@ TEST_CASE("Pattern throws error for incorrect entity types.")
         pql_dto::Entity first_param_entity = pql_dto::Entity("matchexpr", "x+y", false);
         pql_dto::Entity second_param_entity = pql_dto::Entity("any", "_", false);
         REQUIRE_THROWS_WITH(pql_dto::Pattern(pattern_entity, first_param_entity,
-            second_param_entity), error_messages::invalid_pattern_first_param);
+                                             second_param_entity), error_messages::invalid_pattern_first_param);
     }
 
     SECTION("Pattern with wrong pattern entity.", "Pattern s(_,_)")
@@ -67,7 +67,7 @@ TEST_CASE("Pattern throws error for incorrect entity types.")
         pql_dto::Entity first_param_entity = pql_dto::Entity("any", "_", false);
         pql_dto::Entity second_param_entity = pql_dto::Entity("any", "_", false);
         REQUIRE_THROWS_WITH(pql_dto::Pattern(pattern_entity, first_param_entity,
-            second_param_entity), error_messages::invalid_pattern_entity);
+                                             second_param_entity), error_messages::invalid_pattern_entity);
     }
 
     SECTION("Pattern with second param as a declared constant.", "Pattern a(\"x\",c)")
@@ -76,7 +76,7 @@ TEST_CASE("Pattern throws error for incorrect entity types.")
         pql_dto::Entity first_param_entity = pql_dto::Entity("variable", "x", false);
         pql_dto::Entity second_param_entity = pql_dto::Entity("constant", "c", true);
         REQUIRE_THROWS_WITH(pql_dto::Pattern(pattern_entity, first_param_entity,
-            second_param_entity), error_messages::invalid_pattern_second_param);
+                                             second_param_entity), error_messages::invalid_pattern_second_param);
     }
 
     SECTION("Pattern with second param as a declared variable.", "Pattern a(\"x\",v)")
@@ -85,6 +85,6 @@ TEST_CASE("Pattern throws error for incorrect entity types.")
         pql_dto::Entity first_param_entity = pql_dto::Entity("variable", "x", false);
         pql_dto::Entity second_param_entity = pql_dto::Entity("variable", "v", true);
         REQUIRE_THROWS_WITH(pql_dto::Pattern(pattern_entity, first_param_entity,
-            second_param_entity), error_messages::invalid_pattern_second_param);
+                                             second_param_entity), error_messages::invalid_pattern_second_param);
     }
 }

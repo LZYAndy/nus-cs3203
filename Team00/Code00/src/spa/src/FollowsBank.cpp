@@ -1,7 +1,7 @@
 #include "FollowsBank.h"
 bool FollowsBank::is_follows(int stmt1, int stmt2)
 {
-   return follows_bank.check_relationship(stmt1, stmt2);
+    return follows_bank.check_relationship(stmt1, stmt2);
 }
 
 bool FollowsBank::insert_follows(int stmt1, int stmt2)
