@@ -289,7 +289,11 @@ public:
 
     string assign_to_variable(int assign);
     vector<string> assigns_to_variables(vector<int> assigns);
-    unordered_set<int> get_all_constants();
+    /**
+     * Get all constants in PKB.
+     * @return vector of constants
+     */
+    vector<int> get_all_constants();
 
 private:
     FollowsBank follows_bank;

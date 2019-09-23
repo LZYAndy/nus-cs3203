@@ -2178,7 +2178,7 @@ TEST_CASE("PKB::get_all_constants()")
         pkb.insert_constant(1);
         pkb.insert_constant(1);
         REQUIRE(pkb.get_all_constants().size() == 1);
-        REQUIRE(pkb.get_all_constants().count(1) == 1);
+        REQUIRE(pkb.get_all_constants()[0] == 1);
     }
 
     SECTION("return >1")
@@ -2186,9 +2186,11 @@ TEST_CASE("PKB::get_all_constants()")
         pkb.insert_constant(1);
         pkb.insert_constant(2);
         pkb.insert_constant(3);
-        REQUIRE(pkb.get_all_constants().size() == 3);
-        REQUIRE(pkb.get_all_constants().count(1) == 1);
-        REQUIRE(pkb.get_all_constants().count(2) == 1);
-        REQUIRE(pkb.get_all_constants().count(3) == 1);
+        std::vector<int> result = pkb.get_all_constants();
+        std::vector<int> expected({1, 2, 3});
+        std::sort(result.begin(), result.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(result.size() == 3);
+        REQUIRE(result == expected);
     }
 }
