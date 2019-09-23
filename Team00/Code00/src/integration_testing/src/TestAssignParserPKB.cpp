@@ -21,6 +21,8 @@ TEST_CASE("AssignParser integration with PKB")
         AssignParser (pkb, stmt, "Parent");
         std::vector<int> result = pkb.get_all_constants();
         std::vector<int> expected({400, 300, 20, 1});
+        sort(result.begin(), result.end());
+        sort(expected.begin(), expected.end());
         REQUIRE(result.size() == 4);
         REQUIRE(result == expected);
     }
