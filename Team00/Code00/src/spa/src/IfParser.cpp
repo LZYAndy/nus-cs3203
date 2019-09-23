@@ -10,7 +10,14 @@ IfParser::IfParser(PKB &pkb, Statement statement, std::string parent_prog_line)
 
     if (!CheckerUtil::is_condition_valid(condition))
     {
-        throw "Invalid if statement";
+        throw std::runtime_error(error_messages::invalid_if_statement);
+    }
+
+    // Insert const
+    std::vector<std::string> all_const = StringUtil::get_all_const(condition);
+    for (const std::string& spa_constant : all_const)
+    {
+        pkb.insert_constant(stoi(spa_constant));
     }
 
     std::vector<std::string> all_variables = StringUtil::get_all_var(condition);

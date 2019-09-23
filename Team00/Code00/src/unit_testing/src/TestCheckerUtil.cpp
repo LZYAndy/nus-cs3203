@@ -51,6 +51,7 @@ TEST_CASE("CheckerUtil is_expr_valid")
     REQUIRE(CheckerUtil::is_expr_valid(" a % b ")); // Var % var
     REQUIRE(CheckerUtil::is_expr_valid(" a % 1 ")); // Var % const
     REQUIRE(CheckerUtil::is_expr_valid(" a + ((( a -   b ) * 5 )   ) / (c %  d ) "));
+    REQUIRE(CheckerUtil::is_expr_valid(" if + while - procedure * print / read % call"));
 }
 
 TEST_CASE("CheckerUtil is_condition_valid")
@@ -89,4 +90,5 @@ TEST_CASE("CheckerUtil is_condition_valid")
     REQUIRE(CheckerUtil::is_condition_valid(" ! ( a == ( a +3 )    ) ")); // Not outside of comparing var with expression
     REQUIRE(CheckerUtil::is_condition_valid(" ! ( a <    b12 ) || ((c >= d) && !  (e ==   f )    )"));
     REQUIRE(CheckerUtil::is_condition_valid(" ( a >= (b + c )) && (c > d)"));
+    REQUIRE(CheckerUtil::is_condition_valid(" ( if >= (while)) && (c > d) || ((procedure * print) != (read % call))"));
 }

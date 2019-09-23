@@ -25,6 +25,13 @@ AssignParser::AssignParser(PKB &pkb, Statement statement, std::string parent_pro
         pkb.insert_variable(var);
     }
 
+    // Insert const
+    std::vector<std::string> all_const = StringUtil::get_all_const(statement.get_statement());
+    for (const std::string& spa_constant : all_const)
+    {
+        pkb.insert_constant(stoi(spa_constant));
+    }
+
     // Insert modifies
     pkb.insert_modifies(statement.get_prog_line(), left);
     if (CheckerUtil::is_name_valid(parent_prog_line))
