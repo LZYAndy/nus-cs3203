@@ -28,41 +28,41 @@ enum class EntityType
 
 namespace pql_dto
 {
-    class Entity
-    {
-    private:
-        EntityType entity_type = EntityType::ANY;
-        std::string entity_name;
+class Entity
+{
+private:
+    EntityType entity_type = EntityType::ANY;
+    std::string entity_name;
 
-        bool is_declared_entity = false;
+    bool is_declared_entity = false;
 
-    public:
-        Entity();
+public:
+    Entity();
 
-        // Constructor for Entity. Throws an exception if not properly initialised.
-        Entity(std::string entity_type, std::string entity_name, bool is_declared);
+    // Constructor for Entity. Throws an exception if not properly initialised.
+    Entity(std::string entity_type, std::string entity_name, bool is_declared);
 
-        // Returns the Entity Type.
-        EntityType get_entity_type();
+    // Returns the Entity Type.
+    EntityType get_entity_type();
 
-        // Returns the Entity Name.
-        std::string get_entity_name();
+    // Returns the Entity Name.
+    std::string get_entity_name();
 
-        // Returns true if entity is declared in Query.
-        // Default value is false.
-        bool is_entity_declared();
+    // Returns true if entity is declared in Query.
+    // Default value is false.
+    bool is_entity_declared();
 
-        // Sets and validates the entity type of the Entity Object.
-        void set_entity_type(std::string type);
+    // Sets and validates the entity type of the Entity Object.
+    void set_entity_type(std::string type);
 
-        // Sets and validates the entity name of the Entity Object.
-        void set_entity_name(std::string name);
+    // Sets and validates the entity name of the Entity Object.
+    void set_entity_name(std::string name);
 
-        // Sets the @param is_declared_entity value to true if Entity is declared.
-        void set_is_declared(bool is_declared);
+    // Sets the @param is_declared_entity value to true if Entity is declared.
+    void set_is_declared(bool is_declared);
 
-        bool equals(Entity entity);
-    };
+    bool equals(Entity entity);
+};
 }
 
 #endif

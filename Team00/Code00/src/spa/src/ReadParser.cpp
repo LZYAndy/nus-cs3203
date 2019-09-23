@@ -9,7 +9,8 @@ ReadParser::ReadParser(PKB &pkb, Statement statement, std::string parent_prog_li
         throw error_messages::invalid_read_statement;
     }
 
-    if (statement.get_statement_type() != EntityType::READ){
+    if (statement.get_statement_type() != EntityType::READ)
+    {
         throw error_messages::invalid_read_type;
     }
 

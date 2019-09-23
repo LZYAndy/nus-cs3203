@@ -87,7 +87,7 @@ TEST_CASE("FollowsBank::get_all_follows()")
 TEST_CASE("FollowsBank::get_all_followed()")
 {
     FollowsBank follows_bank;
-    
+
     SECTION("empty")
     {
         REQUIRE(follows_bank.get_all_followed().empty());
