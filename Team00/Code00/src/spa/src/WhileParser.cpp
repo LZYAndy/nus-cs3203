@@ -7,7 +7,14 @@ WhileParser::WhileParser(PKB &pkb, Statement statement, std::string parent_prog_
 
     if (!CheckerUtil::is_condition_valid(condition))
     {
-        throw "Invalid while statement";
+        throw std::runtime_error(error_messages::invalid_while_statement);
+    }
+
+    // Insert const
+    std::vector<std::string> all_const = StringUtil::get_all_const(condition);
+    for (const std::string& spa_constant : all_const)
+    {
+        pkb.insert_constant(stoi(spa_constant));
     }
 
     std::vector<std::string> all_variables = StringUtil::get_all_var(condition);
