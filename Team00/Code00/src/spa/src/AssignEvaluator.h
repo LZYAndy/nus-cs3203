@@ -15,6 +15,6 @@
 class AssignEvaluator
 {
 public:
-    static unordered_map<string, vector<string>> evaluate(pql_dto::Pattern pattern,
-            pql_dto::Entity first_param, pql_dto::Entity second_param, PKB PKB);
+    static unordered_map<string, vector<string>> evaluate(pql_dto::Pattern &pattern,
+        pql_dto::Entity &first_param, pql_dto::Entity &second_param, PKB &PKB);
 };
