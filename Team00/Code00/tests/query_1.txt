@@ -124,7 +124,7 @@ Select r such that Follows*(r, s)
 3, 5
 5000
 26 - Parent with 2 wildcards
-const c;
+constant c;
 Select c such that Parent(_,_)
 0, 1, 7, 4
 5000
@@ -164,12 +164,12 @@ Select proc such that Parent*(_,_)
 computeSeq
 5000
 34 - Parent* with LHS wildcard
-const c;
+constant c;
 Select c such that Parent*(_, 10)
 0, 1, 4, 7
 5000
 35 - Parent* with RHS wildcard
-const c;
+constant c;
 Select c such that Parent*(7, _)
 0, 1, 4, 7
 5000
