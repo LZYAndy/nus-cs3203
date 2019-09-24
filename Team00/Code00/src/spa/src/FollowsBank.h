@@ -17,7 +17,7 @@ public:
     bool is_follows(int stmt1, int stmt2);
 
     /**
-     * Insert Follows relationship to PKB.
+     * Insert Follows relationship into FollowsBank.
      * @param stmt1 stmt# of statement followed.
      * @param stmt2 stmt# of statement follows.
      * @return true if the insert process is successful.
@@ -25,14 +25,14 @@ public:
     bool insert_follows(int stmt1, int stmt2);
 
     /**
-     * Check if there exist at least one Follows relationship stored in PKB.
-     * @return true if there is at least one Follows relationship stored in PKB.
+     * Check if there exist at least one Follows relationship stored in FollowsBank.
+     * @return true if there is at least one Follows relationship store in FollowsBank.
      */
     bool does_follows_exists();
 
     /**
      * Get all Follows relationship that exists in FollowsBank.
-     * @return unordered_map containing all Follows relationship that exists in PKB with 
+     * @return unordered_map containing all Follows relationship that exists in FollowsBank with 
      * the Follows as key and all Followed stored in a vector as value.
      */
     std::unordered_map<int, std::vector<int>> get_all_follows_relationship();
