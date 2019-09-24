@@ -14,7 +14,7 @@ PrintParser::PrintParser(PKB &pkb, Statement statement, std::string parent_prog_
         throw error_messages::invalid_print_type;
     }
 
-    std::string print_var = get_var(statement.get_statement());
+    std::string print_var = StringUtil::trim(get_var(statement.get_statement()), " \n\t\r\f\v");
 
     //Insert var
     pkb.insert_variable(print_var);
