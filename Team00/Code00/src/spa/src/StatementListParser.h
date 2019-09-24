@@ -42,6 +42,8 @@ public:
     // This method is to parse assign statement, and returns the remaining statements.
     std::string parse_assign(std::string src);
 
+    int get_last_num(std::vector<Statement> stmts);
+
     // This method is to parse brackets, and returns the index of the ending bracket + 1.
     static int parse_bracket(std::string src, std::string opening, std::string closing);
 
@@ -50,7 +52,7 @@ public:
     static int find_semicolon(std::string src);
 
     // Check the first non-space character is the given character or not.
-    static bool is_beginning_with(std::string src, const std::string& match_char);
+    static bool is_beginning_with(std::string src, const std::string &match_char);
 };
 
 

@@ -24,7 +24,7 @@ int Parser::parse(std::string simple)
 
     int num_of_proc = list_of_proc.size();
 
-    for (int i = 0;i < num_of_proc;i++)
+    for (int i = 0; i < num_of_proc; i++)
     {
         Procedure this_procedure = list_of_proc[i];
         StatementListParser statementListParser = StatementListParser(this_procedure.get_body(), 0);
@@ -34,5 +34,7 @@ int Parser::parse(std::string simple)
         parserInvoker.invoke_parser();
     }
 
-	return 0;
+    this->pkb->extract_design();
+
+    return 0;
 }

@@ -258,9 +258,9 @@ TEST_CASE("One such that clause: Modifies")
 
     SECTION("Modifies(14, \"x\")")
     {
-    string pql_query = "call cl; Select cl such that Modifies(14, \"cenX\")";
-    unordered_set<string> expected_result {"2", "3", "13", "18"};
-    REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+        string pql_query = "call cl; Select cl such that Modifies(14, \"cenX\")";
+        unordered_set<string> expected_result {"2", "3", "13", "18"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 }
 
@@ -281,7 +281,8 @@ TEST_CASE("One such that clause: Uses")
     }
 
     SECTION("Uses(p, v)")
-    { // since no call implemented yet, so just regard procedure main first
+    {
+        // since no call implemented yet, so just regard procedure main first
         string pql_query = "procedure p; variable v; Select p such that Uses(p, v)";
         unordered_set<string> expected_result {"printResults", "computeCentroid"};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);

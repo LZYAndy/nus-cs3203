@@ -6,7 +6,7 @@ std::regex valid_const("^\\d+$");
 //(_word_)  (_[+-*/%]_(_word_))*  <- Do not remove the space.
 std::regex valid_expr("^([\\(\\s]*(\\w*)[\\s\\)]*)(\\s*[+\\-*\\/%]\\s*([\\(\\s]*(\\w+)[\\s\\)]*))*$");
 std::regex valid_cond(
-        "^\\s*[\\(\\s!]*([a-zA-Z][a-zA-Z0-9]*|[\\d]+)[\\s\\)]*(([+\\-*/%><]|[><=!]=)[\\s]*[\\(\\s!]*([a-zA-Z][a-zA-Z0-9]*|[\\d]+)[\\s\\)]*)+$");
+    "^\\s*[\\(\\s!]*([a-zA-Z][a-zA-Z0-9]*|[\\d]+)[\\s\\)]*(([+\\-*/%><]|[><=!]=)[\\s]*[\\(\\s!]*([a-zA-Z][a-zA-Z0-9]*|[\\d]+)[\\s\\)]*)+$");
 
 bool CheckerUtil::is_name_valid(std::string stmt)
 {
@@ -52,10 +52,31 @@ bool CheckerUtil::is_condition_valid(std::string stmt)
         return false;
     }
 
+    // Check if statement ends or starts with || or &&
+    if (std::regex_match(stmt, std::regex ("^\\s*[&|]+.*$")) || std::regex_match(stmt, std::regex ("^.*[&|]+\\s*$")))
+    {
+        return false;
+    }
+
     std::vector<std::string> sections;
     size_t prev = 0, pos;
-    while ((pos = stmt.find_first_of("&|", prev))!=std::string::npos)
+    bool second_symbol = false;
+    while ((pos = stmt.find_first_of("&|", prev)) != std::string::npos)
     {
+        // Check if && and || is in pairs legitimacy of || &&
+        if ((stmt[pos] == '&' || stmt[pos] == '|') && !second_symbol)
+        {
+            second_symbol = true;
+            if (stmt[pos] != stmt[pos + 1])
+            {
+                return false;
+            }
+        }
+        else
+        {
+            second_symbol = false;
+        }
+
         if (pos>prev)
         {
             sections.push_back(stmt.substr(prev, pos-prev));
@@ -69,9 +90,10 @@ bool CheckerUtil::is_condition_valid(std::string stmt)
     }
 
     // Check condition
-    for (const auto& section: sections)
+    for (const auto &section: sections)
     {
-        if (sections.size() > 1){
+        if (sections.size() > 1)
+        {
             std::regex bracket_check("^[\\s!]*\\(.*\\)[\\s]*$");
             if (!std::regex_match(section, bracket_check))
             {
@@ -80,7 +102,8 @@ bool CheckerUtil::is_condition_valid(std::string stmt)
         }
 
         // No operators. Should be comparator.
-        if (std::regex_match(section, valid_expr)){
+        if (std::regex_match(section, valid_expr))
+        {
             return false;
         }
 

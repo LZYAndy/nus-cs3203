@@ -14,7 +14,7 @@ void ParserInvoker::invoke_parser()
 
     int last_stmt_num = 0;
 
-    for (int i = 0;i < leng;i++)
+    for (int i = 0; i < leng; i++)
     {
         Statement this_statement = list_of_statement[i];
         pkb->insert_type(this_statement.get_prog_line(), this_statement.get_statement_type());

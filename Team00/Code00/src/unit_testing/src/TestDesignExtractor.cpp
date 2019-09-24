@@ -6,7 +6,7 @@
 TEST_CASE("DesignExtractor::extract_follows_star()")
 {
     SECTION("extract empty FollowsBank")
-    {    
+    {
         FollowsBank follows_bank;
         FollowsStarBank follows_star_bank;
         REQUIRE_FALSE(follows_bank.does_follows_exists());
@@ -15,7 +15,7 @@ TEST_CASE("DesignExtractor::extract_follows_star()")
     }
 
     SECTION("extract 1 stmt FollowsBank")
-    {    
+    {
         FollowsBank follows_bank;
         FollowsStarBank follows_star_bank;
         follows_bank.insert_follows(1, 2);
@@ -27,7 +27,7 @@ TEST_CASE("DesignExtractor::extract_follows_star()")
     }
 
     SECTION("extract >1 stmt FollowsBank")
-    {    
+    {
         FollowsBank follows_bank;
         FollowsStarBank follows_star_bank;
         follows_bank.insert_follows(1, 2);
@@ -48,7 +48,7 @@ TEST_CASE("DesignExtractor::extract_follows_star()")
 TEST_CASE("DesignExtractor::extract_parent_star()")
 {
     SECTION("extract empty FollowsBank")
-    {    
+    {
         ParentBank parent_bank;
         ParentStarBank parent_star_bank;
         REQUIRE_FALSE(parent_bank.does_parent_exist());
@@ -57,7 +57,7 @@ TEST_CASE("DesignExtractor::extract_parent_star()")
     }
 
     SECTION("extract 1 stmt FollowsBank")
-    {    
+    {
         ParentBank parent_bank;
         ParentStarBank parent_star_bank;
         parent_bank.insert_parent(1, 2);
@@ -69,7 +69,7 @@ TEST_CASE("DesignExtractor::extract_parent_star()")
     }
 
     SECTION("extract >1 stmt ParentBank 3-level depth")
-    {    
+    {
         ParentBank parent_bank;
         ParentStarBank parent_star_bank;
         parent_bank.insert_parent(1, 2);
@@ -92,8 +92,8 @@ TEST_CASE("DesignExtractor::extract_parent_star()")
         REQUIRE(result_child == expected_child);
     }
 
-        SECTION("extract >1 stmt ParentBank 4-level depth")
-    {    
+    SECTION("extract >1 stmt ParentBank 4-level depth")
+    {
         ParentBank parent_bank;
         ParentStarBank parent_star_bank;
         parent_bank.insert_parent(1, 2);
