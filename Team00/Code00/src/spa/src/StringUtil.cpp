@@ -56,19 +56,14 @@ std::string StringUtil::replace_all_white_spaces(std::string &s)
 
 std::string StringUtil::trim_left(std::string &s)
 {
-    while (true)
+    int strStart = s.find_first_not_of(" \n\t\r\f\v");
+
+    if (strStart == std::string::npos)
     {
-        std::string this_pos = s.substr(0,1);
-        if (this_pos.compare(" ") == 0)
-        {
-            s = s.substr(1);
-            continue;
-        }
-        else
-        {
-            return s;
-        }
+        return "";
     }
+
+    return s.substr(strStart);
 }
 
 std::vector<std::string> StringUtil::get_all_var(std::string statement)

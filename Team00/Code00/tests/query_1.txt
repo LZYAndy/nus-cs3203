@@ -245,7 +245,7 @@ Select a pattern a(_, "first")
 5000
 50 - Assign Pattern with LHS wildcard, RHS partial match
 assign a;
-Select a pattern a(_, "_first_")
+Select a pattern a(_, _"first"_)
 9, 10
 5000
 51 - Assign Pattern with LHS syn, RHS exact match
@@ -255,7 +255,7 @@ first
 5000
 52 - Assign Pattern with LHS syn, RHS partial match
 assign a; variable v;
-Select v pattern a(v, "_1_")
+Select v pattern a(v, _"1"_)
 first
 5000
 53 - Assign Pattern with LHS IDENT, RHS exact match
@@ -265,7 +265,7 @@ Select ifs pattern a("d", "7")
 5000
 54 - Assign Pattern with LHS IDENT, RHS partial match
 assign a; while w;
-Select w pattern a("d", "_7_")
+Select w pattern a("d", _"7"_)
 8
 5000
 55 - Assign Pattern with LHS IDENT, RHS exact match + Follows with 2 syn
