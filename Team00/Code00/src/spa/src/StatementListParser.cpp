@@ -127,8 +127,8 @@ std::string StatementListParser::parse_while(std::string src)
         StatementListParser loop_parser = StatementListParser(first_blk_raw, next_line_number);
         loop_parser.parse_stmt_list();
         std::vector<Statement> first_block = loop_parser.get_stmt_list();
-        int num_of_stmt_in_loop = first_block.size();
-        next_line_number = next_line_number + num_of_stmt_in_loop;
+        int last_stmt_in_loop = get_last_num(first_block);
+        next_line_number = last_stmt_in_loop + 1;
 
         while_stmt.set_condition(condition);
         while_stmt.set_first_block(first_block);
@@ -281,8 +281,8 @@ std::string StatementListParser::parse_if(std::string src)
         then_parser.parse_stmt_list();
         std::vector<Statement> first_block = then_parser.get_stmt_list();
 
-        int num_of_stmt_in_then = first_block.size();
-        next_line_number = next_line_number + num_of_stmt_in_then;
+        int last_stmt_in_then = get_last_num(first_block);
+        next_line_number = last_stmt_in_then + 1;
 
         // Remove "else" and find the else part.
         if (src.substr(0, 4) != "else")
@@ -301,8 +301,8 @@ std::string StatementListParser::parse_if(std::string src)
         else_parser.parse_stmt_list();
         std::vector<Statement> second_block = else_parser.get_stmt_list();
 
-        int num_of_stmt_in_else = second_block.size();
-        next_line_number = next_line_number + num_of_stmt_in_else;
+        int last_stmt_in_else = get_last_num(second_block);
+        next_line_number = last_stmt_in_else + 1;
 
         if_stmt.set_condition(condition);
         if_stmt.set_first_block(first_block);
@@ -364,4 +364,19 @@ bool StatementListParser::is_beginning_with(std::string src, const std::string &
     src = StringUtil::trim_left(src);
     std::string this_char = src.substr(0, 1);
     return this_char == match_char;
+}
+
+int StatementListParser::get_last_num(std::vector<Statement> stmts)
+{
+    int length = stmts.size();
+    Statement last_stmt = stmts.at(length - 1);
+    if (last_stmt.get_statement_type() == EntityType::WHILE)
+    {
+        return get_last_num(last_stmt.get_first_block());
+    }
+    else if (last_stmt.get_statement_type() == EntityType::IF)
+    {
+        return get_last_num(last_stmt.get_second_block());
+    }
+    return last_stmt.get_prog_line();
 }
