@@ -136,7 +136,7 @@ Select ifs such that Parent(_,12)
 28 - Parent* with RHS wildcard
 assign a;
 Select a such that Parent(7,_)
-1, 2, 4, 6, 9, 10, 11, 13
+1, 2, 4, 6, 9, 10, 11, 13, 12
 5000
 29 - Parent* with LHS wildcard, RHS syn
 assign a;
