@@ -26,7 +26,7 @@ Select ifs
 6 - assign no clause
 assign a;
 Select a
-1, 2, 4, 6, 9, 10, 11, 13
+1, 2, 4, 6, 9, 10, 11, 12, 13
 5000
 7 - constant no clause
 constant c;
@@ -50,7 +50,7 @@ Select p such that Follows(_, _)
 5000
 11 - Follows with LHS wildcard
 assign a;
-Select a such that Follows(_, 6)
+Select a such that Follows(_, 8)
 
 5000
 12 - Follows with RHS wildcard 
@@ -265,7 +265,7 @@ Select ifs pattern a("d", "7")
 5000
 54 - Assign Pattern with LHS IDENT, RHS partial match
 assign a; while w;
-Select while pattern a("d", "_7_")
+Select w pattern a("d", "_7_")
 8
 5000
 55 - Assign Pattern with LHS IDENT, RHS exact match + Follows with 2 syn
@@ -329,32 +329,32 @@ Select ifs such that Modifies(ifs, v) pattern a(v, "p")
 7
 5000
 67 - Follows with 2 INT
-
-Select BOOLEAN such that Follows(1,2)
-true
+if ifs;
+Select ifs such that Follows(1,2)
+7
 5000
 68 - Follows* with 2 INT
-
-Select BOOLEAN such that Follows*(1,13)
-false
+if ifs;
+Select ifs such that Follows*(1,13)
+7
 5000
 69 - Parent with 2 INT
-
-Select BOOLEAN such that Parent(7, 13)
-true
+if ifs;
+Select ifs such that Parent(7, 13)
+7
 5000
 70 - Parent* with 2 INT
-
-Select BOOLEAN such that Parent*(7, 12)
-true
+if ifs;
+Select ifs such that Parent*(7, 12)
+7
 5000
 71 - Uses with LHS stmt#, RHS IDENT
-
-Select BOOLEAN such that Uses(14, "x")
-true
+if ifs;
+Select ifs such that Uses(14, "x")
+7
 5000
 72 - Modifies with LHS stmt#, RHS IDENT
-
-Select BOOLEAN such that Modifies(7, "count")
-true
+if ifs;
+Select ifs such that Modifies(7, "count")
+7
 5000
