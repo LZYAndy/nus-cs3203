@@ -21,6 +21,13 @@ TEST_CASE("No such that or pattern clauses")
         unordered_set<string> expected_result {"1", "10", "11", "12", "15", "16", "17", "20", "21", "22", "23", "28", "29", "30", "31", "32"};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
+
+    SECTION("constant")
+    {
+        string pql_query = "constant c; Select c";
+        unordered_set<string> expected_result {"0", "1", "2", "3"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
 }
 
 TEST_CASE("One such that clause: Follows and Follows*")

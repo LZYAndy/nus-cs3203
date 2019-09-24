@@ -66,6 +66,10 @@ vector<string> QueryUtility::get_certain_type_int_list(EntityType &type, PKB &PK
 {
     vector<int> type_list;
     vector<string> result;
+    if (type == EntityType::CONSTANT)
+    {
+        type_list = PKB.get_all_constants();
+    }
     if (type == EntityType::ASSIGN)
     {
         type_list = PKB.get_all_assigns();
