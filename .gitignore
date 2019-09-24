@@ -3,7 +3,7 @@
 build_win/
 build/
 .vscode/
-
+*.orig
 # Created by https://www.gitignore.io/api/clion,macos,windows,visualstudio
 # Edit at https://www.gitignore.io/?templates=clion,macos,windows,visualstudio
 

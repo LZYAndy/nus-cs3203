@@ -6,7 +6,7 @@ TEST_CASE("ParentStarBank::is_parent_star")
     ParentStarBank parent_star_bank;
     parent_star_bank.insert_parent_star(1, 2);
     parent_star_bank.insert_parent_star(1, 3);
-    
+
     SECTION("is_parent_star true")
     {
         REQUIRE(parent_star_bank.is_parent_star(1, 2));
@@ -28,24 +28,25 @@ TEST_CASE("ParentStarBank::get_parent_star()")
     parent_star_bank.insert_parent_star(1, 2);
     parent_star_bank.insert_parent_star(2, 3);
     parent_star_bank.insert_parent_star(2, 4);
+    parent_star_bank.insert_parent_star(1, 4);
 
     SECTION("empty")
     {
         REQUIRE(parent_star_bank.get_parent_star(-1).empty());
-        REQUIRE(parent_star_bank.get_parent_star(4).empty());
+        REQUIRE(parent_star_bank.get_parent_star(1).empty());
     }
 
     SECTION("return size of 1")
     {
-        REQUIRE(parent_star_bank.get_parent_star(1).size() == 1);
-        REQUIRE(parent_star_bank.get_parent_star(1)[0] == 2);
+        REQUIRE(parent_star_bank.get_parent_star(2).size() == 1);
+        REQUIRE(parent_star_bank.get_parent_star(2)[0] == 1);
     }
 
     SECTION("return size of >1")
     {
-        REQUIRE(parent_star_bank.get_parent_star(2).size() == 2);
-        std::vector<int> result = parent_star_bank.get_parent_star(2);
-        std::vector<int> expected({3, 4});
+        REQUIRE(parent_star_bank.get_parent_star(4).size() == 2);
+        std::vector<int> result = parent_star_bank.get_parent_star(4);
+        std::vector<int> expected({1, 2});
         std::sort(result.begin(), result.end());
         std::sort(expected.begin(), expected.end());
         REQUIRE(result == expected);
@@ -59,24 +60,25 @@ TEST_CASE("ParentStarBank::get_children_star()")
     parent_star_bank.insert_parent_star(1, 3);
     parent_star_bank.insert_parent_star(2, 3);
     parent_star_bank.insert_parent_star(1, 4);
+    parent_star_bank.insert_parent_star(1, 5);
 
     SECTION("empty")
     {
         REQUIRE(parent_star_bank.get_children_star(-1).empty());
-        REQUIRE(parent_star_bank.get_children_star(1).empty());
+        REQUIRE(parent_star_bank.get_children_star(4).empty());
     }
 
     SECTION("return size of 1")
     {
-        REQUIRE(parent_star_bank.get_children_star(4).size() == 1);
-        REQUIRE(parent_star_bank.get_children_star(4)[0] == 1);
+        REQUIRE(parent_star_bank.get_children_star(2).size() == 1);
+        REQUIRE(parent_star_bank.get_children_star(2)[0] == 3);
     }
 
     SECTION("return size of >1")
     {
-        REQUIRE(parent_star_bank.get_children_star(3).size() == 2);
-        std::vector<int> result = parent_star_bank.get_children_star(3);
-        std::vector<int> expected({1, 2});
+        REQUIRE(parent_star_bank.get_children_star(1).size() == 3);
+        std::vector<int> result = parent_star_bank.get_children_star(1);
+        std::vector<int> expected({3, 4, 5});
         std::sort(result.begin(), result.end());
         std::sort(expected.begin(), expected.end());
         REQUIRE(result == expected);
@@ -86,7 +88,7 @@ TEST_CASE("ParentStarBank::get_children_star()")
 TEST_CASE("ParentStarBank::get_all_children_star()")
 {
     ParentStarBank parent_star_bank;
-    
+
     SECTION("empty")
     {
         REQUIRE(parent_star_bank.get_all_children_star().empty());
@@ -129,7 +131,7 @@ TEST_CASE("ParentStarBank::get_all_children_star()")
 TEST_CASE("ParentStarBank::get_all_parent_star()")
 {
     ParentStarBank parent_star_bank;
-    
+
     SECTION("empty")
     {
         REQUIRE(parent_star_bank.get_all_parent_star().empty());
@@ -201,13 +203,13 @@ TEST_CASE("ParentStarBank::get_all_parent_star_relationship()")
         parent_star_bank.insert_parent_star(3, 4);
         std::unordered_map<int, std::vector<int>> result = parent_star_bank.get_all_parent_star_relationship();
         REQUIRE(result.size() == 3);
-        
+
         std::vector<int> expected_vector({2, 3, 4});
         std::vector<int> result_vector = result[1];
         std::sort(result_vector.begin(), result_vector.end());
         std::sort(expected_vector.begin(), expected_vector.end());
         REQUIRE(result_vector == expected_vector);
-        
+
         std::vector<int> expected2_vector({3, 4});
         std::vector<int> result2_vector = result[2];
         std::sort(result2_vector.begin(), result2_vector.end());

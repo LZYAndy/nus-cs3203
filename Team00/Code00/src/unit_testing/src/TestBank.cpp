@@ -93,7 +93,7 @@ TEST_CASE("Bank<int, int>::get_all_keys()")
 
 TEST_CASE("Bank<int, int>::get_all_values()")
 {
-     Bank<int, int> bank;
+    Bank<int, int> bank;
 
     SECTION("get_all_values empty")
     {
@@ -117,7 +117,7 @@ TEST_CASE("Bank<int, int>::get_all_values()")
 TEST_CASE("Bank<int, int>::empty()")
 {
     Bank<int, int> bank;
-    
+
     SECTION("empty true")
     {
         REQUIRE(bank.empty());

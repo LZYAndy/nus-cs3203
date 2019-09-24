@@ -6,8 +6,9 @@ public:
     PKBStub()
     {
         insert_procedure("main");
-        
+
         insert_assign(1, "flag", "0");
+        insert_constant(0);
         insert_variable("flag");
         insert_modifies(1, "flag");
         insert_modifies("main", "flag");
@@ -22,12 +23,12 @@ public:
         insert_follows(2, 3);
 
         insert_procedure("readPoint");
-        
+
         insert_type(4, EntityType::READ);
         insert_modifies(4, "x");
         insert_modifies("readPoint", "x");
         insert_variable("x");
-        
+
         insert_type(5, EntityType::READ);
         insert_modifies(5, "y");
         insert_modifies("readPoint", "y");
@@ -41,7 +42,7 @@ public:
         insert_uses("printResults", "flag");
         insert_variable("flag");
         insert_follows(5, 6);
-        
+
         insert_type(7, EntityType::PRINT);
         insert_uses(7, "cenX");
         insert_uses("printResults", "cenX");
@@ -63,12 +64,14 @@ public:
         insert_procedure("computeCentroid");
 
         insert_assign(10, "count", "0");
+        insert_constant(0);
         insert_variable("count");
         insert_modifies(10, "count");
         insert_modifies("computeCentroid", "count");
         insert_type(10, EntityType::ASSIGN);
 
         insert_assign(11, "cenX", "0");
+        insert_constant(0);
         insert_variable("cenX");
         insert_modifies(11, "cenX");
         insert_modifies("computeCentroid", "cenX");
@@ -76,6 +79,7 @@ public:
         insert_follows(10, 11);
 
         insert_assign(12, "cenY", "0");
+        insert_constant(0);
         insert_variable("cenY");
         insert_modifies(12, "cenY");
         insert_modifies("computeCentroid", "cenY");
@@ -87,6 +91,7 @@ public:
         insert_follows(12, 13);
 
         insert_type(14, EntityType::WHILE);
+        insert_constant(0);
         insert_uses(14, "x");
         insert_uses(14, "y");
         insert_uses("computeCentroid", "x");
@@ -102,6 +107,7 @@ public:
         insert_uses(14,  "count");
         insert_modifies(14, "count");
         insert_assign(15, "count", "count + 1");
+        insert_constant(1);
         insert_parent(14, 15);
 
         insert_type(16, EntityType::ASSIGN);
@@ -118,7 +124,7 @@ public:
         insert_modifies(14, "cenX");
         insert_assign(16, "cenX", "cenX + x");
         insert_parent(14, 16);
-        insert_follows(14, 15);
+        insert_follows(15, 16);
 
         insert_type(17, EntityType::ASSIGN);
         insert_variable("cenY");
@@ -142,6 +148,7 @@ public:
         insert_follows(17, 18);
 
         insert_type(19, EntityType::IF);
+        insert_constant(0);
         insert_variable("count");
         insert_uses(19, "count");
         insert_uses("computeCentroid", "count");
@@ -203,6 +210,96 @@ public:
         insert_uses("computeCentroid", "cenY");
         insert_follows(19, 23);
 
+        insert_type(24, EntityType::WHILE);
+        insert_constant(0);
+        insert_variable("x");
+        insert_uses(24, "x");
+
+        insert_type(25, EntityType::IF);
+        insert_constant(0);
+        insert_variable("y");
+        insert_uses(24, "y");
+        insert_uses(25, "y");
+        insert_parent(24, 25);
+
+        insert_type(26, EntityType::WHILE);
+        insert_constant(0);
+        insert_variable("count");
+        insert_uses(24, "count");
+        insert_uses(25, "count");
+        insert_uses(26, "count");
+        insert_parent(25, 26);
+
+        insert_type(27, EntityType::IF);
+        insert_constant(0);
+        insert_variable("cenX");
+        insert_uses(24, "cenX");
+        insert_uses(25, "cenX");
+        insert_uses(26, "cenX");
+        insert_uses(27, "cenX");
+        insert_parent(26, 27);
+
+        insert_type(28, EntityType::ASSIGN);
+        insert_constant(2);
+        insert_variable("count");
+        insert_variable("y");
+        insert_assign(28, "count", "2 * y");
+        insert_modifies(24, "count");
+        insert_modifies(25, "count");
+        insert_modifies(26, "count");
+        insert_modifies(27, "count");
+        insert_modifies(28, "count");
+        insert_uses(24, "y");
+        insert_uses(25, "y");
+        insert_uses(26, "y");
+        insert_uses(27, "y");
+        insert_uses(28, "y");
+        insert_parent(27, 28);
+
+        insert_type(29, EntityType::ASSIGN);
+        insert_variable("count");
+        insert_assign(29, "count", "0");
+        insert_constant(0);
+        insert_modifies(24, "count");
+        insert_modifies(25, "count");
+        insert_modifies(26, "count");
+        insert_modifies(27, "count");
+        insert_modifies(29, "count");
+        insert_parent(27, 29);
+
+        insert_type(30, EntityType::ASSIGN);
+        insert_variable("x");
+        insert_assign(30, "x", "1");
+        insert_constant(1);
+        insert_modifies(24, "x");
+        insert_modifies(25, "x");
+        insert_modifies(26, "x");
+        insert_modifies(27, "x");
+        insert_modifies(30, "x");
+        insert_parent(27, 30);
+        insert_follows(29, 30);
+
+        insert_type(31, EntityType::ASSIGN);
+        insert_variable("count");
+        insert_assign(31, "count", "2");
+        insert_constant(2);
+        insert_modifies(24, "count");
+        insert_modifies(25, "count");
+        insert_modifies(31, "count");
+        insert_parent(25, 31);
+
+        insert_type(32, EntityType::ASSIGN);
+        insert_variable("y");
+        insert_assign(32, "y", "3");
+        insert_constant(3);
+        insert_modifies(24, "y");
+        insert_modifies(25, "y");
+        insert_modifies(32, "y");
+        insert_parent(25, 32);
+        insert_follows(31, 32);
+
         extract_design();
     }
+
+
 };

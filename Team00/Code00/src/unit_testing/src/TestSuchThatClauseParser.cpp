@@ -35,7 +35,7 @@ TEST_CASE("Parses and validate Follows such that clause.")
         REQUIRE(such_that_clause.size() == 1);
 
         CHECK(such_that_clause.at(0).equals(pql_dto::FollowsRelationship(pql_dto::Entity("stmt", "4", false),
-            pql_dto::Entity("stmt", "5", false), false)));
+                                            pql_dto::Entity("stmt", "5", false), false)));
     }
 
     SECTION("Valid Such that Clause with Follows variables. 2 declared.")
@@ -47,7 +47,7 @@ TEST_CASE("Parses and validate Follows such that clause.")
         REQUIRE(such_that_clause.size() == 1);
 
         CHECK(such_that_clause.at(0).equals(pql_dto::FollowsRelationship(pql_dto::Entity("assign", "a", true),
-            pql_dto::Entity("print", "prt", true), false)));
+                                            pql_dto::Entity("print", "prt", true), false)));
     }
 
     SECTION("Valid Such that Clause with Follows variables. 1 declared, 1 undeclared.")
@@ -59,7 +59,7 @@ TEST_CASE("Parses and validate Follows such that clause.")
         REQUIRE(such_that_clause.size() == 1);
 
         CHECK(such_that_clause.at(0).equals(pql_dto::FollowsRelationship(pql_dto::Entity("assign", "a", true),
-            pql_dto::Entity("stmt", "6", false), false)));
+                                            pql_dto::Entity("stmt", "6", false), false)));
     }
 
     SECTION("Invalid Such that Clause with Follows variables. First statement greater than second statement number.")
@@ -115,7 +115,7 @@ TEST_CASE("Parses and validate Follows such that clause.")
         std::string test_query = "such that Follows(\"5\", \"x\")";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == error_messages::invalid_undeclared_entity_name);
+        REQUIRE(error == error_messages::invalid_synonym_name);
     }
 
     SECTION("Valid Such that Clause with Follows*.")
@@ -127,7 +127,7 @@ TEST_CASE("Parses and validate Follows such that clause.")
         REQUIRE(such_that_clause.size() == 1);
 
         CHECK(such_that_clause.at(0).equals(pql_dto::FollowsRelationship(pql_dto::Entity("stmt", "5", false),
-            pql_dto::Entity("stmt", "6", false), true)));
+                                            pql_dto::Entity("stmt", "6", false), true)));
     }
 }
 
@@ -151,7 +151,7 @@ TEST_CASE("Parses and validate Parent such that clause.")
         REQUIRE(such_that_clause.size() == 1);
 
         CHECK(such_that_clause.at(0).equals(pql_dto::ParentRelationship(pql_dto::Entity("stmt", "2", false),
-            pql_dto::Entity("stmt", "5", false), false)));
+                                            pql_dto::Entity("stmt", "5", false), false)));
     }
 
     SECTION("Valid Such that Clause with Parent variables. 2 declared.")
@@ -163,7 +163,7 @@ TEST_CASE("Parses and validate Parent such that clause.")
         REQUIRE(such_that_clause.size() == 1);
 
         CHECK(such_that_clause.at(0).equals(pql_dto::ParentRelationship(pql_dto::Entity("assign", "a", true),
-            pql_dto::Entity("print", "prt", true), false)));
+                                            pql_dto::Entity("print", "prt", true), false)));
     }
 
     SECTION("Valid Such that Clause with Parent variables. 1 declared, 1 undeclared.")
@@ -175,7 +175,7 @@ TEST_CASE("Parses and validate Parent such that clause.")
         REQUIRE(such_that_clause.size() == 1);
 
         CHECK(such_that_clause.at(0).equals(pql_dto::ParentRelationship(pql_dto::Entity("assign", "a", true),
-            pql_dto::Entity("stmt", "6", false), false)));
+                                            pql_dto::Entity("stmt", "6", false), false)));
     }
 
     SECTION("Invalid Such that Clause with Parent variables. First statement greater than second statement number.")
@@ -231,7 +231,7 @@ TEST_CASE("Parses and validate Parent such that clause.")
         std::string test_query = "such that Parent(\"5\", \"x\")";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == error_messages::invalid_undeclared_entity_name);
+        REQUIRE(error == error_messages::invalid_synonym_name);
     }
 
     SECTION("Valid Such that Clause with Parent*.")
@@ -243,7 +243,7 @@ TEST_CASE("Parses and validate Parent such that clause.")
         REQUIRE(such_that_clause.size() == 1);
 
         CHECK(such_that_clause.at(0).equals(pql_dto::ParentRelationship(pql_dto::Entity("stmt", "5", false),
-            pql_dto::Entity("stmt", "6", false), true)));
+                                            pql_dto::Entity("stmt", "6", false), true)));
     }
 }
 
@@ -267,7 +267,7 @@ TEST_CASE("Parses and validate Uses such that clause.")
         REQUIRE(such_that_clause.size() == 1);
 
         CHECK(such_that_clause.at(0).equals(pql_dto::UsesRelationship(pql_dto::Entity("stmt", "2", false),
-            pql_dto::Entity("variable", "x", false), false)));
+                                            pql_dto::Entity("variable", "x", false), false)));
     }
 
     SECTION("Valid Such that Clause with Uses. 2 declared")
@@ -279,7 +279,7 @@ TEST_CASE("Parses and validate Uses such that clause.")
         REQUIRE(such_that_clause.size() == 1);
 
         CHECK(such_that_clause.at(0).equals(pql_dto::UsesRelationship(pql_dto::Entity("assign", "a", true),
-            pql_dto::Entity("variable", "v1", true), false)));
+                                            pql_dto::Entity("variable", "v1", true), false)));
     }
 
     SECTION("Valid Such that Clause with Uses. 1 declared, 1 undeclared")
@@ -291,7 +291,7 @@ TEST_CASE("Parses and validate Uses such that clause.")
         REQUIRE(such_that_clause.size() == 1);
 
         CHECK(such_that_clause.at(0).equals(pql_dto::UsesRelationship(pql_dto::Entity("procedure", "p", true),
-            pql_dto::Entity("variable", "y", false), false)));
+                                            pql_dto::Entity("variable", "y", false), false)));
     }
 
     SECTION("Valid Such that Clause with Uses. 1 declared, underscore as second param")
@@ -303,7 +303,7 @@ TEST_CASE("Parses and validate Uses such that clause.")
         REQUIRE(such_that_clause.size() == 1);
 
         CHECK(such_that_clause.at(0).equals(pql_dto::UsesRelationship(pql_dto::Entity("procedure", "p", true),
-            pql_dto::Entity("any", "_", false), false)));
+                                            pql_dto::Entity("any", "_", false), false)));
     }
 
     SECTION("Invalid Such that Clause with Uses. Wrong second entity")
@@ -375,7 +375,7 @@ TEST_CASE("Parses and validate Modifies such that clause.")
         REQUIRE(such_that_clause.size() == 1);
 
         CHECK(such_that_clause.at(0).equals(pql_dto::ModifiesRelationship(pql_dto::Entity("assign", "a", true),
-            pql_dto::Entity("variable", "x", false), false)));
+                                            pql_dto::Entity("variable", "x", false), false)));
     }
 
     SECTION("Valid Such that Clause with Modifies. 2 declared")
@@ -387,7 +387,7 @@ TEST_CASE("Parses and validate Modifies such that clause.")
         REQUIRE(such_that_clause.size() == 1);
 
         CHECK(such_that_clause.at(0).equals(pql_dto::ModifiesRelationship(pql_dto::Entity("assign", "a", true),
-            pql_dto::Entity("variable", "v1", true), false)));
+                                            pql_dto::Entity("variable", "v1", true), false)));
     }
 
     SECTION("Valid Such that Clause with Modifies. 1 declared, 1 undeclared")
@@ -399,7 +399,7 @@ TEST_CASE("Parses and validate Modifies such that clause.")
         REQUIRE(such_that_clause.size() == 1);
 
         CHECK(such_that_clause.at(0).equals(pql_dto::ModifiesRelationship(pql_dto::Entity("procedure", "p", true),
-            pql_dto::Entity("variable", "y", false), false)));
+                                            pql_dto::Entity("variable", "y", false), false)));
     }
 
     SECTION("Valid Such that Clause with Modifies. 1 declared, underscore as second param")
@@ -411,7 +411,7 @@ TEST_CASE("Parses and validate Modifies such that clause.")
         REQUIRE(such_that_clause.size() == 1);
 
         CHECK(such_that_clause.at(0).equals(pql_dto::ModifiesRelationship(pql_dto::Entity("procedure", "p", true),
-            pql_dto::Entity("any", "_", false), false)));
+                                            pql_dto::Entity("any", "_", false), false)));
     }
 
     SECTION("Invalid Such that Clause with Modifies. Wrong second entity")

@@ -28,7 +28,7 @@ TEST_CASE("ParentBank::get_all_parent_relationship()")
     }
 
     parent_bank.insert_parent(1, 2);
-    
+
     SECTION("return 1")
     {
         std::unordered_map<int, std::vector<int>> result = parent_bank.get_all_parent_relationship();
@@ -57,7 +57,7 @@ TEST_CASE("ParentBank::get_all_parent_relationship()")
 TEST_CASE("ParentBank::get_children()")
 {
     ParentBank parent_bank;
-    
+
     SECTION("empty")
     {
         REQUIRE(parent_bank.get_children(-1).empty());
@@ -104,7 +104,7 @@ TEST_CASE("ParentBank::get_parent()")
 TEST_CASE("ParentBank::does_parent_exist()")
 {
     ParentBank parent_bank;
-    
+
     SECTION("does not exist")
     {
         REQUIRE_FALSE(parent_bank.does_parent_exist());

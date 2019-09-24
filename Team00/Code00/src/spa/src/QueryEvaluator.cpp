@@ -2,11 +2,12 @@
 
 #include <utility>
 
-unordered_set<string> QueryEvaluator::get_result(string query)
+unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
 {
     string error_msg;
     unordered_set<string> result;
     unordered_set<string> empty_set;
+    pql_dto::Entity select_entity;
 
     unordered_map<string, vector<string>> select_map;
     unordered_map<string, vector<string>> such_that_map;
@@ -27,21 +28,19 @@ unordered_set<string> QueryEvaluator::get_result(string query)
         return empty_set;
     }
 
-    pql_dto::Entity select_entity = select_clause.front();
-    string select_name = select_entity.get_entity_name();
-    pql_dto::Relationships relation = such_that_clause.front();
-    pql_dto::Pattern pattern = pattern_clause.front();
-
     if (!select_clause.empty())
-    { // has select
+    {
+        // has select
+        select_entity = select_clause.front();
+        string select_name = select_entity.get_entity_name();
         EntityType select_type = select_entity.get_entity_type();
         if (select_type == EntityType::VARIABLE || select_type == EntityType::PROCEDURE)
         {
-            select_map[select_name] = QueryUtility::get_certain_type_str_list(select_type);
+            select_map[select_name] = QueryUtility::get_certain_type_str_list(select_type, PKB);
         }
         else
         {
-            select_map[select_name] = QueryUtility::get_certain_type_int_list(select_type);
+            select_map[select_name] = QueryUtility::get_certain_type_int_list(select_type, PKB);
         }
     }
 
@@ -49,7 +48,9 @@ unordered_set<string> QueryEvaluator::get_result(string query)
     pattern_map = select_map; // initialize pattern_map
 
     if (!such_that_clause.empty())
-    { // has such that
+    {
+        // has such that
+        pql_dto::Relationships relation = such_that_clause.front();
         RelationshipType relation_type = relation.get_relationship();
         pql_dto::Entity first_param = relation.get_first_param();
         pql_dto::Entity second_param = relation.get_second_param();
@@ -61,7 +62,7 @@ unordered_set<string> QueryEvaluator::get_result(string query)
             {
                 if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
                 {
-                    trivial_result = FollowsEvaluator::evaluate_trivial(first_param, second_param);
+                    trivial_result = FollowsEvaluator::evaluate_trivial(first_param, second_param, PKB);
                     if(!trivial_result)
                     {
                         return empty_set;
@@ -69,14 +70,14 @@ unordered_set<string> QueryEvaluator::get_result(string query)
                 }
                 else
                 {
-                    such_that_map = FollowsEvaluator::evaluate_non_trivial(first_param, second_param);
+                    such_that_map = FollowsEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
                 }
             }
             else
             {
                 if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
                 {
-                    trivial_result = FollowsStarEvaluator::evaluate_trivial(first_param, second_param);
+                    trivial_result = FollowsStarEvaluator::evaluate_trivial(first_param, second_param, PKB);
                     if(!trivial_result)
                     {
                         return empty_set;
@@ -84,16 +85,16 @@ unordered_set<string> QueryEvaluator::get_result(string query)
                 }
                 else
                 {
-                    such_that_map = FollowsStarEvaluator::evaluate_non_trivial(first_param, second_param);
+                    such_that_map = FollowsStarEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
                 }
             }
         }
 
-        if (relation_type == RelationshipType::USES && !relation.is_relationship_star())
+        if (relation_type == RelationshipType::USES)
         {
             if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
             {
-                trivial_result = UsesEvaluator::evaluate_trivial(first_param, second_param);
+                trivial_result = UsesEvaluator::evaluate_trivial(first_param, second_param, PKB);
                 if(!trivial_result)
                 {
                     return empty_set;
@@ -101,17 +102,17 @@ unordered_set<string> QueryEvaluator::get_result(string query)
             }
             else
             {
-                such_that_map = UsesEvaluator::evaluate_non_trivial(first_param, second_param);
+                such_that_map = UsesEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
             }
         }
 
-        if (relation_type == RelationshipType::PARENT && !relation.is_relationship_star())
+        if (relation_type == RelationshipType::PARENT)
         {
             if (!relation.is_relationship_star())
             {
                 if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
                 {
-                    trivial_result = ParentEvaluator::evaluate_trivial(first_param, second_param);
+                    trivial_result = ParentEvaluator::evaluate_trivial(first_param, second_param, PKB);
                     if(!trivial_result)
                     {
                         return empty_set;
@@ -119,14 +120,14 @@ unordered_set<string> QueryEvaluator::get_result(string query)
                 }
                 else
                 {
-                    such_that_map = ParentEvaluator::evaluate_non_trivial(first_param, second_param);
+                    such_that_map = ParentEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
                 }
             }
             else
             {
                 if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
                 {
-                    trivial_result = ParentStarEvaluator::evaluate_trivial(first_param, second_param);
+                    trivial_result = ParentStarEvaluator::evaluate_trivial(first_param, second_param, PKB);
                     if(!trivial_result)
                     {
                         return empty_set;
@@ -134,16 +135,16 @@ unordered_set<string> QueryEvaluator::get_result(string query)
                 }
                 else
                 {
-                    such_that_map = ParentStarEvaluator::evaluate_non_trivial(first_param, second_param);
+                    such_that_map = ParentStarEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
                 }
             }
         }
 
-        if (relation_type == RelationshipType::MODIFIES && !relation.is_relationship_star())
+        if (relation_type == RelationshipType::MODIFIES)
         {
             if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
             {
-                trivial_result = ModifiesEvaluator::evaluate_trivial(first_param, second_param);
+                trivial_result = ModifiesEvaluator::evaluate_trivial(first_param, second_param, PKB);
                 if(!trivial_result)
                 {
                     return empty_set;
@@ -151,19 +152,21 @@ unordered_set<string> QueryEvaluator::get_result(string query)
             }
             else
             {
-                such_that_map = ModifiesEvaluator::evaluate_non_trivial(first_param, second_param);
+                such_that_map = ModifiesEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
             }
         }
     }
 
     if (!pattern_clause.empty())
-    { // has pattern
+    {
+        // has pattern
+        pql_dto::Pattern pattern = pattern_clause.front();
         EntityType pattern_type = pattern.get_pattern_entity().get_entity_type();
         pql_dto::Entity first_param = pattern.get_first_param();
         pql_dto::Entity second_param = pattern.get_second_param();
         if (pattern_type == EntityType::ASSIGN)
         {
-            pattern_map = AssignEvaluator::evaluate(pattern, first_param, second_param);
+            pattern_map = AssignEvaluator::evaluate(pattern, first_param, second_param, PKB);
         }
     }
 
@@ -172,10 +175,10 @@ unordered_set<string> QueryEvaluator::get_result(string query)
     return result;
 }
 
-unordered_set<string> QueryEvaluator::merge(pql_dto::Entity select_entity,
-        unordered_map<string, vector<string>> select_map,
-        unordered_map<string, vector<string>> such_that_map,
-        unordered_map<string, vector<string>> pattern_map)
+unordered_set<string> QueryEvaluator::merge(pql_dto::Entity &select_entity,
+        unordered_map<string, vector<string>> &select_map,
+        unordered_map<string, vector<string>> &such_that_map,
+        unordered_map<string, vector<string>> &pattern_map)
 {
     unordered_set<string> result;
     string select_name = select_entity.get_entity_name();
@@ -184,7 +187,7 @@ unordered_set<string> QueryEvaluator::merge(pql_dto::Entity select_entity,
     if (!common_synonyms.empty())
     {
         final_list = QueryEvaluator::get_final_list(such_that_map, pattern_map, common_synonyms);
-        for (const auto& iter : final_list)
+        for (const auto &iter : final_list)
         {
             string name = iter.first;
             unordered_set<string> str_set = iter.second;
@@ -200,7 +203,7 @@ unordered_set<string> QueryEvaluator::merge(pql_dto::Entity select_entity,
             }
         }
         vector<string> result_vec = select_map.at(select_name);
-        for (const auto& iter : result_vec)
+        for (const auto &iter : result_vec)
         {
             result.insert(iter);
         }
@@ -224,7 +227,7 @@ unordered_set<string> QueryEvaluator::merge(pql_dto::Entity select_entity,
             else
             {
                 vector<string> result_vec = select_map.at(select_name);
-                for (const auto& iter : result_vec)
+                for (const auto &iter : result_vec)
                 {
                     result.insert(iter);
                 }
@@ -234,15 +237,16 @@ unordered_set<string> QueryEvaluator::merge(pql_dto::Entity select_entity,
     return result;
 }
 
-unordered_set<string> QueryEvaluator::get_common_synonyms(const unordered_map<string, vector<string>>& map_1,
-        unordered_map<string, vector<string>> map_2)
+unordered_set<string> QueryEvaluator::get_common_synonyms(unordered_map<string, vector<string>> &map_1,
+        unordered_map<string, vector<string>> &map_2)
 {
     unordered_set<string> result;
-    for (const auto& iter : map_1)
+    for (const auto &iter : map_1)
     {
         string synonym_name = iter.first;
         if (map_2.find(synonym_name) == map_2.end())
-        { // does not present
+        {
+            // does not present
             continue;
         }
         else
@@ -253,25 +257,25 @@ unordered_set<string> QueryEvaluator::get_common_synonyms(const unordered_map<st
     return result;
 }
 
-unordered_map<string, unordered_set<string>> QueryEvaluator::get_final_list(unordered_map<string, vector<string>> map_1,
-        unordered_map<string, vector<string>> map_2, unordered_set<string> common_part)
+unordered_map<string, unordered_set<string>> QueryEvaluator::get_final_list(unordered_map<string, vector<string>> &map_1,
+        unordered_map<string, vector<string>> &map_2, unordered_set<string> &common_part)
 {
     unordered_map<string, unordered_set<string>> result;
     vector<string> common_synonyms(common_part.size());
     copy(common_part.begin(), common_part.end(), common_synonyms.begin());
     vector<pair<int, int>> position;
     int i = 0;
-    for (const auto& element_1 : map_1.at(common_synonyms[0]))
+    for (const auto &element_1 : map_1.at(common_synonyms[0]))
     {
         int j = 0;
         bool is_same = true;
-        for (const auto& element_2 : map_2.at(common_synonyms[0]))
+        for (const auto &element_2 : map_2.at(common_synonyms[0]))
         {
             if (element_1 == element_2)
             {
-                for (const auto& synonym : common_synonyms)
+                for (const auto &synonym : common_synonyms)
                 {
-                    if (map_1.at(synonym)[i] != map_2.at(synonym)[j])
+                    if (map_1.at(synonym).at(i) != map_2.at(synonym).at(j))
                     {
                         is_same = false;
                         break;
@@ -287,7 +291,7 @@ unordered_map<string, unordered_set<string>> QueryEvaluator::get_final_list(unor
         }
         i++;
     }
-    for (const auto& iter : map_1)
+    for (const auto &iter : map_1)
     {
         string synonym_name = iter.first;
         vector<string> list_1 = iter.second;
@@ -299,11 +303,12 @@ unordered_map<string, unordered_set<string>> QueryEvaluator::get_final_list(unor
         }
         result[synonym_name] = key_value;
     }
-    for (const auto& iter : map_2)
+    for (const auto &iter : map_2)
     {
         string synonym_name = iter.first;
         if (result.find(synonym_name) != result.end())
-        { // presented
+        {
+            // presented
             continue;
         }
         vector<string> list_2 = iter.second;
@@ -318,10 +323,10 @@ unordered_map<string, unordered_set<string>> QueryEvaluator::get_final_list(unor
     return result;
 }
 
-unordered_set<string> QueryEvaluator::get_common_part(const vector<string>& str_vec_1, vector<string> str_vec_2)
+unordered_set<string> QueryEvaluator::get_common_part(vector<string> &str_vec_1, vector<string> &str_vec_2)
 {
     unordered_set<string> result;
-    for (const auto& iter : str_vec_1)
+    for (const auto &iter : str_vec_1)
     {
         if (count(str_vec_2.begin(), str_vec_2.end(), iter))
         {

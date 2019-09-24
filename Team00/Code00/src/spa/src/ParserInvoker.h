@@ -12,15 +12,16 @@
 #include "PKB.h"
 #include "pql_dto/Entity.h"
 
-class ParserInvoker {
+class ParserInvoker
+{
 private:
     std::vector<Statement> list_of_statement;
-    PKB pkb;
+    PKB *pkb;
     std::string parent_prog_line;
 
 public:
     // Constructor
-    ParserInvoker(PKB pkbi, std::vector<Statement> stmtlist, std::string parent_line);
+    ParserInvoker(PKB &pkbi, std::vector<Statement> stmt_list, std::string parent_line);
 
     // Invoke Parser
     void invoke_parser();

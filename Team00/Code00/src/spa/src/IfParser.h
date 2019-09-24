@@ -5,11 +5,12 @@
 #include "CheckerUtil.h"
 #include "ParserInvoker.h"
 #include "StringUtil.h"
+#include "ErrorMessages.h"
 
 class IfParser
 {
 public:
-    IfParser(PKB pkb, Statement statement, std::string parent_prog_line);
+    IfParser(PKB &pkb, Statement statement, std::string parent_prog_line);
 };
 
 #endif //AUTOTESTER_IFPARSER_H

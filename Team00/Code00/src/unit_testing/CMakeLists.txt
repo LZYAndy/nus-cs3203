@@ -4,6 +4,6 @@ add_executable(unit_testing ${srcs} src/TestBank.cpp src/TestFollowsBank.cpp src
 src/TestParentStarBank.cpp src/TestFollowsStarBank.cpp src/TestDesignExtractor.cpp src/TestUsesBank.cpp src/TestModifiesBank.cpp 
 src/TestCheckerUtil.cpp src/TestAssignParser.cpp src/TestPrintParser.cpp src/TestReadParser.cpp src/TestCallParser.cpp 
 src/TestStringUtil.cpp src/TestPQLParser.cpp src/TestDeclareClauseParser.cpp src/TestSelectClauseParser.cpp src/TestSuchThatClauseParser.cpp
-src/TestPatternClauseParser.cpp src/TestPKB.cpp)
+src/TestPatternClauseParser.cpp src/TestPKB.cpp src/TestQueryEvaluator.cpp src/TestStatement.cpp src/TestProcedure.cpp src/TestProcedureAnalyser.cpp src/TestStatementListParser.cpp src/TestIfParser.cpp src/TestWhileParser.cpp src/TestParserInvoker.cpp)
 
 target_link_libraries(unit_testing spa)

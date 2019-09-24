@@ -4,11 +4,12 @@
 #include "PKB.h"
 #include "CheckerUtil.h"
 #include "ParserInvoker.h"
+#include "ErrorMessages.h"
 
 class WhileParser
 {
 public:
-    WhileParser(PKB pkb, Statement statement, std::string parent_prog_line);
+    WhileParser(PKB &pkb, Statement statement, std::string parent_prog_line);
 };
 
 #endif //AUTOTESTER_WHILEPARSER_H

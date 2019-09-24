@@ -1,14 +1,30 @@
 #include <algorithm>
 #include "UsesBank.h"
 
-void UsesBank::insert_uses(std::string procedure, std::string variable)
+bool UsesBank::insert_uses(std::string procedure, std::string variable)
 {
-    proc_bank.put(procedure, variable);
+    if(variable == "")
+    {
+        return false;
+    }
+    else
+    {
+        proc_bank.put(procedure, variable);
+        return true;
+    }
 }
 
-void UsesBank::insert_uses(int statement, std::string variable)
+bool UsesBank::insert_uses(int statement, std::string variable)
 {
-    stmt_bank.put(statement, variable);
+    if(variable == "")
+    {
+        return false;
+    }
+    else
+    {
+        stmt_bank.put(statement, variable);
+        return true;
+    }
 }
 
 std::vector<int> UsesBank::get_statements_uses(std::string variable)
