@@ -107,7 +107,7 @@ public:
         insert_uses(14,  "count");
         insert_modifies(14, "count");
         insert_assign(15, "count", "count + 1");
-        insert_constant(1);
+        insert_constant("1");
         insert_parent(14, 15);
 
         insert_type(16, EntityType::ASSIGN);
@@ -240,7 +240,7 @@ public:
         insert_parent(26, 27);
 
         insert_type(28, EntityType::ASSIGN);
-        insert_constant(2);
+        insert_constant("2");
         insert_variable("count");
         insert_variable("y");
         insert_assign(28, "count", "2 * y");
@@ -259,7 +259,7 @@ public:
         insert_type(29, EntityType::ASSIGN);
         insert_variable("count");
         insert_assign(29, "count", "0");
-        insert_constant(0);
+        insert_constant("0");
         insert_modifies(24, "count");
         insert_modifies(25, "count");
         insert_modifies(26, "count");
@@ -270,7 +270,7 @@ public:
         insert_type(30, EntityType::ASSIGN);
         insert_variable("x");
         insert_assign(30, "x", "1");
-        insert_constant(1);
+        insert_constant("1");
         insert_modifies(24, "x");
         insert_modifies(25, "x");
         insert_modifies(26, "x");
@@ -282,7 +282,7 @@ public:
         insert_type(31, EntityType::ASSIGN);
         insert_variable("count");
         insert_assign(31, "count", "2");
-        insert_constant(2);
+        insert_constant("2");
         insert_modifies(24, "count");
         insert_modifies(25, "count");
         insert_modifies(31, "count");
@@ -291,7 +291,7 @@ public:
         insert_type(32, EntityType::ASSIGN);
         insert_variable("y");
         insert_assign(32, "y", "3");
-        insert_constant(3);
+        insert_constant("3");
         insert_modifies(24, "y");
         insert_modifies(25, "y");
         insert_modifies(32, "y");

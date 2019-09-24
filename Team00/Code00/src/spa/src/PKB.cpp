@@ -429,15 +429,15 @@ bool PKB::does_modifies_exist()
     return !modifies_bank.empty();
 }
 
-bool PKB::insert_constant(int constant)
+bool PKB::insert_constant(string constant)
 {
     auto result = const_table.emplace(constant);
     return result.second;
 }
 
-vector<int> PKB::get_all_constants()
+vector<string> PKB::get_all_constants()
 {
-    vector<int> result;
+    vector<string> result;
     result.insert(result.end(), const_table.begin(), const_table.end());
     return result;
 }
