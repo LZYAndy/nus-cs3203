@@ -7,6 +7,11 @@ namespace pql_dto
     public:
         ModifiesRelationship(Entity first_param, Entity second_param, bool is_star)
         {
+            if (first_param.get_entity_type() == EntityType::VARIABLE && !first_param.is_entity_declared())
+            {
+                first_param.set_entity_type("procedure");
+            }
+
             set_relationship(RelationshipType::MODIFIES);
             set_first_param(first_param);
             set_second_param(second_param);
@@ -16,11 +21,6 @@ namespace pql_dto
     private:
         void set_first_param(Entity param)
         {
-            if (param.get_entity_type() == EntityType::VARIABLE && !param.is_entity_declared())
-            {
-                param.set_entity_type("procedure");
-            }
-
             if (param.get_entity_type() == EntityType::CONSTANT || param.get_entity_type() == EntityType::PATTEXPR
                 || param.get_entity_type() == EntityType::ANY || param.get_entity_type() == EntityType::PRINT
                 || param.get_entity_type() == EntityType::INVALID || param.get_entity_type() == EntityType::VARIABLE
