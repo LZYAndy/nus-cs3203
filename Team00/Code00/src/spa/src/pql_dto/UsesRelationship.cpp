@@ -2,26 +2,26 @@
 
 namespace pql_dto
 {
-class UsesRelationship : public Relationships
-{
-public:
-    UsesRelationship(Entity first_param, Entity second_param, bool is_star)
+    class UsesRelationship : public Relationships
     {
-        set_relationship(RelationshipType::USES);
-        set_first_param(first_param);
-        set_second_param(second_param);
-        set_relationship_star(is_star);
-    }
-
-private:
-    void set_first_param(Entity param)
-    {
-        if (param.get_entity_type() == EntityType::VARIABLE && !param.is_entity_declared())
+    public:
+        UsesRelationship(Entity first_param, Entity second_param, bool is_star)
         {
-            param.set_entity_type("procedure");
+            if (first_param.get_entity_type() == EntityType::VARIABLE && !first_param.is_entity_declared())
+            {
+                first_param.set_entity_type("procedure");
+            }
+
+            set_relationship(RelationshipType::USES);
+            set_first_param(first_param);
+            set_second_param(second_param);
+            set_relationship_star(is_star);
         }
 
-        if (param.get_entity_type() == EntityType::CONSTANT || param.get_entity_type() == EntityType::PATTEXPR
+    private:
+        void set_first_param(Entity param)
+        {
+            if (param.get_entity_type() == EntityType::CONSTANT || param.get_entity_type() == EntityType::PATTEXPR
                 || param.get_entity_type() == EntityType::ANY || param.get_entity_type() == EntityType::READ
                 || param.get_entity_type() == EntityType::INVALID || param.get_entity_type() == EntityType::VARIABLE
                 || param.get_entity_type() == EntityType::MATCHEXPR)
