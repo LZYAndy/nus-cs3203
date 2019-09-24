@@ -25,23 +25,23 @@ namespace pql_dto
                 || param.get_entity_type() == EntityType::ANY || param.get_entity_type() == EntityType::READ
                 || param.get_entity_type() == EntityType::INVALID || param.get_entity_type() == EntityType::VARIABLE
                 || param.get_entity_type() == EntityType::MATCHEXPR)
-            {
-                throw std::runtime_error(error_messages::invalid_uses_relationship_first_param);
-            }
-
-            first_param = param;
-        }
-
-        void set_second_param(Entity param)
         {
-            if (param.get_entity_type() == EntityType::VARIABLE || param.get_entity_type() == EntityType::ANY)
-            {
-                second_param = param;   
-            }
-            else
-            {
-                throw std::runtime_error("Invalid Uses Relationship Second Parameter Type!");
-            }
+            throw std::runtime_error(error_messages::invalid_uses_relationship_first_param);
         }
-    };
+
+        first_param = param;
+    }
+
+    void set_second_param(Entity param)
+    {
+        if (param.get_entity_type() == EntityType::VARIABLE || param.get_entity_type() == EntityType::ANY)
+        {
+            second_param = param;
+        }
+        else
+        {
+            throw std::runtime_error("Invalid Uses Relationship Second Parameter Type!");
+        }
+    }
+};
 }

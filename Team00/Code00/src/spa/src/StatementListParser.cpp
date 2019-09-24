@@ -1,14 +1,15 @@
+#include "iostream"
 #include "StatementListParser.h"
 
-StatementListParser::StatementListParser(std::string raw, int parent_line_num)
+StatementListParser::StatementListParser(std::string raw, int this_line_num)
 {
-    if (parent_line_num == 0)
+    if (this_line_num == 0)
     {
         next_line_number = 1;
     }
     else
     {
-        next_line_number = parent_line_num + 1;
+        next_line_number = this_line_num;
     }
     raw_stmt_list = raw;
 }
@@ -126,6 +127,8 @@ std::string StatementListParser::parse_while(std::string src)
         StatementListParser loop_parser = StatementListParser(first_blk_raw, next_line_number);
         loop_parser.parse_stmt_list();
         std::vector<Statement> first_block = loop_parser.get_stmt_list();
+        int last_stmt_in_loop = get_last_num(first_block);
+        next_line_number = last_stmt_in_loop + 1;
 
         while_stmt.set_condition(condition);
         while_stmt.set_first_block(first_block);
@@ -278,6 +281,9 @@ std::string StatementListParser::parse_if(std::string src)
         then_parser.parse_stmt_list();
         std::vector<Statement> first_block = then_parser.get_stmt_list();
 
+        int last_stmt_in_then = get_last_num(first_block);
+        next_line_number = last_stmt_in_then + 1;
+
         // Remove "else" and find the else part.
         if (src.substr(0, 4) != "else")
         {
@@ -294,6 +300,9 @@ std::string StatementListParser::parse_if(std::string src)
         StatementListParser else_parser = StatementListParser(second_blk_raw, next_line_number);
         else_parser.parse_stmt_list();
         std::vector<Statement> second_block = else_parser.get_stmt_list();
+
+        int last_stmt_in_else = get_last_num(second_block);
+        next_line_number = last_stmt_in_else + 1;
 
         if_stmt.set_condition(condition);
         if_stmt.set_first_block(first_block);
@@ -350,9 +359,24 @@ int StatementListParser::find_semicolon(std::string src)
     }
 }
 
-bool StatementListParser::is_beginning_with(std::string src, const std::string& match_char)
+bool StatementListParser::is_beginning_with(std::string src, const std::string &match_char)
 {
     src = StringUtil::trim_left(src);
     std::string this_char = src.substr(0, 1);
     return this_char == match_char;
+}
+
+int StatementListParser::get_last_num(std::vector<Statement> stmts)
+{
+    int length = stmts.size();
+    Statement last_stmt = stmts.at(length - 1);
+    if (last_stmt.get_statement_type() == EntityType::WHILE)
+    {
+        return get_last_num(last_stmt.get_first_block());
+    }
+    else if (last_stmt.get_statement_type() == EntityType::IF)
+    {
+        return get_last_num(last_stmt.get_second_block());
+    }
+    return last_stmt.get_prog_line();
 }

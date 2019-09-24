@@ -20,27 +20,27 @@ namespace pql_dto
             }
         }
 
-    private:
-        void set_first_param(Entity param)
-        {
-            if (param.get_entity_type() == EntityType::CONSTANT || param.get_entity_type() == EntityType::VARIABLE
+private:
+    void set_first_param(Entity param)
+    {
+        if (param.get_entity_type() == EntityType::CONSTANT || param.get_entity_type() == EntityType::VARIABLE
                 || param.get_entity_type() == EntityType::PROCEDURE || param.get_entity_type() == EntityType::PATTEXPR
                 || param.get_entity_type() == EntityType::INVALID || param.get_entity_type() == EntityType::MATCHEXPR)
-            {
-                throw std::runtime_error(error_messages::invalid_follows_relationship_first_param);
-            }
-
-            first_param = param;
+        {
+            throw std::runtime_error(error_messages::invalid_follows_relationship_first_param);
         }
 
-        void set_second_param(Entity param)
-        {
-            if (param.get_entity_type() == EntityType::CONSTANT || param.get_entity_type() == EntityType::VARIABLE
+        first_param = param;
+    }
+
+    void set_second_param(Entity param)
+    {
+        if (param.get_entity_type() == EntityType::CONSTANT || param.get_entity_type() == EntityType::VARIABLE
                 || param.get_entity_type() == EntityType::PROCEDURE || param.get_entity_type() == EntityType::PATTEXPR
                 || param.get_entity_type() == EntityType::INVALID || param.get_entity_type() == EntityType::MATCHEXPR)
-            {
-                throw std::runtime_error(error_messages::invalid_follows_relationship_second_param);
-            }
+        {
+            throw std::runtime_error(error_messages::invalid_follows_relationship_second_param);
+        }
 
             second_param = param;
         }

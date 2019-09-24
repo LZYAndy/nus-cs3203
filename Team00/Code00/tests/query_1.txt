@@ -1,0 +1,360 @@
+1 - stmt no clause
+stmt s;
+Select s
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
+5000
+2 - read no clause
+read r;
+Select r
+3, 5
+5000
+3 - print no clause
+print pr;
+Select pr
+14
+5000
+4 - variable no clause
+variable v;
+Select v
+first, d, a, b, x, p, count, limit
+5000
+5 - if no clause
+if ifs;
+Select ifs
+7
+5000
+6 - assign no clause
+assign a;
+Select a
+1, 2, 4, 6, 9, 10, 11, 13
+5000
+7 - constant no clause
+constant c;
+Select c
+0, 7, 1, 4
+5000
+8 - while no clause
+while w;
+Select w
+8
+5000
+9 - procedure no clause
+procedure proc;
+Select proc
+computeSeq
+5000
+10 - Follows with 2 wildcards
+print p;
+Select p such that Follows(_, _)
+14
+5000
+11 - Follows with LHS wildcard
+assign a;
+Select a such that Follows(_, 6)
+
+5000
+12 - Follows with RHS wildcard 
+print pr;
+Select pr such that Follows(7, _)
+14
+5000
+13 - Follows with RHS wildcard, LHS syn
+stmt s;
+Select s such that Follows(s,_)
+1, 2, 3, 4, 5, 6, 7, 9, 10, 11 
+5000
+14 - Follows with LHS wildcard, RHS syn
+stmt s;
+Select s such that Follows(_, s)
+2, 3, 4, 5, 6, 7, 10, 11, 12, 14
+5000
+15 - Follows with LHS syn
+stmt s;
+Select s such that Follows(s, 2)
+1
+5000
+16 - Follows with RHS syn
+if ifs;
+Select ifs such that Follows(6, ifs)
+7
+5000
+17 - Follows with 2 syn get LHS syn
+if ifs; assign a;
+Select a such that Follows(a, ifs)
+6
+5000
+18 - Follows with 2 syn get RHS syn
+if ifs; assign a;
+Select ifs such that Follows(a, ifs)
+7
+5000
+19 - Follows* with 2 wildcards
+variable v;
+Select v such that Follows*(_,_)
+first, d, a, b, x, p, count, limit
+5000
+20 - Follows* with LHS wildcard
+print pr;
+Select pr such that Follows*(_, 2)
+14
+5000
+21 - Follows* with RHS wildcard
+read r;
+Select r such that Follows*(5, _)
+3, 5
+5000
+22 - Follows* with LHS wildcard, RHS syn
+print pr;
+Select pr such that Follows*(_, pr)
+14
+5000
+23 - Follows* with RHS wildcard, LHS syn
+read r;
+Select r such that Follows*(r, _)
+3, 5
+5000
+24 - Follows* with 2 syn get RHS syn
+read r; stmt s;
+Select s such that Follows*(r, s)
+4, 5, 6, 7, 14
+5000
+25 - Follows* with 2 syn get LHS syn
+read r; stmt s;
+Select r such that Follows*(r, s)
+3, 5
+5000
+26 - Parent with 2 wildcards
+const c;
+Select c such that Parent(_,_)
+0, 1, 7, 4
+5000
+27 - Parent* with LHS wildcard
+if ifs;
+Select ifs such that Parent(_,12)
+7
+5000
+28 - Parent* with RHS wildcard
+assign a;
+Select a such that Parent(7,_)
+1, 2, 4, 6, 9, 10, 11, 13
+5000
+29 - Parent* with LHS wildcard, RHS syn
+assign a;
+Select a such that Parent(_, a)
+13, 12, 11, 10, 9
+5000
+30 - Parent* with RHS wildcard, LHS syn
+read r;
+Select r such that Parent(r,_)
+
+5000
+31 - Parent* with 2 syn get LHS syn
+assign a; while w;
+Select w such that Parent(w, a)
+8
+5000
+32 - Parent* with 2 syn get RHS syn
+assign a; if ifs;
+Select a such that Parent(ifs, a)
+13
+5000
+33 - Parent* with 2 wildcards
+procedure proc;
+Select proc such that Parent*(_,_)
+computeSeq
+5000
+34 - Parent* with LHS wildcard
+const c;
+Select c such that Parent*(_, 10)
+0, 1, 4, 7
+5000
+35 - Parent* with RHS wildcard
+const c;
+Select c such that Parent*(7, _)
+0, 1, 4, 7
+5000
+36 - Parent* with LHS wildcard, RHS syn
+stmt s;
+Select s such that Parent*(_, s)
+8, 9, 10, 11, 12, 13
+5000
+37 - Parent* with RHS wildcard, LHS syn
+stmt s;
+Select s such that Parent*(s, _)
+7, 8
+5000
+38 - Parent* with 2 syn get LHS syn
+while w; if ifs;
+Select w such that Parent*(ifs, w)
+8
+5000
+39 - Parent* with 2 syn get RHS syn
+while w; if ifs;
+Select ifs such that Parent*(ifs, w)
+7
+5000
+40 - Modifies with LHS syn, RHS wildcard
+print pr;
+Select pr such that Modifies(pr, _)
+
+5000
+41 - Modifies with LHS syn, RHS syn
+read r; variable v;
+Select v such that Modifies(r, v)
+first, b
+5000
+42 - Modifies with LHS syn, RHS IDENT
+stmt s;
+Select s such that Modifies(s, "count")
+7, 8, 12, 4
+5000
+43 - Modifies with LHS stmt#, RHS syn
+variable v;
+Select v such that Modifies(1, v)
+first
+5000
+44 - Uses with LHS syn, RHS wildcard
+assign a;
+Select a such that Uses(a, _)
+6, 9, 10, 11, 12
+5000
+45 - Uses with LHS syn, RHS syn
+print pr; variable v;
+Select pr such that Uses(pr,v)
+14
+5000
+46 - Uses with LHS syn, RHS IDENT
+stmt s;
+Select s such that Uses(s, "limit")
+7, 8
+5000
+47 - Uses with LHS stmt#, RHS syn
+variable v;
+Select v such that Uses(1, v)
+
+5000
+48 - Assign Pattern with 2 wildcards
+while w; assign a;
+Select w pattern a(_,_)
+8
+5000
+49 - Assign Pattern with LHS wildcard, RHS exact match
+assign a;
+Select a pattern a(_, "first")
+9, 10
+5000
+50 - Assign Pattern with LHS wildcard, RHS partial match
+assign a;
+Select a pattern a(_, "_first_")
+9, 10
+5000
+51 - Assign Pattern with LHS syn, RHS exact match
+assign a; variable v;
+Select v pattern a(v, "1")
+first
+5000
+52 - Assign Pattern with LHS syn, RHS partial match
+assign a; variable v;
+Select v pattern a(v, "_1_")
+first
+5000
+53 - Assign Pattern with LHS IDENT, RHS exact match
+assign a; if ifs;
+Select ifs pattern a("d", "7")
+7
+5000
+54 - Assign Pattern with LHS IDENT, RHS partial match
+assign a; while w;
+Select while pattern a("d", "_7_")
+8
+5000
+55 - Assign Pattern with LHS IDENT, RHS exact match + Follows with 2 syn
+assign a, a1;
+Select a1 pattern a("first", "1") such that Follows(a, a1)
+2
+5000
+56 - Assign Pattern with LHS syn, RHS partial match + Follows* with 2 syn
+assign a; print pr; variable v;
+Select pr pattern a(v, "_a_") such that Follows*(a, pr)
+14
+5000
+57 - Assign Pattern with LHS IDENT, RHS partial match + Parent with 2 syn
+while w; assign a;
+Select w pattern a("first", "_p_") such that Parent(w, a)
+8
+5000
+58 - Assign Pattern LHS syn, RHS exact match + Parent* with LHS wildcard, RHS syn
+assign a; variable v;
+Select a pattern a(v, "first") such that Parent*(_, a)
+9, 10
+5000
+59 - Assign Pattern with LHS wildcard, RHS exact match + Uses LHS syn, RHS wildcard
+assign a; stmt s;
+Select s pattern a(_, "p") such that Uses(s, _) 
+6, 7, 8, 9, 10, 11, 12, 14
+5000
+60 - Assign Pattern with 2 wildcards + Modifies with LHS syn, RHS wildcard
+assign a; read r;
+Select r pattern a(_,_) such that Modifies(r, _)
+3, 5
+5000
+61 - Follows with 2 INT + Assign Pattern with LHS wildcard, RHS partial match
+assign a;
+Select a such that Follows(1,2) pattern a(_"_f_") 
+
+5000
+62 - Follows* with LHS syn + Assign Pattern with 2 wildcards
+assign a;
+Select a such that Follows*(a, 7) pattern a(_,_)
+6, 4, 2, 1
+5000
+63 - Parent with 2 syn + Assign Pattern with LHS IDENT, RHS wildcard
+while w; assign a;
+Select w such that Parent(w, a) pattern a("x",_)
+8
+5000
+64 - Parent* with 2 syn + Assign Pattern with both IDENT
+assign a; while w; if ifs;
+Select w such that Parent*(ifs, w) pattern a("count", "count")
+8
+5000
+65 - Uses with 2 syn + Assign Pattern with both IDENT
+assign a; while w;
+Select a such that Parent*(w, a) pattern a("first", "x")
+
+5000
+66 - Modifies with 2 syn + Assign Pattern with LHS syn, RHS exact match
+assign a; variable v; if ifs;
+Select ifs such that Modifies(ifs, v) pattern a(v, "p")
+7
+5000
+67 - Follows with 2 INT
+
+Select BOOLEAN such that Follows(1,2)
+true
+5000
+68 - Follows* with 2 INT
+
+Select BOOLEAN such that Follows*(1,13)
+false
+5000
+69 - Parent with 2 INT
+
+Select BOOLEAN such that Parent(7, 13)
+true
+5000
+70 - Parent* with 2 INT
+
+Select BOOLEAN such that Parent*(7, 12)
+true
+5000
+71 - Uses with LHS stmt#, RHS IDENT
+
+Select BOOLEAN such that Uses(14, "x")
+true
+5000
+72 - Modifies with LHS stmt#, RHS IDENT
+
+Select BOOLEAN such that Modifies(7, "count")
+true
+5000

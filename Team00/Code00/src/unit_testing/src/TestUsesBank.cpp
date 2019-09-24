@@ -86,7 +86,7 @@ TEST_CASE("UsesBank::get_procedures_uses()")
         REQUIRE(result.size() == 2);
         REQUIRE(result[0].compare("main") == 0);
         REQUIRE(result[1].compare("procX") == 0);
-}
+    }
 }
 
 TEST_CASE("UsesBank::get_used_by_statement()")

@@ -1,7 +1,7 @@
 #include "ParentBank.h"
 bool ParentBank::is_parent(int stmt1, int stmt2)
 {
-   return parent_bank.check_relationship(stmt1, stmt2);
+    return parent_bank.check_relationship(stmt1, stmt2);
 }
 
 bool ParentBank::insert_parent(int stmt1, int stmt2)

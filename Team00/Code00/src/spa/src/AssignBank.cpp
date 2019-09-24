@@ -15,7 +15,7 @@ std::vector<int> AssignBank::matches(std::string var, std::string pattern)
     {
         return result;
     }
-    
+
     for (int stmt : var_stmts)
     {
         std::vector<std::string> assignments = assignment_bank.get(stmt);
@@ -52,7 +52,7 @@ std::vector<int> AssignBank::contains(std::string var, std::string pattern)
         // Iteration 1 hack: pad front and end with space to not match other variable
         std::string padded_pattern = " " + pattern + " ";
         std::string padded_assignment = " " + assignment + " ";
-        if (padded_assignment.find(padded_pattern) != std::string::npos) 
+        if (padded_assignment.find(padded_pattern) != std::string::npos)
         {
             result.push_back(stmt);
         }
@@ -104,7 +104,7 @@ std::vector<int> AssignBank::all_contains(std::string pattern)
         // Iteration 1 hack: pad front and end with space to not match other variable
         std::string padded_pattern = " " + pattern + " ";
         std::string padded_assignment = " " + assignment + " ";
-        if (padded_assignment.find(padded_pattern) != std::string::npos) 
+        if (padded_assignment.find(padded_pattern) != std::string::npos)
         {
             result.push_back(stmt);
         }

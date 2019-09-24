@@ -7,20 +7,18 @@
 #include <streambuf>
 #include <list>
 
-
 // include your other headers here
 #include "AbstractWrapper.h"
-#include "./../../spa/src/Parser.h"
+#include "Parser.h"
+#include "PKB.h"
+#include "QueryEvaluator.h"
+#include "ErrorMessages.h"
 
 class TestWrapper : public AbstractWrapper
 {
-private:
-    PKB pkb;
-    Parser parser;
-
 public:
     // default constructor
-    TestWrapper(Parser parser);
+    TestWrapper();
 
     // destructor
     ~TestWrapper();
@@ -29,7 +27,11 @@ public:
     virtual void parse(std::string file_name);
 
     // method for evaluating a query
-    virtual void evaluate(std::string query, std::list<std::string>& results);
+    virtual void evaluate(std::string query, std::list<std::string> &results);
+
+private:
+    PKB pkb;
+    Parser parser;
 };
 
 #endif
