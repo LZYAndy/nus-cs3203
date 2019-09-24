@@ -82,7 +82,7 @@ TEST_CASE("Test replace whitespace function with single space.")
 
 TEST_CASE("Test trim_left")
 {
-    std::string to_be_trim = "  left";
+    std::string to_be_trim = "   left";
     std::string trimed = StringUtil::trim_left(to_be_trim);
 
     std::string correct_trimed = "left";
