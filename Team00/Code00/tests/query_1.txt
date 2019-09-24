@@ -136,7 +136,7 @@ Select ifs such that Parent(_,12)
 28 - Parent* with RHS wildcard
 assign a;
 Select a such that Parent(7,_)
-1, 2, 4, 6, 9, 10, 11, 13
+1, 2, 4, 6, 9, 10, 11, 13, 12
 5000
 29 - Parent* with LHS wildcard, RHS syn
 assign a;
@@ -275,12 +275,12 @@ Select a1 pattern a("first", "1") such that Follows(a, a1)
 5000
 56 - Assign Pattern with LHS syn, RHS partial match + Follows* with 2 syn
 assign a; print pr; variable v;
-Select pr pattern a(v, "_a_") such that Follows*(a, pr)
+Select pr pattern a(v, _"a"_) such that Follows*(a, pr)
 14
 5000
 57 - Assign Pattern with LHS IDENT, RHS partial match + Parent with 2 syn
 while w; assign a;
-Select w pattern a("first", "_p_") such that Parent(w, a)
+Select w pattern a("first", _"p"_) such that Parent(w, a)
 8
 5000
 58 - Assign Pattern LHS syn, RHS exact match + Parent* with LHS wildcard, RHS syn
@@ -300,7 +300,7 @@ Select r pattern a(_,_) such that Modifies(r, _)
 5000
 61 - Follows with 2 INT + Assign Pattern with LHS wildcard, RHS partial match
 assign a;
-Select a such that Follows(1,2) pattern a(_"_f_") 
+Select a such that Follows(1,2) pattern a(_, _"f"_)
 
 5000
 62 - Follows* with LHS syn + Assign Pattern with 2 wildcards
@@ -336,7 +336,7 @@ Select ifs such that Follows(1,2)
 68 - Follows* with 2 INT
 if ifs;
 Select ifs such that Follows*(1,13)
-7
+
 5000
 69 - Parent with 2 INT
 if ifs;
