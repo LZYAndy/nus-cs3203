@@ -21,6 +21,7 @@ WhileParser::WhileParser(PKB &pkb, Statement statement, std::string parent_prog_
     int num_of_control_var = all_variables.size();
     for (int i = 0; i < num_of_control_var; i++)
     {
+        pkb.insert_variable(all_variables[i]);
         pkb.insert_uses(statement.get_prog_line(), all_variables[i]);
     }
 
