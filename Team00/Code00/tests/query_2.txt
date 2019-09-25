@@ -253,3 +253,18 @@ assign a; variable v;
 Select v pattern a(v, "a2")
 A55igNstmt2
 5000
+54 - Assign Pattern with LHS syn, RHS partial match
+assign a; variable v;
+Select v pattern a(v, _"b1"_)
+a1
+5000
+55 - Assign Pattern with LHS IDENT, RHS exact match
+assign a; while w;
+Select w pattern a("a2", "0")
+2, 8
+5000
+56 - Assign Pattern with LHS IDENT, RHS partial match
+assign a; if ifs;
+Select ifs pattern a("a1", _"b1"_)
+3, 5
+5000
