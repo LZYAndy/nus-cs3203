@@ -6,6 +6,14 @@ bool AssignBank::insert_assign(int stmt, std::string var, std::string assignment
     {
         return false;
     }
+    if (var_bank.get(stmt).size() == 1)
+    {
+        return false;
+    }
+    if (assignment_bank.get(stmt).size() == 1)
+    {
+        return false;
+    }
     var_bank.put(stmt, var);
     assignment_bank.put(stmt, assignment);
     var_assignment_bank.put(var, assignment);
