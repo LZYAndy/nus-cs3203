@@ -52,14 +52,14 @@ TEST_CASE("Parses and validate Follows such that clause.")
 
     SECTION("Valid Such that Clause with Follows variables. 1 declared, 1 undeclared.")
     {
-        std::string test_query = "such that Follows(a, 6)";
+        std::string test_query = "such that Follows  *   (a, 6)";
         std::string error = PQLParser::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
         REQUIRE(error == "");
         REQUIRE(such_that_clause.size() == 1);
 
         CHECK(such_that_clause.at(0).equals(pql_dto::FollowsRelationship(pql_dto::Entity("assign", "a", true),
-                                            pql_dto::Entity("stmt", "6", false), false)));
+                                            pql_dto::Entity("stmt", "6", false), true)));
     }
 
     SECTION("Invalid Such that Clause with Follows variables. First statement greater than second statement number.")

@@ -50,7 +50,7 @@ TEST_CASE("Parses and validate Pattern clause.")
 
     SECTION("Valid Pattern Clause. Contains Match second param expression")
     {
-        std::string test_query = "pattern a (_,_\"x+y*z\"_)";
+        std::string test_query = "pattern a (_,_\"       x+y*z\"_)";
         std::string error = PQLParser::parse_pattern_clause(test_query, pattern_clause, declared_variables);
 
         REQUIRE(error == "");
@@ -62,7 +62,7 @@ TEST_CASE("Parses and validate Pattern clause.")
 
     SECTION("Invalid Pattern Clause. Wrong pattern entity")
     {
-        std::string test_query = "pattern v1 (_,_\"x+y*z\"_)";
+        std::string test_query = "pattern v1 (_,_       \"x+y*z\"_)";
         std::string error = PQLParser::parse_pattern_clause(test_query, pattern_clause, declared_variables);
 
         REQUIRE(error == error_messages::invalid_query_wrong_pattern_entity);
