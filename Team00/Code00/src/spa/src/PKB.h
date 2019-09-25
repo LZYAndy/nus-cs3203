@@ -111,7 +111,7 @@ public:
      * @param constant
      * @return true if insert is successful.
      */
-    bool insert_constant(int constant);
+    bool insert_constant(string constant);
 
     /**
      * Get all variables in the varTable.
