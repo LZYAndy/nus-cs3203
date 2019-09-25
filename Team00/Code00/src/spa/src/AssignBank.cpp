@@ -6,6 +6,14 @@ bool AssignBank::insert_assign(int stmt, std::string var, std::string assignment
     {
         return false;
     }
+    if (var_bank.get(stmt).size() == 1)
+    {
+        return false;
+    }
+    if (assignment_bank.get(stmt).size() == 1)
+    {
+        return false;
+    }
     var_bank.put(stmt, var);
     assignment_bank.put(stmt, assignment);
     var_assignment_bank.put(var, assignment);
@@ -55,6 +63,7 @@ std::vector<int> AssignBank::contains(std::string var, std::string pattern)
         std::string assignment = assignments[0];
         // TODO: will not work for iteration 2 onwards
         // Iteration 1 hack: pad front and end with space to not match other variable
+        replace_operator(assignment);
         std::string padded_pattern = " " + pattern + " ";
         std::string padded_assignment = " " + assignment + " ";
         if (padded_assignment.find(padded_pattern) != std::string::npos)
@@ -63,6 +72,13 @@ std::vector<int> AssignBank::contains(std::string var, std::string pattern)
         }
     }
     return result;
+}
+
+std::string AssignBank::replace_operator(std::string &str)
+{
+    std::regex r("[()+\\-*/%]{1}");
+    str = std::regex_replace(str, r, " ");
+    return str;
 }
 
 std::vector<int> AssignBank::all_matches(std::string pattern)
@@ -107,6 +123,7 @@ std::vector<int> AssignBank::all_contains(std::string pattern)
         std::string assignment = assignments[0];
         // TODO: will not work for iteration 2 onwards
         // Iteration 1 hack: pad front and end with space to not match other variable
+        replace_operator(assignment);
         std::string padded_pattern = " " + pattern + " ";
         std::string padded_assignment = " " + assignment + " ";
         if (padded_assignment.find(padded_pattern) != std::string::npos)
