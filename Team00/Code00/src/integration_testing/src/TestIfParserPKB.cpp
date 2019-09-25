@@ -30,8 +30,11 @@ TEST_CASE("Test if parser successfully.")
     std::vector<int> follows = pkb.get_all_follows();
     std::vector<int> followed = pkb.get_all_followed();
     std::vector<int> children = pkb.get_all_children();
+    unordered_set<std::string> all_var = pkb.get_all_variables();
+    int num_of_var = all_var.size();
 
     REQUIRE(parent.size() == 1);
+    REQUIRE(num_of_var == 4);
     REQUIRE(children.size() == 3);
     REQUIRE(follows.size() == 1);
     REQUIRE(followed.size() == 1);
