@@ -89,7 +89,6 @@ namespace pql_dto
         {
             entity_type = EntityType::MATCHEXPR;
         }
-
         else
         {
             throw std::runtime_error(error_messages::invalid_entity_type);
