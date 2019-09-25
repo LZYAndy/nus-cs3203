@@ -8,7 +8,7 @@ public:
         insert_procedure("main");
 
         insert_assign(1, "flag", "0");
-        insert_constant(0);
+        insert_constant("0");
         insert_variable("flag");
         insert_modifies(1, "flag");
         insert_modifies("main", "flag");
@@ -64,14 +64,14 @@ public:
         insert_procedure("computeCentroid");
 
         insert_assign(10, "count", "0");
-        insert_constant(0);
+        insert_constant("0");
         insert_variable("count");
         insert_modifies(10, "count");
         insert_modifies("computeCentroid", "count");
         insert_type(10, EntityType::ASSIGN);
 
         insert_assign(11, "cenX", "0");
-        insert_constant(0);
+        insert_constant("0");
         insert_variable("cenX");
         insert_modifies(11, "cenX");
         insert_modifies("computeCentroid", "cenX");
@@ -79,7 +79,7 @@ public:
         insert_follows(10, 11);
 
         insert_assign(12, "cenY", "0");
-        insert_constant(0);
+        insert_constant("0");
         insert_variable("cenY");
         insert_modifies(12, "cenY");
         insert_modifies("computeCentroid", "cenY");
@@ -91,7 +91,7 @@ public:
         insert_follows(12, 13);
 
         insert_type(14, EntityType::WHILE);
-        insert_constant(0);
+        insert_constant("0");
         insert_uses(14, "x");
         insert_uses(14, "y");
         insert_uses("computeCentroid", "x");
@@ -148,7 +148,7 @@ public:
         insert_follows(17, 18);
 
         insert_type(19, EntityType::IF);
-        insert_constant(0);
+        insert_constant("0");
         insert_variable("count");
         insert_uses(19, "count");
         insert_uses("computeCentroid", "count");
@@ -211,19 +211,19 @@ public:
         insert_follows(19, 23);
 
         insert_type(24, EntityType::WHILE);
-        insert_constant(0);
+        insert_constant("0");
         insert_variable("x");
         insert_uses(24, "x");
 
         insert_type(25, EntityType::IF);
-        insert_constant(0);
+        insert_constant("0");
         insert_variable("y");
         insert_uses(24, "y");
         insert_uses(25, "y");
         insert_parent(24, 25);
 
         insert_type(26, EntityType::WHILE);
-        insert_constant(0);
+        insert_constant("0");
         insert_variable("count");
         insert_uses(24, "count");
         insert_uses(25, "count");
@@ -231,7 +231,7 @@ public:
         insert_parent(25, 26);
 
         insert_type(27, EntityType::IF);
-        insert_constant(0);
+        insert_constant("0");
         insert_variable("cenX");
         insert_uses(24, "cenX");
         insert_uses(25, "cenX");
