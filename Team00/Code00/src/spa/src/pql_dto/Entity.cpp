@@ -118,21 +118,9 @@ namespace pql_dto
             {
                 if (!CheckerUtil::is_expr_valid(name))
                 {
-                    if (name.length() <= 4 || name.find("_\"") != 0 || name.find("\"_") != name.length() - 2)
-                    {
-                        throw std::runtime_error(error_messages::invalid_pattern_expression_format);
-                    }
-                    name = name.substr(2, name.length() - 4);
-                    if (!CheckerUtil::is_expr_valid(name))
-                    {
-                        throw std::runtime_error(error_messages::invalid_pattern_expression_format);
-                    }
-                    entity_name = name;
-                }
-                else
-                {
                     throw std::runtime_error(error_messages::invalid_pattern_expression_format);
                 }
+                entity_name = name;
             }
             else if (entity_type == EntityType::MATCHEXPR)
             {

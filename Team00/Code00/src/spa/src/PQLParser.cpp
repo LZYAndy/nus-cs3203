@@ -360,17 +360,25 @@ pql_dto::Entity PQLParser::create_entity(std::string &var_name, std::unordered_m
         {
             if (is_pattern_expr)
             {
-                entity = pql_dto::Entity("matchexpr", var_name.substr(1, var_name.length() - 2), false);
+                entity = pql_dto::Entity("matchexpr", StringUtil::trim(var_name.substr(1, var_name.length() - 2), whitespace), false);
             }
             else
             {
-                std::string var_value = var_name.substr(1, var_name.length() - 2);
+                std::string var_value = StringUtil::trim(var_name.substr(1, var_name.length() - 2), whitespace);
                 entity = pql_dto::Entity("variable", var_value, false);
             }
         }
         else if (var_name.front() == '_' && var_name.back() == '_' && var_name.length() != 1)
         {
-            entity = pql_dto::Entity("pattexpr", var_name, false);
+            std::string string_value = StringUtil::trim(var_name.substr(1, var_name.length() - 2), whitespace);
+            if (string_value.front() == '"' && string_value.back() == '"' && string_value.length() > 2)
+            {
+                entity = pql_dto::Entity("pattexpr", StringUtil::trim(string_value.substr(1, string_value.length() - 2), whitespace), false);
+            }
+            else
+            {
+                throw std::runtime_error(error_messages::invalid_undeclared_entity_name);
+            }
         }
         else
         {
@@ -387,16 +395,26 @@ pql_dto::Relationships PQLParser::create_relationship(std::string &relationship_
     {
         return pql_dto::FollowsRelationship(first_param, second_param, false);
     }
-    else if (relationship_type == "Follows*")
+    else if (relationship_type.find("Follows") != std::string::npos)
     {
+        relationship_type = StringUtil::remove_all_white_spaces(relationship_type);
+        if (relationship_type != "Follows*")
+        {
+            throw std::runtime_error(error_messages::invalid_relationship_type);
+        }
         return pql_dto::FollowsRelationship(first_param, second_param, true);
     }
     else if (relationship_type == "Parent")
     {
         return pql_dto::ParentRelationship(first_param, second_param, false);
     }
-    else if (relationship_type == "Parent*")
+    else if (relationship_type.find("Parent") != std::string::npos)
     {
+        relationship_type = StringUtil::remove_all_white_spaces(relationship_type);
+        if (relationship_type != "Parent*")
+        {
+            throw std::runtime_error(error_messages::invalid_relationship_type);
+        }
         return pql_dto::ParentRelationship(first_param, second_param, true);
     }
     else if (relationship_type == "Uses")

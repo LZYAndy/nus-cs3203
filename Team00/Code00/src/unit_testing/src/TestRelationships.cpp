@@ -149,7 +149,7 @@ TEST_CASE("Parent Relationships throws error for incorrect entity types.")
     SECTION("Parent Relationship with invalid pattern expression second param entity.", "Parent(7,_\"x + y\"_)")
     {
         pql_dto::Entity first_param_entity = pql_dto::Entity("stmt", "7", false);
-        pql_dto::Entity second_param_entity = pql_dto::Entity("pattexpr", "_\"x+y\"_", false);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("pattexpr", "x+y", false);
         REQUIRE_THROWS_WITH(pql_dto::ParentRelationship(first_param_entity,
                             second_param_entity, false), error_messages::invalid_parent_relationship_second_param);
     }

@@ -57,7 +57,7 @@ TEST_CASE("Parses and validate Pattern clause.")
         REQUIRE(pattern_clause.size() == 1);
 
         CHECK(pattern_clause.at(0).equals(pql_dto::Pattern(pql_dto::Entity("assign", "a", true),
-                                          pql_dto::Entity("any", "_", false), pql_dto::Entity("pattexpr", "_\"x+y*z\"_", false))));
+                                          pql_dto::Entity("any", "_", false), pql_dto::Entity("pattexpr", "x+y*z", false))));
     }
 
     SECTION("Invalid Pattern Clause. Wrong pattern entity")

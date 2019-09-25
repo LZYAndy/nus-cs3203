@@ -39,8 +39,8 @@ TEST_CASE("Correct entity params does not throw error.")
         REQUIRE_NOTHROW(pql_dto::Entity("any", "_", false));
         REQUIRE_NOTHROW(pql_dto::Entity("procedure", "main", false));
         REQUIRE_NOTHROW(pql_dto::Entity("matchexpr", "x+y", false));
-        REQUIRE_NOTHROW(pql_dto::Entity("pattexpr", "_\"x\"_", false));
-        REQUIRE_NOTHROW(pql_dto::Entity("pattexpr", "_\"x + y\"_", false));
+        REQUIRE_NOTHROW(pql_dto::Entity("pattexpr", "x", false));
+        REQUIRE_NOTHROW(pql_dto::Entity("pattexpr", "x + y", false));
     }
 }
 

@@ -44,7 +44,7 @@ TEST_CASE("Pattern can store and retrieve correct entity types.")
     {
         pql_dto::Entity pattern_entity = pql_dto::Entity("assign", "a", true);
         pql_dto::Entity first_param_entity = pql_dto::Entity("any", "_", false);
-        pql_dto::Entity second_param_entity = pql_dto::Entity("pattexpr", "_\"x+y\"_", false);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("pattexpr", "x+y", false);
         REQUIRE_NOTHROW(pql_dto::Pattern(pattern_entity, first_param_entity,
                                          second_param_entity));
     }

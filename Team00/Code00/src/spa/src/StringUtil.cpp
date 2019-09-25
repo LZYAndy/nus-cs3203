@@ -54,6 +54,13 @@ std::string StringUtil::replace_all_white_spaces(std::string &s)
     return s;
 }
 
+std::string StringUtil::remove_all_white_spaces(std::string& s)
+{
+    std::regex r("\\s+");
+    s = std::regex_replace(s, r, "");
+    return s;
+}
+
 std::string StringUtil::trim_left(std::string &s)
 {
     int strStart = s.find_first_not_of(" \n\t\r\f\v");
