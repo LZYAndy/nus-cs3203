@@ -130,9 +130,9 @@ bool PKB::insert_follows(int stmt1, int stmt2)
 
 bool PKB::extract_design()
 {
-    DesignExtractor::extract_follows_star(follows_bank, follows_star_bank);
-    DesignExtractor::extract_parent_star(parent_bank, parent_star_bank, uses_bank, modifies_bank );
-    return true;
+    bool result_follows = DesignExtractor::extract_follows_star(follows_bank, follows_star_bank);
+    bool result_parent = DesignExtractor::extract_parent_star(parent_bank, parent_star_bank, uses_bank, modifies_bank );
+    return result_parent && result_follows;
 }
 
 bool PKB::insert_parent(int stmt1, int stmt2)
@@ -190,8 +190,7 @@ vector<int> PKB::get_children(int stmt)
 
 bool PKB::insert_assign(int stmt, string var, string assignment)
 {
-    assign_bank.put(stmt, var, assignment);
-    return true;
+    return assign_bank.insert_assign(stmt, var, assignment);
 }
 
 vector<int> PKB::get_assign_pattern_matches(string var, string pattern)
@@ -421,12 +420,12 @@ vector<int> PKB::get_all_calls()
 
 bool PKB::does_uses_exist()
 {
-    return !uses_bank.empty();
+    return !uses_bank.does_uses_exist();
 }
 
 bool PKB::does_modifies_exist()
 {
-    return !modifies_bank.empty();
+    return !modifies_bank.does_modifies_exist();
 }
 
 bool PKB::insert_constant(int constant)
