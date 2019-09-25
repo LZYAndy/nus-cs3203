@@ -1,10 +1,15 @@
 #include "AssignBank.h"
 
-void AssignBank::put(int stmt, std::string var, std::string assignment)
+bool AssignBank::insert_assign(int stmt, std::string var, std::string assignment)
 {
+    if (stmt <= 0 )
+    {
+        return false;
+    }
     var_bank.put(stmt, var);
     assignment_bank.put(stmt, assignment);
     var_assignment_bank.put(var, assignment);
+    return true;
 }
 
 std::vector<int> AssignBank::matches(std::string var, std::string pattern)
