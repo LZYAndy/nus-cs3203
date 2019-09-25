@@ -1,7 +1,7 @@
 #include "ParentStarEvaluator.h"
 
-unordered_map<string, vector<string>> ParentStarEvaluator::evaluate_non_trivial(pql_dto::Entity first_param,
-                                   pql_dto::Entity second_param, PKB PKB)
+unordered_map<string, vector<string>> ParentStarEvaluator::evaluate_non_trivial(pql_dto::Entity &first_param,
+        pql_dto::Entity &second_param, PKB &PKB)
 {
     unordered_map<string, vector<string>> result;
     vector<string> empty_vec;
@@ -53,8 +53,7 @@ unordered_map<string, vector<string>> ParentStarEvaluator::evaluate_non_trivial(
     return result;
 }
 
-bool ParentStarEvaluator::evaluate_trivial(pql_dto::Entity first_param,
-        pql_dto::Entity second_param, PKB PKB)
+bool ParentStarEvaluator::evaluate_trivial(pql_dto::Entity &first_param, pql_dto::Entity &second_param, PKB &PKB)
 {
     bool result = false;
     string first_name = first_param.get_entity_name();

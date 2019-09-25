@@ -14,13 +14,14 @@ WhileParser::WhileParser(PKB &pkb, Statement statement, std::string parent_prog_
     std::vector<std::string> all_const = StringUtil::get_all_const(condition);
     for (const std::string& spa_constant : all_const)
     {
-        pkb.insert_constant(stoi(spa_constant));
+        pkb.insert_constant(spa_constant);
     }
 
     std::vector<std::string> all_variables = StringUtil::get_all_var(condition);
     int num_of_control_var = all_variables.size();
     for (int i = 0; i < num_of_control_var; i++)
     {
+        pkb.insert_variable(all_variables[i]);
         pkb.insert_uses(statement.get_prog_line(), all_variables[i]);
     }
 

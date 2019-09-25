@@ -16,6 +16,12 @@ TEST_CASE("AssignParser")
 
     SECTION("Invalid assign statement")
     {
+        Statement stmt = Statement(EntityType::ASSIGN, 1, " a = b + c = d    ");
+        REQUIRE_THROWS_WITH(AssignParser (pkb, stmt, "Parent"), error_messages::invalid_assign_statement);
+    }
+
+    SECTION("Invalid assign statement")
+    {
         Statement stmt = Statement(EntityType::ASSIGN, 1, "10");
         REQUIRE_THROWS_WITH(AssignParser (pkb, stmt, "Parent"), error_messages::invalid_assign_statement);
     }

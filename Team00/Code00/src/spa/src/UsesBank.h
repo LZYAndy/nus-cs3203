@@ -94,7 +94,7 @@ public:
      * Return true if the UsesBank is empty.
      * @return Return true if the UsesBank is empty.
      */
-    bool empty();
+    bool does_uses_exist();
 
 private:
     Bank<int, std::string> stmt_bank;

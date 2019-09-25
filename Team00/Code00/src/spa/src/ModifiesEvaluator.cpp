@@ -1,7 +1,7 @@
 #include "ModifiesEvaluator.h"
 
-unordered_map<string, vector<string>> ModifiesEvaluator::evaluate_non_trivial(pql_dto::Entity first_param,
-                                   pql_dto::Entity second_param, PKB PKB)
+unordered_map<string, vector<string>> ModifiesEvaluator::evaluate_non_trivial(pql_dto::Entity &first_param,
+        pql_dto::Entity &second_param, PKB &PKB)
 {
     unordered_map<string, vector<string>> result;
     vector<string> empty_vec;
@@ -68,8 +68,7 @@ unordered_map<string, vector<string>> ModifiesEvaluator::evaluate_non_trivial(pq
     return result;
 }
 
-bool ModifiesEvaluator::evaluate_trivial(pql_dto::Entity first_param,
-        pql_dto::Entity second_param, PKB PKB)
+bool ModifiesEvaluator::evaluate_trivial(pql_dto::Entity &first_param, pql_dto::Entity &second_param, PKB &PKB)
 {
     bool result = false;
     string first_name = first_param.get_entity_name();

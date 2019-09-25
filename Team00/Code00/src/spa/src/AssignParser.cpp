@@ -4,7 +4,17 @@ std::regex assign_pattern("^\\s*([a-zA-Z][a-zA-Z0-9]*)\\s*=\\s*(.+)\\s*\\;$");
 
 AssignParser::AssignParser(PKB &pkb, Statement statement, std::string parent_prog_line)
 {
+
+    std::string left = get_left(statement.get_statement()); // Valid var
+    std::string right = StringUtil::trim(get_right(statement.get_statement()), " \n\t\r\f\v");
+    vector<std::string> all_var = StringUtil::get_all_var(right);
+
     if (!regex_match(statement.get_statement(), assign_pattern))
+    {
+        throw std::runtime_error(error_messages::invalid_assign_statement);
+    }
+
+    if (!CheckerUtil::is_expr_valid(right))
     {
         throw std::runtime_error(error_messages::invalid_assign_statement);
     }
@@ -13,10 +23,6 @@ AssignParser::AssignParser(PKB &pkb, Statement statement, std::string parent_pro
     {
         throw std::runtime_error(error_messages::invalid_assign_type);
     }
-
-    std::string left = get_left(statement.get_statement()); // Valid var
-    std::string right = get_right(statement.get_statement());
-    vector<std::string> all_var = StringUtil::get_all_var(right);
 
     // Insert var
     pkb.insert_variable(left);
@@ -29,7 +35,7 @@ AssignParser::AssignParser(PKB &pkb, Statement statement, std::string parent_pro
     std::vector<std::string> all_const = StringUtil::get_all_const(statement.get_statement());
     for (const std::string& spa_constant : all_const)
     {
-        pkb.insert_constant(stoi(spa_constant));
+        pkb.insert_constant(spa_constant);
     }
 
     // Insert modifies
