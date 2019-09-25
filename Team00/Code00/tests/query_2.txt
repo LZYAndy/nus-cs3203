@@ -31,7 +31,7 @@ Select a
 7 - constant no clause
 constant c;
 Select c
-0, 1
+0, 111111111111111111111111111111
 5000
 8 - while no clause
 while w;
@@ -126,7 +126,7 @@ Select r such that Follows*(r, s)
 26 - Parent with 2 wildcards
 constant c;
 Select c such that Parent(_,_)
-0, 1
+0, 111111111111111111111111111111
 5000
 27 - Parent with LHS wildcards, RHS syn
 if ifs;
@@ -161,7 +161,7 @@ Select s such that Parent*(_, 6)
 35 - Parent* with RHS wildcard
 constant c;
 Select c such that Parent*(2, _)
-0, 1
+0, 111111111111111111111111111111
 5000
 36 - Parent* with LHS wildcard, RHS syn
 stmt s;
