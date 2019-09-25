@@ -14,7 +14,7 @@ ReadParser::ReadParser(PKB &pkb, Statement statement, std::string parent_prog_li
         throw error_messages::invalid_read_type;
     }
 
-    std::string read_var = get_var(statement.get_statement());
+    std::string read_var = StringUtil::trim(get_var(statement.get_statement()), " \n\t\r\f\v");
 
     //Insert var
     pkb.insert_variable(read_var);

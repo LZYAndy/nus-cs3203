@@ -50,6 +50,11 @@ vector<string> QueryUtility::get_certain_type_str_list(EntityType &type, PKB &PK
     {
         type_list = PKB.get_all_procedures();
     }
+    
+    if (type == EntityType::CONSTANT)
+    {
+        return PKB.get_all_constants();
+    }
 
     for (iter = type_list.begin(); iter != type_list.end(); iter++)
     {
@@ -66,10 +71,6 @@ vector<string> QueryUtility::get_certain_type_int_list(EntityType &type, PKB &PK
 {
     vector<int> type_list;
     vector<string> result;
-    if (type == EntityType::CONSTANT)
-    {
-        type_list = PKB.get_all_constants();
-    }
     if (type == EntityType::ASSIGN)
     {
         type_list = PKB.get_all_assigns();
