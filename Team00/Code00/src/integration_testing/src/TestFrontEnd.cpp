@@ -43,8 +43,8 @@ TEST_CASE("Valid SIMPLE code")
 
     SECTION("Check Constant Table")
     {
-        std::vector<int> constant_list = pkb.get_all_constants();
-        std::vector<int> expected_result = { 1, 7, 0, 4 };
+        std::vector<std::string> constant_list = pkb.get_all_constants();
+        std::vector<std::string> expected_result = {"1", "7", "0", "4" };
         std::sort(constant_list.begin(), constant_list.end());
         std::sort(expected_result.begin(), expected_result.end());
         
