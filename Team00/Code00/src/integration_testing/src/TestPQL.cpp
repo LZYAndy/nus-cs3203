@@ -414,10 +414,10 @@ TEST_CASE("One pattern clause: Assign")
 
 TEST_CASE("One such that clause and one pattern clause")
 {
-    SECTION("such that Uses(a, v) pattern a(v, _)")
+    SECTION("such that Modifies(a, _) pattern a(\"cenX\", _\"cenX\"_)")
     {
-        string pql_query = "assign a; variable v; Select v such that Uses(a, v) pattern a(v, _)";
-        unordered_set<string> expected_result {"count", "cenX", "cenY"};
+        string pql_query = R"(assign a; variable v; Select a such that Modifies(a, _) pattern a("cenX", _"cenX"_))";
+        unordered_set<string> expected_result {"16", "21"};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 
