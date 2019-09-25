@@ -262,7 +262,7 @@ public:
         insert_type(29, EntityType::ASSIGN);
         insert_variable("count");
         insert_assign(29, "count", "0");
-        insert_constant(0);
+        insert_constant("0");
         insert_modifies("whileIfProc", "count");
         insert_modifies(24, "count");
         insert_modifies(25, "count");

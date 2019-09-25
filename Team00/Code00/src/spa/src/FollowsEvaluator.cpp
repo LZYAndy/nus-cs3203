@@ -4,7 +4,7 @@ unordered_map<string, vector<string>> FollowsEvaluator::evaluate_non_trivial(pql
         pql_dto::Entity &second_param, PKB &PKB)
 {
     unordered_map<string, vector<string>> result;
-    vector<string> empty_vec;
+    unordered_map<string, vector<string>> empty_map;
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
 
@@ -26,13 +26,13 @@ unordered_map<string, vector<string>> FollowsEvaluator::evaluate_non_trivial(pql
             }
             else
             {
-                result[first_name] = empty_vec;
+                return empty_map;
             }
         }
         else if (first_param.equals(second_param))
         {
             // e.g. Follows(s, s)
-            result[first_name] = empty_vec;
+            return empty_map;
         }
         else
         {
@@ -60,7 +60,7 @@ unordered_map<string, vector<string>> FollowsEvaluator::evaluate_non_trivial(pql
             }
             else
             {
-                result[second_name] = empty_vec;
+                return empty_map;
             }
         }
     }

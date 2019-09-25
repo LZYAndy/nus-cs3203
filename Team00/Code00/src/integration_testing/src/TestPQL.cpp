@@ -141,7 +141,7 @@ TEST_CASE("One such that clause: Parent and Parent*")
 
     SECTION("Parent(s, s)")
     {
-        string pql_query = "stmt s; Select s such that Parent(s, s)";
+        string pql_query = "stmt s; if ifs; Select s such that Parent*(ifs, ifs)";
         unordered_set<string> expected_result {};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
