@@ -6,7 +6,7 @@ AssignParser::AssignParser(PKB &pkb, Statement statement, std::string parent_pro
 {
 
     std::string left = get_left(statement.get_statement()); // Valid var
-    std::string right = get_right(statement.get_statement());
+    std::string right = StringUtil::trim(get_right(statement.get_statement()), " \n\t\r\f\v");
     vector<std::string> all_var = StringUtil::get_all_var(right);
 
     if (!regex_match(statement.get_statement(), assign_pattern))

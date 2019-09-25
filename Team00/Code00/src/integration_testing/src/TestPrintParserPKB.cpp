@@ -7,7 +7,7 @@ TEST_CASE("PrintParser integration with PKB")
     SECTION("insert_variable")
     {
         PKB pkb;
-        Statement stmt = Statement(EntityType::PRINT, 5, "print a1;");
+        Statement stmt = Statement(EntityType::PRINT, 5, " print a1 ;");
         PrintParser (pkb, stmt, "Parent");
         std::unordered_set<std::string> result = pkb.get_all_variables();
         std::unordered_set<std::string> expected({"a1"});
@@ -29,7 +29,7 @@ TEST_CASE("PrintParser integration with PKB")
         Statement stmt = Statement(EntityType::PRINT, 20, " print A12b     ;");
         PrintParser (pkb, stmt, "Proc1");
         std::vector<std::string> result = pkb.get_used_by_procedure("Proc1");
-        std::vector<std::string> expected({"A12b     "});
+        std::vector<std::string> expected({"A12b"});
         REQUIRE(result == expected);
     }
     SECTION("insert_parent")
