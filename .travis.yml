@@ -10,30 +10,18 @@ stages:
   - documentation
 
 before_script:
-  - cd Team00/Code00
+  - cd Team11/Code11
   - mkdir build
   - cd build
 
 jobs:
   include:
     - stage: compile
-      name: "Compilation"
+      name: "all in one"
       script: 
         - cmake ..
         - make
-    
-    - stage: test
-      name: "Unit Testing"
-      script:
-        - cmake ..
-        - make 
         - cd src/unit_testing 
         - ./unit_testing
-
-    - stage: test
-      name: "Integration Testing"
-      script:
-        - cmake ..
-        - make
-        - cd src/integration_testing
+        - cd ../../src/integration_testing
         - ./integration_testing
