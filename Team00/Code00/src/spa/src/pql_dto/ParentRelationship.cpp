@@ -5,6 +5,11 @@ namespace pql_dto
     class ParentRelationship : public Relationships
     {
     public:
+        /** Constructor for ParentRelationship. Throws a runtime exception if not properly initialised.
+         *  @param first_param The first parameter of the ParentRelationship.
+         *  @param second_param The second parameter of the ParentRelationship.
+         *  @param is_star The is_star value of the ParentRelationship.
+         */
         ParentRelationship(Entity first_param, Entity second_param, bool is_star)
         {
             set_relationship(RelationshipType::PARENT);
