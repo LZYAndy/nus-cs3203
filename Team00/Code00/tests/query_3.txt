@@ -320,7 +320,7 @@ Select a such that Parent(14, a) pattern a(_, _"x"_)
 5000
 65 - Modifies RHS syn pattern both wildcards
 assign a;
-Select a such that Modifies(a, "count") pattern a(_, _"2 * y"_)
+Select a such that Modifies(a, "count") pattern a(_, _"y   "_)
 28
 5000
 66 - Modifies RHS syn pattern both wildcards

@@ -290,7 +290,7 @@ Select a pattern a(v, "0") such that Parent*(_, a)
 5000
 61 - Assign Pattern with LHS wildcard, RHS exact match + Uses LHS syn, RHS wildcard
 assign a; stmt s;
-Select s pattern a(_, "if") such that Uses(s, _)
+Select s pattern a(_, _"if"_) such that Uses(s, _)
 1, 2, 3, 4, 5, 6, 8, 10, 12
 5000
 62 - Assign Pattern with 2 wildcards + Modifies with LHS syn, RHS wildcard
@@ -315,7 +315,7 @@ Select w such that Parent(w, a) pattern a("a2",_)
 5000
 66 - Parent* with 2 syn + Assign Pattern with both IDENT
 assign a; while w; if ifs;
-Select w such that Parent*(ifs, w) pattern a("assignstmt1", "read")
+Select w such that Parent*(ifs, w) pattern a("assignStmt1", _"read"_)
 8
 5000
 67 - Uses with 2 syn + Assign Pattern with both IDENT
@@ -326,7 +326,7 @@ Select a such that Parent*(w, a) pattern a("a2", "0")
 68 - Modifies with 2 syn + Assign Pattern with LHS syn, RHS exact match
 assign a; variable v; if ifs;
 Select ifs such that Modifies(ifs, v) pattern a(v, "if")
-3, 5
+
 5000
 69 - Follows with 2 INT
 read r;
@@ -348,13 +348,13 @@ if ifs;
 Select ifs such that Parent*(2, 7)
 3, 5
 5000
-73 - Uses with LHS stmt#, RHS IDENT
+73 - Modifies with LHS stmt#, RHS IDENT
 print pr;
-Select pr such that Uses(7, "if")
+Select pr such that Modifies(7, "if")
 6, 12
 5000
-74 - Modifies with LHS stmt#, RHS IDENT
+74 - Uses with LHS stmt#, RHS IDENT
 assign a;
-Select a such that Modifies(11, "if")
-1, 4, 9, 10
+Select a such that Uses(11, "if")
+
 5000
