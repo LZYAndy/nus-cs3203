@@ -19,8 +19,8 @@ TEST_CASE("AssignParser integration with PKB")
         PKB pkb;
         Statement stmt = Statement(EntityType::ASSIGN, 2, "a = 1 + 20 - 300 / 400 ;");
         AssignParser (pkb, stmt, "Parent");
-        std::vector<int> result = pkb.get_all_constants();
-        std::vector<int> expected({400, 300, 20, 1});
+        std::vector<std::string> result = pkb.get_all_constants();
+        std::vector<std::string> expected({"400", "300", "20", "1"});
         sort(result.begin(), result.end());
         sort(expected.begin(), expected.end());
         REQUIRE(result.size() == 4);

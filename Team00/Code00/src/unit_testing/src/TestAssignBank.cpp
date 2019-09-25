@@ -5,12 +5,12 @@
 TEST_CASE("AssignBank::matches()")
 {
     AssignBank assign_bank;
-    assign_bank.put(1, "a", "b");
-    assign_bank.put(2, "b", "c");
-    assign_bank.put(3, "c", "d");
-    assign_bank.put(4, "a", "bc");
-    assign_bank.put(5, "a", "b");
-    assign_bank.put(6, "b", "b");
+    assign_bank.insert_assign(1, "a", "b");
+    assign_bank.insert_assign(2, "b", "c");
+    assign_bank.insert_assign(3, "c", "d");
+    assign_bank.insert_assign(4, "a", "bc");
+    assign_bank.insert_assign(5, "a", "b");
+    assign_bank.insert_assign(6, "b", "b");
 
     SECTION("return 1 stmt")
     {
@@ -104,12 +104,12 @@ TEST_CASE("AssignBank::contains()")
 TEST_CASE("AssignBank::all_matches()")
 {
     AssignBank assign_bank;
-    assign_bank.put(1, "a", "b");
-    assign_bank.put(2, "b", "c");
-    assign_bank.put(3, "c", "d");
-    assign_bank.put(4, "a", "bc");
-    assign_bank.put(5, "a", "b");
-    assign_bank.put(6, "b", "b");
+    assign_bank.insert_assign(1, "a", "b");
+    assign_bank.insert_assign(2, "b", "c");
+    assign_bank.insert_assign(3, "c", "d");
+    assign_bank.insert_assign(4, "a", "bc");
+    assign_bank.insert_assign(5, "a", "b");
+    assign_bank.insert_assign(6, "b", "b");
 
     SECTION("return 0 stmt")
     {
@@ -143,12 +143,12 @@ TEST_CASE("AssignBank::all_matches()")
 TEST_CASE("AssignBank::all_contains()")
 {
     AssignBank assign_bank;
-    assign_bank.put(1, "a", "b");
-    assign_bank.put(2, "b", "c");
-    assign_bank.put(3, "c", "d");
-    assign_bank.put(4, "a", "bc");
-    assign_bank.put(5, "a", "b");
-    assign_bank.put(6, "b", "b");
+    assign_bank.insert_assign(1, "a", "b");
+    assign_bank.insert_assign(2, "b", "c");
+    assign_bank.insert_assign(3, "c", "d");
+    assign_bank.insert_assign(4, "a", "bc");
+    assign_bank.insert_assign(5, "a", "b");
+    assign_bank.insert_assign(6, "b", "b");
 
     SECTION("return 0 stmt")
     {
@@ -182,12 +182,12 @@ TEST_CASE("AssignBank::all_contains()")
 TEST_CASE("AssignBank::get_variable_from_statement()")
 {
     AssignBank assign_bank;
-    assign_bank.put(1, "a", "b");
-    assign_bank.put(2, "b", "c");
-    assign_bank.put(3, "c", "d");
-    assign_bank.put(4, "a", "bc");
-    assign_bank.put(5, "a", "b");
-    assign_bank.put(6, "b", "b");
+    assign_bank.insert_assign(1, "a", "b");
+    assign_bank.insert_assign(2, "b", "c");
+    assign_bank.insert_assign(3, "c", "d");
+    assign_bank.insert_assign(4, "a", "bc");
+    assign_bank.insert_assign(5, "a", "b");
+    assign_bank.insert_assign(6, "b", "b");
 
     SECTION("get empty")
     {

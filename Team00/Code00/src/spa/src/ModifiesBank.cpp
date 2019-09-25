@@ -111,7 +111,7 @@ std::unordered_map<int, std::vector<std::string>> ModifiesBank::get_all_modifies
     return stmt_bank.copy();
 }
 
-bool ModifiesBank::empty()
+bool ModifiesBank::does_modifies_exist()
 {
     return proc_bank.empty() && stmt_bank.empty();
 }

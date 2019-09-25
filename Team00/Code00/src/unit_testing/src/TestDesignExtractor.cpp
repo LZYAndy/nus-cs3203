@@ -56,8 +56,8 @@ TEST_CASE("DesignExtractor::extract_parent_star()")
         REQUIRE_FALSE(parent_bank.does_parent_exist());
         DesignExtractor::extract_parent_star(parent_bank, parent_star_bank, uses_bank, modifies_bank);
         REQUIRE_FALSE(parent_star_bank.does_parent_star_exist());
-        REQUIRE(uses_bank.empty());
-        REQUIRE(modifies_bank.empty());
+        REQUIRE(uses_bank.does_uses_exist());
+        REQUIRE(modifies_bank.does_modifies_exist());
     }
 
     SECTION("extract 1 stmt FollowsBank")
