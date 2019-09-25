@@ -58,7 +58,22 @@ TEST_CASE("Test ParserInvoker successfully.")
 
     std::vector<int> follows = pkb.get_all_follows();
     std::vector<int> followed = pkb.get_all_followed();
+    std::vector<int> reads = pkb.get_all_reads();
+    std::vector<int> prints = pkb.get_all_prints();
+    std::vector<int> calls = pkb.get_all_calls();
+    std::vector<int> assigns = pkb.get_all_assigns();
 
     REQUIRE(follows.size() == 5);
     REQUIRE(followed.size() == 5);
+    REQUIRE(reads.size() == 3);
+    REQUIRE(reads[0] == 2);
+    REQUIRE(reads[1] == 5);
+    REQUIRE(reads[2] == 8);
+    REQUIRE(prints.size() == 2);
+    REQUIRE(prints[0] == 3);
+    REQUIRE(prints[1] == 7);
+    REQUIRE(calls.size() == 1);
+    REQUIRE(calls[0] == 6);
+    REQUIRE(assigns.size() == 1);
+    REQUIRE(assigns[0] == 9);
 }
