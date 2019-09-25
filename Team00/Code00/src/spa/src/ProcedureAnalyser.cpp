@@ -136,7 +136,7 @@ int ProcedureAnalyser::find_bracket(std::string src, std::string opening, std::s
     {
         if (src == "")
         {
-            return -1;
+            throw std::runtime_error(error_messages::invalid_SIMPLE);
         }
         std::string this_pos = src.substr(0, 1);
         if (this_pos == opening)
