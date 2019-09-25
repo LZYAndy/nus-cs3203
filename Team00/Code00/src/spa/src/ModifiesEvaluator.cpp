@@ -4,7 +4,6 @@ unordered_map<string, vector<string>> ModifiesEvaluator::evaluate_non_trivial(pq
         pql_dto::Entity &second_param, PKB &PKB)
 {
     unordered_map<string, vector<string>> result;
-    vector<string> empty_vec;
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
 
