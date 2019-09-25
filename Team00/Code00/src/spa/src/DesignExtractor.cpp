@@ -1,7 +1,12 @@
 #include "DesignExtractor.h"
 
-void DesignExtractor::extract_follows_star(FollowsBank &bank_in, FollowsStarBank &bank_out)
+bool DesignExtractor::extract_follows_star(FollowsBank &bank_in, FollowsStarBank &bank_out)
 {
+    if (!bank_in.does_follows_exists())
+    {
+        return false;
+    }
+
     std::vector<int> keys = bank_in.get_all_followed();
     for (int key : keys)
     {
@@ -17,17 +22,21 @@ void DesignExtractor::extract_follows_star(FollowsBank &bank_in, FollowsStarBank
             current = value;
         }
     }
+    return true;
 }
 
-void DesignExtractor::extract_parent_star(ParentBank &bank_in, ParentStarBank &bank_out, UsesBank &uses_bank, ModifiesBank &modifies_bank)
+bool DesignExtractor::extract_parent_star(ParentBank &bank_in, ParentStarBank &bank_out, UsesBank &uses_bank, ModifiesBank &modifies_bank)
 {
-
+    if (!bank_in.does_parent_exist())
+    {
+        return false;
+    }
     std::vector<int> keys = bank_in.get_all_parent();
     for (int key : keys)
     {
         extract_further_parents_child(bank_in, bank_out, uses_bank, modifies_bank, std::vector<int>(), key);
     }
-
+    return true;
 }
 
 void DesignExtractor::extract_further_parents_child(ParentBank &bank_in, ParentStarBank &bank_out, UsesBank &uses_bank, ModifiesBank &modifies_bank, std::vector<int> parents, int child)
