@@ -101,7 +101,7 @@ Select pr such that Follows*(_, 2)
 21 - Follows* with RHS wildcard
 read r;
 Select r such that Follows*(5, _)
-7, 11
+
 5000
 22 - Follows* with LHS wildcard, RHS syn
 print pr;
@@ -205,8 +205,8 @@ a1, if, a2
 5000
 44 - Modifies with LHS IDENT procedure, RHS syn
 variable v;
-Select v such that Modifies("while", v)
-assignStmt1, a1, if, a2, A55igNstmt2, read
+Select v such that Modifies(2, v)
+a1, if, a2
 5000
 45 - Modifies with LHS stmt#, RHS syn
 variable v;
@@ -221,7 +221,7 @@ Select a such that Uses(a, _)
 47 - Uses with LHS syn, RHS syn
 print pr; variable v;
 Select v such that Uses(pr,v)
-6, 12
+procedure, print
 5000
 48 - Uses with LHS syn, RHS IDENT
 stmt s;
