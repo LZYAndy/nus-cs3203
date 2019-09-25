@@ -406,18 +406,18 @@ TEST_CASE("One pattern clause: Assign")
 
     SECTION("pattern a(v, \"0\")")
     {
-        string pql_query = "assign a; variable v; Select v pattern a(v, \"0\")";
-        unordered_set<string> expected_result {"flag", "count", "cenX", "cenY"};
+        string pql_query = "assign a; variable v; Select a pattern a(_, \"t\")";
+        unordered_set<string> expected_result {};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 }
 
 TEST_CASE("One such that clause and one pattern clause")
 {
-    SECTION("such that Modifies(a, _) pattern a(\"cenX\", _\"cenX\"_)")
+    SECTION("such that Modifies(a, _) pattern a(\"cenX\", _\"x \"_)")
     {
-        string pql_query = R"(assign a; variable v; Select a such that Modifies(a, _) pattern a("cenX", _"cenX"_))";
-        unordered_set<string> expected_result {"16", "21"};
+        string pql_query = R"(assign a; stmt s; variable v; if ifs; Select v such that Parent*(ifs, a) pattern a(v, _"y"_))";
+        unordered_set<string> expected_result {"count"};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 

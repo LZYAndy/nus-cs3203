@@ -216,6 +216,20 @@ unordered_set<string> QueryEvaluator::merge(pql_dto::Entity &select_entity,
         }
         else
         {
+            for (const auto& iter : such_that_map)
+            {
+                if (iter.second.empty())
+                {
+                    return unordered_set<string>();
+                }
+            }
+            for (const auto& iter : pattern_map)
+            {
+                if (iter.second.empty())
+                {
+                    return unordered_set<string>();
+                }
+            }
             if (such_that_map.find(select_name) != such_that_map.end())
             {
                 result = QueryEvaluator::get_common_part(such_that_map.at(select_name), select_map.at(select_name));
