@@ -761,12 +761,12 @@ TEST_CASE("PKB::get_all_follows()")
 TEST_CASE("PKB::get_all_variables()")
 {
     PKB pkb;
-    unordered_set<string> varTable;
+    unordered_set<string> var_table;
 
     SECTION("0 variable")
     {
-        varTable = pkb.get_all_variables();
-        REQUIRE(varTable.size() == 0);
+        var_table = pkb.get_all_variables();
+        REQUIRE(var_table.size() == 0);
     }
 
     pkb.insert_variable("x");
@@ -775,22 +775,22 @@ TEST_CASE("PKB::get_all_variables()")
 
     SECTION("more than 0 variable")
     {
-        varTable = pkb.get_all_variables();
-        REQUIRE(varTable.size() == 2);
-        REQUIRE(varTable.count("x") == 1);
-        REQUIRE(varTable.count("y") == 1);
+        var_table = pkb.get_all_variables();
+        REQUIRE(var_table.size() == 2);
+        REQUIRE(var_table.count("x") == 1);
+        REQUIRE(var_table.count("y") == 1);
     }
 }
 
 TEST_CASE("PKB::get_all_procedures()")
 {
     PKB pkb;
-    unordered_set<std::string> procTable;
+    unordered_set<std::string> proc_table;
 
     SECTION("0 procedure")
     {
-        procTable = pkb.get_all_procedures();
-        REQUIRE(procTable.size() == 0);
+        proc_table = pkb.get_all_procedures();
+        REQUIRE(proc_table.size() == 0);
     }
 
     pkb.insert_procedure("main");
@@ -799,10 +799,10 @@ TEST_CASE("PKB::get_all_procedures()")
 
     SECTION("more than 0 procedure")
     {
-        procTable = pkb.get_all_procedures();
-        REQUIRE(procTable.size() == 2);
-        REQUIRE(procTable.count("main") == 1);
-        REQUIRE(procTable.count("procX") == 1);
+        proc_table = pkb.get_all_procedures();
+        REQUIRE(proc_table.size() == 2);
+        REQUIRE(proc_table.count("main") == 1);
+        REQUIRE(proc_table.count("procX") == 1);
     }
 }
 

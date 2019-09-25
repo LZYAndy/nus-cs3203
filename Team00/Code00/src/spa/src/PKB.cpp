@@ -4,13 +4,13 @@ using namespace std;
 
 bool PKB::insert_procedure(string name)
 {
-    auto result = procTable.emplace(name);
+    auto result = proc_table.emplace(name);
     return result.second;
 }
 
 bool PKB::insert_variable(string name)
 {
-    auto result =  varTable.emplace(name);
+    auto result =  var_table.emplace(name);
     return result.second;
 }
 
@@ -36,7 +36,7 @@ bool PKB::insert_modifies(string procedure, string variable)
 
 unordered_set<string> PKB::get_all_variables()
 {
-    return varTable;
+    return var_table;
 }
 
 vector<int> PKB::get_all_statement_nums()
@@ -52,7 +52,7 @@ vector<int> PKB::get_all_statement_nums()
 
 unordered_set<string> PKB::get_all_procedures()
 {
-    return procTable;
+    return proc_table;
 }
 
 vector<int> PKB::get_statements_modifies(string variable)
