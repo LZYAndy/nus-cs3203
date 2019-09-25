@@ -24,14 +24,14 @@ class PKB
 public:
     // Insert APIs
     /**
-     * Insert a procedure into the procTable.
+     * Insert a procedure into the proc_table.
      * @param name
      * @return Return true if the procedure is inserted successfully, otherwise false.
      */
     bool insert_procedure(string name);
 
     /**
-     * Insert a variable into the varTable.
+     * Insert a variable into the var_table.
      * @param name
      * @return Return true if the variable is inserted successfully, otherwise false.
      */
@@ -114,14 +114,16 @@ public:
     bool insert_constant(string constant);
 
     /**
-     * Get all variables in the varTable.
-     * @return Return a string unordered_set of variables that are contained in the varTable.
+     * Get all variables in the var_table.
+     * @return Return a string unordered_set of variables that are contained in the var_table.
      */
+
     unordered_set<std::string> get_all_variables();
     /**
      * Get stmt# of all statements in PKB.
      * @return vector containing all the stmt# of statements.
      */
+
     vector<int> get_all_statement_nums();
     /**
      * Get stmt# of all WHILE statements in PKB.
@@ -155,10 +157,10 @@ public:
     vector<int> get_all_calls();
 
     /**
-     * Get all procedures in the procTable.
-     * @return Return a string unordered_set of procedures that are contained in the procTable.
+     * Get all procedures in the proc_table.
+     * @return Return a string unordered_set of procedures that are contained in the proc_table.
      */
-    unordered_set<std::string> get_all_procedures();
+    unordered_set<string> get_all_procedures();
 
     /**
      * Get statement type.
@@ -537,8 +539,8 @@ private:
     ParentBank parent_bank;
     ParentStarBank parent_star_bank;
     AssignBank assign_bank;
-    unordered_set<string> varTable;
-    unordered_set<string> procTable;
+    unordered_set<string> var_table;
+    unordered_set<string> proc_table;
     unordered_set<string> const_table;
     UsesBank uses_bank;
     ModifiesBank modifies_bank;

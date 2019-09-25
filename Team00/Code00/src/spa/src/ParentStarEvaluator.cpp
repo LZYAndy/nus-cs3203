@@ -4,7 +4,7 @@ unordered_map<string, vector<string>> ParentStarEvaluator::evaluate_non_trivial(
         pql_dto::Entity &second_param, PKB &PKB)
 {
     unordered_map<string, vector<string>> result;
-    vector<string> empty_vec;
+    unordered_map<string, vector<string>> empty_map;
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
 
@@ -25,7 +25,7 @@ unordered_map<string, vector<string>> ParentStarEvaluator::evaluate_non_trivial(
         else if (first_param.equals(second_param))
         {
             // e.g. Parent*(s, s)
-            result[first_name] = empty_vec;
+            return empty_map;
         }
         else
         {
