@@ -236,7 +236,7 @@ TEST_CASE("Test parse_statement method successful with nested while loop.")
     REQUIRE(stmt_5.get_statement_type() == EntityType::READ);
 }
 
-TEST_CASE("Test parse_statement method successful with nested while.")
+TEST_CASE("Test parse_statement method successful with complicated SIMPLE.")
 {
     std::string stmt_to_parse = " first = 1; \n d = 7; \n read b; \n count = 0; \n read first; \n d = a; \n if (d > limit) then { \n while (count < limit) { \n p = first; \n x = first; \n first = p; \n count = count; }} \n else { \n x = 4; } \n print x; ";
     StatementListParser statementListParser = StatementListParser(stmt_to_parse, 0);
