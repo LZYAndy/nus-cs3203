@@ -111,7 +111,7 @@ public:
      * @param constant
      * @return true if insert is successful.
      */
-    bool insert_constant(int constant);
+    bool insert_constant(string constant);
 
     /**
      * Get all variables in the var_table.
@@ -531,7 +531,7 @@ public:
      * Get all constants in PKB.
      * @return vector of constants
      */
-    vector<int> get_all_constants();
+    vector<string> get_all_constants();
 
 private:
     FollowsBank follows_bank;
@@ -541,7 +541,7 @@ private:
     AssignBank assign_bank;
     unordered_set<string> var_table;
     unordered_set<string> proc_table;
-    unordered_set<int> const_table;
+    unordered_set<string> const_table;
     UsesBank uses_bank;
     ModifiesBank modifies_bank;
     TypeBank type_bank;

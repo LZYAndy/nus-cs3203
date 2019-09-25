@@ -2154,14 +2154,14 @@ TEST_CASE("PKB::insert_constant()")
     PKB pkb;
     SECTION("success")
     {
-        REQUIRE(pkb.insert_constant(1));
-        REQUIRE(pkb.insert_constant(-1));
+        REQUIRE(pkb.insert_constant("1"));
+        REQUIRE(pkb.insert_constant("-1"));
     }
 
     SECTION("fail")
     {
-        REQUIRE(pkb.insert_constant(1));
-        REQUIRE_FALSE(pkb.insert_constant(1));
+        REQUIRE(pkb.insert_constant("1"));
+        REQUIRE_FALSE(pkb.insert_constant("1"));
     }
 }
 
@@ -2175,19 +2175,19 @@ TEST_CASE("PKB::get_all_constants()")
 
     SECTION("return 1")
     {
-        pkb.insert_constant(1);
-        pkb.insert_constant(1);
+        pkb.insert_constant("1");
+        pkb.insert_constant("1");
         REQUIRE(pkb.get_all_constants().size() == 1);
-        REQUIRE(pkb.get_all_constants()[0] == 1);
+        REQUIRE(pkb.get_all_constants()[0] == "1");
     }
 
     SECTION("return >1")
     {
-        pkb.insert_constant(1);
-        pkb.insert_constant(2);
-        pkb.insert_constant(3);
-        std::vector<int> result = pkb.get_all_constants();
-        std::vector<int> expected({1, 2, 3});
+        pkb.insert_constant("1");
+        pkb.insert_constant("2");
+        pkb.insert_constant("3");
+        std::vector<std::string> result = pkb.get_all_constants();
+        std::vector<std::string> expected({"1", "2", "3"});
         std::sort(result.begin(), result.end());
         std::sort(expected.begin(), expected.end());
         REQUIRE(result.size() == 3);

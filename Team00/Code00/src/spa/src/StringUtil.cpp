@@ -77,7 +77,7 @@ std::vector<std::string> StringUtil::get_all_var(std::string statement)
         statement = match.suffix().str();
         if (CheckerUtil::is_name_valid(current_word))
         {
-            all_var.push_back(current_word);
+            all_var.push_back(trim(current_word, " \n\t\r\f\v"));
         }
     }
 
