@@ -100,7 +100,7 @@ public:
 
     /**
      * Extract additional relationships and populate into PKB.
-     * This method should only be called after all insertion have been done so that the method 
+     * This method should only be called after all insertion have been done so that the method
      * can extract all possible relationships based on the inserts.
      * @return true if the extract and populate process is successful.
      */
@@ -212,8 +212,8 @@ public:
      */
     vector<int> get_parent_star(int stmt);
     /**
-     * Get all stmt# of statements which the queried statement is directly or indirectly 
-     * the Parent. 
+     * Get all stmt# of statements which the queried statement is directly or indirectly
+     * the Parent.
      * @param stmt# of statement to be queried.
      * @return vector of stmt# which the queried statement is the Parent.
      */
@@ -282,7 +282,7 @@ public:
      * @return vector of stmt# that ASSIGN statements that fulfill the requirements.
      */
     vector<int> get_assign_pattern_matches(string var, string pattern);
-    /** 
+    /**
      * Get all stmt# of ASSIGN statement that containing the variable and its RHS expression contains the pattern.
      * @param var variable name in the ASSIGN statement.
      * @param pattern the pattern to match.
@@ -411,25 +411,25 @@ public:
 
     /**
      * Get all Parent relationship that exists in PKB.
-     * @return unordered_map containing all Parent relationship that exists in PKB with 
+     * @return unordered_map containing all Parent relationship that exists in PKB with
      * the Parent as key and all the children stored in a vector as value.
      */
     unordered_map<int, std::vector<int>> get_all_parent_relationship();
     /**
      * Get all Follows relationship that exists in PKB.
-     * @return unordered_map containing all Follows relationship that exists in PKB with 
+     * @return unordered_map containing all Follows relationship that exists in PKB with
      * the Follows as key and all Followed stored in a vector as value.
      */
     unordered_map<int, std::vector<int>> get_all_follows_relationship();
     /**
      * Get all Parent* relationship that exists in PKB.
-     * @return unordered_map containing all Parent* relationship that exists in PKB with 
+     * @return unordered_map containing all Parent* relationship that exists in PKB with
      * the Parent as key and all the descendants stored in a vector as value.
      */
     unordered_map<int, std::vector<int>> get_all_parent_star_relationship();
     /**
      * Get all Follows* relationship that exists in PKB.
-     * @return unordered_map containing all Follows relationship that exists in PKB with 
+     * @return unordered_map containing all Follows relationship that exists in PKB with
      * the Follows as key and all that directly or indirectly Followed stored in a vector as value.
      */
     unordered_map<int, std::vector<int>> get_all_follows_star_relationship();

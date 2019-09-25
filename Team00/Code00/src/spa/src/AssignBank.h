@@ -24,7 +24,7 @@ public:
      * @return vector of stmt# that ASSIGN statements that fulfill the requirements.
      */
     std::vector<int> matches(std::string var, std::string pattern);
-    /** 
+    /**
      * Get all stmt# of ASSIGN statement that containing the variable and its RHS expression contains the pattern.
      * @param var variable name in the ASSIGN statement.
      * @param pattern the pattern to match.

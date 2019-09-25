@@ -1,7 +1,7 @@
 #include "AssignEvaluator.h"
 
 unordered_map<string, vector<string>> AssignEvaluator::evaluate(pql_dto::Pattern &pattern,
-        pql_dto::Entity &first_param, pql_dto::Entity &second_param, PKB &PKB)
+                                   pql_dto::Entity &first_param, pql_dto::Entity &second_param, PKB &PKB)
 {
     unordered_map<string, vector<string>> result;
     string pattern_name = pattern.get_pattern_entity().get_entity_name();

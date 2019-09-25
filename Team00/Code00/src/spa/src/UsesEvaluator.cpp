@@ -1,7 +1,7 @@
 #include "UsesEvaluator.h"
 
 unordered_map<string, vector<string>> UsesEvaluator::evaluate_non_trivial(pql_dto::Entity &first_param,
-        pql_dto::Entity &second_param, PKB &PKB)
+                                   pql_dto::Entity &second_param, PKB &PKB)
 {
     unordered_map<string, vector<string>> result;
     string first_name = first_param.get_entity_name();

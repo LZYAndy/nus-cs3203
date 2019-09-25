@@ -153,7 +153,7 @@ TEST_CASE("AssignBank::all_contains()")
     assign_bank.insert_assign(8, "f", "b+");
     assign_bank.insert_assign(9, "g", "-b");
     assign_bank.insert_assign(10, "b", "%b/");
-    
+
     SECTION("return 0 stmt")
     {
         std::vector<int> stmts;

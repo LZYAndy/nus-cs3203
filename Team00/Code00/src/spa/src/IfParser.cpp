@@ -15,7 +15,7 @@ IfParser::IfParser(PKB &pkb, Statement statement, std::string parent_prog_line)
 
     // Insert const
     std::vector<std::string> all_const = StringUtil::get_all_const(condition);
-    for (const std::string& spa_constant : all_const)
+    for (const std::string &spa_constant : all_const)
     {
         pkb.insert_constant(spa_constant);
     }

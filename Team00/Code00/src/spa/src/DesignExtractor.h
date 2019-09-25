@@ -15,7 +15,7 @@ class DesignExtractor
 public:
     /**
      * Extract Follows* relationships and populate into PKB.
-     * This method should only be called after all insertion have been done so that the method 
+     * This method should only be called after all insertion have been done so that the method
      * can extract all possible relationships based on the inserts.
      * @param &bank_in reference to FollowsBank.
      * @param &bank_out reference to FollowsStarBank.
@@ -25,7 +25,7 @@ public:
     /**
      * Extract Parent* relationships and populate into PKB.
      * This method also populate new Uses and Modifies relationship created during the extraction process of Parent* relationship into the PKB.
-     * This method should only be called after all insertion have been done so that the method 
+     * This method should only be called after all insertion have been done so that the method
      * can extract all possible relationships based on the inserts.
      * @param &bank_in reference to ParentBank.
      * @param &bank_out reference to ParentStarBank.
@@ -36,8 +36,8 @@ public:
     static bool extract_parent_star(ParentBank &bank_in, ParentStarBank &bank_out, UsesBank &uses_bank, ModifiesBank &modifies_bank);
 
 private:
-    static void extract_further_parents_child(ParentBank &bank_in, ParentStarBank &bank_out, 
-                                              UsesBank &uses_bank, ModifiesBank &modifies_bank, std::vector<int> parents, int child);
+    static void extract_further_parents_child(ParentBank &bank_in, ParentStarBank &bank_out,
+            UsesBank &uses_bank, ModifiesBank &modifies_bank, std::vector<int> parents, int child);
 };
 
 #endif //AUTOTESTER_DESIGNEXTRACTOR_H

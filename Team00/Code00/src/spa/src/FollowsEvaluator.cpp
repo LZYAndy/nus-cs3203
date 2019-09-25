@@ -1,7 +1,7 @@
 #include "FollowsEvaluator.h"
 
 unordered_map<string, vector<string>> FollowsEvaluator::evaluate_non_trivial(pql_dto::Entity &first_param,
-        pql_dto::Entity &second_param, PKB &PKB)
+                                   pql_dto::Entity &second_param, PKB &PKB)
 {
     unordered_map<string, vector<string>> result;
     unordered_map<string, vector<string>> empty_map;
@@ -68,7 +68,7 @@ unordered_map<string, vector<string>> FollowsEvaluator::evaluate_non_trivial(pql
 }
 
 bool FollowsEvaluator::evaluate_trivial(pql_dto::Entity &first_param,
-        pql_dto::Entity &second_param, PKB &PKB)
+                                        pql_dto::Entity &second_param, PKB &PKB)
 {
     bool result = false;
     string first_name = first_param.get_entity_name();

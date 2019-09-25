@@ -50,7 +50,7 @@ vector<string> QueryUtility::get_certain_type_str_list(EntityType &type, PKB &PK
     {
         type_list = PKB.get_all_procedures();
     }
-    
+
     if (type == EntityType::CONSTANT)
     {
         return PKB.get_all_constants();
@@ -179,7 +179,7 @@ unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity &key
 }
 
 unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity &key_1, pql_dto::Entity &key_2,
-        unordered_map<int, vector<int>> &int_map, PKB &PKB)
+                                   unordered_map<int, vector<int>> &int_map, PKB &PKB)
 {
     unordered_map<std::string, std::vector<std::string>> result;
     vector<string> key_value_1;
@@ -206,7 +206,7 @@ unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity &key
 }
 
 unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity &key_1, pql_dto::Entity &key_2,
-        unordered_map<string, vector<string>> &str_map)
+                                   unordered_map<string, vector<string>> &str_map)
 {
     unordered_map<std::string, std::vector<std::string>> result;
     vector<string> key_value_1;
@@ -227,7 +227,7 @@ unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity &key
 }
 
 unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity &key_1, pql_dto::Entity &key_2,
-        unordered_map<int, vector<string>> &int_str_map, PKB &PKB)
+                                   unordered_map<int, vector<string>> &int_str_map, PKB &PKB)
 {
     unordered_map<std::string, std::vector<std::string>> result;
     vector<string> key_value_1;
@@ -264,7 +264,7 @@ unordered_map<string, vector<string>> QueryUtility::mapping(string &str, vector<
 }
 
 unordered_map<string, vector<string>> QueryUtility::mapping(string &str_1, string &str_2,
-        vector<int> &int_vec, PKB &PKB)
+                                   vector<int> &int_vec, PKB &PKB)
 {
     unordered_map<std::string, std::vector<std::string>> result;
     vector<string> key_value;
@@ -280,7 +280,7 @@ unordered_map<string, vector<string>> QueryUtility::mapping(string &str_1, strin
 }
 
 unordered_map<string, vector<string>> QueryUtility::mapping(string &str, pql_dto::Entity &key,
-        vector<int> &int_vec, PKB &PKB)
+                                   vector<int> &int_vec, PKB &PKB)
 {
     unordered_map<std::string, std::vector<std::string>> result;
     vector<string> key_value_1;

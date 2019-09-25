@@ -97,7 +97,7 @@ TEST_CASE("Test analyse() method for multiple procedures input 2.")
 //    std::vector<Procedure> list_of_proc = procedureAnalyser.analyse();
 //    int num_of_proc = list_of_proc.size();
 
-    // Test the procedure is correct or not.
+// Test the procedure is correct or not.
 //    Procedure procedure1 = list_of_proc[0];
 //    Procedure procedure2 = list_of_proc[1];
 //    Procedure procedure3 = list_of_proc[2];

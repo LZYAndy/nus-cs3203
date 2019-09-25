@@ -30,15 +30,15 @@ public:
      */
     std::vector<int> get_parent_star(int stmt);
     /**
-     * Get all stmt# of statements which the queried statement is directly or indirectly 
-     * the Parent. 
+     * Get all stmt# of statements which the queried statement is directly or indirectly
+     * the Parent.
      * @param stmt# of statement to be queried.
      * @return vector of stmt# which the queried statement is the Parent.
      */
     std::vector<int> get_children_star(int stmt);
     /**
      * Get all Parent* relationship that exists in PKB.
-     * @return unordered_map containing all Parent* relationship that exists in PKB with 
+     * @return unordered_map containing all Parent* relationship that exists in PKB with
      * the Parent as key and all the descendants stored in a vector as value.
      */
     std::unordered_map<int, std::vector<int>> get_all_parent_star_relationship();
@@ -49,7 +49,7 @@ public:
     bool does_parent_star_exist();
     /**
      * Get all Parent* relationship that exists in PKB.
-     * @return unordered_map containing all Parent* relationship that exists in PKB with 
+     * @return unordered_map containing all Parent* relationship that exists in PKB with
      * the Parent as key and all the descendants stored in a vector as value.
      */
     std::vector<int> get_all_parent_star();

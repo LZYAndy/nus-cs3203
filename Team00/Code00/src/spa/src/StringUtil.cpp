@@ -54,7 +54,7 @@ std::string StringUtil::replace_all_white_spaces(std::string &s)
     return s;
 }
 
-std::string StringUtil::remove_all_white_spaces(std::string& s)
+std::string StringUtil::remove_all_white_spaces(std::string &s)
 {
     std::regex r("\\s+");
     s = std::regex_replace(s, r, "");

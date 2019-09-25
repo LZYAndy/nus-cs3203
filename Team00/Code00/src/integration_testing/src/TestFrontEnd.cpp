@@ -1,7 +1,6 @@
-#include "TNode.h"
 #include "catch.hpp"
-#include <PKB.h>
-#include <Parser.h>
+#include "PKB.h"
+#include "Parser.h"
 
 using namespace std;
 
@@ -35,8 +34,9 @@ TEST_CASE("Valid SIMPLE code")
     SECTION("Check Variables Table")
     {
         std::unordered_set<std::string> assign_list = pkb.get_all_variables();
-        std::unordered_set<std::string> expected_result = { "first", "d", "b", 
-            "count", "first", "a", "limit", "p", "x" };
+        std::unordered_set<std::string> expected_result = { "first", "d", "b",
+                                                            "count", "first", "a", "limit", "p", "x"
+                                                          };
 
         REQUIRE(assign_list == expected_result);
     }
@@ -47,7 +47,7 @@ TEST_CASE("Valid SIMPLE code")
         std::vector<std::string> expected_result = {"1", "7", "0", "4" };
         std::sort(constant_list.begin(), constant_list.end());
         std::sort(expected_result.begin(), expected_result.end());
-        
+
         REQUIRE(constant_list == expected_result);
     }
 
@@ -65,7 +65,7 @@ TEST_CASE("Valid SIMPLE code")
         std::vector<int> expected_result = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
         std::sort(modifies_list.begin(), modifies_list.end());
         std::sort(expected_result.begin(), expected_result.end());
-        
+
         REQUIRE(modifies_list == expected_result);
     }
 
@@ -75,7 +75,7 @@ TEST_CASE("Valid SIMPLE code")
         std::vector<int> expected_result = { 14, 12, 6, 7, 8, 9, 10, 11 };
         std::sort(uses_list.begin(), uses_list.end());
         std::sort(expected_result.begin(), expected_result.end());
-        
+
         REQUIRE(uses_list == expected_result);
     }
 }

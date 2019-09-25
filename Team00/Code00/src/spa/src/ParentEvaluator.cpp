@@ -1,7 +1,7 @@
 #include "ParentEvaluator.h"
 
 unordered_map<string, vector<string>> ParentEvaluator::evaluate_non_trivial(pql_dto::Entity &first_param,
-        pql_dto::Entity &second_param, PKB &PKB)
+                                   pql_dto::Entity &second_param, PKB &PKB)
 {
     unordered_map<string, vector<string>> result;
     unordered_map<string, vector<string>> empty_map;

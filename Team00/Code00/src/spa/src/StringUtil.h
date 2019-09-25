@@ -47,7 +47,7 @@ public:
      * @param s The pointer to the string.
      * @return The string without whitespaces.
      */
-    static std::string remove_all_white_spaces(std::string& s);
+    static std::string remove_all_white_spaces(std::string &s);
 
     /**
       * Removes all whitespaces from the beginning of the string.

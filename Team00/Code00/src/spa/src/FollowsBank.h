@@ -32,30 +32,30 @@ public:
 
     /**
      * Get all Follows relationship that exists in FollowsBank.
-     * @return unordered_map containing all Follows relationship that exists in FollowsBank with 
+     * @return unordered_map containing all Follows relationship that exists in FollowsBank with
      * the Follows as key and all Followed stored in a vector as value.
      */
     std::unordered_map<int, std::vector<int>> get_all_follows_relationship();
-   
+
     /**
      * Get all stmt# of statements that Follows.
      * @return vector of stmt# that Follows.
      */
     std::vector<int> get_all_follows();
-    
-     /**
-     * Get all stmt# of statements that Followed.
-     * @return vector of stmt# that Followed.
-     */
+
+    /**
+    * Get all stmt# of statements that Followed.
+    * @return vector of stmt# that Followed.
+    */
     std::vector<int> get_all_followed();
-   
+
     /**
      * Get stmt# of statement that Followed the queried statement.
      * @param stmt# of statement to be queried.
      * @return stmt# that Followed the queried statement.
      */
     int get_followed_by(int stmt);
-   
+
     /**
      * Get stmt# of statement that Follows the queried statement.
      * @param stmt# of statement to be queried.

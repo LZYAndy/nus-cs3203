@@ -22,7 +22,7 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
      * parse the PQL query
      */
     error_msg = PQLParser::pql_parse_query(move(query), declaration_clause, select_clause,
-            such_that_clause, pattern_clause);
+                                           such_that_clause, pattern_clause);
     if (!error_msg.empty())
     {
         return empty_set;
@@ -216,14 +216,14 @@ unordered_set<string> QueryEvaluator::merge(pql_dto::Entity &select_entity,
         }
         else
         {
-            for (const auto& iter : such_that_map)
+            for (const auto &iter : such_that_map)
             {
                 if (iter.second.empty())
                 {
                     return unordered_set<string>();
                 }
             }
-            for (const auto& iter : pattern_map)
+            for (const auto &iter : pattern_map)
             {
                 if (iter.second.empty())
                 {

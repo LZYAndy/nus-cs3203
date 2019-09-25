@@ -61,13 +61,17 @@ void DesignExtractor::extract_further_parents_child(ParentBank &bank_in, ParentS
         if (!uses_var.empty())
         {
             for (std::string var : uses_var)
-            uses_bank.insert_uses(parent, var);
+            {
+                uses_bank.insert_uses(parent, var);
+            }
         }
         std::vector<std::string> modifies_var = modifies_bank.get_modified_by_statement(child);
         if (!modifies_var.empty())
         {
             for (std::string var : modifies_var)
-            modifies_bank.insert_modifies(parent, var);
+            {
+                modifies_bank.insert_modifies(parent, var);
+            }
         }
     }
     return;

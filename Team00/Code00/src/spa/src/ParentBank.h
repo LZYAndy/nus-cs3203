@@ -24,7 +24,7 @@ public:
     bool insert_parent(int stmt1, int stmt2);
     /**
      * Get all Parent relationship that exists in ParentBank.
-     * @return unordered_map containing all Parent relationship that exists in PKB with 
+     * @return unordered_map containing all Parent relationship that exists in PKB with
      * the Parent as key and all the children stored in a vector as value.
      */
     std::unordered_map<int, std::vector<int>> get_all_parent_relationship();

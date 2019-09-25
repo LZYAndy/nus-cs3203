@@ -33,7 +33,7 @@ AssignParser::AssignParser(PKB &pkb, Statement statement, std::string parent_pro
 
     // Insert const
     std::vector<std::string> all_const = StringUtil::get_all_const(statement.get_statement());
-    for (const std::string& spa_constant : all_const)
+    for (const std::string &spa_constant : all_const)
     {
         pkb.insert_constant(spa_constant);
     }
