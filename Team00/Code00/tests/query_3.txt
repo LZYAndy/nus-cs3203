@@ -1,0 +1,340 @@
+1 - var no clause
+variable v;
+Select v
+flag, count, cenX, cenY, x, y, normSq
+5000
+2 - assign no clause
+assign a;
+Select a
+1, 10, 11, 12, 15, 16, 17, 20, 21, 22, 23, 28, 29, 30, 31, 32
+5000
+3 - const no clause
+constant c;
+Select c
+0, 1, 2, 3
+5000
+4 - Follows RHS wildcard
+assign a;
+Select a such that Follows(a, _)
+1, 10, 11, 12, 15, 16, 17, 21, 23, 29, 31
+5000
+5 - Follows RHS wildcard
+assign a; variable v;
+Select v such that Follows(a, _)
+flag, count, cenX, cenY, x, y, normSq
+5000
+6 - Follows LHS syn
+stmt s;
+Select s such that Follows(s, 12)
+11
+5000
+7 - Follows LHS syn
+stmt s; variable v;
+Select v such that Follows(s, 12)
+flag, count, cenX, cenY, x, y, normSq
+5000
+8 - Follows LHS syn
+stmt s;
+Select s such that Follows(s, 15)
+
+5000
+9 - Edge case: Follows LHS syn
+stmt s;
+Select s such that Follows(s, 100)
+
+5000
+10 - Follows itself
+stmt s;
+Select s such that Follows(s, s)
+
+5000
+11 - Follows call
+call cl; stmt s;
+Select s such that Follows(s, cl)
+1, 2, 12, 17
+5000
+12 - Follows call
+call cl; while w; variable v;
+Select v such that Follows(cl, w)
+flag, count, cenX, cenY, x, y, normSq
+5000
+13 - Follows two wildcards
+call cl;
+Select cl such that Follows(_, _)
+2, 3, 13, 18
+5000
+14 - Follows LHS wildcard
+call cl;
+Select cl such that Follows(_, 2)
+2, 3, 13, 18
+5000
+15 - Follows* LHS syn
+stmt s;
+Select s such that Follows*(s, 12)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+16 - Follows* call
+call cl; stmt s;
+Select cl such that Follows*(s, cl)
+2, 3, 13, 18
+5000
+17 - Follows* itself
+call cl;
+Select cl such that Follows*(_, _)
+2, 3, 13, 18
+5000
+18 - Follows* RHS wildcard
+call cl;
+Select cl such that Follows*(_, 12)
+2, 3, 13, 18
+5000
+19 - Parent RHS wildcard
+stmt s;
+Select s such that Parent(s, _)
+14, 19, 24, 25, 26, 27
+5000
+20 - Parent LHS syn
+stmt s;
+Select s such that Parent(s, 15)
+14
+5000
+21 - Parent itself
+stmt s;
+Select s such that Parent(s, s)
+
+5000
+22 - w Parent if
+while w; if ifs;
+Select w such that Parent(w, ifs)
+24, 26
+5000
+23 - s Parent a
+assign a; stmt s;
+Select s such that Parent(s, a)
+14, 19, 25, 27
+5000
+24 - Parent two wildcards
+call cl;
+Select cl such that Parent(_, _)
+2, 3, 13, 18
+5000
+25 - Parent LHS wildcard
+call cl;
+Select cl such that Parent(_, 2)
+
+5000
+26 - Parent LHS wildcard
+call cl;
+Select cl such that Parent(_, 22)
+2, 3, 13, 18
+5000
+27 - Parent* LHS syn
+stmt s;
+Select s such that Parent*(s, 28)
+24, 25, 26, 27
+5000
+28 - Parent* RHS syn
+stmt s;
+Select s such that Parent*(24, s)
+25, 26, 27, 28, 29, 30, 31, 32
+5000
+29 - if Parent* s
+if ifs; stmt s;
+Select s such that Parent*(ifs, s)
+20, 21, 22, 26, 27, 28, 29, 30, 31, 32
+5000
+30 - Parent* itself
+call cl;
+Select cl such that Parent*(_, _)
+2, 3, 13, 18
+5000
+31 - Parent* LHS syn
+assign a;
+Select a such that Parent*(_, 17)
+1, 10, 11, 12, 15, 16, 17, 20, 21, 22, 23, 28, 29, 30, 31, 32
+5000
+32 - Modifies RHS syn
+variable v;
+Select v such that Modifies(1, v)
+flag
+5000
+33 - main Modifies v
+variable v;
+Select v such that Modifies("main", v)
+x, y, count, cenX, cenY, flag, normSq
+5000
+34 - p Modifies v
+procedure p; variable v;
+Select p such that Modifies(p, v)
+main
+5000
+35 - r Modifies v
+variable v; read r;
+Select r such that Modifies(r, v)
+4, 5
+5000
+36 - Modifies RHS wildcard
+procedure p;
+Select p such that Modifies(p, _)
+main
+5000
+37 - p Modifies flag
+procedure p;
+Select p such that Modifies(p, "flag")
+main
+5000
+38 - Modifies RHS syn
+assign a;
+Select a such that Modifies(a, _)
+1, 10, 11, 12, 15, 16, 17, 20, 21, 22, 23, 28, 29, 30, 31, 32
+5000
+39 - s Modifies x
+stmt s;
+Select s such that Modifies(s, "x")
+4, 24, 25, 26, 27, 30
+5000
+40 - stmt14 Modifies x
+call cl;
+Select cl such that Modifies(14, "cenX")
+2, 3, 13, 18
+5000
+41 - stmt15 Uses v
+variable v;
+Select v such that Modifies(15, v)
+count
+5000
+42 - computeCentroid Uses v
+variable v;
+Select v such that Uses("computeCentroid", v)
+
+5000
+43 - p Uses v
+procedure p; variable v;
+Select p such that Uses(p, v)
+main
+5000
+44 - a Uses v
+variable v; assign a;
+Select a such that Uses(a, v)
+15, 16, 17, 20, 21, 22, 23, 28
+5000
+45 - Uses RHS wildcard
+while w;
+Select w such that Uses(w, _)
+14, 24, 26
+5000
+46 - p Uses normSq
+procedure p;
+Select p such that Uses(p, "normSq")
+main
+5000
+47 - Uses RHS wildcard
+assign a;
+Select a such that Uses(a, _)
+15, 16, 17, 20, 21, 22, 23, 28
+5000
+48 - a Uses x
+assign a;
+Select a such that Uses(a, "x")
+16
+5000
+49 - stmt14 Uses x
+call cl;
+Select cl such that Uses(14, "x")
+2, 3, 13, 18
+5000
+50 - pattern two wildcard
+assign a;
+Select a pattern a(_, _)
+1, 10, 11, 12, 15, 16, 17, 20, 21, 22, 23, 28, 29, 30, 31, 32
+5000
+51 - pattern RHS wildcard
+assign a;
+Select a pattern a("flag", _)
+1, 20
+5000
+52 - pattern RHS wildcard
+assign a; variable v;
+Select v pattern a(v, _)
+flag, count, cenX, cenY, normSq, x, y
+5000
+53 - pattern LHS wildcard
+assign a;
+Select a pattern a(_, _"cenX"_)
+16, 20, 21, 23
+5000
+54 - pattern LHS fixed RHS wildcard
+assign a;
+Select a pattern a("cenX", _"cenX"_)
+16, 21
+5000
+55 - pattern RHS cenX
+assign a; variable v;
+Select v pattern a(v, _"cenX"_)
+cenX, flag, normSq
+5000
+56 - pattern LHS wildcard
+assign a;
+Select a pattern a(_, "0")
+1, 10, 11, 12, 29
+5000
+57 - pattern fixed
+assign a;
+Select a pattern a("count", "0")
+10, 29
+5000
+58 - pattern LHS syn
+assign a; variable v;
+Select v pattern a(v, "0")
+flag, count, cenX, cenY
+5000
+59 - such that a Uses v pattern RHS wildcard
+assign a; variable v;
+Select v such that Uses(a, v) pattern a(v, _)
+count, cenX, cenY
+5000
+60 - pattern RHS wildcard such that w Parent* a
+assign a; while w;
+Select a pattern a("count", _) such that Parent*(w, a)
+15, 28, 29, 31
+5000
+61 - such that a Uses x pattern RHS wildcard
+assign a;
+Select a pattern such that Uses(a, "x") pattern a("x", _)
+
+5000
+62 - Follows LHS syn pattern LHS wildcard
+assign a;
+Select a such that Follows(a, 16) pattern a(_, "count + 1")
+15
+5000
+63 - Follows LHS syn pattern LHS wildcard
+assign a;
+Select a such that Follows*(a, 18) pattern a(_, "count + 1")
+15
+5000
+64 - Parent RHS syn pattern both wildcards
+assign a;
+Select a such that Parent(14, a) pattern a(_, _"x"_)
+16
+5000
+65 - Modifies RHS syn pattern both wildcards
+assign a;
+Select a such that Modifies(a, "count") pattern a(_, _"2 * y"_)
+28
+5000
+66 - Modifies RHS syn pattern both wildcards
+variable v; assign a;
+Select v such that Modifies(a, v) pattern a(_, "1")
+x
+5000
+67 - Modifies RHS syn pattern both wildcards
+variable v; assign a;
+Select v such that Modifies(a, v) pattern a(_, "2")
+count
+5000
+68 - Follows* pattern
+assign a;
+Select a such that Follows*(10, a) pattern a(_, "0")
+11, 12
+5000

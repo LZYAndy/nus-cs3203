@@ -13,39 +13,53 @@
 
 namespace pql_dto
 {
-class Pattern
-{
-private:
-    Entity pattern_entity;
-    Entity first_param;
-    Entity second_param;
+    class Pattern
+    {
+    private:
+        Entity pattern_entity;
+        Entity first_param;
+        Entity second_param;
 
-public:
-    Pattern();
+    public:
+        // Default constructor for Pattern.
+        Pattern();
 
-    // Constructor for Pattern. Throws an exception if not properly initialised.
-    Pattern(Entity pattern_entity, Entity first_param, Entity second_param);
+        /** Constructor for Pattern. Throws a runtime exception if not properly initialised.
+         *  @param pattern_entity The type of the Pattern.
+         *  @param first_param The first parameter of the Pattern.
+         *  @param second_param The second parameter of the Pattern.
+         */
+        Pattern(Entity pattern_entity, Entity first_param, Entity second_param);
 
-    // Returns the Pattern Entity.
-    Entity get_pattern_entity();
+        // Returns the Pattern Entity.
+        Entity get_pattern_entity();
 
-    // Returns the First Parameter in the Pattern.
-    Entity get_first_param();
+        // Returns the First Parameter in the Pattern.
+        Entity get_first_param();
 
-    // Returns the Second Parameter in the Pattern.
-    Entity get_second_param();
+        // Returns the Second Parameter in the Pattern.
+        Entity get_second_param();
 
-    // Sets and validates the pattern entity of the Pattern Object.
-    void set_pattern_entity(Entity entity);
+        /** Sets the pattern entity of the Pattern Object.
+         *  @param entity The entity for the pattern.
+         */
+        void set_pattern_entity(Entity entity);
 
-    // Sets and validates the first parameter of the Pattern Object.
-    void set_first_param(Entity first_entity_param);
+        /** Sets the first parameter entity of the Pattern Object.
+         *  @param first_entity_param The first param entity for the pattern.
+         */
+        void set_first_param(Entity first_entity_param);
 
-    // Sets and validates the second parameter of the Pattern Object.
-    void set_second_param(Entity second_entity_param);
+        /** Sets the second parameter entity of the Pattern Object.
+         *  @param second_entity_param The second param entity for the pattern.
+         */
+        void set_second_param(Entity second_entity_param);
 
-    bool equals(Pattern pattern);
-};
+        /** Checks if both pattern are the same.
+         *  @param pattern The pattern to be compared.
+         */
+        bool equals(Pattern pattern);
+    };
 }
 
 #endif

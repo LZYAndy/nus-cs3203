@@ -326,6 +326,10 @@ int StatementListParser::parse_bracket(std::string src, std::string opening, std
     int index = 1;
     while (count > 0)
     {
+        if (src == "")
+        {
+            throw std::runtime_error(error_messages::invalid_SIMPLE);
+        }
         std::string this_pos = src.substr(0, 1);
         if (this_pos == opening)
         {
@@ -354,7 +358,7 @@ int StatementListParser::find_semicolon(std::string src)
         index++;
         if (index == src.size())
         {
-            return -1;
+            throw std::runtime_error(error_messages::invalid_SIMPLE);
         }
     }
 }

@@ -5,6 +5,11 @@ namespace pql_dto
     class ModifiesRelationship : public Relationships
     {
     public:
+        /** Constructor for ModifiesRelationship. Throws a runtime exception if not properly initialised.
+         *  @param first_param The first parameter of the ModifiesRelationship.
+         *  @param second_param The second parameter of the ModifiesRelationship.
+         *  @param is_star The is_star value of the ModifiesRelationship.
+         */
         ModifiesRelationship(Entity first_param, Entity second_param, bool is_star)
         {
             if (first_param.get_entity_type() == EntityType::VARIABLE && !first_param.is_entity_declared())
