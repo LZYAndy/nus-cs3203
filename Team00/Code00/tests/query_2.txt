@@ -268,3 +268,93 @@ assign a; if ifs;
 Select ifs pattern a("a1", _"b1"_)
 3, 5
 5000
+57 - Assign Pattern with LHS IDENT, RHS exact match + Follows with 2 syn
+assign a; while w;
+Select a pattern a("A55igNstmt2", "a2") such that Follows(w, a)
+10
+5000
+58 - Assign Pattern with LHS syn, RHS partial match + Follows* with 2 syn
+assign a; if ifs; variable v;
+Select ifs pattern a(v, _"b1"_) such that Follows*(a, ifs)
+5
+5000
+59 - Assign Pattern with LHS IDENT, RHS partial match + Parent with 2 syn
+while w; assign a;
+Select a pattern a("a2", _"0"_) such that Parent(w, a)
+9
+5000
+60 - Assign Pattern LHS syn, RHS exact match + Parent* with LHS wildcard, RHS syn
+assign a; variable v;
+Select a pattern a(v, "0") such that Parent*(_, a)
+9
+5000
+61 - Assign Pattern with LHS wildcard, RHS exact match + Uses LHS syn, RHS wildcard
+assign a; stmt s;
+Select s pattern a(_, "if") such that Uses(s, _)
+1, 2, 3, 4, 5, 6, 8, 10, 12
+5000
+62 - Assign Pattern with 2 wildcards + Modifies with LHS syn, RHS wildcard
+assign a; read r;
+Select r pattern a(_,_) such that Modifies(r, _)
+7, 11
+5000
+63 - Follows with 2 INT + Assign Pattern with LHS wildcard, RHS partial match
+assign a;
+Select a such that Follows(1,2) pattern a(_, _"procedure"_)
+1
+5000
+64 - Follows* with LHS syn + Assign Pattern with 2 wildcards
+assign a;
+Select a such that Follows*(a, 11) pattern a(_,_)
+1, 10
+5000
+65 - Parent with 2 syn + Assign Pattern with LHS IDENT, RHS wildcard
+while w; assign a;
+Select w such that Parent(w, a) pattern a("a2",_)
+8
+5000
+66 - Parent* with 2 syn + Assign Pattern with both IDENT
+assign a; while w; if ifs;
+Select w such that Parent*(ifs, w) pattern a("assignstmt1", "read")
+8
+5000
+67 - Uses with 2 syn + Assign Pattern with both IDENT
+assign a; while w;
+Select a such that Parent*(w, a) pattern a("a2", "0")
+9
+5000
+68 - Modifies with 2 syn + Assign Pattern with LHS syn, RHS exact match
+assign a; variable v; if ifs;
+Select ifs such that Modifies(ifs, v) pattern a(v, "if")
+3, 5
+5000
+69 - Follows with 2 INT
+read r;
+Select r such that Follows(1,2)
+7, 11
+5000
+70 - Follows* with 2 INT
+if ifs;
+Select ifs such that Follows*(4,5)
+3, 5
+5000
+71 - Parent with 2 INT
+assign a;
+Select a such that Parent(5, 7)
+1, 4, 9, 10
+5000
+72 - Parent* with 2 INT
+if ifs;
+Select ifs such that Parent*(2, 7)
+3, 5
+5000
+73 - Uses with LHS stmt#, RHS IDENT
+print pr;
+Select pr such that Uses(7, "if")
+6, 12
+5000
+74 - Modifies with LHS stmt#, RHS IDENT
+assign a;
+Select a such that Modifies(11, "if")
+1, 4, 9, 10
+5000
