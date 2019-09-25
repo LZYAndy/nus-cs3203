@@ -94,7 +94,7 @@ public:
      * Return true if the ModifiesBank is empty.
      * @return Return true if the ModifiesBank is empty.
      */
-    bool empty();
+    bool does_modifies_exist();
 
 private:
     Bank<int, std::string> stmt_bank;

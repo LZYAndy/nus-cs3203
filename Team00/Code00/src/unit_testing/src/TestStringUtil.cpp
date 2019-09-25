@@ -82,7 +82,7 @@ TEST_CASE("Test replace whitespace function with single space.")
 
 TEST_CASE("Test trim_left")
 {
-    std::string to_be_trim = "  left";
+    std::string to_be_trim = "   left";
     std::string trimed = StringUtil::trim_left(to_be_trim);
 
     std::string correct_trimed = "left";
@@ -91,7 +91,7 @@ TEST_CASE("Test trim_left")
 
 TEST_CASE("Test get_all_var")
 {
-    std::string to_extract = " ! ( a <    b12 ) || ((c >= d) && !  (e ==   f )    )";
+    std::string to_extract = " ! ( a <    b12 ) || ((    c >= d   ) && !  (   e ==   f )    )";
     std::vector<std::string> result = StringUtil::get_all_var(to_extract);
 
     std::vector<std::string> expected({"a", "b12", "c", "d", "e", "f"});

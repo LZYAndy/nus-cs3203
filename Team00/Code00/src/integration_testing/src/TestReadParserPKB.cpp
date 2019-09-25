@@ -7,7 +7,7 @@ TEST_CASE("ReadParser integration with PKB")
     SECTION("insert_variable")
     {
         PKB pkb;
-        Statement stmt = Statement(EntityType::READ, 5, "read a101;");
+        Statement stmt = Statement(EntityType::READ, 5, " read a101 ;");
         ReadParser (pkb, stmt, "Parent");
         std::unordered_set<std::string> result = pkb.get_all_variables();
         std::unordered_set<std::string> expected({"a101"});
@@ -20,7 +20,7 @@ TEST_CASE("ReadParser integration with PKB")
         Statement stmt = Statement(EntityType::READ, 3, "  read a00m ;");
         ReadParser (pkb, stmt, "Proc1");
         std::vector<std::string> result = pkb.get_modified_by_procedure("Proc1");
-        std::vector<std::string> expected({"a00m "});
+        std::vector<std::string> expected({"a00m"});
         REQUIRE(result.size() == 1);
         REQUIRE(result == expected);
     }
