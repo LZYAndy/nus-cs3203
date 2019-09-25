@@ -139,7 +139,7 @@ Select w such that Parent(w,_)
 2, 8
 5000
 29 - Parent with 2 syn get LHS syn
-while w, if ifs;
+while w; if ifs;
 Select w such that Parent(w, ifs)
 2
 5000
@@ -203,8 +203,53 @@ while w; variable v;
 Select v such that Modifies(w, v)
 a1, if, a2
 5000
-43 - Modifies with LHS IDENT procedure, RHS syn
+44 - Modifies with LHS IDENT procedure, RHS syn
 variable v;
 Select v such that Modifies("while", v)
 assignStmt1, a1, if, a2, A55igNstmt2, read
+5000
+45 - Modifies with LHS stmt#, RHS syn
+variable v;
+Select v such that Modifies(3, v)
+a1, if, a2
+5000
+46 - Uses with LHS syn, RHS wildcard
+assign a;
+Select a such that Uses(a, _)
+1, 4,10
+5000
+47 - Uses with LHS syn, RHS syn
+print pr; variable v;
+Select v such that Uses(pr,v)
+6, 12
+5000
+48 - Uses with LHS syn, RHS IDENT
+stmt s;
+Select s such that Uses(s, "while")
+1, 2, 3, 5, 8
+5000
+49 - Uses with LHS stmt#, RHS syn
+variable v;
+Select v such that Uses(read, v)
+
+5000
+50 - Assign Pattern with 2 wildcards
+while w; assign a;
+Select w pattern a(_,_)
+2, 8
+5000
+51 - Assign Pattern with LHS wildcard, RHS exact match
+assign a;
+Select a pattern a(_, "b1")
+
+5000
+52 - Assign Pattern with LHS wildcard, RHS partial match
+assign a;
+Select a pattern a(_, _"b1"_)
+4
+5000
+53 - Assign Pattern with LHS syn, RHS exact match
+assign a; variable v;
+Select v pattern a(v, "a2")
+A55igNstmt2
 5000
