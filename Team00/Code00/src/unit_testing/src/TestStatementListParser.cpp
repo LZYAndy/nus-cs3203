@@ -16,10 +16,7 @@ TEST_CASE("Test find_semicolon. No semicolon throw error.")
 {
     std::string to_be_check = " print a";
 
-    int index = StatementListParser::find_semicolon(to_be_check);
-    int correct_idx = -1;
-
-    REQUIRE(index == correct_idx);
+    REQUIRE_THROWS_WITH(StatementListParser::find_semicolon(to_be_check), error_messages::invalid_SIMPLE);
 }
 
 TEST_CASE("Test is_beginning_with method with (")
