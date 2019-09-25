@@ -210,6 +210,8 @@ public:
         insert_uses("computeCentroid", "cenY");
         insert_follows(19, 23);
 
+        insert_procedure("whileIfProc");
+
         insert_type(24, EntityType::WHILE);
         insert_constant(0);
         insert_variable("x");
@@ -244,6 +246,7 @@ public:
         insert_variable("count");
         insert_variable("y");
         insert_assign(28, "count", "2 * y");
+        insert_modifies("whileIfProc", "count");
         insert_modifies(24, "count");
         insert_modifies(25, "count");
         insert_modifies(26, "count");
@@ -260,6 +263,7 @@ public:
         insert_variable("count");
         insert_assign(29, "count", "0");
         insert_constant(0);
+        insert_modifies("whileIfProc", "count");
         insert_modifies(24, "count");
         insert_modifies(25, "count");
         insert_modifies(26, "count");
@@ -271,6 +275,7 @@ public:
         insert_variable("x");
         insert_assign(30, "x", "1");
         insert_constant(1);
+        insert_modifies("whileIfProc", "x");
         insert_modifies(24, "x");
         insert_modifies(25, "x");
         insert_modifies(26, "x");
@@ -283,6 +288,7 @@ public:
         insert_variable("count");
         insert_assign(31, "count", "2");
         insert_constant(2);
+        insert_modifies("whileIfProc", "count");
         insert_modifies(24, "count");
         insert_modifies(25, "count");
         insert_modifies(31, "count");
@@ -292,6 +298,7 @@ public:
         insert_variable("y");
         insert_assign(32, "y", "3");
         insert_constant(3);
+        insert_modifies("whileIfProc", "y");
         insert_modifies(24, "y");
         insert_modifies(25, "y");
         insert_modifies(32, "y");
