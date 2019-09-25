@@ -128,32 +128,32 @@ constant c;
 Select c such that Parent(_,_)
 0, 1, 7, 4
 5000
-27 - Parent* with LHS wildcard
+27 - Parent with LHS wildcard
 if ifs;
 Select ifs such that Parent(_,12)
 7
 5000
-28 - Parent* with RHS wildcard
+28 - Parent with RHS wildcard
 assign a;
 Select a such that Parent(7,_)
 1, 2, 4, 6, 9, 10, 11, 13, 12
 5000
-29 - Parent* with LHS wildcard, RHS syn
+29 - Parent with LHS wildcard, RHS syn
 assign a;
 Select a such that Parent(_, a)
 13, 12, 11, 10, 9
 5000
-30 - Parent* with RHS wildcard, LHS syn
+30 - Parent with RHS wildcard, LHS syn
 read r;
 Select r such that Parent(r,_)
 
 5000
-31 - Parent* with 2 syn get LHS syn
+31 - Parent with 2 syn get LHS syn
 assign a; while w;
 Select w such that Parent(w, a)
 8
 5000
-32 - Parent* with 2 syn get RHS syn
+32 - Parent with 2 syn get RHS syn
 assign a; if ifs;
 Select a such that Parent(ifs, a)
 13

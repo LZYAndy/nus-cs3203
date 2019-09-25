@@ -148,3 +148,63 @@ if if, if1;
 Select if1 such that Parent(if, if1)
 5
 5000
+33 - Parent* with 2 wildcards
+read r;
+Select r such that Parent*(_,_)
+7, 11
+5000
+34 - Parent* with LHS wildcard
+stmt s;
+Select s such that Parent*(_, 6)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+5000
+35 - Parent* with RHS wildcard
+constant c;
+Select c such that Parent*(2, _)
+0, 1
+5000
+36 - Parent* with LHS wildcard, RHS syn
+stmt s;
+Select s such that Parent*(_, s)
+3, 4, 5, 6, 7, 8, 9
+5000
+37 - Parent* with RHS wildcard, LHS syn
+stmt s;
+Select s such that Parent*(s, _)
+2, 3, 5, 8
+5000
+38 - Parent* with 2 syn get LHS syn
+while w; if ifs;
+Select ifs such that Parent*(w, ifs)
+3, 5
+5000
+39 - Parent* with 2 syn get RHS syn
+while w; if ifs;
+Select ifs such that Parent*(ifs, w)
+3
+5000
+40 - Modifies with LHS procedure, RHS wildcard
+procedure proc;
+Select proc such that Modifies(proc, _)
+while
+5000
+41 - Modifies with LHS syn, RHS syn
+read r; variable v;
+Select v such that Modifies(r, v)
+if, read
+5000
+42 - Modifies with LHS syn, RHS IDENT
+stmt s;
+Select s such that Modifies(s, "if")
+2, 3, 5, 7
+5000
+43 - Modifies with LHS while, RHS syn
+while w; variable v;
+Select v such that Modifies(w, v)
+a1, if, a2
+5000
+43 - Modifies with LHS IDENT procedure, RHS syn
+variable v;
+Select v such that Modifies("while", v)
+assignStmt1, a1, if, a2, A55igNstmt2, read
+5000
