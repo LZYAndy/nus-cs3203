@@ -14,8 +14,8 @@ namespace pql_dto
         Pattern pattern;
         Relationships relationship;
 
-        bool is_pattern = false;
-        bool is_relationship = false;
+        bool is_pattern_object = false;
+        bool is_relationship_object = false;
 
     public:
         void set_pattern(Pattern other);
