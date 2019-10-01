@@ -59,8 +59,9 @@ public:
      * @param pattern_clause The pointer to the pattern clause vector.
      * @return The error string if the query is invalid.
      */
-    static std::string pql_parse_query(std::string query, std::unordered_map<std::string, EntityType>& select_clause,
-        std::vector<pql_dto::Relationships>& such_that_clause, std::vector<pql_dto::Pattern>& pattern_clause);
+    static std::string pql_parse_query(std::string query, std::unordered_map<std::string, std::string>& declared_variables,
+        std::unordered_map<std::string, EntityType>& select_clause, std::vector<pql_dto::Relationships>& such_that_clause,
+        std::vector<pql_dto::Pattern>& pattern_clause);
 
     /**
      * Parses and validates the declaration clause. If validation succeeds, stores query in clause pointers.

@@ -101,11 +101,11 @@ std::string PQLParser::pql_parse_query(std::string query, std::vector<pql_dto::E
     return "";
 }
 
-std::string PQLParser::pql_parse_query(std::string query, std::unordered_map<std::string, EntityType>& select_clause,
-    std::vector<pql_dto::Relationships>& such_that_clause, std::vector<pql_dto::Pattern>& pattern_clause)
+std::string PQLParser::pql_parse_query(std::string query, std::unordered_map<std::string, std::string>& declared_variables,
+    std::unordered_map<std::string, EntityType>& select_clause, std::vector<pql_dto::Relationships>& such_that_clause,
+    std::vector<pql_dto::Pattern>& pattern_clause)
 {
     std::string error;
-    std::unordered_map<std::string, std::string> declared_variables; // Maps variables' name to to entity type
 
     /// Validates if query meets the basic grammer of select-cl
     error = pql_validate_initial_query(query);
