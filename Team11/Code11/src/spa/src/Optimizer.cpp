@@ -2,5 +2,5 @@
 
 std::vector<std::vector<pql_dto::Constraint>> Optimizer::optimize()
 {
-    return NULL;
+    return std::vector<std::vector<pql_dto::Constraint>>{};
 }
