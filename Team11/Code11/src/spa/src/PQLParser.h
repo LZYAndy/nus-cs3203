@@ -43,15 +43,24 @@ public:
     /**
      * Parses and validates the query. If validation succeeds, stores query in clause pointers.
      * @param query The user's query statement.
-     * @param declaration_clause The pointer to the declaration clause vector.
      * @param select_clause The pointer to the select clause vector.
      * @param such_that_clause The pointer to the such that clause vector.
      * @param pattern_clause The pointer to the pattern clause vector.
      * @return The error string if the query is invalid.
      */
-    static std::string pql_parse_query(std::string query, std::vector<pql_dto::Entity> &declaration_clause,
-                                       std::vector<pql_dto::Entity> &select_clause, std::vector<pql_dto::Relationships> &such_that_clause,
-                                       std::vector<pql_dto::Pattern> &pattern_clause);
+    static std::string pql_parse_query(std::string query, std::vector<pql_dto::Entity> &select_clause,
+            std::vector<pql_dto::Relationships> &such_that_clause, std::vector<pql_dto::Pattern> &pattern_clause);
+
+    /**
+     * Parses and validates the query. If validation succeeds, stores query in clause pointers.
+     * @param query The user's query statement.
+     * @param select_clause The pointer to the select clause map.
+     * @param such_that_clause The pointer to the such that clause vector.
+     * @param pattern_clause The pointer to the pattern clause vector.
+     * @return The error string if the query is invalid.
+     */
+    static std::string pql_parse_query(std::string query, std::unordered_map<std::string, EntityType>& select_clause,
+        std::vector<pql_dto::Relationships>& such_that_clause, std::vector<pql_dto::Pattern>& pattern_clause);
 
     /**
      * Parses and validates the declaration clause. If validation succeeds, stores query in clause pointers.
@@ -60,19 +69,29 @@ public:
      * @param declared_variables The pointer to the variables unordered map.
      * @return The error string if the query is invalid.
      */
-    static std::string parse_declaration_clause(const std::string &query, std::vector<pql_dto::Entity> &declaration_clause,
-            std::unordered_map<std::string, std::string> &declared_variables);
+    static std::string parse_declaration_clause(const std::string &query, std::unordered_map<std::string, std::string> &declared_variables);
 
     /**
      * Parses and validates the select clause. If validation succeeds, stores query in clause pointers.
      * @param query The pointer to the select query. String contains everything after the last semi-colon.
-     * @param declaration_clause The pointer to the select clause vector.
+     * @param select_clause The pointer to the select clause vector.
      * @param declared_variables The pointer to the variables unordered map.
      * @param condition_query The pointer to the string of condition in the param @query. The condition query is trimmed.
      * @return The error string if the query is invalid.
      */
     static std::string parse_select_clause(const std::string &query, std::vector<pql_dto::Entity> &select_clause,
                                            std::unordered_map<std::string, std::string> &declared_variables, std::string &condition_query);
+
+    /**
+     * Parses and validates the select clause. If validation succeeds, stores query in clause pointers.
+     * @param query The pointer to the select query. String contains everything after the last semi-colon.
+     * @param select_clause The pointer to the select clause vector.
+     * @param declared_variables The pointer to the variables unordered map.
+     * @param condition_query The pointer to the string of condition in the param @query. The condition query is trimmed.
+     * @return The error string if the query is invalid.
+     */
+    static std::string parse_select_clause(const std::string& query, std::unordered_map<std::string, EntityType>& select_clause,
+        std::unordered_map<std::string, std::string>& declared_variables, std::string& condition_query);
 
     /**
      * Parses and validates the such that clause. If validation succeeds, stores query in clause pointers.

@@ -8,8 +8,8 @@ TEST_CASE("Parses and validate select clause.")
     std::unordered_map<std::string, std::string> declared_variables;
     std::string declaration_query = "variable v1, v2; print prt; assign a";
     std::string condition_query;
-    std::vector<pql_dto::Entity> declaration_clause, select_clause;
-    std::string declaration_error = PQLParser::parse_declaration_clause(declaration_query, declaration_clause, declared_variables);
+    std::vector<pql_dto::Entity> select_clause;
+    std::string declaration_error = PQLParser::parse_declaration_clause(declaration_query, declared_variables);
 
     CHECK(declaration_error == "");
 
