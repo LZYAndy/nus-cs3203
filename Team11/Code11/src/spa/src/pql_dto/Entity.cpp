@@ -77,6 +77,10 @@ void Entity::set_entity_type(std::string type)
     {
         entity_type = EntityType::CONSTANT;
     }
+    else if (type == "prog_line")
+    {
+        entity_type = EntityType::PROG_LINE;
+    }
     else if (type == "procedure")
     {
         entity_type = EntityType::PROCEDURE;

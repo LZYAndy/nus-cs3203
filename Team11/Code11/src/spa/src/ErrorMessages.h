@@ -40,6 +40,12 @@ constexpr const char* invalid_parent_relationship_first_param(R"(Invalid Parent 
 constexpr const char* invalid_parent_relationship_second_param(R"(Invalid Parent Relationship Second Parameter Type!)");
 constexpr const char* invalid_uses_relationship_first_param(R"(Invalid Uses Relationship First Parameter Type!)");
 constexpr const char* invalid_uses_relationship_second_param(R"(Invalid Uses Relationship Second Parameter Type!)");
+constexpr const char* invalid_calls_relationship_first_param(R"(Invalid Calls Relationship First Parameter Type!)");
+constexpr const char* invalid_calls_relationship_second_param(R"(Invalid Calls Relationship Second Parameter Type!)");
+constexpr const char* invalid_next_relationship_first_param(R"(Invalid Next Relationship First Parameter Type!)");
+constexpr const char* invalid_next_relationship_second_param(R"(Invalid Next Relationship Second Parameter Type!)");
+constexpr const char* invalid_affects_relationship_first_param(R"(Invalid Affects Relationship First Parameter Type!)");
+constexpr const char* invalid_affects_relationship_second_param(R"(Invalid Affects Relationship Second Parameter Type!)");
 constexpr const char* invalid_order_of_params(R"(First param for Relationship is greater than the second param.)");
 
 // Error messages for Pattern.cpp
