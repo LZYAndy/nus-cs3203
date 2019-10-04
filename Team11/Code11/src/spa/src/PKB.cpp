@@ -440,3 +440,18 @@ vector<string> PKB::get_all_constants()
     result.insert(result.end(), const_table.begin(), const_table.end());
     return result;
 }
+
+bool PKB::insert_if(int stmt, string control)
+{
+    return if_bank.insert_if(stmt, control);
+}
+
+vector<int> PKB::get_all_if_pattern_matches(string pattern)
+{
+    return if_bank.all_matches(pattern);
+}
+
+vector<int> PKB::get_all_if_pattern_contains(string pattern)
+{
+    return if_bank.all_contains(pattern);
+}
