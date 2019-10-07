@@ -25,6 +25,7 @@ enum class EntityType
     PROCEDURE,
     PATTEXPR,
     MATCHEXPR,
+    BOOLEAN,
     INVALID
 };
 

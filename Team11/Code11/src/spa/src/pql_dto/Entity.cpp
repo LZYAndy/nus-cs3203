@@ -93,6 +93,10 @@ void Entity::set_entity_type(std::string type)
     {
         entity_type = EntityType::MATCHEXPR;
     }
+    else if (type == "boolean")
+    {
+        entity_type = EntityType::BOOLEAN;
+    }
     else
     {
         throw std::runtime_error(error_messages::invalid_entity_type);
@@ -148,6 +152,15 @@ void Entity::set_entity_name(std::string name)
             if (!CheckerUtil::is_const_valid(name))
             {
                 throw std::runtime_error(error_messages::invalid_statement_number);
+            }
+            entity_name = name;
+        }
+        else if (entity_type == EntityType::BOOLEAN)
+        {
+            /// Checks if var_name is integer
+            if (name != "BOOLEAN")
+            {
+                throw std::runtime_error(error_messages::invalid_undeclared_entity_name);
             }
             entity_name = name;
         }

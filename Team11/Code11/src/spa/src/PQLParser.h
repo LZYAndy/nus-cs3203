@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <iterator>
 #include <stdexcept>
 
 #include <pql_dto/Entity.h>
@@ -18,6 +19,26 @@ private:
      * @return The user's query string.
      */
     static std::string pql_validate_initial_query(std::string &query);
+
+    /**
+     * Validate and add variable(s) to the select clause.
+     * @param declared_variables The pointer to the declared_variables map.
+     * @param select_variable The name of the variable to be added.
+     * @param select_clause The pointer to the select clause map.
+     * @return The Entity object that is initialised.
+     */
+    static void add_variable_to_select_clause(std::unordered_map<std::string, std::string>& declared_variables,
+        std::string& select_variable, std::unordered_map<std::string, EntityType>& select_clause);
+
+    /**
+     * Validate and add variable(s) to the select clause.
+     * @param declared_variables The pointer to the declared_variables map.
+     * @param select_variable The name of the variable to be added.
+     * @param select_clause The pointer to the select clause map.
+     * @return The Entity object that is initialised.
+     */
+    static void add_variable_to_select_clause(std::unordered_map<std::string, std::string>& declared_variables,
+        std::string& select_variable, std::vector<pql_dto::Entity>& select_clause);
 
     /**
      * Creates the entity object for the clauses and relationships.
