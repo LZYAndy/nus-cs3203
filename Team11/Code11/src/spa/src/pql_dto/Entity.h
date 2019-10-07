@@ -21,10 +21,20 @@ enum class EntityType
     ASSIGN,
     VARIABLE,
     CONSTANT,
+    PROG_LINE,
     PROCEDURE,
     PATTEXPR,
     MATCHEXPR,
     INVALID
+};
+
+struct EnumClassHash
+{
+    template<typename T>
+    std::size_t operator()(T t) const
+    {
+        return static_cast<std::size_t>(t);
+    }
 };
 
 namespace pql_dto

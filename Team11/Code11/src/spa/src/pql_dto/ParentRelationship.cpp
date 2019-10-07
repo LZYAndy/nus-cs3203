@@ -28,9 +28,8 @@ public:
 private:
     void set_first_param(Entity param)
     {
-        if (param.get_entity_type() == EntityType::CONSTANT || param.get_entity_type() == EntityType::VARIABLE
-                || param.get_entity_type() == EntityType::PROCEDURE || param.get_entity_type() == EntityType::PATTEXPR
-                || param.get_entity_type() == EntityType::INVALID || param.get_entity_type() == EntityType::MATCHEXPR)
+        std::unordered_set<EntityType> parent_first_param_type = relationships_table.at(RelationshipType::PARENT).front();
+        if (parent_first_param_type.find(param.get_entity_type()) == parent_first_param_type.end())
         {
             throw std::runtime_error(error_messages::invalid_parent_relationship_first_param);
         }
@@ -40,9 +39,8 @@ private:
 
     void set_second_param(Entity param)
     {
-        if (param.get_entity_type() == EntityType::CONSTANT || param.get_entity_type() == EntityType::VARIABLE
-                || param.get_entity_type() == EntityType::PROCEDURE || param.get_entity_type() == EntityType::PATTEXPR
-                || param.get_entity_type() == EntityType::INVALID || param.get_entity_type() == EntityType::MATCHEXPR)
+        std::unordered_set<EntityType> parent_second_param_type = relationships_table.at(RelationshipType::PARENT).back();
+        if (parent_second_param_type.find(param.get_entity_type()) == parent_second_param_type.end())
         {
             throw std::runtime_error(error_messages::invalid_parent_relationship_second_param);
         }

@@ -13,7 +13,6 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
     unordered_map<string, vector<string>> such_that_map;
     unordered_map<string, vector<string>> pattern_map;
 
-    vector<pql_dto::Entity> declaration_clause;
     vector<pql_dto::Entity> select_clause;
     vector<pql_dto::Relationships> such_that_clause;
     vector<pql_dto::Pattern> pattern_clause;
@@ -21,8 +20,8 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
     /*
      * parse the PQL query
      */
-    error_msg = PQLParser::pql_parse_query(move(query), declaration_clause, select_clause,
-                                           such_that_clause, pattern_clause);
+    error_msg = PQLParser::pql_parse_query(move(query), select_clause, such_that_clause, pattern_clause);
+
     if (!error_msg.empty())
     {
         return empty_set;
