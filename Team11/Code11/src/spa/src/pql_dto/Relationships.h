@@ -64,7 +64,7 @@ public:
     bool equals(Relationships relationship);
 
     // Table containing the valid parameters for each relationship.
-    std::unordered_map<RelationshipType, std::vector<std::unordered_set<EntityType>>, EnumClassHash> relationships_table
+    std::unordered_map<RelationshipType, std::vector<std::unordered_set<EntityType, EnumClassHash>>, EnumClassHash> relationships_table
     {
         {
             RelationshipType::FOLLOWS,

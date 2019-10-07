@@ -28,7 +28,7 @@ public:
 private:
     void set_first_param(Entity param)
     {
-        std::unordered_set<EntityType> follows_first_param_type = relationships_table.at(RelationshipType::FOLLOWS).front();
+        std::unordered_set<EntityType, EnumClassHash> follows_first_param_type = relationships_table.at(RelationshipType::FOLLOWS).front();
         if (follows_first_param_type.find(param.get_entity_type()) == follows_first_param_type.end())
         {
             throw std::runtime_error(error_messages::invalid_follows_relationship_first_param);
@@ -39,7 +39,7 @@ private:
 
     void set_second_param(Entity param)
     {
-        std::unordered_set<EntityType> follows_second_param_type = relationships_table.at(RelationshipType::FOLLOWS).back();
+        std::unordered_set<EntityType, EnumClassHash> follows_second_param_type = relationships_table.at(RelationshipType::FOLLOWS).back();
         if (follows_second_param_type.find(param.get_entity_type()) == follows_second_param_type.end())
         {
             throw std::runtime_error(error_messages::invalid_follows_relationship_second_param);

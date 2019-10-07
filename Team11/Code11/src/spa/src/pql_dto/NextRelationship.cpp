@@ -21,7 +21,7 @@ namespace pql_dto
     private:
         void set_first_param(Entity param)
         {
-            std::unordered_set<EntityType> next_first_param_type = relationships_table.at(RelationshipType::NEXT).front();
+            std::unordered_set<EntityType, EnumClassHash> next_first_param_type = relationships_table.at(RelationshipType::NEXT).front();
             if (next_first_param_type.find(param.get_entity_type()) == next_first_param_type.end())
             {
                 throw std::runtime_error(error_messages::invalid_next_relationship_first_param);
@@ -32,7 +32,7 @@ namespace pql_dto
 
         void set_second_param(Entity param)
         {
-            std::unordered_set<EntityType> next_second_param_type = relationships_table.at(RelationshipType::NEXT).back();
+            std::unordered_set<EntityType, EnumClassHash> next_second_param_type = relationships_table.at(RelationshipType::NEXT).back();
             if (next_second_param_type.find(param.get_entity_type()) == next_second_param_type.end())
             {
                 throw std::runtime_error(error_messages::invalid_next_relationship_second_param);

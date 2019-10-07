@@ -28,7 +28,7 @@ public:
 private:
     void set_first_param(Entity param)
     {
-        std::unordered_set<EntityType> parent_first_param_type = relationships_table.at(RelationshipType::PARENT).front();
+        std::unordered_set<EntityType, EnumClassHash> parent_first_param_type = relationships_table.at(RelationshipType::PARENT).front();
         if (parent_first_param_type.find(param.get_entity_type()) == parent_first_param_type.end())
         {
             throw std::runtime_error(error_messages::invalid_parent_relationship_first_param);
@@ -39,7 +39,7 @@ private:
 
     void set_second_param(Entity param)
     {
-        std::unordered_set<EntityType> parent_second_param_type = relationships_table.at(RelationshipType::PARENT).back();
+        std::unordered_set<EntityType, EnumClassHash> parent_second_param_type = relationships_table.at(RelationshipType::PARENT).back();
         if (parent_second_param_type.find(param.get_entity_type()) == parent_second_param_type.end())
         {
             throw std::runtime_error(error_messages::invalid_parent_relationship_second_param);
