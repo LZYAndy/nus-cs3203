@@ -125,6 +125,7 @@ std::string StatementListParser::parse_while(std::string src)
         src = StringUtil::trim_left(src);
 
         StatementListParser loop_parser = StatementListParser(first_blk_raw, next_line_number);
+        loop_parser.set_procedure(proc_belonging);
         loop_parser.parse_stmt_list();
         std::vector<Statement> first_block = loop_parser.get_stmt_list();
         int last_stmt_in_loop = get_last_num(first_block);
@@ -132,6 +133,8 @@ std::string StatementListParser::parse_while(std::string src)
 
         while_stmt.set_condition(condition);
         while_stmt.set_first_block(first_block);
+
+        while_stmt.set_procedure(proc_belonging);
 
         stmt_list.push_back(while_stmt);
         return src;
@@ -156,6 +159,8 @@ std::string StatementListParser::parse_print(std::string src)
 
         Statement print_stmt = Statement(EntityType::PRINT, next_line_number, print_body);
         next_line_number++;
+
+        print_stmt.set_procedure(proc_belonging);
 
         stmt_list.push_back(print_stmt);
 
@@ -182,6 +187,8 @@ std::string StatementListParser::parse_read(std::string src)
         Statement read_stmt = Statement(EntityType::READ, next_line_number, read_body);
         next_line_number++;
 
+        read_stmt.set_procedure(proc_belonging);
+
         stmt_list.push_back(read_stmt);
 
         return StringUtil::trim_left(rest);
@@ -207,6 +214,8 @@ std::string StatementListParser::parse_call(std::string src)
         Statement call_stmt = Statement(EntityType::CALL, next_line_number, call_body);
         next_line_number++;
 
+        call_stmt.set_procedure(proc_belonging);
+
         stmt_list.push_back(call_stmt);
 
         return StringUtil::trim_left(rest);
@@ -231,6 +240,8 @@ std::string StatementListParser::parse_assign(std::string src)
 
         Statement assign_stmt = Statement(EntityType::ASSIGN, next_line_number, assign_body);
         next_line_number++;
+
+        assign_stmt.set_procedure(proc_belonging);
 
         stmt_list.push_back(assign_stmt);
 
@@ -278,6 +289,7 @@ std::string StatementListParser::parse_if(std::string src)
         src = StringUtil::trim_left(src);
 
         StatementListParser then_parser = StatementListParser(first_blk_raw, next_line_number);
+        then_parser.set_procedure(proc_belonging);
         then_parser.parse_stmt_list();
         std::vector<Statement> first_block = then_parser.get_stmt_list();
 
@@ -298,6 +310,7 @@ std::string StatementListParser::parse_if(std::string src)
         src = StringUtil::trim_left(src);
 
         StatementListParser else_parser = StatementListParser(second_blk_raw, next_line_number);
+        else_parser.set_procedure(proc_belonging);
         else_parser.parse_stmt_list();
         std::vector<Statement> second_block = else_parser.get_stmt_list();
 
@@ -307,6 +320,8 @@ std::string StatementListParser::parse_if(std::string src)
         if_stmt.set_condition(condition);
         if_stmt.set_first_block(first_block);
         if_stmt.set_second_block(second_block);
+
+        if_stmt.set_procedure(proc_belonging);
 
         stmt_list.push_back(if_stmt);
 
@@ -383,4 +398,9 @@ int StatementListParser::get_last_num(std::vector<Statement> stmts)
         return get_last_num(last_stmt.get_second_block());
     }
     return last_stmt.get_prog_line();
+}
+
+void StatementListParser::set_procedure(std::string proc)
+{
+    proc_belonging = proc;
 }
