@@ -21,6 +21,7 @@ enum class EntityType
     ASSIGN,
     VARIABLE,
     CONSTANT,
+    PROG_LINE,
     PROCEDURE,
     PATTEXPR,
     MATCHEXPR,
