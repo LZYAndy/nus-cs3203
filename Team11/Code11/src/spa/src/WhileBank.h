@@ -14,8 +14,29 @@ public:
      */
     bool insert_while(int statement, std::string condition);
 
+    /**
+     * Return true if the statement is a while statement.
+     * @param statement
+     * @return Return true if the statement is a while statement, otherwise false.
+     */
+    bool is_while(int statement);
+
+    /**
+     * Return all while statements stored in the while_bank.
+     * @return Return all while statements stored in the while_bank.
+     */
+    std::vector<int> get_while_statements();
+
+    /**
+     * Return all statements in the statement list of the input while statement
+     * @param statement
+     * @return Return all statements in the statement list of the input while statement
+     */
+    std::vector<int> get_while_stmtLst(int statement);
+
 private:
     Bank<int, std::string> while_bank;
+    Bank<int, std::vector<int>> while_stmtLst;
 };
 
 
