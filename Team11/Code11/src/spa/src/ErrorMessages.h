@@ -20,6 +20,7 @@ constexpr const char* invalid_assign_statement(R"(Invalid assign statement in th
 constexpr const char* invalid_assign_type(R"(Invalid assign type.)");
 constexpr const char* invalid_read_statement(R"(Invalid read statement in the SIMPLE code.)");
 constexpr const char* invalid_read_type(R"(Invalid read type.)");
+constexpr const char* invalid_expr(R"(Invalid expression!)");
 constexpr const char* invalid_SIMPLE(R"(Invalid SIMPLE code.)");
 
 // Error messages for Entity.cpp
