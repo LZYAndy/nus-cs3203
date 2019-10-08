@@ -15,10 +15,17 @@ TEST_CASE("convert_infix_prefix - 2v, 1o")
     REQUIRE(result == expected);
 }
 
-TEST_CASE("convert_infix_prefix - 3v, 2o, check priority ")
+TEST_CASE("convert_infix_prefix - 3v, 2o, check priority")
 {
     std::string result = ConverterUtil::convert_infix_prefix("  first  +  second  * third  ");
     std::string expected = "+ first * second third";
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("convert_infix_prefix - 3v, 2o, check priority with parenthesis")
+{
+    std::string result = ConverterUtil::convert_infix_prefix("  (first  +  second)  * third  ");
+    std::string expected = "* + first second third";
     REQUIRE(result == expected);
 }
 
@@ -54,5 +61,12 @@ TEST_CASE("convert_infix_prefix - all operators w integers and parenthesis")
 {
     std::string result = ConverterUtil::convert_infix_prefix("(first+20)-third*(fourth/(50%sixth))");
     std::string expected = "- + first 20 * third / fourth % 50 sixth";
+    REQUIRE(result == expected);
+}
+
+TEST_CASE("convert_infix_prefix - all operators w integers and parenthesis, shifted order")
+{
+    std::string result = ConverterUtil::convert_infix_prefix("((first)+(20))/((third*fourth)-50)%sixth");
+    std::string expected = "% / + first 20 - * third fourth 50 sixth";
     REQUIRE(result == expected);
 }
