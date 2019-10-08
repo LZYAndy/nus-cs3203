@@ -440,3 +440,51 @@ vector<string> PKB::get_all_constants()
     result.insert(result.end(), const_table.begin(), const_table.end());
     return result;
 }
+
+bool PKB::insert_next(int stmt1, int stmt2) {
+    return next_bank.insert_next(stmt1, stmt2);
+}
+
+bool PKB::is_next(int stmt1, int stmt2) {
+    return next_bank.is_next(stmt1, stmt2);
+}
+
+bool PKB::does_next_exists() {
+    return next_bank.does_next_exists();
+}
+
+std::vector<int> PKB::get_statements_previous(int statement) {
+    return next_bank.get_statements_previous(statement);
+}
+
+std::vector<int> PKB::get_statements_next(int statement) {
+    return next_bank.get_statements_next(statement);
+}
+
+std::vector<int> PKB::get_all_previous() {
+    return next_bank.get_all_previous();
+}
+
+std::vector<int> PKB::get_all_next() {
+    return next_bank.get_all_next();
+}
+
+bool PKB::insert_while(int statement, std::string condition) {
+    return while_bank.insert_while(statement, condition);
+}
+
+bool PKB::is_while(int statement) {
+    return while_bank.is_while(statement);
+}
+
+std::vector<int> PKB::get_while_statements() {
+    return while_bank.get_while_statements();
+}
+
+std::vector<int> PKB::get_while_stmtLst(int statement) {
+    return while_bank.get_while_stmtLst(statement);
+}
+
+bool PKB::insert_stmt_in_while_stmtLst(int whileStmt, int statement) {
+    return while_bank.insert_stmt_in_while_stmtLst(whileStmt, statement);
+}

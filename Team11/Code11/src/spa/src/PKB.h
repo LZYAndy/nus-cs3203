@@ -16,6 +16,8 @@
 #include "ParentBank.h"
 #include "ParentStarBank.h"
 #include "AssignBank.h"
+#include "NextBank.h"
+#include "WhileBank.h"
 
 using namespace std;
 
@@ -533,6 +535,90 @@ public:
      */
     vector<string> get_all_constants();
 
+    /**
+     * Insert Next relationship between statement1 and statement2.
+     * @param stmt1
+     * @param stmt2
+     * @return Return true if the relationship is inserted successfully, otherwise false.
+     */
+    bool insert_next(int stmt1, int stmt2);
+
+    /**
+     * If there is a Next relationship between statement1 and statement2.
+     * @param stmt1
+     * @param stmt2
+     * @return Return true if there is a Next relationship between these two statements, otherwise false.
+     */
+    bool is_next(int stmt1, int stmt2);
+
+    /**
+     * If there exists at least one Next relationship in the program.
+     * @return Return true if there exists at least one Next relationship, otherwise false.
+     */
+    bool does_next_exists();
+
+    /**
+     * Get all statements that are the Previous statement of the input statement
+     * @param statement
+     * @return Return a vector of statements which are the previous statement of the input statement.
+     */
+    std::vector<int> get_statements_previous(int statement);
+
+    /**
+     * Get all statements that are the Next statement of the input statement
+     * @param statement
+     * @return Return a vector of statements which are the next statement of the input statement.
+     */
+    std::vector<int> get_statements_next(int statement);
+
+    /**
+     * Get all statements which are the in previous position in their Next relationships.
+     * @return Return all which are the in previous position in their Next relationships.
+     */
+    std::vector<int> get_all_previous();
+
+    /**
+     * Get all statements which are the in next position in their Next relationships.
+     * @return Return all which are the in next position in their Next relationships.
+     */
+    std::vector<int> get_all_next();
+
+    /**
+     * Insert a while statement into the while_bank.
+     * @param statement number of the while statement
+     * @param condition of the while statement
+     * @return Return true if the while statement is inserted successfully, otherwise false.
+     */
+    bool insert_while(int statement, std::string condition);
+
+    /**
+     * Insert a statement in the stmtLst of the whileStmt.
+     * @param whileStmt
+     * @param statement
+     * @return Return true if the statement is inserted successfully, otherwise false.
+     */
+    bool insert_stmt_in_while_stmtLst(int whileStmt, int statement);
+
+    /**
+     * Return true if the statement is a while statement.
+     * @param statement
+     * @return Return true if the statement is a while statement, otherwise false.
+     */
+    bool is_while(int statement);
+
+    /**
+     * Return all while statements stored in the while_bank.
+     * @return Return all while statements stored in the while_bank.
+     */
+    std::vector<int> get_while_statements();
+
+    /**
+     * Return all statements in the statement list of the input while statement
+     * @param statement
+     * @return Return all statements in the statement list of the input while statement
+     */
+    std::vector<int> get_while_stmtLst(int statement);
+
 private:
     FollowsBank follows_bank;
     FollowsStarBank follows_star_bank;
@@ -545,5 +631,7 @@ private:
     UsesBank uses_bank;
     ModifiesBank modifies_bank;
     TypeBank type_bank;
+    NextBank next_bank;
+    WhileBank while_bank;
     int last_statement_num = 0;
 };
