@@ -15,7 +15,31 @@ TEST_CASE("Test get_final_list function")
     unordered_map<string, vector<string>> my_map = QueryEvaluator::merge_two_maps(such_that_map, pattern_map, common_synonyms);
     unordered_map<string, vector<string>> expected_result;
     expected_result["s"] = vector<string> {"4", "5", "6", "7"};
-    expected_result["a"] = vector<string> {"9"};
+    expected_result["a"] = vector<string> {"9", "9", "9", "9"};
+    REQUIRE(my_map == expected_result);
+}
+
+TEST_CASE("Test merge_two_maps function")
+{
+    unordered_map<string, vector<string>> such_that_map;
+    unordered_map<string, vector<string>> pattern_map;
+    vector<string> such_that_vec {"4", "5", "6", "7", "12", "13", "14"};
+    vector<string> pattern_vec {"9"};
+    such_that_map["s"] = such_that_vec;
+    pattern_map["a"] = pattern_vec;
+    unordered_set<string> common_synonyms = {};
+    unordered_map<string, vector<string>> my_map = QueryEvaluator::merge_two_maps(such_that_map, pattern_map, common_synonyms);
+    unordered_map<string, vector<string>> expected_result;
+    expected_result["s"] = vector<string> {"4", "5", "6", "7", "12", "13", "14"};
+    expected_result["a"] = vector<string> {"9", "9", "9", "9", "9", "9", "9"};
+//    for (auto iter : my_map)
+//    {
+//        cout << iter.first << "\n";
+//        for (auto it : iter.second)
+//        {
+//            cout << it << " ";
+//        }
+//    }
     REQUIRE(my_map == expected_result);
 }
 

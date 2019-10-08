@@ -34,6 +34,7 @@ public:
             unordered_map<string, vector<string>> &pattern_list);
     static unordered_set<string> get_common_synonyms(unordered_map<string, vector<string>> &map_1,
             unordered_map<string, vector<string>> &map_2);
+    static bool is_empty_map(unordered_map<string, vector<string>> &map);
     static unordered_map<string, vector<string>> merge_two_maps(unordered_map<string, vector<string>> map_1,
             unordered_map<string, vector<string>> map_2, unordered_set<string> &common_synonym);
     static unordered_set<string> get_common_part(vector<string> &str_vec_1, vector<string> &str_vec_2);
