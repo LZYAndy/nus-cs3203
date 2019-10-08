@@ -1,7 +1,7 @@
 #include "NextBank.h"
 
 bool NextBank::insert_next(int stmt1, int stmt2) {
-    if (stmt2 <= stmt1)
+    if (stmt1 <= 0 || stmt2 <= 0 || stmt1 == stmt2)
     {
         return false;
     }
