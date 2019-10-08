@@ -12,10 +12,10 @@ TEST_CASE("Test get_final_list function")
     such_that_map["a"] = such_that_vec_2;
     pattern_map["a"] = pattern_vec;
     unordered_set<string> common_synonyms = {"a"};
-    unordered_map<string, unordered_set<string>> my_map = QueryEvaluator::get_final_list(such_that_map, pattern_map, common_synonyms);
-    unordered_map<string, unordered_set<string>> expected_result;
-    expected_result["s"] = unordered_set<string> {"4", "5", "6", "7"};
-    expected_result["a"] = unordered_set<string> {"9"};
+    unordered_map<string, vector<string>> my_map = QueryEvaluator::merge_two_maps(such_that_map, pattern_map, common_synonyms);
+    unordered_map<string, vector<string>> expected_result;
+    expected_result["s"] = vector<string> {"4", "5", "6", "7"};
+    expected_result["a"] = vector<string> {"9"};
     REQUIRE(my_map == expected_result);
 }
 
