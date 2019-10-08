@@ -46,7 +46,7 @@ AssignParser::AssignParser(PKB &pkb, Statement statement, std::string parent_pro
     }
 
     // Insert assigns
-    pkb.insert_assign(statement.get_prog_line(), left, right);
+    pkb.insert_assign(statement.get_prog_line(), left, ConverterUtil::convert_infix_prefix(right));
 
     // Insert parents
     if (std::regex_match(parent_prog_line, std::regex("^[0-9]+$")))
