@@ -11,9 +11,13 @@ TEST_CASE("Test while parser successfully.")
     std::vector<Statement> stmts;
     Statement while_statement = Statement(EntityType::WHILE, 1, " ");
 
+    while_statement.set_procedure("main");
+
     while_statement.set_condition("a > 0");
     std::vector<Statement> loop_p;
     Statement loop_s = Statement(EntityType::READ, 2, "read x;");
+
+    loop_s.set_procedure("main");
     loop_p.push_back(loop_s);
 
     while_statement.set_first_block(loop_p);
@@ -27,4 +31,7 @@ TEST_CASE("Test while parser successfully.")
 
     REQUIRE(parent.size() == 1);
     REQUIRE(children.size() == 1);
+
+    std::vector<std::string> modifies_procs = pkb.get_all_modifies_procedures();
+    REQUIRE(modifies_procs.size() == 1);
 }

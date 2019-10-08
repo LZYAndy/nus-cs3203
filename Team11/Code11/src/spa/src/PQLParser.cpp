@@ -9,12 +9,14 @@
 #include "pql_dto/ModifiesRelationship.cpp"
 #include "pql_dto/ParentRelationship.cpp"
 #include "pql_dto/FollowsRelationship.cpp"
+#include "pql_dto/NextRelationship.cpp"
+#include "pql_dto/CallsRelationship.cpp"
+#include "pql_dto/AffectsRelationship.cpp"
 
 std::string whitespace = " \n\t\r\f\v";
 
-std::string PQLParser::pql_parse_query(std::string query, std::vector<pql_dto::Entity> &declaration_clause,
-                                       std::vector<pql_dto::Entity> &select_clause, std::vector<pql_dto::Relationships> &such_that_clause,
-                                       std::vector<pql_dto::Pattern> &pattern_clause)
+std::string PQLParser::pql_parse_query(std::string query, std::vector<pql_dto::Entity> &select_clause,
+        std::vector<pql_dto::Relationships> &such_that_clause, std::vector<pql_dto::Pattern> &pattern_clause)
 {
     std::string error;
     std::unordered_map<std::string, std::string> declared_variables; // Maps variables' name to to entity type
@@ -31,7 +33,7 @@ std::string PQLParser::pql_parse_query(std::string query, std::vector<pql_dto::E
 
     /// Validates the declaration string
     size_t last_semi_colon = query.find_last_of(';');
-    error = parse_declaration_clause(query.substr(0, last_semi_colon), declaration_clause, declared_variables);
+    error = parse_declaration_clause(query.substr(0, last_semi_colon), declared_variables);
     if (!error.empty())
     {
         return error;
@@ -102,8 +104,7 @@ std::string PQLParser::pql_parse_query(std::string query, std::vector<pql_dto::E
     return "";
 }
 
-std::string PQLParser::parse_declaration_clause(const std::string &query, std::vector<pql_dto::Entity> &declaration_clause,
-        std::unordered_map<std::string, std::string> &declared_variables)
+std::string PQLParser::parse_declaration_clause(const std::string &query, std::unordered_map<std::string, std::string> &declared_variables)
 {
     std::vector<std::string> split_declaration_clause = StringUtil::split(query, ';');
 
@@ -137,7 +138,6 @@ std::string PQLParser::parse_declaration_clause(const std::string &query, std::v
             try
             {
                 entity = pql_dto::Entity(entity_type, name, true);
-                declaration_clause.push_back(entity);
                 declared_variables[name] = entity_type;
             }
             catch (const std::exception &e)
@@ -161,32 +161,166 @@ std::string PQLParser::parse_select_clause(const std::string &query, std::vector
     }
 
     std::string select_query = StringUtil::trim(trimmed_query.substr(trimmed_query.find_first_of(whitespace)), whitespace);
-    std::string select_variable = StringUtil::trim(select_query.substr(0, select_query.find_first_of(whitespace)), whitespace);
+    std::string select_variable;
+    if (select_query.front() == '<')
+    {
+        /// Checks if select variable is a tuple
+        if (select_query.find_first_of('>') != std::string::npos)
+        {
+            std::string variables_string = select_query.substr(1, select_query.find_first_of('>') - 1);
+            std::vector<std::string> variables_vector = StringUtil::split(variables_string, ',');
 
-    /// Checks if variable in select clause exists
-    if (declared_variables.find(select_variable) == declared_variables.end())
-    {
-        return error_messages::invalid_query_variables_not_declared;
-    }
+            for (std::string var : variables_vector)
+            {
+                var = StringUtil::trim(var, whitespace);
+                std::vector<std::string> variable_attr;
 
-    std::string entity_type = declared_variables.at(select_variable);
-    try
-    {
-        pql_dto::Entity entity = pql_dto::Entity(entity_type, select_variable, true);
-        select_clause.push_back(entity);
-    }
-    catch (const std::exception &e)
-    {
-        return e.what();
-    }
+                /// If select variable has a attribute
+                if (var.find_first_of('.') != std::string::npos)
+                {
+                    variable_attr = StringUtil::split(var, '.');
+                    if (variable_attr.size() != 2)
+                    {
+                        return error_messages::invalid_query_select_attr_syntax;
+                    }
+                    try
+                    {
+                        add_variable_with_attr_to_select_clause(declared_variables, variable_attr, select_clause);
+                    }
+                    catch (std::exception& e)
+                    {
+                        return e.what();
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        add_variable_to_select_clause(declared_variables, var, select_clause);
+                    }
+                    catch (std::exception& e)
+                    {
+                        return e.what();
+                    }
+                }
+            }
+        }
+        else
+        {
+            return error_messages::invalid_query_select_clause_syntax;
+        }
 
-    /// Sets the condition query after the select clause
-    if (!(select_query.find_first_of(whitespace) == std::string::npos))
+        /// Sets the condition query after the select clause
+        if (select_query.back() != '>')
+        {
+            condition_query = StringUtil::trim(select_query.substr(select_query.find_first_of('>') + 1), whitespace);
+        }
+    }
+    else
     {
-        condition_query = StringUtil::trim(select_query.substr(select_query.find_first_of(whitespace)), whitespace);
+        select_variable = StringUtil::trim(select_query.substr(0, select_query.find_first_of(whitespace)), whitespace);
+
+        /// Sets the condition query after the select clause
+        if (select_query.find_first_of(whitespace) != std::string::npos)
+        {
+            std::string remaining_select_query = StringUtil::trim(select_query.substr(select_query.find_first_of(whitespace)), whitespace);
+            if (select_variable.back() == '.')
+            {
+                std::string var_attr = StringUtil::trim(remaining_select_query.substr(0, select_query.find_first_of(whitespace)), whitespace);
+                
+                select_variable.append(var_attr);
+                select_query = remaining_select_query;
+            }
+            else if (remaining_select_query.front() == '.')
+            {
+                remaining_select_query = StringUtil::trim(remaining_select_query.substr(remaining_select_query.find_first_of(whitespace)), whitespace);
+                std::string var_attr = StringUtil::trim(remaining_select_query.substr(0, remaining_select_query.find_first_of(whitespace)), whitespace);
+                
+                select_variable.append(".");
+                select_variable.append(var_attr);
+                select_query = remaining_select_query;
+            }
+            
+        }
+
+        /// If select variable has a attribute
+        if (select_variable.find_first_of('.') != std::string::npos)
+        {
+            std::vector<std::string> variable_attr = StringUtil::split(select_variable, '.');
+            if (variable_attr.size() != 2)
+            {
+                return error_messages::invalid_query_select_attr_syntax;
+            }
+            try
+            {
+                add_variable_with_attr_to_select_clause(declared_variables, variable_attr, select_clause);
+            }
+            catch (std::exception& e)
+            {
+                return e.what();
+            }
+        }
+        else
+        {
+            /// Checks if select variable is BOOLEAN
+            if (select_variable == "BOOLEAN")
+            {
+                pql_dto::Entity entity = pql_dto::Entity("boolean", select_variable, false);
+                select_clause.push_back(entity);
+            }
+            else
+            {
+                try
+                {
+                    add_variable_to_select_clause(declared_variables, select_variable, select_clause);
+                }
+                catch (std::exception& e)
+                {
+                    return e.what();
+                }
+            }
+        }
+
+        /// Sets the condition query after the select clause
+        if (select_query.find_first_of(whitespace) != std::string::npos)
+        {
+            condition_query = StringUtil::trim(select_query.substr(select_query.find_first_of(whitespace)), whitespace);
+        }
     }
 
     return "";
+}
+
+void PQLParser::add_variable_with_attr_to_select_clause(std::unordered_map<std::string, std::string>& declared_variables,
+    std::vector<std::string>& select_variable, std::vector<pql_dto::Entity>& select_clause)
+{
+    std::string var_name = StringUtil::trim(select_variable.front(), whitespace);
+    std::string var_attr = StringUtil::trim(select_variable.back(), whitespace);
+
+    /// Checks if variable in select clause exists
+    if (declared_variables.find(var_name) == declared_variables.end())
+    {
+        throw std::runtime_error(error_messages::invalid_query_variables_not_declared);
+    }
+
+    std::string entity_type = declared_variables.at(var_name);
+    pql_dto::Entity entity = pql_dto::Entity(entity_type, var_name, true);
+    entity.set_entity_attr(var_attr);
+    select_clause.push_back(entity);
+}
+
+void PQLParser::add_variable_to_select_clause(std::unordered_map<std::string, std::string>& declared_variables,
+    std::string& select_variable, std::vector<pql_dto::Entity>& select_clause)
+{
+    /// Checks if variable in select clause exists
+    if (declared_variables.find(select_variable) == declared_variables.end())
+    {
+        throw std::runtime_error(error_messages::invalid_query_variables_not_declared);
+    }
+
+    std::string entity_type = declared_variables.at(select_variable);
+    pql_dto::Entity entity = pql_dto::Entity(entity_type, select_variable, true);
+    select_clause.push_back(entity);
 }
 
 std::string PQLParser::parse_such_that_clause(const std::string &query, std::vector<pql_dto::Relationships> &such_that_clause,
@@ -416,6 +550,45 @@ pql_dto::Relationships PQLParser::create_relationship(std::string &relationship_
             throw std::runtime_error(error_messages::invalid_relationship_type);
         }
         return pql_dto::ParentRelationship(first_param, second_param, true);
+    }
+    else if (relationship_type == "Next")
+    {
+        return pql_dto::NextRelationship(first_param, second_param, false);
+    }
+    else if (relationship_type.find("Next") != std::string::npos)
+    {
+        relationship_type = StringUtil::remove_all_white_spaces(relationship_type);
+        if (relationship_type != "Next*")
+        {
+            throw std::runtime_error(error_messages::invalid_relationship_type);
+        }
+        return pql_dto::NextRelationship(first_param, second_param, true);
+    }
+    else if (relationship_type == "Calls")
+    {
+        return pql_dto::CallsRelationship(first_param, second_param, false);
+    }
+    else if (relationship_type.find("Calls") != std::string::npos)
+    {
+        relationship_type = StringUtil::remove_all_white_spaces(relationship_type);
+        if (relationship_type != "Calls*")
+        {
+            throw std::runtime_error(error_messages::invalid_relationship_type);
+        }
+        return pql_dto::CallsRelationship(first_param, second_param, true);
+    }
+    else if (relationship_type == "Affects")
+    {
+        return pql_dto::AffectsRelationship(first_param, second_param, false);
+    }
+    else if (relationship_type.find("Affects") != std::string::npos)
+    {
+        relationship_type = StringUtil::remove_all_white_spaces(relationship_type);
+        if (relationship_type != "Affects*")
+        {
+            throw std::runtime_error(error_messages::invalid_relationship_type);
+        }
+        return pql_dto::AffectsRelationship(first_param, second_param, true);
     }
     else if (relationship_type == "Uses")
     {
