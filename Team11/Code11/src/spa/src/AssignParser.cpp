@@ -40,6 +40,7 @@ AssignParser::AssignParser(PKB &pkb, Statement statement, std::string parent_pro
 
     // Insert modifies
     pkb.insert_modifies(statement.get_prog_line(), left);
+    pkb.insert_modifies(statement.get_procedure(), left);
     if (CheckerUtil::is_name_valid(parent_prog_line))
     {
         pkb.insert_modifies(parent_prog_line, left);
@@ -58,6 +59,7 @@ AssignParser::AssignParser(PKB &pkb, Statement statement, std::string parent_pro
     for (auto var: all_var)
     {
         pkb.insert_uses(statement.get_prog_line(), var);
+        pkb.insert_uses(statement.get_procedure(), var);
 
         if (std::regex_match(parent_prog_line, std::regex("^[a-zA-Z][a-zA-Z0-9]+$")))
         {
