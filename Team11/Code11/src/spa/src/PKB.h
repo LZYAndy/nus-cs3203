@@ -16,6 +16,7 @@
 #include "ParentBank.h"
 #include "ParentStarBank.h"
 #include "AssignBank.h"
+#include "IfBank.h"
 
 using namespace std;
 
@@ -114,16 +115,22 @@ public:
     bool insert_constant(string constant);
 
     /**
+     * Insert if relationship into PKB.
+     * @param stmt stmt# of statement
+     * @param control control expression
+     * @return true if insert is successful.
+     */
+    bool insert_if(int stmt, string control);
+
+    /**
      * Get all variables in the var_table.
      * @return Return a string unordered_set of variables that are contained in the var_table.
      */
-
     unordered_set<std::string> get_all_variables();
     /**
      * Get stmt# of all statements in PKB.
      * @return vector containing all the stmt# of statements.
      */
-
     vector<int> get_all_statement_nums();
     /**
      * Get stmt# of all WHILE statements in PKB.
@@ -532,6 +539,19 @@ public:
      * @return vector of constants
      */
     vector<string> get_all_constants();
+    
+    /**
+     * Get all stmt# of IF statement with control expression that exact matches the pattern.
+     * @param pattern the pattern to match.
+     * @return vector of stmt# that IF statements that fulfill the requirements.
+     */
+    vector<int> get_all_if_pattern_matches(string pattern);
+    /**
+     * Get all stmt# of IF statement with control expression that contains the pattern.
+     * @param pattern the pattern to match.
+     * @return vector of stmt# that IF statements that fulfill the requirements.
+     */
+    vector<int> get_all_if_pattern_contains(string pattern);
 
 private:
     FollowsBank follows_bank;
@@ -545,5 +565,6 @@ private:
     UsesBank uses_bank;
     ModifiesBank modifies_bank;
     TypeBank type_bank;
+    IfBank if_bank;
     int last_statement_num = 0;
 };
