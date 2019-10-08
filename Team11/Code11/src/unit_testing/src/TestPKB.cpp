@@ -2272,6 +2272,41 @@ TEST_CASE("PKB::get_all_procedures_calls()")
     }
 }
 
+TEST_CASE("PKB::get_all_if_pattern_contains()")
+{
+    PKB pkb;
+
+    pkb.insert_if(1, "x==1");
+    pkb.insert_if(2, "x==2");
+    pkb.insert_if(2, "x==2");
+    pkb.insert_if(3, "x==1");
+
+    SECTION("return empty")
+    {
+        REQUIRE(pkb.get_all_if_pattern_contains("x != DONTEXIST").empty());
+        REQUIRE(pkb.get_all_if_pattern_contains("X").empty());
+    }
+
+    SECTION("return 1 result")
+    {
+        REQUIRE(pkb.get_all_if_pattern_contains("x==2").size() == 1);
+        REQUIRE(pkb.get_all_if_pattern_contains("x==2")[0] == 2);
+    }
+
+    SECTION("return >1 result")
+    {
+        std::vector<int> result = pkb.get_all_if_pattern_contains("x");
+        REQUIRE(result.size() == 3);
+        std::vector<int> expected;
+        expected.push_back(1);
+        expected.push_back(2);
+        expected.push_back(3);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(expected == result);
+    }
+}
+
 TEST_CASE("PKB::get_all_procedures_called()")
 {
     PKB pkb;
@@ -2346,6 +2381,38 @@ TEST_CASE("PKB::get_procedures_called_by()")
     }
 }
 
+TEST_CASE("PKB::get_all_if_pattern_matches()")
+{
+    PKB pkb;
+
+    pkb.insert_if(1, "x==1");
+    pkb.insert_if(2, "x==2");
+    pkb.insert_if(2, "x==2");
+    pkb.insert_if(3, "x==1");
+
+    SECTION("return empty")
+    {
+        REQUIRE(pkb.get_all_if_pattern_matches("x != DONTEXIST").empty());
+    }
+
+    SECTION("return 1 result")
+    {
+        REQUIRE(pkb.get_all_if_pattern_matches("x==2").size() == 1);
+        REQUIRE(pkb.get_all_if_pattern_matches("x==2")[0] == 2);
+    }
+
+    SECTION("return >1 result")
+    {
+        std::vector<int> result = pkb.get_all_if_pattern_matches("x==1");
+        REQUIRE(result.size() == 2);
+        std::vector<int> expected;
+        expected.push_back(1);
+        expected.push_back(3);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(expected == result);
+    }
+}
 
 TEST_CASE("PKB::get_all_procedures_calls_relationship()")
 {
@@ -2373,7 +2440,6 @@ TEST_CASE("PKB::get_all_procedures_calls_relationship()")
         std::sort(result_values.begin(), result_values.end());
         REQUIRE(expected == result_values);
     }
-
 
     SECTION("return >1")
     {

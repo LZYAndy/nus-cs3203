@@ -480,3 +480,18 @@ unordered_map<string, vector<string>> PKB::get_all_procedures_calls_relationship
 {
     return calls_bank.get_all_procedures_calls_relationship();
 }
+
+bool PKB::insert_if(int stmt, string control)
+{
+    return if_bank.insert_if(stmt, control);
+}
+
+vector<int> PKB::get_all_if_pattern_matches(string pattern)
+{
+    return if_bank.all_matches(pattern);
+}
+
+vector<int> PKB::get_all_if_pattern_contains(string pattern)
+{
+    return if_bank.all_contains(pattern);
+}
