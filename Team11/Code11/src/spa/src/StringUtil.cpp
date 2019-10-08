@@ -108,3 +108,25 @@ std::vector<std::string> StringUtil::get_all_const(std::string statement)
 
     return all_const;
 }
+
+std::string StringUtil::preprocess_expr_string(std::string input)
+{
+    // Strip all whitespace
+    std::regex re("(\\s+)");
+    std::string result = regex_replace(input, re, "");
+
+    // Add space before and after an operator
+    std::regex re2("([+\\-*/%])");
+    result = regex_replace(result, re2, " $1 ");
+
+    // Special case for parenthesis
+    std::regex re3("([(])");
+    result = regex_replace(result, re3, "$1 ");
+    std::regex re4("([)])");
+    result = regex_replace(result, re4, " $1");
+
+    // Trim left and right spaces
+    result = StringUtil::trim(result, " \n\t\r\f\v");
+
+    return result;
+}

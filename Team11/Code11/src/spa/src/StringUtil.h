@@ -69,4 +69,11 @@ public:
      * @return The vector of constants in string.
      */
     static std::vector<std::string> get_all_const(std::string input);
+
+    /**
+     * Converts an infix expression into a string without whitespaces except a single space before and after an operator.
+     * @param input An infix expression
+     * @return An infix expression with no whitespaces except a single space before and after an operator.
+     */
+    static std::string preprocess_expr_string(std::string input);
 };

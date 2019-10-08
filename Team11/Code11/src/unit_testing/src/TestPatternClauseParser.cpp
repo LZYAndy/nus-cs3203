@@ -6,9 +6,8 @@ TEST_CASE("Parses and validate Pattern clause.")
     /// Initialise declared variables for select clause
     std::unordered_map<std::string, std::string> declared_variables;
     std::string declaration_query = "variable v1, v2; print prt; assign a; procedure p";
-    std::vector<pql_dto::Entity> declaration_clause;
     std::vector<pql_dto::Pattern> pattern_clause;
-    std::string declaration_error = PQLParser::parse_declaration_clause(declaration_query, declaration_clause, declared_variables);
+    std::string declaration_error = PQLParser::parse_declaration_clause(declaration_query, declared_variables);
 
     CHECK(declaration_error == "");
 

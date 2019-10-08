@@ -12,6 +12,7 @@ private:
     std::string condition;
     std::vector<Statement> first_block;
     std::vector<Statement> second_block;
+    std::string proc_belonging;
 
 public:
     // Constructor
@@ -34,6 +35,12 @@ public:
 
     // Returns the first block;
     std::vector<Statement> get_first_block();
+
+    // Set the procedure that this statement is belonging to.
+    void set_procedure(std::string proc);
+
+    // Returns the procedure name.
+    std::string get_procedure();
 
     // Set the first block.
     void set_first_block(std::vector<Statement> fb);
