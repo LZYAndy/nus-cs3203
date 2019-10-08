@@ -156,4 +156,12 @@ TEST_CASE("Parses and validate select clause.")
 
         REQUIRE(error == error_messages::invalid_entity_attr);
     }
+
+    SECTION("Invalid Select Clause with multiple attribute value.")
+    {
+        std::string test_query = "Select v1.stmt#.value such that Modifies(4, v1) pattern a(_,_) ";
+        std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
+
+        REQUIRE(error == error_messages::invalid_query_select_attr_syntax);
+    }
 }
