@@ -106,3 +106,17 @@ TEST_CASE("Test get_all_const")
     std::vector<std::string> expected({"20", "12", "16", "9", "1", "6", "9"});
     REQUIRE(result == expected);
 }
+
+TEST_CASE("Test preprocess_expr_string")
+{
+    std::string to_process = "a+string-for*testing/pre%(a+process)";
+    std::string result = StringUtil::preprocess_expr_string(to_process);
+    std::string expected = "a + string - for * testing / pre % ( a + process )";
+    REQUIRE(result == expected);
+
+    std::string to_process_space = "    a     +     string  -  "
+                                   "for   *     testing"
+                                   "/pre   %  (    a  +  process)";
+    std::string result_space = StringUtil::preprocess_expr_string(to_process_space);
+    REQUIRE(result_space == expected);
+}

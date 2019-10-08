@@ -26,10 +26,8 @@ public:
 private:
     void set_first_param(Entity param)
     {
-        if (param.get_entity_type() == EntityType::CONSTANT || param.get_entity_type() == EntityType::PATTEXPR
-                || param.get_entity_type() == EntityType::ANY || param.get_entity_type() == EntityType::PRINT
-                || param.get_entity_type() == EntityType::INVALID || param.get_entity_type() == EntityType::VARIABLE
-                || param.get_entity_type() == EntityType::MATCHEXPR)
+        std::vector<EntityType> modifies_first_param_type = relationships_table.at(RelationshipType::MODIFIES).front();
+        if (std::find(modifies_first_param_type.begin(), modifies_first_param_type.end(), param.get_entity_type()) == modifies_first_param_type.end())
         {
             throw std::runtime_error(error_messages::invalid_modifies_relationship_first_param);
         }
@@ -39,14 +37,13 @@ private:
 
     void set_second_param(Entity param)
     {
-        if (param.get_entity_type() == EntityType::VARIABLE || param.get_entity_type() == EntityType::ANY)
-        {
-            second_param = param;
-        }
-        else
+        std::vector<EntityType> modifies_second_param_type = relationships_table.at(RelationshipType::MODIFIES).back();
+        if (std::find(modifies_second_param_type.begin(), modifies_second_param_type.end(), param.get_entity_type()) == modifies_second_param_type.end())
         {
             throw std::runtime_error(error_messages::invalid_modifies_relationship_second_param);
         }
+
+        second_param = param;
     }
 };
 }

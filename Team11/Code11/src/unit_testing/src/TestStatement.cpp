@@ -8,4 +8,7 @@ TEST_CASE("TestStatement")
     REQUIRE(stmt.get_statement_type() == EntityType::ASSIGN);
     REQUIRE(stmt.get_prog_line() == 1);
     REQUIRE(stmt.get_statement() == "a = b ");
+
+    stmt.set_procedure("main");
+    REQUIRE(stmt.get_procedure() == "main");
 }

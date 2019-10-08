@@ -14,6 +14,7 @@ private:
     std::string raw_stmt_list;
     std::vector<Statement> stmt_list;
     int next_line_number;
+    std::string proc_belonging;
 
 public:
     // Constructor
@@ -23,6 +24,9 @@ public:
 
     // The main parser.
     void parse_stmt_list();
+
+    // Set the procedure that the statement list belongs to.
+    void set_procedure(std::string proc);
 
     // This method is to parse if statement, and returns the remaining statements.
     std::string parse_if(std::string src);

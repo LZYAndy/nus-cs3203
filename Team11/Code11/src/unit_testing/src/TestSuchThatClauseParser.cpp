@@ -11,9 +11,8 @@ TEST_CASE("Parses and validate Follows such that clause.")
     /// Initialise declared variables for select clause
     std::unordered_map<std::string, std::string> declared_variables;
     std::string declaration_query = "variable v1, v2; print prt; assign a";
-    std::vector<pql_dto::Entity> declaration_clause;
     std::vector<pql_dto::Relationships> such_that_clause;
-    std::string declaration_error = PQLParser::parse_declaration_clause(declaration_query, declaration_clause, declared_variables);
+    std::string declaration_error = PQLParser::parse_declaration_clause(declaration_query, declared_variables);
 
     CHECK(declaration_error == "");
 
@@ -136,9 +135,8 @@ TEST_CASE("Parses and validate Parent such that clause.")
     /// Initialise declared variables for select clause
     std::unordered_map<std::string, std::string> declared_variables;
     std::string declaration_query = "variable v1, v2; print prt; assign a";
-    std::vector<pql_dto::Entity> declaration_clause;
     std::vector<pql_dto::Relationships> such_that_clause;
-    std::string declaration_error = PQLParser::parse_declaration_clause(declaration_query, declaration_clause, declared_variables);
+    std::string declaration_error = PQLParser::parse_declaration_clause(declaration_query, declared_variables);
 
     CHECK(declaration_error == "");
 
@@ -252,9 +250,8 @@ TEST_CASE("Parses and validate Uses such that clause.")
     /// Initialise declared variables for select clause
     std::unordered_map<std::string, std::string> declared_variables;
     std::string declaration_query = "variable v1, v2; print prt; assign a; procedure p";
-    std::vector<pql_dto::Entity> declaration_clause;
     std::vector<pql_dto::Relationships> such_that_clause;
-    std::string declaration_error = PQLParser::parse_declaration_clause(declaration_query, declaration_clause, declared_variables);
+    std::string declaration_error = PQLParser::parse_declaration_clause(declaration_query, declared_variables);
 
     CHECK(declaration_error == "");
 
@@ -360,9 +357,8 @@ TEST_CASE("Parses and validate Modifies such that clause.")
     /// Initialise declared variables for select clause
     std::unordered_map<std::string, std::string> declared_variables;
     std::string declaration_query = "variable v1, v2; print prt; assign a; procedure p";
-    std::vector<pql_dto::Entity> declaration_clause;
     std::vector<pql_dto::Relationships> such_that_clause;
-    std::string declaration_error = PQLParser::parse_declaration_clause(declaration_query, declaration_clause, declared_variables);
+    std::string declaration_error = PQLParser::parse_declaration_clause(declaration_query, declared_variables);
 
     CHECK(declaration_error == "");
 
