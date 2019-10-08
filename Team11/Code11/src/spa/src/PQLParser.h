@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <iterator>
 #include <stdexcept>
 
 #include <pql_dto/Entity.h>
@@ -18,6 +19,26 @@ private:
      * @return The user's query string.
      */
     static std::string pql_validate_initial_query(std::string &query);
+
+    /**
+     * Validate and add variable(s) to the select clause.
+     * @param declared_variables The pointer to the declared_variables map.
+     * @param select_variable The vector of the variable name and attribute to be added.
+     * @param select_clause The pointer to the select clause map.
+     * @return The Entity object that is initialised.
+     */
+    static void add_variable_with_attr_to_select_clause(std::unordered_map<std::string, std::string>& declared_variables,
+        std::vector<std::string>& select_variable, std::vector<pql_dto::Entity>& select_clause);
+
+    /**
+     * Validate and add variable(s) to the select clause.
+     * @param declared_variables The pointer to the declared_variables map.
+     * @param select_variable The name of the variable to be added.
+     * @param select_clause The pointer to the select clause map.
+     * @return The Entity object that is initialised.
+     */
+    static void add_variable_to_select_clause(std::unordered_map<std::string, std::string>& declared_variables,
+        std::string& select_variable, std::vector<pql_dto::Entity>& select_clause);
 
     /**
      * Creates the entity object for the clauses and relationships.
@@ -52,18 +73,6 @@ public:
             std::vector<pql_dto::Relationships> &such_that_clause, std::vector<pql_dto::Pattern> &pattern_clause);
 
     /**
-     * Parses and validates the query. If validation succeeds, stores query in clause pointers.
-     * @param query The user's query statement.
-     * @param select_clause The pointer to the select clause map.
-     * @param such_that_clause The pointer to the such that clause vector.
-     * @param pattern_clause The pointer to the pattern clause vector.
-     * @return The error string if the query is invalid.
-     */
-    static std::string pql_parse_query(std::string query, std::unordered_map<std::string, std::string>& declared_variables,
-        std::unordered_map<std::string, EntityType>& select_clause, std::vector<pql_dto::Relationships>& such_that_clause,
-        std::vector<pql_dto::Pattern>& pattern_clause);
-
-    /**
      * Parses and validates the declaration clause. If validation succeeds, stores query in clause pointers.
      * @param query The pointer to the user's query. String contains start of string to the last semi-colon.
      * @param declaration_clause The pointer to the declaration clause vector.
@@ -82,17 +91,6 @@ public:
      */
     static std::string parse_select_clause(const std::string &query, std::vector<pql_dto::Entity> &select_clause,
                                            std::unordered_map<std::string, std::string> &declared_variables, std::string &condition_query);
-
-    /**
-     * Parses and validates the select clause. If validation succeeds, stores query in clause pointers.
-     * @param query The pointer to the select query. String contains everything after the last semi-colon.
-     * @param select_clause The pointer to the select clause vector.
-     * @param declared_variables The pointer to the variables unordered map.
-     * @param condition_query The pointer to the string of condition in the param @query. The condition query is trimmed.
-     * @return The error string if the query is invalid.
-     */
-    static std::string parse_select_clause(const std::string& query, std::unordered_map<std::string, EntityType>& select_clause,
-        std::unordered_map<std::string, std::string>& declared_variables, std::string& condition_query);
 
     /**
      * Parses and validates the such that clause. If validation succeeds, stores query in clause pointers.
