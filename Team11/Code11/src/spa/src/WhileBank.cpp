@@ -39,3 +39,14 @@ std::vector<int> WhileBank::get_while_statements() {
 std::vector<int> WhileBank::get_while_stmtLst(int statement) {
     return while_stmtLst.get(statement);
 }
+
+bool WhileBank::insert_stmt_in_while_stmtLst(int whileStmt, int statement) {
+    if (whileStmt <= 0 || statement <= whileStmt)
+    {
+        return false;
+    }
+    else
+    {
+        while_stmtLst.put(whileStmt, statement);
+    }
+}

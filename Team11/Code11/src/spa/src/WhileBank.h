@@ -15,6 +15,14 @@ public:
     bool insert_while(int statement, std::string condition);
 
     /**
+     * Insert a statement in the stmtLst of the whileStmt.
+     * @param whileStmt
+     * @param statement
+     * @return Return true if the statement is inserted successfully, otherwise false.
+     */
+    bool insert_stmt_in_while_stmtLst(int whileStmt, int statement);
+
+    /**
      * Return true if the statement is a while statement.
      * @param statement
      * @return Return true if the statement is a while statement, otherwise false.
@@ -36,7 +44,7 @@ public:
 
 private:
     Bank<int, std::string> while_bank;
-    Bank<int, std::vector<int>> while_stmtLst;
+    Bank<int, int> while_stmtLst;
 };
 
 
