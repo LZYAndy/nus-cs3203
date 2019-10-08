@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include <unordered_set>
+#include <algorithm>
 
 #include "Entity.h"
 #include "../ErrorMessages.h"
@@ -64,7 +64,7 @@ public:
     bool equals(Relationships relationship);
 
     // Table containing the valid parameters for each relationship.
-    std::unordered_map<RelationshipType, std::vector<std::unordered_set<EntityType>>, EnumClassHash> relationships_table
+    std::unordered_map<RelationshipType, std::vector<std::vector<EntityType>>, EnumClassHash> relationships_table
     {
         {
             RelationshipType::FOLLOWS,

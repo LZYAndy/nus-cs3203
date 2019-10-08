@@ -21,8 +21,8 @@ namespace pql_dto
     private:
         void set_first_param(Entity param)
         {
-            std::unordered_set<EntityType> affects_first_param_type = relationships_table.at(RelationshipType::AFFECTS).front();
-            if (affects_first_param_type.find(param.get_entity_type()) == affects_first_param_type.end())
+            std::vector<EntityType> affects_first_param_type = relationships_table.at(RelationshipType::AFFECTS).front();
+            if (std::find(affects_first_param_type.begin(), affects_first_param_type.end(), param.get_entity_type()) == affects_first_param_type.end())
             {
                 throw std::runtime_error(error_messages::invalid_affects_relationship_first_param);
             }
@@ -32,8 +32,8 @@ namespace pql_dto
 
         void set_second_param(Entity param)
         {
-            std::unordered_set<EntityType> affects_second_param_type = relationships_table.at(RelationshipType::AFFECTS).back();
-            if (affects_second_param_type.find(param.get_entity_type()) == affects_second_param_type.end())
+            std::vector<EntityType> affects_second_param_type = relationships_table.at(RelationshipType::AFFECTS).back();
+            if (std::find(affects_second_param_type.begin(), affects_second_param_type.end(), param.get_entity_type()) == affects_second_param_type.end())
             {
                 throw std::runtime_error(error_messages::invalid_affects_relationship_second_param);
             }
