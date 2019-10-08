@@ -2367,3 +2367,110 @@ TEST_CASE("PKB::get_all_next()")
         REQUIRE(result == expected);
     }
 }
+
+TEST_CASE("PKB::insert_while()")
+{
+    PKB pkb;
+    pkb.insert_while(1, "x == 1");
+    SECTION("return false")
+    {
+        REQUIRE_FALSE(pkb.insert_while(0, "y > 1"));
+    }
+
+    SECTION("return true")
+    {
+        REQUIRE(pkb.insert_while(5, "y == 1"));
+    }
+}
+
+TEST_CASE("PKB::insert_stmt_in_while_stmtLst()")
+{
+    PKB pkb;
+    pkb.insert_while(2, "x == 1");
+    SECTION("return false")
+    {
+        REQUIRE_FALSE(pkb.insert_stmt_in_while_stmtLst(3, 5));
+        REQUIRE_FALSE(pkb.insert_stmt_in_while_stmtLst(0, 5));
+        REQUIRE_FALSE(pkb.insert_stmt_in_while_stmtLst(2, 2));
+    }
+
+    SECTION("return true")
+    {
+        REQUIRE(pkb.insert_stmt_in_while_stmtLst(2, 5));
+    }
+}
+
+TEST_CASE("PKB::is_while()")
+{
+    PKB pkb;
+    pkb.insert_while(10, "x == 1");
+    SECTION("return true")
+    {
+        REQUIRE_FALSE(pkb.is_while(1));
+    }
+
+    SECTION("return false")
+    {
+        REQUIRE(pkb.is_while(10));
+    }
+}
+
+TEST_CASE("PKB::get_while_statements()")
+{
+    PKB pkb;
+    SECTION("return 0 statement")
+    {
+        std::vector<int> result = pkb.get_while_statements();
+        REQUIRE(result.empty());
+    }
+
+    pkb.insert_while(1, "x == 1");
+    SECTION("return 1 statement")
+    {
+        std::vector<int> result = pkb.get_while_statements();
+        REQUIRE(result.size() == 1);
+        REQUIRE(result[0] == 1);
+    }
+
+    pkb.insert_while(5, "y == 1");
+    pkb.insert_while(10, "x == y");
+    SECTION("return more than 1 statements")
+    {
+        std::vector<int> result = pkb.get_while_statements();
+        REQUIRE(result.size() == 3);
+        std::vector<int> expected;
+        expected.push_back(10);
+        expected.push_back(5);
+        expected.push_back(1);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(expected == result);
+    }
+}
+
+TEST_CASE("PKB::get_while_stmtLst()")
+{
+    PKB pkb;
+    pkb.insert_while(3, "x == 1");
+    pkb.insert_stmt_in_while_stmtLst(3, 4);
+    SECTION("return 1 statement")
+    {
+        std::vector<int> result = pkb.get_while_stmtLst(3);
+        REQUIRE(result.size() == 1);
+        REQUIRE(result[0] == 4);
+    }
+    pkb.insert_stmt_in_while_stmtLst(3, 5);
+    pkb.insert_stmt_in_while_stmtLst(3, 6);
+    SECTION("return more than 1 statements")
+    {
+        std::vector<int> result = pkb.get_while_stmtLst(3);
+        REQUIRE(result.size() == 3);
+        std::vector<int> expected;
+        expected.push_back(6);
+        expected.push_back(5);
+        expected.push_back(4);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(expected == result);
+    }
+}
