@@ -2195,6 +2195,83 @@ TEST_CASE("PKB::get_all_constants()")
     }
 }
 
+TEST_CASE("PKB::does_calls_exist()")
+{
+    PKB pkb;
+    
+    SECTION("empty")
+    {
+        pkb.insert_calls("hello", "hello");
+        REQUIRE_FALSE(pkb.does_calls_exist());
+    }
+
+    SECTION(">1")
+    {
+        pkb.insert_calls("hello", "helloWorld");
+        REQUIRE(pkb.does_calls_exist());
+    }
+}
+
+TEST_CASE("PKB::is_calls()")
+{
+    PKB pkb;
+    pkb.insert_calls("hello", "world");
+    pkb.insert_calls("foo", "bar");
+    pkb.insert_calls("chocolate", "vanilla");
+    pkb.insert_calls("hello", "chocolate");
+
+    SECTION("return false")
+    {
+        REQUIRE_FALSE(pkb.is_calls("hello", "vanilla"));
+        REQUIRE_FALSE(pkb.is_calls("Foo", "Bar"));
+    }
+
+    SECTION("return true")
+    {
+        REQUIRE(pkb.is_calls("foo", "bar"));
+        REQUIRE(pkb.is_calls("hello", "world"));
+        REQUIRE(pkb.is_calls("hello", "chocolate"));
+    }
+}
+
+TEST_CASE("PKB::get_all_procedures_calls()")
+{
+    PKB pkb;
+
+    SECTION("return empty")
+    {
+        REQUIRE(pkb.get_all_procedures_calls().empty());
+    }
+
+    SECTION("return 1")
+    {
+        pkb.insert_calls("hello", "world");
+        pkb.insert_calls("bye", "world");
+        std::vector<std::string> result = pkb.get_all_procedures_calls();
+        REQUIRE(result.size() == 1);
+        std::vector<std::string> expected;
+        expected.push_back("world");
+        REQUIRE(expected == result);
+    }
+
+    SECTION("return >1")
+    {
+        pkb.insert_calls("hello", "world");
+        pkb.insert_calls("hello", "banana");
+        pkb.insert_calls("chocolate", "banana");
+        pkb.insert_calls("chocolate", "pie");
+        std::vector<std::string> result = pkb.get_all_procedures_calls();
+        REQUIRE(result.size() == 3);
+        std::vector<std::string> expected;
+        expected.push_back("world");
+        expected.push_back("banana");
+        expected.push_back("pie");
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(expected == result);
+    }
+}
+
 TEST_CASE("PKB::get_all_if_pattern_contains()")
 {
     PKB pkb;
@@ -2224,6 +2301,80 @@ TEST_CASE("PKB::get_all_if_pattern_contains()")
         expected.push_back(1);
         expected.push_back(2);
         expected.push_back(3);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(expected == result);
+    }
+}
+
+TEST_CASE("PKB::get_all_procedures_called()")
+{
+    PKB pkb;
+
+    SECTION("return empty")
+    {
+        REQUIRE(pkb.get_all_procedures_called().empty());
+    }
+
+    SECTION("return 1")
+    {
+        pkb.insert_calls("hello", "world");
+        pkb.insert_calls("hello", "itsMe");
+        std::vector<std::string> result = pkb.get_all_procedures_called();
+        REQUIRE(result.size() == 1);
+        std::vector<std::string> expected;
+        expected.push_back("hello");
+        REQUIRE(expected == result);
+    }
+
+    SECTION("return >1")
+    {
+        pkb.insert_calls("hello", "world");
+        pkb.insert_calls("hello", "banana");
+        pkb.insert_calls("chocolate", "banana");
+        pkb.insert_calls("chocolate", "pie");
+        std::vector<std::string> result = pkb.get_all_procedures_called();
+        REQUIRE(result.size() == 2);
+        std::vector<std::string> expected;
+        expected.push_back("hello");
+        expected.push_back("chocolate");
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(expected == result);
+    }
+}
+
+TEST_CASE("PKB::get_procedures_called_by()")
+{
+    PKB pkb;
+    pkb.insert_calls("hello", "world");
+    pkb.insert_calls("hello", "itsMe");
+    pkb.insert_calls("hello", "banana");
+    pkb.insert_calls("chocolate", "banana");
+    pkb.insert_calls("chocolate", "pie");
+    pkb.insert_calls("banana", "pie");
+
+    SECTION("return empty")
+    {
+        REQUIRE(pkb.get_procedures_called_by("bye").empty());
+    }
+
+    SECTION("return 1")
+    {
+        std::vector<std::string> result = pkb.get_procedures_called_by("banana");
+        REQUIRE(result.size() == 1);
+        std::vector<std::string> expected;
+        expected.push_back("pie");
+        REQUIRE(expected == result);
+    }
+
+    SECTION("return >1")
+    {
+        std::vector<std::string> result = pkb.get_procedures_called_by("chocolate");
+        REQUIRE(result.size() == 2);
+        std::vector<std::string> expected;
+        expected.push_back("banana");
+        expected.push_back("pie");
         std::sort(expected.begin(), expected.end());
         std::sort(result.begin(), result.end());
         REQUIRE(expected == result);
@@ -2260,5 +2411,65 @@ TEST_CASE("PKB::get_all_if_pattern_matches()")
         std::sort(expected.begin(), expected.end());
         std::sort(result.begin(), result.end());
         REQUIRE(expected == result);
+    }
+}
+
+TEST_CASE("PKB::get_all_procedures_calls_relationship()")
+{
+    PKB pkb;
+
+    SECTION("return empty")
+    {
+        REQUIRE(pkb.get_all_procedures_calls_relationship().empty());
+    }
+
+    pkb.insert_calls("hello", "world");
+    pkb.insert_calls("hello", "itsMe");
+    pkb.insert_calls("hello", "banana");
+
+    SECTION("return 1")
+    {
+        std::unordered_map<std::string, std::vector<std::string>> result = pkb.get_all_procedures_calls_relationship();
+        REQUIRE(result.size() == 1);
+        std::vector<std::string> expected;
+        expected.push_back("world");
+        expected.push_back("itsMe");
+        expected.push_back("banana");
+        std::vector<std::string> result_values = result["hello"];
+        std::sort(expected.begin(), expected.end());
+        std::sort(result_values.begin(), result_values.end());
+        REQUIRE(expected == result_values);
+    }
+
+    SECTION("return >1")
+    {
+        pkb.insert_calls("chocolate", "banana");
+        pkb.insert_calls("chocolate", "pie");
+        pkb.insert_calls("banana", "pie");
+        std::unordered_map<std::string, std::vector<std::string>> result = pkb.get_all_procedures_calls_relationship();
+        REQUIRE(result.size() == 3);
+        std::vector<std::string> expected;
+        expected.push_back("world");
+        expected.push_back("itsMe");
+        expected.push_back("banana");
+        std::vector<std::string> result_values = result["hello"];
+        std::sort(expected.begin(), expected.end());
+        std::sort(result_values.begin(), result_values.end());
+        REQUIRE(expected == result_values);
+
+        std::vector<std::string> expected2;
+        expected2.push_back("pie");
+        expected2.push_back("banana");
+        std::vector<std::string> result_values2 = result["chocolate"];
+        std::sort(expected2.begin(), expected2.end());
+        std::sort(result_values2.begin(), result_values2.end());
+        REQUIRE(expected2 == result_values2);
+
+        std::vector<std::string> expected3;
+        expected3.push_back("pie");
+        std::vector<std::string> result_values3 = result["banana"];
+        std::sort(expected3.begin(), expected3.end());
+        std::sort(result_values3.begin(), result_values3.end());
+        REQUIRE(expected3 == result_values3);
     }
 }
