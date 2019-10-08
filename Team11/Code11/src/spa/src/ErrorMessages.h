@@ -24,6 +24,7 @@ constexpr const char* invalid_SIMPLE(R"(Invalid SIMPLE code.)");
 
 // Error messages for Entity.cpp
 constexpr const char* invalid_entity_type(R"(Invalid Entity Type!)");
+constexpr const char* invalid_entity_attr(R"(Invalid Entity Attribute!)");
 constexpr const char* invalid_declared_entity_name(R"(Invalid Declared Entity Name!)");
 constexpr const char* invalid_pattern_expression_format(R"(Invalid Format For Pattern Expression!)");
 constexpr const char* invalid_synonym_name(R"(Invalid Synonym Name!)");
@@ -60,6 +61,7 @@ constexpr const char* invalid_query_missing_declarations(R"(Invalid Query! Missi
 constexpr const char* invalid_query_declaration_clause_syntax(R"(Invalid Query! Missing Synonym.)");
 constexpr const char* invalid_query_declaration_duplicate_synonyms(R"(Invalid Query! Duplicate Synonyms for Entities in Declaration Clause.)");
 constexpr const char* invalid_query_select_clause_syntax(R"(Invalid Query! Select Clause Syntax Error.)");
+constexpr const char* invalid_query_select_attr_syntax(R"(Invalid Query! Variables has two or more '.'.)");
 constexpr const char* invalid_query_variables_not_declared(R"(Invalid Query! No such Variable exists.)");
 constexpr const char* invalid_query_extra_string_end(R"(Invalid Syntax! Additional string after \"Select v\" with no conditions.)");
 constexpr const char* invalid_query_mismatch_brackets(R"(Invalid Syntax! Missing closing bracket.)");

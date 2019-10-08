@@ -62,6 +62,53 @@ TEST_CASE("Parses and validate select clause.")
         CHECK(condition_query == "such that Modifies(4, v1) pattern a(_,_)");
     }
 
+    SECTION("Valid Select Clause with one Select variable with attribute.")
+    {
+        std::string test_query = "Select v1.varName such that Modifies(4, v1) pattern a(_,_) ";
+        std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
+
+        REQUIRE(error == "");
+        REQUIRE(select_clause.size() == 1);
+
+        pql_dto::Entity entity = pql_dto::Entity("variable", "v1", true);
+        entity.set_entity_attr("varName");
+        CHECK(select_clause.at(0).equals(entity));
+        CHECK(condition_query == "such that Modifies(4, v1) pattern a(_,_)");
+    }
+
+    SECTION("Valid Select Clause with one Select variable with attribute separated by spaces.")
+    {
+        std::string test_query = "Select v1      .     varName such that Modifies(4, v1) pattern a(_,_) ";
+        std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
+
+        REQUIRE(error == "");
+        REQUIRE(select_clause.size() == 1);
+
+        pql_dto::Entity entity = pql_dto::Entity("variable", "v1", true);
+        entity.set_entity_attr("varName");
+        CHECK(select_clause.at(0).equals(entity));
+        CHECK(condition_query == "such that Modifies(4, v1) pattern a(_,_)");
+    }
+
+    SECTION("Valid Select Clause with tuple with attribute.")
+    {
+        std::string test_query = "Select < v1.varName , a.stmt# > such that Modifies(4, v1) pattern a(_,_) ";
+        std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
+
+        REQUIRE(error == "");
+        REQUIRE(select_clause.size() == 2);
+
+        pql_dto::Entity entity_1 = pql_dto::Entity("variable", "v1", true);
+        entity_1.set_entity_attr("varName");
+        CHECK(select_clause.at(0).equals(entity_1));
+
+        pql_dto::Entity entity_2 = pql_dto::Entity("assign", "a", true);
+        entity_2.set_entity_attr("stmt#");
+        CHECK(select_clause.at(1).equals(entity_2));
+
+        CHECK(condition_query == "such that Modifies(4, v1) pattern a(_,_)");
+    }
+
     SECTION("Invalid Select Clause with no Select word.")
     {
         std::string test_query = "prt such that Modifies(4, v1) pattern a(_,_) ";
@@ -100,5 +147,13 @@ TEST_CASE("Parses and validate select clause.")
         std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
         REQUIRE(error == error_messages::invalid_query_variables_not_declared);
+    }
+
+    SECTION("Invalid Select Clause with wrong attribute value.")
+    {
+        std::string test_query = "Select v1.stmt# such that Modifies(4, v1) pattern a(_,_) ";
+        std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
+
+        REQUIRE(error == error_messages::invalid_entity_attr);
     }
 }
