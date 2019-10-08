@@ -2194,3 +2194,176 @@ TEST_CASE("PKB::get_all_constants()")
         REQUIRE(result == expected);
     }
 }
+
+TEST_CASE("PKB::insert_next()")
+{
+    PKB pkb;
+    SECTION("return false")
+    {
+        REQUIRE_FALSE(pkb.insert_next(3, 3));
+        REQUIRE_FALSE(pkb.insert_next(0, 1));
+        REQUIRE_FALSE(pkb.insert_next(1, 0));
+    }
+
+    SECTION("return false")
+    {
+        REQUIRE(pkb.insert_next(3, 4));
+    }
+}
+
+TEST_CASE("PKB::is_next()")
+{
+    PKB pkb;
+    pkb.insert_next(3, 4);
+    SECTION("return false")
+    {
+        REQUIRE_FALSE(pkb.is_next(3, 5));
+        REQUIRE_FALSE(pkb.is_next(4, 3));
+    }
+
+    SECTION("return true")
+    {
+        REQUIRE(pkb.is_next(3, 4));
+    }
+}
+
+TEST_CASE("PKB::does_next_exists()")
+{
+    PKB pkb;
+    SECTION("return false")
+    {
+        REQUIRE_FALSE(pkb.does_next_exists());
+    }
+
+    pkb.insert_next(1, 2);
+    SECTION("return true")
+    {
+        REQUIRE(pkb.does_next_exists());
+    }
+}
+
+TEST_CASE("PKB::get_statements_previous()")
+{
+    PKB pkb;
+    pkb.insert_next(3, 10);
+    pkb.insert_next(9, 10);
+    pkb.insert_next(1, 2);
+    SECTION("return 0 statement")
+    {
+        std::vector<int> result = pkb.get_statements_previous(3);
+        REQUIRE(result.empty());
+    }
+
+    SECTION("return 1 statement")
+    {
+        std::vector<int> result = pkb.get_statements_previous(2);
+        REQUIRE(result.size() == 1);
+        REQUIRE(result[0] == 1);
+    }
+
+    SECTION("return more than 1 statements")
+    {
+        std::vector<int> result = pkb.get_statements_previous(10);
+        REQUIRE(result.size() == 2);
+        std::vector<int> expected;
+        expected.push_back(9);
+        expected.push_back(3);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(result == expected);
+    }
+}
+
+TEST_CASE("PKB::get_statements_next()")
+{
+    PKB pkb;
+    pkb.insert_next(3, 10);
+    pkb.insert_next(3, 4);
+    pkb.insert_next(1, 2);
+    SECTION("return 0 statement")
+    {
+        std::vector<int> result = pkb.get_statements_next(2);
+        REQUIRE(result.empty());
+    }
+
+    SECTION("return 1 statement")
+    {
+        std::vector<int> result = pkb.get_statements_next(1);
+        REQUIRE(result.size() == 1);
+        REQUIRE(result[0] == 2);
+    }
+
+    SECTION("return more than 1 statement")
+    {
+        std::vector<int> result = pkb.get_statements_next(3);
+        REQUIRE(result.size() == 2);
+        std::vector<int> expected;
+        expected.push_back(10);
+        expected.push_back(4);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(result == expected);
+    }
+}
+
+TEST_CASE("PKB::get_all_previous()")
+{
+    PKB pkb;
+    SECTION("return 0 statement")
+    {
+        std::vector<int> result = pkb.get_all_previous();
+        REQUIRE(result.empty());
+    }
+
+    pkb.insert_next(5, 10);
+    SECTION("return 1 statement")
+    {
+        std::vector<int> result = pkb.get_all_previous();
+        REQUIRE(result.size() == 1);
+        REQUIRE(result[0] == 5);
+    }
+
+    pkb.insert_next(9, 10);
+    SECTION("return more than 1 statement")
+    {
+        std::vector<int> result = pkb.get_all_previous();
+        REQUIRE(result.size() == 2);
+        std::vector<int> expected;
+        expected.push_back(5);
+        expected.push_back(9);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(result == expected);
+    }
+}
+
+TEST_CASE("PKB::get_all_next()")
+{
+    PKB pkb;
+    SECTION("return 0 statement")
+    {
+        std::vector<int> result = pkb.get_all_next();
+        REQUIRE(result.empty());
+    }
+
+    pkb.insert_next(1, 2);
+    SECTION("return 1 statement")
+    {
+        std::vector<int> result = pkb.get_all_next();
+        REQUIRE(result.size() == 1);
+        REQUIRE(result[0] == 2);
+    }
+
+    pkb.insert_next(1, 10);
+    SECTION("return more than 1 statement")
+    {
+        std::vector<int> result = pkb.get_all_next();
+        REQUIRE(result.size() == 2);
+        std::vector<int> expected;
+        expected.push_back(2);
+        expected.push_back(10);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(result == expected);
+    }
+}
