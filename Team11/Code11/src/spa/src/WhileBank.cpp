@@ -41,12 +41,13 @@ std::vector<int> WhileBank::get_while_stmtLst(int statement) {
 }
 
 bool WhileBank::insert_stmt_in_while_stmtLst(int whileStmt, int statement) {
-    if (whileStmt <= 0 || statement <= whileStmt)
+    if (whileStmt <= 0 || statement <= whileStmt || !is_while(whileStmt))
     {
         return false;
     }
     else
     {
         while_stmtLst.put(whileStmt, statement);
+        return true;
     }
 }
