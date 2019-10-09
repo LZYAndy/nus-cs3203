@@ -70,7 +70,7 @@ bool CallsEvaluator::evaluate_trivial(pql_dto::Entity &first_param,
         else if (QueryUtility::is_proc_name(second_param))
         {
             // e.g. Calls(_, "main")
-            result = PKB.get_procedures_calls(second_name) > 0;
+            result = !PKB.get_procedures_calls(second_name).empty();
         }
     }
 
@@ -79,7 +79,7 @@ bool CallsEvaluator::evaluate_trivial(pql_dto::Entity &first_param,
         if (second_param.get_entity_type() == EntityType::ANY)
         {
             // e.g. Calls("main", _)
-            result = PKB.get_procedures_called_by(stoi(first_name)) > 0;
+            result = !PKB.get_procedures_called_by(stoi(first_name)).empty();
         }
         else if (QueryUtility::is_proc_name(second_param))
         {

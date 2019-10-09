@@ -7,7 +7,6 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
     string error_msg;
     unordered_set<string> result;
     unordered_set<string> empty_set;
-    pql_dto::Entity select_entity;
 
     unordered_map<string, vector<string>> select_map;
     unordered_map<string, vector<string>> such_that_map;
@@ -31,16 +30,18 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
     if (!select_clause.empty())
     {
         // has select
-        select_entity = select_clause.front();
-        string select_name = select_entity.get_entity_name();
-        EntityType select_type = select_entity.get_entity_type();
-        if (select_type == EntityType::VARIABLE || select_type == EntityType::PROCEDURE || select_type == EntityType::CONSTANT)
+        for (auto select_entity : select_clause)
         {
-            select_map[select_name] = QueryUtility::get_certain_type_str_list(select_type, PKB);
-        }
-        else
-        {
-            select_map[select_name] = QueryUtility::get_certain_type_int_list(select_type, PKB);
+            string select_name = select_entity.get_entity_name();
+            EntityType select_type = select_entity.get_entity_type();
+            if (select_type == EntityType::VARIABLE || select_type == EntityType::PROCEDURE || select_type == EntityType::CONSTANT)
+            {
+                select_map[select_name] = QueryUtility::get_certain_type_str_list(select_type, PKB);
+            }
+            else
+            {
+                select_map[select_name] = QueryUtility::get_certain_type_int_list(select_type, PKB);
+            }
         }
     }
 
@@ -199,6 +200,42 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
 //                    }
 //                }
 //            }
+//
+//            if (relation_type == RelationshipType::NEXT)
+//            {
+//                if (!relation.is_relationship_star())
+//                {
+//                    if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
+//                    {
+//                        trivial_result = NextEvaluator::evaluate_trivial(first_param, second_param, PKB);
+//                        if (!trivial_result)
+//                        {
+//                            return empty_set;
+//                        }
+//                        such_that_map = select_map;
+//                    }
+//                    else
+//                    {
+//                        intermediary_map = NextEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
+//                    }
+//                }
+//                else
+//                {
+//                    if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
+//                    {
+//                        trivial_result = NextStarEvaluator::evaluate_trivial(first_param, second_param, PKB);
+//                        if (!trivial_result)
+//                        {
+//                            return empty_set;
+//                        }
+//                        such_that_map = select_map;
+//                    }
+//                    else
+//                    {
+//                        intermediary_map = NextStarEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
+//                    }
+//                }
+//            }
             unordered_set<string> common_synonyms = QueryEvaluator::get_common_synonyms(such_that_map, intermediary_map);
             such_that_map = QueryEvaluator::merge_two_maps(such_that_map, intermediary_map, common_synonyms);
         }
@@ -223,68 +260,92 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
     }
 
     // Merge three lists
-    result = QueryEvaluator::merge(select_entity, select_map, such_that_map, pattern_map);
+    result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map);
     return result;
 }
 
-unordered_set<string> QueryEvaluator::merge(pql_dto::Entity &select_entity,
+unordered_set<string> QueryEvaluator::merge(vector<pql_dto::Entity> &select_clause,
         unordered_map<string, vector<string>> &select_map,
         unordered_map<string, vector<string>> &such_that_map,
         unordered_map<string, vector<string>> &pattern_map)
 {
     unordered_set<string> result;
-    string select_name = select_entity.get_entity_name();
+    vector<vector<string>> result_vec;
+    unordered_map<string, vector<string>> result_map;
     unordered_map<string, vector<string>> final_list;
     unordered_set<string> common_synonyms = QueryEvaluator::get_common_synonyms(such_that_map, pattern_map);
-    if (!common_synonyms.empty())
-    { // have common synonyms
-        final_list = QueryEvaluator::merge_two_maps(such_that_map, pattern_map, common_synonyms);
-        for (const auto &iter : final_list)
-        {
-            string name = iter.first;
-            vector<string> str_vec = iter.second;
-            if (str_vec.empty())
-            { // final map is empty
-                return unordered_set<string>();
-            }
-            if (name == select_name)
-            { // final map contains select synonym
-                return QueryEvaluator::get_common_part(str_vec, select_map.at(select_name));
-            }
-        }
-        // does not contains select synonym and final map is not empty
-        vector<string> result_vec = select_map.at(select_name);
-        for (const auto &iter : result_vec)
-        {
-            result.insert(iter);
-        }
+    final_list = QueryEvaluator::merge_two_maps(such_that_map, pattern_map, common_synonyms);
+    if (select_clause.at(0).get_entity_type() == EntityType::)
+    if (QueryEvaluator::is_empty_map(final_list))
+    {
+        return unordered_set<string>();
+    }
+    unordered_set<string> common_select_synonyms = QueryEvaluator::get_common_synonyms(final_list, select_map);
+    unordered_map<string, vector<string>> acc_map;
+    if (!common_select_synonyms.empty())
+    { // select_map and final_list get common synonyms
+
     }
     else
-    { // don't have common synonyms
-        if (QueryEvaluator::is_empty_map(such_that_map) || QueryEvaluator::is_empty_map(pattern_map))
+    { // do not get common synonyms
+        for (const auto& synonym : select_map)
         {
-            return unordered_set<string>();
-        }
-        else
-        {
-            if (such_that_map.find(select_name) != such_that_map.end())
-            { // have select synonym in such that map only
-                result = QueryEvaluator::get_common_part(such_that_map.at(select_name), select_map.at(select_name));
-            }
-            else if (pattern_map.find(select_name) != pattern_map.end())
-            { // have select synonym in pattern map only
-                result = QueryEvaluator::get_common_part(pattern_map.at(select_name), select_map.at(select_name));
-            }
-            else
-            {
-                vector<string> result_vec = select_map.at(select_name);
-                for (const auto &iter : result_vec)
-                {
-                    result.insert(iter);
-                }
-            }
+            unordered_map<string, vector<string>> temp_map;
+            temp_map[synonym.first] = synonym.second;
+            acc_map = QueryEvaluator::merge_two_maps(temp_map, acc_map, QueryEvaluator::get_common_synonyms(temp_map, acc_map));
         }
     }
+
+
+//    if (!common_synonyms.empty())
+//    { // have common synonyms
+//        final_list = QueryEvaluator::merge_two_maps(such_that_map, pattern_map, common_synonyms);
+//        for (const auto &iter : final_list)
+//        {
+//            string name = iter.first;
+//            vector<string> str_vec = iter.second;
+//            if (str_vec.empty())
+//            { // final map is empty
+//                return unordered_set<string>();
+//            }
+//            if (name == select_name)
+//            { // final map contains select synonym
+//                return QueryEvaluator::get_common_part(str_vec, select_map.at(select_name));
+//            }
+//        }
+//        // does not contains select synonym and final map is not empty
+//        vector<string> result_vec = select_map.at(select_name);
+//        for (const auto &iter : result_vec)
+//        {
+//            result.insert(iter);
+//        }
+//    }
+//    else
+//    { // don't have common synonyms
+//        if (QueryEvaluator::is_empty_map(such_that_map) || QueryEvaluator::is_empty_map(pattern_map))
+//        {
+//            return unordered_set<string>();
+//        }
+//        else
+//        {
+//            if (such_that_map.find(select_name) != such_that_map.end())
+//            { // have select synonym in such that map only
+//                result = QueryEvaluator::get_common_part(such_that_map.at(select_name), select_map.at(select_name));
+//            }
+//            else if (pattern_map.find(select_name) != pattern_map.end())
+//            { // have select synonym in pattern map only
+//                result = QueryEvaluator::get_common_part(pattern_map.at(select_name), select_map.at(select_name));
+//            }
+//            else
+//            {
+//                vector<string> result_vec = select_map.at(select_name);
+//                for (const auto &iter : result_vec)
+//                {
+//                    result.insert(iter);
+//                }
+//            }
+//        }
+//    }
     return result;
 }
 
@@ -324,7 +385,7 @@ unordered_set<string> QueryEvaluator::get_common_synonyms(unordered_map<string, 
 }
 
 unordered_map<string, vector<string>> QueryEvaluator::merge_two_maps(unordered_map<string, vector<string>> map_1,
-        unordered_map<string, vector<string>> map_2, unordered_set<string> &common_part)
+        unordered_map<string, vector<string>> map_2, unordered_set<string> common_part)
 {
     unordered_map<string, vector<string>> result;
     vector<string> common_synonyms(common_part.size());

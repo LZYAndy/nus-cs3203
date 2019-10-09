@@ -143,6 +143,10 @@ bool QueryUtility::is_same_type(EntityType type_1, EntityType type_2)
             return true;
         }
     }
+    if (type_1 == EntityType::PROG_LINE || type_2 == EntityType::PROG_LINE)
+    {
+        return true;
+    }
     return type_1 == type_2;
 }
 
