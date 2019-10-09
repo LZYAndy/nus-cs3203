@@ -16,6 +16,8 @@
 #include "ParentBank.h"
 #include "ParentStarBank.h"
 #include "AssignBank.h"
+#include "CallsBank.h"
+#include "IfBank.h"
 
 using namespace std;
 
@@ -114,16 +116,30 @@ public:
     bool insert_constant(string constant);
 
     /**
+     * Insert Calls relationship into PKB.
+     * @param proc1 procedure that Calls
+     * @param proc2 procedure that Called
+     * @return true if insert is successful.
+     */
+    bool insert_calls(string proc1, string proc2);
+    /**
+     * Insert if relationship into PKB.
+     * @param stmt stmt# of statement
+     * @param control control expression
+     * @return true if insert is successful.
+     */
+    bool insert_if(int stmt, string control);
+
+    /**
      * Get all variables in the var_table.
      * @return Return a string unordered_set of variables that are contained in the var_table.
      */
+    unordered_set<string> get_all_variables();
 
-    unordered_set<std::string> get_all_variables();
     /**
      * Get stmt# of all statements in PKB.
      * @return vector containing all the stmt# of statements.
      */
-
     vector<int> get_all_statement_nums();
     /**
      * Get stmt# of all WHILE statements in PKB.
@@ -414,25 +430,25 @@ public:
      * @return unordered_map containing all Parent relationship that exists in PKB with
      * the Parent as key and all the children stored in a vector as value.
      */
-    unordered_map<int, std::vector<int>> get_all_parent_relationship();
+    unordered_map<int, vector<int>> get_all_parent_relationship();
     /**
      * Get all Follows relationship that exists in PKB.
      * @return unordered_map containing all Follows relationship that exists in PKB with
      * the Follows as key and all Followed stored in a vector as value.
      */
-    unordered_map<int, std::vector<int>> get_all_follows_relationship();
+    unordered_map<int, vector<int>> get_all_follows_relationship();
     /**
      * Get all Parent* relationship that exists in PKB.
      * @return unordered_map containing all Parent* relationship that exists in PKB with
      * the Parent as key and all the descendants stored in a vector as value.
      */
-    unordered_map<int, std::vector<int>> get_all_parent_star_relationship();
+    unordered_map<int, vector<int>> get_all_parent_star_relationship();
     /**
      * Get all Follows* relationship that exists in PKB.
      * @return unordered_map containing all Follows relationship that exists in PKB with
      * the Follows as key and all that directly or indirectly Followed stored in a vector as value.
      */
-    unordered_map<int, std::vector<int>> get_all_follows_star_relationship();
+    unordered_map<int, vector<int>> get_all_follows_star_relationship();
 
     /**
      * Get all stmt# of statements that Parent directly or indirectly.
@@ -532,6 +548,61 @@ public:
      * @return vector of constants
      */
     vector<string> get_all_constants();
+    
+    /**
+     * Get all stmt# of IF statement with control expression that exact matches the pattern.
+     * @param pattern the pattern to match.
+     * @return vector of stmt# that IF statements that fulfill the requirements.
+     */
+    vector<int> get_all_if_pattern_matches(string pattern);
+    /**
+     * Get all stmt# of IF statement with control expression that contains the pattern.
+     * @param pattern the pattern to match.
+     * @return vector of stmt# that IF statements that fulfill the requirements.
+     */
+    vector<int> get_all_if_pattern_contains(string pattern);
+
+    /**
+     * Check if there exist at least one Calls relationship in PKB.
+     * @return true if there is at least one Calls relationship in PKB.
+     */
+    bool does_calls_exist();
+    /**
+     * Check if the procedure calls another procedure.
+     * In other words, Calls(proc1,proc2).
+     * @param proc1 procedure to be called
+     * @param proc2 procedure to Calls
+     * @return true if proc1 Calls proc2. In other words, Calls(proc1, proc2).
+     */
+    bool is_calls(string proc1, string proc2);
+    /**
+     * Get all procedures that have been Calls.
+     * @return vector of procedure name that have been Calls.
+     */
+    vector<string> get_all_procedures_calls();
+    /**
+     * Get all procedures that have been Called.
+     * @return vector of procedure name that have been Called.
+     */
+    vector<string> get_all_procedures_called();
+    /**
+     * Get all procedures that the queried procedure Calls.
+     * @param proc queried procedure
+     * @return vector of procedure name that the queried procedure Calls.
+     */
+    vector<string> get_procedures_calls(string proc);
+    /**
+     * Get all procedures that Called by the queried procedure.
+     * @param proc queried procedure
+     * @return vector of procedure name that Called by the queried procedure.
+     */
+    vector<string> get_procedures_called_by(string proc);
+    /**
+     * Get all Calls relationship that exists in PKB.
+     * @return unordered_map containing all Calls relationship that exists in PKB with
+     * the Calls as key and all Called stored in a vector as value.
+     */
+    unordered_map<string, vector<string>> get_all_procedures_calls_relationship();
 
 private:
     FollowsBank follows_bank;
@@ -545,5 +616,7 @@ private:
     UsesBank uses_bank;
     ModifiesBank modifies_bank;
     TypeBank type_bank;
+    CallsBank calls_bank;
+    IfBank if_bank;
     int last_statement_num = 0;
 };
