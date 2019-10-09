@@ -440,3 +440,58 @@ vector<string> PKB::get_all_constants()
     result.insert(result.end(), const_table.begin(), const_table.end());
     return result;
 }
+
+bool PKB::insert_calls(string proc1, string proc2)
+{
+    return calls_bank.insert_calls(proc1, proc2);
+}
+
+bool PKB::does_calls_exist()
+{
+    return calls_bank.does_calls_exist();
+}
+
+bool PKB::is_calls(string proc1, string proc2)
+{
+    return calls_bank.is_calls(proc1, proc2);
+}
+
+vector<string> PKB::get_all_procedures_calls()
+{
+    return calls_bank.get_all_procedures_calls();
+}
+
+vector<string> PKB::get_all_procedures_called()
+{
+    return calls_bank.get_all_procedures_called();
+}
+
+vector<string> PKB::get_procedures_calls(string proc)
+{
+    return calls_bank.get_procedures_calls(proc);
+}
+
+vector<string> PKB::get_procedures_called_by(string proc)
+{
+    return calls_bank.get_procedures_called_by(proc);
+}
+
+unordered_map<string, vector<string>> PKB::get_all_procedures_calls_relationship()
+{
+    return calls_bank.get_all_procedures_calls_relationship();
+}
+
+bool PKB::insert_if(int stmt, string control)
+{
+    return if_bank.insert_if(stmt, control);
+}
+
+vector<int> PKB::get_all_if_pattern_matches(string pattern)
+{
+    return if_bank.all_matches(pattern);
+}
+
+vector<int> PKB::get_all_if_pattern_contains(string pattern)
+{
+    return if_bank.all_contains(pattern);
+}

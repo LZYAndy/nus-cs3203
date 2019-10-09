@@ -52,3 +52,13 @@ void Statement::set_second_block(std::vector <Statement> sb)
 {
     second_block = sb;
 }
+
+void Statement::set_procedure(std::string proc)
+{
+    proc_belonging = proc;
+}
+
+std::string Statement::get_procedure()
+{
+    return proc_belonging;
+}

@@ -21,6 +21,7 @@ ReadParser::ReadParser(PKB &pkb, Statement statement, std::string parent_prog_li
 
     //Insert modifies
     pkb.insert_modifies(statement.get_prog_line(), read_var);
+    pkb.insert_modifies(statement.get_procedure(), read_var);
     if (std::regex_match(parent_prog_line, std::regex("^[a-zA-Z][a-zA-Z0-9]+$")))
     {
         pkb.insert_modifies(parent_prog_line, read_var);

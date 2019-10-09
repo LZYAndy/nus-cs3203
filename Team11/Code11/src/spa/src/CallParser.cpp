@@ -22,6 +22,9 @@ CallParser::CallParser(PKB &pkb, Statement statement, std::string parent_prog_li
         pkb.insert_parent(stoi(parent_prog_line), statement.get_prog_line());
     }
 
+    //Insert call
+    pkb.insert_calls(statement.get_procedure(), call_proc);
+
     //Insert type
     pkb.insert_type(statement.get_prog_line(), statement.get_statement_type());
 }
