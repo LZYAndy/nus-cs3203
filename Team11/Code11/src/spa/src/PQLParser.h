@@ -9,6 +9,7 @@
 #include <pql_dto/Entity.h>
 #include <pql_dto/Relationships.h>
 #include <pql_dto/Pattern.h>
+#include <pql_dto/With.h>
 
 class PQLParser
 {
@@ -70,7 +71,8 @@ public:
      * @return The error string if the query is invalid.
      */
     static std::string pql_parse_query(std::string query, std::vector<pql_dto::Entity> &select_clause,
-            std::vector<pql_dto::Relationships> &such_that_clause, std::vector<pql_dto::Pattern> &pattern_clause);
+            std::vector<pql_dto::Relationships> &such_that_clause, std::vector<pql_dto::Pattern> &pattern_clause,
+            std::vector<pql_dto::With>& with_clause);
 
     /**
      * Parses and validates the declaration clause. If validation succeeds, stores query in clause pointers.

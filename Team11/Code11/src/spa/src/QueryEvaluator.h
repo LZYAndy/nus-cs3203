@@ -21,6 +21,7 @@
 #include <pql_dto/Entity.h>
 #include <pql_dto/Relationships.h>
 #include <pql_dto/Pattern.h>
+#include <pql_dto/With.h>
 
 class QueryEvaluator
 {

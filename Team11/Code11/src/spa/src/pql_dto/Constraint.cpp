@@ -14,13 +14,25 @@ namespace pql_dto
         is_relationship_object = true;
     }
 
+    void Constraint::set_with(With other)
+    {
+        with = other;
+        is_with_object = true;
+    }
+
     bool Constraint::is_pattern()
     {
         return is_pattern_object;
     }
+
     bool Constraint::is_relationship()
     {
         return is_relationship_object;
+    }
+
+    bool Constraint::is_with()
+    {
+        return is_with_object;
     }
 
     Pattern Constraint::get_pattern()
@@ -31,5 +43,10 @@ namespace pql_dto
     Relationships Constraint::get_relationship()
     {
         return relationship;
+    }
+
+    With Constraint::get_with()
+    {
+        return with;
     }
 }

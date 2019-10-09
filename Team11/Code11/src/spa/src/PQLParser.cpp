@@ -28,7 +28,8 @@ const std::string affects_keyword = "Affects";
 const std::string affects_star_keyword = "Affects*";
 
 std::string PQLParser::pql_parse_query(std::string query, std::vector<pql_dto::Entity> &select_clause,
-        std::vector<pql_dto::Relationships> &such_that_clause, std::vector<pql_dto::Pattern> &pattern_clause)
+        std::vector<pql_dto::Relationships> &such_that_clause, std::vector<pql_dto::Pattern> &pattern_clause,
+        std::vector<pql_dto::With> &with_clause)
 {
     std::string error;
     std::unordered_map<std::string, std::string> declared_variables; // Maps variables' name to to entity type
@@ -550,7 +551,8 @@ pql_dto::Relationships PQLParser::create_relationship(std::string &relationship_
         }
         return pql_dto::FollowsRelationship(first_param, second_param, true);
     }
-    else if (relationship_type == parent_keyword)
+    
+    if (relationship_type == parent_keyword)
     {
         return pql_dto::ParentRelationship(first_param, second_param, false);
     }
@@ -563,7 +565,8 @@ pql_dto::Relationships PQLParser::create_relationship(std::string &relationship_
         }
         return pql_dto::ParentRelationship(first_param, second_param, true);
     }
-    else if (relationship_type == next_keyword)
+    
+    if (relationship_type == next_keyword)
     {
         return pql_dto::NextRelationship(first_param, second_param, false);
     }
@@ -576,7 +579,8 @@ pql_dto::Relationships PQLParser::create_relationship(std::string &relationship_
         }
         return pql_dto::NextRelationship(first_param, second_param, true);
     }
-    else if (relationship_type == calls_keyword)
+    
+    if (relationship_type == calls_keyword)
     {
         return pql_dto::CallsRelationship(first_param, second_param, false);
     }
@@ -589,7 +593,8 @@ pql_dto::Relationships PQLParser::create_relationship(std::string &relationship_
         }
         return pql_dto::CallsRelationship(first_param, second_param, true);
     }
-    else if (relationship_type == affects_keyword)
+    
+    if (relationship_type == affects_keyword)
     {
         return pql_dto::AffectsRelationship(first_param, second_param, false);
     }
@@ -602,16 +607,16 @@ pql_dto::Relationships PQLParser::create_relationship(std::string &relationship_
         }
         return pql_dto::AffectsRelationship(first_param, second_param, true);
     }
-    else if (relationship_type == uses_keyword)
+    
+    if (relationship_type == uses_keyword)
     {
         return pql_dto::UsesRelationship(first_param, second_param, false);
     }
-    else if (relationship_type == modifies_keyword)
+    
+    if (relationship_type == modifies_keyword)
     {
         return pql_dto::ModifiesRelationship(first_param, second_param, false);
     }
-    else
-    {
-        throw std::runtime_error(error_messages::invalid_relationship_type);
-    }
+
+    throw std::runtime_error(error_messages::invalid_relationship_type);
 }
