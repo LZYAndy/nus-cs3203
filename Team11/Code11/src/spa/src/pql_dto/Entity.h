@@ -119,34 +119,26 @@ public:
         {
             AttributeType::PROCNAME,
             {
-                {
-                    EntityType::PROCEDURE, EntityType::CALL
-                }
+                EntityType::PROCEDURE, EntityType::CALL
             }
         },
         {
             AttributeType::VARNAME,
             {
-                {
-                    EntityType::VARIABLE, EntityType::READ, EntityType::PRINT
-                }
+                EntityType::VARIABLE, EntityType::READ, EntityType::PRINT
             }
         },
         {
             AttributeType::VALUE,
             {
-                {
-                    EntityType::CONSTANT
-                }
+                EntityType::CONSTANT
             }
         },
         {
             AttributeType::STMTNUM,
             {
-                {
-                    EntityType::STMT, EntityType::READ, EntityType::PRINT, EntityType::CALL,
-                    EntityType::WHILE, EntityType::IF, EntityType::ASSIGN
-                }
+                EntityType::STMT, EntityType::READ, EntityType::PRINT, EntityType::CALL,
+                EntityType::WHILE, EntityType::IF, EntityType::ASSIGN
             }
         },
     };

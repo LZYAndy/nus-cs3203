@@ -554,7 +554,7 @@ pql_dto::Relationships PQLParser::create_relationship(std::string &relationship_
     {
         return pql_dto::ParentRelationship(first_param, second_param, false);
     }
-    else if (relationship_type.find(follows_keyword) != std::string::npos)
+    else if (relationship_type.find(parent_keyword) != std::string::npos)
     {
         relationship_type = StringUtil::remove_all_white_spaces(relationship_type);
         if (relationship_type != parent_star_keyword)
