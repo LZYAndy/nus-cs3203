@@ -7,6 +7,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <unordered_map>
+#include <algorithm>
 
 #include "Entity.h"
 #include "ErrorMessages.h"
@@ -59,6 +61,44 @@ public:
      *  @param pattern The pattern to be compared.
      */
     bool equals(Pattern pattern);
+
+    // Table containing the valid parameters for each pattern.
+    std::unordered_map<EntityType, std::vector<std::vector<EntityType>>, EnumClassHash> pattern_table
+    {
+        {
+            EntityType::ASSIGN,
+            {
+                {
+                    EntityType::ANY, EntityType::VARIABLE
+                },
+                {
+                    EntityType::ANY, EntityType::PATTEXPR, EntityType::MATCHEXPR
+                }
+            }
+        },
+        {
+            EntityType::IF,
+            {
+                {
+                    EntityType::ANY, EntityType::VARIABLE
+                },
+                {
+                    EntityType::ANY
+                }
+            }
+        },
+        {
+            EntityType::WHILE,
+            {
+                {
+                    EntityType::ANY, EntityType::VARIABLE
+                },
+                {
+                    EntityType::ANY
+                }
+            }
+        }
+    };
 };
 }
 
