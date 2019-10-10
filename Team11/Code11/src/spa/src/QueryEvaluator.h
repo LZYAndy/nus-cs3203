@@ -22,6 +22,8 @@
 #include <CallsStarEvaluator.h>
 #include <NextEvaluator.h>
 #include <NextStarEvaluator.h>
+#include <WhileEvaluator.h>
+#include <IfEvaluator.h>
 #include <pql_dto/Entity.h>
 #include <pql_dto/Relationships.h>
 #include <pql_dto/Pattern.h>

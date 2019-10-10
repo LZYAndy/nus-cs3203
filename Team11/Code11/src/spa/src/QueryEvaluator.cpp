@@ -269,6 +269,14 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
             {
                 intermediary_map = AssignEvaluator::evaluate(pattern, first_param, second_param, PKB);
             }
+//            if (pattern_type == EntityType::IF)
+//            {
+//                intermediary_map = IfEvaluator::evaluate(pattern, first_param, second_param, PKB);
+//            }
+//            if (pattern_type == EntityType::WHILE)
+//            {
+//                intermediary_map = WhileEvaluator::evaluate(pattern, first_param, second_param, PKB);
+//            }
             if (QueryEvaluator::is_empty_map(intermediary_map))
             {
                 return empty_set;
@@ -277,12 +285,6 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
             pattern_map = QueryEvaluator::merge_two_maps(pattern_map, intermediary_map, common_synonyms);
         }
     }
-
-//    for (auto iter : pattern_map.at("a"))
-//    {
-//        cout << iter << " ";
-//    }
-//    cout << "\n";
 
     // Merge three lists
     result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map);
@@ -300,16 +302,6 @@ unordered_set<string> QueryEvaluator::merge(vector<pql_dto::Entity> &select_clau
     unordered_map<string, vector<string>> final_list;
     unordered_set<string> common_synonyms = QueryEvaluator::get_common_synonyms(such_that_map, pattern_map);
     final_list = QueryEvaluator::merge_two_maps(such_that_map, pattern_map, common_synonyms);
-
-//    for (auto iter : final_list.at("a"))
-//    {
-//        cout << iter << " ";
-//    }
-//    cout << "\n";
-//    for (auto iter : final_list.at("w"))
-//    {
-//        cout << iter << " ";
-//    }
 
     if (select_clause.at(0).get_entity_type() == EntityType::BOOLEAN)
     { // if the select type is BOOLEAN
@@ -389,57 +381,6 @@ unordered_set<string> QueryEvaluator::merge(vector<pql_dto::Entity> &select_clau
         }
     }
     std::copy(temp_vec.begin(),temp_vec.end(),std::inserter(result, result.end()));
-
-
-//    if (!common_synonyms.empty())
-//    { // have common synonyms
-//        final_list = QueryEvaluator::merge_two_maps(such_that_map, pattern_map, common_synonyms);
-//        for (const auto &iter : final_list)
-//        {
-//            string name = iter.first;
-//            vector<string> str_vec = iter.second;
-//            if (str_vec.empty())
-//            { // final map is empty
-//                return unordered_set<string>();
-//            }
-//            if (name == select_name)
-//            { // final map contains select synonym
-//                return QueryEvaluator::get_common_part(str_vec, select_map.at(select_name));
-//            }
-//        }
-//        // does not contains select synonym and final map is not empty
-//        vector<string> result_vec = select_map.at(select_name);
-//        for (const auto &iter : result_vec)
-//        {
-//            result.insert(iter);
-//        }
-//    }
-//    else
-//    { // don't have common synonyms
-//        if (QueryEvaluator::is_empty_map(such_that_map) || QueryEvaluator::is_empty_map(pattern_map))
-//        {
-//            return unordered_set<string>();
-//        }
-//        else
-//        {
-//            if (such_that_map.find(select_name) != such_that_map.end())
-//            { // have select synonym in such that map only
-//                result = QueryEvaluator::get_common_part(such_that_map.at(select_name), select_map.at(select_name));
-//            }
-//            else if (pattern_map.find(select_name) != pattern_map.end())
-//            { // have select synonym in pattern map only
-//                result = QueryEvaluator::get_common_part(pattern_map.at(select_name), select_map.at(select_name));
-//            }
-//            else
-//            {
-//                vector<string> result_vec = select_map.at(select_name);
-//                for (const auto &iter : result_vec)
-//                {
-//                    result.insert(iter);
-//                }
-//            }
-//        }
-//    }
     return result;
 }
 
