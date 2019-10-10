@@ -1,4 +1,6 @@
 #include "DesignExtractor.h"
+#include <unordered_set>
+#include <stack>
 
 bool DesignExtractor::extract_follows_star(FollowsBank &bank_in, FollowsStarBank &bank_out)
 {
@@ -75,4 +77,101 @@ void DesignExtractor::extract_further_parents_child(ParentBank &bank_in, ParentS
         }
     }
     return;
+}
+
+bool DesignExtractor::extract_calls_star(CallsBank &bank_in, CallsStarBank &bank_out)
+{
+    // copy callsBank to CallsStarBank
+    for (std::pair<std::string, std::vector<std::string>> in: bank_in.get_all_procedures_calls_relationship())
+    {
+        for (std::string proc_called: in.second)
+        {
+            bank_out.insert_calls_star(in.first, proc_called);
+        }
+    }
+    std::vector<std::string> keys  = bank_out.get_all_procedures_calls_star();
+    int i = 0;
+    while (i < keys.size())
+    {
+        for (int j = i; j <= keys.size(); j++)
+        {
+            for (std::string proc_calls : bank_out.get_procedures_calls_star(keys[j])) // get all proc that calls key (_, key)
+            {  
+                for (std::string proc_called_by_key : bank_out.get_procedures_called_by_star(keys[j]))
+                {
+                    bool insert_result = bank_out.insert_calls_star(proc_calls, proc_called_by_key);
+                    if (!insert_result)
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+        i++;
+    }
+    
+
+    return true;
+    // // build tree 
+    // // topo sort
+    // auto calls_keys = bank_in.get_all_procedures_calls();
+    // auto calls_values = bank_in.get_all_procedures_called();
+    // std::unordered_set<std::string> unique_procs;
+    // std::unordered_map<std::string, int> proc_to_index_lookup;
+    // for (std::string proc : calls_keys)
+    // {
+    //     unique_procs.insert(proc);
+    // }
+    // for (std::string proc : calls_values)
+    // {
+    //     unique_procs.insert(proc);
+    // }
+    // int no_of_procs = unique_procs.size();
+    // int index = 0;
+    // for (std::string proc : unique_procs)
+    // {
+    //     ++index;
+    //     proc_to_index_lookup.insert({proc, index});
+    // }
+    // std::vector<int> adj[no_of_procs];
+    // std::unordered_map<std::string, std::vector<std::string>> calls_relationship = bank_in.get_all_procedures_calls_relationship();
+    // for (std::pair<std::string, std::vector<std::string>> pair : calls_relationship)
+    // {
+    //     for (std::string called_proc : pair.second)
+    //     {
+    //         adj[proc_to_index_lookup.at(pair.first)].push_back(proc_to_index_lookup.at(called_proc));
+    //     }
+    // }
+    // // terminate if there is no node with no outgoing edge
+    // bool edges_exist = false;
+    // for (std::vector<int> v : adj)
+    // {
+    //     if (v.empty())
+    //     {
+    //         edges_exist = true;
+    //     }
+    // }
+    // if (!edges_exist)
+    // {
+    //     return false;
+    // }
+
+    // std::stack<int> stack;
+    // std::vector<bool> visited(no_of_procs, false);
+    // stack.push(1);
+    // int s;
+    // while (!stack.empty())
+    // {
+    //     s = stack.top(); 
+    //     stack.pop();
+
+    //     if (!visited[s]) 
+    //     { 
+    //         visited[s] = true; 
+    //     } 
+    //     for (auto i = adj[s].begin(); i != adj[s].end(); ++i) 
+    //         if (!visited[*i]) 
+    //             stack.push(*i); 
+    //     } 
+    // }
 }

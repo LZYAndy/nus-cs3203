@@ -2,6 +2,8 @@
 #include "DesignExtractor.h"
 #include "FollowsBank.h"
 #include "FollowsStarBank.h"
+#include "CallsBank.h"
+#include "CallsStarBank.h"
 
 TEST_CASE("DesignExtractor::extract_follows_star()")
 {
@@ -142,4 +144,21 @@ TEST_CASE("DesignExtractor::extract_parent_star()")
         std::sort(expected_child.begin(), expected_child.end());
         REQUIRE(result_child == expected_child);
     }
+}
+
+TEST_CASE("DesignExtractor::extract_calls_star()")
+{
+    CallsBank calls_bank;
+    CallsStarBank calls_star_bank;
+
+    calls_bank.insert_calls("a", "b");
+    calls_bank.insert_calls("b", "c");
+    calls_bank.insert_calls("c", "d");
+    calls_bank.insert_calls("s", "e");
+    calls_bank.insert_calls("e", "x");
+    calls_bank.insert_calls("x", "d");
+
+    REQUIRE(DesignExtractor::extract_calls_star(calls_bank, calls_star_bank));
+    REQUIRE(calls_star_bank.is_calls_star("a", "d"));
+
 }

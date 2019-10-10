@@ -9,6 +9,8 @@
 #include "ParentStarBank.h"
 #include "UsesBank.h"
 #include "ModifiesBank.h"
+#include "CallsBank.h"
+#include "CallsStarBank.h"
 
 class DesignExtractor
 {
@@ -35,9 +37,12 @@ public:
      */
     static bool extract_parent_star(ParentBank &bank_in, ParentStarBank &bank_out, UsesBank &uses_bank, ModifiesBank &modifies_bank);
 
+    static bool extract_calls_star(CallsBank &bank_in, CallsStarBank &bank_out);
+    
 private:
     static void extract_further_parents_child(ParentBank &bank_in, ParentStarBank &bank_out,
             UsesBank &uses_bank, ModifiesBank &modifies_bank, std::vector<int> parents, int child);
+    static void topo_sort(std::vector<int> adj[]);
 };
 
 #endif //AUTOTESTER_DESIGNEXTRACTOR_H
