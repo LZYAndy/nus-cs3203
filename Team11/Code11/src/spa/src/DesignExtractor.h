@@ -42,7 +42,6 @@ public:
 private:
     static void extract_further_parents_child(ParentBank &bank_in, ParentStarBank &bank_out,
             UsesBank &uses_bank, ModifiesBank &modifies_bank, std::vector<int> parents, int child);
-    static void topo_sort(std::vector<int> adj[]);
 };
 
 #endif //AUTOTESTER_DESIGNEXTRACTOR_H
