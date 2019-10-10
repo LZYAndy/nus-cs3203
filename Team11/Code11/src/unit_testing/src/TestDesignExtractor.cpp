@@ -150,10 +150,12 @@ TEST_CASE("DesignExtractor::extract_calls_star()")
 {
     CallsBank calls_bank;
     CallsStarBank calls_star_bank;
-
+    UsesBank uses_bank;
+    ModifiesBank modifies_bank;
+    
     SECTION("empty")
     {
-        REQUIRE(DesignExtractor::extract_calls_star(calls_bank, calls_star_bank));
+        REQUIRE(DesignExtractor::extract_calls_star(calls_bank, calls_star_bank, uses_bank, modifies_bank));
         REQUIRE_FALSE(calls_star_bank.does_calls_star_exist());
     }
 
@@ -167,7 +169,7 @@ TEST_CASE("DesignExtractor::extract_calls_star()")
         calls_bank.insert_calls("c", "d");
         calls_bank.insert_calls("a1", "b1");
 
-        REQUIRE(DesignExtractor::extract_calls_star(calls_bank, calls_star_bank));
+        REQUIRE(DesignExtractor::extract_calls_star(calls_bank, calls_star_bank, uses_bank, modifies_bank));
         
         std::vector<std::string> result_1 = calls_star_bank.get_procedures_called_by_star("a");
         std::vector<std::string> expected_1({"b", "c", "d", "e", "f"});
@@ -204,7 +206,7 @@ TEST_CASE("DesignExtractor::extract_calls_star()")
         {
             calls_bank.insert_calls("a", "b");
             calls_bank.insert_calls("b", "a");
-            REQUIRE_FALSE(DesignExtractor::extract_calls_star(calls_bank, calls_star_bank));
+            REQUIRE_FALSE(DesignExtractor::extract_calls_star(calls_bank, calls_star_bank, uses_bank, modifies_bank));
         }
 
         SECTION("chained loopback")
@@ -213,7 +215,7 @@ TEST_CASE("DesignExtractor::extract_calls_star()")
             calls_bank.insert_calls("a", "c");
             calls_bank.insert_calls("c", "e");
             calls_bank.insert_calls("e", "b");
-            REQUIRE_FALSE(DesignExtractor::extract_calls_star(calls_bank, calls_star_bank));
+            REQUIRE_FALSE(DesignExtractor::extract_calls_star(calls_bank, calls_star_bank, uses_bank, modifies_bank));
         }
     }
 }

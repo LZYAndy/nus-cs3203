@@ -77,7 +77,7 @@ void DesignExtractor::extract_further_parents_child(ParentBank &bank_in, ParentS
     return;
 }
 
-bool DesignExtractor::extract_calls_star(CallsBank &bank_in, CallsStarBank &bank_out)
+bool DesignExtractor::extract_calls_star(CallsBank &bank_in, CallsStarBank &bank_out, UsesBank &uses_bank, ModifiesBank &modifies_bank)
 {
     // copy callsBank to CallsStarBank
     for (std::pair<std::string, std::vector<std::string>> in: bank_in.get_all_procedures_calls_relationship())

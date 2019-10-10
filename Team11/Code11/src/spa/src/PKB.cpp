@@ -130,9 +130,10 @@ bool PKB::insert_follows(int stmt1, int stmt2)
 
 bool PKB::extract_design()
 {
-    bool result_follows = DesignExtractor::extract_follows_star(follows_bank, follows_star_bank);
-    bool result_parent = DesignExtractor::extract_parent_star(parent_bank, parent_star_bank, uses_bank, modifies_bank );
-    return result_parent && result_follows;
+    DesignExtractor::extract_follows_star(follows_bank, follows_star_bank);
+    DesignExtractor::extract_parent_star(parent_bank, parent_star_bank, uses_bank, modifies_bank);
+    bool result_calls = DesignExtractor::extract_calls_star(calls_bank, calls_star_bank, uses_bank, modifies_bank);
+    return result_calls;
 }
 
 bool PKB::insert_parent(int stmt1, int stmt2)
@@ -494,4 +495,39 @@ vector<int> PKB::get_all_if_pattern_matches(string pattern)
 vector<int> PKB::get_all_if_pattern_contains(string pattern)
 {
     return if_bank.all_contains(pattern);
+}
+
+bool PKB::does_calls_star_exist()
+{
+    return calls_star_bank.does_calls_star_exist();
+}
+
+bool PKB::is_calls_star(string proc1, string proc2)
+{
+    return calls_star_bank.is_calls_star(proc1, proc2);
+}
+
+vector<string> PKB::get_all_procedures_calls_star()
+{
+    return calls_star_bank.get_all_procedures_calls_star();
+}
+
+vector<string> PKB::get_all_procedures_called_star()
+{
+    return calls_star_bank.get_all_procedures_called_star();
+}
+
+vector<string> PKB::get_procedures_calls_star(string proc)
+{
+    return calls_star_bank.get_procedures_calls_star(proc);
+}
+
+vector<string> PKB::get_procedures_called_by_star(string proc)
+{
+    return calls_star_bank.get_procedures_called_by_star(proc);
+}
+
+unordered_map<string, vector<string>> PKB::get_all_procedures_calls_star_relationship()
+{
+    return calls_star_bank.get_all_procedures_calls_star_relationship();
 }
