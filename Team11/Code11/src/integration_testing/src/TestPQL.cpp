@@ -435,3 +435,20 @@ TEST_CASE("One such that clause and one pattern clause")
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 }
+
+TEST_CASE("Multiple select, such that, and pattern")
+{
+    SECTION("select tuple")
+    {
+        string pql_query = "assign a; while w; variable v; Select <a,w> pattern a(\"count\", _) such that Parent*(w, a)";
+        unordered_set<string> expected_result {"15 14", "28 24", "28 26", "29 24", "29 26", "31 24"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+//    SECTION("select tuple, multiple such that")
+//    {
+//        string pql_query = "assign a; while w; variable v; Select <a,w> pattern a(\"count\", _) such that Parent*(w, a) and Uses(a, v)";
+//        unordered_set<string> expected_result {"15 14", "28 24", "28 26"};
+//        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+//    }
+}

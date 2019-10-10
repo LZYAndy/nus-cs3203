@@ -246,6 +246,16 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
         }
     }
 
+//    for (auto iter : such_that_map.at("a"))
+//    {
+//        cout << iter << " ";
+//    }
+//    cout << "\n";
+//    for (auto iter : such_that_map.at("w"))
+//    {
+//        cout << iter << " ";
+//    }
+
     if (!pattern_clause.empty())
     {
         // has pattern
@@ -268,6 +278,12 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
         }
     }
 
+//    for (auto iter : pattern_map.at("a"))
+//    {
+//        cout << iter << " ";
+//    }
+//    cout << "\n";
+
     // Merge three lists
     result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map);
     return result;
@@ -284,6 +300,17 @@ unordered_set<string> QueryEvaluator::merge(vector<pql_dto::Entity> &select_clau
     unordered_map<string, vector<string>> final_list;
     unordered_set<string> common_synonyms = QueryEvaluator::get_common_synonyms(such_that_map, pattern_map);
     final_list = QueryEvaluator::merge_two_maps(such_that_map, pattern_map, common_synonyms);
+
+//    for (auto iter : final_list.at("a"))
+//    {
+//        cout << iter << " ";
+//    }
+//    cout << "\n";
+//    for (auto iter : final_list.at("w"))
+//    {
+//        cout << iter << " ";
+//    }
+
     if (select_clause.at(0).get_entity_type() == EntityType::BOOLEAN)
     { // if the select type is BOOLEAN
         if (QueryEvaluator::is_empty_map(final_list))
@@ -312,10 +339,26 @@ unordered_set<string> QueryEvaluator::merge(vector<pql_dto::Entity> &select_clau
     }
 
     // cross product
+    bool is_first_common_synonym = true;
     for (const auto& synonym : select_map)
     {
         unordered_map<string, vector<string>> temp_map;
-        temp_map[synonym.first] = synonym.second;
+        if (common_select_synonyms.find(synonym.first) != common_select_synonyms.end() && is_first_common_synonym)
+        {
+            is_first_common_synonym = false;
+            for (const auto& cs : common_select_synonyms)
+            {
+                temp_map[cs] = select_map.at(cs);
+            }
+        }
+        else if (common_select_synonyms.find(synonym.first) != common_select_synonyms.end())
+        {
+            continue;
+        }
+        else
+        {
+            temp_map[synonym.first] = synonym.second;
+        }
         acc_map = QueryEvaluator::merge_two_maps(temp_map, acc_map, QueryEvaluator::get_common_synonyms(temp_map, acc_map));
     }
     result_vec.reserve(select_clause.size());
