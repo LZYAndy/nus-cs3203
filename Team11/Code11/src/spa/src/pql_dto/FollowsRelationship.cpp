@@ -28,9 +28,8 @@ public:
 private:
     void set_first_param(Entity param)
     {
-        if (param.get_entity_type() == EntityType::CONSTANT || param.get_entity_type() == EntityType::VARIABLE
-                || param.get_entity_type() == EntityType::PROCEDURE || param.get_entity_type() == EntityType::PATTEXPR
-                || param.get_entity_type() == EntityType::INVALID || param.get_entity_type() == EntityType::MATCHEXPR)
+        std::vector<EntityType> follows_first_param_type = relationships_table.at(RelationshipType::FOLLOWS).front();
+        if (std::find(follows_first_param_type.begin(), follows_first_param_type.end(), param.get_entity_type()) == follows_first_param_type.end())
         {
             throw std::runtime_error(error_messages::invalid_follows_relationship_first_param);
         }
@@ -40,9 +39,8 @@ private:
 
     void set_second_param(Entity param)
     {
-        if (param.get_entity_type() == EntityType::CONSTANT || param.get_entity_type() == EntityType::VARIABLE
-                || param.get_entity_type() == EntityType::PROCEDURE || param.get_entity_type() == EntityType::PATTEXPR
-                || param.get_entity_type() == EntityType::INVALID || param.get_entity_type() == EntityType::MATCHEXPR)
+        std::vector<EntityType> follows_second_param_type = relationships_table.at(RelationshipType::FOLLOWS).back();
+        if (std::find(follows_second_param_type.begin(), follows_second_param_type.end(), param.get_entity_type()) == follows_second_param_type.end())
         {
             throw std::runtime_error(error_messages::invalid_follows_relationship_second_param);
         }

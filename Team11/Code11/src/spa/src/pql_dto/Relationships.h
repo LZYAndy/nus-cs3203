@@ -7,6 +7,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <unordered_map>
+#include <algorithm>
 
 #include "Entity.h"
 #include "../ErrorMessages.h"
@@ -16,7 +18,10 @@ enum class RelationshipType
     FOLLOWS,
     PARENT,
     USES,
-    MODIFIES
+    MODIFIES,
+    CALLS,
+    NEXT,
+    AFFECTS
 };
 
 namespace pql_dto
@@ -57,6 +62,96 @@ public:
      *  @param relationship The relationship to be compared.
      */
     bool equals(Relationships relationship);
+
+    // Table containing the valid parameters for each relationship.
+    std::unordered_map<RelationshipType, std::vector<std::vector<EntityType>>, EnumClassHash> relationships_table
+    {
+        {
+            RelationshipType::FOLLOWS,
+            {
+                {
+                    EntityType::ANY, EntityType::STMT, EntityType::READ, EntityType::PRINT, EntityType::CALL,
+                    EntityType::WHILE, EntityType::IF, EntityType::ASSIGN, EntityType::PROG_LINE
+                },
+                {
+                    EntityType::ANY, EntityType::STMT, EntityType::READ, EntityType::PRINT, EntityType::CALL,
+                    EntityType::WHILE, EntityType::IF, EntityType::ASSIGN, EntityType::PROG_LINE
+                }
+            }
+        },
+        {
+            RelationshipType::PARENT,
+            {
+                {
+                    EntityType::ANY, EntityType::STMT, EntityType::READ, EntityType::PRINT, EntityType::CALL,
+                    EntityType::WHILE, EntityType::IF, EntityType::ASSIGN, EntityType::PROG_LINE
+                },
+                {
+                    EntityType::ANY, EntityType::STMT, EntityType::READ, EntityType::PRINT, EntityType::CALL,
+                    EntityType::WHILE, EntityType::IF, EntityType::ASSIGN, EntityType::PROG_LINE
+                }
+            }
+        },
+        {
+            RelationshipType::MODIFIES,
+            {
+                {
+                    EntityType::STMT, EntityType::READ, EntityType::CALL, EntityType::PROCEDURE,
+                    EntityType::WHILE, EntityType::IF, EntityType::ASSIGN, EntityType::PROG_LINE
+                },
+                {
+                    EntityType::ANY, EntityType::VARIABLE
+                }
+            }
+        },
+        {
+            RelationshipType::USES,
+            {
+                {
+                    EntityType::STMT, EntityType::PRINT, EntityType::CALL, EntityType::PROCEDURE,
+                    EntityType::WHILE, EntityType::IF, EntityType::ASSIGN, EntityType::PROG_LINE
+                },
+                {
+                    EntityType::ANY, EntityType::VARIABLE
+                }
+            }
+        },
+        {
+            RelationshipType::CALLS,
+            {
+                {
+                    EntityType::PROCEDURE
+                },
+                {
+                    EntityType::PROCEDURE
+                }
+            }
+        },
+        {
+            RelationshipType::NEXT,
+            {
+                {
+                    EntityType::ANY, EntityType::STMT, EntityType::READ, EntityType::PRINT, EntityType::CALL,
+                    EntityType::WHILE, EntityType::IF, EntityType::ASSIGN, EntityType::PROG_LINE
+                },
+                {
+                    EntityType::ANY, EntityType::STMT, EntityType::READ, EntityType::PRINT, EntityType::CALL,
+                    EntityType::WHILE, EntityType::IF, EntityType::ASSIGN, EntityType::PROG_LINE
+                }
+            }
+        },
+        {
+            RelationshipType::AFFECTS,
+            {
+                {
+                    EntityType::STMT, EntityType::ASSIGN, EntityType::PROG_LINE
+                },
+                {
+                    EntityType::STMT, EntityType::ASSIGN, EntityType::PROG_LINE
+                }
+            }
+        },
+    };
 };
 }
 
