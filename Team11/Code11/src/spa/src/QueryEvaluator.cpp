@@ -71,7 +71,7 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
                         {
                             return empty_set;
                         }
-                        such_that_map = select_map;
+                        intermediary_map = select_map;
                     }
                     else
                     {
@@ -87,7 +87,7 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
                         {
                             return empty_set;
                         }
-                        such_that_map = select_map;
+                        intermediary_map = select_map;
                     }
                     else
                     {
@@ -105,7 +105,7 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
                     {
                         return empty_set;
                     }
-                    such_that_map = select_map;
+                    intermediary_map = select_map;
                 }
                 else
                 {
@@ -124,7 +124,7 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
                         {
                             return empty_set;
                         }
-                        such_that_map = select_map;
+                        intermediary_map = select_map;
                     }
                     else
                     {
@@ -140,7 +140,7 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
                         {
                             return empty_set;
                         }
-                        such_that_map = select_map;
+                        intermediary_map = select_map;
                     }
                     else
                     {
@@ -158,7 +158,7 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
                     {
                         return empty_set;
                     }
-                    such_that_map = select_map;
+                    intermediary_map = select_map;
                 }
                 else
                 {
@@ -177,7 +177,7 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
 //                        {
 //                            return empty_set;
 //                        }
-//                        such_that_map = select_map;
+//                        intermediary_map = select_map;
 //                    }
 //                    else
 //                    {
@@ -193,7 +193,7 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
 //                        {
 //                            return empty_set;
 //                        }
-//                        such_that_map = select_map;
+//                        intermediary_map = select_map;
 //                    }
 //                    else
 //                    {
@@ -213,7 +213,7 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
 //                        {
 //                            return empty_set;
 //                        }
-//                        such_that_map = select_map;
+//                        intermediary_map = select_map;
 //                    }
 //                    else
 //                    {
@@ -229,7 +229,7 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
 //                        {
 //                            return empty_set;
 //                        }
-//                        such_that_map = select_map;
+//                        intermediary_map = select_map;
 //                    }
 //                    else
 //                    {
@@ -237,6 +237,10 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
 //                    }
 //                }
 //            }
+            if (QueryEvaluator::is_empty_map(intermediary_map))
+            {
+                return empty_set;
+            }
             unordered_set<string> common_synonyms = QueryEvaluator::get_common_synonyms(such_that_map, intermediary_map);
             such_that_map = QueryEvaluator::merge_two_maps(such_that_map, intermediary_map, common_synonyms);
         }
@@ -254,6 +258,10 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
             if (pattern_type == EntityType::ASSIGN)
             {
                 intermediary_map = AssignEvaluator::evaluate(pattern, first_param, second_param, PKB);
+            }
+            if (QueryEvaluator::is_empty_map(intermediary_map))
+            {
+                return empty_set;
             }
             unordered_set<string> common_synonyms = QueryEvaluator::get_common_synonyms(pattern_map, intermediary_map);
             pattern_map = QueryEvaluator::merge_two_maps(pattern_map, intermediary_map, common_synonyms);
@@ -276,26 +284,68 @@ unordered_set<string> QueryEvaluator::merge(vector<pql_dto::Entity> &select_clau
     unordered_map<string, vector<string>> final_list;
     unordered_set<string> common_synonyms = QueryEvaluator::get_common_synonyms(such_that_map, pattern_map);
     final_list = QueryEvaluator::merge_two_maps(such_that_map, pattern_map, common_synonyms);
-    if (select_clause.at(0).get_entity_type() == EntityType::)
+    if (select_clause.at(0).get_entity_type() == EntityType::BOOLEAN)
+    { // if the select type is BOOLEAN
+        if (QueryEvaluator::is_empty_map(final_list))
+        {
+            return unordered_set<string> ({"FALSE"});
+        }
+        else
+        {
+            return unordered_set<string> ({"TRUE"});
+        }
+    }
+    // if the select type is tuple
     if (QueryEvaluator::is_empty_map(final_list))
     {
         return unordered_set<string>();
     }
     unordered_set<string> common_select_synonyms = QueryEvaluator::get_common_synonyms(final_list, select_map);
     unordered_map<string, vector<string>> acc_map;
+
     if (!common_select_synonyms.empty())
     { // select_map and final_list get common synonyms
-
-    }
-    else
-    { // do not get common synonyms
-        for (const auto& synonym : select_map)
+        for (const auto& common : common_select_synonyms)
         {
-            unordered_map<string, vector<string>> temp_map;
-            temp_map[synonym.first] = synonym.second;
-            acc_map = QueryEvaluator::merge_two_maps(temp_map, acc_map, QueryEvaluator::get_common_synonyms(temp_map, acc_map));
+            select_map[common] = final_list[common];
         }
     }
+
+    // cross product
+    for (const auto& synonym : select_map)
+    {
+        unordered_map<string, vector<string>> temp_map;
+        temp_map[synonym.first] = synonym.second;
+        acc_map = QueryEvaluator::merge_two_maps(temp_map, acc_map, QueryEvaluator::get_common_synonyms(temp_map, acc_map));
+    }
+    result_vec.reserve(select_clause.size());
+    for (auto entity : select_clause)
+    {
+        result_vec.push_back(acc_map.at(entity.get_entity_name()));
+    }
+    int height = result_vec.at(0).size();
+    int width = result_vec.size();
+    vector<string> temp_vec;
+    temp_vec.reserve(height);
+    for (int i = 0; i < height; i++)
+    {
+        temp_vec.emplace_back("");
+    }
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            if (temp_vec.at(i).empty())
+            {
+                temp_vec.at(i) = temp_vec.at(i) + result_vec.at(j).at(i);
+            }
+            else
+            {
+                temp_vec.at(i) = temp_vec.at(i) + " " + result_vec.at(j).at(i);
+            }
+        }
+    }
+    std::copy(temp_vec.begin(),temp_vec.end(),std::inserter(result, result.end()));
 
 
 //    if (!common_synonyms.empty())
@@ -363,6 +413,7 @@ bool QueryEvaluator::is_empty_map(unordered_map<string, vector<string>> &map)
             return true;
         }
     }
+    return false;
 }
 
 unordered_set<string> QueryEvaluator::get_common_synonyms(unordered_map<string, vector<string>> &map_1,
