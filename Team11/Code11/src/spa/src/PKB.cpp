@@ -441,17 +441,17 @@ vector<string> PKB::get_all_constants()
     return result;
 }
 
-bool PKB::insert_if(int stmt, string control)
+bool PKB::insert_if(int stmt, vector<string> control_vars)
 {
-    return if_bank.insert_if(stmt, control);
+    return if_bank.insert_if(stmt, control_vars);
 }
 
-vector<int> PKB::get_all_if_pattern_matches(string pattern)
+vector<int> PKB::get_all_if_pattern_contains(string variable)
 {
-    return if_bank.all_matches(pattern);
+    return if_bank.all_contains(variable);
 }
 
-vector<int> PKB::get_all_if_pattern_contains(string pattern)
+unordered_map<int, vector<string>> PKB::get_all_if_and_control_variables_map()
 {
-    return if_bank.all_contains(pattern);
+    return if_bank.get_all_if_and_control_variables_map();
 }

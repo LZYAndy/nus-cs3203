@@ -9,22 +9,21 @@ public:
     /**
      * Insert If relationship to IfBank.
      * @param stmt stmt# of statement.
-     * @param control control expression.
+     * @param control_vars vector of control variables.
      * @return true if the insert process is successful.
      */
-    bool insert_if(int stmt, std::string control);
+    bool insert_if(int stmt, std::vector<std::string> control_vars);
     /**
-     * Get all stmt# of IF statement that control expression matches the pattern.
-     * @param the pattern to match.
+     * Get all stmt# of IF statement that control expression contains the variable.
+     * @param variable.
      * @return vector of stmt# that IF statements that fulfill the requirements.
      */
-    std::vector<int> all_matches(std::string pattern);
+    std::vector<int> all_contains(std::string variable);
     /**
-     * Get all stmt# of IF statement that control expression contains the pattern.
-     * @param the pattern to match.
-     * @return vector of stmt# that IF statements that fulfill the requirements.
+     * Get all if statements and their control variable pairing.
+     * @return unordered_map of stmt# and vector of control variables
      */
-    std::vector<int> all_contains(std::string pattern);
+    std::unordered_map<int, std::vector<std::string>> get_all_if_and_control_variables_map();
 private:
     Bank<int, std::string> if_bank;
 };

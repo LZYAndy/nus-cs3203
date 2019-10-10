@@ -2199,26 +2199,26 @@ TEST_CASE("PKB::get_all_if_pattern_contains()")
 {
     PKB pkb;
 
-    pkb.insert_if(1, "x==1");
-    pkb.insert_if(2, "x==2");
-    pkb.insert_if(2, "x==2");
-    pkb.insert_if(3, "x==1");
+    pkb.insert_if(1, {"y"});
+    pkb.insert_if(2, {"x", "y"});
+    pkb.insert_if(2, {"x", "y"});
+    pkb.insert_if(3, {"y"});
 
     SECTION("return empty")
     {
-        REQUIRE(pkb.get_all_if_pattern_contains("x != DONTEXIST").empty());
+        REQUIRE(pkb.get_all_if_pattern_contains("DONTEXIST").empty());
         REQUIRE(pkb.get_all_if_pattern_contains("X").empty());
     }
 
     SECTION("return 1 result")
     {
-        REQUIRE(pkb.get_all_if_pattern_contains("x==2").size() == 1);
-        REQUIRE(pkb.get_all_if_pattern_contains("x==2")[0] == 2);
+        REQUIRE(pkb.get_all_if_pattern_contains("x").size() == 1);
+        REQUIRE(pkb.get_all_if_pattern_contains("x")[0] == 2);
     }
 
     SECTION("return >1 result")
     {
-        std::vector<int> result = pkb.get_all_if_pattern_contains("x");
+        std::vector<int> result = pkb.get_all_if_pattern_contains("y");
         REQUIRE(result.size() == 3);
         std::vector<int> expected;
         expected.push_back(1);
@@ -2230,35 +2230,26 @@ TEST_CASE("PKB::get_all_if_pattern_contains()")
     }
 }
 
-TEST_CASE("PKB::get_all_if_pattern_matches()")
+TEST_CASE("PKB::get_all_if_and_control_variables_map()")
 {
     PKB pkb;
 
-    pkb.insert_if(1, "x==1");
-    pkb.insert_if(2, "x==2");
-    pkb.insert_if(2, "x==2");
-    pkb.insert_if(3, "x==1");
-
-    SECTION("return empty")
+    SECTION("empty")
     {
-        REQUIRE(pkb.get_all_if_pattern_matches("x != DONTEXIST").empty());
+        REQUIRE(pkb.get_all_if_and_control_variables_map().empty());
     }
 
-    SECTION("return 1 result")
-    {
-        REQUIRE(pkb.get_all_if_pattern_matches("x==2").size() == 1);
-        REQUIRE(pkb.get_all_if_pattern_matches("x==2")[0] == 2);
-    }
+    pkb.insert_if(1, {"y"});
+    pkb.insert_if(2, {"x", "y"});
+    pkb.insert_if(2, {"x", "y"});
+    pkb.insert_if(3, {"y"});
 
-    SECTION("return >1 result")
+    SECTION(">1")
     {
-        std::vector<int> result = pkb.get_all_if_pattern_matches("x==1");
-        REQUIRE(result.size() == 2);
-        std::vector<int> expected;
-        expected.push_back(1);
-        expected.push_back(3);
-        std::sort(expected.begin(), expected.end());
-        std::sort(result.begin(), result.end());
-        REQUIRE(expected == result);
+        std::unordered_map<int, std::vector<std::string>> expected;
+        expected.insert({1, {"y"}});
+        expected.insert({2, {"x", "y"}});
+        expected.insert({3, {"y"}});
+        REQUIRE(expected == pkb.get_all_if_and_control_variables_map());
     }
 }

@@ -1,34 +1,24 @@
 #include "IfBank.h"
 
-bool IfBank::insert_if(int stmt, std::string control)
+bool IfBank::insert_if(int stmt, std::vector<std::string> control_vars)
 {
     if (stmt <= 0 )
     {
         return false;
     }
-    if_bank.put(stmt, control);
+    for (std::string control : control_vars)
+    {
+        if_bank.put(stmt, control);
+    }
     return true;
 }
 
-
-std::vector<int> IfBank::all_matches(std::string pattern)
+std::vector<int> IfBank::all_contains(std::string variable)
 {
-    return if_bank.get_reverse(pattern);
+    return if_bank.get_reverse(variable);
 }
 
-std::vector<int> IfBank::all_contains(std::string pattern)
+std::unordered_map<int, std::vector<std::string>> IfBank::get_all_if_and_control_variables_map()
 {
-    std::vector<std::string> controls = if_bank.get_all_values();
-    std::vector<int> result;
-    for (std::string control : controls)
-    {
-        if (control.find(pattern) != std::string::npos)
-        {
-            for (int stmt : if_bank.get_reverse(control))
-            {
-                result.push_back(stmt);
-            }
-        }
-    }
-    return result;
+    return if_bank.copy();
 }
