@@ -543,3 +543,7 @@ unordered_map<int, vector<string>> PKB::get_all_if_and_control_variables_map()
 {
     return if_bank.get_all_if_and_control_variables_map();
 }
+
+std::unordered_map<int, std::vector<int>> PKB::get_all_next_relationship() {
+    return next_bank.get_all_next_relationship();
+}

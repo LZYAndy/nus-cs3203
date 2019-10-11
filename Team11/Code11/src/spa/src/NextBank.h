@@ -54,6 +54,12 @@ public:
      */
     std::vector<int> get_all_next();
 
+    /**
+     * Get all next relationships
+     * @return Return all next relationships in the program
+     */
+    std::unordered_map<int, std::vector<int>> get_all_next_relationship();
+
 private:
     Bank<int, int> next_bank;
 };

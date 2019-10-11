@@ -13,24 +13,7 @@ bool NextBank::insert_next(int stmt1, int stmt2) {
 }
 
 bool NextBank::is_next(int stmt1, int stmt2) {
-    std::vector<int> elements = next_bank.get(stmt1);
-    if(elements.size() == 0)
-    {
-        return false;
-    }
-    else
-    {
-        std::vector<int>::iterator ret;
-        ret = std::find(elements.begin(), elements.end(), stmt2);
-        if(ret == elements.end())
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
+    return next_bank.check_relationship(stmt1, stmt2);
 }
 
 bool NextBank::does_next_exists() {
@@ -51,4 +34,8 @@ std::vector<int> NextBank::get_all_previous() {
 
 std::vector<int> NextBank::get_all_next() {
     return next_bank.get_all_values();
+}
+
+std::unordered_map<int, std::vector<int>> NextBank::get_all_next_relationship() {
+    return next_bank.copy();
 }

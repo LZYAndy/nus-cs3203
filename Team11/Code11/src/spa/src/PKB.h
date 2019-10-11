@@ -690,6 +690,12 @@ public:
      */
     std::vector<int> get_while_stmtLst(int statement);
 
+    /**
+     * Get all next relationships
+     * @return Return all next relationships in the program
+     */
+    std::unordered_map<int, std::vector<int>> get_all_next_relationship();
+
 private:
     FollowsBank follows_bank;
     FollowsStarBank follows_star_bank;

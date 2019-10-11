@@ -32,10 +32,6 @@ bool WhileBank::is_while(int statement) {
     }
 }
 
-std::vector<int> WhileBank::get_while_statements() {
-    return while_bank.get_all_keys();
-}
-
 std::vector<int> WhileBank::get_while_stmtLst(int statement) {
     return while_stmtLst.get(statement);
 }

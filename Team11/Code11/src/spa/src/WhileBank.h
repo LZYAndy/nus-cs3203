@@ -30,12 +30,6 @@ public:
     bool is_while(int statement);
 
     /**
-     * Return all while statements stored in the while_bank.
-     * @return Return all while statements stored in the while_bank.
-     */
-    std::vector<int> get_while_statements();
-
-    /**
      * Return all statements in the statement list of the input while statement
      * @param statement
      * @return Return all statements in the statement list of the input while statement
