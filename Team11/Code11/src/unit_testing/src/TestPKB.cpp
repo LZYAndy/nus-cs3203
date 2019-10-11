@@ -2415,39 +2415,6 @@ TEST_CASE("PKB::is_while()")
     }
 }
 
-TEST_CASE("PKB::get_while_statements()")
-{
-    PKB pkb;
-    SECTION("return 0 statement")
-    {
-        std::vector<int> result = pkb.get_while_statements();
-        REQUIRE(result.empty());
-    }
-
-    pkb.insert_while(1, "x == 1");
-    SECTION("return 1 statement")
-    {
-        std::vector<int> result = pkb.get_while_statements();
-        REQUIRE(result.size() == 1);
-        REQUIRE(result[0] == 1);
-    }
-
-    pkb.insert_while(5, "y == 1");
-    pkb.insert_while(10, "x == y");
-    SECTION("return more than 1 statements")
-    {
-        std::vector<int> result = pkb.get_while_statements();
-        REQUIRE(result.size() == 3);
-        std::vector<int> expected;
-        expected.push_back(10);
-        expected.push_back(5);
-        expected.push_back(1);
-        std::sort(expected.begin(), expected.end());
-        std::sort(result.begin(), result.end());
-        REQUIRE(expected == result);
-    }
-}
-
 TEST_CASE("PKB::get_while_stmtLst()")
 {
     PKB pkb;
@@ -2742,5 +2709,30 @@ TEST_CASE("PKB::get_all_procedures_calls_relationship()")
         std::sort(expected3.begin(), expected3.end());
         std::sort(result_values3.begin(), result_values3.end());
         REQUIRE(expected3 == result_values3);
+    }
+}
+
+TEST_CASE("PKB::get_all_next_relationship()")
+{
+    PKB pkb;
+    SECTION("return 0 relationship")
+    {
+        REQUIRE(pkb.get_all_next_relationship().empty());
+    }
+
+    pkb.insert_next(1, 2);
+    pkb.insert_next(2, 3);
+    SECTION("return more than 0 relationship")
+    {
+        std::unordered_map<int, std::vector<int>> result = pkb.get_all_next_relationship();
+        REQUIRE(result.size() == 2);
+        std::unordered_map<int, std::vector<int>> expected;
+        std::vector<int> value1;
+        std::vector<int> value2;
+        value1.push_back(2);
+        value2.push_back(3);
+        expected.emplace(1, value1);
+        expected.emplace(2, value2);
+        REQUIRE(expected == result);
     }
 }

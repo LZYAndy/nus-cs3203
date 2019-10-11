@@ -173,3 +173,28 @@ TEST_CASE("NextBank::get_all_next()")
         REQUIRE(result == expected);
     }
 }
+
+TEST_CASE("NextBank::get_all_next_relationship()")
+{
+    NextBank next_bank;
+    SECTION("return 0 relationship")
+    {
+        REQUIRE(next_bank.get_all_next_relationship().empty());
+    }
+
+    next_bank.insert_next(1, 2);
+    next_bank.insert_next(2, 3);
+    SECTION("return more than 0 relationship")
+    {
+        std::unordered_map<int, std::vector<int>> result = next_bank.get_all_next_relationship();
+        REQUIRE(result.size() == 2);
+        std::unordered_map<int, std::vector<int>> expected;
+        std::vector<int> value1;
+        std::vector<int> value2;
+        value1.push_back(2);
+        value2.push_back(3);
+        expected.emplace(1, value1);
+        expected.emplace(2, value2);
+        REQUIRE(expected == result);
+    }
+}

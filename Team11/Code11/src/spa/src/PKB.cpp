@@ -477,10 +477,6 @@ bool PKB::is_while(int statement) {
     return while_bank.is_while(statement);
 }
 
-std::vector<int> PKB::get_while_statements() {
-    return while_bank.get_while_statements();
-}
-
 std::vector<int> PKB::get_while_stmtLst(int statement) {
     return while_bank.get_while_stmtLst(statement);
 }
