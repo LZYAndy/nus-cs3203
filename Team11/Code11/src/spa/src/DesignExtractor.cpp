@@ -91,7 +91,7 @@ bool DesignExtractor::extract_calls_star(CallsBank &bank_in, CallsStarBank &bank
     int i = 0;
     while (i < keys.size())
     {
-        for (int j = i; j <= keys.size(); j++)
+        for (int j = i; j < keys.size(); j++)
         {
             for (std::string proc_calls : bank_out.get_procedures_calls_star(keys[j])) // get all proc that calls key (_, key)
             {  
