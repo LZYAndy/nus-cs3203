@@ -68,6 +68,8 @@ constexpr const char* invalid_query_extra_string_end(R"(Invalid Syntax! Addition
 constexpr const char* invalid_query_mismatch_brackets(R"(Invalid Syntax! Missing closing bracket.)");
 constexpr const char* invalid_query_such_that_clause_syntax(R"(Invalid Query! Such That Clause Syntax Error.)");
 constexpr const char* invalid_query_pattern_clause_syntax(R"(Invalid Query! Pattern Clause Syntax Error.)");
+constexpr const char* invalid_query_with_clause_syntax(R"(Invalid Query! With Clause Syntax Error.)");
 constexpr const char* invalid_query_wrong_pattern_entity(R"(Invalid Syntax! Invalid Entity for pattern.)");
 constexpr const char* invalid_relationship_type(R"(Invalid Relationship Type!)");
+constexpr const char* invalid_query_missing_equal_with_clause(R"(Invalid Query! Missing equal in with clause.)");
 }

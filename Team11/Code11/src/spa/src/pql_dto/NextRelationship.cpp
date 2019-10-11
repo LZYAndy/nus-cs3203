@@ -12,6 +12,16 @@ namespace pql_dto
          */
         NextRelationship(Entity first_param, Entity second_param, bool is_star)
         {
+            if (first_param.get_entity_type() == EntityType::STMT && !first_param.is_entity_declared())
+            {
+                first_param.set_entity_type("prog_line");
+            }
+
+            if (second_param.get_entity_type() == EntityType::STMT && !second_param.is_entity_declared())
+            {
+                second_param.set_entity_type("prog_line");
+            }
+
             set_relationship(RelationshipType::NEXT);
             set_first_param(first_param);
             set_second_param(second_param);
