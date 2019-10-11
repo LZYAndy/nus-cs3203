@@ -351,3 +351,23 @@ TEST_CASE("ModifiesBank::get_all_modifies_procedures_relationship()")
         REQUIRE(result == expected);
     }
 }
+
+TEST_CASE("ModifiesBank::insert_modifies_for_call()")
+{
+    ModifiesBank modifies_bank;
+    modifies_bank.insert_modifies("main", "x");
+    modifies_bank.insert_modifies("procY", "y");
+    SECTION("return false")
+    {
+        REQUIRE_FALSE(modifies_bank.insert_modifies_for_call("main", "procX"));
+    }
+    SECTION("return true")
+    {
+        modifies_bank.insert_modifies_for_call("main", "procY");
+        std::vector<std::string> result = modifies_bank.get_modified_by_procedure("main");
+        REQUIRE(modifies_bank.insert_modifies_for_call("main", "procY"));
+        REQUIRE(result.size() == 2);
+        REQUIRE(result[0] == "x");
+        REQUIRE(result[1] == "y");
+    }
+}
