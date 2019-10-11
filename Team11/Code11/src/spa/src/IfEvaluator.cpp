@@ -4,7 +4,8 @@ unordered_map<string, vector<string>> IfEvaluator::evaluate(pql_dto::Pattern &pa
         pql_dto::Entity &first_param, pql_dto::Entity &second_param, PKB &PKB)
 {
     unordered_map<string, vector<string>> result;
-    string pattern_name = pattern.get_pattern_entity().get_entity_name();
+    pql_dto::Entity pattern_entity = pattern.get_pattern_entity();
+    string pattern_name = pattern_entity.get_entity_name();
     string first_name = first_param.get_entity_name();
 
     if (first_param.get_entity_type() == EntityType::ANY)
@@ -19,8 +20,8 @@ unordered_map<string, vector<string>> IfEvaluator::evaluate(pql_dto::Pattern &pa
     }
     else
     { // pattern ifs(v, _)
-        unordered_map<int, vector<int>> int_map = PKB.get_all_if_and_control_variables_map();
-        result = QueryUtility::mapping(pattern.get_pattern_entity(), first_param, int_map);
+        unordered_map<int, vector<string>> int_str_map = PKB.get_all_if_and_control_variables_map();
+        result = QueryUtility::mapping(pattern_entity, first_param, int_str_map);
     }
     return result;
 }
