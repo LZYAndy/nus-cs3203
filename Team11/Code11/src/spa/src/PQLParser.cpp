@@ -13,7 +13,10 @@
 #include "pql_dto/CallsRelationship.cpp"
 #include "pql_dto/AffectsRelationship.cpp"
 
+/// string constant for whitespace characters
 const std::string whitespace = " \n\t\r\f\v";
+
+/// string constant for relationship keywords
 const std::string follows_keyword = "Follows";
 const std::string follows_star_keyword = "Follows*";
 const std::string parent_keyword = "Parent";
@@ -26,6 +29,12 @@ const std::string calls_keyword = "Calls";
 const std::string calls_star_keyword = "Calls*";
 const std::string affects_keyword = "Affects";
 const std::string affects_star_keyword = "Affects*";
+
+/// string constant for clauses keywords
+const std::string such_that_keyword = "such that ";
+const std::string pattern_keyword = "pattern ";
+const std::string with_keyword = "with ";
+const std::string and_keyword = "and ";
 
 std::string PQLParser::pql_parse_query(std::string query, std::vector<pql_dto::Entity> &select_clause,
         std::vector<pql_dto::Relationships> &such_that_clause, std::vector<pql_dto::Pattern> &pattern_clause,
@@ -68,7 +77,115 @@ std::string PQLParser::pql_parse_query(std::string query, std::vector<pql_dto::E
         return "";
     }
 
-    size_t such_that_index = condition_query.find("such that ");
+
+    while (!condition_query.empty())
+    {
+        /// Find first occurence of such that
+        size_t such_that_index = condition_query.find(such_that_keyword);
+        if (such_that_index == 0)
+        {
+            size_t closing_bracket_index = condition_query.find_first_of(')');
+            if (closing_bracket_index == std::string::npos)
+            {
+                return error_messages::invalid_query_mismatch_brackets;
+            }
+
+            std::string such_that_query = condition_query.substr(0, closing_bracket_index + 1);
+            /// Validates the such that string
+            error = parse_such_that_clause(such_that_query, such_that_clause, declared_variables);
+            if (!error.empty())
+            {
+                return error;
+            }
+
+            condition_query = StringUtil::trim(condition_query.substr(closing_bracket_index + 1), whitespace);
+            while (!condition_query.empty())
+            {
+                size_t and_index = condition_query.find(and_keyword);
+                if (and_index != 0)
+                {
+                    break;
+                }
+
+                size_t closing_bracket_index = condition_query.find_first_of(')');
+                if (closing_bracket_index == std::string::npos)
+                {
+                    return error_messages::invalid_query_mismatch_brackets;
+                }
+
+                std::string such_that_query = condition_query.substr(0, closing_bracket_index + 1);
+                /// Validates the such that string
+                error = parse_such_that_clause(such_that_query, such_that_clause, declared_variables);
+                if (!error.empty())
+                {
+                    return error;
+                }
+
+                condition_query = StringUtil::trim(condition_query.substr(closing_bracket_index + 1), whitespace);
+            }
+            continue;
+        }
+
+        /// Find first occurence of such that
+        size_t pattern_index = condition_query.find(pattern_keyword);
+        if (pattern_index == 0)
+        {
+            size_t closing_bracket_index = condition_query.find_first_of(')');
+            if (closing_bracket_index == std::string::npos)
+            {
+                return error_messages::invalid_query_mismatch_brackets;
+            }
+
+            std::string pattern_query = condition_query.substr(0, closing_bracket_index + 1);
+            /// Validates the pattern string
+            error = parse_pattern_clause(pattern_query, pattern_clause, declared_variables);
+            if (!error.empty())
+            {
+                return error;
+            }
+
+            condition_query = StringUtil::trim(condition_query.substr(closing_bracket_index + 1), whitespace);
+            while (!condition_query.empty())
+            {
+                size_t and_index = condition_query.find(and_keyword);
+                if (and_index != 0)
+                {
+                    break;
+                }
+
+                size_t closing_bracket_index = condition_query.find_first_of(')');
+                if (closing_bracket_index == std::string::npos)
+                {
+                    return error_messages::invalid_query_mismatch_brackets;
+                }
+
+                std::string pattern_query = condition_query.substr(0, closing_bracket_index + 1);
+                /// Validates the pattern string
+                error = parse_pattern_clause(pattern_query, pattern_clause, declared_variables);
+                if (!error.empty())
+                {
+                    return error;
+                }
+
+                condition_query = StringUtil::trim(condition_query.substr(closing_bracket_index + 1), whitespace);
+            }
+
+            continue;
+        }
+
+        /// Find first occurence of such that
+        size_t with_index = condition_query.find(with_keyword);
+        if (with_index == 0)
+        {
+
+            continue;
+        }
+
+        /// if condition does not start with clauses keywords
+        return error_messages::invalid_query_extra_string_end;
+    }
+
+   /* size_t such_that_index = condition_query.find("such that ");
     size_t pattern_index = condition_query.find("pattern ");
 
     /// Checks if non-empty string has such that and pattern clause
@@ -112,7 +229,7 @@ std::string PQLParser::pql_parse_query(std::string query, std::vector<pql_dto::E
     if (!error.empty())
     {
         return error;
-    }
+    }*/
 
     return "";
 }
@@ -345,14 +462,23 @@ std::string PQLParser::parse_such_that_clause(const std::string &query, std::vec
         return "";
     }
 
-    std::string trimmed_query = StringUtil::trim(query, whitespace);
-    if (trimmed_query.find("such that ") != 0)
+    /// std::string trimmed_query = StringUtil::trim(query, whitespace);
+    if (query.find(such_that_keyword) != 0 && query.find(and_keyword) != 0)
     {
         return error_messages::invalid_query_such_that_clause_syntax;
     }
 
     /// Get relationship query
-    std::string relationship_query = trimmed_query.substr(10);
+    std::string relationship_query;
+    if (query.find(such_that_keyword) == 0)
+    {
+        relationship_query = query.substr(10);
+    }
+    else
+    {
+        relationship_query = query.substr(4);
+    }
+    
     size_t open_parentheses_index = relationship_query.find_first_of('(');
     size_t close_parentheses_index = relationship_query.find_first_of(')');
 
@@ -400,14 +526,23 @@ std::string PQLParser::parse_pattern_clause(const std::string &query, std::vecto
         return "";
     }
 
-    std::string trimmed_query = StringUtil::trim(query, whitespace);
-    if (trimmed_query.find("pattern ") != 0)
+    /*std::string trimmed_query = StringUtil::trim(query, whitespace);*/
+    if (query.find(pattern_keyword) != 0 && query.find(and_keyword) != 0)
     {
         return error_messages::invalid_query_pattern_clause_syntax;
     }
 
     /// Get pattern query
-    std::string pattern_query = trimmed_query.substr(8);
+    std::string pattern_query;
+    if (query.find(pattern_keyword) == 0)
+    {
+        pattern_query = query.substr(8);
+    }
+    else
+    {
+        pattern_query = query.substr(4);
+    }
+    
     size_t open_parentheses_index = pattern_query.find_first_of('(');
     size_t close_parentheses_index = pattern_query.find_first_of(')');
 
@@ -416,7 +551,8 @@ std::string PQLParser::parse_pattern_clause(const std::string &query, std::vecto
     {
         /// Check if pattern has correct entity
         std::string entity_name = StringUtil::trim(pattern_query.substr(0, open_parentheses_index), whitespace);
-        if (declared_variables.find(entity_name) == declared_variables.end() || declared_variables.at(entity_name) != "assign")
+        if (declared_variables.find(entity_name) == declared_variables.end() || (declared_variables.at(entity_name) != "assign"
+            && declared_variables.at(entity_name) != "while" && declared_variables.at(entity_name) != "if"))
         {
             return error_messages::invalid_query_wrong_pattern_entity;
         }
@@ -430,16 +566,39 @@ std::string PQLParser::parse_pattern_clause(const std::string &query, std::vecto
         }
 
         std::string first_param_string = StringUtil::trim(pattern_params.substr(1, comma_index - 1), whitespace);
-        std::string second_param_string = StringUtil::trim(pattern_params.substr(comma_index + 1,
-                                          pattern_params.length() - comma_index - 2), whitespace);
 
         try
         {
             pql_dto::Entity pattern_entity = pql_dto::Entity(declared_variables.at(entity_name), entity_name, true);
-            pql_dto::Entity first_param = create_entity(first_param_string, declared_variables, false);
-            pql_dto::Entity second_param = create_entity(second_param_string, declared_variables, true);
-            pql_dto::Pattern pattern = pql_dto::Pattern(pattern_entity, first_param, second_param);
-            pattern_clause.push_back(pattern);
+            if (pattern_entity.get_entity_type() == EntityType::ASSIGN || pattern_entity.get_entity_type() == EntityType::WHILE)
+            {
+                std::string second_param_string = StringUtil::trim(pattern_params.substr(comma_index + 1,
+                    pattern_params.length() - comma_index - 2), whitespace);
+                pql_dto::Entity first_param = create_entity(first_param_string, declared_variables, false);
+                pql_dto::Entity second_param = create_entity(second_param_string, declared_variables, true);
+                pql_dto::Pattern pattern = pql_dto::Pattern(pattern_entity, first_param, second_param);
+                pattern_clause.push_back(pattern);
+            }
+            else if (pattern_entity.get_entity_type() == EntityType::IF)
+            {
+                std::string second_and_third_params = StringUtil::trim(pattern_params.substr(comma_index + 1,
+                    pattern_params.length() - comma_index - 2), whitespace);
+                
+                size_t second_comma_index = second_and_third_params.find_first_of(',');
+                if (second_comma_index == std::string::npos)
+                {
+                    return error_messages::invalid_query_pattern_clause_syntax;
+                }
+
+                std::string second_param_string = StringUtil::trim(second_and_third_params.substr(0, second_comma_index), whitespace);
+                std::string third_param_string = StringUtil::trim(second_and_third_params.substr(second_comma_index + 1), whitespace);
+
+                pql_dto::Entity first_param = create_entity(first_param_string, declared_variables, false);
+                pql_dto::Entity second_param = create_entity(second_param_string, declared_variables, false);
+                pql_dto::Pattern pattern = pql_dto::Pattern(pattern_entity, first_param, second_param);
+                pattern_clause.push_back(pattern);
+            }
+            
         }
         catch (std::exception &e)
         {
