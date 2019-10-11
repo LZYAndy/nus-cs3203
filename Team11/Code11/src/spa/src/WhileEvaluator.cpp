@@ -4,6 +4,7 @@ unordered_map<string, vector<string>> WhileEvaluator::evaluate(pql_dto::Pattern 
         pql_dto::Entity &first_param, pql_dto::Entity &second_param, PKB &PKB)
 {
     unordered_map<string, vector<string>> result;
+    string pattern_name = pattern.get_pattern_entity().get_entity_name();
     string first_name = first_param.get_entity_name();
 
     if (first_param.get_entity_type() == EntityType::ANY)
