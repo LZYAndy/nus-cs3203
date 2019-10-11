@@ -352,3 +352,23 @@ TEST_CASE("UsesBank::get_all_uses_procedures_relationship()")
         REQUIRE(result == expected);
     }
 }
+
+TEST_CASE("UsesBank::insert_uses_for_call()")
+{
+    UsesBank uses_bank;
+    uses_bank.insert_uses("main", "x");
+    uses_bank.insert_uses("procY", "y");
+    SECTION("return false")
+    {
+        REQUIRE_FALSE(uses_bank.insert_uses_for_call("main", "procX"));
+    }
+    SECTION("return true")
+    {
+        uses_bank.insert_uses_for_call("main", "procY");
+        std::vector<std::string> result = uses_bank.get_used_by_procedure("main");
+        REQUIRE(uses_bank.insert_uses_for_call("main", "procY"));
+        REQUIRE(result.size() == 2);
+        REQUIRE(result[0] == "x");
+        REQUIRE(result[1] == "y");
+    }
+}
