@@ -1,12 +1,15 @@
 #include "WhileBank.h"
 
-bool WhileBank::insert_while(int statement, std::string condition) {
+bool WhileBank::insert_while(int statement, std::vector<std::string> control_var) {
     if (statement <= 0) {
         return false;
     }
     else
     {
-        while_bank.put(statement, condition);
+        for (std::string control_var: control_var)
+        {
+            while_bank.put(statement, control_var);
+        }
         return true;
     }
 }
@@ -46,4 +49,12 @@ bool WhileBank::insert_stmt_in_while_stmtLst(int whileStmt, int statement) {
         while_stmtLst.put(whileStmt, statement);
         return true;
     }
+}
+
+std::vector<int> WhileBank::get_while_with_control_var(std::string control_var) {
+    return while_bank.get_reverse(control_var);
+}
+
+std::unordered_map<int, std::vector<std::string>> WhileBank::get_all_whilestmt_and_control_var() {
+    return while_bank.copy();
 }
