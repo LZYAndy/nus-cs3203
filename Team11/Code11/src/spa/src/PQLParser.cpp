@@ -13,10 +13,23 @@
 #include "pql_dto/CallsRelationship.cpp"
 #include "pql_dto/AffectsRelationship.cpp"
 
-std::string whitespace = " \n\t\r\f\v";
+const std::string whitespace = " \n\t\r\f\v";
+const std::string follows_keyword = "Follows";
+const std::string follows_star_keyword = "Follows*";
+const std::string parent_keyword = "Parent";
+const std::string parent_star_keyword = "Parent*";
+const std::string uses_keyword = "Uses";
+const std::string modifies_keyword = "Modifies";
+const std::string next_keyword = "Next";
+const std::string next_star_keyword = "Next*";
+const std::string calls_keyword = "Calls";
+const std::string calls_star_keyword = "Calls*";
+const std::string affects_keyword = "Affects";
+const std::string affects_star_keyword = "Affects*";
 
 std::string PQLParser::pql_parse_query(std::string query, std::vector<pql_dto::Entity> &select_clause,
-        std::vector<pql_dto::Relationships> &such_that_clause, std::vector<pql_dto::Pattern> &pattern_clause)
+        std::vector<pql_dto::Relationships> &such_that_clause, std::vector<pql_dto::Pattern> &pattern_clause,
+        std::vector<pql_dto::With> &with_clause)
 {
     std::string error;
     std::unordered_map<std::string, std::string> declared_variables; // Maps variables' name to to entity type
@@ -525,81 +538,85 @@ pql_dto::Entity PQLParser::create_entity(std::string &var_name, std::unordered_m
 
 pql_dto::Relationships PQLParser::create_relationship(std::string &relationship_type, pql_dto::Entity first_param, pql_dto::Entity second_param)
 {
-    if (relationship_type == "Follows")
+    if (relationship_type == follows_keyword)
     {
         return pql_dto::FollowsRelationship(first_param, second_param, false);
     }
-    else if (relationship_type.find("Follows") != std::string::npos)
+    else if (relationship_type.find(follows_keyword) != std::string::npos)
     {
         relationship_type = StringUtil::remove_all_white_spaces(relationship_type);
-        if (relationship_type != "Follows*")
+        if (relationship_type != follows_star_keyword)
         {
             throw std::runtime_error(error_messages::invalid_relationship_type);
         }
         return pql_dto::FollowsRelationship(first_param, second_param, true);
     }
-    else if (relationship_type == "Parent")
+    
+    if (relationship_type == parent_keyword)
     {
         return pql_dto::ParentRelationship(first_param, second_param, false);
     }
-    else if (relationship_type.find("Parent") != std::string::npos)
+    else if (relationship_type.find(parent_keyword) != std::string::npos)
     {
         relationship_type = StringUtil::remove_all_white_spaces(relationship_type);
-        if (relationship_type != "Parent*")
+        if (relationship_type != parent_star_keyword)
         {
             throw std::runtime_error(error_messages::invalid_relationship_type);
         }
         return pql_dto::ParentRelationship(first_param, second_param, true);
     }
-    else if (relationship_type == "Next")
+    
+    if (relationship_type == next_keyword)
     {
         return pql_dto::NextRelationship(first_param, second_param, false);
     }
-    else if (relationship_type.find("Next") != std::string::npos)
+    else if (relationship_type.find(next_keyword) != std::string::npos)
     {
         relationship_type = StringUtil::remove_all_white_spaces(relationship_type);
-        if (relationship_type != "Next*")
+        if (relationship_type != next_star_keyword)
         {
             throw std::runtime_error(error_messages::invalid_relationship_type);
         }
         return pql_dto::NextRelationship(first_param, second_param, true);
     }
-    else if (relationship_type == "Calls")
+    
+    if (relationship_type == calls_keyword)
     {
         return pql_dto::CallsRelationship(first_param, second_param, false);
     }
-    else if (relationship_type.find("Calls") != std::string::npos)
+    else if (relationship_type.find(calls_keyword) != std::string::npos)
     {
         relationship_type = StringUtil::remove_all_white_spaces(relationship_type);
-        if (relationship_type != "Calls*")
+        if (relationship_type != calls_star_keyword)
         {
             throw std::runtime_error(error_messages::invalid_relationship_type);
         }
         return pql_dto::CallsRelationship(first_param, second_param, true);
     }
-    else if (relationship_type == "Affects")
+    
+    if (relationship_type == affects_keyword)
     {
         return pql_dto::AffectsRelationship(first_param, second_param, false);
     }
-    else if (relationship_type.find("Affects") != std::string::npos)
+    else if (relationship_type.find(affects_keyword) != std::string::npos)
     {
         relationship_type = StringUtil::remove_all_white_spaces(relationship_type);
-        if (relationship_type != "Affects*")
+        if (relationship_type != affects_star_keyword)
         {
             throw std::runtime_error(error_messages::invalid_relationship_type);
         }
         return pql_dto::AffectsRelationship(first_param, second_param, true);
     }
-    else if (relationship_type == "Uses")
+    
+    if (relationship_type == uses_keyword)
     {
         return pql_dto::UsesRelationship(first_param, second_param, false);
     }
-    else if (relationship_type == "Modifies")
+    
+    if (relationship_type == modifies_keyword)
     {
         return pql_dto::ModifiesRelationship(first_param, second_param, false);
     }
-    else
-    {
-        throw std::runtime_error(error_messages::invalid_relationship_type);
-    }
+
+    throw std::runtime_error(error_messages::invalid_relationship_type);
 }
