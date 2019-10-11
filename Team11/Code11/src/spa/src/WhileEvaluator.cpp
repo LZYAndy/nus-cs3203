@@ -21,7 +21,7 @@ unordered_map<string, vector<string>> WhileEvaluator::evaluate(pql_dto::Pattern 
     else
     { // pattern w(v, _)
         unordered_map<int, vector<string>> int_str_map = PKB.get_all_while_and_control_variables_map();
-        result = QueryUtility::mapping(pattern_entity, first_param, int_str_map);
+        result = QueryUtility::mapping(pattern_entity, first_param, int_str_map, PKB);
     }
     return result;
 }

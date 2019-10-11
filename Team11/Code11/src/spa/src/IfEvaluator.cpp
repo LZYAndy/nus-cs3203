@@ -21,7 +21,7 @@ unordered_map<string, vector<string>> IfEvaluator::evaluate(pql_dto::Pattern &pa
     else
     { // pattern ifs(v, _)
         unordered_map<int, vector<string>> int_str_map = PKB.get_all_if_and_control_variables_map();
-        result = QueryUtility::mapping(pattern_entity, first_param, int_str_map);
+        result = QueryUtility::mapping(pattern_entity, first_param, int_str_map, PKB);
     }
     return result;
 }
