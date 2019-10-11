@@ -441,47 +441,58 @@ vector<string> PKB::get_all_constants()
     return result;
 }
 
-bool PKB::insert_next(int stmt1, int stmt2) {
+bool PKB::insert_next(int stmt1, int stmt2)
+{
     return next_bank.insert_next(stmt1, stmt2);
 }
 
-bool PKB::is_next(int stmt1, int stmt2) {
+bool PKB::is_next(int stmt1, int stmt2)
+{
     return next_bank.is_next(stmt1, stmt2);
 }
 
-bool PKB::does_next_exists() {
+bool PKB::does_next_exists()
+{
     return next_bank.does_next_exists();
 }
 
-std::vector<int> PKB::get_statements_previous(int statement) {
+std::vector<int> PKB::get_statements_previous(int statement)
+{
     return next_bank.get_statements_previous(statement);
 }
 
-std::vector<int> PKB::get_statements_next(int statement) {
+std::vector<int> PKB::get_statements_next(int statement)
+{
     return next_bank.get_statements_next(statement);
 }
 
-std::vector<int> PKB::get_all_previous() {
+std::vector<int> PKB::get_all_previous()
+{
     return next_bank.get_all_previous();
 }
 
-std::vector<int> PKB::get_all_next() {
+std::vector<int> PKB::get_all_next()
+{
     return next_bank.get_all_next();
 }
 
-bool PKB::insert_while(int statement, std::string condition) {
-    return while_bank.insert_while(statement, condition);
+bool PKB::insert_while(int statement, std::vector<std::string> control_var)
+{
+    return while_bank.insert_while(statement, control_var);
 }
 
-bool PKB::is_while(int statement) {
+bool PKB::is_while(int statement)
+{
     return while_bank.is_while(statement);
 }
 
-std::vector<int> PKB::get_while_stmtLst(int statement) {
+std::vector<int> PKB::get_while_stmtLst(int statement)
+{
     return while_bank.get_while_stmtLst(statement);
 }
 
-bool PKB::insert_stmt_in_while_stmtLst(int whileStmt, int statement) {
+bool PKB::insert_stmt_in_while_stmtLst(int whileStmt, int statement)
+{
     return while_bank.insert_stmt_in_while_stmtLst(whileStmt, statement);
 }
 
@@ -542,4 +553,12 @@ unordered_map<int, vector<string>> PKB::get_all_if_and_control_variables_map()
 
 std::unordered_map<int, std::vector<int>> PKB::get_all_next_relationship() {
     return next_bank.get_all_next_relationship();
+}
+
+std::vector<int> PKB::get_while_with_control_var(std::string control_var) {
+    return while_bank.get_while_with_control_var(control_var);
+}
+
+std::unordered_map<int, std::vector<std::string>> PKB::get_all_whilestmt_and_control_var() {
+    return while_bank.get_all_whilestmt_and_control_var();
 }
