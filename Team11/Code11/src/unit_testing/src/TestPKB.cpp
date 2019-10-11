@@ -2371,22 +2371,22 @@ TEST_CASE("PKB::get_all_next()")
 TEST_CASE("PKB::insert_while()")
 {
     PKB pkb;
-    pkb.insert_while(1, "x == 1");
+    pkb.insert_while(1, {"x"});
     SECTION("return false")
     {
-        REQUIRE_FALSE(pkb.insert_while(0, "y > 1"));
+        REQUIRE_FALSE(pkb.insert_while(0, {"y"}));
     }
 
     SECTION("return true")
     {
-        REQUIRE(pkb.insert_while(5, "y == 1"));
+        REQUIRE(pkb.insert_while(5, {"y"}));
     }
 }
 
 TEST_CASE("PKB::insert_stmt_in_while_stmtLst()")
 {
     PKB pkb;
-    pkb.insert_while(2, "x == 1");
+    pkb.insert_while(2, {"x"});
     SECTION("return false")
     {
         REQUIRE_FALSE(pkb.insert_stmt_in_while_stmtLst(3, 5));
@@ -2403,7 +2403,7 @@ TEST_CASE("PKB::insert_stmt_in_while_stmtLst()")
 TEST_CASE("PKB::is_while()")
 {
     PKB pkb;
-    pkb.insert_while(10, "x == 1");
+    pkb.insert_while(10, {"x"});
     SECTION("return true")
     {
         REQUIRE_FALSE(pkb.is_while(1));
@@ -2418,7 +2418,7 @@ TEST_CASE("PKB::is_while()")
 TEST_CASE("PKB::get_while_stmtLst()")
 {
     PKB pkb;
-    pkb.insert_while(3, "x == 1");
+    pkb.insert_while(3, {"x"});
     pkb.insert_stmt_in_while_stmtLst(3, 4);
     SECTION("return 1 statement")
     {
@@ -2440,6 +2440,59 @@ TEST_CASE("PKB::get_while_stmtLst()")
         std::sort(result.begin(), result.end());
         REQUIRE(expected == result);
     }
+}
+
+TEST_CASE("PKB::get_while_with_control_var()")
+{
+PKB pkb;
+pkb.insert_while(1, {"x", "y"});
+pkb.insert_while(10, {"x"});
+
+SECTION("return 0 statement")
+{
+std::vector<int> result = pkb.get_while_with_control_var("y");
+REQUIRE(result.size() == 1);
+REQUIRE(result[0] == 1);
+}
+
+SECTION("return more than 0 statements")
+{
+std::vector<int> result = pkb.get_while_with_control_var("x");
+REQUIRE(result.size() == 2);
+std::vector<int> expected;
+expected.push_back(1);
+expected.push_back(10);
+std::sort(expected.begin(), expected.end());
+std::sort(result.begin(), result.end());
+REQUIRE(expected == result);
+}
+}
+
+TEST_CASE("PKB::get_all_whilestmt_and_control_var()")
+{
+PKB pkb;
+SECTION("return 0 relationship")
+{
+std::unordered_map<int, std::vector<std::string>> result = pkb.get_all_whilestmt_and_control_var();
+REQUIRE(result.empty());
+}
+
+pkb.insert_while(1, {"x", "y"});
+pkb.insert_while(10, {"x"});
+SECTION("return more than 0 relationships")
+{
+std::unordered_map<int, std::vector<std::string>> result = pkb.get_all_whilestmt_and_control_var();
+REQUIRE(result.size() == 2);
+std::unordered_map<int, std::vector<std::string>> expected;
+std::vector<std::string> value1;
+std::vector<std::string> value2;
+value1.push_back("x");
+value1.push_back("y");
+value2.push_back("x");
+expected.emplace(1, value1);
+expected.emplace(10, value2);
+REQUIRE(expected == result);
+}
 }
 
 TEST_CASE("PKB::does_calls_exist()")
