@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <iostream>
-#include <vector>
 #include <stdexcept>
 
 #include "Entity.h"
@@ -15,7 +12,14 @@ Entity::Entity()
 
 Entity::Entity(std::string entity_type, std::string entity_name, bool is_declared)
 {
-    set_entity_type(entity_type);
+    if (is_declared)
+    {
+        set_declared_entity_type(entity_type);
+    }
+    else
+    {
+        set_entity_type(entity_type);
+    }
     set_is_declared(is_declared);
     set_entity_name(entity_name);
 }
@@ -23,6 +27,11 @@ Entity::Entity(std::string entity_type, std::string entity_name, bool is_declare
 EntityType Entity::get_entity_type()
 {
     return entity_type;
+}
+
+AttributeType Entity::get_entity_attr()
+{
+    return entity_attr;
 }
 
 std::string Entity::get_entity_name()
@@ -42,6 +51,42 @@ void Entity::set_entity_type(std::string type)
         entity_type = EntityType::ANY;
     }
     else if (type == "stmt")
+    {
+        entity_type = EntityType::STMT;
+    }
+    else if (type == "variable")
+    {
+        entity_type = EntityType::VARIABLE;
+    }
+    else if (type == "prog_line")
+    {
+        entity_type = EntityType::PROG_LINE;
+    }
+    else if (type == "procedure")
+    {
+        entity_type = EntityType::PROCEDURE;
+    }
+    else if (type == "pattexpr")
+    {
+        entity_type = EntityType::PATTEXPR;
+    }
+    else if (type == "matchexpr")
+    {
+        entity_type = EntityType::MATCHEXPR;
+    }
+    else if (type == "boolean")
+    {
+        entity_type = EntityType::BOOLEAN;
+    }
+    else
+    {
+        throw std::runtime_error(error_messages::invalid_entity_type);
+    }
+}
+
+void Entity::set_declared_entity_type(std::string type)
+{
+    if (type == "stmt")
     {
         entity_type = EntityType::STMT;
     }
@@ -85,17 +130,39 @@ void Entity::set_entity_type(std::string type)
     {
         entity_type = EntityType::PROCEDURE;
     }
-    else if (type == "pattexpr")
-    {
-        entity_type = EntityType::PATTEXPR;
-    }
-    else if (type == "matchexpr")
-    {
-        entity_type = EntityType::MATCHEXPR;
-    }
     else
     {
         throw std::runtime_error(error_messages::invalid_entity_type);
+    }
+}
+
+void Entity::set_entity_attr(std::string attr)
+{
+    if (attr == "procName")
+    {
+        entity_attr = AttributeType::PROCNAME;
+    }
+    else if (attr == "varName")
+    {
+        entity_attr = AttributeType::VARNAME;
+    }
+    else if (attr == "value")
+    {
+        entity_attr = AttributeType::VALUE;
+    }
+    else if (attr == "stmt#")
+    {
+        entity_attr = AttributeType::STMTNUM;
+    }
+    else
+    {
+        throw std::runtime_error(error_messages::invalid_entity_attr);
+    }
+
+    std::vector<EntityType> proc_name_attr = attributes_table.at(entity_attr);
+    if (std::find(proc_name_attr.begin(), proc_name_attr.end(), entity_type) == proc_name_attr.end())
+    {
+        throw std::runtime_error(error_messages::invalid_entity_attr);
     }
 }
 
@@ -151,6 +218,15 @@ void Entity::set_entity_name(std::string name)
             }
             entity_name = name;
         }
+        else if (entity_type == EntityType::BOOLEAN)
+        {
+            /// Checks if var_name is integer
+            if (name != "BOOLEAN")
+            {
+                throw std::runtime_error(error_messages::invalid_undeclared_entity_name);
+            }
+            entity_name = name;
+        }
         else
         {
             throw std::runtime_error(error_messages::invalid_undeclared_entity_name);
@@ -166,6 +242,7 @@ void Entity::set_is_declared(bool is_declared)
 bool Entity::equals(Entity entity)
 {
     return entity_type == entity.entity_type
+           && entity_attr == entity.entity_attr
            && entity_name == entity.entity_name
            && is_declared_entity == entity.is_declared_entity;
 }

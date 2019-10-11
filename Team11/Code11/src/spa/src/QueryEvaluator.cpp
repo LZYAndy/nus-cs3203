@@ -16,11 +16,12 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
     vector<pql_dto::Entity> select_clause;
     vector<pql_dto::Relationships> such_that_clause;
     vector<pql_dto::Pattern> pattern_clause;
+    vector<pql_dto::With> with_clause;
 
     /*
      * parse the PQL query
      */
-    error_msg = PQLParser::pql_parse_query(move(query), select_clause, such_that_clause, pattern_clause);
+    error_msg = PQLParser::pql_parse_query(move(query), select_clause, such_that_clause, pattern_clause, with_clause);
 
     if (!error_msg.empty())
     {

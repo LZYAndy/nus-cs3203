@@ -10,6 +10,7 @@ TEST_CASE("Test if parser successfully.")
 {
     std::vector<Statement> stmts;
     Statement if_statement = Statement(EntityType::IF, 1, " ");
+    if_statement.set_procedure("main");
 
     if_statement.set_condition("a == b");
     std::vector<Statement> then_p;
@@ -17,6 +18,10 @@ TEST_CASE("Test if parser successfully.")
     Statement then_s = Statement(EntityType::READ, 2, "read x;");
     Statement then_s2 = Statement(EntityType::CALL, 3, "call calculate;");
     Statement else_s = Statement(EntityType::PRINT, 4, "print y;");
+    then_s.set_procedure("main");
+    then_s2.set_procedure("main");
+    else_s.set_procedure("main");
+
     then_p.push_back(then_s);
     then_p.push_back(then_s2);
     else_p.push_back(else_s);
@@ -46,4 +51,7 @@ TEST_CASE("Test if parser successfully.")
     REQUIRE(check2);
     REQUIRE(check3);
     REQUIRE(check4);
+
+    std::vector<std::string> proc_modifies = pkb.get_all_modifies_procedures();
+    REQUIRE(proc_modifies.size() == 1);
 }
