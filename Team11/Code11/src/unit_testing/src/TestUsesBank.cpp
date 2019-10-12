@@ -368,7 +368,11 @@ TEST_CASE("UsesBank::insert_uses_for_call()")
         std::vector<std::string> result = uses_bank.get_used_by_procedure("main");
         REQUIRE(uses_bank.insert_uses_for_call("main", "procY"));
         REQUIRE(result.size() == 2);
-        REQUIRE(result[0] == "x");
-        REQUIRE(result[1] == "y");
+        std::vector<std::string> expected;
+        expected.push_back("x");
+        expected.push_back("y");
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(expected == result);
     }
 }
