@@ -340,7 +340,7 @@ std::string PQLParserHelper::parse_pattern_clause(const std::string& query, std:
 }
 
 std::string PQLParserHelper::parse_with_clause(std::string& query, std::vector<pql_dto::With>& with_clause,
-    std::unordered_map<std::string, std::string>& declared_variables, size_t equal_index)
+    std::unordered_map<std::string, std::string>& declared_variables)
 {
     /// Checks if query exists
     if (query.length() == 0)
@@ -353,7 +353,7 @@ std::string PQLParserHelper::parse_with_clause(std::string& query, std::vector<p
         return error_messages::invalid_query_with_clause_syntax;
     }
 
-    /// Get pattern query
+    /// Get with query
     std::string with_query;
     if (query.find(with_keyword) == 0)
     {
@@ -364,8 +364,14 @@ std::string PQLParserHelper::parse_with_clause(std::string& query, std::vector<p
         with_query = query.substr(4);
     }
 
-    std::string left_reference = query.substr(0, equal_index);
-    query = StringUtil::trim(query.substr(equal_index + 1), whitespace);
+    size_t equal_index = with_query.find_first_of('=');
+    if (equal_index == std::string::npos)
+    {
+        return error_messages::invalid_query_missing_equal_with_clause;
+    }
+
+    std::string left_reference = StringUtil::trim(with_query.substr(0, equal_index), whitespace);
+    query = StringUtil::trim(with_query.substr(equal_index + 1), whitespace);
 
     std::string right_reference = StringUtil::trim(query.substr(0, query.find_first_of(whitespace)), whitespace);
 
@@ -378,7 +384,6 @@ std::string PQLParserHelper::parse_with_clause(std::string& query, std::vector<p
             std::string var_attr = StringUtil::trim(remaining_condition_query.substr(0, query.find_first_of(whitespace)), whitespace);
 
             right_reference.append(var_attr);
-            query = remaining_condition_query;
         }
         else if (remaining_condition_query.front() == '.')
         {
@@ -387,24 +392,26 @@ std::string PQLParserHelper::parse_with_clause(std::string& query, std::vector<p
 
             right_reference.append(".");
             right_reference.append(var_attr);
-            query = remaining_condition_query;
         }
 
-        try
-        {
-            pql_dto::Entity left_entity = create_with_entity(left_reference, declared_variables);
-            pql_dto::Entity right_entity = create_with_entity(right_reference, declared_variables);
-            pql_dto::With with = pql_dto::With(left_entity, right_entity);
-            with_clause.push_back(with);
-        }
-        catch (std::exception& e)
-        {
-            return e.what();
-        }
+        query = remaining_condition_query;
     }
     else
     {
-        return error_messages::invalid_query_with_clause_syntax;
+        // end of query
+        query = "";
+    }
+    
+    try
+    {
+        pql_dto::Entity left_entity = create_with_entity(left_reference, declared_variables);
+        pql_dto::Entity right_entity = create_with_entity(right_reference, declared_variables);
+        pql_dto::With with = pql_dto::With(left_entity, right_entity);
+        with_clause.push_back(with);
+    }
+    catch (std::exception& e)
+    {
+        return e.what();
     }
 
     return "";
@@ -453,24 +460,24 @@ pql_dto::Entity PQLParserHelper::parse_variable_to_entity(std::string& var, std:
 pql_dto::Entity PQLParserHelper::create_entity(std::string& var_name, std::unordered_map<std::string, std::string>& declared_variables,
     bool is_pattern_expr)
 {
-    pql_dto::Entity entity;
-
     /// Checks if variable is enclosed in ""
     if (var_name.find_first_of('"') == std::string::npos)
     {
         /// Checks if variable name is an INTEGER
         if (!var_name.empty() && std::all_of(var_name.begin(), var_name.end(), ::isdigit))
         {
-            entity = pql_dto::Entity("stmt", var_name, false);
+            return pql_dto::Entity("stmt", var_name, false);
         }
-        else if (var_name == "_")
+        
+        if (var_name == "_")
         {
-            entity = pql_dto::Entity("any", var_name, false);
+            return pql_dto::Entity("any", var_name, false);
         }
-        else if (declared_variables.find(var_name) != declared_variables.end())
+        
+        if (declared_variables.find(var_name) != declared_variables.end())
         {
             std::string entity_type = declared_variables.at(var_name);
-            entity = pql_dto::Entity(entity_type, var_name, true);
+            return pql_dto::Entity(entity_type, var_name, true);
         }
         else
         {
@@ -483,40 +490,47 @@ pql_dto::Entity PQLParserHelper::create_entity(std::string& var_name, std::unord
         {
             if (is_pattern_expr)
             {
-                entity = pql_dto::Entity("matchexpr", StringUtil::trim(var_name.substr(1, var_name.length() - 2), whitespace), false);
+                return pql_dto::Entity("matchexpr", StringUtil::trim(var_name.substr(1, var_name.length() - 2), whitespace), false);
             }
-            else
-            {
-                std::string var_value = StringUtil::trim(var_name.substr(1, var_name.length() - 2), whitespace);
-                entity = pql_dto::Entity("variable", var_value, false);
-            }
+            std::string var_value = StringUtil::trim(var_name.substr(1, var_name.length() - 2), whitespace);
+            return pql_dto::Entity("variable", var_value, false);
         }
-        else if (var_name.front() == '_' && var_name.back() == '_' && var_name.length() != 1)
+        
+        if (var_name.front() == '_' && var_name.back() == '_' && var_name.length() != 1)
         {
             std::string string_value = StringUtil::trim(var_name.substr(1, var_name.length() - 2), whitespace);
             if (string_value.front() == '"' && string_value.back() == '"' && string_value.length() > 2)
             {
-                entity = pql_dto::Entity("pattexpr", StringUtil::trim(string_value.substr(1, string_value.length() - 2), whitespace), false);
-            }
-            else
-            {
-                throw std::runtime_error(error_messages::invalid_undeclared_entity_name);
+                return pql_dto::Entity("pattexpr", StringUtil::trim(string_value.substr(1, string_value.length() - 2), whitespace), false);
             }
         }
-        else
-        {
-            throw std::runtime_error(error_messages::invalid_undeclared_entity_name);
-        }
+        throw std::runtime_error(error_messages::invalid_undeclared_entity_name);
     }
-
-    return entity;
 }
 
 pql_dto::Entity PQLParserHelper::create_with_entity(std::string& var_name, std::unordered_map<std::string, std::string>& declared_variables)
 {
     pql_dto::Entity entity;
 
-    return entity;
+    /// if variable is not enclosed in ""
+    if (var_name.find_first_of('"') == std::string::npos)
+    {
+        /// Checks if variable name is an INTEGER
+        if (!var_name.empty() && std::all_of(var_name.begin(), var_name.end(), ::isdigit))
+        {
+            return pql_dto::Entity("prog_line", var_name, false);
+        }
+
+        return parse_variable_to_entity(var_name, declared_variables);
+    }
+
+    if (var_name.front() == '"' && var_name.back() == '"' && var_name.length() > 2)
+    {
+        std::string var_value = StringUtil::trim(var_name.substr(1, var_name.length() - 2), whitespace);
+        return pql_dto::Entity("variable", var_value, false);
+    }
+
+    throw std::runtime_error(error_messages::invalid_undeclared_entity_name);
 }
 
 pql_dto::Relationships PQLParserHelper::create_relationship(std::string& relationship_type, pql_dto::Entity first_param, pql_dto::Entity second_param)

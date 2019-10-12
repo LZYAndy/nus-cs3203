@@ -149,17 +149,28 @@ std::string PQLParser::pql_parse_query(std::string query, std::vector<pql_dto::E
         size_t with_index = condition_query.find(with_keyword);
         if (with_index == 0)
         {
-            size_t equal_index = condition_query.find_first_of('=');
-            if (equal_index == std::string::npos)
-            {
-                return error_messages::invalid_query_missing_equal_with_clause;
-            }
-
-            error = PQLParserHelper::parse_with_clause(condition_query, with_clause, declared_variables, equal_index);
+            error = PQLParserHelper::parse_with_clause(condition_query, with_clause, declared_variables);
             if (!error.empty())
             {
                 return error;
             }
+
+            while (!condition_query.empty())
+            {
+                size_t and_index = condition_query.find(and_keyword);
+                if (and_index != 0)
+                {
+                    break;
+                }
+
+                error = PQLParserHelper::parse_with_clause(condition_query, with_clause, declared_variables);
+                if (!error.empty())
+                {
+                    return error;
+                }
+            }
+
+            continue;
         }
 
         /// if condition does not start with clauses keywords

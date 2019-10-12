@@ -117,6 +117,42 @@ TEST_CASE("Pql query parser parse and validate valid query correctly.")
         REQUIRE(such_that_clause.size() == 2);
         REQUIRE(pattern_clause.size() == 2);
     }
+
+    SECTION("Valid query 10.")
+    {
+        std::string test_query = "while w; if ifs;\nSelect w such that Parent(w, 7) and Follows(w, 8) with w.stmt# = 5";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == "");
+        REQUIRE(select_clause.size() == 1);
+        REQUIRE(such_that_clause.size() == 2);
+        REQUIRE(pattern_clause.size() == 0);
+        REQUIRE(with_clause.size() == 1);
+    }
+
+    SECTION("Valid query 11.")
+    {
+        std::string test_query = "while w; if ifs;\nSelect w with w.stmt# = 5 and ifs = w such that Parent(w, 7) and Follows(w, 8)";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == "");
+        REQUIRE(select_clause.size() == 1);
+        REQUIRE(such_that_clause.size() == 2);
+        REQUIRE(pattern_clause.size() == 0);
+        REQUIRE(with_clause.size() == 2);
+    }
+
+    SECTION("Valid query 12.")
+    {
+        std::string test_query = "while w; if ifs;\nSelect w with 5 = w.stmt# and ifs = w such that Parent(w, 7) and Follows(w, 8)";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == "");
+        REQUIRE(select_clause.size() == 1);
+        REQUIRE(such_that_clause.size() == 2);
+        REQUIRE(pattern_clause.size() == 0);
+        REQUIRE(with_clause.size() == 2);
+    }
 }
 
 TEST_CASE("Pql query parser parse and validate invalid query correctly.")

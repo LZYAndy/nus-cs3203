@@ -44,6 +44,11 @@ bool Entity::is_entity_declared()
     return is_declared_entity;
 }
 
+void Entity::set_entity_type(EntityType type)
+{
+    entity_type = type;
+}
+
 void Entity::set_entity_type(std::string type)
 {
     if (type == "any")
@@ -136,6 +141,11 @@ void Entity::set_declared_entity_type(std::string type)
     }
 }
 
+void Entity::set_entity_attr(AttributeType attr)
+{
+    entity_attr = attr;
+}
+
 void Entity::set_entity_attr(std::string attr)
 {
     if (attr == "procName")
@@ -209,7 +219,7 @@ void Entity::set_entity_name(std::string name)
             }
             entity_name = name;
         }
-        else if (entity_type == EntityType::STMT)
+        else if (entity_type == EntityType::STMT || entity_type == EntityType::PROG_LINE)
         {
             /// Checks if var_name is integer
             if (!CheckerUtil::is_const_valid(name))

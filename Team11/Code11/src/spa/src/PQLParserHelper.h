@@ -135,5 +135,5 @@ public:
      * @return The error string if the query is invalid.
      */
     static std::string parse_with_clause(std::string& query, std::vector<pql_dto::With>& with_clause,
-        std::unordered_map<std::string, std::string>& declared_variables, size_t equal_index);
+        std::unordered_map<std::string, std::string>& declared_variables);
 };
