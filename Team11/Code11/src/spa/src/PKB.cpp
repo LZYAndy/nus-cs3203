@@ -495,3 +495,11 @@ unordered_map<int, vector<string>> PKB::get_all_if_and_control_variables_map()
 {
     return if_bank.get_all_if_and_control_variables_map();
 }
+
+bool PKB::insert_uses_for_call(std::string caller, std::string callee) {
+    return uses_bank.insert_uses_for_call(caller, callee);
+}
+
+bool PKB::insert_modifies_for_call(std::string caller, std::string callee) {
+    return modifies_bank.insert_modifies_for_call(caller, callee);
+}
