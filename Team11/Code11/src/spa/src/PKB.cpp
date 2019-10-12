@@ -531,3 +531,11 @@ unordered_map<string, vector<string>> PKB::get_all_procedures_calls_star_relatio
 {
     return calls_star_bank.get_all_procedures_calls_star_relationship();
 }
+
+bool PKB::insert_uses_for_call(std::string caller, std::string callee) {
+    return uses_bank.insert_uses_for_call(caller, callee);
+}
+
+bool PKB::insert_modifies_for_call(std::string caller, std::string callee) {
+    return modifies_bank.insert_modifies_for_call(caller, callee);
+}

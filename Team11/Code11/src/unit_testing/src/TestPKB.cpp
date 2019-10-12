@@ -2696,3 +2696,51 @@ TEST_CASE("PKB::get_all_procedures_calls_star_relationship()")
         REQUIRE(expected3 == result_values3);
     }
 }
+
+TEST_CASE("PKB::insert_modifies_for_call()")
+{
+    PKB pkb;
+    pkb.insert_modifies("main", "x");
+    pkb.insert_modifies("procY", "y");
+    SECTION("return false")
+    {
+        REQUIRE_FALSE(pkb.insert_modifies_for_call("main", "procX"));
+    }
+    SECTION("return true")
+    {
+        pkb.insert_modifies_for_call("main", "procY");
+        std::vector<std::string> result = pkb.get_modified_by_procedure("main");
+        REQUIRE(pkb.insert_modifies_for_call("main", "procY"));
+        REQUIRE(result.size() == 2);
+        std::vector<std::string> expected;
+        expected.push_back("x");
+        expected.push_back("y");
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(expected == result);
+    }
+}
+
+TEST_CASE("PKB::insert_uses_for_call()")
+{
+    PKB pkb;
+    pkb.insert_uses("main", "x");
+    pkb.insert_uses("procY", "y");
+    SECTION("return false")
+    {
+        REQUIRE_FALSE(pkb.insert_uses_for_call("main", "procX"));
+    }
+    SECTION("return true")
+    {
+        pkb.insert_uses_for_call("main", "procY");
+        std::vector<std::string> result = pkb.get_used_by_procedure("main");
+        REQUIRE(pkb.insert_uses_for_call("main", "procY"));
+        REQUIRE(result.size() == 2);
+        std::vector<std::string> expected;
+        expected.push_back("x");
+        expected.push_back("y");
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(expected == result);
+    }
+}
