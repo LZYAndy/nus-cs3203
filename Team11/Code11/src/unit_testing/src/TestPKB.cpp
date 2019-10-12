@@ -2205,6 +2205,306 @@ TEST_CASE("PKB::get_all_constants()")
     }
 }
 
+TEST_CASE("PKB::insert_next()")
+{
+    PKB pkb;
+    SECTION("return false")
+    {
+        REQUIRE_FALSE(pkb.insert_next(3, 3));
+        REQUIRE_FALSE(pkb.insert_next(0, 1));
+        REQUIRE_FALSE(pkb.insert_next(1, 0));
+    }
+
+    SECTION("return false")
+    {
+        REQUIRE(pkb.insert_next(3, 4));
+    }
+}
+
+TEST_CASE("PKB::is_next()")
+{
+    PKB pkb;
+    pkb.insert_next(3, 4);
+    SECTION("return false")
+    {
+        REQUIRE_FALSE(pkb.is_next(3, 5));
+        REQUIRE_FALSE(pkb.is_next(4, 3));
+    }
+
+    SECTION("return true")
+    {
+        REQUIRE(pkb.is_next(3, 4));
+    }
+}
+
+TEST_CASE("PKB::does_next_exists()")
+{
+    PKB pkb;
+    SECTION("return false")
+    {
+        REQUIRE_FALSE(pkb.does_next_exists());
+    }
+
+    pkb.insert_next(1, 2);
+    SECTION("return true")
+    {
+        REQUIRE(pkb.does_next_exists());
+    }
+}
+
+TEST_CASE("PKB::get_statements_previous()")
+{
+    PKB pkb;
+    pkb.insert_next(3, 10);
+    pkb.insert_next(9, 10);
+    pkb.insert_next(1, 2);
+    SECTION("return 0 statement")
+    {
+        std::vector<int> result = pkb.get_statements_previous(3);
+        REQUIRE(result.empty());
+    }
+
+    SECTION("return 1 statement")
+    {
+        std::vector<int> result = pkb.get_statements_previous(2);
+        REQUIRE(result.size() == 1);
+        REQUIRE(result[0] == 1);
+    }
+
+    SECTION("return more than 1 statements")
+    {
+        std::vector<int> result = pkb.get_statements_previous(10);
+        REQUIRE(result.size() == 2);
+        std::vector<int> expected;
+        expected.push_back(9);
+        expected.push_back(3);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(result == expected);
+    }
+}
+
+TEST_CASE("PKB::get_statements_next()")
+{
+    PKB pkb;
+    pkb.insert_next(3, 10);
+    pkb.insert_next(3, 4);
+    pkb.insert_next(1, 2);
+    SECTION("return 0 statement")
+    {
+        std::vector<int> result = pkb.get_statements_next(2);
+        REQUIRE(result.empty());
+    }
+
+    SECTION("return 1 statement")
+    {
+        std::vector<int> result = pkb.get_statements_next(1);
+        REQUIRE(result.size() == 1);
+        REQUIRE(result[0] == 2);
+    }
+
+    SECTION("return more than 1 statement")
+    {
+        std::vector<int> result = pkb.get_statements_next(3);
+        REQUIRE(result.size() == 2);
+        std::vector<int> expected;
+        expected.push_back(10);
+        expected.push_back(4);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(result == expected);
+    }
+}
+
+TEST_CASE("PKB::get_all_previous()")
+{
+    PKB pkb;
+    SECTION("return 0 statement")
+    {
+        std::vector<int> result = pkb.get_all_previous();
+        REQUIRE(result.empty());
+    }
+
+    pkb.insert_next(5, 10);
+    SECTION("return 1 statement")
+    {
+        std::vector<int> result = pkb.get_all_previous();
+        REQUIRE(result.size() == 1);
+        REQUIRE(result[0] == 5);
+    }
+
+    pkb.insert_next(9, 10);
+    SECTION("return more than 1 statement")
+    {
+        std::vector<int> result = pkb.get_all_previous();
+        REQUIRE(result.size() == 2);
+        std::vector<int> expected;
+        expected.push_back(5);
+        expected.push_back(9);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(result == expected);
+    }
+}
+
+TEST_CASE("PKB::get_all_next()")
+{
+    PKB pkb;
+    SECTION("return 0 statement")
+    {
+        std::vector<int> result = pkb.get_all_next();
+        REQUIRE(result.empty());
+    }
+
+    pkb.insert_next(1, 2);
+    SECTION("return 1 statement")
+    {
+        std::vector<int> result = pkb.get_all_next();
+        REQUIRE(result.size() == 1);
+        REQUIRE(result[0] == 2);
+    }
+
+    pkb.insert_next(1, 10);
+    SECTION("return more than 1 statement")
+    {
+        std::vector<int> result = pkb.get_all_next();
+        REQUIRE(result.size() == 2);
+        std::vector<int> expected;
+        expected.push_back(2);
+        expected.push_back(10);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(result == expected);
+    }
+}
+
+TEST_CASE("PKB::insert_while()")
+{
+    PKB pkb;
+    pkb.insert_while(1, {"x"});
+    SECTION("return false")
+    {
+        REQUIRE_FALSE(pkb.insert_while(0, {"y"}));
+    }
+
+    SECTION("return true")
+    {
+        REQUIRE(pkb.insert_while(5, {"y"}));
+    }
+}
+
+TEST_CASE("PKB::insert_stmt_in_while_stmtLst()")
+{
+    PKB pkb;
+    pkb.insert_while(2, {"x"});
+    SECTION("return false")
+    {
+        REQUIRE_FALSE(pkb.insert_stmt_in_while_stmtLst(3, 5));
+        REQUIRE_FALSE(pkb.insert_stmt_in_while_stmtLst(0, 5));
+        REQUIRE_FALSE(pkb.insert_stmt_in_while_stmtLst(2, 2));
+    }
+
+    SECTION("return true")
+    {
+        REQUIRE(pkb.insert_stmt_in_while_stmtLst(2, 5));
+    }
+}
+
+TEST_CASE("PKB::is_while()")
+{
+    PKB pkb;
+    pkb.insert_while(10, {"x"});
+    SECTION("return true")
+    {
+        REQUIRE_FALSE(pkb.is_while(1));
+    }
+
+    SECTION("return false")
+    {
+        REQUIRE(pkb.is_while(10));
+    }
+}
+
+TEST_CASE("PKB::get_while_stmtLst()")
+{
+    PKB pkb;
+    pkb.insert_while(3, {"x"});
+    pkb.insert_stmt_in_while_stmtLst(3, 4);
+    SECTION("return 1 statement")
+    {
+        std::vector<int> result = pkb.get_while_stmtLst(3);
+        REQUIRE(result.size() == 1);
+        REQUIRE(result[0] == 4);
+    }
+    pkb.insert_stmt_in_while_stmtLst(3, 5);
+    pkb.insert_stmt_in_while_stmtLst(3, 6);
+    SECTION("return more than 1 statements")
+    {
+        std::vector<int> result = pkb.get_while_stmtLst(3);
+        REQUIRE(result.size() == 3);
+        std::vector<int> expected;
+        expected.push_back(6);
+        expected.push_back(5);
+        expected.push_back(4);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(expected == result);
+    }
+}
+
+TEST_CASE("PKB::get_while_with_control_var()")
+{
+PKB pkb;
+pkb.insert_while(1, {"x", "y"});
+pkb.insert_while(10, {"x"});
+
+SECTION("return 0 statement")
+{
+std::vector<int> result = pkb.get_while_with_control_var("y");
+REQUIRE(result.size() == 1);
+REQUIRE(result[0] == 1);
+}
+
+SECTION("return more than 0 statements")
+{
+std::vector<int> result = pkb.get_while_with_control_var("x");
+REQUIRE(result.size() == 2);
+std::vector<int> expected;
+expected.push_back(1);
+expected.push_back(10);
+std::sort(expected.begin(), expected.end());
+std::sort(result.begin(), result.end());
+REQUIRE(expected == result);
+}
+}
+
+TEST_CASE("PKB::get_all_whilestmt_and_control_var()")
+{
+PKB pkb;
+SECTION("return 0 relationship")
+{
+std::unordered_map<int, std::vector<std::string>> result = pkb.get_all_whilestmt_and_control_var();
+REQUIRE(result.empty());
+}
+
+pkb.insert_while(1, {"x", "y"});
+pkb.insert_while(10, {"x"});
+SECTION("return more than 0 relationships")
+{
+std::unordered_map<int, std::vector<std::string>> result = pkb.get_all_whilestmt_and_control_var();
+REQUIRE(result.size() == 2);
+std::unordered_map<int, std::vector<std::string>> expected;
+std::vector<std::string> value1;
+std::vector<std::string> value2;
+value1.push_back("x");
+value1.push_back("y");
+value2.push_back("x");
+expected.emplace(1, value1);
+expected.emplace(10, value2);
+REQUIRE(expected == result);
+}
+}
+
 TEST_CASE("PKB::does_calls_exist()")
 {
     PKB pkb;
@@ -2694,6 +2994,31 @@ TEST_CASE("PKB::get_all_procedures_calls_star_relationship()")
         sort(expected3.begin(), expected3.end());
         sort(result_values3.begin(), result_values3.end());
         REQUIRE(expected3 == result_values3);
+    }
+}
+
+TEST_CASE("PKB::get_all_next_relationship()")
+{
+    PKB pkb;
+    SECTION("return 0 relationship")
+    {
+        REQUIRE(pkb.get_all_next_relationship().empty());
+    }
+
+    pkb.insert_next(1, 2);
+    pkb.insert_next(2, 3);
+    SECTION("return more than 0 relationship")
+    {
+        std::unordered_map<int, std::vector<int>> result = pkb.get_all_next_relationship();
+        REQUIRE(result.size() == 2);
+        std::unordered_map<int, std::vector<int>> expected;
+        std::vector<int> value1;
+        std::vector<int> value2;
+        value1.push_back(2);
+        value2.push_back(3);
+        expected.emplace(1, value1);
+        expected.emplace(2, value2);
+        REQUIRE(expected == result);
     }
 }
 
