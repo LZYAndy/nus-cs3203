@@ -9,6 +9,8 @@
 #include "ParentStarBank.h"
 #include "UsesBank.h"
 #include "ModifiesBank.h"
+#include "CallsBank.h"
+#include "CallsStarBank.h"
 
 class DesignExtractor
 {
@@ -34,7 +36,19 @@ public:
      * @return true if extraction and insertion process is successful. return false if there is nothing to extract and insert.
      */
     static bool extract_parent_star(ParentBank &bank_in, ParentStarBank &bank_out, UsesBank &uses_bank, ModifiesBank &modifies_bank);
-
+    /**
+     * Extract Calls* relationships and populate into PKB.
+     * This method also populate new Uses and Modifies relationship created during the extraction process of Calls* relationship into the PKB.
+     * This method should only be called after all insertion have been done so that the method
+     * can extract all possible relationships based on the inserts.
+     * @param &bank_in reference to CallsBank.
+     * @param &bank_out reference to CallsStarBank.
+     * @param &uses_bank reference to UsesBank.
+     * @param &modifies_bank reference to ModifiesBank.
+     * @return true if extraction and insertion process is successful. return false if there is nothing to extract and insert.
+     */
+    static bool extract_calls_star(CallsBank &bank_in, CallsStarBank &bank_out, UsesBank &uses_bank, ModifiesBank &modifies_bank);
+    
 private:
     static void extract_further_parents_child(ParentBank &bank_in, ParentStarBank &bank_out,
             UsesBank &uses_bank, ModifiesBank &modifies_bank, std::vector<int> parents, int child);
