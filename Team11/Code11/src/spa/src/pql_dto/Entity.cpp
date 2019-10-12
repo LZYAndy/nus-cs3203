@@ -59,6 +59,34 @@ void Entity::set_entity_type(std::string type)
     {
         entity_type = EntityType::STMT;
     }
+    else if (type == "read")
+    {
+        entity_type = EntityType::READ;
+    }
+    else if (type == "print")
+    {
+        entity_type = EntityType::PRINT;
+    }
+    else if (type == "call")
+    {
+        entity_type = EntityType::CALL;
+    }
+    else if (type == "while")
+    {
+        entity_type = EntityType::WHILE;
+    }
+    else if (type == "if")
+    {
+        entity_type = EntityType::IF;
+    }
+    else if (type == "assign")
+    {
+        entity_type = EntityType::ASSIGN;
+    }
+    else if (type == "constant")
+    {
+        entity_type = EntityType::CONSTANT;
+    }
     else if (type == "variable")
     {
         entity_type = EntityType::VARIABLE;

@@ -148,7 +148,7 @@ public:
             AttributeType::STMTNUM,
             {
                 EntityType::STMT, EntityType::READ, EntityType::PRINT, EntityType::CALL,
-                EntityType::WHILE, EntityType::IF, EntityType::ASSIGN
+                EntityType::WHILE, EntityType::IF, EntityType::ASSIGN, EntityType::PROG_LINE
             }
         },
     };

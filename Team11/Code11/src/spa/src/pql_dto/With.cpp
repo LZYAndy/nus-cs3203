@@ -52,7 +52,7 @@ namespace pql_dto
         if (!(is_integer_type(first_param) && is_integer_type(second_param))
             && !(is_string_type(first_param) && is_string_type(second_param)))
         {
-            throw std::runtime_error(error_messages::invalid_with_second_param);
+            throw std::runtime_error(error_messages::invalid_with_mismatch_type);
         }
     }
 
