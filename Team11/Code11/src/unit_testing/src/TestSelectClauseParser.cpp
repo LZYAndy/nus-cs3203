@@ -9,14 +9,14 @@ TEST_CASE("Parses and validate select clause.")
     std::string declaration_query = "variable v1, v2; print prt; assign a";
     std::string condition_query;
     std::vector<pql_dto::Entity> select_clause;
-    std::string declaration_error = PQLParser::parse_declaration_clause(declaration_query, declared_variables);
+    std::string declaration_error = PQLParserHelper::parse_declaration_clause(declaration_query, declared_variables);
 
     CHECK(declaration_error == "");
 
     SECTION("Valid Select Clause with one such that clause.")
     {
         std::string test_query = "Select v1 such that Modifies(4, v1)  ";
-        std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
+        std::string error = PQLParserHelper::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
         REQUIRE(error == "");
         REQUIRE(select_clause.size() == 1);
@@ -28,7 +28,7 @@ TEST_CASE("Parses and validate select clause.")
     SECTION("Valid Select Clause with one such that and one pattern clause.")
     {
         std::string test_query = "Select prt such that Modifies(4, v1) pattern a(_,_) ";
-        std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
+        std::string error = PQLParserHelper::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
         REQUIRE(error == "");
         REQUIRE(select_clause.size() == 1);
@@ -40,7 +40,7 @@ TEST_CASE("Parses and validate select clause.")
     SECTION("Valid Select Clause with tuple variables.")
     {
         std::string test_query = "Select <v2, v1> such that Modifies(4, v1) pattern a(_,_) ";
-        std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
+        std::string error = PQLParserHelper::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
         REQUIRE(error == "");
         REQUIRE(select_clause.size() == 2);
@@ -53,7 +53,7 @@ TEST_CASE("Parses and validate select clause.")
     SECTION("Valid Select Clause with tuple variables and attributes.")
     {
         std::string test_query = "Select <v2.varName, v1.varName> such that Modifies(4, v1) pattern a(_,_) ";
-        std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
+        std::string error = PQLParserHelper::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
         REQUIRE(error == "");
         REQUIRE(select_clause.size() == 2);
@@ -72,7 +72,7 @@ TEST_CASE("Parses and validate select clause.")
     SECTION("Valid Select Clause with one tuple variable.")
     {
         std::string test_query = "Select <v2> such that Modifies(4, v1) pattern a(_,_) ";
-        std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
+        std::string error = PQLParserHelper::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
         REQUIRE(error == "");
         REQUIRE(select_clause.size() == 1);
@@ -84,7 +84,7 @@ TEST_CASE("Parses and validate select clause.")
     SECTION("Valid Select Clause with tuple variables with spaces.")
     {
         std::string test_query = "Select <   v2   , v1   > such that Modifies(4, v1) pattern a(_,_) ";
-        std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
+        std::string error = PQLParserHelper::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
         REQUIRE(error == "");
         REQUIRE(select_clause.size() == 2);
@@ -97,7 +97,7 @@ TEST_CASE("Parses and validate select clause.")
     SECTION("Valid Select Clause with tuple variables with spaces in attribute values.")
     {
         std::string test_query = "Select <   v2  .  varName   , a   .  stmt#   > such that Modifies(4, v1) pattern a(_,_) ";
-        std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
+        std::string error = PQLParserHelper::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
         REQUIRE(error == "");
         REQUIRE(select_clause.size() == 2);
@@ -116,7 +116,7 @@ TEST_CASE("Parses and validate select clause.")
     SECTION("Valid Select Clause with BOOLEAN.")
     {
         std::string test_query = "Select BOOLEAN such that Modifies(4, v1) pattern a(_,_) ";
-        std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
+        std::string error = PQLParserHelper::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
         REQUIRE(error == "");
         REQUIRE(select_clause.size() == 1);
@@ -128,7 +128,7 @@ TEST_CASE("Parses and validate select clause.")
     SECTION("Valid Select Clause with one Select variable with attribute.")
     {
         std::string test_query = "Select v1.varName such that Modifies(4, v1) pattern a(_,_) ";
-        std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
+        std::string error = PQLParserHelper::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
         REQUIRE(error == "");
         REQUIRE(select_clause.size() == 1);
@@ -142,7 +142,7 @@ TEST_CASE("Parses and validate select clause.")
     SECTION("Valid Select Clause with one Select variable with attribute separated by spaces.")
     {
         std::string test_query = "Select v1      .     varName such that Modifies(4, v1) pattern a(_,_) ";
-        std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
+        std::string error = PQLParserHelper::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
         REQUIRE(error == "");
         REQUIRE(select_clause.size() == 1);
@@ -156,7 +156,7 @@ TEST_CASE("Parses and validate select clause.")
     SECTION("Valid Select Clause with tuple with attribute.")
     {
         std::string test_query = "Select < v1.varName , a.stmt# > such that Modifies(4, v1) pattern a(_,_) ";
-        std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
+        std::string error = PQLParserHelper::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
         REQUIRE(error == "");
         REQUIRE(select_clause.size() == 2);
@@ -175,7 +175,7 @@ TEST_CASE("Parses and validate select clause.")
     SECTION("Invalid Select Clause with no Select word.")
     {
         std::string test_query = "prt such that Modifies(4, v1) pattern a(_,_) ";
-        std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
+        std::string error = PQLParserHelper::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
         REQUIRE(error == error_messages::invalid_query_select_clause_syntax);
     }
@@ -183,7 +183,7 @@ TEST_CASE("Parses and validate select clause.")
     SECTION("Invalid Select Clause with no declared variable.")
     {
         std::string test_query = "Select s1 such that Modifies(4, v1) pattern a(_,_) ";
-        std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
+        std::string error = PQLParserHelper::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
         REQUIRE(error == error_messages::invalid_query_variables_not_declared);
     }
@@ -191,7 +191,7 @@ TEST_CASE("Parses and validate select clause.")
     SECTION("Invalid Select Clause with missing variables.")
     {
         std::string test_query = "Select such that Modifies(4, v1) pattern a(_,_) ";
-        std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
+        std::string error = PQLParserHelper::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
         REQUIRE(error == error_messages::invalid_query_variables_not_declared);
     }
@@ -199,7 +199,7 @@ TEST_CASE("Parses and validate select clause.")
     SECTION("Invalid Select Clause with addition word before Select.")
     {
         std::string test_query = "var Select v1 such that Modifies(4, v1) pattern a(_,_) ";
-        std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
+        std::string error = PQLParserHelper::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
         REQUIRE(error == error_messages::invalid_query_select_clause_syntax);
     }
@@ -207,7 +207,7 @@ TEST_CASE("Parses and validate select clause.")
     SECTION("Invalid Select Clause with string after Select.")
     {
         std::string test_query = "Select \"v1 \" such that Modifies(4, v1) pattern a(_,_) ";
-        std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
+        std::string error = PQLParserHelper::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
         REQUIRE(error == error_messages::invalid_query_variables_not_declared);
     }
@@ -215,7 +215,7 @@ TEST_CASE("Parses and validate select clause.")
     SECTION("Invalid Select Clause with wrong attribute value.")
     {
         std::string test_query = "Select v1.stmt# such that Modifies(4, v1) pattern a(_,_) ";
-        std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
+        std::string error = PQLParserHelper::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
         REQUIRE(error == error_messages::invalid_entity_attr);
     }
@@ -223,7 +223,7 @@ TEST_CASE("Parses and validate select clause.")
     SECTION("Invalid Select Clause with multiple attribute value.")
     {
         std::string test_query = "Select v1.stmt#.value such that Modifies(4, v1) pattern a(_,_) ";
-        std::string error = PQLParser::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
+        std::string error = PQLParserHelper::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
         REQUIRE(error == error_messages::invalid_query_select_attr_syntax);
     }
