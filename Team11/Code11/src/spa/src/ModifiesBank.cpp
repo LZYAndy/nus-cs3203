@@ -115,3 +115,23 @@ bool ModifiesBank::does_modifies_exist()
 {
     return proc_bank.empty() && stmt_bank.empty();
 }
+
+bool ModifiesBank::insert_modifies_for_call(std::string caller, std::string callee) {
+    std::vector<std::string> callee_var = this->get_modified_by_procedure(callee);
+    bool result = false;
+
+    if(callee_var.size() == 0)
+    {
+        return false;
+    }
+
+    for(std::string var: callee_var)
+    {
+        result = this->insert_modifies(caller, var);
+        if(!result)
+        {
+            return false;
+        }
+    }
+    return true;
+}

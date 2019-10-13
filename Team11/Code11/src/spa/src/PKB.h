@@ -16,6 +16,8 @@
 #include "ParentBank.h"
 #include "ParentStarBank.h"
 #include "AssignBank.h"
+#include "NextBank.h"
+#include "WhileBank.h"
 #include "CallsBank.h"
 #include "IfBank.h"
 
@@ -56,6 +58,14 @@ public:
     bool insert_uses(string procedure, string variable);
 
     /**
+     * Insert Uses relationships of callee procedure to caller procedure
+     * @param caller caller procedure
+     * @param callee callee procedure
+     * @return Return true if the relationships are inserted successfully, otherwise false
+     */
+    bool insert_uses_for_call(std::string caller, std::string callee);
+
+    /**
      * Insert a Modifies relationship between the input statement and the input variable into modifies_bank.
      * @param statement
      * @param variable
@@ -70,6 +80,15 @@ public:
      * @return Return true if the Uses relationship is inserted successfully, otherwise false.
      */
     bool insert_modifies(string procedure, string variable);
+
+    /**
+     * Insert Modifies relationships of callee procedure to caller procedure
+     * @param caller caller procedure
+     * @param callee callee procedure
+     * @return Return true if the relationships are inserted successfully, otherwise false
+     */
+    bool insert_modifies_for_call(std::string caller, std::string callee);
+
     /**
      * Insert Follows relationship to PKB.
      * @param stmt1 stmt# of statement followed.
@@ -125,10 +144,10 @@ public:
     /**
      * Insert if relationship into PKB.
      * @param stmt stmt# of statement
-     * @param control control expression
+     * @param control_vars control variables
      * @return true if insert is successful.
      */
-    bool insert_if(int stmt, string control);
+    bool insert_if(int stmt, vector<string> control_vars);
 
     /**
      * Get all variables in the var_table.
@@ -550,17 +569,17 @@ public:
     vector<string> get_all_constants();
     
     /**
-     * Get all stmt# of IF statement with control expression that exact matches the pattern.
-     * @param pattern the pattern to match.
+     * Get all stmt# of IF statement that control expression contains the variable.
+     * @param variable.
      * @return vector of stmt# that IF statements that fulfill the requirements.
      */
-    vector<int> get_all_if_pattern_matches(string pattern);
+    vector<int> get_all_if_pattern_contains(string variable);
+
     /**
-     * Get all stmt# of IF statement with control expression that contains the pattern.
-     * @param pattern the pattern to match.
-     * @return vector of stmt# that IF statements that fulfill the requirements.
+     * Get all if statements and their control variable pairing in PKB.
+     * @return unordered_map of stmt# and vector of control variables
      */
-    vector<int> get_all_if_pattern_contains(string pattern);
+    std::unordered_map<int, std::vector<std::string>> get_all_if_and_control_variables_map();
 
     /**
      * Check if there exist at least one Calls relationship in PKB.
@@ -604,6 +623,145 @@ public:
      */
     unordered_map<string, vector<string>> get_all_procedures_calls_relationship();
 
+    /**
+     * Insert Next relationship between statement1 and statement2.
+     * @param stmt1
+     * @param stmt2
+     * @return Return true if the relationship is inserted successfully, otherwise false.
+     */
+    bool insert_next(int stmt1, int stmt2);
+
+    /**
+     * If there is a Next relationship between statement1 and statement2.
+     * @param stmt1
+     * @param stmt2
+     * @return Return true if there is a Next relationship between these two statements, otherwise false.
+     */
+    bool is_next(int stmt1, int stmt2);
+
+    /**
+     * If there exists at least one Next relationship in the program.
+     * @return Return true if there exists at least one Next relationship, otherwise false.
+     */
+    bool does_next_exists();
+
+    /**
+     * Get all statements that are the Previous statement of the input statement
+     * @param statement
+     * @return Return a vector of statements which are the previous statement of the input statement.
+     */
+    std::vector<int> get_statements_previous(int statement);
+
+    /**
+     * Get all statements that are the Next statement of the input statement
+     * @param statement
+     * @return Return a vector of statements which are the next statement of the input statement.
+     */
+    std::vector<int> get_statements_next(int statement);
+
+    /**
+     * Get all statements which are the in previous position in their Next relationships.
+     * @return Return all which are the in previous position in their Next relationships.
+     */
+    std::vector<int> get_all_previous();
+
+    /**
+     * Get all statements which are the in next position in their Next relationships.
+     * @return Return all which are the in next position in their Next relationships.
+     */
+    std::vector<int> get_all_next();
+
+    /**
+     * Insert a while statement into the while_bank.
+     * @param statement number of the while statement
+     * @param control_var of the while statement
+     * @return Return true if the while statement is inserted successfully, otherwise false.
+     */
+    bool insert_while(int statement, std::vector<std::string> control_var);
+
+    /**
+     * Insert a statement in the stmtLst of the whileStmt.
+     * @param whileStmt
+     * @param statement
+     * @return Return true if the statement is inserted successfully, otherwise false.
+     */
+    bool insert_stmt_in_while_stmtLst(int whileStmt, int statement);
+
+    /**
+     * Return true if the statement is a while statement.
+     * @param statement
+     * @return Return true if the statement is a while statement, otherwise false.
+     */
+    bool is_while(int statement);
+
+    /**
+     * Return all statements in the statement list of the input while statement
+     * @param statement
+     * @return Return all statements in the statement list of the input while statement
+     */
+    std::vector<int> get_while_stmtLst(int statement);
+
+    /**
+     * Return all while statements using input control_var as control variable
+     * @param control_var
+     * @return Return all while statements using input control_var as control variable
+     */
+    std::vector<int> get_while_with_control_var(std::string control_var);
+
+    /**
+     * Return all pairs of while statement numbers and their corresponding control variables
+     * @return Return all pairs of while statement numbers and their corresponding control variables
+     */
+    std::unordered_map<int, std::vector<std::string>> get_all_whilestmt_and_control_var();
+
+    /**
+     * Get all next relationships
+     * @return Return all next relationships in the program
+     */
+    std::unordered_map<int, std::vector<int>> get_all_next_relationship();
+
+    /**
+     * Check if there exist at least one Calls* relationship in PKB.
+     * @return true if there is at least one Calls* relationship in PKB.
+     */
+    bool does_calls_star_exist();
+    /**
+     * Check if the procedure calls* another procedure.
+     * In other words, Calls*(proc1,proc2).
+     * @param proc1 procedure to be called
+     * @param proc2 procedure to Calls*
+     * @return true if proc1 Calls* proc2. In other words, Calls*(proc1, proc2).
+     */
+    bool is_calls_star(string proc1, string proc2);
+    /**
+     * Get all procedures that have been Calls directly or indirectly.
+     * @return vector of procedure name that have been Calls directly or indirectly.
+     */
+    vector<string> get_all_procedures_calls_star();
+    /**
+     * Get all procedures that have been Called directly or indirectly.
+     * @return vector of procedure name that have been Called directly or indirectly.
+     */
+    vector<string> get_all_procedures_called_star();
+    /**
+     * Get all procedures that the queried procedure Calls directly or indirectly.
+     * @param proc queried procedure
+     * @return vector of procedure name that the queried procedure Calls directly or indirectly.
+     */
+    vector<string> get_procedures_calls_star(string proc);
+    /**
+     * Get all procedures that Called by the queried procedure directly or indirectly.
+     * @param proc queried procedure
+     * @return vector of procedure name that Called by the queried procedure directly or indirectly.
+     */
+    vector<string> get_procedures_called_by_star(string proc);
+    /**
+     * Get all Calls* relationship that exists in CallsStarBank.
+     * @return unordered_map containing all Calls* relationship that exists in CallsStarBank with
+     * the Calls as key and all Called stored in a vector as value.
+     */
+    unordered_map<string, vector<string>> get_all_procedures_calls_star_relationship();
+
 private:
     FollowsBank follows_bank;
     FollowsStarBank follows_star_bank;
@@ -616,7 +774,10 @@ private:
     UsesBank uses_bank;
     ModifiesBank modifies_bank;
     TypeBank type_bank;
+    NextBank next_bank;
+    WhileBank while_bank;
     CallsBank calls_bank;
+    CallsStarBank calls_star_bank;
     IfBank if_bank;
     int last_statement_num = 0;
 };
