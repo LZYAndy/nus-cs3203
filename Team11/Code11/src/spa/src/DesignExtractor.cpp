@@ -85,6 +85,8 @@ bool DesignExtractor::extract_calls_star(CallsBank &bank_in, CallsStarBank &bank
         for (std::string proc_called: in.second)
         {
             bank_out.insert_calls_star(in.first, proc_called);
+            uses_bank.insert_uses_for_call(in.first, proc_called); // insert uses relationship for proc
+            modifies_bank.insert_modifies_for_call(in.first, proc_called); // insert modifies relationship for proc
         }
     }
     std::vector<std::string> keys  = bank_out.get_all_procedures_calls_star();
@@ -111,6 +113,17 @@ bool DesignExtractor::extract_calls_star(CallsBank &bank_in, CallsStarBank &bank
         i++;
     }
     
-
+    for (auto call_stmt : bank_in.get_all_statements_calls_relationship())
+    {
+        for (std::string uses_variable : uses_bank.get_used_by_procedure(call_stmt.second[0]))
+        {
+            uses_bank.insert_uses(call_stmt.first, uses_variable);
+        }
+        
+        for (std::string modifies_variable : modifies_bank.get_modified_by_procedure(call_stmt.second[0]))
+        {
+            modifies_bank.insert_modifies(call_stmt.first, modifies_variable);
+        }
+    }
     return true;
 }

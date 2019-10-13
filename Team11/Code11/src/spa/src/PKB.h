@@ -136,11 +136,12 @@ public:
 
     /**
      * Insert Calls relationship into PKB.
-     * @param proc1 procedure that Calls
-     * @param proc2 procedure that Called
+     * @param stmt call statement number
+     * @param caller caller procedure that Calls
+     * @param callee callee procedure that Called
      * @return true if insert is successful.
      */
-    bool insert_calls(string proc1, string proc2);
+    bool insert_calls(int stmt, string caller, string callee);
     /**
      * Insert if relationship into PKB.
      * @param stmt stmt# of statement

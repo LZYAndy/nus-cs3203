@@ -497,9 +497,9 @@ bool PKB::insert_stmt_in_while_stmtLst(int whileStmt, int statement)
     return while_bank.insert_stmt_in_while_stmtLst(whileStmt, statement);
 }
 
-bool PKB::insert_calls(string proc1, string proc2)
+bool PKB::insert_calls(int stmt, string caller, string callee)
 {
-    return calls_bank.insert_calls(proc1, proc2);
+    return calls_bank.insert_calls(stmt, caller, callee);
 }
 
 bool PKB::does_calls_exist()
