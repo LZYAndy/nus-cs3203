@@ -168,7 +168,10 @@ TEST_CASE("DesignExtractor::extract_calls_star()")
         calls_bank.insert_calls("f", "d");        
         calls_bank.insert_calls("c", "d");
         calls_bank.insert_calls("a1", "b1");
-
+        uses_bank.insert_uses("a", "near");
+        uses_bank.insert_uses("d", "far");
+        modifies_bank.insert_modifies("a", "nowhere");
+        modifies_bank.insert_modifies("f", "somewhere");
         REQUIRE(DesignExtractor::extract_calls_star(calls_bank, calls_star_bank, uses_bank, modifies_bank));
         
         std::vector<std::string> result_1 = calls_star_bank.get_procedures_called_by_star("a");
@@ -198,6 +201,36 @@ TEST_CASE("DesignExtractor::extract_calls_star()")
         std::sort(expected_4.begin(), expected_4.end());
         REQUIRE(result_4.size() == 1);
         REQUIRE(result_4 == expected_4);
+
+        std::vector<std::string> result_5 = uses_bank.get_used_by_procedure("a");
+        std::vector<std::string> expected_5({"near", "far"});
+        std::sort(result_5.begin(), result_5.end());
+        std::sort(expected_5.begin(), expected_5.end());
+        REQUIRE(result_5.size() == 2);
+        REQUIRE(result_5 == expected_5);
+
+        std::vector<std::string> result_6 = uses_bank.get_used_by_procedure("b");
+        std::vector<std::string> expected_6({"far"});
+        std::sort(result_6.begin(), result_6.end());
+        std::sort(expected_6.begin(), expected_6.end());
+        REQUIRE(result_6.size() == 1);
+        REQUIRE(result_6 == expected_6);
+
+        std::vector<std::string> result_7 = modifies_bank.get_modified_by_procedure("a");
+        std::vector<std::string> expected_7({"nowhere", "somewhere"});
+        std::sort(result_7.begin(), result_7.end());
+        std::sort(expected_7.begin(), expected_7.end());
+        REQUIRE(result_7.size() == 2);
+        REQUIRE(result_7 == expected_7);
+
+        std::vector<std::string> result_8 = modifies_bank.get_modified_by_procedure("b");
+        std::vector<std::string> expected_8({"somewhere"});
+        std::sort(result_8.begin(), result_8.end());
+        std::sort(expected_8.begin(), expected_8.end());
+        REQUIRE(result_8.size() == 1);
+        REQUIRE(result_8 == expected_8);
+
+        REQUIRE(modifies_bank.get_modified_by_procedure("d").empty());
     }
 
     SECTION("cyclic")

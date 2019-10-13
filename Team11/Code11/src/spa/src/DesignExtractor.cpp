@@ -93,15 +93,18 @@ bool DesignExtractor::extract_calls_star(CallsBank &bank_in, CallsStarBank &bank
     {
         for (int j = i; j < keys.size(); j++)
         {
-            for (std::string proc_calls : bank_out.get_procedures_calls_star(keys[j])) // get all proc that calls key (_, key)
+            for (std::string proc_call : bank_out.get_procedures_calls_star(keys[j])) // get all proc that calls key (_, key)
             {  
                 for (std::string proc_called_by_key : bank_out.get_procedures_called_by_star(keys[j]))
                 {
-                    bool insert_result = bank_out.insert_calls_star(proc_calls, proc_called_by_key);
+                    std::cout << proc_call << proc_called_by_key << "\n";
+                    bool insert_result = bank_out.insert_calls_star(proc_call, proc_called_by_key);
                     if (!insert_result)
                     {
                         return false;
                     }
+                    uses_bank.insert_uses_for_call(proc_call, proc_called_by_key);
+                    modifies_bank.insert_modifies_for_call(proc_call, proc_called_by_key);
                 }
             }
         }
