@@ -35,7 +35,7 @@
 //        if (first_param.get_entity_type() == EntityType::ANY)
 //        {
 //            // e.g. Next*(_, n)
-//            vector<int> int_vec = PKB.get_all_next_star();
+//            vector<int> int_vec = PKB.get_all_next();
 //            result = QueryUtility::mapping(second_param, int_vec, PKB);
 //        }
 //        else if (QueryUtility::is_program_line(first_param))
