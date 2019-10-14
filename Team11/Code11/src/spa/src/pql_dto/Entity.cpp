@@ -44,6 +44,11 @@ bool Entity::is_entity_declared()
     return is_declared_entity;
 }
 
+void Entity::set_entity_type(EntityType type)
+{
+    entity_type = type;
+}
+
 void Entity::set_entity_type(std::string type)
 {
     if (type == "any")
@@ -53,6 +58,34 @@ void Entity::set_entity_type(std::string type)
     else if (type == "stmt")
     {
         entity_type = EntityType::STMT;
+    }
+    else if (type == "read")
+    {
+        entity_type = EntityType::READ;
+    }
+    else if (type == "print")
+    {
+        entity_type = EntityType::PRINT;
+    }
+    else if (type == "call")
+    {
+        entity_type = EntityType::CALL;
+    }
+    else if (type == "while")
+    {
+        entity_type = EntityType::WHILE;
+    }
+    else if (type == "if")
+    {
+        entity_type = EntityType::IF;
+    }
+    else if (type == "assign")
+    {
+        entity_type = EntityType::ASSIGN;
+    }
+    else if (type == "constant")
+    {
+        entity_type = EntityType::CONSTANT;
     }
     else if (type == "variable")
     {
@@ -136,6 +169,11 @@ void Entity::set_declared_entity_type(std::string type)
     }
 }
 
+void Entity::set_entity_attr(AttributeType attr)
+{
+    entity_attr = attr;
+}
+
 void Entity::set_entity_attr(std::string attr)
 {
     if (attr == "procName")
@@ -209,7 +247,7 @@ void Entity::set_entity_name(std::string name)
             }
             entity_name = name;
         }
-        else if (entity_type == EntityType::STMT)
+        else if (entity_type == EntityType::STMT || entity_type == EntityType::PROG_LINE)
         {
             /// Checks if var_name is integer
             if (!CheckerUtil::is_const_valid(name))
