@@ -29,6 +29,8 @@ IfParser::IfParser(PKB &pkb, Statement statement, std::string parent_prog_line)
         pkb.insert_uses(statement.get_procedure(), all_variables[i]);
     }
 
+    pkb.insert_if(statement.get_prog_line(), all_variables);
+
     int num_of_stmt_then = then_part.size();
     int num_of_stmt_else = else_part.size();
 

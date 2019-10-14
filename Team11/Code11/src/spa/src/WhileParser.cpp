@@ -26,6 +26,8 @@ WhileParser::WhileParser(PKB &pkb, Statement statement, std::string parent_prog_
         pkb.insert_uses(statement.get_procedure(), all_variables[i]);
     }
 
+    pkb.insert_while(statement.get_prog_line(), all_variables);
+
     int num_of_stmt_loop = loop_part.size();
 
     if (CheckerUtil::is_const_valid(parent_prog_line))
