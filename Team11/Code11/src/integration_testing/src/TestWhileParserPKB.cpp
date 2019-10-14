@@ -35,7 +35,7 @@ TEST_CASE("Test while parser successfully.")
     std::vector<std::string> modifies_procs = pkb.get_all_modifies_procedures();
     REQUIRE(modifies_procs.size() == 1);
 
-    std::unordered_map<int, std::vector<std::string>> control_var = pkb.get_all_while_and_control_variables_map();
+    std::unordered_map<int, std::vector<std::string>> control_var = pkb.get_all_whilestmt_and_control_var();
     std::unordered_map<int, std::vector<std::string>> expected_control_var;
     expected_control_var.insert({1, {"if", "c", "d", "e", "print", "read", "call"}});
     REQUIRE(control_var == expected_control_var);
