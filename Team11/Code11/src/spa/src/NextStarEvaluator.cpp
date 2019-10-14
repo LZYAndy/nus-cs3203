@@ -20,7 +20,7 @@
 //        {
 //            // e.g. Next*(n, 2)
 //            vector<int> int_vec = PKB.get_statements_previous_star(stoi(second_name));
-//            result = QueryUtility::mapping(first_param, int_vec, PKB)
+//            result = QueryUtility::mapping(first_param, int_vec, PKB);
 //        }
 //        else
 //        {

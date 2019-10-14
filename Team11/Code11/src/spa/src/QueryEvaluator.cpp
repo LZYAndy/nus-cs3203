@@ -166,42 +166,42 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
                 }
             }
 
-//            if (relation_type == RelationshipType::CALLS)
-//            {
-//                if (!relation.is_relationship_star())
-//                {
-//                    if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
-//                    {
-//                        trivial_result = CallsEvaluator::evaluate_trivial(first_param, second_param, PKB);
-//                        if (!trivial_result)
-//                        {
-//                            return empty_set;
-//                        }
-//                        intermediary_map = select_map;
-//                    }
-//                    else
-//                    {
-//                        intermediary_map = CallsEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
-//                    }
-//                }
-//                else
-//                {
-//                    if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
-//                    {
-//                        trivial_result = CallsStarEvaluator::evaluate_trivial(first_param, second_param, PKB);
-//                        if (!trivial_result)
-//                        {
-//                            return empty_set;
-//                        }
-//                        intermediary_map = select_map;
-//                    }
-//                    else
-//                    {
-//                        intermediary_map = CallsStarEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
-//                    }
-//                }
-//            }
-//
+            if (relation_type == RelationshipType::CALLS)
+            {
+                if (!relation.is_relationship_star())
+                {
+                    if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
+                    {
+                        trivial_result = CallsEvaluator::evaluate_trivial(first_param, second_param, PKB);
+                        if (!trivial_result)
+                        {
+                            return empty_set;
+                        }
+                        intermediary_map = select_map;
+                    }
+                    else
+                    {
+                        intermediary_map = CallsEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
+                    }
+                }
+                else
+                {
+                    if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
+                    {
+                        trivial_result = CallsStarEvaluator::evaluate_trivial(first_param, second_param, PKB);
+                        if (!trivial_result)
+                        {
+                            return empty_set;
+                        }
+                        intermediary_map = select_map;
+                    }
+                    else
+                    {
+                        intermediary_map = CallsStarEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
+                    }
+                }
+            }
+
 //            if (relation_type == RelationshipType::NEXT)
 //            {
 //                if (!relation.is_relationship_star())
@@ -246,16 +246,6 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
         }
     }
 
-//    for (auto iter : such_that_map.at("a"))
-//    {
-//        cout << iter << " ";
-//    }
-//    cout << "\n";
-//    for (auto iter : such_that_map.at("w"))
-//    {
-//        cout << iter << " ";
-//    }
-
     if (!pattern_clause.empty())
     {
         // has pattern
@@ -269,14 +259,14 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
             {
                 intermediary_map = AssignEvaluator::evaluate(pattern, first_param, second_param, PKB);
             }
-//            if (pattern_type == EntityType::IF)
-//            {
-//                intermediary_map = IfEvaluator::evaluate(pattern, first_param, second_param, PKB);
-//            }
-//            if (pattern_type == EntityType::WHILE)
-//            {
-//                intermediary_map = WhileEvaluator::evaluate(pattern, first_param, second_param, PKB);
-//            }
+            if (pattern_type == EntityType::IF)
+            {
+                intermediary_map = IfEvaluator::evaluate(pattern, first_param, second_param, PKB);
+            }
+            if (pattern_type == EntityType::WHILE)
+            {
+                intermediary_map = WhileEvaluator::evaluate(pattern, first_param, second_param, PKB);
+            }
             if (QueryEvaluator::is_empty_map(intermediary_map))
             {
                 return empty_set;

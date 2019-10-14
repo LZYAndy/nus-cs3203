@@ -15,12 +15,12 @@ unordered_map<string, vector<string>> WhileEvaluator::evaluate(pql_dto::Pattern 
     }
     else if (QueryUtility::is_var_name(first_param))
     { // pattern w("x", _)
-        vector<int> int_vec = PKB.get_all_while_pattern_contains(first_name);
+        vector<int> int_vec = PKB.get_while_with_control_var(first_name);
         result = QueryUtility::mapping(pattern_name, int_vec);
     }
     else
     { // pattern w(v, _)
-        unordered_map<int, vector<string>> int_str_map = PKB.get_all_while_and_control_variables_map();
+        unordered_map<int, vector<string>> int_str_map = PKB.get_all_whilestmt_and_control_var();
         result = QueryUtility::mapping(pattern_entity, first_param, int_str_map, PKB);
     }
     return result;
