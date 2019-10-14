@@ -11,6 +11,7 @@
 #include <pql_dto/Entity.h>
 #include <pql_dto/Relationships.h>
 #include <pql_dto/Pattern.h>
+#include <ConverterUtil.h>
 
 class AssignEvaluator
 {
