@@ -46,14 +46,7 @@ std::unordered_map<std::string, std::vector<std::string>> CallsBank::get_all_pro
     return calls_proc_bank.copy();
 }
 
-std::string CallsBank::get_called_by_statement(int stmt)
-{
-    auto result = calls_stmt_bank.get(stmt);
-    return result.empty() ? result[0] : "";
-}
-
 std::unordered_map<int, std::vector<std::string>> CallsBank::get_all_statements_calls_relationship()
 {
     return calls_stmt_bank.copy();
 }
-

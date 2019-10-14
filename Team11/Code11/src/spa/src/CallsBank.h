@@ -62,12 +62,6 @@ public:
      */
     std::unordered_map<int, std::vector<std::string>> get_all_statements_calls_relationship();
     /**
-     * Get callee of call statement
-     * @param stmt caller statement number
-     * @return procedure called.
-     */
-    std::string get_called_by_statement(int stmt);
-    /**
      * Get statement number of all call statements that Calls.
      * @return vector of statement number of call statemetn that Calls.
      */
