@@ -16,7 +16,6 @@ bool AssignBank::insert_assign(int stmt, std::string var, std::string assignment
     }
     var_bank.put(stmt, var);
     assignment_bank.put(stmt, assignment);
-    var_assignment_bank.put(var, assignment);
     return true;
 }
 

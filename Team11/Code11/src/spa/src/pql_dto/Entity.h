@@ -83,6 +83,11 @@ public:
     // Returns true if entity is declared in Query. Defaults value to false.
     bool is_entity_declared();
 
+    /** Sets the entity type of the Entity Object.
+     *  @param type The type of the Entity.
+     */
+    void set_entity_type(EntityType type);
+
     /** Sets and validates the entity type of the Entity Object.
      *  @param type The type of the Entity.
      */
@@ -92,6 +97,11 @@ public:
      *  @param type The type of the Entity.
      */
     void set_declared_entity_type(std::string type);
+
+    /** Sets the attribute type of the Entity Object.
+     *  @param attr The attribute of the Entity.
+     */
+    void set_entity_attr(AttributeType attr);
 
     /** Sets and validates the attribute type of the Entity Object.
      *  @param attr The attribute of the Entity.
@@ -138,7 +148,7 @@ public:
             AttributeType::STMTNUM,
             {
                 EntityType::STMT, EntityType::READ, EntityType::PRINT, EntityType::CALL,
-                EntityType::WHILE, EntityType::IF, EntityType::ASSIGN
+                EntityType::WHILE, EntityType::IF, EntityType::ASSIGN, EntityType::PROG_LINE
             }
         },
     };

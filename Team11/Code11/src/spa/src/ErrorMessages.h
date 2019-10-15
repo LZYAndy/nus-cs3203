@@ -55,6 +55,12 @@ constexpr const char* invalid_pattern_entity(R"(Invalid Pattern Entity Type!)");
 constexpr const char* invalid_pattern_first_param(R"(Invalid Pattern First Parameter Type!)");
 constexpr const char* invalid_pattern_second_param(R"(Invalid Pattern Second Parameter Type!)");
 
+// Error messages for With.cpp
+constexpr const char* invalid_with_first_param(R"(Invalid With First Parameter Type!)");
+constexpr const char* invalid_with_second_param(R"(Invalid With Second Parameter Type!)");
+constexpr const char* invalid_with_mismatch_type(R"(Invalid With Mismatch Type!)");
+constexpr const char* with_trivial_false(R"(Different string/integer for With!)");
+
 // Error message for PQLParser.cpp
 constexpr const char* invalid_query_not_exists(R"(Invalid Query! Query does not exists.)");
 constexpr const char* invalid_query_missing_select(R"(Invalid Query! Missing Select Clause.)");
@@ -68,6 +74,8 @@ constexpr const char* invalid_query_extra_string_end(R"(Invalid Syntax! Addition
 constexpr const char* invalid_query_mismatch_brackets(R"(Invalid Syntax! Missing closing bracket.)");
 constexpr const char* invalid_query_such_that_clause_syntax(R"(Invalid Query! Such That Clause Syntax Error.)");
 constexpr const char* invalid_query_pattern_clause_syntax(R"(Invalid Query! Pattern Clause Syntax Error.)");
+constexpr const char* invalid_query_with_clause_syntax(R"(Invalid Query! With Clause Syntax Error.)");
 constexpr const char* invalid_query_wrong_pattern_entity(R"(Invalid Syntax! Invalid Entity for pattern.)");
 constexpr const char* invalid_relationship_type(R"(Invalid Relationship Type!)");
+constexpr const char* invalid_query_missing_equal_with_clause(R"(Invalid Query! Missing equal in with clause.)");
 }
