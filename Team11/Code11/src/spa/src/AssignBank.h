@@ -53,7 +53,6 @@ public:
 private:
     Bank<int, std::string> var_bank; // Internal variable bank.
     Bank<int, std::string> assignment_bank;
-    Bank<std::string, std::string> var_assignment_bank;
     std::string replace_operator(std::string &str);
 };
 
