@@ -213,3 +213,26 @@ TEST_CASE("CallsBank::get_all_procedures_calls_relationship()")
         REQUIRE(expected3 == result_values3);
     }
 }
+
+TEST_CASE("CallsBank::get_all_statements_calls_relationship()")
+{
+    CallsBank calls_bank;
+
+    SECTION("empty")
+    {
+        REQUIRE(calls_bank.get_all_statements_calls_relationship().empty());
+    }
+
+    SECTION(">1")
+    {
+        calls_bank.insert_calls(1, "hello", "world");
+        calls_bank.insert_calls(2, "hello", "itsMe");
+        calls_bank.insert_calls(3, "hello", "banana");
+        std::unordered_map<int, std::vector<std::string>> result = calls_bank.get_all_statements_calls_relationship();
+        std::unordered_map<int, std::vector<std::string>> expected;
+        expected.insert({1, {"world"}});
+        expected.insert({2, {"itsMe"}});
+        expected.insert({3, {"banana"}});
+        REQUIRE(expected == result);
+    }
+}

@@ -10,7 +10,7 @@ bool PKB::insert_procedure(string name)
 
 bool PKB::insert_variable(string name)
 {
-    auto result =  var_table.emplace(name);
+    auto result = var_table.emplace(name);
     return result.second;
 }
 
@@ -457,27 +457,27 @@ bool PKB::does_next_exists()
     return next_bank.does_next_exists();
 }
 
-std::vector<int> PKB::get_statements_previous(int statement)
+vector<int> PKB::get_statements_previous(int statement)
 {
     return next_bank.get_statements_previous(statement);
 }
 
-std::vector<int> PKB::get_statements_next(int statement)
+vector<int> PKB::get_statements_next(int statement)
 {
     return next_bank.get_statements_next(statement);
 }
 
-std::vector<int> PKB::get_all_previous()
+vector<int> PKB::get_all_previous()
 {
     return next_bank.get_all_previous();
 }
 
-std::vector<int> PKB::get_all_next()
+vector<int> PKB::get_all_next()
 {
     return next_bank.get_all_next();
 }
 
-bool PKB::insert_while(int statement, std::vector<std::string> control_var)
+bool PKB::insert_while(int statement, vector<string> control_var)
 {
     return while_bank.insert_while(statement, control_var);
 }
@@ -487,7 +487,7 @@ bool PKB::is_while(int statement)
     return while_bank.is_while(statement);
 }
 
-std::vector<int> PKB::get_while_stmtLst(int statement)
+vector<int> PKB::get_while_stmtLst(int statement)
 {
     return while_bank.get_while_stmtLst(statement);
 }
@@ -552,17 +552,19 @@ unordered_map<int, vector<string>> PKB::get_all_if_and_control_variables_map()
     return if_bank.get_all_if_and_control_variables_map();
 }
 
-std::unordered_map<int, std::vector<int>> PKB::get_all_next_relationship() {
+unordered_map<int, vector<int>> PKB::get_all_next_relationship()
+{
     return next_bank.get_all_next_relationship();
 }
 
-std::vector<int> PKB::get_while_with_control_var(std::string control_var) {
+vector<int> PKB::get_while_with_control_var(string control_var)
+{
     return while_bank.get_while_with_control_var(control_var);
 }
 
-std::unordered_map<int, std::vector<std::string>> PKB::get_all_whilestmt_and_control_var() {
+unordered_map<int, vector<string>> PKB::get_all_whilestmt_and_control_var()
+{
     return while_bank.get_all_whilestmt_and_control_var();
-
 }
 
 bool PKB::does_calls_star_exist()
@@ -600,10 +602,17 @@ unordered_map<string, vector<string>> PKB::get_all_procedures_calls_star_relatio
     return calls_star_bank.get_all_procedures_calls_star_relationship();
 }
 
-bool PKB::insert_uses_for_call(std::string caller, std::string callee) {
+bool PKB::insert_uses_for_call(string caller, string callee)
+{
     return uses_bank.insert_uses_for_call(caller, callee);
 }
 
-bool PKB::insert_modifies_for_call(std::string caller, std::string callee) {
+bool PKB::insert_modifies_for_call(string caller, string callee)
+{
     return modifies_bank.insert_modifies_for_call(caller, callee);
+}
+
+unordered_map<int, vector<string>> PKB::get_all_statements_calls_relationship()
+{
+    return calls_bank.get_all_statements_calls_relationship();
 }
