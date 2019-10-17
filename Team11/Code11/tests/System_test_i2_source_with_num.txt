@@ -1,0 +1,76 @@
+procedure main {
+1   x = 100;
+2   read z;
+3   y = x + z;
+4   print y;
+5   x = alpha + beta * ( gamma - delta) % ( epsilon / zeta + eta) - theta * 100;
+6   if (x > 0) then {
+7       a = b + 1;
+8       b = b + 1;
+9       while (b > 0) {
+10          z = z + alpha;
+11          y = x + zeta;
+12          b = b - 1;
+13          while (c < delta + theta) {
+14              c = delta * 100;
+15              if (delta > 0) then {
+16                  delta = delta * -1;
+17                  sigma = sigma - delta;
+18                  theta = theta + 1;}
+                else {
+19                  delta = delta + 100 * sigma;
+20                  sigma = sigma + sigma + sigma +sigma + sigma + delta + delta;
+21                  delta = delta - 1;}
+22              if (alpha > 0) then {
+23                  alpha = alpha - 1;
+24                  sigma = b - a;}
+                else {
+25                  epsilon = epsilon + ( a + b * e ) + c + d + e + alpha;}
+26              while (x > t) {
+27                  x = t + 1;
+28                  t = t - 100;}
+29              call second;
+30              call third;
+31              print x;
+32              print alpha;}}
+33      print b;
+34      b = b + alpha;}
+    else {
+35      call third;
+36      read p;
+37      read c;
+38      call second;}
+39  call second;
+40  b = final;}
+
+procedure second {
+41  call third;
+42  call third;
+43  bool = true;
+44  if (bool == true) then {
+45      call third;
+46      a = b + c;
+47      b = a + x + t;
+48      c = x + t + y;
+49      t = x + t + g + cs;
+50      while (z > t) {
+51          z = a + v;
+52          while (sigma > alpha) {
+53              a = b * c;}
+54          if (k > 0) then {
+55              k = j;}
+            else {
+56              k = p;}}}
+    else {
+57      line = 57;
+58      line = 58;
+59      print line;
+60      read x;}}
+
+procedure third {
+61  sigma = sigma + x;
+62  bool = false;
+63  if (bool == false) then {
+64      x = 100;}
+    else {
+65      y = 100;}}
