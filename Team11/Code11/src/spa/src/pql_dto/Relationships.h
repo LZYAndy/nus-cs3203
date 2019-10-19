@@ -120,10 +120,10 @@ public:
             RelationshipType::CALLS,
             {
                 {
-                    EntityType::PROCEDURE
+                    EntityType::ANY, EntityType::PROCEDURE
                 },
                 {
-                    EntityType::PROCEDURE
+                    EntityType::ANY, EntityType::PROCEDURE
                 }
             }
         },
@@ -144,10 +144,10 @@ public:
             RelationshipType::AFFECTS,
             {
                 {
-                    EntityType::STMT, EntityType::ASSIGN, EntityType::PROG_LINE
+                    EntityType::ANY, EntityType::STMT, EntityType::ASSIGN, EntityType::PROG_LINE
                 },
                 {
-                    EntityType::STMT, EntityType::ASSIGN, EntityType::PROG_LINE
+                    EntityType::ANY, EntityType::STMT, EntityType::ASSIGN, EntityType::PROG_LINE
                 }
             }
         },
