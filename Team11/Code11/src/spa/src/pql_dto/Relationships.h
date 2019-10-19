@@ -120,10 +120,10 @@ public:
             RelationshipType::CALLS,
             {
                 {
-                    EntityType::PROCEDURE
+                    EntityType::PROCEDURE, EntityType::ANY
                 },
                 {
-                    EntityType::PROCEDURE
+                    EntityType::PROCEDURE, EntityType::ANY
                 }
             }
         },

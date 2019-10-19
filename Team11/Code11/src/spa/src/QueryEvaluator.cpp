@@ -25,6 +25,7 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
 
     if (!error_msg.empty())
     {
+        cout << error_msg << "\n";
         return empty_set;
     }
 
@@ -206,41 +207,42 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
                 }
             }
 
-//            if (relation_type == RelationshipType::NEXT)
-//            {
-//                if (!relation.is_relationship_star())
-//                {
-//                    if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
-//                    {
-//                        trivial_result = NextEvaluator::evaluate_trivial(first_param, second_param, PKB);
-//                        if (!trivial_result)
-//                        {
-//                            return empty_set;
-//                        }
-//                        intermediary_map = select_map;
-//                    }
-//                    else
-//                    {
-//                        intermediary_map = NextEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
-//                    }
-//                }
-//                else
-//                {
-//                    if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
-//                    {
-//                        trivial_result = NextStarEvaluator::evaluate_trivial(first_param, second_param, PKB);
-//                        if (!trivial_result)
-//                        {
-//                            return empty_set;
-//                        }
-//                        intermediary_map = select_map;
-//                    }
-//                    else
-//                    {
-//                        intermediary_map = NextStarEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
-//                    }
-//                }
-//            }
+            if (relation_type == RelationshipType::NEXT)
+            {
+                if (!relation.is_relationship_star())
+                {
+                    if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
+                    {
+                        trivial_result = NextEvaluator::evaluate_trivial(first_param, second_param, PKB);
+                        if (!trivial_result)
+                        {
+                            return empty_set;
+                        }
+                        intermediary_map = select_map;
+                    }
+                    else
+                    {
+                        intermediary_map = NextEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
+                    }
+                }
+                else
+                {
+                    if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
+                    {
+                        trivial_result = NextStarEvaluator::evaluate_trivial(first_param, second_param, PKB);
+                        if (!trivial_result)
+                        {
+                            return empty_set;
+                        }
+                        intermediary_map = select_map;
+                    }
+                    else
+                    {
+                        intermediary_map = NextStarEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
+                    }
+                }
+            }
+
             if (QueryEvaluator::is_empty_map(intermediary_map))
             {
                 return empty_set;

@@ -1,13 +1,13 @@
-//#include "NextStarEvaluator.h"
-//
-//unordered_map<string, vector<string>> NextStarEvaluator::evaluate_non_trivial(pql_dto::Entity &first_param,
-//        pql_dto::Entity &second_param, PKB &PKB)
-//{
-//    unordered_map<string, vector<string>> result;
-//    unordered_map<string, vector<string>> empty_map;
-//    string first_name = first_param.get_entity_name();
-//    string second_name = second_param.get_entity_name();
-//
+#include "NextStarEvaluator.h"
+
+unordered_map<string, vector<string>> NextStarEvaluator::evaluate_non_trivial(pql_dto::Entity &first_param,
+        pql_dto::Entity &second_param, PKB &PKB)
+{
+    unordered_map<string, vector<string>> result;
+    unordered_map<string, vector<string>> empty_map;
+    string first_name = first_param.get_entity_name();
+    string second_name = second_param.get_entity_name();
+
 //    if (first_param.is_entity_declared())
 //    {
 //        if (second_param.get_entity_type() == EntityType::ANY)
@@ -45,16 +45,16 @@
 //            result = QueryUtility::mapping(second_param, int_vec, PKB);
 //        }
 //    }
-//    return result;
-//}
-//
-//bool NextStarEvaluator::evaluate_trivial(pql_dto::Entity &first_param,
-//        pql_dto::Entity &second_param, PKB &PKB)
-//{
-//    bool result = false;
-//    string first_name = first_param.get_entity_name();
-//    string second_name = second_param.get_entity_name();
-//
+    return result;
+}
+
+bool NextStarEvaluator::evaluate_trivial(pql_dto::Entity &first_param,
+        pql_dto::Entity &second_param, PKB &PKB)
+{
+    bool result = false;
+    string first_name = first_param.get_entity_name();
+    string second_name = second_param.get_entity_name();
+
 //    if (first_param.get_entity_type() == EntityType::ANY)
 //    {
 //        if (second_param.get_entity_type() == EntityType::ANY)
@@ -82,5 +82,5 @@
 //            result = PKB.is_next_star(stoi(first_name), stoi(second_name));
 //        }
 //    }
-//    return result;
-//}
+    return result;
+}
