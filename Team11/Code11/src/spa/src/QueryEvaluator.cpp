@@ -35,7 +35,11 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
         {
             string select_name = select_entity.get_entity_name();
             EntityType select_type = select_entity.get_entity_type();
-            if (select_type == EntityType::VARIABLE || select_type == EntityType::PROCEDURE || select_type == EntityType::CONSTANT)
+            if (select_type == EntityType::BOOLEAN)
+            {
+                break;
+            }
+            else if (select_type == EntityType::VARIABLE || select_type == EntityType::PROCEDURE || select_type == EntityType::CONSTANT)
             {
                 select_map[select_name] = QueryUtility::get_certain_type_str_list(select_type, PKB);
             }
