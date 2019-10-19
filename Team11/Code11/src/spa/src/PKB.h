@@ -63,7 +63,7 @@ public:
      * @param callee callee procedure
      * @return Return true if the relationships are inserted successfully, otherwise false
      */
-    bool insert_uses_for_call(std::string caller, std::string callee);
+    bool insert_uses_for_call(string caller, string callee);
 
     /**
      * Insert a Modifies relationship between the input statement and the input variable into modifies_bank.
@@ -87,7 +87,7 @@ public:
      * @param callee callee procedure
      * @return Return true if the relationships are inserted successfully, otherwise false
      */
-    bool insert_modifies_for_call(std::string caller, std::string callee);
+    bool insert_modifies_for_call(string caller, string callee);
 
     /**
      * Insert Follows relationship to PKB.
@@ -136,11 +136,12 @@ public:
 
     /**
      * Insert Calls relationship into PKB.
-     * @param proc1 procedure that Calls
-     * @param proc2 procedure that Called
+     * @param stmt call statement number
+     * @param caller caller procedure that Calls
+     * @param callee callee procedure that Called
      * @return true if insert is successful.
      */
-    bool insert_calls(string proc1, string proc2);
+    bool insert_calls(int stmt, string caller, string callee);
     /**
      * Insert if relationship into PKB.
      * @param stmt stmt# of statement
@@ -579,7 +580,7 @@ public:
      * Get all if statements and their control variable pairing in PKB.
      * @return unordered_map of stmt# and vector of control variables
      */
-    std::unordered_map<int, std::vector<std::string>> get_all_if_and_control_variables_map();
+    unordered_map<int, vector<string>> get_all_if_and_control_variables_map();
 
     /**
      * Check if there exist at least one Calls relationship in PKB.
@@ -622,6 +623,11 @@ public:
      * the Calls as key and all Called stored in a vector as value.
      */
     unordered_map<string, vector<string>> get_all_procedures_calls_relationship();
+    /**
+     * Get all Calls statements and its callee pairing that exists in PKB.
+     * @return unordered_map containing all Calls statements and its callee pairing that exists in PKB. 
+     */
+    unordered_map<int, vector<string>> get_all_statements_calls_relationship();
 
     /**
      * Insert Next relationship between statement1 and statement2.
@@ -650,26 +656,26 @@ public:
      * @param statement
      * @return Return a vector of statements which are the previous statement of the input statement.
      */
-    std::vector<int> get_statements_previous(int statement);
+    vector<int> get_statements_previous(int statement);
 
     /**
      * Get all statements that are the Next statement of the input statement
      * @param statement
      * @return Return a vector of statements which are the next statement of the input statement.
      */
-    std::vector<int> get_statements_next(int statement);
+    vector<int> get_statements_next(int statement);
 
     /**
      * Get all statements which are the in previous position in their Next relationships.
      * @return Return all which are the in previous position in their Next relationships.
      */
-    std::vector<int> get_all_previous();
+    vector<int> get_all_previous();
 
     /**
      * Get all statements which are the in next position in their Next relationships.
      * @return Return all which are the in next position in their Next relationships.
      */
-    std::vector<int> get_all_next();
+    vector<int> get_all_next();
 
     /**
      * Insert a while statement into the while_bank.
@@ -677,7 +683,7 @@ public:
      * @param control_var of the while statement
      * @return Return true if the while statement is inserted successfully, otherwise false.
      */
-    bool insert_while(int statement, std::vector<std::string> control_var);
+    bool insert_while(int statement, vector<string> control_var);
 
     /**
      * Insert a statement in the stmtLst of the whileStmt.
@@ -699,26 +705,26 @@ public:
      * @param statement
      * @return Return all statements in the statement list of the input while statement
      */
-    std::vector<int> get_while_stmtLst(int statement);
+    vector<int> get_while_stmtLst(int statement);
 
     /**
      * Return all while statements using input control_var as control variable
      * @param control_var
      * @return Return all while statements using input control_var as control variable
      */
-    std::vector<int> get_while_with_control_var(std::string control_var);
+    vector<int> get_while_with_control_var(string control_var);
 
     /**
      * Return all pairs of while statement numbers and their corresponding control variables
      * @return Return all pairs of while statement numbers and their corresponding control variables
      */
-    std::unordered_map<int, std::vector<std::string>> get_all_whilestmt_and_control_var();
+    unordered_map<int, vector<string>> get_all_whilestmt_and_control_var();
 
     /**
      * Get all next relationships
      * @return Return all next relationships in the program
      */
-    std::unordered_map<int, std::vector<int>> get_all_next_relationship();
+    unordered_map<int, vector<int>> get_all_next_relationship();
 
     /**
      * Check if there exist at least one Calls* relationship in PKB.

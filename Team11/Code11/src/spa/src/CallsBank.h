@@ -9,11 +9,12 @@ public:
 
     /**
      * Insert Calls relationship into CallsBank.
-     * @param proc1 procedure to be called
-     * @param proc2 procedure to Calls
+     * @param stmt Call statement number
+     * @param caller caller procedure
+     * @param callee callee procedure
      * @return true if the insert process is successful.
      */
-    bool insert_calls(std::string proc1, std::string proc2);
+    bool insert_calls(int stmt, std::string caller, std::string callee);
     /**
      * Check if there exist at least one Calls relationship stored in CallsBank.
      * @return true if there is at least one Calls relationship store in CallsBank.
@@ -55,9 +56,14 @@ public:
      * the Calls as key and all Called stored in a vector as value.
      */
     std::unordered_map<std::string, std::vector<std::string>> get_all_procedures_calls_relationship();
-
+    /**
+     * Get all Calls statements and its callee pairing that exists in CallsBank.
+     * @return unordered_map containing all Calls statements and its callee pairing that exists in CallsBank 
+     */
+    std::unordered_map<int, std::vector<std::string>> get_all_statements_calls_relationship();
 private:
-    Bank<std::string, std::string> calls_bank;
+    Bank<std::string, std::string> calls_proc_bank;
+    Bank<int, std::string> calls_stmt_bank;
 };
 
 #endif
