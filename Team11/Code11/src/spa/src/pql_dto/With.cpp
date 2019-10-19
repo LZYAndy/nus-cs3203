@@ -49,8 +49,9 @@ namespace pql_dto
 
     void With::validate_parameters()
     {
-        if ((first_param.is_entity_declared() && first_param.get_entity_attr() == AttributeType::NONE)
-            || (second_param.is_entity_declared() && second_param.get_entity_attr() == AttributeType::NONE))
+        if ((first_param.is_entity_declared() && first_param.get_entity_type() != EntityType::PROG_LINE
+            && first_param.get_entity_attr() == AttributeType::NONE) || (second_param.is_entity_declared()
+            && second_param.get_entity_type() != EntityType::PROG_LINE && second_param.get_entity_attr() == AttributeType::NONE))
         {
             throw std::runtime_error(error_messages::invalid_query_with_clause_syntax);
         }
