@@ -76,3 +76,38 @@ void DesignExtractor::extract_further_parents_child(ParentBank &bank_in, ParentS
     }
     return;
 }
+
+bool DesignExtractor::extract_calls_star(CallsBank &bank_in, CallsStarBank &bank_out, UsesBank &uses_bank, ModifiesBank &modifies_bank)
+{
+    // copy callsBank to CallsStarBank
+    for (std::pair<std::string, std::vector<std::string>> in: bank_in.get_all_procedures_calls_relationship())
+    {
+        for (std::string proc_called: in.second)
+        {
+            bank_out.insert_calls_star(in.first, proc_called);
+        }
+    }
+    std::vector<std::string> keys  = bank_out.get_all_procedures_calls_star();
+    int i = 0;
+    while (i < keys.size())
+    {
+        for (int j = i; j < keys.size(); j++)
+        {
+            for (std::string proc_calls : bank_out.get_procedures_calls_star(keys[j])) // get all proc that calls key (_, key)
+            {  
+                for (std::string proc_called_by_key : bank_out.get_procedures_called_by_star(keys[j]))
+                {
+                    bool insert_result = bank_out.insert_calls_star(proc_calls, proc_called_by_key);
+                    if (!insert_result)
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+        i++;
+    }
+    
+
+    return true;
+}

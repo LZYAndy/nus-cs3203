@@ -23,6 +23,14 @@ public:
     bool insert_uses(std::string procedure, std::string variable);
 
     /**
+     * Insert Uses relationships of callee procedure to caller procedure
+     * @param caller caller procedure
+     * @param callee callee procedure
+     * @return Return true if the relationships are inserted successfully, otherwise false
+     */
+    bool insert_uses_for_call(std::string caller, std::string callee);
+
+    /**
      * Get all statements that uses the input variable.
      * @param variable
      * @return Return an integer vector of all statement that uses the variable.

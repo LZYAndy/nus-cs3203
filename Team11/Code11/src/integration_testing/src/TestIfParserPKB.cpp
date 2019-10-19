@@ -12,7 +12,7 @@ TEST_CASE("Test if parser successfully.")
     Statement if_statement = Statement(EntityType::IF, 1, " ");
     if_statement.set_procedure("main");
 
-    if_statement.set_condition("a == b");
+    if_statement.set_condition(" ( if >= (while)) && (c > d) || ((procedure * print) != (read % call))");
     std::vector<Statement> then_p;
     std::vector<Statement> else_p;
     Statement then_s = Statement(EntityType::READ, 2, "read x;");
@@ -39,7 +39,7 @@ TEST_CASE("Test if parser successfully.")
     int num_of_var = all_var.size();
 
     REQUIRE(parent.size() == 1);
-    REQUIRE(num_of_var == 4);
+    REQUIRE(num_of_var == 10);
     REQUIRE(children.size() == 3);
     REQUIRE(follows.size() == 1);
     REQUIRE(followed.size() == 1);
@@ -54,4 +54,9 @@ TEST_CASE("Test if parser successfully.")
 
     std::vector<std::string> proc_modifies = pkb.get_all_modifies_procedures();
     REQUIRE(proc_modifies.size() == 1);
+
+    std::unordered_map<int, std::vector<std::string>> control_var = pkb.get_all_if_and_control_variables_map();
+    std::unordered_map<int, std::vector<std::string>> expected_control_var;
+    expected_control_var.insert({1, {"if", "while", "c", "d", "procedure", "print", "read", "call"}});
+    REQUIRE(control_var == expected_control_var);
 }
