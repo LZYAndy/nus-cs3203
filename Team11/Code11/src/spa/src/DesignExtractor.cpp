@@ -77,7 +77,7 @@ void DesignExtractor::extract_further_parents_child(ParentBank &bank_in, ParentS
     return;
 }
 
-bool DesignExtractor::extract_calls_star(CallsBank &bank_in, CallsStarBank &bank_out, UsesBank &uses_bank, ModifiesBank &modifies_bank)
+bool DesignExtractor::extract_calls_star(CallsBank &bank_in, CallsStarBank &bank_out, UsesBank &uses_bank, ModifiesBank &modifies_bank, ParentStarBank &parent_star_bank)
 {
     // copy callsBank to CallsStarBank
     for (std::pair<std::string, std::vector<std::string>> in: bank_in.get_all_procedures_calls_relationship())
@@ -114,14 +114,23 @@ bool DesignExtractor::extract_calls_star(CallsBank &bank_in, CallsStarBank &bank
     
     for (auto call_stmt : bank_in.get_all_statements_calls_relationship())
     {
+        auto parents = parent_star_bank.get_parent_star(call_stmt.first);
         for (std::string uses_variable : uses_bank.get_used_by_procedure(call_stmt.second[0]))
         {
             uses_bank.insert_uses(call_stmt.first, uses_variable);
+            for (auto parent_stmt_num : parents)
+            {
+                uses_bank.insert_uses(parent_stmt_num, uses_variable);
+            }
         }
         
         for (std::string modifies_variable : modifies_bank.get_modified_by_procedure(call_stmt.second[0]))
         {
             modifies_bank.insert_modifies(call_stmt.first, modifies_variable);
+            for (auto parent_stmt_num : parents)
+            {
+                modifies_bank.insert_modifies(parent_stmt_num, modifies_variable);
+            }
         }
     }
     return true;

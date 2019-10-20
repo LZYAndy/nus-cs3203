@@ -132,7 +132,7 @@ bool PKB::extract_design()
 {
     DesignExtractor::extract_follows_star(follows_bank, follows_star_bank);
     DesignExtractor::extract_parent_star(parent_bank, parent_star_bank, uses_bank, modifies_bank);
-    bool result_calls = DesignExtractor::extract_calls_star(calls_bank, calls_star_bank, uses_bank, modifies_bank);
+    bool result_calls = DesignExtractor::extract_calls_star(calls_bank, calls_star_bank, uses_bank, modifies_bank, parent_star_bank);
     return result_calls;
 }
 

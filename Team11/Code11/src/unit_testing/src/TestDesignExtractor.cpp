@@ -152,10 +152,11 @@ TEST_CASE("DesignExtractor::extract_calls_star()")
     CallsStarBank calls_star_bank;
     UsesBank uses_bank;
     ModifiesBank modifies_bank;
+    ParentStarBank parent_star_bank;
     
     SECTION("empty")
     {
-        REQUIRE(DesignExtractor::extract_calls_star(calls_bank, calls_star_bank, uses_bank, modifies_bank));
+        REQUIRE(DesignExtractor::extract_calls_star(calls_bank, calls_star_bank, uses_bank, modifies_bank, parent_star_bank));
         REQUIRE_FALSE(calls_star_bank.does_calls_star_exist());
     }
 
@@ -173,7 +174,7 @@ TEST_CASE("DesignExtractor::extract_calls_star()")
         uses_bank.insert_uses("d", "far");
         modifies_bank.insert_modifies("b", "nowhere");
         modifies_bank.insert_modifies("f", "somewhere");
-        REQUIRE(DesignExtractor::extract_calls_star(calls_bank, calls_star_bank, uses_bank, modifies_bank));
+        REQUIRE(DesignExtractor::extract_calls_star(calls_bank, calls_star_bank, uses_bank, modifies_bank, parent_star_bank));
         
         std::vector<std::string> result_1 = calls_star_bank.get_procedures_called_by_star("a");
         std::vector<std::string> expected_1({"b", "c", "d", "e", "f"});
@@ -271,13 +272,33 @@ TEST_CASE("DesignExtractor::extract_calls_star()")
         REQUIRE(result_13 == expected_13);
     }
 
+    SECTION("check while/if nesting")
+    {
+        calls_bank.insert_calls(2, "a", "b");
+        calls_bank.insert_calls(3, "b", "c");
+        uses_bank.insert_uses("c", "used");
+        modifies_bank.insert_modifies("b", "modified");
+        parent_star_bank.insert_parent_star(1, 2);
+        DesignExtractor::extract_calls_star(calls_bank, calls_star_bank, uses_bank, modifies_bank, parent_star_bank);
+        
+        std::vector<std::string> result_1 = uses_bank.get_used_by_statement(1);
+        std::vector<std::string> expected_1({"used"});
+        REQUIRE(result_1.size() == 1);
+        REQUIRE(result_1 == expected_1);
+
+        std::vector<std::string> result_2 = modifies_bank.get_modified_by_statement(1);
+        std::vector<std::string> expected_2({"modified"});
+        REQUIRE(result_2.size() == 1);
+        REQUIRE(result_2 == expected_2);
+    }
+
     SECTION("cyclic")
     {
         SECTION("direct loopback")
         {
             calls_bank.insert_calls(1, "a", "b");
             calls_bank.insert_calls(2, "b", "a");
-            REQUIRE_FALSE(DesignExtractor::extract_calls_star(calls_bank, calls_star_bank, uses_bank, modifies_bank));
+            REQUIRE_FALSE(DesignExtractor::extract_calls_star(calls_bank, calls_star_bank, uses_bank, modifies_bank, parent_star_bank));
         }
 
         SECTION("chained loopback")
@@ -286,7 +307,7 @@ TEST_CASE("DesignExtractor::extract_calls_star()")
             calls_bank.insert_calls(2, "a", "c");
             calls_bank.insert_calls(3, "c", "e");
             calls_bank.insert_calls(4, "e", "b");
-            REQUIRE_FALSE(DesignExtractor::extract_calls_star(calls_bank, calls_star_bank, uses_bank, modifies_bank));
+            REQUIRE_FALSE(DesignExtractor::extract_calls_star(calls_bank, calls_star_bank, uses_bank, modifies_bank, parent_star_bank));
         }
     }
 }
