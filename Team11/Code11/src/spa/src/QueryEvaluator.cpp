@@ -27,13 +27,11 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
 
     if (!error_msg.empty())
     {
-        cout << error_msg << "\n";
         return empty_set;
     }
 
     if (!select_clause.empty())
     {
-        visited_such_that = true;
         // has select
         for (auto select_entity : select_clause)
         {
@@ -56,6 +54,7 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
 
     if (!such_that_clause.empty())
     {
+        visited_such_that = true;
         // has such that
         for (auto relation : such_that_clause)
         {
@@ -399,7 +398,7 @@ unordered_set<string> QueryEvaluator::merge(vector<pql_dto::Entity> &select_clau
         }
     }
     // if the select type is tuple
-    if (QueryEvaluator::is_empty_map(final_list) && !visited_such_that)
+    if (QueryEvaluator::is_empty_map(final_list) && visited_such_that && !pattern_map.empty())
     {
         return unordered_set<string>();
     }
