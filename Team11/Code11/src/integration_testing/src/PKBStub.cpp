@@ -14,12 +14,12 @@ public:
         insert_modifies("main", "flag");
         insert_type(1, EntityType::ASSIGN);
 
-        insert_calls("main", "computeCentroid");
+        insert_calls(2, "main", "computeCentroid");
         insert_type(2, EntityType::CALL);
         insert_follows(1, 2);
         insert_next(1, 2);
 
-        insert_calls("main", "printResults");
+        insert_calls(3, "main", "printResults");
         insert_type(3, EntityType::CALL);
         insert_follows(2, 3);
         insert_next(2, 3);
@@ -93,7 +93,7 @@ public:
         insert_follows(11, 12);
         insert_next(12, 12);
 
-        insert_calls("computeCentroid", "readPoint");
+        insert_calls(13, "computeCentroid", "readPoint");
         insert_type(13, EntityType::CALL);
         insert_follows(12, 13);
         insert_next(12, 13);
@@ -156,7 +156,7 @@ public:
         insert_next(16, 17);
 
         insert_type(18, EntityType::CALL);
-        insert_calls("computeCentroid", "readPoint");
+        insert_calls(18, "computeCentroid", "readPoint");
         insert_parent(14,18);
         insert_follows(17, 18);
         insert_next(17, 18);

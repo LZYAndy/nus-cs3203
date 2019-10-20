@@ -64,6 +64,11 @@ vector<string> QueryUtility::get_certain_type_str_list(EntityType &type, PKB &PK
         return PKB.get_all_constants();
     }
 
+    if (type == EntityType::BOOLEAN)
+    {
+        return vector<string> {"true", "false"};
+    }
+
     for (iter = type_list.begin(); iter != type_list.end(); iter++)
     {
         result.push_back(*iter);

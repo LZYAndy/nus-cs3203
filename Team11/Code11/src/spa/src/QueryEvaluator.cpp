@@ -5,6 +5,8 @@
 unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
 {
     string error_msg;
+    bool is_bool = false;
+    bool visited_such_that = false;
     unordered_set<string> result;
     unordered_set<string> empty_set;
 
@@ -31,6 +33,7 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
 
     if (!select_clause.empty())
     {
+        visited_such_that = true;
         // has select
         for (auto select_entity : select_clause)
         {
@@ -38,9 +41,9 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
             EntityType select_type = select_entity.get_entity_type();
             if (select_type == EntityType::BOOLEAN)
             {
-                break;
+                is_bool = true;
             }
-            else if (select_type == EntityType::VARIABLE || select_type == EntityType::PROCEDURE || select_type == EntityType::CONSTANT)
+            if (select_type == EntityType::VARIABLE || select_type == EntityType::PROCEDURE || select_type == EntityType::CONSTANT || select_type == EntityType::BOOLEAN)
             {
                 select_map[select_name] = QueryUtility::get_certain_type_str_list(select_type, PKB);
             }
@@ -51,19 +54,16 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
         }
     }
 
-    such_that_map = select_map; // initialize such_that_map
-    pattern_map = select_map; // initialize pattern_map
-
     if (!such_that_clause.empty())
     {
         // has such that
-        such_that_map = unordered_map<string, vector<string>>();
         for (auto relation : such_that_clause)
         {
             RelationshipType relation_type = relation.get_relationship();
             pql_dto::Entity first_param = relation.get_first_param();
             pql_dto::Entity second_param = relation.get_second_param();
             bool trivial_result;
+            bool is_true = false;
 
             if (relation_type == RelationshipType::FOLLOWS)
             {
@@ -74,9 +74,16 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
                         trivial_result = FollowsEvaluator::evaluate_trivial(first_param, second_param, PKB);
                         if (!trivial_result)
                         {
-                            return empty_set;
+                            if (is_bool)
+                            {
+                                return unordered_set<string> {"FALSE"};
+                            }
+                            else
+                            {
+                                return empty_set;
+                            }
                         }
-                        intermediary_map = select_map;
+                        is_true = true;
                     }
                     else
                     {
@@ -90,9 +97,16 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
                         trivial_result = FollowsStarEvaluator::evaluate_trivial(first_param, second_param, PKB);
                         if (!trivial_result)
                         {
-                            return empty_set;
+                            if (is_bool)
+                            {
+                                return unordered_set<string> {"FALSE"};
+                            }
+                            else
+                            {
+                                return empty_set;
+                            }
                         }
-                        intermediary_map = select_map;
+                        is_true = true;
                     }
                     else
                     {
@@ -108,9 +122,16 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
                     trivial_result = UsesEvaluator::evaluate_trivial(first_param, second_param, PKB);
                     if (!trivial_result)
                     {
-                        return empty_set;
+                        if (is_bool)
+                        {
+                            return unordered_set<string> {"FALSE"};
+                        }
+                        else
+                        {
+                            return empty_set;
+                        }
                     }
-                    intermediary_map = select_map;
+                    is_true = true;
                 }
                 else
                 {
@@ -127,9 +148,16 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
                         trivial_result = ParentEvaluator::evaluate_trivial(first_param, second_param, PKB);
                         if (!trivial_result)
                         {
-                            return empty_set;
+                            if (is_bool)
+                            {
+                                return unordered_set<string> {"FALSE"};
+                            }
+                            else
+                            {
+                                return empty_set;
+                            }
                         }
-                        intermediary_map = select_map;
+                        is_true = true;
                     }
                     else
                     {
@@ -143,9 +171,16 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
                         trivial_result = ParentStarEvaluator::evaluate_trivial(first_param, second_param, PKB);
                         if (!trivial_result)
                         {
-                            return empty_set;
+                            if (is_bool)
+                            {
+                                return unordered_set<string> {"FALSE"};
+                            }
+                            else
+                            {
+                                return empty_set;
+                            }
                         }
-                        intermediary_map = select_map;
+                        is_true = true;
                     }
                     else
                     {
@@ -161,9 +196,16 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
                     trivial_result = ModifiesEvaluator::evaluate_trivial(first_param, second_param, PKB);
                     if (!trivial_result)
                     {
-                        return empty_set;
+                        if (is_bool)
+                        {
+                            return unordered_set<string> {"FALSE"};
+                        }
+                        else
+                        {
+                            return empty_set;
+                        }
                     }
-                    intermediary_map = select_map;
+                    is_true = true;
                 }
                 else
                 {
@@ -180,9 +222,16 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
                         trivial_result = CallsEvaluator::evaluate_trivial(first_param, second_param, PKB);
                         if (!trivial_result)
                         {
-                            return empty_set;
+                            if (is_bool)
+                            {
+                                return unordered_set<string> {"FALSE"};
+                            }
+                            else
+                            {
+                                return empty_set;
+                            }
                         }
-                        intermediary_map = select_map;
+                        is_true = true;
                     }
                     else
                     {
@@ -196,9 +245,16 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
                         trivial_result = CallsStarEvaluator::evaluate_trivial(first_param, second_param, PKB);
                         if (!trivial_result)
                         {
-                            return empty_set;
+                            if (is_bool)
+                            {
+                                return unordered_set<string> {"FALSE"};
+                            }
+                            else
+                            {
+                                return empty_set;
+                            }
                         }
-                        intermediary_map = select_map;
+                        is_true = true;
                     }
                     else
                     {
@@ -216,9 +272,16 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
                         trivial_result = NextEvaluator::evaluate_trivial(first_param, second_param, PKB);
                         if (!trivial_result)
                         {
-                            return empty_set;
+                            if (is_bool)
+                            {
+                                return unordered_set<string> {"FALSE"};
+                            }
+                            else
+                            {
+                                return empty_set;
+                            }
                         }
-                        intermediary_map = select_map;
+                        is_true = true;
                     }
                     else
                     {
@@ -232,9 +295,16 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
                         trivial_result = NextStarEvaluator::evaluate_trivial(first_param, second_param, PKB);
                         if (!trivial_result)
                         {
-                            return empty_set;
+                            if (is_bool)
+                            {
+                                return unordered_set<string> {"FALSE"};
+                            }
+                            else
+                            {
+                                return empty_set;
+                            }
                         }
-                        intermediary_map = select_map;
+                        is_true = true;
                     }
                     else
                     {
@@ -242,13 +312,23 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
                     }
                 }
             }
-
-            if (QueryEvaluator::is_empty_map(intermediary_map))
+            if (is_true)
             {
-                return empty_set;
+                continue;
             }
             unordered_set<string> common_synonyms = QueryEvaluator::get_common_synonyms(such_that_map, intermediary_map);
             such_that_map = QueryEvaluator::merge_two_maps(such_that_map, intermediary_map, common_synonyms);
+            if (QueryEvaluator::is_empty_map(such_that_map))
+            {
+                if (is_bool)
+                {
+                    return unordered_set<string> {"FALSE"};
+                }
+                else
+                {
+                    return empty_set;
+                }
+            }
         }
     }
 
@@ -273,24 +353,32 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
             {
                 intermediary_map = WhileEvaluator::evaluate(pattern, first_param, second_param, PKB);
             }
-            if (QueryEvaluator::is_empty_map(intermediary_map))
-            {
-                return empty_set;
-            }
             unordered_set<string> common_synonyms = QueryEvaluator::get_common_synonyms(pattern_map, intermediary_map);
             pattern_map = QueryEvaluator::merge_two_maps(pattern_map, intermediary_map, common_synonyms);
+            if (QueryEvaluator::is_empty_map(pattern_map))
+            {
+                if (is_bool)
+                {
+                    return unordered_set<string> {"FALSE"};
+                }
+                else
+                {
+                    return empty_set;
+                }
+            }
         }
     }
 
     // Merge three lists
-    result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map);
+    result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map, visited_such_that);
     return result;
 }
 
 unordered_set<string> QueryEvaluator::merge(vector<pql_dto::Entity> &select_clause,
         unordered_map<string, vector<string>> &select_map,
         unordered_map<string, vector<string>> &such_that_map,
-        unordered_map<string, vector<string>> &pattern_map)
+        unordered_map<string, vector<string>> &pattern_map,
+        bool visited_such_that)
 {
     unordered_set<string> result;
     vector<vector<string>> result_vec;
@@ -301,7 +389,7 @@ unordered_set<string> QueryEvaluator::merge(vector<pql_dto::Entity> &select_clau
 
     if (select_clause.at(0).get_entity_type() == EntityType::BOOLEAN)
     { // if the select type is BOOLEAN
-        if (QueryEvaluator::is_empty_map(final_list))
+        if (QueryEvaluator::is_empty_map(final_list) && !visited_such_that)
         {
             return unordered_set<string> ({"FALSE"});
         }
@@ -311,7 +399,7 @@ unordered_set<string> QueryEvaluator::merge(vector<pql_dto::Entity> &select_clau
         }
     }
     // if the select type is tuple
-    if (QueryEvaluator::is_empty_map(final_list))
+    if (QueryEvaluator::is_empty_map(final_list) && !visited_such_that)
     {
         return unordered_set<string>();
     }

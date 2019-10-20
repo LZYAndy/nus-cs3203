@@ -267,7 +267,7 @@ TEST_CASE("One such that clause: Modifies")
     SECTION("Modifies(s, \"x\")")
     {
         string pql_query = "stmt s; Select s such that Modifies(s, \"x\")";
-        unordered_set<string> expected_result {"4", "24", "25", "26", "27", "30"};
+        unordered_set<string> expected_result {"2", "4", "24", "25", "26", "27", "30", "13", "18", "14"};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 
@@ -299,7 +299,7 @@ TEST_CASE("One such that clause: Uses")
     {
         // since no call implemented yet, so just regard procedure main first
         string pql_query = "procedure p; variable v; Select p such that Uses(p, v)";
-        unordered_set<string> expected_result {"printResults", "computeCentroid"};
+        unordered_set<string> expected_result {"printResults", "computeCentroid", "main"};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 
@@ -320,7 +320,7 @@ TEST_CASE("One such that clause: Uses")
     SECTION("Uses(p, \"normSq\")")
     {
         string pql_query = "procedure p; Select p such that Uses(p, \"normSq\")";
-        unordered_set<string> expected_result {"printResults"};
+        unordered_set<string> expected_result {"printResults", "main"};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 
@@ -387,7 +387,7 @@ TEST_CASE("One such that clause: Calls and Calls*")
     SECTION("Calls(p1, p2)")
     {
         string pql_query_1 = "procedure p1; procedure p2; Select <p1, p2> such that Calls(p1, p2)";
-        unordered_set<string> expected_result_1 {"main computeCentroid", "main printResults", " computeCentroid readPoint"};
+        unordered_set<string> expected_result_1 {"main computeCentroid", "main printResults", "computeCentroid readPoint"};
         REQUIRE(QueryEvaluator::get_result(pql_query_1, PKB) == expected_result_1);
     }
 
@@ -428,7 +428,7 @@ TEST_CASE("One such that clause: Calls and Calls*")
     SECTION("Calls*(p1, p2)")
     {
         string pql_query = "procedure p1; procedure p2; Select <p1, p2> such that Calls*(p1, p2)";
-        unordered_set<string> expected_result {"main computeCentroid", "main printResults", " computeCentroid readPoint", "main readPoint"};
+        unordered_set<string> expected_result {"main computeCentroid", "main printResults", "computeCentroid readPoint", "main readPoint"};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 
