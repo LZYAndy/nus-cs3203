@@ -408,3 +408,8 @@ stmt s; assign a;
 Select s such that Uses(s, "theta") and Parent*(s, a) pattern a(_, _"sigma + sigma"_)
 6, 9, 13, 15
 5000
+83 - Select pattern, wild card query
+assign a;
+Select a pattern a(_, _"si"_)
+
+5000
