@@ -18,6 +18,7 @@ public:
     static vector<string> get_certain_type_int_list(EntityType &type, PKB &PKB);
     static bool is_same_type(EntityType type_1, EntityType type_2);
     static bool is_statement_num(pql_dto::Entity &entity);
+    static bool is_program_line(pql_dto::Entity &entity);
     static bool is_proc_name(pql_dto::Entity &entity);
     static bool is_proc_declared(pql_dto::Entity &entity);
     static bool is_var_name(pql_dto::Entity &entity);

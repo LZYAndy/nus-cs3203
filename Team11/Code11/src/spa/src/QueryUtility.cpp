@@ -10,6 +10,14 @@ bool QueryUtility::is_statement_num(pql_dto::Entity &entity)
 }
 
 /*
+Checks if the entity is a program line
+ */
+bool QueryUtility::is_program_line(pql_dto::Entity &entity)
+{
+    return !(entity.is_entity_declared() || entity.get_entity_type() != EntityType::PROG_LINE);
+}
+
+/*
 Checks if the entity is a procedure undeclared
 */
 bool QueryUtility::is_proc_name(pql_dto::Entity &entity)
@@ -54,6 +62,11 @@ vector<string> QueryUtility::get_certain_type_str_list(EntityType &type, PKB &PK
     if (type == EntityType::CONSTANT)
     {
         return PKB.get_all_constants();
+    }
+
+    if (type == EntityType::BOOLEAN)
+    {
+        return vector<string> {"true", "false"};
     }
 
     for (iter = type_list.begin(); iter != type_list.end(); iter++)
@@ -120,8 +133,8 @@ bool QueryUtility::is_same_type(EntityType type_1, EntityType type_2)
     if (type_1 == EntityType::STMT)
     {
         if (type_2 == EntityType::STMT || type_2 == EntityType::ASSIGN || type_2 == EntityType::CALL ||
-                type_2 == EntityType::IF || type_2 == EntityType::PRINT || type_2 == EntityType::READ ||
-                type_2 == EntityType::WHILE)
+            type_2 == EntityType::IF || type_2 == EntityType::PRINT || type_2 == EntityType::READ ||
+            type_2 == EntityType::WHILE)
         {
             return true;
         }
@@ -129,11 +142,15 @@ bool QueryUtility::is_same_type(EntityType type_1, EntityType type_2)
     if (type_2 == EntityType::STMT)
     {
         if (type_1 == EntityType::STMT || type_1 == EntityType::ASSIGN || type_1 == EntityType::CALL ||
-                type_1 == EntityType::IF || type_1 == EntityType::PRINT || type_1 == EntityType::READ ||
-                type_1 == EntityType::WHILE)
+            type_1 == EntityType::IF || type_1 == EntityType::PRINT || type_1 == EntityType::READ ||
+            type_1 == EntityType::WHILE)
         {
             return true;
         }
+    }
+    if (type_1 == EntityType::PROG_LINE || type_2 == EntityType::PROG_LINE)
+    {
+        return true;
     }
     return type_1 == type_2;
 }
@@ -179,7 +196,7 @@ unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity &key
 }
 
 unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity &key_1, pql_dto::Entity &key_2,
-                                   unordered_map<int, vector<int>> &int_map, PKB &PKB)
+        unordered_map<int, vector<int>> &int_map, PKB &PKB)
 {
     unordered_map<std::string, std::vector<std::string>> result;
     vector<string> key_value_1;
@@ -206,7 +223,7 @@ unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity &key
 }
 
 unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity &key_1, pql_dto::Entity &key_2,
-                                   unordered_map<string, vector<string>> &str_map)
+        unordered_map<string, vector<string>> &str_map)
 {
     unordered_map<std::string, std::vector<std::string>> result;
     vector<string> key_value_1;
@@ -227,7 +244,7 @@ unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity &key
 }
 
 unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity &key_1, pql_dto::Entity &key_2,
-                                   unordered_map<int, vector<string>> &int_str_map, PKB &PKB)
+        unordered_map<int, vector<string>> &int_str_map, PKB &PKB)
 {
     unordered_map<std::string, std::vector<std::string>> result;
     vector<string> key_value_1;
@@ -264,7 +281,7 @@ unordered_map<string, vector<string>> QueryUtility::mapping(string &str, vector<
 }
 
 unordered_map<string, vector<string>> QueryUtility::mapping(string &str_1, string &str_2,
-                                   vector<int> &int_vec, PKB &PKB)
+        vector<int> &int_vec, PKB &PKB)
 {
     unordered_map<std::string, std::vector<std::string>> result;
     vector<string> key_value;
@@ -280,7 +297,7 @@ unordered_map<string, vector<string>> QueryUtility::mapping(string &str_1, strin
 }
 
 unordered_map<string, vector<string>> QueryUtility::mapping(string &str, pql_dto::Entity &key,
-                                   vector<int> &int_vec, PKB &PKB)
+        vector<int> &int_vec, PKB &PKB)
 {
     unordered_map<std::string, std::vector<std::string>> result;
     vector<string> key_value_1;

@@ -11,9 +11,8 @@
 #include <pql_dto/Entity.h>
 #include <pql_dto/Relationships.h>
 #include <pql_dto/Pattern.h>
-#include <ConverterUtil.h>
 
-class AssignEvaluator
+class WhileEvaluator
 {
 public:
     static unordered_map<string, vector<string>> evaluate(pql_dto::Pattern &pattern,
