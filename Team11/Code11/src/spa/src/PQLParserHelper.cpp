@@ -20,10 +20,6 @@ std::string PQLParserHelper::pql_validate_initial_query(std::string& query)
     {
         return error_messages::invalid_query_missing_select;
     }
-    else if (query.find(select_keyword) == 0)
-    {
-        return error_messages::invalid_query_missing_declarations;
-    }
 
     return "";
 }

@@ -1,0 +1,76 @@
+procedure main {
+   x = 100;
+   read z;
+   y = x + z;
+   print y;
+   x = alpha + beta * ( gamma - delta) % ( epsilon / zeta + eta) - theta * 100;
+   if (x > 0) then {
+       a = b + 1;
+       b = b + 1;
+       while (b > 0) {
+          z = z + alpha;
+          y = x + zeta;
+          b = b - 1;
+          while (c < delta + theta) {
+              c = delta * 100;
+              if (delta > 0) then {
+                  delta = delta * -1;
+                  sigma = sigma - delta;
+                  theta = theta + 1;}
+              else {
+                  delta = delta + 100 * sigma;
+                  sigma = sigma + sigma + sigma +sigma + sigma + delta + delta;
+                  delta = delta - 1;}
+              if (alpha > 0) then {
+                  alpha = alpha - 1;
+                  sigma = b - a;}
+              else {
+                  epsilon = epsilon + ( a + b * e ) + c + d + e + alpha;}
+              while (x > t) {
+                  x = t + 1;
+                  t = t - 100;}
+              call second;
+              call third;
+              print x;
+              print alpha;}}
+      print b;
+      b = b + alpha;}
+  else {
+      call third;
+      read p;
+      read c;
+      call second;}
+  call second;
+  b = final;}
+
+procedure second {
+  call third;
+  call third;
+  bool = true;
+  if (bool == true) then {
+      call third;
+      a = b + c;
+      b = a + x + t;
+      c = x + t + y;
+      t = x + t + g + cs;
+      while (z > t) {
+          z = a + v;
+          while (sigma > alpha) {
+              a = b * c;}
+          if (k > 0) then {
+              k = j;}
+          else {
+              k = p;}}}
+  else {
+      line = 57;
+      line = 58;
+      print line;
+      read x;}}
+
+procedure third {
+  sigma = sigma + x;
+  bool = false;
+  if (bool == false) then {
+      x = 100;}
+  else {
+      y = 100;}}

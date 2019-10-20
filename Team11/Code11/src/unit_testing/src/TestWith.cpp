@@ -18,23 +18,28 @@ TEST_CASE("With can store and retrieve correct entity types.")
         REQUIRE(second_param.equals(second_param_entity));
     }
 
-    SECTION("With with both integer params.", "With s = c")
+    SECTION("With with both integer params.", "With s.stmt# = c.value")
     {
         pql_dto::Entity first_param_entity = pql_dto::Entity("stmt", "s", true);
+        first_param_entity.set_entity_attr("stmt#");
         pql_dto::Entity second_param_entity = pql_dto::Entity("constant", "c", true);
+        second_param_entity.set_entity_attr("value");
         REQUIRE_NOTHROW(pql_dto::With(first_param_entity, second_param_entity));
     }
 
-    SECTION("With with both string params.", "With v1 = proc")
+    SECTION("With with both string params.", "With v1.varName = proc.procName")
     {
         pql_dto::Entity first_param_entity = pql_dto::Entity("variable", "v1", true);
+        first_param_entity.set_entity_attr("varName");
         pql_dto::Entity second_param_entity = pql_dto::Entity("procedure", "proc", true);
+        second_param_entity.set_entity_attr("procName");
         REQUIRE_NOTHROW(pql_dto::With(first_param_entity, second_param_entity));
     }
 
-    SECTION("With with one declared and one undeclared.", "With v1 = \"count\"")
+    SECTION("With with one declared and one undeclared.", "With v1.varName = \"count\"")
     {
         pql_dto::Entity first_param_entity = pql_dto::Entity("variable", "v1", true);
+        first_param_entity.set_entity_attr("varName");
         pql_dto::Entity second_param_entity = pql_dto::Entity("variable", "count", false);
         REQUIRE_NOTHROW(pql_dto::With(first_param_entity, second_param_entity));
     }
@@ -76,10 +81,12 @@ TEST_CASE("With throws error for incorrect entity types.")
             error_messages::invalid_with_mismatch_type);
     }
 
-    SECTION("With with 2 declared variables mismatch type.", "With v = s")
+    SECTION("With with 2 declared variables mismatch type.", "With v.varName = s.stmt#")
     {
         pql_dto::Entity first_param_entity = pql_dto::Entity("variable", "v", true);
+        first_param_entity.set_entity_attr("varName");
         pql_dto::Entity second_param_entity = pql_dto::Entity("stmt", "s", true);
+        second_param_entity.set_entity_attr("stmt#");
         REQUIRE_THROWS_WITH(pql_dto::With(first_param_entity, second_param_entity),
             error_messages::invalid_with_mismatch_type);
     }
@@ -89,7 +96,7 @@ TEST_CASE("With throws error for incorrect entity types.")
         pql_dto::Entity first_param_entity = pql_dto::Entity("procedure", "proc", true);
         pql_dto::Entity second_param_entity = pql_dto::Entity("prog_line", "5", false);
         REQUIRE_THROWS_WITH(pql_dto::With(first_param_entity, second_param_entity),
-            error_messages::invalid_with_mismatch_type);
+            error_messages::invalid_query_with_clause_syntax);
     }
 
     SECTION("With with same type but different strings.", "With \"count\" = \"long\"")
