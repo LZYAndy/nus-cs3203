@@ -29,10 +29,13 @@ std::string PQLParser::pql_parse_query(std::string query, std::vector<pql_dto::E
 
     /// Validates the declaration string
     size_t last_semi_colon = query.find_last_of(';');
-    error = PQLParserHelper::parse_declaration_clause(query.substr(0, last_semi_colon), declared_variables);
-    if (!error.empty())
+    if (last_semi_colon != std::string::npos)
     {
-        return error;
+        error = PQLParserHelper::parse_declaration_clause(query.substr(0, last_semi_colon), declared_variables);
+        if (!error.empty())
+        {
+            return error;
+        }
     }
 
     /// Validates the select string

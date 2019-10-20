@@ -4,6 +4,9 @@
 #include "pql_dto/ModifiesRelationship.cpp"
 #include "pql_dto/ParentRelationship.cpp"
 #include "pql_dto/FollowsRelationship.cpp"
+#include "pql_dto/CallsRelationship.cpp"
+#include "pql_dto/NextRelationship.cpp"
+#include "pql_dto/AffectsRelationship.cpp"
 
 #include <string>
 
@@ -340,5 +343,207 @@ TEST_CASE("Modifies Relationships throws error for incorrect entity types.")
         pql_dto::Entity second_param_entity = pql_dto::Entity("variable", "v2", true);
         REQUIRE_THROWS_WITH(pql_dto::ModifiesRelationship(first_param_entity,
                             second_param_entity, false), error_messages::invalid_modifies_relationship_first_param);
+    }
+}
+
+TEST_CASE("Calls Relationships can store and retrieve correct entity types.")
+{
+    SECTION("Trivial Calls Relationship.", "Calls(\"proc1\",\"proc2\")")
+    {
+        pql_dto::Entity first_param_entity = pql_dto::Entity("procedure", "proc1", false);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("procedure", "proc2", false);
+        pql_dto::Relationships calls_relationship = pql_dto::CallsRelationship(first_param_entity,
+            second_param_entity, false);
+
+        RelationshipType relationship_type = calls_relationship.get_relationship();
+        pql_dto::Entity first_param = calls_relationship.get_first_param();
+        pql_dto::Entity second_param = calls_relationship.get_second_param();
+
+        REQUIRE(relationship_type == RelationshipType::CALLS);
+        REQUIRE(first_param.equals(first_param_entity));
+        REQUIRE(second_param.equals(second_param_entity));
+    }
+
+    SECTION("Calls Relationship with both unknown param.", "Calls(p1,p2)")
+    {
+        pql_dto::Entity first_param_entity = pql_dto::Entity("procedure", "p1", true);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("procedure", "p2", true);
+        REQUIRE_NOTHROW(pql_dto::CallsRelationship(first_param_entity,
+            second_param_entity, false));
+    }
+
+    SECTION("Calls Relationship with declared procedure and any param.", "Calls(p1,_)")
+    {
+        pql_dto::Entity first_param_entity = pql_dto::Entity("procedure", "p1", true);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("any", "_", false);
+        REQUIRE_NOTHROW(pql_dto::CallsRelationship(first_param_entity,
+            second_param_entity, false));
+    }
+
+    SECTION("Calls Relationship with both any.", "Calls(_,_)")
+    {
+        pql_dto::Entity first_param_entity = pql_dto::Entity("any", "_", false);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("any", "_", false);
+        REQUIRE_NOTHROW(pql_dto::CallsRelationship(first_param_entity,
+            second_param_entity, false));
+    }
+}
+
+TEST_CASE("Calls Relationships throws error for incorrect entity types.")
+{
+    SECTION("Trivial Calls Relationship with second param as statement.", "Calls(7,2)")
+    {
+        pql_dto::Entity first_param_entity = pql_dto::Entity("stmt", "7", false);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("stmt", "2", false);
+        REQUIRE_THROWS_WITH(pql_dto::CallsRelationship(first_param_entity,
+            second_param_entity, false), error_messages::invalid_calls_relationship_first_param);
+    }
+
+    SECTION("Calls Relationship with invalid stmt second param entity.", "Calls(p1,s1)")
+    {
+        pql_dto::Entity first_param_entity = pql_dto::Entity("procedure", "p1", false);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("stmt", "s1", true);
+        REQUIRE_THROWS_WITH(pql_dto::CallsRelationship(first_param_entity,
+            second_param_entity, false), error_messages::invalid_calls_relationship_second_param);
+    }
+}
+
+TEST_CASE("Next Relationships can store and retrieve correct entity types.")
+{
+    SECTION("Trivial Next Relationship.", "Next(2,7)")
+    {
+        pql_dto::Entity first_param_entity = pql_dto::Entity("prog_line", "2", false);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("prog_line", "7", false);
+        pql_dto::Relationships Next_relationship = pql_dto::NextRelationship(first_param_entity,
+            second_param_entity, false);
+
+        RelationshipType relationship_type = Next_relationship.get_relationship();
+        pql_dto::Entity first_param = Next_relationship.get_first_param();
+        pql_dto::Entity second_param = Next_relationship.get_second_param();
+
+        REQUIRE(relationship_type == RelationshipType::NEXT);
+        REQUIRE(first_param.equals(first_param_entity));
+        REQUIRE(second_param.equals(second_param_entity));
+    }
+
+    SECTION("Next Relationship with both unknown param.", "Next(s1,s2)")
+    {
+        pql_dto::Entity first_param_entity = pql_dto::Entity("stmt", "s1", true);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("stmt", "s2", true);
+        REQUIRE_NOTHROW(pql_dto::NextRelationship(first_param_entity,
+            second_param_entity, false));
+    }
+
+    SECTION("Next Relationship with any param and declared variable.", "Next(_,s2)")
+    {
+        pql_dto::Entity first_param_entity = pql_dto::Entity("any", "_", false);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("stmt", "s2", true);
+        REQUIRE_NOTHROW(pql_dto::NextRelationship(first_param_entity,
+            second_param_entity, false));
+    }
+
+    SECTION("Next Relationship with a stmt number and any param.", "Next(6,_)")
+    {
+        pql_dto::Entity first_param_entity = pql_dto::Entity("stmt", "6", false);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("any", "_", false);
+        REQUIRE_NOTHROW(pql_dto::NextRelationship(first_param_entity,
+            second_param_entity, false));
+    }
+}
+
+TEST_CASE("Next Relationships throws error for incorrect entity types.")
+{
+    SECTION("Next Relationship with invalid procedure first param entity.", "Next(p,2)")
+    {
+        pql_dto::Entity first_param_entity = pql_dto::Entity("procedure", "p", true);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("stmt", "2", false);
+        REQUIRE_THROWS_WITH(pql_dto::NextRelationship(first_param_entity,
+            second_param_entity, false), error_messages::invalid_next_relationship_first_param);
+    }
+
+    SECTION("Next Relationship with invalid constant second param entity.", "Next(7,c)")
+    {
+        pql_dto::Entity first_param_entity = pql_dto::Entity("stmt", "7", false);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("constant", "c", true);
+        REQUIRE_THROWS_WITH(pql_dto::NextRelationship(first_param_entity,
+            second_param_entity, false), error_messages::invalid_next_relationship_second_param);
+    }
+
+    SECTION("Next Relationship with invalid variable first param entity.", "Next(v,c)")
+    {
+        pql_dto::Entity first_param_entity = pql_dto::Entity("variable", "v", true);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("constant", "c", true);
+        REQUIRE_THROWS_WITH(pql_dto::NextRelationship(first_param_entity,
+            second_param_entity, false), error_messages::invalid_next_relationship_first_param);
+    }
+}
+
+TEST_CASE("Affects Relationships can store and retrieve correct entity types.")
+{
+    SECTION("Trivial Affects Relationship.", "Affects(2,7)")
+    {
+        pql_dto::Entity first_param_entity = pql_dto::Entity("stmt", "2", false);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("stmt", "7", false);
+        pql_dto::Relationships Affects_relationship = pql_dto::AffectsRelationship(first_param_entity,
+            second_param_entity, false);
+
+        RelationshipType relationship_type = Affects_relationship.get_relationship();
+        pql_dto::Entity first_param = Affects_relationship.get_first_param();
+        pql_dto::Entity second_param = Affects_relationship.get_second_param();
+
+        REQUIRE(relationship_type == RelationshipType::AFFECTS);
+        REQUIRE(first_param.equals(first_param_entity));
+        REQUIRE(second_param.equals(second_param_entity));
+    }
+
+    SECTION("Affects Relationship with both unknown param.", "Affects(s1,s2)")
+    {
+        pql_dto::Entity first_param_entity = pql_dto::Entity("stmt", "s1", true);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("stmt", "s2", true);
+        REQUIRE_NOTHROW(pql_dto::AffectsRelationship(first_param_entity,
+            second_param_entity, false));
+    }
+
+    SECTION("Affects Relationship with any param and declared variable.", "Affects(_,s2)")
+    {
+        pql_dto::Entity first_param_entity = pql_dto::Entity("any", "_", false);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("stmt", "s2", true);
+        REQUIRE_NOTHROW(pql_dto::AffectsRelationship(first_param_entity,
+            second_param_entity, false));
+    }
+
+    SECTION("Affects Relationship with a stmt number and any param.", "Affects(6,_)")
+    {
+        pql_dto::Entity first_param_entity = pql_dto::Entity("stmt", "6", false);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("any", "_", false);
+        REQUIRE_NOTHROW(pql_dto::AffectsRelationship(first_param_entity,
+            second_param_entity, false));
+    }
+}
+
+TEST_CASE("Affects Relationships throws error for incorrect entity types.")
+{
+    SECTION("Affects Relationship with invalid procedure first param entity.", "Affects(p,2)")
+    {
+        pql_dto::Entity first_param_entity = pql_dto::Entity("procedure", "p", true);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("stmt", "2", false);
+        REQUIRE_THROWS_WITH(pql_dto::AffectsRelationship(first_param_entity,
+            second_param_entity, false), error_messages::invalid_affects_relationship_first_param);
+    }
+
+    SECTION("Affects Relationship with invalid constant second param entity.", "Affects(7,c)")
+    {
+        pql_dto::Entity first_param_entity = pql_dto::Entity("stmt", "7", false);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("constant", "c", true);
+        REQUIRE_THROWS_WITH(pql_dto::AffectsRelationship(first_param_entity,
+            second_param_entity, false), error_messages::invalid_affects_relationship_second_param);
+    }
+
+    SECTION("Affects Relationship with invalid variable first param entity.", "Affects(v,c)")
+    {
+        pql_dto::Entity first_param_entity = pql_dto::Entity("variable", "v", true);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("constant", "c", true);
+        REQUIRE_THROWS_WITH(pql_dto::AffectsRelationship(first_param_entity,
+            second_param_entity, false), error_messages::invalid_affects_relationship_first_param);
     }
 }
