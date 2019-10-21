@@ -124,7 +124,7 @@ public:
      * @param declared_variables The pointer to the variables unordered map.
      * @return The error string if the query is invalid.
      */
-    static std::string parse_pattern_clause(const std::string& query, std::vector<pql_dto::Pattern>& pattern_clause,
+    static std::string parse_pattern_clause(std::string& query, std::vector<pql_dto::Pattern>& pattern_clause,
         std::unordered_map<std::string, std::string>& declared_variables);
 
     /**

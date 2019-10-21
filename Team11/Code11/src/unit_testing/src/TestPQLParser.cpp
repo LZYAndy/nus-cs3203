@@ -261,6 +261,78 @@ TEST_CASE("Pql query parser parse and validate valid query correctly.")
         REQUIRE(pattern_clause.size() == 1);
         REQUIRE(with_clause.size() == 0);
     }
+
+    SECTION("Valid query 22.")
+    {
+        std::string test_query = "while w; if ifs;\nSelect w with w   .    stmt# = 5 such that Parent(w, 7) and Follows(w, 8)";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == "");
+        REQUIRE(select_clause.size() == 1);
+        REQUIRE(such_that_clause.size() == 2);
+        REQUIRE(pattern_clause.size() == 0);
+        REQUIRE(with_clause.size() == 1);
+    }
+
+    SECTION("Valid query 23.")
+    {
+        std::string test_query = "while w; if ifs;\nSelect w with w.    stmt# = 5 such that Parent(w, 7) and Follows(w, 8)";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == "");
+        REQUIRE(select_clause.size() == 1);
+        REQUIRE(such_that_clause.size() == 2);
+        REQUIRE(pattern_clause.size() == 0);
+        REQUIRE(with_clause.size() == 1);
+    }
+
+    SECTION("Valid query 24.")
+    {
+        std::string test_query = "procedure p1; procedure p2; Select <    p1\n,\t p2\n> such that Calls     (p1, p2)";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == "");
+        REQUIRE(select_clause.size() == 2);
+        REQUIRE(such_that_clause.size() == 1);
+        REQUIRE(pattern_clause.size() == 0);
+        REQUIRE(with_clause.size() == 0);
+    }
+
+    SECTION("Valid query 25.")
+    {
+        std::string test_query = "procedure p1; procedure p2; Select <    p1\n,\t p2\n>such that Calls  *   (p1, p2)";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == "");
+        REQUIRE(select_clause.size() == 2);
+        REQUIRE(such_that_clause.size() == 1);
+        REQUIRE(pattern_clause.size() == 0);
+        REQUIRE(with_clause.size() == 0);
+    }
+
+    SECTION("Valid query 26.")
+    {
+        std::string test_query = "while w; if ifs;\nSelect w with w.    stmt# = 5 such that Parent(w, 7)and\n Follows(w, 8)";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == "");
+        REQUIRE(select_clause.size() == 1);
+        REQUIRE(such_that_clause.size() == 2);
+        REQUIRE(pattern_clause.size() == 0);
+        REQUIRE(with_clause.size() == 1);
+    }
+
+    SECTION("Valid query 27.")
+    {
+        std::string test_query = "assign a; variable v; Select a pattern a(v, \"(b+c*(b-q/(abc%d)))/e%a\")";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == "");
+        REQUIRE(select_clause.size() == 1);
+        REQUIRE(such_that_clause.size() == 0);
+        REQUIRE(pattern_clause.size() == 1);
+        REQUIRE(with_clause.size() == 0);
+    }
 }
 
 TEST_CASE("Pql query parser parse and validate invalid query correctly.")
@@ -340,6 +412,38 @@ TEST_CASE("Pql query parser parse and validate invalid query correctly.")
         std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
 
         REQUIRE(error == error_messages::invalid_relationship_type);
+    }
+
+    SECTION("Invalid query 10.")
+    {
+        std::string test_query = "variable v1, v2; assign a; if ifs; Select v1 pattern ifs (_,_,v1)";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == error_messages::invalid_query_pattern_clause_syntax);
+    }
+
+    SECTION("Invalid query 11.")
+    {
+        std::string test_query = "variable v1, v2; assign a; if ifs; Select v1 pattern if (_,_,_)";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == error_messages::invalid_query_wrong_pattern_entity);
+    }
+
+    SECTION("Invalid query 12.")
+    {
+        std::string test_query = "variable v1, v2; assign a; while w; Select v1 pattern w (v2,v1)";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == error_messages::invalid_pattern_second_param);
+    }
+
+    SECTION("Invalid query 13.")
+    {
+        std::string test_query = "variable v1, v2; assign a; while w; Select v1 pattern w (v,_)";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == error_messages::invalid_declared_entity_name);
     }
 }
 
