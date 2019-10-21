@@ -187,7 +187,7 @@ public:
         insert_type(21, EntityType::ASSIGN);
         insert_variable("cenX");
         insert_variable("count");
-        insert_assign(21, "cenX", "cenX / count");
+        insert_assign(21, "cenX", "/ cenX count");
         insert_uses(21, "cenX");
         insert_uses(21, "count");
         insert_modifies(21, "cenX");
@@ -203,7 +203,7 @@ public:
         insert_type(22, EntityType::ASSIGN);
         insert_variable("cenY");
         insert_variable("count");
-        insert_assign(22, "cenY", "cenY / count");
+        insert_assign(22, "cenY", "/ cenY count");
         insert_uses(22, "cenY");
         insert_uses(22, "count");
         insert_modifies(22, "cenY");
@@ -221,7 +221,7 @@ public:
         insert_variable("normSq");
         insert_variable("cenX");
         insert_variable("cenY");
-        insert_assign(23, "normSq", "cenX * cenX + cenY * cenY");
+        insert_assign(23, "normSq", "+ * cenX cenX * cenY cenY");
         insert_modifies(23, "normSq");
         insert_uses(23, "cenX");
         insert_uses(23, "cenY");
@@ -275,7 +275,7 @@ public:
         insert_constant("2");
         insert_variable("count");
         insert_variable("y");
-        insert_assign(28, "count", "2 * y");
+        insert_assign(28, "count", "* 2 y");
         insert_modifies("whileIfProc", "count");
         insert_modifies(24, "count");
         insert_modifies(25, "count");
