@@ -25,6 +25,8 @@ public:
 
     // Invoke Parser
     void invoke_parser();
+
+    void insert_next_for_if(Statement if_statement, int next_stmt_num);
 };
 
 #endif //AUTOTESTER_PARSERINVOKER_H
