@@ -13,7 +13,7 @@ unordered_map<string, vector<string>> CallsStarEvaluator::evaluate_non_trivial(p
         if (second_param.get_entity_type() == EntityType::ANY)
         {
             // e.g. Calls*(p, _)
-            vector<string> str_vec = PKB.get_all_procedures_calls();
+            vector<string> str_vec = PKB.get_all_procedures_called();
             result = QueryUtility::mapping(first_param, str_vec);
         }
         else if (QueryUtility::is_proc_name(second_param))
@@ -40,7 +40,7 @@ unordered_map<string, vector<string>> CallsStarEvaluator::evaluate_non_trivial(p
         if (first_param.get_entity_type() == EntityType::ANY)
         {
             // e.g. Calls*(_, q)
-            vector<string> str_vec = PKB.get_all_procedures_called();
+            vector<string> str_vec = PKB.get_all_procedures_calls();
             result = QueryUtility::mapping(second_param, str_vec);
         }
         else if (QueryUtility::is_proc_name(first_param))
