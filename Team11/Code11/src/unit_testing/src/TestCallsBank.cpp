@@ -7,13 +7,13 @@ TEST_CASE("CallsBank::does_calls_exist()")
     
     SECTION("empty")
     {
-        calls_bank.insert_calls("hello", "hello");
+        calls_bank.insert_calls(1, "hello", "hello");
         REQUIRE_FALSE(calls_bank.does_calls_exist());
     }
 
     SECTION(">1")
     {
-        calls_bank.insert_calls("hello", "helloWorld");
+        calls_bank.insert_calls(1, "hello", "helloWorld");
         REQUIRE(calls_bank.does_calls_exist());
     }
 }
@@ -21,10 +21,10 @@ TEST_CASE("CallsBank::does_calls_exist()")
 TEST_CASE("CallsBank::is_calls()")
 {
     CallsBank calls_bank;
-    calls_bank.insert_calls("hello", "world");
-    calls_bank.insert_calls("foo", "bar");
-    calls_bank.insert_calls("chocolate", "vanilla");
-    calls_bank.insert_calls("hello", "chocolate");
+    calls_bank.insert_calls(1, "hello", "world");
+    calls_bank.insert_calls(2, "foo", "bar");
+    calls_bank.insert_calls(3, "chocolate", "vanilla");
+    calls_bank.insert_calls(4, "hello", "chocolate");
 
     SECTION("return false")
     {
@@ -51,8 +51,8 @@ TEST_CASE("CallsBank::get_all_procedures_calls()")
 
     SECTION("return 1")
     {
-        calls_bank.insert_calls("hello", "world");
-        calls_bank.insert_calls("bye", "world");
+        calls_bank.insert_calls(1, "hello", "world");
+        calls_bank.insert_calls(2, "bye", "world");
         std::vector<std::string> result = calls_bank.get_all_procedures_calls();
         REQUIRE(result.size() == 1);
         std::vector<std::string> expected;
@@ -62,10 +62,10 @@ TEST_CASE("CallsBank::get_all_procedures_calls()")
 
     SECTION("return >1")
     {
-        calls_bank.insert_calls("hello", "world");
-        calls_bank.insert_calls("hello", "banana");
-        calls_bank.insert_calls("chocolate", "banana");
-        calls_bank.insert_calls("chocolate", "pie");
+        calls_bank.insert_calls(1, "hello", "world");
+        calls_bank.insert_calls(2, "hello", "banana");
+        calls_bank.insert_calls(3, "chocolate", "banana");
+        calls_bank.insert_calls(4, "chocolate", "pie");
         std::vector<std::string> result = calls_bank.get_all_procedures_calls();
         REQUIRE(result.size() == 3);
         std::vector<std::string> expected;
@@ -89,8 +89,8 @@ TEST_CASE("CallsBank::get_all_procedures_called()")
 
     SECTION("return 1")
     {
-        calls_bank.insert_calls("hello", "world");
-        calls_bank.insert_calls("hello", "itsMe");
+        calls_bank.insert_calls(1, "hello", "world");
+        calls_bank.insert_calls(2, "hello", "itsMe");
         std::vector<std::string> result = calls_bank.get_all_procedures_called();
         REQUIRE(result.size() == 1);
         std::vector<std::string> expected;
@@ -100,10 +100,10 @@ TEST_CASE("CallsBank::get_all_procedures_called()")
 
     SECTION("return >1")
     {
-        calls_bank.insert_calls("hello", "world");
-        calls_bank.insert_calls("hello", "banana");
-        calls_bank.insert_calls("chocolate", "banana");
-        calls_bank.insert_calls("chocolate", "pie");
+        calls_bank.insert_calls(1, "hello", "world");
+        calls_bank.insert_calls(2, "hello", "banana");
+        calls_bank.insert_calls(3, "chocolate", "banana");
+        calls_bank.insert_calls(4, "chocolate", "pie");
         std::vector<std::string> result = calls_bank.get_all_procedures_called();
         REQUIRE(result.size() == 2);
         std::vector<std::string> expected;
@@ -118,12 +118,12 @@ TEST_CASE("CallsBank::get_all_procedures_called()")
 TEST_CASE("CallsBank::get_procedures_called_by()")
 {
     CallsBank calls_bank;
-    calls_bank.insert_calls("hello", "world");
-    calls_bank.insert_calls("hello", "itsMe");
-    calls_bank.insert_calls("hello", "banana");
-    calls_bank.insert_calls("chocolate", "banana");
-    calls_bank.insert_calls("chocolate", "pie");
-    calls_bank.insert_calls("banana", "pie");
+    calls_bank.insert_calls(1, "hello", "world");
+    calls_bank.insert_calls(2, "hello", "itsMe");
+    calls_bank.insert_calls(3, "hello", "banana");
+    calls_bank.insert_calls(4, "chocolate", "banana");
+    calls_bank.insert_calls(5, "chocolate", "pie");
+    calls_bank.insert_calls(6, "banana", "pie");
 
     SECTION("return empty")
     {
@@ -162,9 +162,9 @@ TEST_CASE("CallsBank::get_all_procedures_calls_relationship()")
         REQUIRE(calls_bank.get_all_procedures_calls_relationship().empty());
     }
 
-    calls_bank.insert_calls("hello", "world");
-    calls_bank.insert_calls("hello", "itsMe");
-    calls_bank.insert_calls("hello", "banana");
+    calls_bank.insert_calls(1, "hello", "world");
+    calls_bank.insert_calls(2, "hello", "itsMe");
+    calls_bank.insert_calls(3, "hello", "banana");
 
     SECTION("return 1")
     {
@@ -183,9 +183,9 @@ TEST_CASE("CallsBank::get_all_procedures_calls_relationship()")
 
     SECTION("return >1")
     {
-        calls_bank.insert_calls("chocolate", "banana");
-        calls_bank.insert_calls("chocolate", "pie");
-        calls_bank.insert_calls("banana", "pie");
+        calls_bank.insert_calls(1, "chocolate", "banana");
+        calls_bank.insert_calls(2, "chocolate", "pie");
+        calls_bank.insert_calls(3, "banana", "pie");
         std::unordered_map<std::string, std::vector<std::string>> result = calls_bank.get_all_procedures_calls_relationship();
         REQUIRE(result.size() == 3);
         std::vector<std::string> expected;
@@ -211,5 +211,28 @@ TEST_CASE("CallsBank::get_all_procedures_calls_relationship()")
         std::sort(expected3.begin(), expected3.end());
         std::sort(result_values3.begin(), result_values3.end());
         REQUIRE(expected3 == result_values3);
+    }
+}
+
+TEST_CASE("CallsBank::get_all_statements_calls_relationship()")
+{
+    CallsBank calls_bank;
+
+    SECTION("empty")
+    {
+        REQUIRE(calls_bank.get_all_statements_calls_relationship().empty());
+    }
+
+    SECTION(">1")
+    {
+        calls_bank.insert_calls(1, "hello", "world");
+        calls_bank.insert_calls(2, "hello", "itsMe");
+        calls_bank.insert_calls(3, "hello", "banana");
+        std::unordered_map<int, std::vector<std::string>> result = calls_bank.get_all_statements_calls_relationship();
+        std::unordered_map<int, std::vector<std::string>> expected;
+        expected.insert({1, {"world"}});
+        expected.insert({2, {"itsMe"}});
+        expected.insert({3, {"banana"}});
+        REQUIRE(expected == result);
     }
 }

@@ -77,7 +77,7 @@ void DesignExtractor::extract_further_parents_child(ParentBank &bank_in, ParentS
     return;
 }
 
-bool DesignExtractor::extract_calls_star(CallsBank &bank_in, CallsStarBank &bank_out, UsesBank &uses_bank, ModifiesBank &modifies_bank)
+bool DesignExtractor::extract_calls_star(CallsBank &bank_in, CallsStarBank &bank_out, UsesBank &uses_bank, ModifiesBank &modifies_bank, ParentStarBank &parent_star_bank)
 {
     // copy callsBank to CallsStarBank
     for (std::pair<std::string, std::vector<std::string>> in: bank_in.get_all_procedures_calls_relationship())
@@ -85,6 +85,8 @@ bool DesignExtractor::extract_calls_star(CallsBank &bank_in, CallsStarBank &bank
         for (std::string proc_called: in.second)
         {
             bank_out.insert_calls_star(in.first, proc_called);
+            uses_bank.insert_uses_for_call(in.first, proc_called); // insert uses relationship for proc
+            modifies_bank.insert_modifies_for_call(in.first, proc_called); // insert modifies relationship for proc
         }
     }
     std::vector<std::string> keys  = bank_out.get_all_procedures_calls_star();
@@ -93,21 +95,43 @@ bool DesignExtractor::extract_calls_star(CallsBank &bank_in, CallsStarBank &bank
     {
         for (int j = i; j < keys.size(); j++)
         {
-            for (std::string proc_calls : bank_out.get_procedures_calls_star(keys[j])) // get all proc that calls key (_, key)
+            for (std::string proc_call : bank_out.get_procedures_calls_star(keys[j])) // get all proc that calls key (_, key)
             {  
                 for (std::string proc_called_by_key : bank_out.get_procedures_called_by_star(keys[j]))
                 {
-                    bool insert_result = bank_out.insert_calls_star(proc_calls, proc_called_by_key);
+                    bool insert_result = bank_out.insert_calls_star(proc_call, proc_called_by_key);
                     if (!insert_result)
                     {
                         return false;
                     }
+                    uses_bank.insert_uses_for_call(proc_call, proc_called_by_key);
+                    modifies_bank.insert_modifies_for_call(proc_call, proc_called_by_key);
                 }
             }
         }
         i++;
     }
     
-
+    for (auto call_stmt : bank_in.get_all_statements_calls_relationship())
+    {
+        auto parents = parent_star_bank.get_parent_star(call_stmt.first);
+        for (std::string uses_variable : uses_bank.get_used_by_procedure(call_stmt.second[0]))
+        {
+            uses_bank.insert_uses(call_stmt.first, uses_variable);
+            for (auto parent_stmt_num : parents)
+            {
+                uses_bank.insert_uses(parent_stmt_num, uses_variable);
+            }
+        }
+        
+        for (std::string modifies_variable : modifies_bank.get_modified_by_procedure(call_stmt.second[0]))
+        {
+            modifies_bank.insert_modifies(call_stmt.first, modifies_variable);
+            for (auto parent_stmt_num : parents)
+            {
+                modifies_bank.insert_modifies(parent_stmt_num, modifies_variable);
+            }
+        }
+    }
     return true;
 }

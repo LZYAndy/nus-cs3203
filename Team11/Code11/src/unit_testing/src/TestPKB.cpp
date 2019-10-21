@@ -157,8 +157,8 @@ TEST_CASE("PKB::extract_design()")
 
     SECTION("calls* no cyclic")
     {
-        pkb.insert_calls("e", "f");
-        pkb.insert_calls("f", "h");
+        pkb.insert_calls(1, "e", "f");
+        pkb.insert_calls(2, "f", "h");
         REQUIRE(pkb.extract_design());
 
         REQUIRE(pkb.is_calls_star("e", "h"));
@@ -166,8 +166,8 @@ TEST_CASE("PKB::extract_design()")
 
     SECTION("calls* cyclic")
     {
-        pkb.insert_calls("a", "b");
-        pkb.insert_calls("b", "a");
+        pkb.insert_calls(1, "a", "b");
+        pkb.insert_calls(2, "b", "a");
         REQUIRE_FALSE(pkb.extract_design());
     }
 
@@ -2511,13 +2511,13 @@ TEST_CASE("PKB::does_calls_exist()")
 
     SECTION("empty")
     {
-        pkb.insert_calls("hello", "hello");
+        pkb.insert_calls(1, "hello", "hello");
         REQUIRE_FALSE(pkb.does_calls_exist());
     }
 
     SECTION(">1")
     {
-        pkb.insert_calls("hello", "helloWorld");
+        pkb.insert_calls(1, "hello", "helloWorld");
         REQUIRE(pkb.does_calls_exist());
     }
 }
@@ -2525,10 +2525,10 @@ TEST_CASE("PKB::does_calls_exist()")
 TEST_CASE("PKB::is_calls()")
 {
     PKB pkb;
-    pkb.insert_calls("hello", "world");
-    pkb.insert_calls("foo", "bar");
-    pkb.insert_calls("chocolate", "vanilla");
-    pkb.insert_calls("hello", "chocolate");
+    pkb.insert_calls(1, "hello", "world");
+    pkb.insert_calls(2, "foo", "bar");
+    pkb.insert_calls(3, "chocolate", "vanilla");
+    pkb.insert_calls(4, "hello", "chocolate");
 
     SECTION("return false")
     {
@@ -2555,8 +2555,8 @@ TEST_CASE("PKB::get_all_procedures_calls()")
 
     SECTION("return 1")
     {
-        pkb.insert_calls("hello", "world");
-        pkb.insert_calls("bye", "world");
+        pkb.insert_calls(1, "hello", "world");
+        pkb.insert_calls(2, "bye", "world");
         vector<string> result = pkb.get_all_procedures_calls();
         REQUIRE(result.size() == 1);
         vector<string> expected;
@@ -2566,10 +2566,10 @@ TEST_CASE("PKB::get_all_procedures_calls()")
 
     SECTION("return >1")
     {
-        pkb.insert_calls("hello", "world");
-        pkb.insert_calls("hello", "banana");
-        pkb.insert_calls("chocolate", "banana");
-        pkb.insert_calls("chocolate", "pie");
+        pkb.insert_calls(1, "hello", "world");
+        pkb.insert_calls(2, "hello", "banana");
+        pkb.insert_calls(3, "chocolate", "banana");
+        pkb.insert_calls(4, "chocolate", "pie");
         vector<string> result = pkb.get_all_procedures_calls();
         REQUIRE(result.size() == 3);
         vector<string> expected;
@@ -2628,8 +2628,8 @@ TEST_CASE("PKB::get_all_procedures_called()")
 
     SECTION("return 1")
     {
-        pkb.insert_calls("hello", "world");
-        pkb.insert_calls("hello", "itsMe");
+        pkb.insert_calls(1, "hello", "world");
+        pkb.insert_calls(2, "hello", "itsMe");
         vector<string> result = pkb.get_all_procedures_called();
         REQUIRE(result.size() == 1);
         vector<string> expected;
@@ -2639,10 +2639,10 @@ TEST_CASE("PKB::get_all_procedures_called()")
 
     SECTION("return >1")
     {
-        pkb.insert_calls("hello", "world");
-        pkb.insert_calls("hello", "banana");
-        pkb.insert_calls("chocolate", "banana");
-        pkb.insert_calls("chocolate", "pie");
+        pkb.insert_calls(1, "hello", "world");
+        pkb.insert_calls(2, "hello", "banana");
+        pkb.insert_calls(3, "chocolate", "banana");
+        pkb.insert_calls(4, "chocolate", "pie");
         vector<string> result = pkb.get_all_procedures_called();
         REQUIRE(result.size() == 2);
         vector<string> expected;
@@ -2657,12 +2657,12 @@ TEST_CASE("PKB::get_all_procedures_called()")
 TEST_CASE("PKB::get_procedures_called_by()")
 {
     PKB pkb;
-    pkb.insert_calls("hello", "world");
-    pkb.insert_calls("hello", "itsMe");
-    pkb.insert_calls("hello", "banana");
-    pkb.insert_calls("chocolate", "banana");
-    pkb.insert_calls("chocolate", "pie");
-    pkb.insert_calls("banana", "pie");
+    pkb.insert_calls(1, "hello", "world");
+    pkb.insert_calls(2, "hello", "itsMe");
+    pkb.insert_calls(3, "hello", "banana");
+    pkb.insert_calls(4, "chocolate", "banana");
+    pkb.insert_calls(5, "chocolate", "pie");
+    pkb.insert_calls(6, "banana", "pie");
 
     SECTION("return empty")
     {
@@ -2724,9 +2724,9 @@ TEST_CASE("PKB::get_all_procedures_calls_relationship()")
         REQUIRE(pkb.get_all_procedures_calls_relationship().empty());
     }
 
-    pkb.insert_calls("hello", "world");
-    pkb.insert_calls("hello", "itsMe");
-    pkb.insert_calls("hello", "banana");
+    pkb.insert_calls(1, "hello", "world");
+    pkb.insert_calls(2, "hello", "itsMe");
+    pkb.insert_calls(3, "hello", "banana");
 
     SECTION("return 1")
     {
@@ -2744,9 +2744,9 @@ TEST_CASE("PKB::get_all_procedures_calls_relationship()")
 
     SECTION("return >1")
     {
-        pkb.insert_calls("chocolate", "banana");
-        pkb.insert_calls("chocolate", "pie");
-        pkb.insert_calls("banana", "pie");
+        pkb.insert_calls(1, "chocolate", "banana");
+        pkb.insert_calls(2, "chocolate", "pie");
+        pkb.insert_calls(3, "banana", "pie");
         unordered_map<string, vector<string>> result = pkb.get_all_procedures_calls_relationship();
         REQUIRE(result.size() == 3);
         vector<string> expected;
@@ -2781,14 +2781,14 @@ TEST_CASE("PKB::does_calls_star_exist()")
 
     SECTION("empty")
     {
-        pkb.insert_calls("hello", "hello");
+        pkb.insert_calls(1, "hello", "hello");
         pkb.extract_design();
         REQUIRE_FALSE(pkb.does_calls_star_exist());
     }
 
     SECTION(">1")
     {
-        pkb.insert_calls("hello", "helloWorld");
+        pkb.insert_calls(1, "hello", "helloWorld");
         pkb.extract_design();
         REQUIRE(pkb.does_calls_star_exist());
     }
@@ -2797,10 +2797,10 @@ TEST_CASE("PKB::does_calls_star_exist()")
 TEST_CASE("PKB::is_calls_star()")
 {
     PKB pkb;
-    pkb.insert_calls("hello", "world");
-    pkb.insert_calls("foo", "bar");
-    pkb.insert_calls("chocolate", "vanilla");
-    pkb.insert_calls("hello", "chocolate");
+    pkb.insert_calls(1, "hello", "world");
+    pkb.insert_calls(2, "foo", "bar");
+    pkb.insert_calls(3, "chocolate", "vanilla");
+    pkb.insert_calls(4, "hello", "chocolate");
     pkb.extract_design();
 
     SECTION("return false")
@@ -2828,8 +2828,8 @@ TEST_CASE("PKB::get_all_procedures_calls_star()")
 
     SECTION("return 1")
     {
-        pkb.insert_calls("hello", "world");
-        pkb.insert_calls("bye", "world");
+        pkb.insert_calls(1, "hello", "world");
+        pkb.insert_calls(2, "bye", "world");
         pkb.extract_design();
         vector<string> result = pkb.get_all_procedures_calls_star();
         REQUIRE(result.size() == 1);
@@ -2840,10 +2840,10 @@ TEST_CASE("PKB::get_all_procedures_calls_star()")
 
     SECTION("return >1")
     {
-        pkb.insert_calls("hello", "world");
-        pkb.insert_calls("hello", "banana");
-        pkb.insert_calls("chocolate", "banana");
-        pkb.insert_calls("chocolate", "pie");
+        pkb.insert_calls(1, "hello", "world");
+        pkb.insert_calls(2, "hello", "banana");
+        pkb.insert_calls(3, "chocolate", "banana");
+        pkb.insert_calls(4, "chocolate", "pie");
         pkb.extract_design();
         vector<string> result = pkb.get_all_procedures_calls_star();
         REQUIRE(result.size() == 3);
@@ -2868,8 +2868,8 @@ TEST_CASE("PKB::get_all_procedures_called_star()")
 
     SECTION("return 1")
     {
-        pkb.insert_calls("hello", "world");
-        pkb.insert_calls("hello", "itsMe");
+        pkb.insert_calls(1, "hello", "world");
+        pkb.insert_calls(2, "hello", "itsMe");
         pkb.extract_design();
         vector<string> result = pkb.get_all_procedures_called_star();
         REQUIRE(result.size() == 1);
@@ -2880,10 +2880,10 @@ TEST_CASE("PKB::get_all_procedures_called_star()")
 
     SECTION("return >1")
     {
-        pkb.insert_calls("hello", "world");
-        pkb.insert_calls("hello", "banana");
-        pkb.insert_calls("chocolate", "banana");
-        pkb.insert_calls("chocolate", "pie");
+        pkb.insert_calls(1, "hello", "world");
+        pkb.insert_calls(2, "hello", "banana");
+        pkb.insert_calls(3, "chocolate", "banana");
+        pkb.insert_calls(4, "chocolate", "pie");
         pkb.extract_design();
         vector<string> result = pkb.get_all_procedures_called_star();
         REQUIRE(result.size() == 2);
@@ -2899,12 +2899,12 @@ TEST_CASE("PKB::get_all_procedures_called_star()")
 TEST_CASE("PKB::get_procedures_called_by_star()")
 {
     PKB pkb;
-    pkb.insert_calls("hello", "world");
-    pkb.insert_calls("hello", "itsMe");
-    pkb.insert_calls("hello", "banana");
-    pkb.insert_calls("chocolate", "banana");
-    pkb.insert_calls("chocolate", "pie");
-    pkb.insert_calls("banana", "pie");
+    pkb.insert_calls(1, "hello", "world");
+    pkb.insert_calls(2, "hello", "itsMe");
+    pkb.insert_calls(3, "hello", "banana");
+    pkb.insert_calls(4, "chocolate", "banana");
+    pkb.insert_calls(5, "chocolate", "pie");
+    pkb.insert_calls(6, "banana", "pie");
     pkb.extract_design();
 
     SECTION("return empty")
@@ -2943,9 +2943,9 @@ TEST_CASE("PKB::get_all_procedures_calls_star_relationship()")
         REQUIRE(pkb.get_all_procedures_calls_star_relationship().empty());
     }
 
-    pkb.insert_calls("hello", "world");
-    pkb.insert_calls("hello", "itsMe");
-    pkb.insert_calls("hello", "banana");
+    pkb.insert_calls(1, "hello", "world");
+    pkb.insert_calls(2, "hello", "itsMe");
+    pkb.insert_calls(3, "hello", "banana");
     pkb.extract_design();
 
     SECTION("return 1")
@@ -2964,9 +2964,9 @@ TEST_CASE("PKB::get_all_procedures_calls_star_relationship()")
 
     SECTION("return >1")
     {
-        pkb.insert_calls("chocolate", "banana");
-        pkb.insert_calls("chocolate", "pie");
-        pkb.insert_calls("banana", "pie");
+        pkb.insert_calls(1, "chocolate", "banana");
+        pkb.insert_calls(2, "chocolate", "pie");
+        pkb.insert_calls(3, "banana", "pie");
         pkb.extract_design();
         unordered_map<string, vector<string>> result = pkb.get_all_procedures_calls_star_relationship();
         REQUIRE(result.size() == 3);

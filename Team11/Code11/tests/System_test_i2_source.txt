@@ -11,10 +11,10 @@ procedure main {
           z = z + alpha;
           y = x + zeta;
           b = b - 1;
-          while (c < delta + theta) {
+          while (c < delta) {
               c = delta * 100;
               if (delta > 0) then {
-                  delta = delta * -1;
+                  delta = delta * 1;
                   sigma = sigma - delta;
                   theta = theta + 1;}
               else {

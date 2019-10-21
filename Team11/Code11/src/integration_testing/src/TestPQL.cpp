@@ -267,7 +267,7 @@ TEST_CASE("One such that clause: Modifies")
     SECTION("Modifies(s, \"x\")")
     {
         string pql_query = "stmt s; Select s such that Modifies(s, \"x\")";
-        unordered_set<string> expected_result {"4", "24", "25", "26", "27", "30"};
+        unordered_set<string> expected_result {"2", "4", "24", "25", "26", "27", "30", "13", "18", "14"};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 
@@ -299,7 +299,7 @@ TEST_CASE("One such that clause: Uses")
     {
         // since no call implemented yet, so just regard procedure main first
         string pql_query = "procedure p; variable v; Select p such that Uses(p, v)";
-        unordered_set<string> expected_result {"printResults", "computeCentroid"};
+        unordered_set<string> expected_result {"printResults", "computeCentroid", "main"};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 
@@ -320,7 +320,7 @@ TEST_CASE("One such that clause: Uses")
     SECTION("Uses(p, \"normSq\")")
     {
         string pql_query = "procedure p; Select p such that Uses(p, \"normSq\")";
-        unordered_set<string> expected_result {"printResults"};
+        unordered_set<string> expected_result {"printResults", "main"};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 
@@ -341,6 +341,187 @@ TEST_CASE("One such that clause: Uses")
     SECTION("Uses(14, \"x\")")
     {
         string pql_query = "call cl; Select cl such that Uses(14, \"x\")";
+        unordered_set<string> expected_result {"2", "3", "13", "18"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+}
+
+TEST_CASE("One such that clause: Calls and Calls*")
+{
+    SECTION("Calls(p, _)")
+    {
+        string pql_query_1 = "procedure p; Select p such that Calls(p, _)";
+        unordered_set<string> expected_result_1 {"main", "computeCentroid"};
+        REQUIRE(QueryEvaluator::get_result(pql_query_1, PKB) == expected_result_1);
+    }
+
+    SECTION("Calls(p, _)")
+    {
+        string pql_query_1 = "procedure p; Select p such that Calls(_, p)";
+        unordered_set<string> expected_result_1 {"readPoint", "printResults", "computeCentroid"};
+        REQUIRE(QueryEvaluator::get_result(pql_query_1, PKB) == expected_result_1);
+    }
+
+    SECTION("Calls(p, \"readPoint\")")
+    {
+        string pql_query_1 = "procedure p; Select p such that Calls(p, \"readPoint\")";
+        unordered_set<string> expected_result_1 {"computeCentroid"};
+        REQUIRE(QueryEvaluator::get_result(pql_query_1, PKB) == expected_result_1);
+    }
+
+    SECTION("Edge case: Calls(p, \"fakeProc\")")
+    {
+        string pql_query_1 = "procedure p; Select p such that Calls(p, \"fakeProc\")";
+        unordered_set<string> expected_result_1 {};
+        REQUIRE(QueryEvaluator::get_result(pql_query_1, PKB) == expected_result_1);
+    }
+
+
+    SECTION("Calls(p, p)")
+    {
+        string pql_query = "procedure p; Select p such that Calls(p, p)";
+        unordered_set<string> expected_result {};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("Calls(p1, p2)")
+    {
+        string pql_query_1 = "procedure p1; procedure p2; Select <p1, p2> such that Calls(p1, p2)";
+        unordered_set<string> expected_result_1 {"main computeCentroid", "main printResults", "computeCentroid readPoint"};
+        REQUIRE(QueryEvaluator::get_result(pql_query_1, PKB) == expected_result_1);
+    }
+
+    SECTION("Calls(_, _)")
+    {
+        string pql_query = "Select BOOLEAN such that Calls(_, _)";
+        unordered_set<string> expected_result {"TRUE"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("Calls(_, \"computeCentroid\")")
+    {
+        string pql_query_1 = "Select BOOLEAN such that Calls(_, \"computeCentroid\")";
+        string pql_query_2 = "Select BOOLEAN such that Calls(_, \"whileIfProc\")";
+        unordered_set<string> expected_result_1 {"TRUE"};
+        unordered_set<string> expected_result_2 {"FALSE"};
+        REQUIRE(QueryEvaluator::get_result(pql_query_1, PKB) == expected_result_1);
+        REQUIRE(QueryEvaluator::get_result(pql_query_2, PKB) == expected_result_2);
+    }
+
+    SECTION("Calls(\"main\", \"computeCentroid\")")
+    {
+        string pql_query_1 = R"(Select BOOLEAN such that Calls("main", "computeCentroid"))";
+        string pql_query_2 = R"(Select BOOLEAN such that Calls("main", "whileIfProc"))";
+        unordered_set<string> expected_result_1 {"TRUE"};
+        unordered_set<string> expected_result_2 {"FALSE"};
+        REQUIRE(QueryEvaluator::get_result(pql_query_1, PKB) == expected_result_1);
+        REQUIRE(QueryEvaluator::get_result(pql_query_2, PKB) == expected_result_2);
+    }
+
+    SECTION("Calls*(p, \"readPoint\")")
+    {
+        string pql_query = "procedure p; Select p such that Calls*(p, \"readPoint\")";
+        unordered_set<string> expected_result {"main", "computeCentroid"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("Calls*(p1, p2)")
+    {
+        string pql_query = "procedure p1; procedure p2; Select <p1, p2> such that Calls*(p1, p2)";
+        unordered_set<string> expected_result {"main computeCentroid", "main printResults", "computeCentroid readPoint", "main readPoint"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("Calls*(_, _)")
+    {
+        string pql_query = "Select BOOLEAN such that Calls*(_, _)";
+        unordered_set<string> expected_result {"TRUE"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("Calls*(\"main\", \"readPoint\")")
+    {
+        string pql_query_1 = R"(Select BOOLEAN such that Calls*("main", "computeCentroid"))";
+        unordered_set<string> expected_result_1 {"TRUE"};
+        REQUIRE(QueryEvaluator::get_result(pql_query_1, PKB) == expected_result_1);
+    }
+}
+
+TEST_CASE("One such that clause: Next and Next*")
+{
+    SECTION("Next(cl, _)")
+    {
+        string pql_query_1 = "call cl; Select cl such that Next(cl, _)";
+        unordered_set<string> expected_result_1 {"2", "13", "18"};
+        REQUIRE(QueryEvaluator::get_result(pql_query_1, PKB) == expected_result_1);
+    }
+
+    SECTION("Next(_, cl)")
+    {
+        string pql_query_1 = "call cl; Select cl such that Next(_, cl)";
+        unordered_set<string> expected_result_1 {"2", "3", "13", "18"};
+        REQUIRE(QueryEvaluator::get_result(pql_query_1, PKB) == expected_result_1);
+    }
+
+    SECTION("Next(s, 15)")
+    {
+        string pql_query_1 = "stmt s; Select s such that Next(s, 15)";
+        string pql_query_2 = "stmt s; Select s such that Next(s, 1)";
+        unordered_set<string> expected_result_1 {"14"};
+        unordered_set<string> expected_result_2 {};
+        REQUIRE(QueryEvaluator::get_result(pql_query_1, PKB) == expected_result_1);
+        REQUIRE(QueryEvaluator::get_result(pql_query_2, PKB) == expected_result_2);
+    }
+
+    SECTION("Next(14, s)")
+    {
+        string pql_query_1 = "stmt s; Select s such that Next(14, s)";
+        string pql_query_2 = "stmt s; Select s such that Next(23, s)";
+        unordered_set<string> expected_result_1 {"15", "19"};
+        unordered_set<string> expected_result_2 {};
+        REQUIRE(QueryEvaluator::get_result(pql_query_1, PKB) == expected_result_1);
+        REQUIRE(QueryEvaluator::get_result(pql_query_2, PKB) == expected_result_2);
+    }
+
+    SECTION("Edge case: Next(s, 100)")
+    {
+        string pql_query_1 = "stmt s; Select s such that Next(s, 100)";
+        unordered_set<string> expected_result_1 {};
+        REQUIRE(QueryEvaluator::get_result(pql_query_1, PKB) == expected_result_1);
+    }
+
+
+    SECTION("Next(s, s)")
+    {
+        string pql_query = "stmt s; Select s such that Next(s, s)";
+        unordered_set<string> expected_result {};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("Next(ifs, s)")
+    {
+        string pql_query_1 = "if ifs; stmt s; Select <ifs, s> such that Next(ifs, s)";
+        unordered_set<string> expected_result_1 {"19 20", "19 21", "25 26", "25 31", "27 28", "27 29"};
+        REQUIRE(QueryEvaluator::get_result(pql_query_1, PKB) == expected_result_1);
+    }
+
+    SECTION("Next(_, _)")
+    {
+        string pql_query = "call cl; Select cl such that Next(_, _)";
+        unordered_set<string> expected_result {"2", "3", "13", "18"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("Next(_, 2)")
+    {
+        string pql_query = "call cl; Select cl such that Next(_, 2)";
+        unordered_set<string> expected_result {"2", "3", "13", "18"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("Next(26, 24)")
+    {
+        string pql_query = "call cl; Select cl such that Next(26, 24)";
         unordered_set<string> expected_result {"2", "3", "13", "18"};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
@@ -412,6 +593,54 @@ TEST_CASE("One pattern clause: Assign")
     }
 }
 
+TEST_CASE("One pattern clause: If")
+{
+    SECTION("pattern ifs(_, _, _)")
+    {
+        string pql_query = "if ifs; Select ifs pattern ifs(_, _, _)";
+        unordered_set<string> expected_result {"19", "25", "27"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("pattern ifs(\"count\", _, _)")
+    {
+        string pql_query = "if ifs; Select ifs pattern ifs(\"count\", _, _)";
+        unordered_set<string> expected_result {"19"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("pattern ifs(v, _, _)")
+    {
+        string pql_query = "if ifs; variable v; Select <ifs, v> pattern ifs(v, _, _)";
+        unordered_set<string> expected_result {"19 count", "25 y", "27 cenX"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+}
+
+TEST_CASE("One pattern clause: While")
+{
+    SECTION("pattern w(_, _)")
+    {
+        string pql_query = "while w; Select w pattern w(_, _)";
+        unordered_set<string> expected_result {"14", "24", "26"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("pattern w(\"x\", _)")
+    {
+        string pql_query = "while w; Select w pattern w(\"x\", _)";
+        unordered_set<string> expected_result {"14", "24"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("pattern w(v, _)")
+    {
+        string pql_query = "while w; variable v; Select <w, v> pattern w(v, _)";
+        unordered_set<string> expected_result {"14 x", "14 y", "24 x", "26 count"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+}
+
 TEST_CASE("One such that clause and one pattern clause")
 {
     SECTION("such that Modifies(a, _) pattern a(\"cenX\", _\"x \"_)")
@@ -432,6 +661,23 @@ TEST_CASE("One such that clause and one pattern clause")
     {
         string pql_query = R"(assign a; Select a pattern such that Uses(a, "x") pattern a("x", _))";
         unordered_set<string> expected_result {};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+}
+
+TEST_CASE("Multiple select, such that, and pattern")
+{
+    SECTION("select tuple")
+    {
+        string pql_query = "assign a; while w; variable v; Select <a,w> pattern a(\"count\", _) such that Parent*(w, a)";
+        unordered_set<string> expected_result {"15 14", "28 24", "28 26", "29 24", "29 26", "31 24"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("select tuple, multiple clauses")
+    {
+        string pql_query = "assign a; while w; variable v; Select <a,w> pattern a(\"count\", _) such that Parent*(w, a) and Uses(a, v)";
+        unordered_set<string> expected_result {"15 14", "28 24", "28 26"};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 }

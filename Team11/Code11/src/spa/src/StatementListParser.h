@@ -18,7 +18,7 @@ private:
 
 public:
     // Constructor
-    StatementListParser(std::string raw, int parent_line_number);
+    StatementListParser(std::string raw, int this_line_num);
 
     std::vector<Statement> get_stmt_list();
 
