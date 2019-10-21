@@ -447,7 +447,7 @@ TEST_CASE("PKB::get_assign_pattern_contains()")
     pkb.insert_assign(1, "c", "d");
     pkb.insert_assign(2, "a", "b");
     pkb.insert_assign(3, "a", "b");
-    pkb.insert_assign(4, "a", "b + c");
+    pkb.insert_assign(4, "a", "+ b c");
 
     SECTION("1 matches")
     {
