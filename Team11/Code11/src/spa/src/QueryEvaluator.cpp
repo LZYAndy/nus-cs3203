@@ -317,6 +317,7 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
             }
             unordered_set<string> common_synonyms = QueryEvaluator::get_common_synonyms(such_that_map, intermediary_map);
             such_that_map = QueryEvaluator::merge_two_maps(such_that_map, intermediary_map, common_synonyms);
+
             if (QueryEvaluator::is_empty_map(such_that_map))
             {
                 if (is_bool)
@@ -551,9 +552,9 @@ unordered_map<string, vector<string>> QueryEvaluator::merge_two_maps(unordered_m
         for (const auto &element_1 : map_1.at(common_synonyms[0]))
         {
             int j = 0;
-            bool is_same = true;
             for (const auto &element_2 : map_2.at(common_synonyms[0]))
             {
+                bool is_same = true;
                 if (element_1 == element_2)
                 {
                     for (const auto &synonym : common_synonyms)
