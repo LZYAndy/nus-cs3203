@@ -72,13 +72,6 @@ std::vector<int> AssignBank::contains(std::string var, std::string pattern)
     return result;
 }
 
-std::string AssignBank::replace_operator(std::string &str)
-{
-    std::regex r("[()+\\-*/%]{1}");
-    str = std::regex_replace(str, r, " ");
-    return str;
-}
-
 std::vector<int> AssignBank::all_matches(std::string pattern)
 {
     std::vector<int> result;
