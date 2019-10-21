@@ -40,13 +40,7 @@ unordered_map<string, vector<string>> AssignEvaluator::evaluate(pql_dto::Pattern
         else if (QueryUtility::is_var_name(first_param))
         {
             // e.g. pattern a("y", _"x"_)
-            cout << ConverterUtil::convert_infix_prefix(second_name) << "\n";
             vector<int> int_vec = PKB.get_assign_pattern_contains(first_name, ConverterUtil::convert_infix_prefix(second_name));
-            cout << int_vec.size();
-            for (auto iter : int_vec)
-            {
-                cout << iter << " ";
-            }
             result = QueryUtility::mapping(pattern_name, int_vec);
         }
         else
