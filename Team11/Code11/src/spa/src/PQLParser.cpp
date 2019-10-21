@@ -111,15 +111,15 @@ std::string PQLParser::pql_parse_query(std::string query, std::vector<pql_dto::E
                 return error_messages::invalid_query_mismatch_brackets;
             }
 
-            std::string pattern_query = condition_query.substr(0, closing_bracket_index + 1);
+            ///std::string pattern_query = condition_query.substr(0, closing_bracket_index + 1);
             /// Validates the pattern string
-            error = PQLParserHelper::parse_pattern_clause(pattern_query, pattern_clause, declared_variables);
+            error = PQLParserHelper::parse_pattern_clause(condition_query, pattern_clause, declared_variables);
             if (!error.empty())
             {
                 return error;
             }
 
-            condition_query = StringUtil::trim(condition_query.substr(closing_bracket_index + 1), whitespace);
+            ///condition_query = StringUtil::trim(condition_query.substr(closing_bracket_index + 1), whitespace);
             while (!condition_query.empty())
             {
                 size_t and_index = condition_query.find(and_keyword);
@@ -134,15 +134,15 @@ std::string PQLParser::pql_parse_query(std::string query, std::vector<pql_dto::E
                     return error_messages::invalid_query_mismatch_brackets;
                 }
 
-                std::string pattern_query = condition_query.substr(0, closing_bracket_index + 1);
+                ///std::string pattern_query = condition_query.substr(0, closing_bracket_index + 1);
                 /// Validates the pattern string
-                error = PQLParserHelper::parse_pattern_clause(pattern_query, pattern_clause, declared_variables);
+                error = PQLParserHelper::parse_pattern_clause(condition_query, pattern_clause, declared_variables);
                 if (!error.empty())
                 {
                     return error;
                 }
 
-                condition_query = StringUtil::trim(condition_query.substr(closing_bracket_index + 1), whitespace);
+                ///condition_query = StringUtil::trim(condition_query.substr(closing_bracket_index + 1), whitespace);
             }
 
             continue;
