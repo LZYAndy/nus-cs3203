@@ -10,7 +10,7 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
     unordered_set<string> result;
     unordered_set<string> empty_set;
 
-    unordered_map<string, vector<string>> select_map;
+    map<string, vector<string>> select_map;
     unordered_map<string, vector<string>> such_that_map;
     unordered_map<string, vector<string>> pattern_map;
     unordered_map<string, vector<string>> intermediary_map;
@@ -41,7 +41,11 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
             {
                 is_bool = true;
             }
-            if (select_type == EntityType::VARIABLE || select_type == EntityType::PROCEDURE || select_type == EntityType::CONSTANT || select_type == EntityType::BOOLEAN)
+            if (select_type == EntityType::FIX)
+            {
+                select_map[select_name] = vector<string> {select_entity.get_solution()};
+            }
+            else if (select_type == EntityType::VARIABLE || select_type == EntityType::PROCEDURE || select_type == EntityType::CONSTANT || select_type == EntityType::BOOLEAN)
             {
                 select_map[select_name] = QueryUtility::get_certain_type_str_list(select_type, PKB);
             }
@@ -370,15 +374,16 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
     }
 
     // Merge three lists
-    result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map, visited_such_that);
+    result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map, visited_such_that, PKB);
     return result;
 }
 
 unordered_set<string> QueryEvaluator::merge(vector<pql_dto::Entity> &select_clause,
-        unordered_map<string, vector<string>> &select_map,
+        map<string, vector<string>> &select_map,
         unordered_map<string, vector<string>> &such_that_map,
         unordered_map<string, vector<string>> &pattern_map,
-        bool visited_such_that)
+        bool visited_such_that,
+        PKB &PKB)
 {
     unordered_set<string> result;
     vector<vector<string>> result_vec;
@@ -424,7 +429,7 @@ unordered_set<string> QueryEvaluator::merge(vector<pql_dto::Entity> &select_clau
             is_first_common_synonym = false;
             for (const auto& cs : common_select_synonyms)
             {
-                temp_map[cs] = select_map.at(cs);
+                temp_map[cs] = QueryEvaluator::change_to_attributes(select_clause.at(QueryEvaluator::get_element_index_in_map(select_map, cs)), select_map.at(cs), PKB);
             }
         }
         else if (common_select_synonyms.find(synonym.first) != common_select_synonyms.end())
@@ -433,7 +438,7 @@ unordered_set<string> QueryEvaluator::merge(vector<pql_dto::Entity> &select_clau
         }
         else
         {
-            temp_map[synonym.first] = synonym.second;
+            temp_map[synonym.first] = QueryEvaluator::change_to_attributes(select_clause.at(QueryEvaluator::get_element_index_in_map(select_map, synonym.first)), synonym.second, PKB);
         }
         acc_map = QueryEvaluator::merge_two_maps(temp_map, acc_map, QueryEvaluator::get_common_synonyms(temp_map, acc_map));
     }
@@ -468,6 +473,57 @@ unordered_set<string> QueryEvaluator::merge(vector<pql_dto::Entity> &select_clau
     return result;
 }
 
+vector<string> QueryEvaluator::change_to_attributes(pql_dto::Entity &select_entity,
+        vector<string> temp_vec, PKB &PKB)
+{
+    vector<string> result;
+    if (select_entity.get_entity_attr() == AttributeType::NONE)
+    {
+        return temp_vec;
+    }
+    if (select_entity.get_entity_type() == EntityType::CALL)
+    {
+        for (const auto& iter : temp_vec)
+        {
+            result.push_back(PKB.get_modified_by_statement(stoi(iter)).at(0));
+        }
+    }
+    else if (select_entity.get_entity_type() == EntityType::READ)
+    {
+        for (const auto& iter : temp_vec)
+        {
+            result.push_back(PKB.get_called_by_statement(stoi(iter)));
+        }
+    }
+    else if (select_entity.get_entity_type() == EntityType::PRINT)
+    {
+        for (const auto& iter : temp_vec)
+        {
+            result.push_back(PKB.get_used_by_statement(stoi(iter)).at(0));
+        }
+    }
+    else
+    {
+        return temp_vec;
+    }
+    return result;
+}
+
+int QueryEvaluator::get_element_index_in_map(map<string, vector<string>> &map, string key)
+{
+    int i = 0;
+    int result = 0;
+    for (auto iter : map)
+    {
+        if (key == iter.first)
+        {
+            result = i;
+        }
+        i++;
+    }
+    return result;
+}
+
 bool QueryEvaluator::is_empty_map(unordered_map<string, vector<string>> &map)
 {
     if (map.empty())
@@ -486,6 +542,26 @@ bool QueryEvaluator::is_empty_map(unordered_map<string, vector<string>> &map)
 
 unordered_set<string> QueryEvaluator::get_common_synonyms(unordered_map<string, vector<string>> &map_1,
         unordered_map<string, vector<string>> &map_2)
+{
+    unordered_set<string> result;
+    for (const auto &iter : map_1)
+    {
+        string synonym_name = iter.first;
+        if (map_2.find(synonym_name) == map_2.end())
+        {
+            // does not present
+            continue;
+        }
+        else
+        {
+            result.insert(synonym_name);
+        }
+    }
+    return result;
+}
+
+unordered_set<string> QueryEvaluator::get_common_synonyms(unordered_map<string, vector<string>> &map_1,
+        map<string, vector<string>> &map_2)
 {
     unordered_set<string> result;
     for (const auto &iter : map_1)

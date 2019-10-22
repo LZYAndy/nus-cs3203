@@ -7,6 +7,7 @@
 #include <vector>
 #include <algorithm>
 #include <unordered_map>
+#include <map>
 
 #include <PKB.h>
 #include <PQLParser.h>
@@ -34,12 +35,18 @@ class QueryEvaluator
 public:
     static unordered_set<string> get_result(string &query, PKB &PKB);
     static unordered_set<string> merge(vector<pql_dto::Entity> &select_clause,
-            unordered_map<string, vector<string>> &select_list,
+            map<string, vector<string>> &select_list,
             unordered_map<string, vector<string>> &such_that_list,
             unordered_map<string, vector<string>> &pattern_list,
-            bool visited_such_that);
+            bool visited_such_that,
+            PKB &PKB);
+    static vector<string> change_to_attributes(pql_dto::Entity &select_entity,
+            vector<string> temp_vec, PKB &PKB);
     static unordered_set<string> get_common_synonyms(unordered_map<string, vector<string>> &map_1,
             unordered_map<string, vector<string>> &map_2);
+    static unordered_set<string> get_common_synonyms(unordered_map<string, vector<string>> &map_1,
+            map<string, vector<string>> &map_2);
+    static int get_element_index_in_map(map<string, vector<string>> &map, string key);
     static bool is_empty_map(unordered_map<string, vector<string>> &map);
     static unordered_map<string, vector<string>> merge_two_maps(unordered_map<string, vector<string>> map_1,
             unordered_map<string, vector<string>> map_2, unordered_set<string> common_synonym);
