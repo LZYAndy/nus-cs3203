@@ -45,7 +45,7 @@ def run_test():
     for i in test_queries_mapping:
         prog_file = i[0]
         query_file = i[1]
-        os.system("{}autotester {}{}.txt {}{}.txt {}{}_output.txt".format(autotest_directory, 
+        os.system("{}autotester {}{}.txt {}{}.txt {}{}_output.xml".format(autotest_directory, 
         design_abstraction_program_directory, prog_file, 
         design_abstraction_queries_directory, query_file, 
         result_directory, query_file))
