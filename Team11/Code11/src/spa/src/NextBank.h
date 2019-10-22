@@ -60,6 +60,12 @@ public:
      */
     std::unordered_map<int, std::vector<int>> get_all_next_relationship();
 
+    /**
+     * Get all reversed next relationships
+     * @return Return all reversed next relationships in the program
+     */
+    std::unordered_map<int, std::vector<int>> get_all_previous_relationship();
+
 private:
     Bank<int, int> next_bank;
 };

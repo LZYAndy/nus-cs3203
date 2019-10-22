@@ -20,6 +20,7 @@
 #include "WhileBank.h"
 #include "CallsBank.h"
 #include "IfBank.h"
+#include "NextStarCompute.h"
 
 using namespace std;
 
@@ -727,6 +728,12 @@ public:
     unordered_map<int, vector<int>> get_all_next_relationship();
 
     /**
+     * Get all reversed next relationships
+     * @return Return all reversed next relationships in the program
+     */
+    std::unordered_map<int, std::vector<int>> get_all_previous_relationship();
+
+    /**
      * Check if there exist at least one Calls* relationship in PKB.
      * @return true if there is at least one Calls* relationship in PKB.
      */
@@ -767,6 +774,11 @@ public:
      * the Calls as key and all Called stored in a vector as value.
      */
     unordered_map<string, vector<string>> get_all_procedures_calls_star_relationship();
+
+    vector<int> get_statements_previous_star(int stmt);   //e.g. Next*(n, 2)
+    vector<int> get_statements_next_star(int stmt);  //e.g. Next*(1, n)
+    bool is_next_star(int stmt1, int stmt2); //e.g. Next*(1, 2)
+    unordered_map<int, vector<int>> get_all_next_star_relationship();  //e.g. Next*(n1, n2)
 
 private:
     FollowsBank follows_bank;

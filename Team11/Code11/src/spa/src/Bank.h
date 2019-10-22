@@ -58,6 +58,8 @@ public:
      */
     bool check_relationship(T key, S value);
 
+    std::unordered_map<S, std::vector<T>> get_reverse_bank();
+
 protected:
     std::unordered_map<T, std::vector<S>> bank;
     std::unordered_map<S, std::vector<T>> reverse_bank;
