@@ -39,6 +39,11 @@ std::string Entity::get_entity_name()
     return entity_name;
 }
 
+std::string Entity::get_solution()
+{
+    return solution_value;
+}
+
 bool Entity::is_entity_declared()
 {
     return is_declared_entity;
@@ -270,6 +275,11 @@ void Entity::set_entity_name(std::string name)
             throw std::runtime_error(error_messages::invalid_undeclared_entity_name);
         }
     }
+}
+
+void Entity::set_solution(std::string value)
+{
+    solution_value = value;
 }
 
 void Entity::set_is_declared(bool is_declared)
