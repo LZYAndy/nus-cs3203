@@ -22,6 +22,8 @@ constexpr const char* invalid_read_statement(R"(Invalid read statement in the SI
 constexpr const char* invalid_read_type(R"(Invalid read type.)");
 constexpr const char* invalid_expr(R"(Invalid expression!)");
 constexpr const char* invalid_SIMPLE(R"(Invalid SIMPLE code.)");
+constexpr const char* cyclic_call(R"(Invalid SIMPLE code, contains cyclic calls.)");
+
 
 // Error messages for Entity.cpp
 constexpr const char* invalid_entity_type(R"(Invalid Entity Type!)");

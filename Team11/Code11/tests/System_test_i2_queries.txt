@@ -391,7 +391,7 @@ Select s such that Uses(s, "b") and Next(9, s)
 79 - Select Next, Modifies and Uses
 stmt s; if ifs; variable v;
 Select s such that Next(ifs, s) and Modifies(s, v) and Uses(s, v)
-16, 19, 23, 25
+16, 19, 23, 25, 35, 45
 5000
 80 - Select multiple Next and pattern
 stmt s, s1, s2; assign a;

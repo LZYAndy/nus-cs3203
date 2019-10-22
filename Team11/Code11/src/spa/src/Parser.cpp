@@ -54,7 +54,11 @@ int Parser::parse(std::string simple)
         last_line_num = last_statement.get_prog_line() + 1;
     }
 
-    this->pkb->extract_design();
+    bool de_check = this->pkb->extract_design();
+    if (!de_check)
+    {
+        throw std::runtime_error(error_messages::cyclic_call);
+    }
 
     return 0;
 }
