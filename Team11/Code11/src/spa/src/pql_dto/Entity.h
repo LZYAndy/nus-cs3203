@@ -26,6 +26,7 @@ enum class EntityType
     PROCEDURE,
     PATTEXPR,
     MATCHEXPR,
+    FIX, // If theres a value for the entity
     BOOLEAN,
     INVALID
 };
@@ -57,6 +58,7 @@ private:
     EntityType entity_type = EntityType::ANY;
     AttributeType entity_attr = AttributeType::NONE;
     std::string entity_name;
+    std::string solution_value;
 
     bool is_declared_entity = false;
 
@@ -79,6 +81,9 @@ public:
 
     // Returns the Entity Name.
     std::string get_entity_name();
+    
+    // Returns the Solution Value.
+    std::string get_solution();
 
     // Returns true if entity is declared in Query. Defaults value to false.
     bool is_entity_declared();
@@ -112,6 +117,11 @@ public:
      *  @param name The name of the Entity.
      */
     void set_entity_name(std::string name);
+
+    /** Sets the solution value of the Entity Object.
+     *  @param name The solution value of the Entity.
+     */
+    void set_solution(std::string value);
 
     /** Sets is_declared_entity of the Entity Object.
      *  @param is_declared The boolean value of the Entity if it is declared.

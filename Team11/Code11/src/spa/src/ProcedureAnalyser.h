@@ -14,16 +14,25 @@ private:
     std::string raw_data;
 
 public:
-    // Constructor
+    /**
+     * The constructor of the ProcedureAnalyser.
+     * @param raw The raw string to be parsed into procedures.
+     */
     ProcedureAnalyser(std::string raw);
 
-    // Find all the procedures and return as a vector of procedure.
+    /**
+     * Parse the raw data, find all the procedures and return as a vector of procedures.
+     * @return a vector of procedures.
+     */
     std::vector<Procedure> analyse();
 
-//    Procedure parse_procedure(std::string proc_string);
-
-//    std::string trim_left(std::string proc_string);
-
+    /**
+     * The find the closing brackets of the opening brackets which is the first non-space character of the string.
+     * @param src the source string.
+     * @param opening the opening bracket, which is also the first non-space character.
+     * @param closing the closing bracket to be found.
+     * @return the index of the closing bracket.
+     */
     static int find_bracket(std::string src, std::string opening, std::string closing);
 };
 
