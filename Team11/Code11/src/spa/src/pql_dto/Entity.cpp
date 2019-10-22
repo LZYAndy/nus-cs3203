@@ -277,7 +277,7 @@ void Entity::set_entity_name(std::string name)
     }
 }
 
-void Entity::set_entity_name(std::string value)
+void Entity::set_solution(std::string value)
 {
     solution_value = value;
 }
