@@ -1,0 +1,85 @@
+1 - select all procedure, sanity check
+procedure p;
+Select p
+main
+5000
+2 - select all read statement, sanity check
+read r;
+Select r
+8,11,15,18,26,30
+5000
+3 - select all print statement, sanity check
+print pr;
+Select pr
+7,14,17,25,29
+5000
+4 - select all assign statement, sanity check
+assign a;
+Select a
+1,6,13,16,24,27,28
+5000
+5 - select all call statement, sanity check
+call c;
+Select c
+2,20,21
+5000
+6 - select all while statement, sanity check
+while w;
+Select w
+3,5,9,19,23
+5000
+7 - select all ifs statement, sanity check
+if ifs;
+Select ifs
+4,10,12,22
+5000
+8 - select all variable, sanity check
+variable v;
+Select v
+var,b,x,y,z,a,vAR1,Variable,c,var2,k,j
+5000
+9 - select all constant, sanity check
+constant c;
+Select c
+1,2,3,99,0,20
+5000
+10 - select all statement, sanity check
+stmt s;
+Select s
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
+5000
+11 - select all if in while
+while w; if ifs;
+Select w such that Parent*(w,ifs)
+3,5,9
+5000
+12 - select all if in if
+if ifs; if ifs1;
+Select <ifs, ifs1> such that Parent*(ifs,ifs1)
+4 10, 4 12, 4 22, 10 12
+5000
+13 - select all while in if
+while w; if ifs;
+Select w such that Parent*(ifs,w)
+5,9,19,23
+5000
+14 - select all while in while
+while w; while w1;
+Select <w,w1> such that Parent*(w,w1)
+3 5,3 9,3 19,3 23,5 9,5 19,9 19
+5000
+15 - select all print in while
+while w; print pr;
+Select pr such that Parent*(w,pr)
+7,14,17,25
+5000
+16 - select all read in if
+read r; if ifs;
+Select <ifs,r> such that Parent*(ifs,r)
+4 8,4 15,4 11,4 18,4 26,10 11,10 15,10 18,12 15,12 18,22 26
+5000
+17 - select all assign in if and while
+assign a; while w; if ifs;
+Select a such that Parent*(w,a) and Parent*(ifs,a)
+6,13,16,24,27
+5000

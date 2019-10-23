@@ -13,31 +13,24 @@ procedure main {
 12                        if (a != 0) then {
 13                            a = a + b + c;
 14                            print a;
-15                            read b;
-                        } else {
+15                            read b;}
+                        else {
 16                            b = a + b + c;
 17                            print b;
-18                            read a;
-                        }
-                    } else {
+18                            read a;}}
+                    else {
 19                        while (c > 0) {
-20                            call otherProcedureTwo;
-                        }
-                    }
-                }
-21                call otherProcedureThree;
-            }
-        } else {
+20                            call otherProcedureTwo;}}}
+21                call otherProcedureThree;}}
+        else {
 22            if (z != z) then {
 23                while (z < 0) {
 24                    z = (x + (y - z)) * 1 / 2 % 3;
 25                    print z;
-26                    read x;
-                }
-            } else {
-27                a = 20;
-            }
-        }
-    }
+26                    read x;}}
+            else {
+27                a = 20;}}}
 28    var = 1;
+29    print j;
+30    read k;
 }

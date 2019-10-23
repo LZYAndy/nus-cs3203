@@ -6,12 +6,12 @@ main
 2 - select all read statement, sanity check
 read r;
 Select r
-8,11,15,18,26
+8,11,15,18,26,30
 5000
 3 - select all print statement, sanity check
 print pr;
 Select pr
-7,14,17,25
+7,14,17,25,29
 5000
 4 - select all assign statement, sanity check
 assign a;
@@ -36,7 +36,7 @@ Select ifs
 8 - select all variable, sanity check
 variable v;
 Select v
-var,b,x,y,z,a,vAR1,Variable,c,var2
+var,b,x,y,z,a,vAR1,Variable,c,var2,k,j
 5000
 9 - select all constant, sanity check
 constant c;
@@ -46,7 +46,7 @@ Select c
 10 - select all statement, sanity check
 stmt s;
 Select s
-1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 5000
 11 - select follows, bool, no syn
 
@@ -76,5 +76,5 @@ FALSE
 14 - select follows, 2 syn
 stmt s; stmt s1;
 Select <s, s1> such that Follows(s,s1)
-1 2,2 3,3 28, 6 7,7 8,8 9,9 21,11 12,13 14,14 15,16 17,17 18,24 25,25 26
+1 2,2 3,3 28, 6 7,7 8,8 9,9 21,11 12,13 14,14 15,16 17,17 18,24 25,25 26,28 29,29 30
 5000
