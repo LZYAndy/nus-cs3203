@@ -61,6 +61,12 @@ public:
      * @return unordered_map containing all Calls statements and its callee pairing that exists in CallsBank 
      */
     std::unordered_map<int, std::vector<std::string>> get_all_statements_calls_relationship();
+    /**
+     * Get callee of call statement
+     * @param stmt caller statement number
+     * @return procedure called.
+     */
+    std::string get_called_by_statement(int stmt);
 private:
     Bank<std::string, std::string> calls_proc_bank;
     Bank<int, std::string> calls_stmt_bank;
