@@ -315,6 +315,55 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
                     }
                 }
             }
+            if (relation_type == RelationshipType::AFFECTS)
+            {
+                if (!relation.is_relationship_star())
+                {
+                    if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
+                    {
+                        trivial_result = AffectsEvaluator::evaluate_trivial(first_param, second_param, PKB);
+                        if (!trivial_result)
+                        {
+                            if (is_bool)
+                            {
+                                return unordered_set<string> {"FALSE"};
+                            }
+                            else
+                            {
+                                return empty_set;
+                            }
+                        }
+                        is_true = true;
+                    }
+                    else
+                    {
+                        intermediary_map = AffectsEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
+                    }
+                }
+                else
+                {
+                    if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
+                    {
+                        trivial_result = AffectsStarEvaluator::evaluate_trivial(first_param, second_param, PKB);
+                        if (!trivial_result)
+                        {
+                            if (is_bool)
+                            {
+                                return unordered_set<string> {"FALSE"};
+                            }
+                            else
+                            {
+                                return empty_set;
+                            }
+                        }
+                        is_true = true;
+                    }
+                    else
+                    {
+                        intermediary_map = AffectsStarEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
+                    }
+                }
+            }
             if (is_true)
             {
                 continue;

@@ -23,6 +23,8 @@
 #include <CallsStarEvaluator.h>
 #include <NextEvaluator.h>
 #include <NextStarEvaluator.h>
+#include <AffectsEvaluator.h>
+#include <AffectsStarEvaluator.h>
 #include <WhileEvaluator.h>
 #include <IfEvaluator.h>
 #include <pql_dto/Entity.h>
