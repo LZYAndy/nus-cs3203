@@ -616,3 +616,8 @@ unordered_map<int, vector<string>> PKB::get_all_statements_calls_relationship()
 {
     return calls_bank.get_all_statements_calls_relationship();
 }
+
+string PKB::get_called_by_statement(int stmt)
+{
+    return calls_bank.get_called_by_statement(stmt);
+}
