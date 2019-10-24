@@ -22,6 +22,8 @@ public:
     static bool is_proc_name(pql_dto::Entity &entity);
     static bool is_proc_declared(pql_dto::Entity &entity);
     static bool is_var_name(pql_dto::Entity &entity);
+    static vector<string> change_to_attributes(pql_dto::Entity &select_entity,
+            vector<string> temp_vec, PKB &PKB);
     static unordered_map<string, vector<string>> mapping(pql_dto::Entity &key, vector<int> &int_vec, PKB &PKB);
     static unordered_map<string, vector<string>> mapping(pql_dto::Entity &key, vector<string> &str_vec);
     static unordered_map<string, vector<string>> mapping(pql_dto::Entity &key, int n, PKB &PKB);

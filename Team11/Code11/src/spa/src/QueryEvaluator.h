@@ -40,8 +40,6 @@ public:
             unordered_map<string, vector<string>> &pattern_list,
             bool visited_such_that,
             PKB &PKB);
-    static vector<string> change_to_attributes(pql_dto::Entity &select_entity,
-            vector<string> temp_vec, PKB &PKB);
     static unordered_set<string> get_common_synonyms(unordered_map<string, vector<string>> &map_1,
             unordered_map<string, vector<string>> &map_2);
     static unordered_set<string> get_common_synonyms(unordered_map<string, vector<string>> &map_1,

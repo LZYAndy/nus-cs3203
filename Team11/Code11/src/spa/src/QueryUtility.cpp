@@ -41,6 +41,42 @@ bool QueryUtility::is_var_name(pql_dto::Entity &entity)
     return !(entity.is_entity_declared() || entity.get_entity_type() != EntityType::VARIABLE);
 }
 
+vector<string> QueryUtility::change_to_attributes(pql_dto::Entity &select_entity,
+        vector<string> temp_vec, PKB &PKB)
+{
+    vector<string> result;
+    if (select_entity.get_entity_attr() == AttributeType::NONE)
+    {
+        return temp_vec;
+    }
+    if (select_entity.get_entity_type() == EntityType::CALL)
+    {
+        for (const auto& iter : temp_vec)
+        {
+            result.push_back(PKB.get_modified_by_statement(stoi(iter)).at(0));
+        }
+    }
+    else if (select_entity.get_entity_type() == EntityType::READ)
+    {
+        for (const auto& iter : temp_vec)
+        {
+            result.push_back(PKB.get_called_by_statement(stoi(iter)));
+        }
+    }
+    else if (select_entity.get_entity_type() == EntityType::PRINT)
+    {
+        for (const auto& iter : temp_vec)
+        {
+            result.push_back(PKB.get_used_by_statement(stoi(iter)).at(0));
+        }
+    }
+    else
+    {
+        return temp_vec;
+    }
+    return result;
+}
+
 /*
  * Returns the string list of certain type
  */

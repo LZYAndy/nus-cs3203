@@ -429,7 +429,7 @@ unordered_set<string> QueryEvaluator::merge(vector<pql_dto::Entity> &select_clau
             is_first_common_synonym = false;
             for (const auto& cs : common_select_synonyms)
             {
-                temp_map[cs] = QueryEvaluator::change_to_attributes(select_clause.at(QueryEvaluator::get_element_index_in_map(select_map, cs)), select_map.at(cs), PKB);
+                temp_map[cs] = QueryUtility::change_to_attributes(select_clause.at(QueryEvaluator::get_element_index_in_map(select_map, cs)), select_map.at(cs), PKB);
             }
         }
         else if (common_select_synonyms.find(synonym.first) != common_select_synonyms.end())
@@ -438,7 +438,7 @@ unordered_set<string> QueryEvaluator::merge(vector<pql_dto::Entity> &select_clau
         }
         else
         {
-            temp_map[synonym.first] = QueryEvaluator::change_to_attributes(select_clause.at(QueryEvaluator::get_element_index_in_map(select_map, synonym.first)), synonym.second, PKB);
+            temp_map[synonym.first] = QueryUtility::change_to_attributes(select_clause.at(QueryEvaluator::get_element_index_in_map(select_map, synonym.first)), synonym.second, PKB);
         }
         acc_map = QueryEvaluator::merge_two_maps(temp_map, acc_map, QueryEvaluator::get_common_synonyms(temp_map, acc_map));
     }
@@ -473,47 +473,11 @@ unordered_set<string> QueryEvaluator::merge(vector<pql_dto::Entity> &select_clau
     return result;
 }
 
-vector<string> QueryEvaluator::change_to_attributes(pql_dto::Entity &select_entity,
-        vector<string> temp_vec, PKB &PKB)
-{
-    vector<string> result;
-    if (select_entity.get_entity_attr() == AttributeType::NONE)
-    {
-        return temp_vec;
-    }
-    if (select_entity.get_entity_type() == EntityType::CALL)
-    {
-        for (const auto& iter : temp_vec)
-        {
-            result.push_back(PKB.get_modified_by_statement(stoi(iter)).at(0));
-        }
-    }
-    else if (select_entity.get_entity_type() == EntityType::READ)
-    {
-        for (const auto& iter : temp_vec)
-        {
-            result.push_back(PKB.get_called_by_statement(stoi(iter)));
-        }
-    }
-    else if (select_entity.get_entity_type() == EntityType::PRINT)
-    {
-        for (const auto& iter : temp_vec)
-        {
-            result.push_back(PKB.get_used_by_statement(stoi(iter)).at(0));
-        }
-    }
-    else
-    {
-        return temp_vec;
-    }
-    return result;
-}
-
 int QueryEvaluator::get_element_index_in_map(map<string, vector<string>> &map, string key)
 {
     int i = 0;
     int result = 0;
-    for (auto iter : map)
+    for (const auto &iter : map)
     {
         if (key == iter.first)
         {

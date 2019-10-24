@@ -1,14 +1,19 @@
-//
-// Created by 刘照宇 on 22/10/19.
-//
+#pragma once
 
-#ifndef AUTOTESTER_WITHEVALUATOR_H
-#define AUTOTESTER_WITHEVALUATOR_H
+#include <cstdio>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <unordered_map>
 
+#include <PKB.h>
+#include <QueryUtility.h>
+#include <pql_dto/Entity.h>
+#include <pql_dto/Relationships.h>
 
-class WithEvaluator {
-
+class WhileEvaluator
+{
+public:
+    static unordered_map<string, vector<string>> evaluate(pql_dto::Entity &first_param,
+            pql_dto::Entity &second_param, PKB &PKB);
 };
-
-
-#endif //AUTOTESTER_WITHEVALUATOR_H
