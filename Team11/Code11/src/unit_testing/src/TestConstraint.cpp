@@ -68,12 +68,11 @@ TEST_CASE("Wrong pattern entity throws error correctly")
     {
         pql_dto::Constraint constraint = pql_dto::Constraint();
 
-        pql_dto::Entity first_param_entity = pql_dto::Entity("stmt", "2", false);
-        pql_dto::Entity second_param_entity = pql_dto::Entity("stmt", "7", false);
-        pql_dto::Relationships follows_relationship = pql_dto::FollowsRelationship(first_param_entity,
-            second_param_entity, false);
+        pql_dto::Entity first_param_entity = pql_dto::Entity("variable", "x", false);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("variable", "x", false);
+        pql_dto::With with = pql_dto::With(first_param_entity, second_param_entity);
 
-        constraint.set_relationship(follows_relationship);
+        constraint.set_with(with);
 
         REQUIRE_THROWS_WITH(constraint.get_pattern_entity(), error_messages::not_a_pattern_object);
     }
