@@ -9,9 +9,9 @@ bool ComputeAffectsStar::is_affects_star(PKB& pkb, int assignment1, int assignme
         return true;
     } else {
         // recursive depth-approach
-        for (int affects_assignment : get_affects_star(assignment1))
+        for (int affects_assignment : get_affects_star(pkb, assignment1))
         {
-            if (is_affects_star(affects_assignment, assignment2))
+            if (is_affects_star(pkb, affects_assignment, assignment2))
             {
                 return true;
             }
@@ -57,6 +57,8 @@ std::vector<int> ComputeAffectsStar::get_affected_star(PKB& pkb, int assignment)
 std::vector<int> ComputeAffectsStar::get_all_affects_star(int assignment)
 {
    // See get_all_affects()
+   std::vector<int> result;
+   return result;
 }
 /**
     * affects*(a, 1)
@@ -64,6 +66,8 @@ std::vector<int> ComputeAffectsStar::get_all_affects_star(int assignment)
 std::vector<int> ComputeAffectsStar::get_all_affected_star(int assignment)
 {
   // See get_all_affected
+   std::vector<int> result;
+   return result;
 }
 /**
     * affected(a, a1)
@@ -79,7 +83,7 @@ std::unordered_map<int, std::vector<int>> ComputeAffectsStar::get_all_affects_st
         {
             continue;
         }
-        affects_star_map.insert(assign_stmts, affected_stmts);
+        affects_star_map.insert({assign_stmt, affected_stmts});
     }
     return affects_star_map;
 }
