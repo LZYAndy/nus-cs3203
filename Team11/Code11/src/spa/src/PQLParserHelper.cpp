@@ -459,7 +459,10 @@ std::string PQLParserHelper::parse_with_clause(std::string& query, std::vector<p
         pql_dto::Entity left_entity = create_with_entity(left_reference, declared_variables);
         pql_dto::Entity right_entity = create_with_entity(right_reference, declared_variables);
         pql_dto::With with = pql_dto::With(left_entity, right_entity);
-        with_clause.push_back(with);
+        if (left_entity.is_entity_declared() || right_entity.is_entity_declared())
+        {
+            with_clause.push_back(with);
+        }
     }
     catch (std::exception& e)
     {

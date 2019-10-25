@@ -1,6 +1,45 @@
 #include "Optimizer.h"
 
-std::string Optimizer::split_clauses_into_groups(std::vector<pql_dto::Entity> select_clause,
+std::string Optimizer::split_clauses_with_no_synonyms(std::vector<pql_dto::Relationships>& such_that_clause,
+    std::vector<pql_dto::Pattern>& pattern_clause, std::vector<pql_dto::With>& with_clause,
+    std::deque<pql_dto::Constraint>& no_synonym_clauses, std::deque<pql_dto::Constraint>& synonym_clauses)
+{
+    replace_with_synonyms(such_that_clause, pattern_clause, with_clause);
+
+    for (pql_dto::Relationships relationship : such_that_clause)
+    {
+        if (!relationship.get_first_param().is_entity_declared() && !relationship.get_second_param().is_entity_declared())
+        {
+            pql_dto::Constraint new_constraint = pql_dto::Constraint();
+            new_constraint.set_relationship(relationship);
+            no_synonym_clauses.push_back(new_constraint);
+        }
+        else
+        {
+            pql_dto::Constraint new_constraint = pql_dto::Constraint();
+            new_constraint.set_relationship(relationship);
+            synonym_clauses.push_back(new_constraint);
+        }
+    }
+
+    for (pql_dto::Pattern pattern : pattern_clause)
+    {
+        pql_dto::Constraint new_constraint = pql_dto::Constraint();
+        new_constraint.set_pattern(pattern);
+        synonym_clauses.push_back(new_constraint);
+    }
+
+    for (pql_dto::With with : with_clause)
+    {
+        pql_dto::Constraint new_constraint = pql_dto::Constraint();
+        new_constraint.set_with(with);
+        synonym_clauses.push_back(new_constraint);
+    }
+
+    return "";
+}
+
+std::string Optimizer::split_clauses_into_groups(std::vector<pql_dto::Entity>& select_clause,
     std::deque<pql_dto::Constraint>& synonym_clauses,
     std::vector<std::vector<pql_dto::Constraint>>& synonyms_in_select_clauses,
     std::vector<std::vector<pql_dto::Constraint>>& synonyms_not_in_select_clauses)
@@ -108,45 +147,6 @@ std::string Optimizer::split_clauses_into_groups(std::vector<pql_dto::Entity> se
         linked_entities_set.push_back(linked_synonyms_set);
         linked_entities_group.push_back(linked_entities);
         synonym_clauses = remaining_syn_clauses;
-    }
-
-    return "";
-}
-
-std::string Optimizer::split_clauses_with_no_synonyms(std::vector<pql_dto::Relationships>& such_that_clause,
-    std::vector<pql_dto::Pattern>& pattern_clause, std::vector<pql_dto::With>& with_clause,
-    std::deque<pql_dto::Constraint>& no_synonym_clauses, std::deque<pql_dto::Constraint>& synonym_clauses)
-{
-    replace_with_synonyms(such_that_clause, pattern_clause, with_clause);
-
-    for (pql_dto::Relationships relationship : such_that_clause)
-    {
-        if (!relationship.get_first_param().is_entity_declared() && !relationship.get_second_param().is_entity_declared())
-        {
-            pql_dto::Constraint new_constraint = pql_dto::Constraint();
-            new_constraint.set_relationship(relationship);
-            no_synonym_clauses.push_back(new_constraint);
-        }
-        else
-        {
-            pql_dto::Constraint new_constraint = pql_dto::Constraint();
-            new_constraint.set_relationship(relationship);
-            synonym_clauses.push_back(new_constraint);
-        }
-    }
-
-    for (pql_dto::Pattern pattern : pattern_clause)
-    {
-        pql_dto::Constraint new_constraint = pql_dto::Constraint();
-        new_constraint.set_pattern(pattern);
-        synonym_clauses.push_back(new_constraint);
-    }
-
-    for (pql_dto::With with : with_clause)
-    {
-        pql_dto::Constraint new_constraint = pql_dto::Constraint();
-        new_constraint.set_with(with);
-        synonym_clauses.push_back(new_constraint);
     }
 
     return "";

@@ -56,13 +56,11 @@ namespace pql_dto
         {
             return relationship.get_first_param();
         }
-        
-        if (is_pattern_object)
+        else if (is_pattern_object)
         {
             return pattern.get_first_param();
         }
-
-        if (is_with_object)
+        else
         {
             return with.get_first_param();
         }
@@ -74,13 +72,11 @@ namespace pql_dto
         {
             return relationship.get_second_param();
         }
-
-        if (is_pattern_object)
+        else if (is_pattern_object)
         {
             return pattern.get_second_param();
         }
-
-        if (is_with_object)
+        else
         {
             return with.get_second_param();
         }
@@ -94,5 +90,21 @@ namespace pql_dto
         }
 
         throw std::runtime_error(error_messages::not_a_pattern_object);
+    }
+
+    bool Constraint::equals(Constraint other)
+    {
+        if (is_relationship_object)
+        {
+            return relationship.equals(other.get_relationship());
+        }
+        else if (is_pattern_object)
+        {
+            return pattern.equals(other.get_pattern());
+        }
+        else
+        {
+            return with.equals(other.get_with());
+        }
     }
 }

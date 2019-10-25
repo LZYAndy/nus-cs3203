@@ -21,29 +21,52 @@ namespace pql_dto
         bool is_with_object = false;
 
     public:
+        /** Sets the pattern object in the Constraint.
+         *  @param other The pattern object.
+         */
         void set_pattern(Pattern other);
 
+        /** Sets the relationship object in the Constraint.
+         *  @param other The relationship object.
+         */
         void set_relationship(Relationships other);
 
+        /** Sets the with object in the Constraint.
+         *  @param other The with object.
+         */
         void set_with(With with);
 
+        // Returns true if it is a pattern object.
         bool is_pattern();
 
+        // Returns true if it is a relationship object.
         bool is_relationship();
 
+        // Returns true if it is a with object.
         bool is_with();
 
+        // Returns the pattern object.
         Pattern get_pattern();
 
+        // Returns the relationship object.
         Relationships get_relationship();
 
+        // Returns the with object.
         With get_with();
 
+        // Returns the First param of the object.
         Entity get_first_param();
 
+        // Returns the second param of the object.
         Entity get_second_param();
 
+        // Returns the pattern entity of the pattern object.
         Entity get_pattern_entity();
+
+        /** Checks if both constraints are the same.
+         *  @param other The object to be compared.
+         */
+        bool equals(Constraint other);
     };
 }
 

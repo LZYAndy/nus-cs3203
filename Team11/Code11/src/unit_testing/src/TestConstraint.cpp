@@ -4,6 +4,8 @@
 
 #include <string>
 
+#include <pql_dto\FollowsRelationship.cpp>
+
 TEST_CASE("Constraint variables can be set and get correctly.")
 {
     SECTION("Set relationship object in Constraint.")
