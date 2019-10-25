@@ -56,6 +56,7 @@ constexpr const char* invalid_order_of_params(R"(First param for Relationship is
 constexpr const char* invalid_pattern_entity(R"(Invalid Pattern Entity Type!)");
 constexpr const char* invalid_pattern_first_param(R"(Invalid Pattern First Parameter Type!)");
 constexpr const char* invalid_pattern_second_param(R"(Invalid Pattern Second Parameter Type!)");
+constexpr const char* not_a_pattern_object(R"(Not a Pattern Object!)");
 
 // Error messages for With.cpp
 constexpr const char* invalid_with_first_param(R"(Invalid With First Parameter Type!)");

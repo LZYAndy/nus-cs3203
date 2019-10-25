@@ -49,4 +49,50 @@ namespace pql_dto
     {
         return with;
     }
+
+    Entity Constraint::get_first_param()
+    {
+        if (is_relationship_object)
+        {
+            return relationship.get_first_param();
+        }
+        
+        if (is_pattern_object)
+        {
+            return pattern.get_first_param();
+        }
+
+        if (is_with_object)
+        {
+            return with.get_first_param();
+        }
+    }
+
+    Entity Constraint::get_second_param()
+    {
+        if (is_relationship_object)
+        {
+            return relationship.get_second_param();
+        }
+
+        if (is_pattern_object)
+        {
+            return pattern.get_second_param();
+        }
+
+        if (is_with_object)
+        {
+            return with.get_second_param();
+        }
+    }
+
+    Entity Constraint::get_pattern_entity()
+    {
+        if (is_pattern_object)
+        {
+            return pattern.get_pattern_entity();
+        }
+
+        throw std::runtime_error(error_messages::not_a_pattern_object);
+    }
 }

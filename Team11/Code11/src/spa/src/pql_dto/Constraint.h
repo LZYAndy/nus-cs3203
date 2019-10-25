@@ -38,6 +38,12 @@ namespace pql_dto
         Relationships get_relationship();
 
         With get_with();
+
+        Entity get_first_param();
+
+        Entity get_second_param();
+
+        Entity get_pattern_entity();
     };
 }
 
