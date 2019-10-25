@@ -767,7 +767,13 @@ public:
      * the Calls as key and all Called stored in a vector as value.
      */
     unordered_map<string, vector<string>> get_all_procedures_calls_star_relationship();
-
+    /**
+     * Get callee of call statement
+     * @param stmt caller statement number
+     * @return procedure called.
+     */
+    string get_called_by_statement(int stmt);
+    
 private:
     FollowsBank follows_bank;
     FollowsStarBank follows_star_bank;

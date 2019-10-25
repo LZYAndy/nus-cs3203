@@ -1,0 +1,80 @@
+1 - select all procedure, sanity check
+procedure p;
+Select p
+main
+5000
+2 - select all read statement, sanity check
+read r;
+Select r
+8,11,15,18,26
+5000
+3 - select all print statement, sanity check
+print pr;
+Select pr
+7,14,17,25
+5000
+4 - select all assign statement, sanity check
+assign a;
+Select a
+1,6,13,16,24,27,28
+5000
+5 - select all call statement, sanity check
+call c;
+Select c
+2,20,21
+5000
+6 - select all while statement, sanity check
+while w;
+Select w
+3,5,9,19,23
+5000
+7 - select all ifs statement, sanity check
+if ifs;
+Select ifs
+4,10,12,22
+5000
+8 - select all variable, sanity check
+variable v;
+Select v
+var,b,x,y,z,a,vAR1,Variable,c,var2
+5000
+9 - select all constant, sanity check
+constant c;
+Select c
+1,2,3,99,0,20
+5000
+10 - select all statement, sanity check
+stmt s;
+Select s
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28
+5000
+11 - select follows, bool, no syn
+
+Select BOOLEAN such that Follows(24,25)
+TRUE
+5000
+11 - select follows, one syn
+stmt s;
+Select s such that Follows(s,26)
+25
+5000
+11 - select follows, after all while
+while w; stmt s;
+Select s such that Follows(w,s)
+21, 28
+5000
+12 - select follows, last statement of else
+stmt s;
+Select s such that Follows(27,s)
+
+5000
+13 - select follows, different statement list
+
+Select BOOLEAN such that Follows(23,27)
+FALSE
+5000
+14 - select follows, 2 syn
+stmt s; stmt s1;
+Select <s, s1> such that Follows(s,s1)
+1 2,2 3,3 28, 6 7,7 8,8 9,9 21,11 12,13 14,14 15,16 17,17 18,24 25,25 26
+5000
