@@ -68,13 +68,13 @@ std::vector<int> ComputeAffectsStar::get_all_affected_star(int assignment)
 /**
     * affected(a, a1)
     */
-std::unordered_map<int, std::vector<int>> ComputeAffectsStar::get_all_affects_star_relationship(PKB& pkb)
+std::unordered_map<int, std::vector<int>> ComputeAffectsStar::get_all_affects_star_relationship(PKB &pkb)
 {
     std::unordered_map<int, std::vector<int>> affects_star_map;
     std::vector<int> assign_stmts = pkb.get_all_assigns();
     for (int assign_stmt : assign_stmts)
     {
-        std::vector<int> affected_stmts = get_affects_star(assign_stmt);
+        std::vector<int> affected_stmts = get_affects_star(pkb, assign_stmt);
         if (affected_stmts.empty())
         {
             continue;

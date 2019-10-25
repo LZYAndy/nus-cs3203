@@ -32,7 +32,7 @@ public:
     /**
      * affected(a, a1)
      */
-    std::unordered_map<int, std::vector<int>> get_all_affects_star_relationship();
+    std::unordered_map<int, std::vector<int>> get_all_affects_star_relationship(PKB &pkb);
 
 };
 
