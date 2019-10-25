@@ -1,0 +1,131 @@
+#include "catch.hpp"
+#include "PKB.h"
+#include "ComputeAffectsStar.h"
+
+TEST_CASE("ComputeAffectsStar::is_affects() [!hide]")
+{
+    ComputeAffectsStar compute_affects_star;
+    PKB pkb;
+    pkb.insert_assign(1, "x", "y + z");
+    pkb.insert_uses(1, "y");
+    pkb.insert_uses(1, "z");
+    pkb.insert_modifies(1, "x");
+    pkb.insert_assign(2, "h", "ello + x");
+    pkb.insert_uses(2, "ello");
+    pkb.insert_uses(2, "x");
+    pkb.insert_modifies(2, "h");
+    pkb.insert_assign(3, "a", "h");
+    pkb.insert_uses(3, "h");
+    pkb.insert_modifies(3, "a");
+
+    SECTION("fails")
+    {
+        REQUIRE_FALSE(compute_affects_star.is_affects_star(pkb, 1, 2));
+    }
+
+    SECTION("success")
+    {
+        REQUIRE(compute_affects_star.is_affects_star(pkb, 1, 2));
+        REQUIRE(compute_affects_star.is_affects_star(pkb, 2, 3));
+        REQUIRE(compute_affects_star.is_affects_star(pkb, 1, 3));
+    }
+}
+
+TEST_CASE("ComputeAffectsStar::get_affects_star() [!hide]")
+{
+    ComputeAffectsStar compute_affects_star;
+    PKB pkb;
+    pkb.insert_assign(1, "x", "y + z");
+    pkb.insert_uses(1, "y");
+    pkb.insert_uses(1, "z");
+    pkb.insert_modifies(1, "x");
+    pkb.insert_assign(2, "h", "ello + x");
+    pkb.insert_uses(2, "ello");
+    pkb.insert_uses(2, "x");
+    pkb.insert_modifies(2, "h");
+    pkb.insert_assign(3, "a", "h");
+    pkb.insert_uses(3, "h");
+    pkb.insert_modifies(3, "a");
+
+    SECTION("fails")
+    {
+        REQUIRE(compute_affects_star.get_affects_star(pkb, 3).empty());
+    }
+
+    SECTION("success")
+    {
+        std::vector<int> result = compute_affects_star.get_affects_star(pkb, 1);
+        std::vector<int> expected;
+        expected.push_back(2);
+        expected.push_back(3);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(expected == result);
+    }
+}
+
+
+TEST_CASE("ComputeAffectsStar::get_affected_star() [!hide]")
+{
+    ComputeAffectsStar compute_affects_star;
+    PKB pkb;
+    pkb.insert_assign(1, "x", "y + z");
+    pkb.insert_uses(1, "y");
+    pkb.insert_uses(1, "z");
+    pkb.insert_modifies(1, "x");
+    pkb.insert_assign(2, "h", "ello + x");
+    pkb.insert_uses(2, "ello");
+    pkb.insert_uses(2, "x");
+    pkb.insert_modifies(2, "h");
+    pkb.insert_assign(3, "a", "h");
+    pkb.insert_uses(3, "h");
+    pkb.insert_modifies(3, "a");
+
+    SECTION("fails")
+    {
+        REQUIRE(compute_affects_star.get_affected_star(pkb, 1).empty());
+    }
+
+    SECTION("success")
+    {
+        std::vector<int> result = compute_affects_star.get_affected_star(pkb, 3);
+        std::vector<int> expected;
+        expected.push_back(2);
+        expected.push_back(1);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(expected == result);
+    }
+}
+
+TEST_CASE("ComputeAffectsStar::get_all_affects_star_relationship() [!hide]")
+{
+    ComputeAffectsStar compute_affects_star;
+    PKB pkb;
+
+    SECTION("fails")
+    {
+        REQUIRE(compute_affects_star.get_all_affects_star_relationship(pkb).empty());
+    }
+
+    pkb.insert_assign(1, "x", "y + z");
+    pkb.insert_uses(1, "y");
+    pkb.insert_uses(1, "z");
+    pkb.insert_modifies(1, "x");
+    pkb.insert_assign(2, "h", "ello + x");
+    pkb.insert_uses(2, "ello");
+    pkb.insert_uses(2, "x");
+    pkb.insert_modifies(2, "h");
+    pkb.insert_assign(3, "a", "h");
+    pkb.insert_uses(3, "h");
+    pkb.insert_modifies(3, "a");
+
+    SECTION("success")
+    {
+        std::unordered_map<int, ::vector<int>> result = compute_affects_star.get_all_affects_star_relationship(pkb);
+        std::unordered_map<int, ::vector<int>> expected;
+        expected.insert({1, {2, 3}});
+        expected.insert({2, {3}});
+        REQUIRE(expected == result);
+    }
+}
