@@ -7,6 +7,7 @@ std::string Optimizer::split_clauses_into_groups(std::vector<pql_dto::Entity> se
 {
     std::unordered_set<std::string> select_synonyms_set = {};
     std::vector<std::vector<pql_dto::Constraint>> linked_entities_group = {};
+    std::vector<std::unordered_set<std::string>> linked_entities_set = {};
 
     /// Add synonyms in select clause to a set for lookup
     for (pql_dto::Entity entity : select_clause)
@@ -104,6 +105,7 @@ std::string Optimizer::split_clauses_into_groups(std::vector<pql_dto::Entity> se
             }
         }
 
+        linked_entities_set.push_back(linked_synonyms_set);
         linked_entities_group.push_back(linked_entities);
         synonym_clauses = remaining_syn_clauses;
     }
@@ -215,4 +217,41 @@ void Optimizer::replace_with_synonyms(std::vector<pql_dto::Relationships>& such_
             }
         }
     }
+}
+
+void Optimizer::sort_clauses(std::unordered_set<std::string>& select_synonyms_set,
+    std::vector<std::vector<pql_dto::Constraint>>& linked_entities_group,
+    std::vector<std::unordered_set<std::string>>& linked_entities_set,
+    std::vector<std::vector<pql_dto::Constraint>>& synonyms_in_select_clauses,
+    std::vector<std::vector<pql_dto::Constraint>>& synonyms_not_in_select_clauses)
+{
+    for (int index = 0; index < linked_entities_set.size(); index++)
+    {
+        std::unordered_set<std::string> entities_set = linked_entities_set.at(index);
+        bool is_in_select = false;
+
+        for (auto i = entities_set.begin(); i != entities_set.end(); i++)
+        {
+            if (select_synonyms_set.find(*i) != select_synonyms_set.end())
+            {
+                std::vector<pql_dto::Constraint> entity_group = linked_entities_group.at(index);
+                sort(entity_group);
+                synonyms_in_select_clauses.push_back(entity_group);
+                is_in_select = true;
+                break;
+            }
+        }
+
+        if (!is_in_select)
+        {
+            std::vector<pql_dto::Constraint> entity_group = linked_entities_group.at(index);
+            sort(entity_group);
+            synonyms_not_in_select_clauses.push_back(entity_group);
+        }
+    }
+}
+
+void Optimizer::sort(std::vector<pql_dto::Constraint>& entity_group)
+{
+
 }

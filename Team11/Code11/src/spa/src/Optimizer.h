@@ -27,4 +27,12 @@ public:
 private:
     void replace_with_synonyms(std::vector<pql_dto::Relationships>& such_that_clause,
         std::vector<pql_dto::Pattern>& pattern_clause, std::vector<pql_dto::With>& with_clause);
+
+    void sort_clauses(std::unordered_set<std::string>& select_synonyms_set,
+        std::vector<std::vector<pql_dto::Constraint>>& linked_entities_group,
+        std::vector<std::unordered_set<std::string>>& linked_entities_set,
+        std::vector<std::vector<pql_dto::Constraint>>& synonyms_in_select_clauses,
+        std::vector<std::vector<pql_dto::Constraint>>& synonyms_not_in_select_clauses);
+
+    static void sort(std::vector<pql_dto::Constraint>& entity_group);
 };
