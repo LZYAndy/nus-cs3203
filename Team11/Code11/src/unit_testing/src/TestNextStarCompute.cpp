@@ -195,5 +195,4 @@ TEST_CASE("NextStarCompute::get_all_next_star_relationship()")
 
         }
     }
-
 }
