@@ -774,10 +774,34 @@ public:
      * the Calls as key and all Called stored in a vector as value.
      */
     unordered_map<string, vector<string>> get_all_procedures_calls_star_relationship();
-
+    /**
+     * Get all statement numbers that are in the previous position
+     * in the Next* relationship with the input statement.
+     * @param stmt
+     * @return a vector of statement numbers that are in the previous position
+     * in the Next* relationship with the input statement.
+     */
     vector<int> get_statements_previous_star(int stmt);   //e.g. Next*(n, 2)
+    /**
+     * Get all statement numbers that are in the next position
+     * in the Next* relationship with the input statement.
+     * @param stmt
+     * @return a vector of statement numbers that are in the next position
+     * in the Next* relationship with the input statement.
+     */
     vector<int> get_statements_next_star(int stmt);  //e.g. Next*(1, n)
+    /**
+     * Check if stmt1 and stmt2 have a Next* relationship
+     * @param stmt1
+     * @param stmt2
+     * @return return true if they have a Next* relationship
+     */
     bool is_next_star(int stmt1, int stmt2); //e.g. Next*(1, 2)
+    /**
+     * Get all Next* relationship of this program
+     * @return an unordered_map containing all Next* relationship in the program with statement number as key and
+     * a vector of statement numbers which means they are in the next position in the Next* relationship with the key.
+     */
     unordered_map<int, vector<int>> get_all_next_star_relationship();  //e.g. Next*(n1, n2)
 
 private:
