@@ -620,20 +620,6 @@ pql_dto::Relationships PQLParserHelper::create_relationship(std::string& relatio
         return pql_dto::ParentRelationship(first_param, second_param, true);
     }
 
-    if (relationship_type == next_keyword)
-    {
-        return pql_dto::NextRelationship(first_param, second_param, false);
-    }
-    else if (relationship_type.find(next_keyword) != std::string::npos)
-    {
-        relationship_type = StringUtil::remove_all_white_spaces(relationship_type);
-        if (relationship_type != next_star_keyword)
-        {
-            throw std::runtime_error(error_messages::invalid_relationship_type);
-        }
-        return pql_dto::NextRelationship(first_param, second_param, true);
-    }
-
     if (relationship_type == next_bip_keyword)
     {
         return pql_dto::NextBipRelationship(first_param, second_param, false);
@@ -646,6 +632,20 @@ pql_dto::Relationships PQLParserHelper::create_relationship(std::string& relatio
             throw std::runtime_error(error_messages::invalid_relationship_type);
         }
         return pql_dto::NextBipRelationship(first_param, second_param, true);
+    }
+
+    if (relationship_type == next_keyword)
+    {
+        return pql_dto::NextRelationship(first_param, second_param, false);
+    }
+    else if (relationship_type.find(next_keyword) != std::string::npos)
+    {
+        relationship_type = StringUtil::remove_all_white_spaces(relationship_type);
+        if (relationship_type != next_star_keyword)
+        {
+            throw std::runtime_error(error_messages::invalid_relationship_type);
+        }
+        return pql_dto::NextRelationship(first_param, second_param, true);
     }
 
     if (relationship_type == calls_keyword)
@@ -662,20 +662,6 @@ pql_dto::Relationships PQLParserHelper::create_relationship(std::string& relatio
         return pql_dto::CallsRelationship(first_param, second_param, true);
     }
 
-    if (relationship_type == affects_keyword)
-    {
-        return pql_dto::AffectsRelationship(first_param, second_param, false);
-    }
-    else if (relationship_type.find(affects_keyword) != std::string::npos)
-    {
-        relationship_type = StringUtil::remove_all_white_spaces(relationship_type);
-        if (relationship_type != affects_star_keyword)
-        {
-            throw std::runtime_error(error_messages::invalid_relationship_type);
-        }
-        return pql_dto::AffectsRelationship(first_param, second_param, true);
-    }
-
     if (relationship_type == affects_bip_keyword)
     {
         return pql_dto::AffectsBipRelationship(first_param, second_param, false);
@@ -688,6 +674,20 @@ pql_dto::Relationships PQLParserHelper::create_relationship(std::string& relatio
             throw std::runtime_error(error_messages::invalid_relationship_type);
         }
         return pql_dto::AffectsBipRelationship(first_param, second_param, true);
+    }
+
+    if (relationship_type == affects_keyword)
+    {
+        return pql_dto::AffectsRelationship(first_param, second_param, false);
+    }
+    else if (relationship_type.find(affects_keyword) != std::string::npos)
+    {
+        relationship_type = StringUtil::remove_all_white_spaces(relationship_type);
+        if (relationship_type != affects_star_keyword)
+        {
+            throw std::runtime_error(error_messages::invalid_relationship_type);
+        }
+        return pql_dto::AffectsRelationship(first_param, second_param, true);
     }
 
     if (relationship_type == uses_keyword)
