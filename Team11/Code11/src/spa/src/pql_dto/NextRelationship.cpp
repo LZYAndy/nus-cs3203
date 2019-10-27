@@ -14,12 +14,12 @@ namespace pql_dto
         {
             if (first_param.get_entity_type() == EntityType::STMT && !first_param.is_entity_declared())
             {
-                first_param.set_entity_type("prog_line");
+                first_param.set_entity_type(prog_line_keyword);
             }
 
             if (second_param.get_entity_type() == EntityType::STMT && !second_param.is_entity_declared())
             {
-                second_param.set_entity_type("prog_line");
+                second_param.set_entity_type(prog_line_keyword);
             }
 
             set_relationship(RelationshipType::NEXT);

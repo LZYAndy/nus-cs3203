@@ -21,7 +21,9 @@ enum class RelationshipType
     MODIFIES,
     CALLS,
     NEXT,
-    AFFECTS
+    AFFECTS,
+    NEXTBIP,
+    AFFECTSBIP
 };
 
 namespace pql_dto
@@ -142,6 +144,30 @@ public:
         },
         {
             RelationshipType::AFFECTS,
+            {
+                {
+                    EntityType::ANY, EntityType::STMT, EntityType::ASSIGN, EntityType::PROG_LINE
+                },
+                {
+                    EntityType::ANY, EntityType::STMT, EntityType::ASSIGN, EntityType::PROG_LINE
+                }
+            }
+        },
+        {
+            RelationshipType::NEXTBIP,
+            {
+                {
+                    EntityType::ANY, EntityType::STMT, EntityType::READ, EntityType::PRINT, EntityType::CALL,
+                    EntityType::WHILE, EntityType::IF, EntityType::ASSIGN, EntityType::PROG_LINE
+                },
+                {
+                    EntityType::ANY, EntityType::STMT, EntityType::READ, EntityType::PRINT, EntityType::CALL,
+                    EntityType::WHILE, EntityType::IF, EntityType::ASSIGN, EntityType::PROG_LINE
+                }
+            }
+        },
+        {
+            RelationshipType::AFFECTSBIP,
             {
                 {
                     EntityType::ANY, EntityType::STMT, EntityType::ASSIGN, EntityType::PROG_LINE
