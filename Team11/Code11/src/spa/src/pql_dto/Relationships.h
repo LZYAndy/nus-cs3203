@@ -55,6 +55,16 @@ public:
      */
     void set_relationship(RelationshipType relationship_type);
 
+    /** Updates the first param of the Relationship Object.
+     *  @param value The value of the synonym.
+     */
+    void update_first_param(std::string value);
+
+    /** Updates the second param of the Relationship Object.
+     *  @param value The value of the synonym.
+     */
+    void update_second_param(std::string value);
+
     /** Sets is_relationship_star of the Relationship Object.
      *  @param is_declared The boolean value of the Relationship if it is a star.
      */

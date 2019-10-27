@@ -57,6 +57,16 @@ public:
      */
     void set_second_param(Entity second_entity_param);
 
+    /** Updates the first param of the Pattern Object.
+     *  @param value The value of the synonym.
+     */
+    void update_first_param(std::string value);
+
+    /** Updates the second param of the Pattern Object.
+     *  @param value The value of the synonym.
+     */
+    void update_second_param(std::string value);
+
     /** Checks if both pattern are the same.
      *  @param pattern The pattern to be compared.
      */
