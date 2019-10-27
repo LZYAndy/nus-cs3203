@@ -31,6 +31,34 @@ namespace pql_dto
         relationship_type = type;
     }
 
+    void Relationships::update_first_param(std::string value)
+    {
+        first_param.set_is_declared(false);
+        if (!value.empty() && std::all_of(value.begin(), value.end(), ::isdigit))
+        {
+            first_param.set_entity_type(EntityType::STMT);
+        }
+        else
+        {
+            first_param.set_entity_type(EntityType::VARIABLE);
+        }
+        first_param.set_entity_name(value);
+    }
+
+    void Relationships::update_second_param(std::string value)
+    {
+        second_param.set_is_declared(false);
+        if (!value.empty() && std::all_of(value.begin(), value.end(), ::isdigit))
+        {
+            second_param.set_entity_type(EntityType::STMT);
+        }
+        else
+        {
+            second_param.set_entity_type(EntityType::VARIABLE);
+        }
+        second_param.set_entity_name(value);
+    }
+
     void Relationships::set_relationship_star(bool is_relationship_star)
     {
         is_star = is_relationship_star;

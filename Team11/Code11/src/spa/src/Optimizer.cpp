@@ -166,11 +166,13 @@ void Optimizer::replace_with_synonyms(std::vector<pql_dto::Relationships>& such_
                 if (relationship.get_first_param().equals(right_ref))
                 {
                     /// Replace the left entity with value
+                    relationship.update_first_param(right_ref.get_entity_name());
                 }
 
                 if (relationship.get_second_param().equals(right_ref))
                 {
                     /// Replace the right entity with value
+                    relationship.update_second_param(right_ref.get_entity_name());
                 }
             }
 
@@ -179,11 +181,13 @@ void Optimizer::replace_with_synonyms(std::vector<pql_dto::Relationships>& such_
                 if (pattern.get_first_param().equals(right_ref))
                 {
                     /// Replace the left entity with value
+                    pattern.update_first_param(right_ref.get_entity_name());
                 }
 
                 if (pattern.get_second_param().equals(right_ref))
                 {
                     /// Replace the right entity with value
+                    pattern.update_second_param(right_ref.get_entity_name());
                 }
             }
         }
@@ -195,11 +199,13 @@ void Optimizer::replace_with_synonyms(std::vector<pql_dto::Relationships>& such_
                 if (relationship.get_first_param().equals(left_ref))
                 {
                     /// Replace the left entity with value
+                    relationship.update_first_param(left_ref.get_entity_name());
                 }
 
                 if (relationship.get_second_param().equals(left_ref))
                 {
                     /// Replace the right entity with value
+                    relationship.update_second_param(left_ref.get_entity_name());
                 }
             }
 
@@ -208,11 +214,13 @@ void Optimizer::replace_with_synonyms(std::vector<pql_dto::Relationships>& such_
                 if (pattern.get_first_param().equals(left_ref))
                 {
                     /// Replace the left entity with value
+                    pattern.update_first_param(left_ref.get_entity_name());
                 }
 
                 if (pattern.get_second_param().equals(left_ref))
                 {
                     /// Replace the right entity with value
+                    pattern.update_second_param(left_ref.get_entity_name());
                 }
             }
         }
@@ -253,5 +261,20 @@ void Optimizer::sort_clauses(std::unordered_set<std::string>& select_synonyms_se
 
 void Optimizer::sort(std::vector<pql_dto::Constraint>& entity_group)
 {
+    std::vector<pql_dto::Constraint> one_synonym_group;
+    std::vector<pql_dto::Constraint> two_synonym_group;
+    std::vector<pql_dto::Constraint> sorted_entity_group;
 
+    for (pql_dto::Constraint constraint : entity_group)
+    {
+        /// Separates clauses with 1 and 2 synonyms.
+        if (constraint.get_first_param().is_entity_declared() && constraint.get_second_param().is_entity_declared())
+        {
+            two_synonym_group.push_back(constraint);
+        }
+        else
+        {
+            one_synonym_group.push_back(constraint);
+        }
+    }
 }
