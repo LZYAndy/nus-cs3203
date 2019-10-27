@@ -36,7 +36,14 @@ namespace pql_dto
         first_param.set_is_declared(false);
         if (!value.empty() && std::all_of(value.begin(), value.end(), ::isdigit))
         {
-            first_param.set_entity_type(EntityType::STMT);
+            if (relationship_type == RelationshipType::NEXT)
+            {
+                first_param.set_entity_type(EntityType::PROG_LINE);
+            }
+            else
+            {
+                first_param.set_entity_type(EntityType::STMT);
+            }
         }
         else
         {
@@ -50,7 +57,14 @@ namespace pql_dto
         second_param.set_is_declared(false);
         if (!value.empty() && std::all_of(value.begin(), value.end(), ::isdigit))
         {
-            second_param.set_entity_type(EntityType::STMT);
+            if (relationship_type == RelationshipType::NEXT)
+            {
+                second_param.set_entity_type(EntityType::PROG_LINE);
+            }
+            else
+            {
+                second_param.set_entity_type(EntityType::STMT);
+            }
         }
         else
         {
