@@ -559,7 +559,7 @@ TEST_CASE("NextBip Relationships can store and retrieve correct entity types.")
         pql_dto::Relationships NextBip_relationship = pql_dto::NextBipRelationship(first_param_entity,
             second_param_entity, false);
 
-        RelationshipType relationship_type = NextBip_relationship.get_relationship();
+        RelationshipType relationship_type = NextBip_relationship.get_relationship_type();
         pql_dto::Entity first_param = NextBip_relationship.get_first_param();
         pql_dto::Entity second_param = NextBip_relationship.get_second_param();
 
@@ -629,7 +629,7 @@ TEST_CASE("AffectsBip Relationships can store and retrieve correct entity types.
         pql_dto::Relationships AffectsBip_relationship = pql_dto::AffectsBipRelationship(first_param_entity,
             second_param_entity, false);
 
-        RelationshipType relationship_type = AffectsBip_relationship.get_relationship();
+        RelationshipType relationship_type = AffectsBip_relationship.get_relationship_type();
         pql_dto::Entity first_param = AffectsBip_relationship.get_first_param();
         pql_dto::Entity second_param = AffectsBip_relationship.get_second_param();
 
