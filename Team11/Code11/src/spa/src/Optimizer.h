@@ -24,9 +24,10 @@ public:
      * @param synonym_clauses The pointer to the vector containing clauses with synonyms.
      * @return The error string if the query is invalid.
      */
-    static std::string split_clauses_with_no_synonyms(std::vector<pql_dto::Relationships>& such_that_clause,
-        std::vector<pql_dto::Pattern>& pattern_clause, std::vector<pql_dto::With>& with_clause,
-        std::deque<pql_dto::Constraint>& no_synonym_clauses, std::deque<pql_dto::Constraint>& synonym_clauses);
+    static std::string split_clauses_with_no_synonyms(std::vector<pql_dto::Entity>& select_clause,
+        std::vector<pql_dto::Relationships>& such_that_clause, std::vector<pql_dto::Pattern>& pattern_clause,
+        std::vector<pql_dto::With>& with_clause, std::deque<pql_dto::Constraint>& no_synonym_clauses,
+        std::deque<pql_dto::Constraint>& synonym_clauses);
 
     /**
      * Group and sort clauses into clauses in select clause and clauses not in select.
@@ -43,12 +44,21 @@ public:
 
 private:
     /**
+     * Remove duplicates in all clauses.
+     * @param such_that_clause The pointer to the such that clause vector.
+     * @param pattern_clause The pointer to the pattern clause vector.
+     * @param with_clause The pointer to the with clause vector.
+     */
+    static void remove_duplicates(std::vector<pql_dto::Relationships>& such_that_clause,
+        std::vector<pql_dto::Pattern>& pattern_clause, std::vector<pql_dto::With>& with_clause);
+
+    /**
      * Replaces patterns and relationship clauses with constant value in with clause.
      * @param such_that_clause The pointer to the such that clause vector.
      * @param pattern_clause The pointer to the pattern clause vector.
      * @param with_clause The pointer to the with clause vector.
      */
-    static void replace_with_synonyms(std::vector<pql_dto::Relationships>& such_that_clause,
+    static void replace_with_synonyms(std::vector<pql_dto::Entity>& select_clause, std::vector<pql_dto::Relationships>& such_that_clause,
         std::vector<pql_dto::Pattern>& pattern_clause, std::vector<pql_dto::With>& with_clause);
 
     /**

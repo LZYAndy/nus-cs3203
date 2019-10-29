@@ -290,7 +290,6 @@ void Entity::set_is_declared(bool is_declared)
 bool Entity::equals(Entity entity)
 {
     return entity_type == entity.entity_type
-           && entity_attr == entity.entity_attr
            && entity_name == entity.entity_name
            && is_declared_entity == entity.is_declared_entity;
 }

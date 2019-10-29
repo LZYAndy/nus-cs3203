@@ -37,7 +37,7 @@ protected:
 
 public:
     // Returns the Relationship Type.
-    RelationshipType get_relationship();
+    RelationshipType get_relationship_type();
 
     // Returns the First Parameter in the Relationship.
     Entity get_first_param();
