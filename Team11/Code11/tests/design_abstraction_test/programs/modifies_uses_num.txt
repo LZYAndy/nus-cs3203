@@ -23,7 +23,7 @@ procedure secondProc {
 16        x = y;
 17        if (z == x) then {
 18            b1 = b2;}
-        else {
+          else {
 19            read b3;
 20            while (b5 < 4444) {
 21                b6 = b7;
