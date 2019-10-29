@@ -7,8 +7,10 @@
 #include "pql_dto/ParentRelationship.cpp"
 #include "pql_dto/FollowsRelationship.cpp"
 #include "pql_dto/NextRelationship.cpp"
+#include "pql_dto/NextBipRelationship.cpp"
 #include "pql_dto/CallsRelationship.cpp"
 #include "pql_dto/AffectsRelationship.cpp"
+#include "pql_dto/AffectsBipRelationship.cpp"
 
 std::string PQLParserHelper::pql_validate_initial_query(std::string& query)
 {
@@ -145,7 +147,7 @@ std::string PQLParserHelper::parse_select_clause(const std::string& query, std::
         /// Checks if select variable is BOOLEAN
         if (select_variable == "BOOLEAN")
         {
-            pql_dto::Entity entity = pql_dto::Entity("boolean", select_variable, false);
+            pql_dto::Entity entity = pql_dto::Entity(boolean_keyword, select_variable, false);
             select_clause.push_back(entity);
         }
         else
@@ -269,8 +271,8 @@ std::string PQLParserHelper::parse_pattern_clause(std::string& query, std::vecto
     {
         /// Check if pattern has correct entity
         std::string entity_name = StringUtil::trim(pattern_query.substr(0, open_parentheses_index), whitespace);
-        if (declared_variables.find(entity_name) == declared_variables.end() || (declared_variables.at(entity_name) != "assign"
-            && declared_variables.at(entity_name) != "while" && declared_variables.at(entity_name) != "if"))
+        if (declared_variables.find(entity_name) == declared_variables.end() || (declared_variables.at(entity_name) != assign_keyword
+            && declared_variables.at(entity_name) != while_keyword && declared_variables.at(entity_name) != if_keyword))
         {
             return error_messages::invalid_query_wrong_pattern_entity;
         }
@@ -521,12 +523,12 @@ pql_dto::Entity PQLParserHelper::create_entity(std::string& var_name, std::unord
         /// Checks if variable name is an INTEGER
         if (!var_name.empty() && std::all_of(var_name.begin(), var_name.end(), ::isdigit))
         {
-            return pql_dto::Entity("stmt", var_name, false);
+            return pql_dto::Entity(stmt_keyword, var_name, false);
         }
         
         if (var_name == "_")
         {
-            return pql_dto::Entity("any", var_name, false);
+            return pql_dto::Entity(any_keyword, var_name, false);
         }
         
         if (declared_variables.find(var_name) != declared_variables.end())
@@ -545,10 +547,10 @@ pql_dto::Entity PQLParserHelper::create_entity(std::string& var_name, std::unord
         {
             if (is_pattern_expr)
             {
-                return pql_dto::Entity("matchexpr", StringUtil::trim(var_name.substr(1, var_name.length() - 2), whitespace), false);
+                return pql_dto::Entity(match_expr_keyword, StringUtil::trim(var_name.substr(1, var_name.length() - 2), whitespace), false);
             }
             std::string var_value = StringUtil::trim(var_name.substr(1, var_name.length() - 2), whitespace);
-            return pql_dto::Entity("variable", var_value, false);
+            return pql_dto::Entity(variable_keyword, var_value, false);
         }
         
         if (var_name.front() == '_' && var_name.back() == '_' && var_name.length() != 1)
@@ -556,7 +558,7 @@ pql_dto::Entity PQLParserHelper::create_entity(std::string& var_name, std::unord
             std::string string_value = StringUtil::trim(var_name.substr(1, var_name.length() - 2), whitespace);
             if (string_value.front() == '"' && string_value.back() == '"' && string_value.length() > 2)
             {
-                return pql_dto::Entity("pattexpr", StringUtil::trim(string_value.substr(1, string_value.length() - 2), whitespace), false);
+                return pql_dto::Entity(patt_expr_keyword, StringUtil::trim(string_value.substr(1, string_value.length() - 2), whitespace), false);
             }
         }
         throw std::runtime_error(error_messages::invalid_undeclared_entity_name);
@@ -573,7 +575,7 @@ pql_dto::Entity PQLParserHelper::create_with_entity(std::string& var_name, std::
         /// Checks if variable name is an INTEGER
         if (!var_name.empty() && std::all_of(var_name.begin(), var_name.end(), ::isdigit))
         {
-            return pql_dto::Entity("prog_line", var_name, false);
+            return pql_dto::Entity(prog_line_keyword, var_name, false);
         }
 
         return parse_variable_to_entity(var_name, declared_variables);
@@ -582,7 +584,7 @@ pql_dto::Entity PQLParserHelper::create_with_entity(std::string& var_name, std::
     if (var_name.front() == '"' && var_name.back() == '"' && var_name.length() > 2)
     {
         std::string var_value = StringUtil::trim(var_name.substr(1, var_name.length() - 2), whitespace);
-        return pql_dto::Entity("variable", var_value, false);
+        return pql_dto::Entity(variable_keyword, var_value, false);
     }
 
     throw std::runtime_error(error_messages::invalid_undeclared_entity_name);
@@ -618,6 +620,20 @@ pql_dto::Relationships PQLParserHelper::create_relationship(std::string& relatio
         return pql_dto::ParentRelationship(first_param, second_param, true);
     }
 
+    if (relationship_type == next_bip_keyword)
+    {
+        return pql_dto::NextBipRelationship(first_param, second_param, false);
+    }
+    else if (relationship_type.find(next_bip_keyword) != std::string::npos)
+    {
+        relationship_type = StringUtil::remove_all_white_spaces(relationship_type);
+        if (relationship_type != next_bip_star_keyword)
+        {
+            throw std::runtime_error(error_messages::invalid_relationship_type);
+        }
+        return pql_dto::NextBipRelationship(first_param, second_param, true);
+    }
+
     if (relationship_type == next_keyword)
     {
         return pql_dto::NextRelationship(first_param, second_param, false);
@@ -644,6 +660,20 @@ pql_dto::Relationships PQLParserHelper::create_relationship(std::string& relatio
             throw std::runtime_error(error_messages::invalid_relationship_type);
         }
         return pql_dto::CallsRelationship(first_param, second_param, true);
+    }
+
+    if (relationship_type == affects_bip_keyword)
+    {
+        return pql_dto::AffectsBipRelationship(first_param, second_param, false);
+    }
+    else if (relationship_type.find(affects_bip_keyword) != std::string::npos)
+    {
+        relationship_type = StringUtil::remove_all_white_spaces(relationship_type);
+        if (relationship_type != affects_bip_star_keyword)
+        {
+            throw std::runtime_error(error_messages::invalid_relationship_type);
+        }
+        return pql_dto::AffectsBipRelationship(first_param, second_param, true);
     }
 
     if (relationship_type == affects_keyword)

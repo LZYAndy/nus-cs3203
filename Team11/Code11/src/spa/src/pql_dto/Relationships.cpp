@@ -42,7 +42,7 @@ namespace pql_dto
         first_param.set_is_declared(false);
         if (!value.empty() && std::all_of(value.begin(), value.end(), ::isdigit))
         {
-            if (relationship_type == RelationshipType::NEXT)
+            if (relationship_type == RelationshipType::NEXT || relationship_type == RelationshipType::NEXTBIP)
             {
                 first_param.set_entity_type(EntityType::PROG_LINE);
             }
@@ -69,7 +69,7 @@ namespace pql_dto
         second_param.set_is_declared(false);
         if (!value.empty() && std::all_of(value.begin(), value.end(), ::isdigit))
         {
-            if (relationship_type == RelationshipType::NEXT)
+            if (relationship_type == RelationshipType::NEXT || relationship_type == RelationshipType::NEXTBIP)
             {
                 second_param.set_entity_type(EntityType::PROG_LINE);
             }
