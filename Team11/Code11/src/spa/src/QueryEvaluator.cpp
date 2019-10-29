@@ -554,26 +554,6 @@ bool QueryEvaluator::is_empty_map(unordered_map<string, vector<string>> &map)
 }
 
 unordered_set<string> QueryEvaluator::get_common_synonyms(unordered_map<string, vector<string>> &map_1,
-        unordered_map<string, vector<string>> &map_2)
-{
-    unordered_set<string> result;
-    for (const auto &iter : map_1)
-    {
-        string synonym_name = iter.first;
-        if (map_2.find(synonym_name) == map_2.end())
-        {
-            // does not present
-            continue;
-        }
-        else
-        {
-            result.insert(synonym_name);
-        }
-    }
-    return result;
-}
-
-unordered_set<string> QueryEvaluator::get_common_synonyms(unordered_map<string, vector<string>> &map_1,
         map<string, vector<string>> &map_2)
 {
     unordered_set<string> result;
