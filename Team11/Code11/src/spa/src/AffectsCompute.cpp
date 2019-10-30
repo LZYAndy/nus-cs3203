@@ -187,7 +187,7 @@ bool AffectsCompute::dfs_checking_is_affects(int stmt1, int stmt2, PKB& pkb)
 
         if (modified_by_others(stmt1, next_stmt, pkb))
         {
-            return false;
+            continue;
         }
 
         for(int stmt: pkb.get_statements_next(next_stmt))
