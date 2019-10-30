@@ -22,6 +22,8 @@ constexpr const char* invalid_read_statement(R"(Invalid read statement in the SI
 constexpr const char* invalid_read_type(R"(Invalid read type.)");
 constexpr const char* invalid_expr(R"(Invalid expression!)");
 constexpr const char* invalid_SIMPLE(R"(Invalid SIMPLE code.)");
+constexpr const char* cyclic_call(R"(Invalid SIMPLE code, contains cyclic calls.)");
+
 
 // Error messages for Entity.cpp
 constexpr const char* invalid_entity_type(R"(Invalid Entity Type!)");
@@ -48,12 +50,17 @@ constexpr const char* invalid_next_relationship_first_param(R"(Invalid Next Rela
 constexpr const char* invalid_next_relationship_second_param(R"(Invalid Next Relationship Second Parameter Type!)");
 constexpr const char* invalid_affects_relationship_first_param(R"(Invalid Affects Relationship First Parameter Type!)");
 constexpr const char* invalid_affects_relationship_second_param(R"(Invalid Affects Relationship Second Parameter Type!)");
+constexpr const char* invalid_next_bip_relationship_first_param(R"(Invalid NextBip Relationship First Parameter Type!)");
+constexpr const char* invalid_next_bip_relationship_second_param(R"(Invalid NextBip Relationship Second Parameter Type!)");
+constexpr const char* invalid_affects_bip_relationship_first_param(R"(Invalid AffectsBip Relationship First Parameter Type!)");
+constexpr const char* invalid_affects_bip_relationship_second_param(R"(Invalid AffectsBip Relationship Second Parameter Type!)");
 constexpr const char* invalid_order_of_params(R"(First param for Relationship is greater than the second param.)");
 
 // Error messages for Pattern.cpp
 constexpr const char* invalid_pattern_entity(R"(Invalid Pattern Entity Type!)");
 constexpr const char* invalid_pattern_first_param(R"(Invalid Pattern First Parameter Type!)");
 constexpr const char* invalid_pattern_second_param(R"(Invalid Pattern Second Parameter Type!)");
+constexpr const char* not_a_pattern_object(R"(Not a Pattern Object!)");
 
 // Error messages for With.cpp
 constexpr const char* invalid_with_first_param(R"(Invalid With First Parameter Type!)");

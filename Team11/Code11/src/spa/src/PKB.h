@@ -776,7 +776,14 @@ public:
     std::vector<int> get_assigns_affected_by(int stmt);
     bool does_affects_exist();
     bool is_affects(int stmt1, int stmt2);
-
+  
+    /**
+     * Get callee of call statement
+     * @param stmt caller statement number
+     * @return procedure called.
+     */
+    string get_called_by_statement(int stmt);
+    
 private:
     FollowsBank follows_bank;
     FollowsStarBank follows_star_bank;

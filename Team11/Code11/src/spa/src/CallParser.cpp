@@ -23,10 +23,15 @@ CallParser::CallParser(PKB &pkb, Statement statement, std::string parent_prog_li
     }
 
     //Insert call
-    pkb.insert_calls(statement.get_prog_line(), statement.get_procedure(), call_proc);
+    bool insert_result = pkb.insert_calls(statement.get_prog_line(), statement.get_procedure(), call_proc);
 
     //Insert type
     pkb.insert_type(statement.get_prog_line(), statement.get_statement_type());
+
+    if (!insert_result)
+    {
+        throw std::runtime_error(error_messages::cyclic_call);
+    }
 }
 
 bool CallParser::is_call_stmt_valid(std::string statement)
@@ -43,3 +48,5 @@ std::string CallParser::get_proc(std::string statement)
     }
     return "";
 }
+
+

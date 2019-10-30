@@ -557,10 +557,10 @@ TEST_CASE("One pattern clause: Assign")
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 
-    SECTION("pattern a(\"cenX\", _\"cenX\"_)")
+    SECTION("pattern a(_, _\"cenX/count\"_)")
     {
-        string pql_query = R"(assign a; Select a pattern a("cenX", _"cenX"_))";
-        unordered_set<string> expected_result {"16", "21"};
+        string pql_query = R"(assign a; Select a pattern a(_, _"cenX/count"_))";
+        unordered_set<string> expected_result {"21"};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 

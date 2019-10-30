@@ -1,0 +1,43 @@
+procedure main {
+    Variable = vAR1 + var2;
+    call otherProcedure;
+    while (a > 1) {
+        if (a < 2) then {
+            while (!(a == 3)){
+                z = 99;
+                print x;
+                read z;
+                while (a != b){
+                    if ((a < 1) && (b > 2)) then {
+                        read z;
+                        if (a != 0) then {
+                            a = a + b + c;
+                            print a;
+                            read b;
+                        } else {
+                            b = a + b + c;
+                            print b;
+                            read a;
+                        }
+                    } else {
+                        while (c > 0) {
+                            call otherProcedureTwo;
+                        }
+                    }
+                }
+                call otherProcedureThree;
+            }
+        } else {
+            if (z != z) then {
+                while (z < 0) {
+                    z = (x + (y - z)) * 1 / 2 % 3;
+                    print z;
+                    read x;
+                }
+            } else {
+                a = 20;
+            }
+        }
+    }
+    var = 1;
+}

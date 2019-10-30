@@ -651,3 +651,7 @@ bool PKB::is_affects(int stmt1, int stmt2)
 {
     return AffectsCompute().is_affects(stmt1, stmt2, next_bank, modifies_bank, uses_bank, type_bank);
 }
+string PKB::get_called_by_statement(int stmt)
+{
+    return calls_bank.get_called_by_statement(stmt);
+}

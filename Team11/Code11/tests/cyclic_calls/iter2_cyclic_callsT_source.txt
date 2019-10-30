@@ -1,0 +1,15 @@
+procedure main {
+    call second;
+}
+
+procedure second {
+    call third;
+}
+
+procedure third {
+    call fourth;
+}
+
+procedure fourth {
+    call second;
+}

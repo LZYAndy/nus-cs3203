@@ -18,9 +18,9 @@ int Parser::parse(std::string simple)
 {
     SIMPLE_prog = simple;
     int last_line_num = 0;
-    ProcedureAnalyser procedureAnalyser = ProcedureAnalyser(SIMPLE_prog);
+    ProcedureAnalyser procedure_analyser = ProcedureAnalyser(SIMPLE_prog);
 
-    std::vector<Procedure> list_of_proc = procedureAnalyser.analyse();
+    std::vector<Procedure> list_of_proc = procedure_analyser.analyse();
     for (Procedure p : list_of_proc)
     {
         pkb->insert_procedure(p.get_name());
@@ -35,8 +35,8 @@ int Parser::parse(std::string simple)
         statementListParser.set_procedure(this_procedure.get_name());
         statementListParser.parse_stmt_list();
         std::vector<Statement> list_of_stmt = statementListParser.get_stmt_list();
-        ParserInvoker parserInvoker = ParserInvoker(*pkb, list_of_stmt, this_procedure.get_name());
-        parserInvoker.invoke_parser();
+        ParserInvoker parser_invoker = ParserInvoker(*pkb, list_of_stmt, this_procedure.get_name());
+        parser_invoker.invoke_parser();
         Statement last_statement = list_of_stmt[list_of_stmt.size() - 1];
         while (last_statement.get_statement_type() == EntityType::IF || last_statement.get_statement_type() == EntityType::WHILE)
         {
@@ -54,7 +54,11 @@ int Parser::parse(std::string simple)
         last_line_num = last_statement.get_prog_line() + 1;
     }
 
-    this->pkb->extract_design();
+    bool de_check = this->pkb->extract_design();
+    if (!de_check)
+    {
+        throw std::runtime_error(error_messages::cyclic_call);
+    }
 
     return 0;
 }

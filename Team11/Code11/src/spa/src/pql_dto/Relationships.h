@@ -21,7 +21,9 @@ enum class RelationshipType
     MODIFIES,
     CALLS,
     NEXT,
-    AFFECTS
+    AFFECTS,
+    NEXTBIP,
+    AFFECTSBIP
 };
 
 namespace pql_dto
@@ -37,7 +39,7 @@ protected:
 
 public:
     // Returns the Relationship Type.
-    RelationshipType get_relationship();
+    RelationshipType get_relationship_type();
 
     // Returns the First Parameter in the Relationship.
     Entity get_first_param();
@@ -52,6 +54,16 @@ public:
      *  @param relationship_type The type of the relationship.
      */
     void set_relationship(RelationshipType relationship_type);
+
+    /** Updates the first param of the Relationship Object.
+     *  @param value The value of the synonym.
+     */
+    void update_first_param(std::string value);
+
+    /** Updates the second param of the Relationship Object.
+     *  @param value The value of the synonym.
+     */
+    void update_second_param(std::string value);
 
     /** Sets is_relationship_star of the Relationship Object.
      *  @param is_declared The boolean value of the Relationship if it is a star.
@@ -142,6 +154,30 @@ public:
         },
         {
             RelationshipType::AFFECTS,
+            {
+                {
+                    EntityType::ANY, EntityType::STMT, EntityType::ASSIGN, EntityType::PROG_LINE
+                },
+                {
+                    EntityType::ANY, EntityType::STMT, EntityType::ASSIGN, EntityType::PROG_LINE
+                }
+            }
+        },
+        {
+            RelationshipType::NEXTBIP,
+            {
+                {
+                    EntityType::ANY, EntityType::STMT, EntityType::READ, EntityType::PRINT, EntityType::CALL,
+                    EntityType::WHILE, EntityType::IF, EntityType::ASSIGN, EntityType::PROG_LINE
+                },
+                {
+                    EntityType::ANY, EntityType::STMT, EntityType::READ, EntityType::PRINT, EntityType::CALL,
+                    EntityType::WHILE, EntityType::IF, EntityType::ASSIGN, EntityType::PROG_LINE
+                }
+            }
+        },
+        {
+            RelationshipType::AFFECTSBIP,
             {
                 {
                     EntityType::ANY, EntityType::STMT, EntityType::ASSIGN, EntityType::PROG_LINE
