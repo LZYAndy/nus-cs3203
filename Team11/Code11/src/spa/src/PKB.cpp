@@ -617,27 +617,27 @@ unordered_map<int, vector<string>> PKB::get_all_statements_calls_relationship()
     return calls_bank.get_all_statements_calls_relationship();
 }
 
-std::vector<int> PKB::get_all_assigns_affect()
+vector<int> PKB::get_all_assigns_affect()
 {
     return AffectsCompute().get_all_assigns_affect(last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
 }
 
-std::vector<int> PKB::get_assigns_affect(int stmt)
+vector<int> PKB::get_assigns_affect(int stmt)
 {
     return AffectsCompute().get_assigns_affect(stmt, last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
 }
 
-std::unordered_map<int, std::vector<int>> PKB::get_all_affects_relationship()
+unordered_map<int, vector<int>> PKB::get_all_affects_relationship()
 {
     return AffectsCompute().get_all_affects_relationship(last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
 }
 
-std::vector<int> PKB::get_all_assigns_affected()
+vector<int> PKB::get_all_assigns_affected()
 {
     return AffectsCompute().get_all_assigns_affected(last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
 }
 
-std::vector<int> PKB::get_assigns_affected_by(int stmt)
+vector<int> PKB::get_assigns_affected_by(int stmt)
 {
     return AffectsCompute().get_assigns_affected_by(stmt, last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
 }

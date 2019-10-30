@@ -768,15 +768,45 @@ public:
      * the Calls as key and all Called stored in a vector as value.
      */
     unordered_map<string, vector<string>> get_all_procedures_calls_star_relationship();
-
-    std::vector<int> get_all_assigns_affect();
-    std::vector<int> get_assigns_affect(int stmt);
-    std::unordered_map<int, std::vector<int>> get_all_affects_relationship();
-    std::vector<int> get_all_assigns_affected();
-    std::vector<int> get_assigns_affected_by(int stmt);
+    /**
+     * Get all statements affecting other statements i.e. get all a in Affects(a, _)
+     * @return Return all statements affecting other statements
+     */
+    vector<int> get_all_assigns_affect();
+    /**
+     * Get all statements affecting the input statement
+     * @param stmt
+     * @return Return all statements affecting the input statement
+     */
+    vector<int> get_assigns_affect(int stmt);
+    /**
+     * Get all Affects relationships in the program
+     * @return Return all Affects relationships in the program
+     */
+    unordered_map<int, std::vector<int>> get_all_affects_relationship();
+    /**
+     * Get all statements affected by other statements i.e. get all a in Affects(_, a)
+     * @return Return all statements affected by other statements
+     */
+    vector<int> get_all_assigns_affected();
+    /**
+     * Get all statements affected by the input statement
+     * @param stmt
+     * @return Return all statements affected by the input statement
+     */
+    vector<int> get_assigns_affected_by(int stmt);
+    /**
+     * If there exists at least one Affects relationship in the program
+     * @return Return true if there is at least one Affects relationship, otherwise false
+     */
     bool does_affects_exist();
+    /**
+     * Check if there is an Affects relationship between statement1 and statement 2
+     * @param stmt1
+     * @param stmt2
+     * @return Return true if there is an Affects relationship between them, otherwise false
+     */
     bool is_affects(int stmt1, int stmt2);
-  
     /**
      * Get callee of call statement
      * @param stmt caller statement number
