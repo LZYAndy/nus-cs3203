@@ -58,7 +58,7 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
         // has such that
         for (auto relation : such_that_clause)
         {
-            RelationshipType relation_type = relation.get_relationship();
+            RelationshipType relation_type = relation.get_relationship_type();
             pql_dto::Entity first_param = relation.get_first_param();
             pql_dto::Entity second_param = relation.get_second_param();
             bool trivial_result;

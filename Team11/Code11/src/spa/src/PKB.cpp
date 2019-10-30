@@ -641,3 +641,8 @@ std::unordered_map<int, std::vector<int>> PKB::get_all_previous_relationship()
 {
     return next_bank.get_all_previous_relationship();
 }
+
+string PKB::get_called_by_statement(int stmt)
+{
+    return calls_bank.get_called_by_statement(stmt);
+}

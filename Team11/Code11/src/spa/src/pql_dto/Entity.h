@@ -9,6 +9,29 @@
 #include <vector>
 #include <unordered_map>
 
+/// string constant for entity keywords
+const std::string any_keyword = "any";
+const std::string stmt_keyword = "stmt";
+const std::string read_keyword = "read";
+const std::string print_keyword = "print";
+const std::string call_keyword = "call";
+const std::string while_keyword = "while";
+const std::string if_keyword = "if";
+const std::string assign_keyword = "assign";
+const std::string constant_keyword = "constant";
+const std::string variable_keyword = "variable";
+const std::string prog_line_keyword = "prog_line";
+const std::string procedure_keyword = "procedure";
+const std::string patt_expr_keyword = "pattexpr";
+const std::string match_expr_keyword = "matchexpr";
+const std::string boolean_keyword = "boolean";
+
+/// string constant for entity attribute keywords
+const std::string proc_name_keyword = "procName";
+const std::string var_name_keyword = "varName";
+const std::string value_keyword = "value";
+const std::string stmt_num_keyword = "stmt#";
+
 // Defines the entity type of the given entity.
 enum class EntityType
 {

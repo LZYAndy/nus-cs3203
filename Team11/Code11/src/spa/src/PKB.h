@@ -803,7 +803,13 @@ public:
      * a vector of statement numbers which means they are in the next position in the Next* relationship with the key.
      */
     unordered_map<int, vector<int>> get_all_next_star_relationship();  //e.g. Next*(n1, n2)
-
+    /**
+     * Get callee of call statement
+     * @param stmt caller statement number
+     * @return procedure called.
+     */
+    string get_called_by_statement(int stmt);
+    
 private:
     FollowsBank follows_bank;
     FollowsStarBank follows_star_bank;

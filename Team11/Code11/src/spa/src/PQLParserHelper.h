@@ -29,10 +29,14 @@ const std::string uses_keyword = "Uses";
 const std::string modifies_keyword = "Modifies";
 const std::string next_keyword = "Next";
 const std::string next_star_keyword = "Next*";
+const std::string next_bip_keyword = "NextBip";
+const std::string next_bip_star_keyword = "NextBip*";
 const std::string calls_keyword = "Calls";
 const std::string calls_star_keyword = "Calls*";
 const std::string affects_keyword = "Affects";
 const std::string affects_star_keyword = "Affects*";
+const std::string affects_bip_keyword = "AffectsBip";
+const std::string affects_bip_star_keyword = "AffectsBip*";
 
 /// string constant for clauses keywords
 const std::string such_that_keyword = "such that ";

@@ -34,7 +34,7 @@ void ParserInvoker::invoke_parser()
                 pkb->insert_next(this_statement.get_prog_line(), next_statement_num);
                 //std::cout << "Insert Next: " << this_statement.get_prog_line() << " and " << next_statement_num;
             }
-            AssignParser assignParser = AssignParser(*pkb, this_statement, parent_prog_line);
+            AssignParser assign_parser = AssignParser(*pkb, this_statement, parent_prog_line);
         }
         else if (this_statement.get_statement_type() ==  EntityType::PRINT)
         {
@@ -44,7 +44,7 @@ void ParserInvoker::invoke_parser()
                 //std::cout << "Insert Next: " << this_statement.get_prog_line() << " and " << next_statement_num;
 
             }
-            PrintParser printParser = PrintParser(*pkb, this_statement, parent_prog_line);
+            PrintParser print_parser = PrintParser(*pkb, this_statement, parent_prog_line);
         }
         else if (this_statement.get_statement_type() == EntityType::READ)
         {
@@ -54,7 +54,7 @@ void ParserInvoker::invoke_parser()
                 //std::cout << "Insert Next: " << this_statement.get_prog_line() << " and " << next_statement_num;
 
             }
-            ReadParser readParser = ReadParser(*pkb, this_statement, parent_prog_line);
+            ReadParser read_parser = ReadParser(*pkb, this_statement, parent_prog_line);
         }
         else if (this_statement.get_statement_type() == EntityType::CALL)
         {
@@ -64,7 +64,7 @@ void ParserInvoker::invoke_parser()
                 //std::cout << "Insert Next: " << this_statement.get_prog_line() << " and " << next_statement_num;
 
             }
-            CallParser callParser = CallParser(*pkb, this_statement, parent_prog_line);
+            CallParser call_parser = CallParser(*pkb, this_statement, parent_prog_line);
         }
         else if (this_statement.get_statement_type() == EntityType::IF)
         {
@@ -102,7 +102,7 @@ void ParserInvoker::invoke_parser()
                     this->insert_next_for_if(last_statement_else, next_statement_num);
                 }
             }
-            IfParser ifParser = IfParser(*pkb, this_statement, parent_prog_line);
+            IfParser if_parser = IfParser(*pkb, this_statement, parent_prog_line);
         }
         else if (this_statement.get_statement_type() == EntityType::WHILE)
         {
@@ -129,7 +129,7 @@ void ParserInvoker::invoke_parser()
             pkb->insert_next(this_statement.get_prog_line(), first_stmt_loop);
             //std::cout << "Insert Next: " << this_statement.get_prog_line() << " and " << first_stmt_loop;
 
-            WhileParser whileParser = WhileParser(*pkb, this_statement, parent_prog_line);
+            WhileParser while_parser = WhileParser(*pkb, this_statement, parent_prog_line);
 
         }
 

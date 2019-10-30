@@ -333,6 +333,30 @@ TEST_CASE("Pql query parser parse and validate valid query correctly.")
         REQUIRE(pattern_clause.size() == 1);
         REQUIRE(with_clause.size() == 0);
     }
+
+    SECTION("Valid query 28.")
+    {
+        std::string test_query = "assign a, a1; variable v; Select a such that Affects(1,2) and Affects  * (a, 4) and AffectsBip(a1, a)";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == "");
+        REQUIRE(select_clause.size() == 1);
+        REQUIRE(such_that_clause.size() == 3);
+        REQUIRE(pattern_clause.size() == 0);
+        REQUIRE(with_clause.size() == 0);
+    }
+
+    SECTION("Valid query 29.")
+    {
+        std::string test_query = "assign a, a1; stmt s1; variable v; Select a such that Next(1,2) and Next  * (a, 4) and NextBip*(a1, s1)";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == "");
+        REQUIRE(select_clause.size() == 1);
+        REQUIRE(such_that_clause.size() == 3);
+        REQUIRE(pattern_clause.size() == 0);
+        REQUIRE(with_clause.size() == 0);
+    }
 }
 
 TEST_CASE("Pql query parser parse and validate invalid query correctly.")

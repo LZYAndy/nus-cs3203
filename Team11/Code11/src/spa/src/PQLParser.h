@@ -11,6 +11,7 @@ public:
      * @param select_clause The pointer to the select clause vector.
      * @param such_that_clause The pointer to the such that clause vector.
      * @param pattern_clause The pointer to the pattern clause vector.
+     * @param with_clause The pointer to the with clause vector.
      * @return The error string if the query is invalid.
      */
     static std::string pql_parse_query(std::string query, std::vector<pql_dto::Entity> &select_clause,
