@@ -38,7 +38,7 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
     }
 
     // pass to optimizer
-    error_msg = Optimizer::split_clauses_with_no_synonyms(such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+    error_msg = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
 
     // evaluate select clause
     if (!select_clause.empty())

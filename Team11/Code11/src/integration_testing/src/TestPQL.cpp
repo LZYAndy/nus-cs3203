@@ -1,13 +1,10 @@
 #include "catch.hpp"
 #include "./../../spa/src/QueryEvaluator.h"
-#include "./../../spa/src/NewQueryEvaluator.h"
 #include "PKBStub.cpp"
 
 using namespace std;
 
 PKBStub PKB;
-
-unordered_set<string> dummyResult = NewQueryEvaluator::get_result((string &) "variable v; Select v", PKB);
 
 TEST_CASE("No such that or pattern clauses")
 {
@@ -16,7 +13,6 @@ TEST_CASE("No such that or pattern clauses")
         string pql_query = "variable v; Select v";
         unordered_set<string> expected_result {"flag", "count", "cenX", "cenY", "x", "y", "normSq"};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
-//        REQUIRE(NewQueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 
     SECTION("assign")

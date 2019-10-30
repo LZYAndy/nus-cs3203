@@ -21,7 +21,7 @@ TEST_CASE("Follows Relationships can store and retrieve correct entity types.")
         pql_dto::Relationships follows_relationship = pql_dto::FollowsRelationship(first_param_entity,
                 second_param_entity, false);
 
-        RelationshipType relationship_type = follows_relationship.get_relationship();
+        RelationshipType relationship_type = follows_relationship.get_relationship_type();
         pql_dto::Entity first_param = follows_relationship.get_first_param();
         pql_dto::Entity second_param = follows_relationship.get_second_param();
 
@@ -99,7 +99,7 @@ TEST_CASE("Parent Relationships can store and retrieve correct entity types.")
         pql_dto::Relationships parent_relationship = pql_dto::ParentRelationship(first_param_entity,
                 second_param_entity, false);
 
-        RelationshipType relationship_type = parent_relationship.get_relationship();
+        RelationshipType relationship_type = parent_relationship.get_relationship_type();
         pql_dto::Entity first_param = parent_relationship.get_first_param();
         pql_dto::Entity second_param = parent_relationship.get_second_param();
 
@@ -177,7 +177,7 @@ TEST_CASE("Uses Relationships can store and retrieve correct entity types.")
         pql_dto::Relationships uses_relationship = pql_dto::UsesRelationship(first_param_entity,
                 second_param_entity, false);
 
-        RelationshipType relationship_type = uses_relationship.get_relationship();
+        RelationshipType relationship_type = uses_relationship.get_relationship_type();
         pql_dto::Entity first_param = uses_relationship.get_first_param();
         pql_dto::Entity second_param = uses_relationship.get_second_param();
 
@@ -263,7 +263,7 @@ TEST_CASE("Modifies Relationships can store and retrieve correct entity types.")
         pql_dto::Relationships modifies_relationship = pql_dto::ModifiesRelationship(first_param_entity,
                 second_param_entity, false);
 
-        RelationshipType relationship_type = modifies_relationship.get_relationship();
+        RelationshipType relationship_type = modifies_relationship.get_relationship_type();
         pql_dto::Entity first_param = modifies_relationship.get_first_param();
         pql_dto::Entity second_param = modifies_relationship.get_second_param();
 
@@ -357,7 +357,7 @@ TEST_CASE("Calls Relationships can store and retrieve correct entity types.")
         pql_dto::Relationships calls_relationship = pql_dto::CallsRelationship(first_param_entity,
             second_param_entity, false);
 
-        RelationshipType relationship_type = calls_relationship.get_relationship();
+        RelationshipType relationship_type = calls_relationship.get_relationship_type();
         pql_dto::Entity first_param = calls_relationship.get_first_param();
         pql_dto::Entity second_param = calls_relationship.get_second_param();
 
@@ -419,7 +419,7 @@ TEST_CASE("Next Relationships can store and retrieve correct entity types.")
         pql_dto::Relationships Next_relationship = pql_dto::NextRelationship(first_param_entity,
             second_param_entity, false);
 
-        RelationshipType relationship_type = Next_relationship.get_relationship();
+        RelationshipType relationship_type = Next_relationship.get_relationship_type();
         pql_dto::Entity first_param = Next_relationship.get_first_param();
         pql_dto::Entity second_param = Next_relationship.get_second_param();
 
@@ -489,7 +489,7 @@ TEST_CASE("Affects Relationships can store and retrieve correct entity types.")
         pql_dto::Relationships Affects_relationship = pql_dto::AffectsRelationship(first_param_entity,
             second_param_entity, false);
 
-        RelationshipType relationship_type = Affects_relationship.get_relationship();
+        RelationshipType relationship_type = Affects_relationship.get_relationship_type();
         pql_dto::Entity first_param = Affects_relationship.get_first_param();
         pql_dto::Entity second_param = Affects_relationship.get_second_param();
 
@@ -559,7 +559,7 @@ TEST_CASE("NextBip Relationships can store and retrieve correct entity types.")
         pql_dto::Relationships NextBip_relationship = pql_dto::NextBipRelationship(first_param_entity,
             second_param_entity, false);
 
-        RelationshipType relationship_type = NextBip_relationship.get_relationship();
+        RelationshipType relationship_type = NextBip_relationship.get_relationship_type();
         pql_dto::Entity first_param = NextBip_relationship.get_first_param();
         pql_dto::Entity second_param = NextBip_relationship.get_second_param();
 
@@ -629,7 +629,7 @@ TEST_CASE("AffectsBip Relationships can store and retrieve correct entity types.
         pql_dto::Relationships AffectsBip_relationship = pql_dto::AffectsBipRelationship(first_param_entity,
             second_param_entity, false);
 
-        RelationshipType relationship_type = AffectsBip_relationship.get_relationship();
+        RelationshipType relationship_type = AffectsBip_relationship.get_relationship_type();
         pql_dto::Entity first_param = AffectsBip_relationship.get_first_param();
         pql_dto::Entity second_param = AffectsBip_relationship.get_second_param();
 
