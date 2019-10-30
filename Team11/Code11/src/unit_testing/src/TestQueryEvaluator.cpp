@@ -1,5 +1,8 @@
 #include "catch.hpp"
+#include "PKB.h"
 #include "QueryEvaluator.h"
+
+PKB PKB;
 
 TEST_CASE("Test get_final_list function")
 {
@@ -37,7 +40,7 @@ TEST_CASE("Test merge_two_maps function")
 
 TEST_CASE("Test merge function")
 {
-    unordered_map<string, vector<string>> select_map;
+    map<string, vector<string>> select_map;
     unordered_map<string, vector<string>> such_that_map;
     unordered_map<string, vector<string>> pattern_map;
     SECTION("have no such that and pattern clauses")
@@ -47,7 +50,7 @@ TEST_CASE("Test merge function")
         select_clause.push_back(select_entity);
         vector<string> select_vec {"4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"};
         select_map["s"] = select_vec;
-        unordered_set<string> my_result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map, false);
+        unordered_set<string> my_result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map, false, PKB);
         unordered_set<string> expected_result {"4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"};
         REQUIRE(my_result == expected_result);
     }
@@ -61,7 +64,7 @@ TEST_CASE("Test merge function")
         vector<string> such_that_vec {"4", "5", "6", "17"};
         select_map["s"] = select_vec;
         such_that_map["s"] = such_that_vec;
-        unordered_set<string> my_result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map, true);
+        unordered_set<string> my_result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map, true, PKB);
         unordered_set<string> expected_result {"4", "5", "6", "17"};
         REQUIRE(my_result == expected_result);
     }
@@ -75,7 +78,7 @@ TEST_CASE("Test merge function")
         vector<string> such_that_vec {"4", "5", "6", "17", "18"};
         select_map["s"] = select_vec;
         such_that_map["a"] = such_that_vec;
-        unordered_set<string> my_result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map, true);
+        unordered_set<string> my_result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map, true, PKB);
         unordered_set<string> expected_result {"4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"};
         REQUIRE(my_result == expected_result);
     }
@@ -91,7 +94,7 @@ TEST_CASE("Test merge function")
         select_map["s"] = select_vec;
         such_that_map["s"] = such_that_vec_1;
         such_that_map["a"] = such_that_vec_2;
-        unordered_set<string> my_result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map, true);
+        unordered_set<string> my_result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map, true, PKB);
         unordered_set<string> expected_result {"4", "5", "6", "7", "12", "13", "14"};
         REQUIRE(my_result == expected_result);
     }
@@ -107,7 +110,7 @@ TEST_CASE("Test merge function")
         select_map["s"] = select_vec;
         such_that_map["s1"] = such_that_vec_1;
         such_that_map["a"] = such_that_vec_2;
-        unordered_set<string> my_result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map, true);
+        unordered_set<string> my_result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map, true, PKB);
         unordered_set<string> expected_result {"4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"};
         REQUIRE(my_result == expected_result);
     }
@@ -121,7 +124,7 @@ TEST_CASE("Test merge function")
         vector<string> pattern_vec {"9", "16"};
         select_map["a"] = select_vec;
         pattern_map["a"] = pattern_vec;
-        unordered_set<string> my_result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map, false);
+        unordered_set<string> my_result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map, false, PKB);
         unordered_set<string> expected_result {"9", "16"};
         REQUIRE(my_result == expected_result);
     }
@@ -135,7 +138,7 @@ TEST_CASE("Test merge function")
         vector<string> pattern_vec {"9", "16"};
         select_map["s"] = select_vec;
         pattern_map["a"] = pattern_vec;
-        unordered_set<string> my_result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map, false);
+        unordered_set<string> my_result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map, false, PKB);
         unordered_set<string> expected_result {"4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"};
         REQUIRE(my_result == expected_result);
     }
@@ -151,7 +154,7 @@ TEST_CASE("Test merge function")
         select_map["a"] = select_vec;
         pattern_map["a"] = pattern_vec_1;
         pattern_map["v"] = pattern_vec_2;
-        unordered_set<string> my_result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map, false);
+        unordered_set<string> my_result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map, false, PKB);
         unordered_set<string> expected_result {"9", "16"};
         REQUIRE(my_result == expected_result);
     }
@@ -167,7 +170,7 @@ TEST_CASE("Test merge function")
         select_map["s"] = select_vec;
         pattern_map["a"] = pattern_vec_1;
         pattern_map["v"] = pattern_vec_2;
-        unordered_set<string> my_result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map, false);
+        unordered_set<string> my_result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map, false, PKB);
         unordered_set<string> expected_result {"4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"};
         REQUIRE(my_result == expected_result);
     }
@@ -185,7 +188,7 @@ TEST_CASE("Test merge function")
         such_that_map["s"] = such_that_vec_1;
         such_that_map["a"] = such_that_vec_2;
         pattern_map["a"] = pattern_vec;
-        unordered_set<string> my_result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map, true);
+        unordered_set<string> my_result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map, true, PKB);
         unordered_set<string> expected_result {"4", "5", "6", "7"};
         REQUIRE(my_result == expected_result);
     }
@@ -205,7 +208,7 @@ TEST_CASE("Test merge function")
         such_that_map["a"] = such_that_vec_2;
         pattern_map["a"] = pattern_vec_1;
         pattern_map["v"] = pattern_vec_2;
-        unordered_set<string> my_result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map, true);
+        unordered_set<string> my_result = QueryEvaluator::merge(select_clause, select_map, such_that_map, pattern_map, true, PKB);
         unordered_set<string> expected_result {"x", "z"};
         REQUIRE(my_result == expected_result);
     }

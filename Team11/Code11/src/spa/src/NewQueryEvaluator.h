@@ -46,11 +46,13 @@ public:
     static bool evaluateBoolGroup(deque<pql_dto::Constraint> group, PKB &PKB);
     static bool evaluateGroup(deque<pql_dto::Constraint> group, PKB &PKB, Cache &cache);
     static unordered_set<string> evaluateEmptyMap(bool is_select_bool);
-    static vector<bool, unordered_map<string, vector<string>>> evaluateSuchThat(Relationships &relation, PKB &PKB, Cache &cache);
-    static unordered_map<string, vector<string>> evaluatePattern(Pattern &pattern, PKB &PKB, Cache &cache);
-    static unordered_map<string, vector<string>> evaluateWith(With &with, PKB &PKB, Cache &cache);
+    static vector<bool, unordered_map<string, vector<string>>> evaluateSuchThat(pql_dto::Relationships &relation, PKB &PKB, Cache &cache);
+    static unordered_map<string, vector<string>> evaluatePattern(pql_dto::Pattern &pattern, PKB &PKB, Cache &cache);
+    static unordered_map<string, vector<string>> evaluateWith(pql_dto::With &with, PKB &PKB, Cache &cache);
     static unordered_set<string> get_common_synonyms(unordered_map<string, vector<string>> &map_1,
             unordered_map<string, vector<string>> &map_2);
+    static unordered_set<string> get_common_synonyms(unordered_map<string, vector<string>> &map_1,
+            map<string, vector<string>> &map_2)
     static unordered_set<string> get_common_synonyms(unordered_map<string, vector<string>> &map_1,
             map<string, vector<string>> &map_2);
     static int get_element_index_in_map(map<string, vector<string>> &map, string key);

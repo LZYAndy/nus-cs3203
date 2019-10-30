@@ -15,15 +15,6 @@ private:
     map<vector<pql_dto::Pattern, EntityType, EntityType>, unordered_map<string, vector<string>>> implicit_pattern_cache;
     map<vector<pql_dto::With, EntityType, EntityType>, unordered_map<string, vector<string>>> implicit_with_cache;
 
-//    map<pair<pql_dto::Entity, pql_dto::Entity>, pair<bool, unordered_map<string, vector<string>>>> FollowsCache;
-//    map<pair<pql_dto::Entity, pql_dto::Entity>, pair<bool, unordered_map<string, vector<string>>>> FollowsStarCache;
-//    map<pair<pql_dto::Entity, pql_dto::Entity>, pair<bool, unordered_map<string, vector<string>>>> ParentCache;
-//    map<pair<pql_dto::Entity, pql_dto::Entity>, pair<bool, unordered_map<string, vector<string>>>> ParentStarCache;
-//    map<pair<pql_dto::Entity, pql_dto::Entity>, pair<bool, unordered_map<string, vector<string>>>> UsesCache;
-//    map<pair<pql_dto::Entity, pql_dto::Entity>, pair<bool, unordered_map<string, vector<string>>>> ModifiesCache;
-//    map<pair<pql_dto::Entity, pql_dto::Entity>, pair<bool, unordered_map<string, vector<string>>>> FollowsCache;
-//    map<pair<pql_dto::Entity, pql_dto::Entity>, pair<bool, unordered_map<string, vector<string>>>> FollowsStarCache;
-
 public:
     bool insert_clause(pql_dto::Relationships &relation, pql_dto::Entity &first_param, pql_dto::Entity &second_param,
             unordered_map<string, vector<string>> &intermediary_map);

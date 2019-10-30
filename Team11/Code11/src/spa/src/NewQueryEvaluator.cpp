@@ -29,7 +29,7 @@ unordered_set<string> NewQueryEvaluator::get_result(string &query, PKB &PKB)
      */
     error_msg = PQLParser::pql_parse_query(move(query), select_clause, such_that_clause, pattern_clause, with_clause);
 
-    // syntatic or semetic errors
+    // syntactic or symmetric errors
     if (!error_msg.empty())
     {
         if (select_clause.at(0).get_entity_type() == EntityType::BOOLEAN)
@@ -288,7 +288,7 @@ unordered_set<string> NewQueryEvaluator::evaluateEmptyMap(bool is_select_bool)
     }
 }
 
-vector<bool, unordered_map<string, vector<string>>> NewQueryEvaluator::evaluateSuchThat(Relationships &relation, PKB &PKB, Cache &cache)
+vector<bool, unordered_map<string, vector<string>>> NewQueryEvaluator::evaluateSuchThat(pql_dto::Relationships &relation, PKB &PKB, Cache &cache)
 {
     unordered_map<string, vector<string>> empty_map;
     unordered_map<string, vector<string>>
@@ -469,7 +469,7 @@ vector<bool, unordered_map<string, vector<string>>> NewQueryEvaluator::evaluateS
     return vector<bool, unordered_map<string, vector<string>>> {trivial, intermediary_map};
 }
 
-unordered_map<string, vector<string>> NewQueryEvaluator::evaluatePattern(Pattern &pattern, PKB &PKB, Cache &cache)
+unordered_map<string, vector<string>> NewQueryEvaluator::evaluatePattern(pql_dto::Pattern &pattern, PKB &PKB, Cache &cache)
 {
     unordered_map<string, vector<string>> intermediary_map;
 
@@ -493,7 +493,7 @@ unordered_map<string, vector<string>> NewQueryEvaluator::evaluatePattern(Pattern
     return intermediary_map;
 }
 
-unordered_map<string, vector<string>> NewQueryEvaluator::evaluateWith(With &with, PKB &PKB, Cache &cache)
+unordered_map<string, vector<string>> NewQueryEvaluator::evaluateWith(pql_dto::With &with, PKB &PKB, Cache &cache)
 {
     unordered_map<string, vector<string>> intermediary_map;
     pql_dto::Entity first_param = with.get_first_param();
@@ -536,6 +536,26 @@ bool NewQueryEvaluator::is_empty_map(unordered_map<string, vector<string>> &map)
 
 unordered_set<string> NewQueryEvaluator::get_common_synonyms(unordered_map<string, vector<string>> &map_1,
         unordered_map<string, vector<string>> &map_2)
+{
+    unordered_set<string> result;
+    for (const auto &iter : map_1)
+    {
+        string synonym_name = iter.first;
+        if (map_2.find(synonym_name) == map_2.end())
+        {
+            // does not present
+            continue;
+        }
+        else
+        {
+            result.insert(synonym_name);
+        }
+    }
+    return result;
+}
+
+unordered_set<string> QueryEvaluator::get_common_synonyms(unordered_map<string, vector<string>> &map_1,
+                                                          map<string, vector<string>> &map_2)
 {
     unordered_set<string> result;
     for (const auto &iter : map_1)

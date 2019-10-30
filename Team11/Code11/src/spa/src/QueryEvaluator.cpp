@@ -315,55 +315,56 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
                     }
                 }
             }
-            if (relation_type == RelationshipType::AFFECTS)
-            {
-                if (!relation.is_relationship_star())
-                {
-                    if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
-                    {
-                        trivial_result = AffectsEvaluator::evaluate_trivial(first_param, second_param, PKB);
-                        if (!trivial_result)
-                        {
-                            if (is_bool)
-                            {
-                                return unordered_set<string> {"FALSE"};
-                            }
-                            else
-                            {
-                                return empty_set;
-                            }
-                        }
-                        is_true = true;
-                    }
-                    else
-                    {
-                        intermediary_map = AffectsEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
-                    }
-                }
-                else
-                {
-                    if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
-                    {
-                        trivial_result = AffectsStarEvaluator::evaluate_trivial(first_param, second_param, PKB);
-                        if (!trivial_result)
-                        {
-                            if (is_bool)
-                            {
-                                return unordered_set<string> {"FALSE"};
-                            }
-                            else
-                            {
-                                return empty_set;
-                            }
-                        }
-                        is_true = true;
-                    }
-                    else
-                    {
-                        intermediary_map = AffectsStarEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
-                    }
-                }
-            }
+
+//            if (relation_type == RelationshipType::AFFECTS)
+//            {
+//                if (!relation.is_relationship_star())
+//                {
+//                    if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
+//                    {
+//                        trivial_result = AffectsEvaluator::evaluate_trivial(first_param, second_param, PKB);
+//                        if (!trivial_result)
+//                        {
+//                            if (is_bool)
+//                            {
+//                                return unordered_set<string> {"FALSE"};
+//                            }
+//                            else
+//                            {
+//                                return empty_set;
+//                            }
+//                        }
+//                        is_true = true;
+//                    }
+//                    else
+//                    {
+//                        intermediary_map = AffectsEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
+//                    }
+//                }
+//                else
+//                {
+//                    if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
+//                    {
+//                        trivial_result = AffectsStarEvaluator::evaluate_trivial(first_param, second_param, PKB);
+//                        if (!trivial_result)
+//                        {
+//                            if (is_bool)
+//                            {
+//                                return unordered_set<string> {"FALSE"};
+//                            }
+//                            else
+//                            {
+//                                return empty_set;
+//                            }
+//                        }
+//                        is_true = true;
+//                    }
+//                    else
+//                    {
+//                        intermediary_map = AffectsStarEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
+//                    }
+//                }
+//            }
             if (is_true)
             {
                 continue;
@@ -551,6 +552,26 @@ bool QueryEvaluator::is_empty_map(unordered_map<string, vector<string>> &map)
         }
     }
     return false;
+}
+
+unordered_set<string> QueryEvaluator::get_common_synonyms(unordered_map<string, vector<string>> &map_1,
+        unordered_map<string, vector<string>> &map_2)
+{
+    unordered_set<string> result;
+    for (const auto &iter : map_1)
+    {
+        string synonym_name = iter.first;
+        if (map_2.find(synonym_name) == map_2.end())
+        {
+            // does not present
+            continue;
+        }
+        else
+        {
+            result.insert(synonym_name);
+        }
+    }
+    return result;
 }
 
 unordered_set<string> QueryEvaluator::get_common_synonyms(unordered_map<string, vector<string>> &map_1,
