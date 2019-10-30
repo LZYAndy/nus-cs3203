@@ -1,4 +1,6 @@
 #pragma once
+#ifndef AUTOTESTER_PKB_H
+#define AUTOTESTER_PKB_H
 
 #include <stdio.h>
 #include <iostream>
@@ -7,22 +9,25 @@
 #include <unordered_set>
 #include <numeric>
 
+#include "DesignExtractor.h"
 #include "UsesBank.h"
 #include "ModifiesBank.h"
 #include "TypeBank.h"
 #include "FollowsBank.h"
 #include "FollowsStarBank.h"
-#include "DesignExtractor.h"
 #include "ParentBank.h"
 #include "ParentStarBank.h"
 #include "AssignBank.h"
 #include "NextBank.h"
 #include "WhileBank.h"
 #include "CallsBank.h"
+#include "CallsStarBank.h"
 #include "IfBank.h"
+#include "NextBipBank.h"
 
 using namespace std;
 
+class DesignExtractor;
 class PKB
 {
 public:
@@ -774,6 +779,8 @@ public:
      */
     string get_called_by_statement(int stmt);
     
+    bool insert_next_bip(int prev_prog, int next_prog);
+    bool is_next_bip(int prev_prog, int next_prog);
 private:
     FollowsBank follows_bank;
     FollowsStarBank follows_star_bank;
@@ -791,5 +798,8 @@ private:
     CallsBank calls_bank;
     CallsStarBank calls_star_bank;
     IfBank if_bank;
+    NextBipBank next_bip_bank;
     int last_statement_num = 0;
 };
+
+#endif

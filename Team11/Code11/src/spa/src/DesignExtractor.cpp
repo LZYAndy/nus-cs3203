@@ -135,3 +135,54 @@ bool DesignExtractor::extract_calls_star(CallsBank &bank_in, CallsStarBank &bank
     }
     return true;
 }
+bool DesignExtractor::extract_next_bip(PKB &pkb)
+{
+    auto all_previous = pkb.get_all_previous();
+    auto calls_stmts = pkb.get_all_calls();
+    for (auto previous : all_previous)
+    {
+        if (std::find(calls_stmts.begin(), calls_stmts.end(), previous) != calls_stmts.end()) // check if previous is a call stmt
+        {
+            // TODO: get first stmt num of procedure
+            std::string procedure_called = pkb.get_called_by_statement(previous);
+            // int procedure_called
+            int callee_start_stmt_no = 10; // TODO: PLACERHOLDER VALUE
+            std::vector<int> callee_end_stmts_no = {10}; // TODO: PLACERHOLDER VALUE
+            pkb.insert_next_bip(previous, callee_start_stmt_no);
+            std::stack<int> to_visit;
+            std::unordered_set<int> visited;
+            to_visit.push(callee_start_stmt_no);
+            while (!to_visit.empty())
+            {
+                int stmt = to_visit.top();
+                to_visit.pop();
+                if (visited.find(stmt) != visited.end())
+                {
+                    continue;
+                }
+                visited.insert(stmt);
+                auto next_stmts = pkb.get_statements_next(stmt);
+                for (int next_stmt : next_stmts)
+                {
+                    to_visit.push(next_stmt);
+                    pkb.insert_next_bip(stmt, next_stmt);
+                }
+            }
+            for (auto after_call : pkb.get_statements_next(previous))
+            {
+                for (int end_stmt : callee_end_stmts_no)
+                {
+                    pkb.insert_next_bip(end_stmt, after_call);
+                }
+            }
+        }
+        else
+        {
+            for (auto next : pkb.get_statements_next(previous))
+            {
+                pkb.insert_next_bip(previous, next);
+            }
+        }
+    }
+    return true;
+}
