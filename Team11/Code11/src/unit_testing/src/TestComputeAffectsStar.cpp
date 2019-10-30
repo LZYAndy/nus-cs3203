@@ -6,21 +6,32 @@ TEST_CASE("ComputeAffectsStar::is_affects() [!hide]")
 {
     ComputeAffectsStar compute_affects_star;
     PKB pkb;
-    pkb.insert_assign(1, "x", "y + z");
+    pkb.insert_assign(1, "x", "+ y z");
     pkb.insert_uses(1, "y");
     pkb.insert_uses(1, "z");
     pkb.insert_modifies(1, "x");
-    pkb.insert_assign(2, "h", "ello + x");
+    pkb.insert_assign(2, "h", "+ ello x");
     pkb.insert_uses(2, "ello");
     pkb.insert_uses(2, "x");
     pkb.insert_modifies(2, "h");
     pkb.insert_assign(3, "a", "h");
     pkb.insert_uses(3, "h");
     pkb.insert_modifies(3, "a");
+    pkb.insert_while(4, {"x"});
+    pkb.insert_parent(4, 5);
+    pkb.insert_parent(4, 6);
+    pkb.insert_assign(5, "forever", "loop");
+    pkb.insert_modifies(5, "forever");
+    pkb.insert_uses(5, "loop");
+    pkb.insert_assign(6, "loop", "+ is true");
+    pkb.insert_modifies(6, "loop");
+    pkb.insert_uses(6, "is");
+    pkb.insert_uses(6, "true");
 
     SECTION("fails")
     {
         REQUIRE_FALSE(compute_affects_star.is_affects_star(pkb, 1, 2));
+        REQUIRE_FALSE(compute_affects_star.is_affects_star(pkb, 5, 2));
     }
 
     SECTION("success")
@@ -28,6 +39,8 @@ TEST_CASE("ComputeAffectsStar::is_affects() [!hide]")
         REQUIRE(compute_affects_star.is_affects_star(pkb, 1, 2));
         REQUIRE(compute_affects_star.is_affects_star(pkb, 2, 3));
         REQUIRE(compute_affects_star.is_affects_star(pkb, 1, 3));
+        REQUIRE(compute_affects_star.is_affects_star(pkb, 5, 6));
+        REQUIRE(compute_affects_star.is_affects_star(pkb, 6, 5));
     }
 }
 
