@@ -11,7 +11,7 @@
 #include <pql_dto/Entity.h>
 #include <pql_dto/Relationships.h>
 
-class WhileEvaluator
+class WithEvaluator
 {
 public:
     static unordered_map<string, vector<string>> evaluate(pql_dto::Entity &first_param,

@@ -554,8 +554,8 @@ unordered_set<string> NewQueryEvaluator::get_common_synonyms(unordered_map<strin
     return result;
 }
 
-unordered_set<string> QueryEvaluator::get_common_synonyms(unordered_map<string, vector<string>> &map_1,
-                                                          map<string, vector<string>> &map_2)
+unordered_set<string> NewQueryEvaluator::get_common_synonyms(unordered_map<string, vector<string>> &map_1,
+        map<string, vector<string>> &map_2)
 {
     unordered_set<string> result;
     for (const auto &iter : map_1)

@@ -3,17 +3,18 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <utility>
 
 class Cache
 {
 private:
-    map<vector<pql_dto::Relationships, pql_dto::Entity, pql_dto::Entity>, unordered_map<string, vector<string>>>> explicit_relation_cache;
-    map<vector<pql_dto::Pattern, pql_dto::Entity, pql_dto::Entity>, unordered_map<string, vector<string>>> explicit_pattern_cache;
-    map<vector<pql_dto::With, pql_dto::Entity, pql_dto::Entity>, unordered_map<string, vector<string>>> explicit_with_cache;
+    map<pair<pql_dto::Relationships, vector<pql_dto::Entity>>, unordered_map<string, vector<string>>> explicit_relation_cache;
+    map<pair<pql_dto::Relationships, vector<pql_dto::Entity>>, unordered_map<string, vector<string>>> explicit_pattern_cache;
+    map<pair<pql_dto::Relationships, vector<pql_dto::Entity>>, unordered_map<string, vector<string>>> explicit_with_cache;
 
-    map<vector<pql_dto::Relationships, EntityType, EntityType>, unordered_map<string, vector<string>>>> implicit_relation_cache;
-    map<vector<pql_dto::Pattern, EntityType, EntityType>, unordered_map<string, vector<string>>> implicit_pattern_cache;
-    map<vector<pql_dto::With, EntityType, EntityType>, unordered_map<string, vector<string>>> implicit_with_cache;
+    map<pair<pql_dto::Relationships, vector<EntityType>>, unordered_map<string, vector<string>>> implicit_relation_cache;
+    map<pair<pql_dto::Relationships, vector<EntityType>>, unordered_map<string, vector<string>>> implicit_pattern_cache;
+    map<pair<pql_dto::Relationships, vector<EntityType>>, unordered_map<string, vector<string>>> implicit_with_cache;
 
 public:
     bool insert_clause(pql_dto::Relationships &relation, pql_dto::Entity &first_param, pql_dto::Entity &second_param,
