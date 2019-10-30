@@ -6,7 +6,7 @@ using namespace std;
 
 namespace pql_dto
 {
-    RelationshipType Relationships::get_relationship()
+    RelationshipType Relationships::get_relationship_type()
     {
         return relationship_type;
     }
@@ -33,6 +33,12 @@ namespace pql_dto
 
     void Relationships::update_first_param(std::string value)
     {
+        if (first_param.get_entity_type() == EntityType::CALL || first_param.get_entity_type() == EntityType::READ
+            || first_param.get_entity_type() == EntityType::PRINT)
+        {
+            return;
+        }
+
         first_param.set_is_declared(false);
         if (!value.empty() && std::all_of(value.begin(), value.end(), ::isdigit))
         {
@@ -54,6 +60,12 @@ namespace pql_dto
 
     void Relationships::update_second_param(std::string value)
     {
+        if (second_param.get_entity_type() == EntityType::CALL || second_param.get_entity_type() == EntityType::READ
+            || second_param.get_entity_type() == EntityType::PRINT)
+        {
+            return;
+        }
+
         second_param.set_is_declared(false);
         if (!value.empty() && std::all_of(value.begin(), value.end(), ::isdigit))
         {

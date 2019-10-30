@@ -1,10 +1,12 @@
 #include "Optimizer.h"
 
-std::string Optimizer::split_clauses_with_no_synonyms(std::vector<pql_dto::Relationships>& such_that_clause,
-    std::vector<pql_dto::Pattern>& pattern_clause, std::vector<pql_dto::With>& with_clause,
-    std::deque<pql_dto::Constraint>& no_synonym_clauses, std::deque<pql_dto::Constraint>& synonym_clauses)
+std::string Optimizer::split_clauses_with_no_synonyms(std::vector<pql_dto::Entity>& select_clause,
+    std::vector<pql_dto::Relationships>& such_that_clause, std::vector<pql_dto::Pattern>& pattern_clause,
+    std::vector<pql_dto::With>& with_clause, std::deque<pql_dto::Constraint>& no_synonym_clauses,
+    std::deque<pql_dto::Constraint>& synonym_clauses)
 {
-    replace_with_synonyms(such_that_clause, pattern_clause, with_clause);
+    remove_duplicates(such_that_clause, pattern_clause, with_clause);
+    replace_with_synonyms(select_clause, such_that_clause, pattern_clause, with_clause);
 
     for (pql_dto::Relationships relationship : such_that_clause)
     {
@@ -152,57 +154,45 @@ std::string Optimizer::split_clauses_into_groups(std::vector<pql_dto::Entity>& s
     return "";
 }
 
-void Optimizer::replace_with_synonyms(std::vector<pql_dto::Relationships>& such_that_clause,
+void Optimizer::remove_duplicates(std::vector<pql_dto::Relationships>& such_that_clause,
     std::vector<pql_dto::Pattern>& pattern_clause, std::vector<pql_dto::With>& with_clause)
 {
+}
+
+void Optimizer::replace_with_synonyms(std::vector<pql_dto::Entity>& select_clause, std::vector<pql_dto::Relationships>& such_that_clause,
+    std::vector<pql_dto::Pattern>& pattern_clause, std::vector<pql_dto::With>& with_clause)
+{
+    std::unordered_map<std::string, int> select_map;
+    int index = 0;
+    for (pql_dto::Entity select_entity : select_clause)
+    {
+        select_map[select_entity.get_entity_name()] = index++;
+    }
+
     for (pql_dto::With with_object : with_clause)
     {
+        pql_dto::Entity right_ref = with_object.get_second_param();
+        pql_dto::Entity left_ref = with_object.get_first_param();
+
         /// If left reference in With object is not declared
-        if (!with_object.get_first_param().is_entity_declared())
+        if (!left_ref.is_entity_declared())
         {
-            pql_dto::Entity right_ref = with_object.get_second_param();
+            if (select_map.find(right_ref.get_entity_name()) != select_map.end())
+            {
+                pql_dto::Entity same_select_entity = select_clause.at(select_map.at(right_ref.get_entity_name()));
+                same_select_entity.set_solution(left_ref.get_entity_name());
+                same_select_entity.set_entity_type(EntityType::FIX);
+            }
+
             for (pql_dto::Relationships relationship : such_that_clause)
             {
                 if (relationship.get_first_param().equals(right_ref))
                 {
                     /// Replace the left entity with value
-                    relationship.update_first_param(right_ref.get_entity_name());
-                }
-
-                if (relationship.get_second_param().equals(right_ref))
-                {
-                    /// Replace the right entity with value
-                    relationship.update_second_param(right_ref.get_entity_name());
-                }
-            }
-
-            for (pql_dto::Pattern pattern : pattern_clause)
-            {
-                if (pattern.get_first_param().equals(right_ref))
-                {
-                    /// Replace the left entity with value
-                    pattern.update_first_param(right_ref.get_entity_name());
-                }
-
-                if (pattern.get_second_param().equals(right_ref))
-                {
-                    /// Replace the right entity with value
-                    pattern.update_second_param(right_ref.get_entity_name());
-                }
-            }
-        }
-        else if (!with_object.get_second_param().is_entity_declared())
-        {
-            pql_dto::Entity left_ref = with_object.get_first_param();
-            for (pql_dto::Relationships relationship : such_that_clause)
-            {
-                if (relationship.get_first_param().equals(left_ref))
-                {
-                    /// Replace the left entity with value
                     relationship.update_first_param(left_ref.get_entity_name());
                 }
 
-                if (relationship.get_second_param().equals(left_ref))
+                if (relationship.get_second_param().equals(right_ref))
                 {
                     /// Replace the right entity with value
                     relationship.update_second_param(left_ref.get_entity_name());
@@ -211,16 +201,55 @@ void Optimizer::replace_with_synonyms(std::vector<pql_dto::Relationships>& such_
 
             for (pql_dto::Pattern pattern : pattern_clause)
             {
-                if (pattern.get_first_param().equals(left_ref))
+                if (pattern.get_first_param().equals(right_ref))
                 {
                     /// Replace the left entity with value
                     pattern.update_first_param(left_ref.get_entity_name());
                 }
 
-                if (pattern.get_second_param().equals(left_ref))
+                if (pattern.get_second_param().equals(right_ref))
                 {
                     /// Replace the right entity with value
                     pattern.update_second_param(left_ref.get_entity_name());
+                }
+            }
+        }
+        else if (!right_ref.is_entity_declared())
+        {
+            if (select_map.find(left_ref.get_entity_name()) != select_map.end())
+            {
+                pql_dto::Entity same_select_entity = select_clause.at(select_map.at(left_ref.get_entity_name()));
+                same_select_entity.set_solution(right_ref.get_entity_name());
+                same_select_entity.set_entity_type(EntityType::FIX);
+            }
+
+            for (pql_dto::Relationships relationship : such_that_clause)
+            {
+                if (relationship.get_first_param().equals(left_ref))
+                {
+                    /// Replace the left entity with value
+                    relationship.update_first_param(right_ref.get_entity_name());
+                }
+
+                if (relationship.get_second_param().equals(left_ref))
+                {
+                    /// Replace the right entity with value
+                    relationship.update_second_param(right_ref.get_entity_name());
+                }
+            }
+
+            for (pql_dto::Pattern pattern : pattern_clause)
+            {
+                if (pattern.get_first_param().equals(left_ref))
+                {
+                    /// Replace the left entity with value
+                    pattern.update_first_param(right_ref.get_entity_name());
+                }
+
+                if (pattern.get_second_param().equals(left_ref))
+                {
+                    /// Replace the right entity with value
+                    pattern.update_second_param(right_ref.get_entity_name());
                 }
             }
         }

@@ -21,7 +21,7 @@ TEST_CASE("Optimizer split no synonym clause correctly.")
         CHECK(pattern_clause.size() == 0);
         CHECK(with_clause.size() == 0);
 
-        error = Optimizer::split_clauses_with_no_synonyms(such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
 
         REQUIRE(no_synonym_clauses.size() == 2);
         REQUIRE(synonym_clauses.size() == 3);
@@ -37,7 +37,7 @@ TEST_CASE("Optimizer split no synonym clause correctly.")
         CHECK(pattern_clause.size() == 0);
         CHECK(with_clause.size() == 0);
 
-        error = Optimizer::split_clauses_with_no_synonyms(such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
 
         REQUIRE(no_synonym_clauses.size() == 3);
         REQUIRE(synonym_clauses.size() == 2);
@@ -53,7 +53,7 @@ TEST_CASE("Optimizer split no synonym clause correctly.")
         CHECK(pattern_clause.size() == 5);
         CHECK(with_clause.size() == 0);
 
-        error = Optimizer::split_clauses_with_no_synonyms(such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
 
         REQUIRE(no_synonym_clauses.size() == 0);
         REQUIRE(synonym_clauses.size() == 5);
@@ -69,7 +69,7 @@ TEST_CASE("Optimizer split no synonym clause correctly.")
         CHECK(pattern_clause.size() == 0);
         CHECK(with_clause.size() == 5);
 
-        error = Optimizer::split_clauses_with_no_synonyms(such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
 
         REQUIRE(no_synonym_clauses.size() == 0);
         REQUIRE(synonym_clauses.size() == 5);
