@@ -46,14 +46,14 @@ public:
     std::unordered_map<int, std::vector<int>> get_all_next_star_relationship(int last_stmt_num, NextBank& next_bank);  //e.g. Next*(n1, n2)
 
 private:
-    //std::unordered_map<int, std::unordered_set<int>> DFS_for_CFG(int target_stmt, std::unordered_map<int, std::vector<int>> cfg);
+    //std::unordered_map<int, std::unordered_set<int>> dfs_for_cfg(int target_stmt, std::unordered_map<int, std::vector<int>> cfg);
     /**
      * DFS algorithm
      * @param target_stmt
      * @param cfg
      * @return return a vector of statement numbers
      */
-    std::vector<int> DFS_for_CFG(int target_stmt, std::unordered_map<int, std::vector<int>> cfg);
+    std::vector<int> dfs_for_cfg(int target_stmt, std::unordered_map<int, std::vector<int>> cfg);
 };
 
 
