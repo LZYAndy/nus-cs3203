@@ -4,17 +4,46 @@
 #include <vector>
 #include <unordered_map>
 #include <utility>
+#include <pql_dto/Relationships.h>
+#include <pql_dto/Entity.h>
+#include <pql_dto/Pattern.h>
+#include <pql_dto/With.h>
+#include <pql_dto/Constraint.h>
+#include <QueryUtility.h>
+
+using namespace std;
 
 class Cache
 {
 private:
-    map<pair<pql_dto::Relationships, vector<pql_dto::Entity>>, unordered_map<string, vector<string>>> explicit_relation_cache;
-    map<pair<pql_dto::Relationships, vector<pql_dto::Entity>>, unordered_map<string, vector<string>>> explicit_pattern_cache;
-    map<pair<pql_dto::Relationships, vector<pql_dto::Entity>>, unordered_map<string, vector<string>>> explicit_with_cache;
+//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> follows_cache;
+//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> follows_star_cache;
+//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> parent_cache;
+//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> parent_star_cache;
+//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> uses_cache;
+//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> modifies_cache;
+//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> calls_cache;
+//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> calls_star_cache;
+//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> next_cache;
+//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> next_star_cache;
+//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> next_bip_cache;
+//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> next_bip_star_cache;
+//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> affects_cache;
+//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> affects_star_cache;
+//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> affects_bip_cache;
+//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> affects_bip_star_cache;
+//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> assign_cache;
+//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> while_cache;
+//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> if_cache;
+//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> with_cache;
 
-    map<pair<pql_dto::Relationships, vector<EntityType>>, unordered_map<string, vector<string>>> implicit_relation_cache;
-    map<pair<pql_dto::Relationships, vector<EntityType>>, unordered_map<string, vector<string>>> implicit_pattern_cache;
-    map<pair<pql_dto::Relationships, vector<EntityType>>, unordered_map<string, vector<string>>> implicit_with_cache;
+    unordered_map<string, unordered_map<string, vector<string>>> explicit_relation_cache;
+    unordered_map<string, unordered_map<string, vector<string>>> explicit_pattern_cache;
+    unordered_map<string, unordered_map<string, vector<string>>> explicit_with_cache;
+
+    unordered_map<string, unordered_map<string, vector<string>>> implicit_relation_cache;
+    unordered_map<string, unordered_map<string, vector<string>>> implicit_pattern_cache;
+    unordered_map<string, unordered_map<string, vector<string>>> implicit_with_cache;
 
 public:
     bool insert_clause(pql_dto::Relationships &relation, pql_dto::Entity &first_param, pql_dto::Entity &second_param,
