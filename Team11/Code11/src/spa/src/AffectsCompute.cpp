@@ -41,7 +41,7 @@ std::unordered_map<int, std::vector<int>> AffectsCompute::get_all_affects_relati
         affected = get_assigns_affected_by(i, last_stmt_num, pkb);
         if (!affected.empty())
         {
-            result.emplace(i, get_assigns_affected_by(i, last_stmt_num, pkb));
+            result.emplace(i, affected);
         }
     }
     return result;
@@ -50,7 +50,7 @@ std::unordered_map<int, std::vector<int>> AffectsCompute::get_all_affects_relati
 std::vector<int> AffectsCompute::get_all_assigns_affected(int last_stmt_num, PKB &pkb)
 {
     std::vector<int> result;
-    for (int i = 1; i<= last_stmt_num; i++)
+    for (int i = 1; i <= last_stmt_num; i++)
     {
         if (affected_by_other_stmts(i, pkb))
         {
@@ -278,11 +278,11 @@ bool AffectsCompute::dfs_checking_all_assigns_affected(int stmt, PKB &pkb)
         if (pkb.get_statement_type(previous_stmt) == EntityType::READ || pkb.get_statement_type(previous_stmt) == EntityType::CALL)
         {
             std::vector<std::string> inter_modified_var = pkb.get_modified_by_statement(previous_stmt);
-            for (std::string m_var1 : mod_var)
+            for (std::string u_var : used_vars)
             {
-                for (std::string m_var2 : inter_modified_var)
+                for (std::string m_var : inter_modified_var)
                 {
-                    if (m_var1 == m_var2)
+                    if (u_var == m_var)
                     {
                         continue;
                     }
@@ -292,7 +292,7 @@ bool AffectsCompute::dfs_checking_all_assigns_affected(int stmt, PKB &pkb)
 
         if (pkb.get_statement_type(previous_stmt) == EntityType::ASSIGN)
         {
-            mod_var = pkb.get_used_by_statement(previous_stmt);
+            mod_var = pkb.get_modified_by_statement(previous_stmt);
             for (std::string var: used_vars)
             {
                 if (var == mod_var[0])
