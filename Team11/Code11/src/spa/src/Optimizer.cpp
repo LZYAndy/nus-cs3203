@@ -211,36 +211,48 @@ void Optimizer::replace_with_synonyms(std::vector<pql_dto::Entity>& select_claus
                 pql_dto::Entity same_select_entity = select_clause.at(select_map.at(right_ref.get_entity_name()));
                 same_select_entity.set_solution(left_ref.get_entity_name());
                 same_select_entity.set_entity_type(EntityType::FIX);
+                select_clause.at(select_map.at(right_ref.get_entity_name())) = same_select_entity;
             }
 
+            int index = 0;
             for (pql_dto::Relationships relationship : such_that_clause)
             {
                 if (relationship.get_first_param().equals(right_ref))
                 {
                     /// Replace the left entity with value
                     relationship.update_first_param(left_ref.get_entity_name());
+                    such_that_clause.at(index) = relationship;
                 }
 
                 if (relationship.get_second_param().equals(right_ref))
                 {
                     /// Replace the right entity with value
                     relationship.update_second_param(left_ref.get_entity_name());
+                    such_that_clause.at(index) = relationship;
                 }
+
+                index++;
             }
 
+            /// Reinitialise the index
+            index = 0;
             for (pql_dto::Pattern pattern : pattern_clause)
             {
                 if (pattern.get_first_param().equals(right_ref))
                 {
                     /// Replace the left entity with value
                     pattern.update_first_param(left_ref.get_entity_name());
+                    pattern_clause.at(index) = pattern;
                 }
 
                 if (pattern.get_second_param().equals(right_ref))
                 {
                     /// Replace the right entity with value
                     pattern.update_second_param(left_ref.get_entity_name());
+                    pattern_clause.at(index) = pattern;
                 }
+
+                index++;
             }
         }
         else if (!right_ref.is_entity_declared())
@@ -250,7 +262,10 @@ void Optimizer::replace_with_synonyms(std::vector<pql_dto::Entity>& select_claus
                 pql_dto::Entity same_select_entity = select_clause.at(select_map.at(left_ref.get_entity_name()));
                 same_select_entity.set_solution(right_ref.get_entity_name());
                 same_select_entity.set_entity_type(EntityType::FIX);
+                select_clause.at(select_map.at(left_ref.get_entity_name())) = same_select_entity;
             }
+
+            int index = 0;
 
             for (pql_dto::Relationships relationship : such_that_clause)
             {
@@ -258,27 +273,34 @@ void Optimizer::replace_with_synonyms(std::vector<pql_dto::Entity>& select_claus
                 {
                     /// Replace the left entity with value
                     relationship.update_first_param(right_ref.get_entity_name());
+                    such_that_clause.at(index) = relationship;
                 }
 
                 if (relationship.get_second_param().equals(left_ref))
                 {
                     /// Replace the right entity with value
                     relationship.update_second_param(right_ref.get_entity_name());
+                    such_that_clause.at(index) = relationship;
                 }
+
+                index++;
             }
 
+            index = 0;
             for (pql_dto::Pattern pattern : pattern_clause)
             {
                 if (pattern.get_first_param().equals(left_ref))
                 {
                     /// Replace the left entity with value
                     pattern.update_first_param(right_ref.get_entity_name());
+                    pattern_clause.at(index) = pattern;
                 }
 
                 if (pattern.get_second_param().equals(left_ref))
                 {
                     /// Replace the right entity with value
                     pattern.update_second_param(right_ref.get_entity_name());
+                    pattern_clause.at(index) = pattern;
                 }
             }
         }
@@ -354,7 +376,7 @@ void Optimizer::sort(std::vector<pql_dto::Constraint>& entity_group, Cache& cach
             }
             else if (constraint.is_pattern())
             {
-                if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
+                if (!first_param.is_entity_declared())
                 {
                     one_synonym_group.push(constraint);
                 }
@@ -432,62 +454,39 @@ void Optimizer::sort(std::vector<pql_dto::Constraint>& entity_group, Cache& cach
 
             if (first_param.is_entity_declared() && second_param.is_entity_declared())
             {
-                if (two_syn_clause.is_pattern())
+                if (synonyms_in_set.find(first_param.get_entity_name()) != synonyms_in_set.end()
+                    || synonyms_in_set.find(second_param.get_entity_name()) != synonyms_in_set.end())
                 {
-                    pql_dto::Entity pattern_entity = two_syn_clause.get_pattern_entity();
+                    sorted_entity_group.push_back(two_syn_clause);
+                    synonyms_in_set.insert(first_param.get_entity_name());
+                    synonyms_in_set.insert(second_param.get_entity_name());
+                    is_added = true;
+                    continue;
+                }
+            }
+            else
+            {
+                pql_dto::Entity pattern_entity = two_syn_clause.get_pattern_entity();
+                if (first_param.is_entity_declared())
+                {
                     if (synonyms_in_set.find(pattern_entity.get_entity_name()) != synonyms_in_set.end()
-                        || synonyms_in_set.find(first_param.get_entity_name()) != synonyms_in_set.end()
-                        || synonyms_in_set.find(second_param.get_entity_name()) != synonyms_in_set.end())
+                        || synonyms_in_set.find(first_param.get_entity_name()) != synonyms_in_set.end())
                     {
                         sorted_entity_group.push_back(two_syn_clause);
                         synonyms_in_set.insert(pattern_entity.get_entity_name());
                         synonyms_in_set.insert(first_param.get_entity_name());
-                        synonyms_in_set.insert(second_param.get_entity_name());
                         is_added = true;
                         continue;
                     }
                 }
                 else
                 {
-                    if (synonyms_in_set.find(first_param.get_entity_name()) != synonyms_in_set.end()
-                        || synonyms_in_set.find(second_param.get_entity_name()) != synonyms_in_set.end())
+                    if (synonyms_in_set.find(pattern_entity.get_entity_name()) != synonyms_in_set.end())
                     {
                         sorted_entity_group.push_back(two_syn_clause);
-                        synonyms_in_set.insert(first_param.get_entity_name());
-                        synonyms_in_set.insert(second_param.get_entity_name());
+                        synonyms_in_set.insert(pattern_entity.get_entity_name());
                         is_added = true;
                         continue;
-                    }
-                }
-            }
-            else
-            {
-                if (two_syn_clause.is_pattern())
-                {
-                    pql_dto::Entity pattern_entity = two_syn_clause.get_pattern_entity();
-                    if (first_param.is_entity_declared())
-                    {
-                        if (synonyms_in_set.find(pattern_entity.get_entity_name()) != synonyms_in_set.end()
-                            || synonyms_in_set.find(first_param.get_entity_name()) != synonyms_in_set.end())
-                        {
-                            sorted_entity_group.push_back(two_syn_clause);
-                            synonyms_in_set.insert(pattern_entity.get_entity_name());
-                            synonyms_in_set.insert(first_param.get_entity_name());
-                            is_added = true;
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        if (synonyms_in_set.find(pattern_entity.get_entity_name()) != synonyms_in_set.end()
-                            || synonyms_in_set.find(second_param.get_entity_name()) != synonyms_in_set.end())
-                        {
-                            sorted_entity_group.push_back(two_syn_clause);
-                            synonyms_in_set.insert(pattern_entity.get_entity_name());
-                            synonyms_in_set.insert(second_param.get_entity_name());
-                            is_added = true;
-                            continue;
-                        }
                     }
                 }
             }

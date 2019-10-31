@@ -180,4 +180,108 @@ TEST_CASE("Optimizer split remove duplicates correctly.")
         REQUIRE(no_synonym_clauses.size() == 0);
         REQUIRE(synonym_clauses.size() == 3);
     }
+
+    SECTION("1 sets of same with clauses, 1 set same relationship and 1 set same pattern.")
+    {
+        std::string test_query = "assign a, a1; if ifs; procedure proc; variable v; Select a with 6 = a.stmt# pattern ifs (_,_,_) and ifs (_,_,_)  with a.stmt# = 6 such that Follows(1,2) and Follows(1,2)";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        CHECK(select_clause.size() == 1);
+        CHECK(such_that_clause.size() == 2);
+        CHECK(pattern_clause.size() == 2);
+        CHECK(with_clause.size() == 2);
+
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+
+        REQUIRE(no_synonym_clauses.size() == 1);
+        REQUIRE(synonym_clauses.size() == 2);
+    }
+}
+
+TEST_CASE("Optimizer replaces with synonyms correctly.")
+{
+    std::vector<pql_dto::Entity> select_clause;
+    std::vector<pql_dto::Relationships> such_that_clause;
+    std::vector<pql_dto::Pattern> pattern_clause;
+    std::vector<pql_dto::With> with_clause;
+    std::deque<pql_dto::Constraint> no_synonym_clauses;
+    std::deque<pql_dto::Constraint> synonym_clauses;
+
+    SECTION("1 such that and 1 with clause.")
+    {
+        std::string test_query = "variable v; Select v such that Modifies(6, v) with v.varName = \"variable\"";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        CHECK(select_clause.size() == 1);
+        CHECK(such_that_clause.size() == 1);
+        CHECK(pattern_clause.size() == 0);
+        CHECK(with_clause.size() == 1);
+
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+
+        REQUIRE(no_synonym_clauses.size() == 1);
+        REQUIRE(synonym_clauses.size() == 1);
+    }
+
+    SECTION("1 pattern and 1 with clause.")
+    {
+        std::string test_query = "assign a; variable v; Select v pattern a (v,_) with v.varName = \"variable\"";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        CHECK(select_clause.size() == 1);
+        CHECK(such_that_clause.size() == 0);
+        CHECK(pattern_clause.size() == 1);
+        CHECK(with_clause.size() == 1);
+
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+        
+        pql_dto::Pattern pattern = pattern_clause.at(0);
+        pql_dto::Entity pattern_entity = pql_dto::Entity("assign", "a", true);
+        pql_dto::Entity first_param_entity = pql_dto::Entity("variable", "variable", false);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("any", "_", false);
+        pql_dto::Pattern expected_pattern = pql_dto::Pattern(pattern_entity, first_param_entity, second_param_entity);
+
+        REQUIRE(pattern.equals(expected_pattern));
+        REQUIRE(no_synonym_clauses.size() == 0);
+        REQUIRE(synonym_clauses.size() == 2);
+    }
+
+    SECTION("1 such that, 1 pattern and 1 with clause.")
+    {
+        std::string test_query = "assign a; variable v; Select v pattern a (v,_) such that Follows(a, 6) with v.varName = \"variable\" and a.stmt# = 5";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        CHECK(select_clause.size() == 1);
+        CHECK(such_that_clause.size() == 1);
+        CHECK(pattern_clause.size() == 1);
+        CHECK(with_clause.size() == 2);
+
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+
+        pql_dto::Pattern pattern = pattern_clause.at(0);
+        pql_dto::Entity pattern_entity = pql_dto::Entity("assign", "a", true);
+        pql_dto::Entity first_param_entity = pql_dto::Entity("variable", "variable", false);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("any", "_", false);
+        pql_dto::Pattern expected_pattern = pql_dto::Pattern(pattern_entity, first_param_entity, second_param_entity);
+
+        REQUIRE(pattern.equals(expected_pattern));
+        REQUIRE(no_synonym_clauses.size() == 1);
+        REQUIRE(synonym_clauses.size() == 3);
+    }
+
+    SECTION("Multiple such that, pattern and with clause.")
+    {
+        std::string test_query = "assign a; stmt s; while w; variable v; Select v pattern a (v,_) pattern w(v,_) such that Follows(a, s) and Modifies(s, \"x\") with v.varName = \"variable\" and a.stmt# = 5 and 6 = s.stmt#";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        CHECK(select_clause.size() == 1);
+        CHECK(such_that_clause.size() == 2);
+        CHECK(pattern_clause.size() == 2);
+        CHECK(with_clause.size() == 3);
+
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+
+        REQUIRE(no_synonym_clauses.size() == 2);
+        REQUIRE(synonym_clauses.size() == 5);
+    }
 }
