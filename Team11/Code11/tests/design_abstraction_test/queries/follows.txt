@@ -78,3 +78,53 @@ stmt s; stmt s1;
 Select <s, s1> such that Follows(s,s1)
 1 2,2 3,3 28, 6 7,7 8,8 9,9 21,11 12,13 14,14 15,16 17,17 18,24 25,25 26,28 29,29 30
 5000
+15 - Follows with 2 wildcards
+print p;
+Select p such that Follows(_, _)
+7,14,17,25,29
+5000
+16 - Follows with LHS wildcard
+assign a;
+Select a such that Follows(_, 8)
+1,6,13,16,24,27,28
+5000
+17 - Follows with RHS wildcard
+print pr;
+Select pr such that Follows(29, _)
+7,14,17,25,29
+5000
+18 - Follows with RHS wildcard, LHS syn
+stmt s;
+Select s such that Follows(s,_)
+1,2,3,6,7,8,9,11,13,14,16,17,24,25,28,29
+5000
+19 - Follows with LHS wildcard, RHS syn
+stmt s;
+Select s such that Follows(_, s)
+2,3,7,8,9,12,14,15,17,18,21,25,26,28,29,30
+5000
+20 - Follows with LHS syn
+stmt s;
+Select s such that Follows(s, 26)
+25
+5000
+21 - Follows with RHS syn
+print pr; if ifs;
+Select ifs such that Follows(13, pr)
+4,10,12,22
+5000
+22 - Follows with 2 syn get LHS syn
+print pr; read r;
+Select pr such that Follows(pr, r)
+7,14,17,25,29
+5000
+23 - Follows with 2 syn get RHS syn
+print pr; read r;
+Select r such that Follows(pr, r)
+8,15,18,26,30
+5000
+24 - Follows with 2 syn get both
+print pr; read r;
+Select <pr,r> such that Follows(pr,r)
+7 8,14 15,17 18,25 26,29 30
+5000
