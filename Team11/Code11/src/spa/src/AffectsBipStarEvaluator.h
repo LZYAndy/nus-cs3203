@@ -1,0 +1,14 @@
+//
+// Created by 刘照宇 on 31/10/19.
+//
+
+#ifndef AUTOTESTER_AFFECTSBIPSTAREVALUATOR_H
+#define AUTOTESTER_AFFECTSBIPSTAREVALUATOR_H
+
+
+class AffectsBipStarEvaluator {
+
+};
+
+
+#endif //AUTOTESTER_AFFECTSBIPSTAREVALUATOR_H
