@@ -78,7 +78,8 @@ procedure one {
         else {
             b = c;}}
     else {
-        a = b;}}
+        a = b;}
+    f = a;}
 
 procedure two {
     x = a;
