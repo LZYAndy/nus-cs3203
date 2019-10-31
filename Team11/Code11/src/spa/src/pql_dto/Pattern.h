@@ -72,6 +72,9 @@ public:
      */
     bool equals(Pattern pattern);
 
+    /** Checks if both pattern are the same.
+     *  @param pattern The pattern to be compared.
+     */
     bool operator ==(const Pattern& pattern) const
     {
         return pattern_entity == pattern.pattern_entity

@@ -74,7 +74,10 @@ public:
      *  @param relationship The relationship to be compared.
      */
     bool equals(Relationships relationship);
-
+    
+    /** Checks if both relationship are the same.
+     *  @param relationship The relationship to be compared.
+     */
     bool operator ==(const Relationships& relationship) const
     {
         return relationship_type == relationship.relationship_type

@@ -65,14 +65,19 @@ namespace pql_dto
         void set_undeclared_type();
 
         /** Checks if both with are the same.
-         *  @param pattern The with to be compared.
+         *  @param with The with to be compared.
          */
         bool equals(With with);
 
+        /** Checks if both with are the same.
+         *  @param with The with to be compared.
+         */
         bool operator ==(const With& with) const
         {
-            return first_param == with.first_param
-                && second_param == with.second_param;
+            return (first_param == with.first_param
+                && second_param == with.second_param)
+                || (first_param == with.second_param
+                && second_param == with.first_param);
         }
 
         // Returns the string value of the object.

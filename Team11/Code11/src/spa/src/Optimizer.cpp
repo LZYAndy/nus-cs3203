@@ -177,6 +177,11 @@ void Optimizer::remove_duplicates(std::vector<pql_dto::Relationships>& such_that
 
     for (pql_dto::With with : with_clause)
     {
+        pql_dto::With swap_with = pql_dto::With(with.get_second_param(), with.get_first_param());
+        if (with_set.find(swap_with) != with_set.end())
+        {
+            continue;
+        }
         with_set.insert(with);
     }
     std::vector<pql_dto::With> new_with_list(with_set.begin(), with_set.end());

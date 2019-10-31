@@ -156,6 +156,9 @@ public:
      */
     bool equals(Entity entity);
 
+    /** Checks if both entity are the same.
+     *  @param entity The entity to be compared.
+     */
     bool operator ==(const Entity& entity) const
     {
         return entity_type == entity.entity_type
