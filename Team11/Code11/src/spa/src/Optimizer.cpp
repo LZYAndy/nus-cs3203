@@ -157,6 +157,35 @@ std::string Optimizer::split_clauses_into_groups(std::vector<pql_dto::Entity>& s
 void Optimizer::remove_duplicates(std::vector<pql_dto::Relationships>& such_that_clause,
     std::vector<pql_dto::Pattern>& pattern_clause, std::vector<pql_dto::With>& with_clause)
 {
+    std::unordered_set<pql_dto::Relationships, ObjectClassHash> relationship_set = {};
+    std::unordered_set<pql_dto::Pattern, ObjectClassHash> pattern_set = {};
+    std::unordered_set<pql_dto::With, ObjectClassHash> with_set = {};
+
+    for (pql_dto::Relationships relationship : such_that_clause)
+    {
+        relationship_set.insert(relationship);
+    }
+    std::vector<pql_dto::Relationships> new_relationship_list(relationship_set.begin(), relationship_set.end());
+    such_that_clause = new_relationship_list;
+
+    for (pql_dto::Pattern pattern : pattern_clause)
+    {
+        pattern_set.insert(pattern);
+    }
+    std::vector<pql_dto::Pattern> new_pattern_list(pattern_set.begin(), pattern_set.end());
+    pattern_clause = new_pattern_list;
+
+    for (pql_dto::With with : with_clause)
+    {
+        pql_dto::With swap_with = pql_dto::With(with.get_second_param(), with.get_first_param());
+        if (with_set.find(swap_with) != with_set.end())
+        {
+            continue;
+        }
+        with_set.insert(with);
+    }
+    std::vector<pql_dto::With> new_with_list(with_set.begin(), with_set.end());
+    with_clause = new_with_list;
 }
 
 void Optimizer::replace_with_synonyms(std::vector<pql_dto::Entity>& select_clause, std::vector<pql_dto::Relationships>& such_that_clause,
@@ -262,7 +291,7 @@ void Optimizer::sort_clauses(std::unordered_set<std::string>& select_synonyms_se
     std::vector<std::vector<pql_dto::Constraint>>& synonyms_in_select_clauses,
     std::vector<std::vector<pql_dto::Constraint>>& synonyms_not_in_select_clauses)
 {
-    for (int index = 0; index < linked_entities_set.size(); index++)
+    for (size_t index = 0; index < linked_entities_set.size(); index++)
     {
         std::unordered_set<std::string> entities_set = linked_entities_set.at(index);
         bool is_in_select = false;

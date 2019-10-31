@@ -293,4 +293,9 @@ bool Entity::equals(Entity entity)
            && entity_name == entity.entity_name
            && is_declared_entity == entity.is_declared_entity;
 }
+
+std::string Entity::to_string()
+{
+    return std::to_string(static_cast<std::size_t>(entity_type)) + entity_name + std::to_string(is_declared_entity);
+}
 }

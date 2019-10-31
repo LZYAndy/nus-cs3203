@@ -3,6 +3,38 @@
 
 #include <string>
 
+TEST_CASE("Check Equal Pattern Method.")
+{
+    SECTION("Check Same Pattern.")
+    {
+        pql_dto::Entity pattern_entity = pql_dto::Entity("assign", "a", true);
+        pql_dto::Entity first_param_entity = pql_dto::Entity("variable", "x", false);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("matchexpr", "y+z", false);
+        pql_dto::Pattern pattern_1 = pql_dto::Pattern(pattern_entity, first_param_entity,
+            second_param_entity);
+        pql_dto::Pattern pattern_2 = pql_dto::Pattern(pattern_entity, first_param_entity,
+            second_param_entity);
+
+        REQUIRE(pattern_1 == pattern_2);
+        REQUIRE(pattern_1.equals(pattern_2));
+    }
+
+    SECTION("Check Diff Pattern.")
+    {
+        pql_dto::Entity pattern_entity_1 = pql_dto::Entity("assign", "a", true);
+        pql_dto::Entity pattern_entity_2 = pql_dto::Entity("if", "ifs", true);
+        pql_dto::Entity first_param_entity = pql_dto::Entity("variable", "x", false);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("any", "_", false);
+        pql_dto::Pattern pattern_1 = pql_dto::Pattern(pattern_entity_1, first_param_entity,
+            second_param_entity);
+        pql_dto::Pattern pattern_2 = pql_dto::Pattern(pattern_entity_2, first_param_entity,
+            second_param_entity);
+
+        REQUIRE_FALSE(pattern_1 == pattern_2);
+        REQUIRE_FALSE(pattern_1.equals(pattern_2));
+    }
+}
+
 TEST_CASE("Pattern can store and retrieve correct entity types.")
 {
     SECTION("Trivial Pattern Relationship.", "Pattern a(\"x\",\"y+z\")")
