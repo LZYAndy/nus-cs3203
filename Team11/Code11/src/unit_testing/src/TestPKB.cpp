@@ -3807,7 +3807,6 @@ TEST_CASE("PKB::is_affects()")
     }
 }
 
-
 TEST_CASE("PKB::is_affects_star()")
 {
     PKB pkb;
@@ -3942,7 +3941,6 @@ TEST_CASE("PKB::get_affects_star()")
     }
 }
 
-
 TEST_CASE("PKB::get_affected_star()")
 {
     PKB pkb;
@@ -4015,6 +4013,7 @@ TEST_CASE("PKB::get_all_affects_star_relationship()")
         REQUIRE(expected == result);
     }
 }
+
 TEST_CASE("PKB::get_statements_previous_star()")
 {
     PKB pkb;

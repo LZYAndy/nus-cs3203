@@ -71,7 +71,7 @@ std::vector<int> AffectsCompute::get_assigns_affected_by(int stmt, int last_stmt
             continue;
         }
 
-        if (dfs_checking_assigns_affected_by(stmt, i, next_bank, modifies_bank, uses_bank, type_bank))
+        if (dfs_checking_assigns_affect(stmt, i, next_bank, modifies_bank, uses_bank, type_bank))
         {
             result.push_back(i);
         }
@@ -81,7 +81,9 @@ std::vector<int> AffectsCompute::get_assigns_affected_by(int stmt, int last_stmt
 
 bool AffectsCompute::does_affects_exist(int last_stmt_num, NextBank next_bank, ModifiesBank modifies_bank, UsesBank uses_bank, TypeBank type_bank)
 {
-    for (int i = 1; i <= last_stmt_num; i++)
+    std::vector<int> assign_stmts = type_bank.get_all_of_type(EntityType::ASSIGN);
+
+    for (int i: assign_stmts)
     {
         if (affects_other_stmts(i, next_bank, modifies_bank, uses_bank, type_bank))
         {
@@ -127,11 +129,11 @@ bool AffectsCompute::modified_by_others(int stmt1, int inter_stmt, NextBank next
     EntityType type = type_bank.get_statement_type(inter_stmt);
     if (type == EntityType::ASSIGN || type == EntityType::CALL || type == EntityType::READ)
     {
-        std::vector<std::string> stmt1_modified_var = modifies_bank.get_modified_by_statement(stmt1);
-        std::vector<std::string> inter_modified_var = modifies_bank.get_modified_by_statement(inter_stmt);
-        for (std::string m_var1 : stmt1_modified_var)
+        std::vector<std::string> stmt1_modified_vars = modifies_bank.get_modified_by_statement(stmt1);
+        std::vector<std::string> inter_modified_vars = modifies_bank.get_modified_by_statement(inter_stmt);
+        for (std::string m_var1 : stmt1_modified_vars)
         {
-            for (std::string m_var2 : inter_modified_var)
+            for (std::string m_var2 : inter_modified_vars)
             {
                 if (m_var1 == m_var2)
                 {
@@ -200,7 +202,7 @@ bool AffectsCompute::dfs_checking_is_affects(int stmt1, int stmt2, NextBank next
 
 bool AffectsCompute::dfs_checking_all_assign_affects(int stmt, NextBank next_bank, ModifiesBank modifies_bank, UsesBank uses_bank, TypeBank type_bank)
 {
-    std::vector<std::string> mod_var = modifies_bank.get_modified_by_statement(stmt);
+    std::string mod_var = modifies_bank.get_modified_by_statement(stmt)[0];
     std::unordered_set<int> visited;
     std::vector<std::string> used_vars;
     std::vector<int> next_stmts = next_bank.get_statements_next(stmt);
@@ -221,15 +223,12 @@ bool AffectsCompute::dfs_checking_all_assign_affects(int stmt, NextBank next_ban
 
         if (type_bank.get_statement_type(next_stmt) == EntityType::READ || type_bank.get_statement_type(next_stmt) == EntityType::CALL)
         {
-            std::vector<std::string> inter_modified_var = modifies_bank.get_modified_by_statement(next_stmt);
-            for (std::string m_var1 : mod_var)
+            std::vector<std::string> inter_modified_vars = modifies_bank.get_modified_by_statement(next_stmt);
+            for (std::string m_var : inter_modified_vars)
             {
-                for (std::string m_var2 : inter_modified_var)
+                if (mod_var == m_var)
                 {
-                    if (m_var1 == m_var2)
-                    {
-                        continue;
-                    }
+                    continue;
                 }
             }
         }
@@ -239,7 +238,7 @@ bool AffectsCompute::dfs_checking_all_assign_affects(int stmt, NextBank next_ban
             used_vars = uses_bank.get_used_by_statement(next_stmt);
             for (std::string var: used_vars)
             {
-                if (var == mod_var[0])
+                if (var == mod_var)
                 {
                     return true;
                 }
@@ -277,10 +276,10 @@ bool AffectsCompute::dfs_checking_all_assigns_affected(int stmt, NextBank next_b
 
         if (type_bank.get_statement_type(previous_stmt) == EntityType::READ || type_bank.get_statement_type(previous_stmt) == EntityType::CALL)
         {
-            std::vector<std::string> inter_modified_var = modifies_bank.get_modified_by_statement(previous_stmt);
+            std::vector<std::string> inter_modified_vars = modifies_bank.get_modified_by_statement(previous_stmt);
             for (std::string u_var : used_vars)
             {
-                for (std::string m_var : inter_modified_var)
+                for (std::string m_var : inter_modified_vars)
                 {
                     if (u_var == m_var)
                     {
@@ -312,8 +311,6 @@ bool AffectsCompute::dfs_checking_all_assigns_affected(int stmt, NextBank next_b
 
 bool AffectsCompute::dfs_checking_assigns_affect(int stmt, int target, NextBank next_bank, ModifiesBank modifies_bank, UsesBank uses_bank, TypeBank type_bank)
 {
-    std::vector<std::string> mod_var = modifies_bank.get_modified_by_statement(stmt);
-    std::vector<std::string> used_vars = uses_bank.get_used_by_statement(target);
     std::unordered_set<int> visited;
     std::vector<int> next_stmts = next_bank.get_statements_next(stmt);
 
@@ -337,44 +334,6 @@ bool AffectsCompute::dfs_checking_assigns_affect(int stmt, int target, NextBank 
         }
 
         if(modified_by_others(stmt, next_stmt, next_bank, modifies_bank, uses_bank, type_bank))
-        {
-            continue;
-        }
-
-        for(int stmt: next_bank.get_statements_next(next_stmt))
-        {
-            next_stmts.push_back(stmt);
-        }
-    }
-    return false;
-}
-
-bool AffectsCompute::dfs_checking_assigns_affected_by(int target, int stmt, NextBank next_bank, ModifiesBank modifies_bank, UsesBank uses_bank, TypeBank type_bank) {
-    std::vector<std::string> mod_var = modifies_bank.get_modified_by_statement(target);
-    std::vector<std::string> used_vars = uses_bank.get_used_by_statement(stmt);
-    std::unordered_set<int> visited;
-    std::vector<int> next_stmts = next_bank.get_statements_next(target);
-
-    while(!next_stmts.empty())
-    {
-        int next_stmt = next_stmts.back();
-        next_stmts.pop_back();
-
-        if (next_stmt == stmt)
-        {
-            return true;
-        }
-
-        if (visited.find(next_stmt) != visited.end())
-        {
-            continue;
-        }
-        else
-        {
-            visited.emplace(next_stmt);
-        }
-
-        if(modified_by_others(target, next_stmt, next_bank, modifies_bank, uses_bank, type_bank))
         {
             continue;
         }
