@@ -77,9 +77,13 @@ public:
      */
     bool operator ==(const Pattern& pattern) const
     {
-        return pattern_entity == pattern.pattern_entity
+        if (pattern_entity == pattern.pattern_entity
             && first_param == pattern.first_param
-            && second_param == pattern.second_param;
+            && second_param == pattern.second_param)
+        {
+            return true;
+        }
+        return false;
     }
 
     // Returns the string value of the object.

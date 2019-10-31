@@ -74,10 +74,14 @@ namespace pql_dto
          */
         bool operator ==(const With& with) const
         {
-            return (first_param == with.first_param
+            if ((first_param == with.first_param
                 && second_param == with.second_param)
                 || (first_param == with.second_param
-                && second_param == with.first_param);
+                    && second_param == with.first_param))
+            {
+                return true;
+            }
+            return false;
         }
 
         // Returns the string value of the object.

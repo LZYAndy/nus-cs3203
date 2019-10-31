@@ -161,9 +161,12 @@ public:
      */
     bool operator ==(const Entity& entity) const
     {
-        return entity_type == entity.entity_type
-            && entity_name == entity.entity_name
-            && is_declared_entity == entity.is_declared_entity;
+        if (entity_type == entity.entity_type && entity_name == entity.entity_name
+            && is_declared_entity == entity.is_declared_entity)
+        {
+            return true;
+        }
+        return false;
     }
 
     // Returns the string value of the object.

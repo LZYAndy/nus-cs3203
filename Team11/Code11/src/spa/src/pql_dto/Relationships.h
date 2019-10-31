@@ -80,10 +80,14 @@ public:
      */
     bool operator ==(const Relationships& relationship) const
     {
-        return relationship_type == relationship.relationship_type
+        if (relationship_type == relationship.relationship_type
             && first_param == relationship.first_param
             && second_param == relationship.second_param
-            && is_star == relationship.is_star;
+            && is_star == relationship.is_star)
+        {
+            return true;
+        }
+        return false;
     }
 
     // Returns the string value of the object.
