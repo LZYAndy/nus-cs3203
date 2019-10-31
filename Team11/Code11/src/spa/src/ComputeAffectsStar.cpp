@@ -16,14 +16,14 @@ bool ComputeAffectsStar::is_affects_star_helper(PKB& pkb, int assignment1, int a
     else
     {
         // add affects(assign1, assign2) into set of states checked.
-        std::string relationship_entry = to_string(assignment1) + to_string(assignment2);
+        std::string relationship_entry = to_string(assignment1) + ',' + to_string(assignment2);
         auto result = states.emplace(relationship_entry);
         if (!result.second) // entry already exists in state. => LOOP!
         {
             return false;
         }
         // recursive depth-approach
-        for (int affects_assignment : get_affects_star(pkb, assignment1))
+        for (int affects_assignment : pkb.get_assigns_affected_by(assignment1))
         {
             if (is_affects_star_helper(pkb, affects_assignment, assignment2, states))
             {
@@ -33,59 +33,38 @@ bool ComputeAffectsStar::is_affects_star_helper(PKB& pkb, int assignment1, int a
     }
     return false;
 }
-/**
-    * affects*(1,a)
-    */
+
+// affects*(1,a)
 std::vector<int> ComputeAffectsStar::get_affects_star(PKB& pkb, int assignment)
 {
     vector<int> result;
     vector<int> assign_stmts = pkb.get_all_assigns();
     for (int assign_stmt : assign_stmts)
     {
-        if (pkb.is_affects(assign_stmt, assignment))
+        if (is_affects_star(pkb, assignment, assign_stmt))
         {
             result.push_back(assign_stmt);
         }
     }
     return result;
 }
-/**
-    * affects*(a, 1)
-    */
+
+// affects*(a, 1)
 std::vector<int> ComputeAffectsStar::get_affected_star(PKB& pkb, int assignment)
 {
     vector<int> result;
     vector<int> assign_stmts = pkb.get_all_assigns();
     for (int assign_stmt : assign_stmts)
     {
-        if (pkb.is_affects(assign_stmt, assignment))
+        if (is_affects_star(pkb, assign_stmt, assignment))
         {
             result.push_back(assign_stmt);
         }
     }
     return result;
 }
-/**
-    * affects*(1,a)
-    */
-std::vector<int> ComputeAffectsStar::get_all_affects_star()
-{
-   // See get_all_affects()
-   std::vector<int> result;
-   return result;
-}
-/**
-    * affects*(a, 1)
-    */
-std::vector<int> ComputeAffectsStar::get_all_affected_star()
-{
-  // See get_all_affected
-   std::vector<int> result;
-   return result;
-}
-/**
-    * affected(a, a1)
-    */
+
+// affected(a, a1)
 std::unordered_map<int, std::vector<int>> ComputeAffectsStar::get_all_affects_star_relationship(PKB &pkb)
 {
     std::unordered_map<int, std::vector<int>> affects_star_map;

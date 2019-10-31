@@ -12,31 +12,57 @@ TEST_CASE("ComputeAffectsStar::is_affects()")
     pkb.insert_uses(1, "z");
     pkb.insert_modifies(1, "x");
     pkb.insert_assign(2, "h", "+ ello x");
+    pkb.insert_next(1, 2);
     pkb.insert_type(2, EntityType::ASSIGN);
     pkb.insert_uses(2, "ello");
     pkb.insert_uses(2, "x");
     pkb.insert_modifies(2, "h");
     pkb.insert_assign(3, "a", "h");
+    pkb.insert_next(2, 3);
     pkb.insert_type(3, EntityType::ASSIGN);
     pkb.insert_uses(3, "h");
     pkb.insert_modifies(3, "a");
     pkb.insert_while(4, {"x"});
+    pkb.insert_next(3, 4);
     pkb.insert_type(4, EntityType::WHILE);
     pkb.insert_parent(4, 5);
     pkb.insert_parent(4, 6);
     pkb.insert_assign(5, "forever", "loop");
+    pkb.insert_next(4, 5);
     pkb.insert_type(5, EntityType::ASSIGN);
     pkb.insert_modifies(5, "forever");
     pkb.insert_uses(5, "loop");
     pkb.insert_assign(6, "loop", "+ is true");
+    pkb.insert_next(5, 6);
     pkb.insert_type(6, EntityType::ASSIGN);
     pkb.insert_modifies(6, "loop");
     pkb.insert_uses(6, "is");
     pkb.insert_uses(6, "true");
+    pkb.insert_next(6, 7);
+    pkb.insert_type(7, EntityType::ASSIGN);
+    pkb.insert_assign(6, "true", "forever");
+    pkb.insert_modifies(7, "true");
+    pkb.insert_uses(7, "forever");
+    pkb.insert_next(7, 8);
+    pkb.insert_type(8, EntityType::IF);
+    pkb.insert_next(8, 9);
+    pkb.insert_type(9, EntityType::ASSIGN);
+    pkb.insert_modifies(9, "if");
+    pkb.insert_uses(9, "else");
+    pkb.insert_next(8, 10);
+    pkb.insert_type(10, EntityType::ASSIGN);
+    pkb.insert_modifies(10, "else");
+    pkb.insert_uses(10, "if");
+    pkb.insert_next(9, 4);
+    pkb.insert_next(10, 4);
+    pkb.insert_next(4, 11);
+    pkb.insert_type(11, EntityType::ASSIGN);
+    pkb.insert_modifies(11, "a");
+    pkb.insert_uses(11, "if");
 
     SECTION("fails")
     {
-        REQUIRE_FALSE(compute_affects_star.is_affects_star(pkb, 1, 2));
+        REQUIRE_FALSE(compute_affects_star.is_affects_star(pkb, 1, 4));
         REQUIRE_FALSE(compute_affects_star.is_affects_star(pkb, 5, 2));
     }
 
@@ -45,8 +71,9 @@ TEST_CASE("ComputeAffectsStar::is_affects()")
         REQUIRE(compute_affects_star.is_affects_star(pkb, 1, 2));
         REQUIRE(compute_affects_star.is_affects_star(pkb, 2, 3));
         REQUIRE(compute_affects_star.is_affects_star(pkb, 1, 3));
-        REQUIRE(compute_affects_star.is_affects_star(pkb, 5, 6));
         REQUIRE(compute_affects_star.is_affects_star(pkb, 6, 5));
+        REQUIRE(compute_affects_star.is_affects_star(pkb, 5, 6));
+        REQUIRE(compute_affects_star.is_affects_star(pkb, 10, 11));
     }
 }
 
@@ -54,17 +81,45 @@ TEST_CASE("ComputeAffectsStar::get_affects_star()")
 {
     ComputeAffectsStar compute_affects_star;
     PKB pkb;
-    pkb.insert_assign(1, "x", "y + z");
+    pkb.insert_assign(1, "x", "+ y z");
+    pkb.insert_type(1, EntityType::ASSIGN);
     pkb.insert_uses(1, "y");
     pkb.insert_uses(1, "z");
     pkb.insert_modifies(1, "x");
-    pkb.insert_assign(2, "h", "ello + x");
+    pkb.insert_assign(2, "h", "+ ello x");
+    pkb.insert_next(1, 2);
+    pkb.insert_type(2, EntityType::ASSIGN);
     pkb.insert_uses(2, "ello");
     pkb.insert_uses(2, "x");
     pkb.insert_modifies(2, "h");
     pkb.insert_assign(3, "a", "h");
+    pkb.insert_next(2, 3);
+    pkb.insert_type(3, EntityType::ASSIGN);
     pkb.insert_uses(3, "h");
     pkb.insert_modifies(3, "a");
+    pkb.insert_while(4, {"x"});
+    pkb.insert_next(3, 4);
+    pkb.insert_type(4, EntityType::WHILE);
+    pkb.insert_parent(4, 5);
+    pkb.insert_parent(4, 6);
+    pkb.insert_assign(5, "forever", "loop");
+    pkb.insert_next(4, 5);
+    pkb.insert_type(5, EntityType::ASSIGN);
+    pkb.insert_modifies(5, "forever");
+    pkb.insert_uses(5, "loop");
+    pkb.insert_assign(6, "loop", "+ is true");
+    pkb.insert_next(5, 6);
+    pkb.insert_type(6, EntityType::ASSIGN);
+    pkb.insert_modifies(6, "loop");
+    pkb.insert_uses(6, "is");
+    pkb.insert_uses(6, "true");
+    pkb.insert_next(6, 7);
+    pkb.insert_type(7, EntityType::ASSIGN);
+    pkb.insert_assign(6, "true", "forever");
+    pkb.insert_modifies(7, "true");
+    pkb.insert_uses(7, "forever");
+    pkb.insert_next(7, 8);
+
 
     SECTION("fails")
     {
@@ -88,15 +143,20 @@ TEST_CASE("ComputeAffectsStar::get_affected_star()")
 {
     ComputeAffectsStar compute_affects_star;
     PKB pkb;
-    pkb.insert_assign(1, "x", "y + z");
+    pkb.insert_assign(1, "x", "+ y z");
+    pkb.insert_type(1, EntityType::ASSIGN);
     pkb.insert_uses(1, "y");
     pkb.insert_uses(1, "z");
     pkb.insert_modifies(1, "x");
-    pkb.insert_assign(2, "h", "ello + x");
+    pkb.insert_assign(2, "h", "+ ello x");
+    pkb.insert_next(1, 2);
+    pkb.insert_type(2, EntityType::ASSIGN);
     pkb.insert_uses(2, "ello");
     pkb.insert_uses(2, "x");
     pkb.insert_modifies(2, "h");
     pkb.insert_assign(3, "a", "h");
+    pkb.insert_next(2, 3);
+    pkb.insert_type(3, EntityType::ASSIGN);
     pkb.insert_uses(3, "h");
     pkb.insert_modifies(3, "a");
 
@@ -127,15 +187,20 @@ TEST_CASE("ComputeAffectsStar::get_all_affects_star_relationship()")
         REQUIRE(compute_affects_star.get_all_affects_star_relationship(pkb).empty());
     }
 
-    pkb.insert_assign(1, "x", "y + z");
+    pkb.insert_assign(1, "x", "+ y z");
+    pkb.insert_type(1, EntityType::ASSIGN);
     pkb.insert_uses(1, "y");
     pkb.insert_uses(1, "z");
     pkb.insert_modifies(1, "x");
-    pkb.insert_assign(2, "h", "ello + x");
+    pkb.insert_assign(2, "h", "+ ello x");
+    pkb.insert_next(1, 2);
+    pkb.insert_type(2, EntityType::ASSIGN);
     pkb.insert_uses(2, "ello");
     pkb.insert_uses(2, "x");
     pkb.insert_modifies(2, "h");
     pkb.insert_assign(3, "a", "h");
+    pkb.insert_next(2, 3);
+    pkb.insert_type(3, EntityType::ASSIGN);
     pkb.insert_uses(3, "h");
     pkb.insert_modifies(3, "a");
 
