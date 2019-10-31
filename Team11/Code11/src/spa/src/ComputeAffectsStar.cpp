@@ -1,5 +1,4 @@
 #include "ComputeAffectsStar.h"
-int is_affects(int a, int b);
 
 bool ComputeAffectsStar::is_affects_star(PKB& pkb, int assignment1, int assignment2)
 {
@@ -10,10 +9,12 @@ bool ComputeAffectsStar::is_affects_star(PKB& pkb, int assignment1, int assignme
 bool ComputeAffectsStar::is_affects_star_helper(PKB& pkb, int assignment1, int assignment2, std::unordered_set<std::string> &states)
 {
     // check Affects(1,2)
-    if (is_affects(assignment1, assignment2))
+    if (pkb.is_affects(assignment1, assignment2))
     {
         return true;
-    } else {
+    }
+    else
+    {
         // add affects(assign1, assign2) into set of states checked.
         std::string relationship_entry = to_string(assignment1) + to_string(assignment2);
         auto result = states.emplace(relationship_entry);
@@ -41,7 +42,7 @@ std::vector<int> ComputeAffectsStar::get_affects_star(PKB& pkb, int assignment)
     vector<int> assign_stmts = pkb.get_all_assigns();
     for (int assign_stmt : assign_stmts)
     {
-        if (is_affects(assign_stmt, assignment))
+        if (pkb.is_affects(assign_stmt, assignment))
         {
             result.push_back(assign_stmt);
         }
@@ -57,7 +58,7 @@ std::vector<int> ComputeAffectsStar::get_affected_star(PKB& pkb, int assignment)
     vector<int> assign_stmts = pkb.get_all_assigns();
     for (int assign_stmt : assign_stmts)
     {
-        if (is_affects(assign_stmt, assignment))
+        if (pkb.is_affects(assign_stmt, assignment))
         {
             result.push_back(assign_stmt);
         }

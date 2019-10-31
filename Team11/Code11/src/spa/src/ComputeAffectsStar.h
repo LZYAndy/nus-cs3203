@@ -5,6 +5,7 @@
 #include <unordered_map>
 
 #include "PKB.h"
+#include "AffectsCompute.h"
 
 class ComputeAffectsStar
 {
