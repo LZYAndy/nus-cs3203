@@ -8,7 +8,8 @@
 #include "UsesBank.h"
 #include "ModifiesBank.h"
 #include "TypeBank.h"
-class AffectsCompute {
+class AffectsCompute
+{
 public:
     /**
      * Get all statements affecting other statements i.e. get all a in Affects(a, _)
