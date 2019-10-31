@@ -72,6 +72,16 @@ public:
      */
     bool equals(Pattern pattern);
 
+    bool operator ==(const Pattern& pattern) const
+    {
+        return pattern_entity == pattern.pattern_entity
+            && first_param == pattern.first_param
+            && second_param == pattern.second_param;
+    }
+
+    // Returns the string value of the object.
+    std::string to_string();
+
     // Table containing the valid parameters for each pattern.
     std::unordered_map<EntityType, std::vector<std::vector<EntityType>>, EnumClassHash> pattern_table
     {

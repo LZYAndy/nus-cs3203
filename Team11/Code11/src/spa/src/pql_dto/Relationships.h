@@ -75,6 +75,17 @@ public:
      */
     bool equals(Relationships relationship);
 
+    bool operator ==(const Relationships& relationship) const
+    {
+        return relationship_type == relationship.relationship_type
+            && first_param == relationship.first_param
+            && second_param == relationship.second_param
+            && is_star == relationship.is_star;
+    }
+
+    // Returns the string value of the object.
+    std::string to_string();
+
     // Table containing the valid parameters for each relationship.
     std::unordered_map<RelationshipType, std::vector<std::vector<EntityType>>, EnumClassHash> relationships_table
     {

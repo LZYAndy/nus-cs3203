@@ -156,6 +156,16 @@ public:
      */
     bool equals(Entity entity);
 
+    bool operator ==(const Entity& entity) const
+    {
+        return entity_type == entity.entity_type
+            && entity_name == entity.entity_name
+            && is_declared_entity == entity.is_declared_entity;
+    }
+
+    // Returns the string value of the object.
+    std::string to_string();
+
     // Table containing the valid parameters for each relationship.
     std::unordered_map<AttributeType, std::vector<EntityType>, EnumClassHash> attributes_table
     {

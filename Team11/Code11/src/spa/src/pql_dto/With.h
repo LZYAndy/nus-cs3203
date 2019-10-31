@@ -69,6 +69,15 @@ namespace pql_dto
          */
         bool equals(With with);
 
+        bool operator ==(const With& with) const
+        {
+            return first_param == with.first_param
+                && second_param == with.second_param;
+        }
+
+        // Returns the string value of the object.
+        std::string to_string();
+
         // Table containing the valid parameters for each pattern.
         std::vector<std::vector<EntityType>> with_table
         {
