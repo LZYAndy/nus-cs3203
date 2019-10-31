@@ -83,8 +83,43 @@ assign a; while w; if ifs;
 Select a such that Parent*(w,a) and Parent*(ifs,a)
 6,13,16,24,27
 5000
-18 - test
-prog_line p;
-Select p such that Follows*(1,p)
+18 - Parent* with 2 wildcards
+constant c;
+Select c such that Parent*(_,_)
+1,2,3,99,0,20
+5000
+19 - Parent* with LHS wildcard
+if ifs;
+Select ifs such that Parent*(_,11)
+4,10,12,22
+5000
+20 - Parent* with RHS wildcard
+assign a;
+Select a such that Parent*(4,_)
+1,6,13,16,24,27,28
+5000
+21 - Parent* with LHS wildcard, RHS syn
+print pr;
+Select pr such that Parent*(_, pr)
+7,14,17,25
+5000
+22 - Parent* with RHS wildcard, LHS syn (semantic error)
+read r;
+Select r such that Parent*(r,_)
 
+5000
+23 - Parent* with RHS wildcard, LHS syn (all ifs statement)
+if ifs;
+Select ifs such that Parent*(ifs,_)
+4,10,12,22
+5000
+24 - Parent* with 2 syn get LHS syn
+assign a; while w;
+Select <w,a> such that Parent*(w, a)
+3 6,3 13,5 13,5 6,9 13,23 24,3 16,3 24,3 27,5 16,9 16
+5000
+25 - Parent* with 2 syn get RHS syn
+print pr; if ifs;
+Select pr such that Parent*(ifs, pr)
+7,14,17,25
 5000

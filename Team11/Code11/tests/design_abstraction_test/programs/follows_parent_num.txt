@@ -28,7 +28,7 @@ procedure main {
 24                    z = (x + (y - z)) * 1 / 2 % 3;
 25                    print z;
 26                    read x;}}
-            else {
+              else {
 27                a = 20;}}}
 28    var = 1;
 29    print j;
