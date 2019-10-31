@@ -69,6 +69,20 @@ void Pattern::set_second_param(Entity second_entity_param)
     second_param = second_entity_param;
 }
 
+void Pattern::update_first_param(std::string value)
+{
+    first_param.set_is_declared(false);
+    first_param.set_entity_type(EntityType::VARIABLE);
+    first_param.set_entity_name(value);
+}
+
+void Pattern::update_second_param(std::string value)
+{
+    second_param.set_is_declared(false);
+    second_param.set_entity_type(EntityType::VARIABLE);
+    second_param.set_entity_name(value);
+}
+
 bool Pattern::equals(Pattern pattern)
 {
     return pattern_entity.equals(pattern.pattern_entity)

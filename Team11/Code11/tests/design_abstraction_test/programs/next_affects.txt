@@ -1,0 +1,89 @@
+procedure one {
+    read x;
+    a = b + c;
+    ep = x;
+    print a;
+    call two;
+    while (i > j) {
+        alpha = delta + c;
+        e = f + d * c;
+        alpha = c + d;
+        delta = a + e;}
+    while (a > b) {
+        alpha = b + c;
+        t = a;
+        if (x > y) then {
+            a = x;
+            call two;
+            if (a > b) then {
+                alpha = beta;
+                while (alpha > b) {
+                    c = alpha;
+                    delta = alpha;
+                    d = delta;
+                    e = alpha;
+                    p = alpha + delta;}
+                x = p;
+                y = delta;}
+            else {
+                b = y;
+                y = x;
+                delta = p;
+                while (p > delta) {
+                    xx = p;
+                    delta = a;
+                    p = ep;
+                    o = alt;}}}
+        else {
+            a = b + c - d * c / e;
+            u = t;
+            x = ep;
+            p = delta;
+            delta = x;}}
+    while (alpha > b) {
+        if (a > b) then {
+            if (x > y) then {
+                while (y > z) {
+                    a = b;}}
+            else {
+                while (a > b) {
+                    x = y + b;}}}
+        else {
+            while ( p > b) {
+                p = a;}}}
+    while ( x > y) {
+        while (a > b) {
+            while (b > c) {
+                while (c > d) {
+                    while (d > e) {
+                        while (e > f) {
+                            e = f;}}}}}}
+    g = alpha;
+    f = x;
+    if (a > b) then {
+        if (b > c) then {
+            if (c > d) then {
+                if (d > e) then {
+                    if (e > f) then {
+                        if (f > g) then {
+                            f = g;}
+                        else {
+                            g = f;}}
+                    else {
+                        e = f;}}
+                else {
+                    d = e;}}
+            else {
+                c = d;}}
+        else {
+            b = c;}}
+    else {
+        a = b;}}
+
+procedure two {
+    x = a;
+    call three;
+    z = y;}
+
+procedure three {
+    y = x;}
