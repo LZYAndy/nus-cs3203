@@ -151,6 +151,8 @@ std::string Optimizer::split_clauses_into_groups(std::vector<pql_dto::Entity>& s
         synonym_clauses = remaining_syn_clauses;
     }
 
+    split_clauses(select_synonyms_set, linked_entities_group, linked_entities_set, synonyms_in_select_clauses, synonyms_not_in_select_clauses);
+
     return "";
 }
 
@@ -191,11 +193,11 @@ void Optimizer::remove_duplicates(std::vector<pql_dto::Relationships>& such_that
 void Optimizer::replace_with_synonyms(std::vector<pql_dto::Entity>& select_clause, std::vector<pql_dto::Relationships>& such_that_clause,
     std::vector<pql_dto::Pattern>& pattern_clause, std::vector<pql_dto::With>& with_clause)
 {
-    std::unordered_map<std::string, int> select_map;
+    std::unordered_map<std::string, std::vector<int>> select_map;
     int index = 0;
     for (pql_dto::Entity select_entity : select_clause)
     {
-        select_map[select_entity.get_entity_name()] = index++;
+        select_map[select_entity.get_entity_name()].push_back(index++);
     }
 
     for (pql_dto::With with_object : with_clause)
@@ -208,10 +210,13 @@ void Optimizer::replace_with_synonyms(std::vector<pql_dto::Entity>& select_claus
         {
             if (select_map.find(right_ref.get_entity_name()) != select_map.end())
             {
-                pql_dto::Entity same_select_entity = select_clause.at(select_map.at(right_ref.get_entity_name()));
-                same_select_entity.set_solution(left_ref.get_entity_name());
-                same_select_entity.set_entity_type(EntityType::FIX);
-                select_clause.at(select_map.at(right_ref.get_entity_name())) = same_select_entity;
+                for (int index : select_map.at(right_ref.get_entity_name()))
+                {
+                    pql_dto::Entity same_select_entity = select_clause.at(index);
+                    same_select_entity.set_solution(left_ref.get_entity_name());
+                    same_select_entity.set_entity_type(EntityType::FIX);
+                    select_clause.at(index) = same_select_entity;
+                }
             }
 
             int index = 0;
@@ -259,10 +264,13 @@ void Optimizer::replace_with_synonyms(std::vector<pql_dto::Entity>& select_claus
         {
             if (select_map.find(left_ref.get_entity_name()) != select_map.end())
             {
-                pql_dto::Entity same_select_entity = select_clause.at(select_map.at(left_ref.get_entity_name()));
-                same_select_entity.set_solution(right_ref.get_entity_name());
-                same_select_entity.set_entity_type(EntityType::FIX);
-                select_clause.at(select_map.at(left_ref.get_entity_name())) = same_select_entity;
+                for (int index : select_map.at(left_ref.get_entity_name()))
+                {
+                    pql_dto::Entity same_select_entity = select_clause.at(index);
+                    same_select_entity.set_solution(left_ref.get_entity_name());
+                    same_select_entity.set_entity_type(EntityType::FIX);
+                    select_clause.at(index) = same_select_entity;
+                }
             }
 
             int index = 0;
@@ -307,7 +315,7 @@ void Optimizer::replace_with_synonyms(std::vector<pql_dto::Entity>& select_claus
     }
 }
 
-void Optimizer::sort_clauses(std::unordered_set<std::string>& select_synonyms_set,
+void Optimizer::split_clauses(std::unordered_set<std::string>& select_synonyms_set,
     std::vector<std::vector<pql_dto::Constraint>>& linked_entities_group,
     std::vector<std::unordered_set<std::string>>& linked_entities_set,
     std::vector<std::vector<pql_dto::Constraint>>& synonyms_in_select_clauses,

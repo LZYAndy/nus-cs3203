@@ -284,4 +284,131 @@ TEST_CASE("Optimizer replaces with synonyms correctly.")
         REQUIRE(no_synonym_clauses.size() == 2);
         REQUIRE(synonym_clauses.size() == 5);
     }
+
+    SECTION("Multiple such that, pattern and with clause with prog_line.")
+    {
+        std::string test_query = "if ifs; prog_line n; while w; variable v; Select v pattern ifs (v,_,_) pattern w(v,_) such that Follows(n, ifs) and Modifies(n, \"x\") with v.varName = \"variable\" and ifs.stmt# = 5 and 6 = n";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        CHECK(select_clause.size() == 1);
+        CHECK(such_that_clause.size() == 2);
+        CHECK(pattern_clause.size() == 2);
+        CHECK(with_clause.size() == 3);
+
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+
+        REQUIRE(no_synonym_clauses.size() == 2);
+        REQUIRE(synonym_clauses.size() == 5);
+    }
+
+    SECTION("Multiple such that, pattern and with clause with prog_line.")
+    {
+        std::string test_query = "if ifs; prog_line n; while w; variable v; Select v pattern ifs (v,_,_) pattern w(v,_) such that Next(n, ifs) and Modifies(n, \"x\") with v.varName = \"variable\" and ifs.stmt# = 5 and 6 = n";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        CHECK(select_clause.size() == 1);
+        CHECK(such_that_clause.size() == 2);
+        CHECK(pattern_clause.size() == 2);
+        CHECK(with_clause.size() == 3);
+
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+
+        REQUIRE(no_synonym_clauses.size() == 2);
+        REQUIRE(synonym_clauses.size() == 5);
+    }
+
+    SECTION("Multiple such that and with clause does not replace call, read and print.")
+    {
+        std::string test_query = "print prt; call c1, c2; read r; Select <c1, r, prt> such that Modifies(c1, \"compute\") and Modifies(r, \"x\") and Uses(prt, \"y\") with c1.procName = \"MethodA\" and prt.stmt# = 5 with r.varName = \"c\"";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        CHECK(select_clause.size() == 3);
+        CHECK(such_that_clause.size() == 3);
+        CHECK(pattern_clause.size() == 0);
+        CHECK(with_clause.size() == 3);
+
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+
+        REQUIRE(no_synonym_clauses.size() == 0);
+        REQUIRE(synonym_clauses.size() == 6);
+    }
+}
+
+TEST_CASE("Optimizer add solution to select synonyms correctly.")
+{
+    std::vector<pql_dto::Entity> select_clause;
+    std::vector<pql_dto::Relationships> such_that_clause;
+    std::vector<pql_dto::Pattern> pattern_clause;
+    std::vector<pql_dto::With> with_clause;
+    std::deque<pql_dto::Constraint> no_synonym_clauses;
+    std::deque<pql_dto::Constraint> synonym_clauses;
+
+    SECTION("1 select and 1 with clause.")
+    {
+        std::string test_query = "variable v; Select v with v.varName = \"variable\"";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        CHECK(select_clause.size() == 1);
+        CHECK(such_that_clause.size() == 0);
+        CHECK(pattern_clause.size() == 0);
+        CHECK(with_clause.size() == 1);
+
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+
+        pql_dto::Entity select_var = select_clause.at(0);
+        pql_dto::Entity expected_entity = pql_dto::Entity("variable", "v", true);
+        expected_entity.set_entity_type(EntityType::FIX);
+        expected_entity.set_solution("variable");
+
+        REQUIRE(select_var.equals(expected_entity));
+    }
+
+    SECTION("2 same select and 1 with clause.")
+    {
+        std::string test_query = "variable v; stmt s; Select <v,s,v> with v.varName = \"variable\"";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        CHECK(select_clause.size() == 3);
+        CHECK(such_that_clause.size() == 0);
+        CHECK(pattern_clause.size() == 0);
+        CHECK(with_clause.size() == 1);
+
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+
+        pql_dto::Entity select_var_1 = select_clause.at(0);
+        pql_dto::Entity select_var_2 = select_clause.at(2);
+        pql_dto::Entity expected_entity = pql_dto::Entity("variable", "v", true);
+        expected_entity.set_entity_type(EntityType::FIX);
+        expected_entity.set_solution("variable");
+
+        REQUIRE(select_var_1.equals(expected_entity));
+        REQUIRE(select_var_2.equals(expected_entity));
+    }
+
+    SECTION("2 diff select and 2 with clause.")
+    {
+        std::string test_query = "stmt s; procedure p; Select <s,p> with p.procName = \"variable\" and s.stmt# = 7";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        CHECK(select_clause.size() == 2);
+        CHECK(such_that_clause.size() == 0);
+        CHECK(pattern_clause.size() == 0);
+        CHECK(with_clause.size() == 2);
+
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+
+        pql_dto::Entity select_var_1 = select_clause.at(0);
+        pql_dto::Entity select_var_2 = select_clause.at(1);
+        
+        pql_dto::Entity expected_entity_1 = pql_dto::Entity("stmt", "s", true);
+        expected_entity_1.set_entity_type(EntityType::FIX);
+        expected_entity_1.set_solution("7");
+
+        pql_dto::Entity expected_entity_2 = pql_dto::Entity("procedure", "p", true);
+        expected_entity_2.set_entity_type(EntityType::FIX);
+        expected_entity_2.set_solution("variable");
+
+        REQUIRE(select_var_1.equals(expected_entity_1));
+        REQUIRE(select_var_2.equals(expected_entity_2));
+    }
 }
