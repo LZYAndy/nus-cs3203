@@ -56,63 +56,63 @@ void Entity::set_entity_type(EntityType type)
 
 void Entity::set_entity_type(std::string type)
 {
-    if (type == "any")
+    if (type == any_keyword)
     {
         entity_type = EntityType::ANY;
     }
-    else if (type == "stmt")
+    else if (type == stmt_keyword)
     {
         entity_type = EntityType::STMT;
     }
-    else if (type == "read")
+    else if (type == read_keyword)
     {
         entity_type = EntityType::READ;
     }
-    else if (type == "print")
+    else if (type == print_keyword)
     {
         entity_type = EntityType::PRINT;
     }
-    else if (type == "call")
+    else if (type == call_keyword)
     {
         entity_type = EntityType::CALL;
     }
-    else if (type == "while")
+    else if (type == while_keyword)
     {
         entity_type = EntityType::WHILE;
     }
-    else if (type == "if")
+    else if (type == if_keyword)
     {
         entity_type = EntityType::IF;
     }
-    else if (type == "assign")
+    else if (type == assign_keyword)
     {
         entity_type = EntityType::ASSIGN;
     }
-    else if (type == "constant")
+    else if (type == constant_keyword)
     {
         entity_type = EntityType::CONSTANT;
     }
-    else if (type == "variable")
+    else if (type == variable_keyword)
     {
         entity_type = EntityType::VARIABLE;
     }
-    else if (type == "prog_line")
+    else if (type == prog_line_keyword)
     {
         entity_type = EntityType::PROG_LINE;
     }
-    else if (type == "procedure")
+    else if (type == procedure_keyword)
     {
         entity_type = EntityType::PROCEDURE;
     }
-    else if (type == "pattexpr")
+    else if (type == patt_expr_keyword)
     {
         entity_type = EntityType::PATTEXPR;
     }
-    else if (type == "matchexpr")
+    else if (type == match_expr_keyword)
     {
         entity_type = EntityType::MATCHEXPR;
     }
-    else if (type == "boolean")
+    else if (type == boolean_keyword)
     {
         entity_type = EntityType::BOOLEAN;
     }
@@ -124,47 +124,47 @@ void Entity::set_entity_type(std::string type)
 
 void Entity::set_declared_entity_type(std::string type)
 {
-    if (type == "stmt")
+    if (type == stmt_keyword)
     {
         entity_type = EntityType::STMT;
     }
-    else if (type == "read")
+    else if (type == read_keyword)
     {
         entity_type = EntityType::READ;
     }
-    else if (type == "print")
+    else if (type == print_keyword)
     {
         entity_type = EntityType::PRINT;
     }
-    else if (type == "call")
+    else if (type == call_keyword)
     {
         entity_type = EntityType::CALL;
     }
-    else if (type == "while")
+    else if (type == while_keyword)
     {
         entity_type = EntityType::WHILE;
     }
-    else if (type == "if")
+    else if (type == if_keyword)
     {
         entity_type = EntityType::IF;
     }
-    else if (type == "assign")
+    else if (type == assign_keyword)
     {
         entity_type = EntityType::ASSIGN;
     }
-    else if (type == "variable")
+    else if (type == variable_keyword)
     {
         entity_type = EntityType::VARIABLE;
     }
-    else if (type == "constant")
+    else if (type == constant_keyword)
     {
         entity_type = EntityType::CONSTANT;
     }
-    else if (type == "prog_line")
+    else if (type == prog_line_keyword)
     {
         entity_type = EntityType::PROG_LINE;
     }
-    else if (type == "procedure")
+    else if (type == procedure_keyword)
     {
         entity_type = EntityType::PROCEDURE;
     }
@@ -181,19 +181,19 @@ void Entity::set_entity_attr(AttributeType attr)
 
 void Entity::set_entity_attr(std::string attr)
 {
-    if (attr == "procName")
+    if (attr == proc_name_keyword)
     {
         entity_attr = AttributeType::PROCNAME;
     }
-    else if (attr == "varName")
+    else if (attr == var_name_keyword)
     {
         entity_attr = AttributeType::VARNAME;
     }
-    else if (attr == "value")
+    else if (attr == value_keyword)
     {
         entity_attr = AttributeType::VALUE;
     }
-    else if (attr == "stmt#")
+    else if (attr == stmt_num_keyword)
     {
         entity_attr = AttributeType::STMTNUM;
     }
@@ -290,7 +290,6 @@ void Entity::set_is_declared(bool is_declared)
 bool Entity::equals(Entity entity)
 {
     return entity_type == entity.entity_type
-           && entity_attr == entity.entity_attr
            && entity_name == entity.entity_name
            && is_declared_entity == entity.is_declared_entity;
 }
