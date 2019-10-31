@@ -4,7 +4,8 @@
 
 #include "Bank.h"
 
-class NextBank {
+class NextBank
+{
 public:
     /**
      * Insert Next relationship between statement1 and statement2.
@@ -59,6 +60,12 @@ public:
      * @return Return all next relationships in the program
      */
     std::unordered_map<int, std::vector<int>> get_all_next_relationship();
+
+    /**
+     * Get all reversed next relationships
+     * @return Return all reversed next relationships in the program
+     */
+    std::unordered_map<int, std::vector<int>> get_all_previous_relationship();
 
 private:
     Bank<int, int> next_bank;

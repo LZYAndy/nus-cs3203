@@ -3,6 +3,35 @@
 
 #include <string>
 
+TEST_CASE("Check Equal With Method.")
+{
+    SECTION("Check Same With.")
+    {
+        pql_dto::Entity first_param_entity = pql_dto::Entity("prog_line", "4", false);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("prog_line", "y", true);
+        pql_dto::With with_1 = pql_dto::With(first_param_entity, second_param_entity);
+        pql_dto::With with_2 = pql_dto::With(first_param_entity, second_param_entity);
+        pql_dto::With with_3 = pql_dto::With(second_param_entity, first_param_entity);
+
+        REQUIRE(with_1 == with_2);
+        REQUIRE(with_2 == with_3);
+        REQUIRE(with_1 == with_3);
+        REQUIRE(with_1.equals(with_2));
+    }
+
+    SECTION("Check Diff With.")
+    {
+        pql_dto::Entity first_param_entity = pql_dto::Entity("prog_line", "4", false);
+        pql_dto::Entity second_param_entity_1 = pql_dto::Entity("prog_line", "y", true);
+        pql_dto::Entity second_param_entity_2 = pql_dto::Entity("prog_line", "z", true);
+        pql_dto::With with_1 = pql_dto::With(first_param_entity, second_param_entity_1);
+        pql_dto::With with_2 = pql_dto::With(first_param_entity, second_param_entity_2);
+
+        REQUIRE_FALSE(with_1 == with_2);
+        REQUIRE_FALSE(with_1.equals(with_2));
+    }
+}
+
 TEST_CASE("With can store and retrieve correct entity types.")
 {
     SECTION("Trivial With Relationship.", "With \"x\"=\"x\"")

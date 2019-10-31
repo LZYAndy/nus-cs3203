@@ -156,6 +156,22 @@ public:
      */
     bool equals(Entity entity);
 
+    /** Checks if both entity are the same.
+     *  @param entity The entity to be compared.
+     */
+    bool operator ==(const Entity& entity) const
+    {
+        if (entity_type == entity.entity_type && entity_name == entity.entity_name
+            && is_declared_entity == entity.is_declared_entity)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    // Returns the string value of the object.
+    std::string to_string();
+
     // Table containing the valid parameters for each relationship.
     std::unordered_map<AttributeType, std::vector<EntityType>, EnumClassHash> attributes_table
     {
