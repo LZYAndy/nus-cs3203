@@ -5,12 +5,14 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <deque>
+#include <queue>
 #include <stdexcept>
 
 #include <pql_dto/Entity.h>
 #include <pql_dto/Relationships.h>
 #include <pql_dto/Pattern.h>
 #include <pql_dto/Constraint.h>
+#include <Cache.h>
 
 struct ObjectClassHash
 {
@@ -69,7 +71,7 @@ public:
      * Sorts the given group.
      * @param entity_group The pointer to the group to be sorted.
      */
-    static void sort(std::vector<pql_dto::Constraint>& entity_group);
+    static void sort(std::vector<pql_dto::Constraint>& entity_group, Cache& cache);
 
 private:
     /**
