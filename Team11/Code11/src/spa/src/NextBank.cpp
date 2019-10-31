@@ -39,3 +39,7 @@ std::vector<int> NextBank::get_all_next() {
 std::unordered_map<int, std::vector<int>> NextBank::get_all_next_relationship() {
     return next_bank.copy();
 }
+
+std::unordered_map<int, std::vector<int>> NextBank::get_all_previous_relationship() {
+    return next_bank.get_reverse_bank();
+}
