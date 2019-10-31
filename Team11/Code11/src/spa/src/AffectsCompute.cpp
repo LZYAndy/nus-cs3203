@@ -71,7 +71,7 @@ std::vector<int> AffectsCompute::get_assigns_affected_by(int stmt, int last_stmt
             continue;
         }
 
-        if (dfs_checking_assigns_affected_by(stmt, i, next_bank, modifies_bank, uses_bank, type_bank))
+        if (dfs_checking_assigns_affect(stmt, i, next_bank, modifies_bank, uses_bank, type_bank))
         {
             result.push_back(i);
         }
@@ -334,42 +334,6 @@ bool AffectsCompute::dfs_checking_assigns_affect(int stmt, int target, NextBank 
         }
 
         if(modified_by_others(stmt, next_stmt, next_bank, modifies_bank, uses_bank, type_bank))
-        {
-            continue;
-        }
-
-        for(int stmt: next_bank.get_statements_next(next_stmt))
-        {
-            next_stmts.push_back(stmt);
-        }
-    }
-    return false;
-}
-
-bool AffectsCompute::dfs_checking_assigns_affected_by(int target, int stmt, NextBank next_bank, ModifiesBank modifies_bank, UsesBank uses_bank, TypeBank type_bank) {
-    std::unordered_set<int> visited;
-    std::vector<int> next_stmts = next_bank.get_statements_next(target);
-
-    while(!next_stmts.empty())
-    {
-        int next_stmt = next_stmts.back();
-        next_stmts.pop_back();
-
-        if (next_stmt == stmt)
-        {
-            return true;
-        }
-
-        if (visited.find(next_stmt) != visited.end())
-        {
-            continue;
-        }
-        else
-        {
-            visited.emplace(next_stmt);
-        }
-
-        if(modified_by_others(target, next_stmt, next_bank, modifies_bank, uses_bank, type_bank))
         {
             continue;
         }
