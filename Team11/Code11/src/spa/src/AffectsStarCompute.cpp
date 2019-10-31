@@ -1,12 +1,13 @@
-#include "ComputeAffectsStar.h"
+#include "AffectsStarCompute.h"
+#include "PKB.h"
 
-bool ComputeAffectsStar::is_affects_star(PKB& pkb, int assignment1, int assignment2)
+bool AffectsStarCompute::is_affects_star(PKB& pkb, int assignment1, int assignment2)
 {
     std::unordered_set<std::string> states;
     return is_affects_star_helper(pkb, assignment1, assignment2, states); 
 }
 
-bool ComputeAffectsStar::is_affects_star_helper(PKB& pkb, int assignment1, int assignment2, std::unordered_set<std::string> &states)
+bool AffectsStarCompute::is_affects_star_helper(PKB& pkb, int assignment1, int assignment2, std::unordered_set<std::string> &states)
 {
     // check Affects(1,2)
     if (pkb.is_affects(assignment1, assignment2))
@@ -35,7 +36,7 @@ bool ComputeAffectsStar::is_affects_star_helper(PKB& pkb, int assignment1, int a
 }
 
 // affects*(1,a)
-std::vector<int> ComputeAffectsStar::get_affects_star(PKB& pkb, int assignment)
+std::vector<int> AffectsStarCompute::get_affects_star(PKB& pkb, int assignment)
 {
     vector<int> result;
     vector<int> assign_stmts = pkb.get_all_assigns();
@@ -50,7 +51,7 @@ std::vector<int> ComputeAffectsStar::get_affects_star(PKB& pkb, int assignment)
 }
 
 // affects*(a, 1)
-std::vector<int> ComputeAffectsStar::get_affected_star(PKB& pkb, int assignment)
+std::vector<int> AffectsStarCompute::get_affected_star(PKB& pkb, int assignment)
 {
     vector<int> result;
     vector<int> assign_stmts = pkb.get_all_assigns();
@@ -65,7 +66,7 @@ std::vector<int> ComputeAffectsStar::get_affected_star(PKB& pkb, int assignment)
 }
 
 // affected(a, a1)
-std::unordered_map<int, std::vector<int>> ComputeAffectsStar::get_all_affects_star_relationship(PKB &pkb)
+std::unordered_map<int, std::vector<int>> AffectsStarCompute::get_all_affects_star_relationship(PKB &pkb)
 {
     std::unordered_map<int, std::vector<int>> affects_star_map;
     std::vector<int> assign_stmts = pkb.get_all_assigns();

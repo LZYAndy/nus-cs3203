@@ -4,10 +4,11 @@
 #include <vector>
 #include <unordered_map>
 
-#include "PKB.h"
 #include "AffectsCompute.h"
 
-class ComputeAffectsStar
+class PKB;
+
+class AffectsStarCompute
 {
 public:
     /**
@@ -32,18 +33,6 @@ public:
      * @return vector containing all the statement numbers of assignment statement affects quried assignment.
      */
     std::vector<int> get_affected_star(PKB& pkb, int assignment);
-    /**
-     * Get all assignemnt statement that can be affected by other assignment statements.
-     * This is to say Affcets*(_, a).
-     * @return vector containing all statement numbers of assignment statement that could be affected by other assignment statement.
-     */
-    std::vector<int> get_all_affects_star();
-    /**
-     * Get all assignemnt statement that can be affects other assignment statements.
-     * This is to say Affcets*(a, _).
-     * @return vector containing all statement numbers of assignment statement that could be affects other assignment statement.
-     */
-    std::vector<int> get_all_affected_star();
     /**
      * Get all Affects* relationship that exists.
      * @return unodered_map that contains all the affects* relationship.

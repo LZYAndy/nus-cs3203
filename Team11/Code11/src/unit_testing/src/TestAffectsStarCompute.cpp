@@ -1,10 +1,10 @@
 #include "catch.hpp"
 #include "PKB.h"
-#include "ComputeAffectsStar.h"
+#include "AffectsStarCompute.h"
 
-TEST_CASE("ComputeAffectsStar::is_affects()")
+TEST_CASE("AffectsStarCompute::is_affects_star()")
 {
-    ComputeAffectsStar compute_affects_star;
+    AffectsStarCompute affects_star_compute;
     PKB pkb;
     pkb.insert_assign(1, "x", "+ y z");
     pkb.insert_type(1, EntityType::ASSIGN);
@@ -62,24 +62,24 @@ TEST_CASE("ComputeAffectsStar::is_affects()")
 
     SECTION("fails")
     {
-        REQUIRE_FALSE(compute_affects_star.is_affects_star(pkb, 1, 4));
-        REQUIRE_FALSE(compute_affects_star.is_affects_star(pkb, 5, 2));
+        REQUIRE_FALSE(affects_star_compute.is_affects_star(pkb, 1, 4));
+        REQUIRE_FALSE(affects_star_compute.is_affects_star(pkb, 5, 2));
     }
 
     SECTION("success")
     {
-        REQUIRE(compute_affects_star.is_affects_star(pkb, 1, 2));
-        REQUIRE(compute_affects_star.is_affects_star(pkb, 2, 3));
-        REQUIRE(compute_affects_star.is_affects_star(pkb, 1, 3));
-        REQUIRE(compute_affects_star.is_affects_star(pkb, 6, 5));
-        REQUIRE(compute_affects_star.is_affects_star(pkb, 5, 6));
-        REQUIRE(compute_affects_star.is_affects_star(pkb, 10, 11));
+        REQUIRE(affects_star_compute.is_affects_star(pkb, 1, 2));
+        REQUIRE(affects_star_compute.is_affects_star(pkb, 2, 3));
+        REQUIRE(affects_star_compute.is_affects_star(pkb, 1, 3));
+        REQUIRE(affects_star_compute.is_affects_star(pkb, 6, 5));
+        REQUIRE(affects_star_compute.is_affects_star(pkb, 5, 6));
+        REQUIRE(affects_star_compute.is_affects_star(pkb, 10, 11));
     }
 }
 
-TEST_CASE("ComputeAffectsStar::get_affects_star()")
+TEST_CASE("AffectsStarCompute::get_affects_star()")
 {
-    ComputeAffectsStar compute_affects_star;
+    AffectsStarCompute affects_star_compute;
     PKB pkb;
     pkb.insert_assign(1, "x", "+ y z");
     pkb.insert_type(1, EntityType::ASSIGN);
@@ -123,12 +123,12 @@ TEST_CASE("ComputeAffectsStar::get_affects_star()")
 
     SECTION("fails")
     {
-        REQUIRE(compute_affects_star.get_affects_star(pkb, 3).empty());
+        REQUIRE(affects_star_compute.get_affects_star(pkb, 3).empty());
     }
 
     SECTION("success")
     {
-        std::vector<int> result = compute_affects_star.get_affects_star(pkb, 1);
+        std::vector<int> result = affects_star_compute.get_affects_star(pkb, 1);
         std::vector<int> expected;
         expected.push_back(2);
         expected.push_back(3);
@@ -139,9 +139,9 @@ TEST_CASE("ComputeAffectsStar::get_affects_star()")
 }
 
 
-TEST_CASE("ComputeAffectsStar::get_affected_star()")
+TEST_CASE("AffectsStarCompute::get_affected_star()")
 {
-    ComputeAffectsStar compute_affects_star;
+    AffectsStarCompute affects_star_compute;
     PKB pkb;
     pkb.insert_assign(1, "x", "+ y z");
     pkb.insert_type(1, EntityType::ASSIGN);
@@ -162,12 +162,12 @@ TEST_CASE("ComputeAffectsStar::get_affected_star()")
 
     SECTION("fails")
     {
-        REQUIRE(compute_affects_star.get_affected_star(pkb, 1).empty());
+        REQUIRE(affects_star_compute.get_affected_star(pkb, 1).empty());
     }
 
     SECTION("success")
     {
-        std::vector<int> result = compute_affects_star.get_affected_star(pkb, 3);
+        std::vector<int> result = affects_star_compute.get_affected_star(pkb, 3);
         std::vector<int> expected;
         expected.push_back(2);
         expected.push_back(1);
@@ -177,14 +177,14 @@ TEST_CASE("ComputeAffectsStar::get_affected_star()")
     }
 }
 
-TEST_CASE("ComputeAffectsStar::get_all_affects_star_relationship()")
+TEST_CASE("AffectsStarCompute::get_all_affects_star_relationship()")
 {
-    ComputeAffectsStar compute_affects_star;
+    AffectsStarCompute affects_star_compute;
     PKB pkb;
 
     SECTION("fails")
     {
-        REQUIRE(compute_affects_star.get_all_affects_star_relationship(pkb).empty());
+        REQUIRE(affects_star_compute.get_all_affects_star_relationship(pkb).empty());
     }
 
     pkb.insert_assign(1, "x", "+ y z");
@@ -206,7 +206,7 @@ TEST_CASE("ComputeAffectsStar::get_all_affects_star_relationship()")
 
     SECTION("success")
     {
-        std::unordered_map<int, ::vector<int>> result = compute_affects_star.get_all_affects_star_relationship(pkb);
+        std::unordered_map<int, ::vector<int>> result = affects_star_compute.get_all_affects_star_relationship(pkb);
         std::unordered_map<int, ::vector<int>> expected;
         expected.insert({1, {2, 3}});
         expected.insert({2, {3}});
