@@ -2,28 +2,34 @@
 #include "PKB.h"
 #include "ComputeAffectsStar.h"
 
-TEST_CASE("ComputeAffectsStar::is_affects() [!hide]")
+TEST_CASE("ComputeAffectsStar::is_affects()")
 {
     ComputeAffectsStar compute_affects_star;
     PKB pkb;
     pkb.insert_assign(1, "x", "+ y z");
+    pkb.insert_type(1, EntityType::ASSIGN);
     pkb.insert_uses(1, "y");
     pkb.insert_uses(1, "z");
     pkb.insert_modifies(1, "x");
     pkb.insert_assign(2, "h", "+ ello x");
+    pkb.insert_type(2, EntityType::ASSIGN);
     pkb.insert_uses(2, "ello");
     pkb.insert_uses(2, "x");
     pkb.insert_modifies(2, "h");
     pkb.insert_assign(3, "a", "h");
+    pkb.insert_type(3, EntityType::ASSIGN);
     pkb.insert_uses(3, "h");
     pkb.insert_modifies(3, "a");
     pkb.insert_while(4, {"x"});
+    pkb.insert_type(4, EntityType::WHILE);
     pkb.insert_parent(4, 5);
     pkb.insert_parent(4, 6);
     pkb.insert_assign(5, "forever", "loop");
+    pkb.insert_type(5, EntityType::ASSIGN);
     pkb.insert_modifies(5, "forever");
     pkb.insert_uses(5, "loop");
     pkb.insert_assign(6, "loop", "+ is true");
+    pkb.insert_type(6, EntityType::ASSIGN);
     pkb.insert_modifies(6, "loop");
     pkb.insert_uses(6, "is");
     pkb.insert_uses(6, "true");
@@ -44,7 +50,7 @@ TEST_CASE("ComputeAffectsStar::is_affects() [!hide]")
     }
 }
 
-TEST_CASE("ComputeAffectsStar::get_affects_star() [!hide]")
+TEST_CASE("ComputeAffectsStar::get_affects_star()")
 {
     ComputeAffectsStar compute_affects_star;
     PKB pkb;
@@ -78,7 +84,7 @@ TEST_CASE("ComputeAffectsStar::get_affects_star() [!hide]")
 }
 
 
-TEST_CASE("ComputeAffectsStar::get_affected_star() [!hide]")
+TEST_CASE("ComputeAffectsStar::get_affected_star()")
 {
     ComputeAffectsStar compute_affects_star;
     PKB pkb;
@@ -111,7 +117,7 @@ TEST_CASE("ComputeAffectsStar::get_affected_star() [!hide]")
     }
 }
 
-TEST_CASE("ComputeAffectsStar::get_all_affects_star_relationship() [!hide]")
+TEST_CASE("ComputeAffectsStar::get_all_affects_star_relationship()")
 {
     ComputeAffectsStar compute_affects_star;
     PKB pkb;
