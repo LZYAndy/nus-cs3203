@@ -12,6 +12,35 @@
 
 #include <string>
 
+TEST_CASE("Check Equal Relationship method.")
+{
+    SECTION("Check Same Relationship.")
+    {
+        pql_dto::Entity first_param_entity = pql_dto::Entity("stmt", "2", false);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("stmt", "7", false);
+        pql_dto::Relationships follows_relationship_1 = pql_dto::FollowsRelationship(first_param_entity,
+            second_param_entity, false);
+        pql_dto::Relationships follows_relationship_2 = pql_dto::FollowsRelationship(first_param_entity,
+            second_param_entity, false);
+
+        REQUIRE(follows_relationship_1 == follows_relationship_2);
+        REQUIRE(follows_relationship_1.equals(follows_relationship_2));
+    }
+
+    SECTION("Check Diff Relationship.")
+    {
+        pql_dto::Entity first_param_entity = pql_dto::Entity("stmt", "s", true);
+        pql_dto::Entity second_param_entity = pql_dto::Entity("stmt", "7", false);
+        pql_dto::Relationships follows_relationship_1 = pql_dto::FollowsRelationship(first_param_entity,
+            second_param_entity, false);
+        pql_dto::Relationships follows_relationship_2 = pql_dto::FollowsRelationship(second_param_entity,
+            first_param_entity, false);
+
+        REQUIRE_FALSE(follows_relationship_1 == follows_relationship_2);
+        REQUIRE_FALSE(follows_relationship_1.equals(follows_relationship_2));
+    }
+}
+
 TEST_CASE("Follows Relationships can store and retrieve correct entity types.")
 {
     SECTION("Trivial Follow Relationship.", "Follows(2,7)")
