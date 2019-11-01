@@ -116,7 +116,8 @@ bool UsesBank::does_uses_exist()
     return proc_bank.empty() && stmt_bank.empty();
 }
 
-bool UsesBank::insert_uses_for_call(std::string caller, std::string callee) {
+bool UsesBank::insert_uses_for_call(std::string caller, std::string callee)
+{
     std::vector<std::string> callee_var = this->get_used_by_procedure(callee);
     bool result = false;
 
