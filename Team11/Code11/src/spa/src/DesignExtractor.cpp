@@ -141,7 +141,7 @@ bool DesignExtractor::extract_next_bip(PKB &pkb)
     auto calls_stmts = pkb.get_all_calls();
     for (auto previous : all_previous)
     {
-        if (std::find(calls_stmts.begin(), calls_stmts.end(), previous) != calls_stmts.end()) // check if previous is a call stmt
+        if (pkb.get_statement_type(previous) == EntityType::CALL) // check if previous is a call stmt
         {
             // TODO: get first stmt num of procedure
             std::string procedure_called = pkb.get_called_by_statement(previous);
@@ -174,6 +174,7 @@ bool DesignExtractor::extract_next_bip(PKB &pkb)
                 {
                     pkb.insert_next_bip(end_stmt, after_call);
                 }
+                pkb.insert_call_ingress_egress(previous, after_call);
             }
         }
         else

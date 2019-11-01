@@ -6,9 +6,9 @@ bool NextBipBank::insert_next_bip(int previous_prog, int next_prog)
     return true;
 }
 
-bool NextBipBank::insert_call_ingress(int caller_prog, int callee_prog)
+bool NextBipBank::insert_call_ingress_egress(int ingress_prog, int egress_prog)
 {
-    ingress_table.insert({caller_prog, callee_prog});
+    ingress_egress_table.insert({ingress_prog, egress_prog});
     return true;
 }
 
