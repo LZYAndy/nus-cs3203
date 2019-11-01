@@ -16,27 +16,6 @@ using namespace std;
 class Cache
 {
 private:
-//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> follows_cache;
-//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> follows_star_cache;
-//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> parent_cache;
-//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> parent_star_cache;
-//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> uses_cache;
-//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> modifies_cache;
-//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> calls_cache;
-//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> calls_star_cache;
-//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> next_cache;
-//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> next_star_cache;
-//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> next_bip_cache;
-//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> next_bip_star_cache;
-//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> affects_cache;
-//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> affects_star_cache;
-//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> affects_bip_cache;
-//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> affects_bip_star_cache;
-//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> assign_cache;
-//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> while_cache;
-//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> if_cache;
-//    unordered_map<pair<string, string>, unordered_map<string, vector<string>>> with_cache;
-
     unordered_map<string, unordered_map<string, vector<string>>> explicit_relation_cache;
     unordered_map<string, unordered_map<string, vector<string>>> explicit_pattern_cache;
     unordered_map<string, unordered_map<string, vector<string>>> explicit_with_cache;
