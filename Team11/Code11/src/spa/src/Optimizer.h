@@ -5,12 +5,14 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <deque>
+#include <queue>
 #include <stdexcept>
 
 #include <pql_dto/Entity.h>
 #include <pql_dto/Relationships.h>
 #include <pql_dto/Pattern.h>
 #include <pql_dto/Constraint.h>
+#include <Cache.h>
 
 struct ObjectClassHash
 {
@@ -52,24 +54,10 @@ public:
         std::vector<std::vector<pql_dto::Constraint>>& synonyms_not_in_select_clauses);
 
     /**
-    * Splits and sorts the clauses in the groups.
-    * @param select_synonyms_set The pointer to the set of synonyms in select clause.
-    * @param linked_entities_group The pointer to the vector of all linked synonyms in groups.
-    * @param linked_entities_set The pointer to the set of synonyms in each group of linked synonyms.
-    * @param synonyms_in_select_clauses The pointer to the vector containing groups with synonyms in select clause.
-    * @param synonyms_not_in_select_clauses The pointer to the vector containing groups with synonyms not in select clause.
-    */
-    static void sort_clauses(std::unordered_set<std::string>& select_synonyms_set,
-        std::vector<std::vector<pql_dto::Constraint>>& linked_entities_group,
-        std::vector<std::unordered_set<std::string>>& linked_entities_set,
-        std::vector<std::vector<pql_dto::Constraint>>& synonyms_in_select_clauses,
-        std::vector<std::vector<pql_dto::Constraint>>& synonyms_not_in_select_clauses);
-
-    /**
      * Sorts the given group.
      * @param entity_group The pointer to the group to be sorted.
      */
-    static void sort(std::vector<pql_dto::Constraint>& entity_group);
+    static void sort(std::vector<pql_dto::Constraint>& entity_group, Cache& cache);
 
 private:
     /**
@@ -89,4 +77,19 @@ private:
      */
     static void replace_with_synonyms(std::vector<pql_dto::Entity>& select_clause, std::vector<pql_dto::Relationships>& such_that_clause,
         std::vector<pql_dto::Pattern>& pattern_clause, std::vector<pql_dto::With>& with_clause);
+
+    /**
+    * Splits the clauses in the groups.
+    * @param select_synonyms_set The pointer to the set of synonyms in select clause.
+    * @param linked_entities_group The pointer to the vector of all linked synonyms in groups.
+    * @param linked_entities_set The pointer to the set of synonyms in each group of linked synonyms.
+    * @param synonyms_in_select_clauses The pointer to the vector containing groups with synonyms in select clause.
+    * @param synonyms_not_in_select_clauses The pointer to the vector containing groups with synonyms not in select clause.
+    */
+    static void split_clauses(std::unordered_set<std::string>& select_synonyms_set,
+        std::vector<std::vector<pql_dto::Constraint>>& linked_entities_group,
+        std::vector<std::unordered_set<std::string>>& linked_entities_set,
+        std::vector<std::vector<pql_dto::Constraint>>& synonyms_in_select_clauses,
+        std::vector<std::vector<pql_dto::Constraint>>& synonyms_not_in_select_clauses);
+
 };

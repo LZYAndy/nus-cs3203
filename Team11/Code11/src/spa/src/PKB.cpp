@@ -457,9 +457,9 @@ bool PKB::is_next(int stmt1, int stmt2)
     return next_bank.is_next(stmt1, stmt2);
 }
 
-bool PKB::does_next_exists()
+bool PKB::does_next_exist()
 {
-    return next_bank.does_next_exists();
+    return next_bank.does_next_exist();
 }
 
 vector<int> PKB::get_statements_previous(int statement)
@@ -700,4 +700,23 @@ bool PKB::is_next_bip(int prev_prog, int next_prog)
 bool PKB::insert_call_ingress_egress(int ingress_prog, int egress_prog)
 {
     return next_bip_bank.insert_call_ingress_egress(ingress_prog, egress_prog);
+}
+bool PKB::is_affects_star(int assignment1, int assignment2)
+{
+    return affects_star_compute.is_affects_star(*this, assignment1, assignment2);
+}
+
+vector<int> PKB::get_affected_star(int assignment)
+{
+    return affects_star_compute.get_affected_star(*this, assignment);
+}
+
+vector<int> PKB::get_affects_star(int assignment)
+{
+    return affects_star_compute.get_affects_star(*this, assignment);
+}
+
+unordered_map<int, vector<int>> PKB::get_all_affects_star_relationship()
+{
+    return affects_star_compute.get_all_affects_star_relationship(*this);
 }
