@@ -2237,18 +2237,18 @@ TEST_CASE("PKB::is_next()")
     }
 }
 
-TEST_CASE("PKB::does_next_exists()")
+TEST_CASE("PKB::does_next_exist()")
 {
     PKB pkb;
     SECTION("return false")
     {
-        REQUIRE_FALSE(pkb.does_next_exists());
+        REQUIRE_FALSE(pkb.does_next_exist());
     }
 
     pkb.insert_next(1, 2);
     SECTION("return true")
     {
-        REQUIRE(pkb.does_next_exists());
+        REQUIRE(pkb.does_next_exist());
     }
 }
 
