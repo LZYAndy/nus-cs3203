@@ -95,6 +95,10 @@ def run_test():
 def process_result():
     print("[+] Processing result files")
     result_files = glob.glob(result_directory + "*")
+
+    if "./tests/output/analysis.xsl" in result_files:
+        result_files.remove("./tests/output/analysis.xsl")
+
     for rf in result_files:
         with open(rf) as f:
             for line in f:
