@@ -267,7 +267,7 @@ std::string PQLParserHelper::parse_pattern_clause(std::string& query, std::vecto
     size_t close_parentheses_index = pattern_query.find_first_of(')');
 
     if (open_parentheses_index != std::string::npos && close_parentheses_index != std::string::npos
-        && open_parentheses_index < close_parentheses_index && pattern_query.back() == ')')
+        && open_parentheses_index < close_parentheses_index)
     {
         /// Check if pattern has correct entity
         std::string entity_name = StringUtil::trim(pattern_query.substr(0, open_parentheses_index), whitespace);
