@@ -9,25 +9,28 @@
 #include <unordered_set>
 #include <numeric>
 
+#include "DesignExtractor.h"
 #include "UsesBank.h"
 #include "ModifiesBank.h"
 #include "TypeBank.h"
 #include "FollowsBank.h"
 #include "FollowsStarBank.h"
-#include "DesignExtractor.h"
 #include "ParentBank.h"
 #include "ParentStarBank.h"
 #include "AssignBank.h"
 #include "NextBank.h"
 #include "WhileBank.h"
 #include "CallsBank.h"
+#include "CallsStarBank.h"
 #include "IfBank.h"
 #include "AffectsCompute.h"
 #include "AffectsStarCompute.h"
 #include "NextStarCompute.h"
+#include "NextBipBank.h"
 
 using namespace std;
 
+class DesignExtractor;
 class PKB
 {
 public:
@@ -880,6 +883,10 @@ public:
      */
     unordered_map<int, vector<int>> get_all_affects_star_relationship();
 
+    
+    bool insert_next_bip(int prev_prog, int next_prog);
+    bool insert_call_ingress_egress(int ingress_prog, int egress_prog);
+    bool is_next_bip(int prev_prog, int next_prog);
 private:
     FollowsBank follows_bank;
     FollowsStarBank follows_star_bank;
@@ -898,6 +905,7 @@ private:
     CallsStarBank calls_star_bank;
     IfBank if_bank;
     AffectsStarCompute affects_star_compute;
+    NextBipBank next_bip_bank;
     int last_statement_num = 0;
 };
 

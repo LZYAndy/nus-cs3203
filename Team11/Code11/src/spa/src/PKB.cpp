@@ -133,7 +133,12 @@ bool PKB::extract_design()
     DesignExtractor::extract_follows_star(follows_bank, follows_star_bank);
     DesignExtractor::extract_parent_star(parent_bank, parent_star_bank, uses_bank, modifies_bank);
     bool result_calls = DesignExtractor::extract_calls_star(calls_bank, calls_star_bank, uses_bank, modifies_bank, parent_star_bank);
-    return result_calls;
+    if (!result_calls)
+    {
+        return false;
+    }
+    DesignExtractor::extract_next_bip(*this);
+    return true;
 }
 
 bool PKB::insert_parent(int stmt1, int stmt2)
@@ -700,4 +705,18 @@ vector<int> PKB::get_affects_star(int assignment)
 unordered_map<int, vector<int>> PKB::get_all_affects_star_relationship()
 {
     return affects_star_compute.get_all_affects_star_relationship(*this);
+}
+bool PKB::insert_next_bip(int prev_prog, int next_prog)
+{
+    return next_bip_bank.insert_next_bip(prev_prog, next_prog);
+}
+
+bool PKB::is_next_bip(int prev_prog, int next_prog)
+{
+    return next_bip_bank.is_next_bip(prev_prog, next_prog);
+}
+
+bool PKB::insert_call_ingress_egress(int ingress_prog, int egress_prog)
+{
+    return next_bip_bank.insert_call_ingress_egress(ingress_prog, egress_prog);
 }
