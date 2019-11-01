@@ -51,7 +51,7 @@ Select s
 11 - Next* with lhs syn, rhs syn
 if ifs; call c;
 Select <ifs,c> such that Next*(ifs,c)
-1 10,3 10,8 10
+1 10,3 10,8 10,16 23,17 23,60 63
 5000
 12 - Next* with lhs syn, rhs wildcard
 read r;
@@ -78,7 +78,6 @@ TRUE
 Select BOOLEAN such that Next*(_, 71)
 TRUE
 5000
-
 17 - Next* with lhs integer, rhs syn
 print pr;
 Select pr such that Next*(2, pr)
@@ -117,7 +116,7 @@ TRUE
 24 - Next* if join (else)
 
 Select BOOLEAN such that Next*(63, 59)
-
+TRUE
 5000
 25 - Next* while (while to body)
 
@@ -139,7 +138,6 @@ TRUE
 Select BOOLEAN such that Next*(43, 44)
 FALSE
 5000
-
 29 - Next* ififif
 
 Select BOOLEAN such that Next*(7, 15)
@@ -175,11 +173,10 @@ TRUE
 Select BOOLEAN such that Next*(41, 38)
 TRUE
 5000
-5000
 36 - Next* ifwhilewhile
 
 Select BOOLEAN such that Next*(37, 42)
-TRUE
+FALSE
 5000
 37 - Next* whileifif
 
