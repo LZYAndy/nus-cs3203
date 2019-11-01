@@ -123,7 +123,8 @@ bool Bank<T,S>::check_relationship(T key, S value)
 }
 
 template<class T, class S>
-std::unordered_map<S, std::vector<T>> Bank<T, S>::get_reverse_bank() {
+std::unordered_map<S, std::vector<T>> Bank<T, S>::get_reverse_bank()
+{
     return reverse_bank;
 }
 

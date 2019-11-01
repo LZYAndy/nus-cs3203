@@ -4,7 +4,8 @@
 
 #include "Bank.h"
 
-class NextBank {
+class NextBank
+{
 public:
     /**
      * Insert Next relationship between statement1 and statement2.

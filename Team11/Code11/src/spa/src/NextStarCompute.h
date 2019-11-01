@@ -7,7 +7,8 @@
 #include <algorithm>
 #include "NextBank.h"
 
-class NextStarCompute {
+class NextStarCompute
+{
 public:
     /**
      * Get all statement numbers that are in the previous position

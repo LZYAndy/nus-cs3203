@@ -72,6 +72,23 @@ public:
      */
     bool equals(Pattern pattern);
 
+    /** Checks if both pattern are the same.
+     *  @param pattern The pattern to be compared.
+     */
+    bool operator ==(const Pattern& pattern) const
+    {
+        if (pattern_entity == pattern.pattern_entity
+            && first_param == pattern.first_param
+            && second_param == pattern.second_param)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    // Returns the string value of the object.
+    std::string to_string();
+
     // Table containing the valid parameters for each pattern.
     std::unordered_map<EntityType, std::vector<std::vector<EntityType>>, EnumClassHash> pattern_table
     {

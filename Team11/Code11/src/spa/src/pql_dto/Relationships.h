@@ -74,6 +74,24 @@ public:
      *  @param relationship The relationship to be compared.
      */
     bool equals(Relationships relationship);
+    
+    /** Checks if both relationship are the same.
+     *  @param relationship The relationship to be compared.
+     */
+    bool operator ==(const Relationships& relationship) const
+    {
+        if (relationship_type == relationship.relationship_type
+            && first_param == relationship.first_param
+            && second_param == relationship.second_param
+            && is_star == relationship.is_star)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    // Returns the string value of the object.
+    std::string to_string();
 
     // Table containing the valid parameters for each relationship.
     std::unordered_map<RelationshipType, std::vector<std::vector<EntityType>>, EnumClassHash> relationships_table
