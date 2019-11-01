@@ -18,7 +18,7 @@ bool NextBank::is_next(int stmt1, int stmt2)
     return next_bank.check_relationship(stmt1, stmt2);
 }
 
-bool NextBank::does_next_exists()
+bool NextBank::does_next_exist()
 {
     return !next_bank.empty();
 }

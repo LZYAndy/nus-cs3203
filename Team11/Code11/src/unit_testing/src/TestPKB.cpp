@@ -2237,18 +2237,18 @@ TEST_CASE("PKB::is_next()")
     }
 }
 
-TEST_CASE("PKB::does_next_exists()")
+TEST_CASE("PKB::does_next_exist()")
 {
     PKB pkb;
     SECTION("return false")
     {
-        REQUIRE_FALSE(pkb.does_next_exists());
+        REQUIRE_FALSE(pkb.does_next_exist());
     }
 
     pkb.insert_next(1, 2);
     SECTION("return true")
     {
-        REQUIRE(pkb.does_next_exists());
+        REQUIRE(pkb.does_next_exist());
     }
 }
 
@@ -3067,6 +3067,7 @@ TEST_CASE("PKB::insert_uses_for_call()")
         std::sort(expected.begin(), expected.end());
         std::sort(result.begin(), result.end());
         REQUIRE(expected == result);
+
     }
 }
 
@@ -3803,6 +3804,213 @@ TEST_CASE("PKB::is_affects()")
         REQUIRE(pkb.is_affects(2, 10));
         REQUIRE(pkb.is_affects(9, 10));
         REQUIRE(pkb.is_affects(4, 4));
+    }
+}
+
+TEST_CASE("PKB::is_affects_star()")
+{
+    PKB pkb;
+    pkb.insert_assign(1, "x", "+ y z");
+    pkb.insert_type(1, EntityType::ASSIGN);
+    pkb.insert_uses(1, "y");
+    pkb.insert_uses(1, "z");
+    pkb.insert_modifies(1, "x");
+    pkb.insert_assign(2, "h", "+ ello x");
+    pkb.insert_next(1, 2);
+    pkb.insert_type(2, EntityType::ASSIGN);
+    pkb.insert_uses(2, "ello");
+    pkb.insert_uses(2, "x");
+    pkb.insert_modifies(2, "h");
+    pkb.insert_assign(3, "a", "h");
+    pkb.insert_next(2, 3);
+    pkb.insert_type(3, EntityType::ASSIGN);
+    pkb.insert_uses(3, "h");
+    pkb.insert_modifies(3, "a");
+    pkb.insert_while(4, {"x"});
+    pkb.insert_next(3, 4);
+    pkb.insert_type(4, EntityType::WHILE);
+    pkb.insert_parent(4, 5);
+    pkb.insert_parent(4, 6);
+    pkb.insert_assign(5, "forever", "loop");
+    pkb.insert_next(4, 5);
+    pkb.insert_type(5, EntityType::ASSIGN);
+    pkb.insert_modifies(5, "forever");
+    pkb.insert_uses(5, "loop");
+    pkb.insert_assign(6, "loop", "+ is true");
+    pkb.insert_next(5, 6);
+    pkb.insert_type(6, EntityType::ASSIGN);
+    pkb.insert_modifies(6, "loop");
+    pkb.insert_uses(6, "is");
+    pkb.insert_uses(6, "true");
+    pkb.insert_next(6, 7);
+    pkb.insert_type(7, EntityType::ASSIGN);
+    pkb.insert_assign(6, "true", "forever");
+    pkb.insert_modifies(7, "true");
+    pkb.insert_uses(7, "forever");
+    pkb.insert_next(7, 8);
+    pkb.insert_type(8, EntityType::IF);
+    pkb.insert_next(8, 9);
+    pkb.insert_type(9, EntityType::ASSIGN);
+    pkb.insert_modifies(9, "if");
+    pkb.insert_uses(9, "else");
+    pkb.insert_next(8, 10);
+    pkb.insert_type(10, EntityType::ASSIGN);
+    pkb.insert_modifies(10, "else");
+    pkb.insert_uses(10, "if");
+    pkb.insert_next(9, 4);
+    pkb.insert_next(10, 4);
+    pkb.insert_next(4, 11);
+    pkb.insert_type(11, EntityType::ASSIGN);
+    pkb.insert_modifies(11, "a");
+    pkb.insert_uses(11, "if");
+
+    SECTION("fails")
+    {
+        REQUIRE_FALSE(pkb.is_affects_star(1, 4));
+        REQUIRE_FALSE(pkb.is_affects_star(5, 2));
+    }
+
+    SECTION("success")
+    {
+        REQUIRE(pkb.is_affects_star(1, 2));
+        REQUIRE(pkb.is_affects_star(2, 3));
+        REQUIRE(pkb.is_affects_star(1, 3));
+        REQUIRE(pkb.is_affects_star(6, 5));
+        REQUIRE(pkb.is_affects_star(5, 6));
+        REQUIRE(pkb.is_affects_star(10, 11));
+    }
+}
+
+TEST_CASE("PKB::get_affects_star()")
+{ 
+    PKB pkb;
+    pkb.insert_assign(1, "x", "+ y z");
+    pkb.insert_type(1, EntityType::ASSIGN);
+    pkb.insert_uses(1, "y");
+    pkb.insert_uses(1, "z");
+    pkb.insert_modifies(1, "x");
+    pkb.insert_assign(2, "h", "+ ello x");
+    pkb.insert_next(1, 2);
+    pkb.insert_type(2, EntityType::ASSIGN);
+    pkb.insert_uses(2, "ello");
+    pkb.insert_uses(2, "x");
+    pkb.insert_modifies(2, "h");
+    pkb.insert_assign(3, "a", "h");
+    pkb.insert_next(2, 3);
+    pkb.insert_type(3, EntityType::ASSIGN);
+    pkb.insert_uses(3, "h");
+    pkb.insert_modifies(3, "a");
+    pkb.insert_while(4, {"x"});
+    pkb.insert_next(3, 4);
+    pkb.insert_type(4, EntityType::WHILE);
+    pkb.insert_parent(4, 5);
+    pkb.insert_parent(4, 6);
+    pkb.insert_assign(5, "forever", "loop");
+    pkb.insert_next(4, 5);
+    pkb.insert_type(5, EntityType::ASSIGN);
+    pkb.insert_modifies(5, "forever");
+    pkb.insert_uses(5, "loop");
+    pkb.insert_assign(6, "loop", "+ is true");
+    pkb.insert_next(5, 6);
+    pkb.insert_type(6, EntityType::ASSIGN);
+    pkb.insert_modifies(6, "loop");
+    pkb.insert_uses(6, "is");
+    pkb.insert_uses(6, "true");
+    pkb.insert_next(6, 7);
+    pkb.insert_type(7, EntityType::ASSIGN);
+    pkb.insert_assign(6, "true", "forever");
+    pkb.insert_modifies(7, "true");
+    pkb.insert_uses(7, "forever");
+    pkb.insert_next(7, 8);
+
+
+    SECTION("fails")
+    {
+        REQUIRE(pkb.get_affects_star(3).empty());
+    }
+
+    SECTION("success")
+    {
+        std::vector<int> result = pkb.get_affects_star(1);
+        std::vector<int> expected;
+        expected.push_back(2);
+        expected.push_back(3);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(expected == result);
+    }
+}
+
+TEST_CASE("PKB::get_affected_star()")
+{
+    PKB pkb;
+    pkb.insert_assign(1, "x", "+ y z");
+    pkb.insert_type(1, EntityType::ASSIGN);
+    pkb.insert_uses(1, "y");
+    pkb.insert_uses(1, "z");
+    pkb.insert_modifies(1, "x");
+    pkb.insert_assign(2, "h", "+ ello x");
+    pkb.insert_next(1, 2);
+    pkb.insert_type(2, EntityType::ASSIGN);
+    pkb.insert_uses(2, "ello");
+    pkb.insert_uses(2, "x");
+    pkb.insert_modifies(2, "h");
+    pkb.insert_assign(3, "a", "h");
+    pkb.insert_next(2, 3);
+    pkb.insert_type(3, EntityType::ASSIGN);
+    pkb.insert_uses(3, "h");
+    pkb.insert_modifies(3, "a");
+
+    SECTION("fails")
+    {
+        REQUIRE(pkb.get_affected_star(1).empty());
+    }
+
+    SECTION("success")
+    {
+        std::vector<int> result = pkb.get_affected_star(3);
+        std::vector<int> expected;
+        expected.push_back(2);
+        expected.push_back(1);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(expected == result);
+    }
+}
+
+TEST_CASE("PKB::get_all_affects_star_relationship()")
+{
+    PKB pkb;
+
+    SECTION("fails")
+    {
+        REQUIRE(pkb.get_all_affects_star_relationship().empty());
+    }
+
+    pkb.insert_assign(1, "x", "+ y z");
+    pkb.insert_type(1, EntityType::ASSIGN);
+    pkb.insert_uses(1, "y");
+    pkb.insert_uses(1, "z");
+    pkb.insert_modifies(1, "x");
+    pkb.insert_assign(2, "h", "+ ello x");
+    pkb.insert_next(1, 2);
+    pkb.insert_type(2, EntityType::ASSIGN);
+    pkb.insert_uses(2, "ello");
+    pkb.insert_uses(2, "x");
+    pkb.insert_modifies(2, "h");
+    pkb.insert_assign(3, "a", "h");
+    pkb.insert_next(2, 3);
+    pkb.insert_type(3, EntityType::ASSIGN);
+    pkb.insert_uses(3, "h");
+    pkb.insert_modifies(3, "a");
+
+    SECTION("success")
+    {
+        std::unordered_map<int, ::vector<int>> result = pkb.get_all_affects_star_relationship();
+        std::unordered_map<int, ::vector<int>> expected;
+        expected.insert({1, {2, 3}});
+        expected.insert({2, {3}});
+        REQUIRE(expected == result);
     }
 }
 
