@@ -1,0 +1,43 @@
+procedure main {
+    flag = 0;
+    call main;
+    call main;
+    read x;
+    read y;
+    print flag;
+    print cenX;
+    print cenY;
+    print normSq;
+    count = 0;
+    cenX = 0;
+    cenY = 0;
+    call main;
+    while ((x != 0) && (y != 0)) {
+        count = count + 1;
+        cenX = cenX + x;
+        cenY = cenY + y;
+        call main;
+    }
+    if (count == 0) then {
+        flag = cenX;
+    } else {
+        cenX = cenX / count;
+        cenY = cenY / count;
+    }
+    normSq = cenX * cenX + cenY * cenY;
+    while (x != 0) {
+        if (y == 0) then {
+            while (count != 0) {
+                if (cenX == 0) then {
+                    count = 2 * y;
+                } else {
+                    count = 0;
+                    x = 1;
+                }
+             }
+        } else {
+            count = 2;
+            y = 3;
+        }
+    }
+}

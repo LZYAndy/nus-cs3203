@@ -1,7 +1,8 @@
 # This file should be placed in the Code11 directory.
 import os
 
-test_queries_mapping = [("follows_parent", "follows"),
+design_abstraction_program_query_mapping = [
+                        ("follows_parent", "follows"),
                         ("follows_parent", "followsT"),
                         ("follows_parent", "parent"),
                         ("follows_parent", "parentT"),
@@ -19,19 +20,39 @@ test_queries_mapping = [("follows_parent", "follows"),
                         ("pattern", "pattern"),
                         ("with", "with")]
 
+system_test_program_query_mapping = [
+                        ("i1_systest_test1_program", "i1_systest_test1_query"),
+                        ("i1_systest_test2_program", "i1_systest_test2_query"),
+                        ("i1_systest_test3_program", "i1_systest_test3_query"),
+                        ("i2_systest_test_program", "i2_systest_test_query"),
+                        ("i3_systest_test1_program", "i3_systest_test1_query"),
+                        ("i3_systest_test2_program", "i3_systest_test2_query"),
+                        ("i3_systest_test3_program", "i3_systest_test3_query"),
+                        ("i3_systest_test4_program", "i3_systest_test4_query")]
+
 autotest_directory = "./cmake-build-debug/src/autotester/"
 design_abstraction_program_directory = "./tests/design_abstraction_test/programs/"
 design_abstraction_queries_directory = "./tests/design_abstraction_test/queries/"
+system_test_program_queries_directory = "./tests/system_test/"
 result_directory = "./tests/output/"
 
 def checks():
+    # General check
     if not os.path.exists(("{}autotester".format(autotest_directory))):
             print("Autotester does not exist.")
             exit(1)
     if not os.path.isdir(("{}".format(result_directory))):
-        print("Result directory does not exist.")
-        exit(1)
-    for i in test_queries_mapping:
+        print("Result directory does not exist. Creating output directory..")
+        try:
+            os.mkdir(result_directory)
+        except OSError:
+            print ("Creation of the result directory failed")
+            exit(1)
+        else:
+            print ("Successfully created the directory")        
+
+    # File checks
+    for i in design_abstraction_program_query_mapping:
         prog_file = i[0]
         query_file = i[1]
         if not os.path.exists("{}{}.txt".format(design_abstraction_program_directory, prog_file)):
@@ -40,15 +61,34 @@ def checks():
         if not os.path.exists("{}{}.txt".format(design_abstraction_queries_directory, query_file)):
             print("{}.txt does not exist.".format(query_file))
             exit(1)
+
+    for i in system_test_program_query_mapping:
+        prog_file = i[0]
+        query_file = i[1]
+        if not os.path.exists("{}{}.txt".format(system_test_program_queries_directory, prog_file)):
+            print("{}.txt does not exist.".format(prog_file))
+            exit(1)
+        if not os.path.exists("{}{}.txt".format(system_test_program_queries_directory, query_file)):
+            print("{}.txt does not exist.".format(query_file))
+            exit(1)
+
     print("[+] Passed all pre-checks")
 
 def run_test():
-    for i in test_queries_mapping:
+    for i in design_abstraction_program_query_mapping:
         prog_file = i[0]
         query_file = i[1]
         os.system("{}autotester {}{}.txt {}{}.txt {}{}_output.xml".format(autotest_directory, 
         design_abstraction_program_directory, prog_file, 
         design_abstraction_queries_directory, query_file, 
+        result_directory, query_file))
+
+    for i in system_test_program_query_mapping:
+        prog_file = i[0]
+        query_file = i[1]
+        os.system("{}autotester {}{}.txt {}{}.txt {}{}_output.xml".format(autotest_directory, 
+        system_test_program_queries_directory, prog_file, 
+        system_test_program_queries_directory, query_file, 
         result_directory, query_file))
 
 checks()
