@@ -719,7 +719,7 @@ TEST_CASE("Optimizer sorts clauses correctly without table size.")
         REQUIRE(entity_group.at(5).equals(synonyms_in_select_clause.at(0).at(5)));
     }
 
-    SECTION("Sorting test 3.")
+    SECTION("Sorting test 4.")
     {
         std::string test_query = "stmt s, s1, s2, s3, s4, s5, s6; Select s1 with 6 = s5.stmt# and s6.stmt# = s5.stmt# and s4.stmt# = s3.stmt# and s5.stmt# = s1.stmt# and s4.stmt# = s5.stmt# and s1.stmt# = 4";
         std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
