@@ -17,6 +17,39 @@ TEST_CASE("Entity variables can be set and get correctly")
     REQUIRE(is_declared == true);
 }
 
+TEST_CASE("Check Equal Entity Method.")
+{
+    SECTION("Check Same Entity.")
+    {
+        pql_dto::Entity entity_1 = pql_dto::Entity("stmt", "s", true);
+        pql_dto::Entity entity_2 = pql_dto::Entity("stmt", "s", true);
+
+        REQUIRE(entity_1 == entity_2);
+        REQUIRE(entity_1.equals(entity_2));
+
+        pql_dto::Entity entity_3 = pql_dto::Entity("stmt", "6", false);
+        pql_dto::Entity entity_4 = pql_dto::Entity("stmt", "6", false);
+
+        REQUIRE(entity_3 == entity_4);
+        REQUIRE(entity_3.equals(entity_4));
+    }
+
+    SECTION("Check Diff Entity.")
+    {
+        pql_dto::Entity entity_1 = pql_dto::Entity("stmt", "s", true);
+        pql_dto::Entity entity_2 = pql_dto::Entity("stmt", "s1", true);
+
+        REQUIRE_FALSE(entity_1 == entity_2);
+        REQUIRE_FALSE(entity_1.equals(entity_2));
+
+        pql_dto::Entity entity_3 = pql_dto::Entity("stmt", "6", false);
+        pql_dto::Entity entity_4 = pql_dto::Entity("stmt", "7", false);
+
+        REQUIRE_FALSE(entity_3 == entity_4);
+        REQUIRE_FALSE(entity_3.equals(entity_4));
+    }
+}
+
 TEST_CASE("Correct entity params does not throw error.")
 {
     SECTION("Set entity with correct type.")

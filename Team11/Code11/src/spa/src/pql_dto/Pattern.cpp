@@ -89,4 +89,9 @@ bool Pattern::equals(Pattern pattern)
            && first_param.equals(pattern.first_param)
            && second_param.equals(pattern.second_param);
 }
+
+std::string Pattern::to_string()
+{
+    return pattern_entity.to_string() + first_param.to_string() + second_param.to_string();
+}
 }

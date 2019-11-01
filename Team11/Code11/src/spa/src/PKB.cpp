@@ -617,6 +617,66 @@ unordered_map<int, vector<string>> PKB::get_all_statements_calls_relationship()
     return calls_bank.get_all_statements_calls_relationship();
 }
 
+vector<int> PKB::get_all_assigns_affect()
+{
+    return AffectsCompute().get_all_assigns_affect(last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
+}
+
+vector<int> PKB::get_assigns_affect(int stmt)
+{
+    return AffectsCompute().get_assigns_affect(stmt, last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
+}
+
+unordered_map<int, vector<int>> PKB::get_all_affects_relationship()
+{
+    return AffectsCompute().get_all_affects_relationship(last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
+}
+
+vector<int> PKB::get_all_assigns_affected()
+{
+    return AffectsCompute().get_all_assigns_affected(last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
+}
+
+vector<int> PKB::get_assigns_affected_by(int stmt)
+{
+    return AffectsCompute().get_assigns_affected_by(stmt, last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
+}
+
+bool PKB::does_affects_exist()
+{
+    return AffectsCompute().does_affects_exist(last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
+}
+
+bool PKB::is_affects(int stmt1, int stmt2)
+{
+    return AffectsCompute().is_affects(stmt1, stmt2, next_bank, modifies_bank, uses_bank, type_bank);
+}
+
+vector<int> PKB::get_statements_previous_star(int stmt)
+{
+    return NextStarCompute().get_statements_previous_star(stmt, next_bank);
+}
+
+vector<int> PKB::get_statements_next_star(int stmt)
+{
+    return NextStarCompute().get_statements_next_star(stmt, next_bank);
+}
+
+bool PKB::is_next_star(int stmt1, int stmt2)
+{
+    return NextStarCompute().is_next_star(stmt1, stmt2, next_bank);
+}
+
+unordered_map<int, vector<int>> PKB::get_all_next_star_relationship()
+{
+    return NextStarCompute().get_all_next_star_relationship(last_statement_num, next_bank);
+}
+
+std::unordered_map<int, std::vector<int>> PKB::get_all_previous_relationship()
+{
+    return next_bank.get_all_previous_relationship();
+}
+
 string PKB::get_called_by_statement(int stmt)
 {
     return calls_bank.get_called_by_statement(stmt);
