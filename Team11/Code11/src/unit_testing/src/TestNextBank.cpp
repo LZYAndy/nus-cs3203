@@ -33,18 +33,18 @@ TEST_CASE("NextBank::is_next()")
     }
 }
 
-TEST_CASE("NextBank::does_next_exists()")
+TEST_CASE("NextBank::does_next_exist()")
 {
     NextBank next_bank;
     SECTION("return false")
     {
-        REQUIRE_FALSE(next_bank.does_next_exists());
+        REQUIRE_FALSE(next_bank.does_next_exist());
     }
 
     next_bank.insert_next(1, 2);
     SECTION("return true")
     {
-        REQUIRE(next_bank.does_next_exists());
+        REQUIRE(next_bank.does_next_exist());
     }
 }
 

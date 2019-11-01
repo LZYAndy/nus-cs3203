@@ -452,9 +452,9 @@ bool PKB::is_next(int stmt1, int stmt2)
     return next_bank.is_next(stmt1, stmt2);
 }
 
-bool PKB::does_next_exists()
+bool PKB::does_next_exist()
 {
-    return next_bank.does_next_exists();
+    return next_bank.does_next_exist();
 }
 
 vector<int> PKB::get_statements_previous(int statement)

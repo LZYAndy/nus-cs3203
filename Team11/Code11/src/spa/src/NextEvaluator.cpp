@@ -65,7 +65,7 @@ bool NextEvaluator::evaluate_trivial(pql_dto::Entity &first_param,
         if (second_param.get_entity_type() == EntityType::ANY)
         {
             // e.g. Next(_, _)
-            result = PKB.does_next_exists();
+            result = PKB.does_next_exist();
         }
         else if (QueryUtility::is_program_line(second_param))
         {

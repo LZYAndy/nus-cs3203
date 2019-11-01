@@ -654,7 +654,7 @@ public:
      * If there exists at least one Next relationship in the program.
      * @return Return true if there exists at least one Next relationship, otherwise false.
      */
-    bool does_next_exists();
+    bool does_next_exist();
 
     /**
      * Get all statements that are the Previous statement of the input statement
