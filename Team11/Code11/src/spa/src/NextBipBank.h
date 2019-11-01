@@ -7,7 +7,7 @@ class NextBipBank
 {
 public:
     bool insert_next_bip(int prev_prog, int next_prog);
-    bool insert_call_ingress(int caller_prog, int callee_prog);
+    bool insert_call_ingress_egress(int ingress_prog, int egress_prog);
     bool is_next_bip(int prev_prog, int next_prog);
     bool does_next_bip_exists();
     std::vector<int>  get_next_bip(int prog_line);
@@ -18,7 +18,7 @@ public:
     
 private:
     Bank<int, int> next_bip_bank;
-    std::unordered_map<int, int> ingress_table;
+    std::unordered_map<int, int> ingress_egress_table;
 };
 
 #endif

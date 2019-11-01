@@ -780,6 +780,7 @@ public:
     string get_called_by_statement(int stmt);
     
     bool insert_next_bip(int prev_prog, int next_prog);
+    bool insert_call_ingress_egress(int ingress_prog, int egress_prog);
     bool is_next_bip(int prev_prog, int next_prog);
 private:
     FollowsBank follows_bank;

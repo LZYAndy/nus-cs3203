@@ -636,3 +636,8 @@ bool PKB::is_next_bip(int prev_prog, int next_prog)
 {
     return next_bip_bank.is_next_bip(prev_prog, next_prog);
 }
+
+bool PKB::insert_call_ingress_egress(int ingress_prog, int egress_prog)
+{
+    return next_bip_bank.insert_call_ingress_egress(ingress_prog, egress_prog);
+}
