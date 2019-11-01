@@ -363,6 +363,8 @@ void Optimizer::sort(std::vector<pql_dto::Constraint>& entity_group, Cache& cach
     std::vector<pql_dto::Constraint> sorted_entity_group;
     std::unordered_set<std::string> synonyms_in_set;
 
+    bool is_added = false;
+
     for (pql_dto::Constraint constraint : entity_group)
     {
         int clause_size = cache.get_clause_size(constraint);
@@ -390,6 +392,7 @@ void Optimizer::sort(std::vector<pql_dto::Constraint>& entity_group, Cache& cach
                 {
                     synonyms_in_set.insert(second_param.get_entity_name());
                 }
+                is_added = true;
             }
             else if (constraint.is_pattern())
             {
@@ -411,33 +414,56 @@ void Optimizer::sort(std::vector<pql_dto::Constraint>& entity_group, Cache& cach
 
     std::deque<pql_dto::Constraint> remaining_one_synonym_group;
     std::deque<pql_dto::Constraint> remaining_two_synonym_group;
-    bool is_added = false;
 
     while (!one_synonym_group.empty() || !two_synonym_group.empty())
     {
         /// if the synonym set does not have any clause yet
         if (synonyms_in_set.empty())
         {
-            pql_dto::Constraint first_one_syn_clause = one_synonym_group.top();
-            one_synonym_group.pop();
-
-            pql_dto::Entity first_param = first_one_syn_clause.get_first_param();
-            pql_dto::Entity second_param = first_one_syn_clause.get_second_param();
-
-            if (first_one_syn_clause.is_pattern())
+            if (!one_synonym_group.empty())
             {
-                pql_dto::Entity pattern_entity = first_one_syn_clause.get_pattern_entity();
-                synonyms_in_set.insert(pattern_entity.get_entity_name());
-            }
-            else if (first_param.is_entity_declared())
-            {
-                synonyms_in_set.insert(first_param.get_entity_name());
+                pql_dto::Constraint first_one_syn_clause = one_synonym_group.top();
+                one_synonym_group.pop();
+
+                pql_dto::Entity first_param = first_one_syn_clause.get_first_param();
+                pql_dto::Entity second_param = first_one_syn_clause.get_second_param();
+
+                if (first_one_syn_clause.is_pattern())
+                {
+                    pql_dto::Entity pattern_entity = first_one_syn_clause.get_pattern_entity();
+                    synonyms_in_set.insert(pattern_entity.get_entity_name());
+                }
+                else if (first_param.is_entity_declared())
+                {
+                    synonyms_in_set.insert(first_param.get_entity_name());
+                }
+                else
+                {
+                    synonyms_in_set.insert(second_param.get_entity_name());
+                }
+                sorted_entity_group.push_back(first_one_syn_clause);
             }
             else
             {
-                synonyms_in_set.insert(second_param.get_entity_name());
+                pql_dto::Constraint first_two_syn_clause = two_synonym_group.top();
+                two_synonym_group.pop();
+
+                pql_dto::Entity first_param = first_two_syn_clause.get_first_param();
+                pql_dto::Entity second_param = first_two_syn_clause.get_second_param();
+
+                if (first_two_syn_clause.is_pattern())
+                {
+                    pql_dto::Entity pattern_entity = first_two_syn_clause.get_pattern_entity();
+                    synonyms_in_set.insert(pattern_entity.get_entity_name());
+                    synonyms_in_set.insert(first_param.get_entity_name());
+                }
+                else
+                {
+                    synonyms_in_set.insert(first_param.get_entity_name());
+                    synonyms_in_set.insert(second_param.get_entity_name());
+                }
+                sorted_entity_group.push_back(first_two_syn_clause);
             }
-            sorted_entity_group.push_back(first_one_syn_clause);
             is_added = true;
         }
 
@@ -574,4 +600,6 @@ void Optimizer::sort(std::vector<pql_dto::Constraint>& entity_group, Cache& cach
             }
         }
     }
+
+    entity_group = sorted_entity_group;
 }
