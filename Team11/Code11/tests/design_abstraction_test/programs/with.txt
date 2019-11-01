@@ -1,0 +1,31 @@
+procedure main {
+    a = 1;
+    b = 2;
+    c = 100;
+    d = 909090;
+    x = a + b + c + d + e + f * g / h - i - j * 8765;
+    if (x > y) then {
+        if (y > z) then {
+            y = 5;
+            x = 10;}
+        else {
+            z = 5;
+            x = 20;}}
+    else {
+        while (x > 9) {
+            read x;
+            read z;
+            call calculate;}
+        print g;
+        print d;}
+    call printData;}
+
+procedure calculate {
+    x = x + 1;
+    y = y + x;
+    z = z + y + x;}
+
+procedure printData {
+    print x;
+    print y;
+    print z;}
