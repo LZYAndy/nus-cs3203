@@ -687,6 +687,20 @@ string PKB::get_called_by_statement(int stmt)
     return calls_bank.get_called_by_statement(stmt);
 }
 
+bool PKB::insert_next_bip(int prev_prog, int next_prog)
+{
+    return next_bip_bank.insert_next_bip(prev_prog, next_prog);
+}
+
+bool PKB::is_next_bip(int prev_prog, int next_prog)
+{
+    return next_bip_bank.is_next_bip(prev_prog, next_prog);
+}
+
+bool PKB::insert_call_ingress_egress(int ingress_prog, int egress_prog)
+{
+    return next_bip_bank.insert_call_ingress_egress(ingress_prog, egress_prog);
+}
 bool PKB::is_affects_star(int assignment1, int assignment2)
 {
     return affects_star_compute.is_affects_star(*this, assignment1, assignment2);
@@ -705,18 +719,4 @@ vector<int> PKB::get_affects_star(int assignment)
 unordered_map<int, vector<int>> PKB::get_all_affects_star_relationship()
 {
     return affects_star_compute.get_all_affects_star_relationship(*this);
-}
-bool PKB::insert_next_bip(int prev_prog, int next_prog)
-{
-    return next_bip_bank.insert_next_bip(prev_prog, next_prog);
-}
-
-bool PKB::is_next_bip(int prev_prog, int next_prog)
-{
-    return next_bip_bank.is_next_bip(prev_prog, next_prog);
-}
-
-bool PKB::insert_call_ingress_egress(int ingress_prog, int egress_prog)
-{
-    return next_bip_bank.insert_call_ingress_egress(ingress_prog, egress_prog);
 }

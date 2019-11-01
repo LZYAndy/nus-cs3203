@@ -883,7 +883,6 @@ public:
      */
     unordered_map<int, vector<int>> get_all_affects_star_relationship();
 
-    
     bool insert_next_bip(int prev_prog, int next_prog);
     bool insert_call_ingress_egress(int ingress_prog, int egress_prog);
     bool is_next_bip(int prev_prog, int next_prog);
