@@ -1,5 +1,6 @@
 # This file should be placed in the Code11 directory.
 import os
+import glob
 
 design_abstraction_program_query_mapping = [
                         ("follows_parent", "follows"),
@@ -91,5 +92,17 @@ def run_test():
         system_test_program_queries_directory, query_file, 
         result_directory, query_file))
 
+def process_result():
+    print("[+] Processing result files")
+    result_files = glob.glob(result_directory + "*")
+    for rf in result_files:
+        with open(rf) as f:
+            for line in f:
+                if "failed" in line:
+                    print("[!] failed found in {}".format(rf))
+                    break  
+    print("[+] End of processing")     
+
 checks()
 run_test()
+process_result()
