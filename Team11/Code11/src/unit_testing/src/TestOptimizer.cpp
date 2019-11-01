@@ -412,3 +412,216 @@ TEST_CASE("Optimizer add solution to select synonyms correctly.")
         REQUIRE(select_var_2.equals(expected_entity_2));
     }
 }
+
+TEST_CASE("Optimizer splits clauses into groups in select and not in select correctly.")
+{
+    std::vector<pql_dto::Entity> select_clause;
+    std::vector<pql_dto::Relationships> such_that_clause;
+    std::vector<pql_dto::Pattern> pattern_clause;
+    std::vector<pql_dto::With> with_clause;
+
+    std::deque<pql_dto::Constraint> no_synonym_clauses;
+    std::deque<pql_dto::Constraint> synonym_clauses;
+
+    std::vector<std::vector<pql_dto::Constraint>> synonyms_in_select_clause;
+    std::vector<std::vector<pql_dto::Constraint>> synonyms_not_in_select_clause;
+
+    SECTION("1 in select and 1 not in select with clause.")
+    {
+        std::string test_query = "variable v; procedure p, p1; Select v with v.varName = \"variable\" with p.procName = p1.procName";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        CHECK(select_clause.size() == 1);
+        CHECK(such_that_clause.size() == 0);
+        CHECK(pattern_clause.size() == 0);
+        CHECK(with_clause.size() == 2);
+
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+        
+        CHECK(synonym_clauses.size() == 2);
+
+        error = Optimizer::split_clauses_into_groups(select_clause, synonym_clauses, synonyms_in_select_clause, synonyms_not_in_select_clause);
+
+        REQUIRE(synonyms_in_select_clause.size() == 1);
+        REQUIRE(synonyms_in_select_clause.at(0).size() == 1);
+        REQUIRE(synonyms_not_in_select_clause.size() == 1);
+        REQUIRE(synonyms_not_in_select_clause.at(0).size() == 1);
+    }
+
+    SECTION("None in select clause.")
+    {
+        std::string test_query = "variable v; procedure p, p1; Select v with p.procName = p1.procName such that Calls(p, p1) and Modifies(p, \"v\")";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        CHECK(select_clause.size() == 1);
+        CHECK(such_that_clause.size() == 2);
+        CHECK(pattern_clause.size() == 0);
+        CHECK(with_clause.size() == 1);
+
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+
+        CHECK(synonym_clauses.size() == 3);
+
+        error = Optimizer::split_clauses_into_groups(select_clause, synonym_clauses, synonyms_in_select_clause, synonyms_not_in_select_clause);
+
+        REQUIRE(synonyms_in_select_clause.size() == 0);
+        REQUIRE(synonyms_not_in_select_clause.size() == 1);
+        REQUIRE(synonyms_not_in_select_clause.at(0).size() == 3);
+    }
+
+    SECTION("Two diff groups not in select clause.")
+    {
+        std::string test_query = "assign a; variable v; procedure p, p1; Select v with p.procName = p1.procName such that Calls(p, p1) and Modifies(p, \"v\") pattern a(\"x\", \"x\")";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        CHECK(select_clause.size() == 1);
+        CHECK(such_that_clause.size() == 2);
+        CHECK(pattern_clause.size() == 1);
+        CHECK(with_clause.size() == 1);
+
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+
+        CHECK(synonym_clauses.size() == 4);
+
+        error = Optimizer::split_clauses_into_groups(select_clause, synonym_clauses, synonyms_in_select_clause, synonyms_not_in_select_clause);
+
+        REQUIRE(synonyms_in_select_clause.size() == 0);
+        REQUIRE(synonyms_not_in_select_clause.size() == 2);
+        REQUIRE(synonyms_not_in_select_clause.at(0).size() == 3);
+        REQUIRE(synonyms_not_in_select_clause.at(1).size() == 1);
+    }
+
+    SECTION("All in select clause.")
+    {
+        std::string test_query = "variable v; procedure p, p1; Select v with v.varName = \"variable\" with p.procName = p1.procName and v.varName = p.procName";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        CHECK(select_clause.size() == 1);
+        CHECK(such_that_clause.size() == 0);
+        CHECK(pattern_clause.size() == 0);
+        CHECK(with_clause.size() == 3);
+
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+
+        CHECK(synonym_clauses.size() == 3);
+
+        error = Optimizer::split_clauses_into_groups(select_clause, synonym_clauses, synonyms_in_select_clause, synonyms_not_in_select_clause);
+
+        REQUIRE(synonyms_in_select_clause.size() == 1);
+        REQUIRE(synonyms_in_select_clause.at(0).size() == 3);
+        REQUIRE(synonyms_not_in_select_clause.size() == 0);
+    }
+
+    SECTION("Two diff groups in select clause.")
+    {
+        std::string test_query = "stmt s, s1; read r1; assign a; constant c; Select <a,c> such that Follows*(a, s) and Affects(a, 6) with s1.stmt# = c.value such that Parent(s1, r1)";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        CHECK(select_clause.size() == 2);
+        CHECK(such_that_clause.size() == 3);
+        CHECK(pattern_clause.size() == 0);
+        CHECK(with_clause.size() == 1);
+
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+
+        CHECK(synonym_clauses.size() == 4);
+
+        error = Optimizer::split_clauses_into_groups(select_clause, synonym_clauses, synonyms_in_select_clause, synonyms_not_in_select_clause);
+
+        REQUIRE(synonyms_in_select_clause.size() == 2);
+        REQUIRE(synonyms_in_select_clause.at(0).size() == 2);
+        REQUIRE(synonyms_in_select_clause.at(1).size() == 2);
+        REQUIRE(synonyms_not_in_select_clause.size() == 0);
+    }
+
+    SECTION("Multiple links in select clause.")
+    {
+        std::string test_query = "stmt s, s1, s2, s3, s4, s5, s6; Select s1 such that Follows(s6, s5) and Follows(s4, s3) and Follows(s6, s2) and Follows(s1, s4) and Follows(s3, s5) and Follows(6, s3)";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        CHECK(select_clause.size() == 1);
+        CHECK(such_that_clause.size() == 6);
+        CHECK(pattern_clause.size() == 0);
+        CHECK(with_clause.size() == 0);
+
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+
+        CHECK(synonym_clauses.size() == 6);
+
+        error = Optimizer::split_clauses_into_groups(select_clause, synonym_clauses, synonyms_in_select_clause, synonyms_not_in_select_clause);
+
+        REQUIRE(synonyms_in_select_clause.size() == 1);
+        REQUIRE(synonyms_in_select_clause.at(0).size() == 6);
+        REQUIRE(synonyms_not_in_select_clause.size() == 0);
+    }
+
+    SECTION("Multiple links in with and pattern clause.")
+    {
+        std::string test_query = "assign a; stmt s, s1, s2, s3, s4, s5, s6; Select s1 with a.stmt# = s5.stmt# and s6.stmt# = s5.stmt# and s4.stmt# = s3.stmt# and s6.stmt# = s2.stmt# and s4.stmt# = s5.stmt# and s2.stmt# = s1.stmt# ";
+        test_query += "pattern a (_,_)";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        CHECK(select_clause.size() == 1);
+        CHECK(such_that_clause.size() == 0);
+        CHECK(pattern_clause.size() == 1);
+        CHECK(with_clause.size() == 6);
+
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+
+        CHECK(synonym_clauses.size() == 7);
+
+        error = Optimizer::split_clauses_into_groups(select_clause, synonym_clauses, synonyms_in_select_clause, synonyms_not_in_select_clause);
+
+        REQUIRE(synonyms_in_select_clause.size() == 1);
+        REQUIRE(synonyms_in_select_clause.at(0).size() == 7);
+        REQUIRE(synonyms_not_in_select_clause.size() == 0);
+    }
+
+    SECTION("Two diff multiple links in select clause.")
+    {
+        std::string test_query = "assign a, a1, a2, a3, a4, a5, a6, a7; stmt s, s1, s2, s3, s4, s5, s6; Select <s1, a7> with a.stmt# = s5.stmt# and s6.stmt# = s5.stmt# ";
+        test_query += "and s4.stmt# = s3.stmt# and s6.stmt# = s2.stmt# and s4.stmt# = s5.stmt# and s2.stmt# = s1.stmt# ";
+        test_query += "pattern a (_,_) such that Follows(a6, a5) and Follows(a4, a3) and Follows(a6, a2) and Follows(a7, a4) and Follows(a3, a5) and Follows(6, a3)";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        CHECK(select_clause.size() == 2);
+        CHECK(such_that_clause.size() == 6);
+        CHECK(pattern_clause.size() == 1);
+        CHECK(with_clause.size() == 6);
+
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+
+        CHECK(synonym_clauses.size() == 13);
+
+        error = Optimizer::split_clauses_into_groups(select_clause, synonym_clauses, synonyms_in_select_clause, synonyms_not_in_select_clause);
+
+        REQUIRE(synonyms_in_select_clause.size() == 2);
+        REQUIRE(synonyms_in_select_clause.at(0).size() == 6);
+        REQUIRE(synonyms_in_select_clause.at(1).size() == 7);
+        REQUIRE(synonyms_not_in_select_clause.size() == 0);
+    }
+
+    SECTION("Two diff multiple links 1 in select clause and 1 not in select clause.")
+    {
+        std::string test_query = "assign a, a1, a2, a3, a4, a5, a6, a7; stmt s, s1, s2, s3, s4, s5, s6; Select <s1> with a.stmt# = s5.stmt# and s6.stmt# = s5.stmt# ";
+        test_query += "and s4.stmt# = s3.stmt# and s6.stmt# = s2.stmt# and s4.stmt# = s5.stmt# and s2.stmt# = s1.stmt# ";
+        test_query += "pattern a (_,_) such that Follows(a6, a5) and Follows(a4, a3) and Follows(a6, a2) and Follows(a7, a4) and Follows(a3, a5) and Follows(6, a3)";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        CHECK(select_clause.size() == 1);
+        CHECK(such_that_clause.size() == 6);
+        CHECK(pattern_clause.size() == 1);
+        CHECK(with_clause.size() == 6);
+
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+
+        CHECK(synonym_clauses.size() == 13);
+
+        error = Optimizer::split_clauses_into_groups(select_clause, synonym_clauses, synonyms_in_select_clause, synonyms_not_in_select_clause);
+
+        REQUIRE(synonyms_in_select_clause.size() == 1);
+        REQUIRE(synonyms_in_select_clause.at(0).size() == 7);
+        REQUIRE(synonyms_not_in_select_clause.size() == 1);
+        REQUIRE(synonyms_not_in_select_clause.at(0).size() == 6);
+    }
+}

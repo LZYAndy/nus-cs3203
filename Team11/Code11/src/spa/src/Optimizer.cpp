@@ -83,10 +83,12 @@ std::string Optimizer::split_clauses_into_groups(std::vector<pql_dto::Entity>& s
 
         std::deque<pql_dto::Constraint> remaining_syn_clauses = {};
 
-        for (auto iter = synonym_clauses.begin(); iter != synonym_clauses.end(); iter++)
+        while (synonym_clauses.size() != 0)
+        //for (auto iter = synonym_clauses.begin(); iter != synonym_clauses.end(); iter++)
         {
             std::unordered_set<std::string> constraint_syn_set = {};
-            pql_dto::Constraint constraint = *iter;
+            pql_dto::Constraint constraint = synonym_clauses.front();
+            synonym_clauses.pop_front();
 
             bool is_in_set = false;
 
@@ -98,11 +100,6 @@ std::string Optimizer::split_clauses_into_groups(std::vector<pql_dto::Entity>& s
                 if (constraint.get_first_param().is_entity_declared())
                 {
                     constraint_syn_set.insert(constraint.get_first_param().get_entity_name());
-                }
-
-                if (constraint.get_second_param().is_entity_declared())
-                {
-                    constraint_syn_set.insert(constraint.get_second_param().get_entity_name());
                 }
 
                 for (auto i = constraint_syn_set.begin(); i != constraint_syn_set.end(); i++)
@@ -137,6 +134,18 @@ std::string Optimizer::split_clauses_into_groups(std::vector<pql_dto::Entity>& s
                         is_in_set = true;
                         break;
                     }
+                }
+            }
+
+            if (is_in_set)
+            {
+                if (!remaining_syn_clauses.empty())
+                {
+                    for (auto remaining_constraint : remaining_syn_clauses)
+                    {
+                        synonym_clauses.push_back(remaining_constraint);
+                    }
+                    remaining_syn_clauses = {};
                 }
             }
 
