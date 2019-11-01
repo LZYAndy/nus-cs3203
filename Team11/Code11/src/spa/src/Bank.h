@@ -57,6 +57,11 @@ public:
      * @return true if exists.
      */
     bool check_relationship(T key, S value);
+    /**
+     * Create a deep-copy of reverse_bank.
+     * @return unordered_map<T, std::vector<S>>.
+     */
+    std::unordered_map<S, std::vector<T>> get_reverse_bank();
 
 protected:
     std::unordered_map<T, std::vector<S>> bank;
