@@ -65,3 +65,12 @@ std::unordered_map<int, std::vector<int>> NextBipBank::get_all_next_bip_relation
 {
     return next_bip_bank.copy();
 }
+
+int NextBipBank::get_egress(int ingress_prog)
+{
+    if (ingress_egress_table.find(ingress_prog) != ingress_egress_table.end())
+    {
+        return ingress_egress_table[ingress_prog];
+    }
+    return -1;
+}
