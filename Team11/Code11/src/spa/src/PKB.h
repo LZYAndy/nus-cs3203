@@ -1,4 +1,6 @@
 #pragma once
+#ifndef AUTOTESTER_PKB_H
+#define AUTOTESTER_PKB_H
 
 #include <stdio.h>
 #include <iostream>
@@ -21,6 +23,7 @@
 #include "CallsBank.h"
 #include "IfBank.h"
 #include "AffectsCompute.h"
+#include "AffectsStarCompute.h"
 #include "NextStarCompute.h"
 
 using namespace std;
@@ -790,7 +793,7 @@ public:
      * Get all Affects relationships in the program
      * @return Return all Affects relationships in the program
      */
-    unordered_map<int, std::vector<int>> get_all_affects_relationship();
+    unordered_map<int, vector<int>> get_all_affects_relationship();
     /**
      * Get all statements affected by other statements i.e. get all a in Affects(_, a)
      * @return Return all statements affected by other statements
@@ -849,7 +852,34 @@ public:
      * @return procedure called.
      */
     string get_called_by_statement(int stmt);
-    
+    /**
+    * Check if one assignment statement affects the another assignment directly or indirectly.
+    * That is to say Affects(1, 2).
+    * @param assignment1 assignment statement to check if affects others
+    * @param assignment2 assignment statement that is affected
+    * @return true if Affects* relationship holds for the 2 assignment statement.
+    */
+    bool is_affects_star(int assignment1, int assignment2);
+    /**
+     * Get all assignment statement that affects the quried assignment statement directly or indirectly.
+     * That is to say Affects*(1, a).
+     * @param assignment quried assignment statement
+     * @return vector containing all the statement numbers of assignment statement affected by quried assignment.
+     */
+    vector<int> get_affects_star(int assignment);
+    /**
+     * Get all assignment statement that affected the quried assignment statement directly or indirectly.
+     * That is to say Affects*(a, 1).
+     * @param assignment quried assignment statement
+     * @return vector containing all the statement numbers of assignment statement affects quried assignment.
+     */
+    vector<int> get_affected_star(int assignment);
+    /**
+     * Get all Affects* relationship that exists.
+     * @return unodered_map that contains all the affects* relationship.
+     */
+    unordered_map<int, vector<int>> get_all_affects_star_relationship();
+
 private:
     FollowsBank follows_bank;
     FollowsStarBank follows_star_bank;
@@ -867,5 +897,8 @@ private:
     CallsBank calls_bank;
     CallsStarBank calls_star_bank;
     IfBank if_bank;
+    AffectsStarCompute affects_star_compute;
     int last_statement_num = 0;
 };
+
+#endif
