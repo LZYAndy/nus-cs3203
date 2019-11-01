@@ -8,7 +8,7 @@ bool NextBipBank::insert_next_bip(int previous_prog, int next_prog)
 
 bool NextBipBank::insert_call_ingress_egress(int ingress_prog, int egress_prog)
 {
-    ingress_egress_table.insert({ingress_prog, egress_prog});
+    ingress_egress_bank.put(ingress_prog, egress_prog);
     return true;
 }
 
@@ -68,9 +68,20 @@ std::unordered_map<int, std::vector<int>> NextBipBank::get_all_next_bip_relation
 
 int NextBipBank::get_egress(int ingress_prog)
 {
-    if (ingress_egress_table.find(ingress_prog) != ingress_egress_table.end())
+    auto result = ingress_egress_bank.get(ingress_prog);
+    if (result.size() == 1)
     {
-        return ingress_egress_table[ingress_prog];
+        return result.back();
     }
     return -1;
-}
+} 
+
+int NextBipBank::get_ingress(int egress_prog)
+{
+    auto result = ingress_egress_bank.get_reverse(egress_prog);
+    if (result.size() == 1)
+    {
+        return result.back();
+    }
+    return -1;
+} 

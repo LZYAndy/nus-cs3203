@@ -16,10 +16,11 @@ public:
     std::vector<int>  get_all_previous_bip();
     std::unordered_map<int, std::vector<int>> get_all_next_bip_relationship();
     int get_egress(int ingress_prog);
+    int get_ingress(int egress_prog);
     
 private:
     Bank<int, int> next_bip_bank;
-    std::unordered_map<int, int> ingress_egress_table;
+    Bank<int, int> ingress_egress_bank;
 };
 
 #endif
