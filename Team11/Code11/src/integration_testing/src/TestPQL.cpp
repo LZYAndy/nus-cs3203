@@ -598,7 +598,7 @@ TEST_CASE("One pattern clause: Assign")
 {
     SECTION("pattern a(_, _)")
     {
-        string pql_query = "assign a; Select a pattern a(_, _)";
+        string pql_query = "assign a; Select a pat tern a(_, _)";
         unordered_set<string> expected_result {"1", "10", "11", "12", "15", "16", "17", "20", "21", "22", "23", "28", "29", "30", "31", "32"};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
