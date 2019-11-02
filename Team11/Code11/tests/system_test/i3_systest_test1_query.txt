@@ -341,6 +341,46 @@ Select s
 155 - With, lhs syn (prog_line), rhs if.stmt# (INT)
 155 - With, lhs syn (prog_line), rhs assign.stmt# (INT)
 
+166 - NextBip, lhs syn, rhs syn
+166 - NextBip, lhs syn, rhs wc
+166 - NextBip, lhs syn, rhs int
+166 - NextBip, lhs wc, rhs syn
+166 - NextBip, lhs wc, rhs wc
+166 - NextBip, lhs wc, rhs int
+166 - NextBip, lhs int, rhs syn
+166 - NextBip, lhs int, rhs wc
+166 - NextBip, lhs int, rhs int
+
+177 - NextBip*, lhs syn, rhs syn
+177 - NextBip*, lhs syn, rhs wc
+177 - NextBip*, lhs syn, rhs int
+177 - NextBip*, lhs wc, rhs syn
+177 - NextBip*, lhs wc, rhs wc
+177 - NextBip*, lhs wc, rhs int
+177 - NextBip*, lhs int, rhs syn
+177 - NextBip*, lhs int, rhs wc
+177 - NextBip*, lhs int, rhs int
+
+188 - AffectsBip, lhs syn, rhs syn
+188 - AffectsBip, lhs syn, rhs wc
+188 - AffectsBip, lhs syn, rhs int
+188 - AffectsBip, lhs wc, rhs syn
+188 - AffectsBip, lhs wc, rhs wc
+188 - AffectsBip, lhs wc, rhs int
+188 - AffectsBip, lhs int, rhs syn
+188 - AffectsBip, lhs int, rhs wc
+188 - AffectsBip, lhs int, rhs int
+
+199 - AffectsBip*, lhs syn, rhs syn
+199 - AffectsBip*, lhs syn, rhs wc
+199 - AffectsBip*, lhs syn, rhs int
+199 - AffectsBip*, lhs wc, rhs syn
+199 - AffectsBip*, lhs wc, rhs wc
+199 - AffectsBip*, lhs wc, rhs int
+199 - AffectsBip*, lhs int, rhs syn
+199 - AffectsBip*, lhs int, rhs wc
+199 - AffectsBip*, lhs int, rhs int
+
 999 - Invalid Follows, skip stmt number
 999 - Invalid Follows, jump into within container stmt number
 999 - Invalid Follows, container stmt number to first line in container
