@@ -672,13 +672,40 @@ TEST_CASE("With clause")
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 
-//    SECTION("with p.procName = cl.procName")
-//    {
-//        string pql_query = "procedure p; call cl; Select cl.procName with p.procName = cl.procName";
-//        cout << "! " << PKB.get_called_by_statement(2);
-//        unordered_set<string> expected_result {"computeCentroid", "printResult", "readPoint"};
-//        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
-//    }
+    SECTION("with p.procName = cl.procName")
+    {
+        string pql_query = "procedure p; call cl; Select cl.procName with p.procName = cl.procName";
+        unordered_set<string> expected_result {"computeCentroid", "printResults", "readPoint"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("with cl.procName = \"printResults\"")
+    {
+        string pql_query = "call cl; Select cl with cl.procName = \"printResults\"";
+        unordered_set<string> expected_result {"3"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("with \"printResults\" = cl.procName")
+    {
+        string pql_query = "call cl; Select cl with \"printResults\" = cl.procName";
+        unordered_set<string> expected_result {"3"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("with cl.stmt# = 18")
+    {
+        string pql_query = "call cl; Select cl with cl.stmt# = 18";
+        unordered_set<string> expected_result {"18"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("with 18 = cl.stmt#")
+    {
+    string pql_query = "call cl; Select cl with 18 = cl.stmt#";
+    unordered_set<string> expected_result {"18"};
+    REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
 }
 
 TEST_CASE("One pattern clause: Assign")
