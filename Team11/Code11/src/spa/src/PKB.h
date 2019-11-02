@@ -40,7 +40,7 @@ public:
      * @param last_progs last program lines in procedure before exit procedure
      * @return Return true if the procedure is inserted successfully, otherwise false.
      */
-    bool insert_procedure(string name);
+    bool insert_procedure(string name, int first_prog, vector<int> last_progs);
 
     /**
      * Insert a variable into the var_table.

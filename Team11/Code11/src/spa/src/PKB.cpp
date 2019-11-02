@@ -4,7 +4,7 @@ using namespace std;
 
 bool PKB::insert_procedure(string name, int first_prog, vector<int> last_progs)
 {
-    return proc_bank.insert_procedure(name, first_prog, last_progs)
+    return proc_bank.insert_procedure(name, first_prog, last_progs);
 }
 
 bool PKB::insert_variable(string name)
