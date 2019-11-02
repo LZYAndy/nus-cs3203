@@ -24,6 +24,9 @@
 #include "CallsStarBank.h"
 #include "IfBank.h"
 #include "NextBipBank.h"
+#include "AffectsCompute.h"
+#include "AffectsStarCompute.h"
+#include "NextStarCompute.h"
 
 using namespace std;
 
@@ -654,7 +657,7 @@ public:
      * If there exists at least one Next relationship in the program.
      * @return Return true if there exists at least one Next relationship, otherwise false.
      */
-    bool does_next_exists();
+    bool does_next_exist();
 
     /**
      * Get all statements that are the Previous statement of the input statement
@@ -732,6 +735,12 @@ public:
     unordered_map<int, vector<int>> get_all_next_relationship();
 
     /**
+     * Get all reversed next relationships
+     * @return Return all reversed next relationships in the program
+     */
+    std::unordered_map<int, std::vector<int>> get_all_previous_relationship();
+
+    /**
      * Check if there exist at least one Calls* relationship in PKB.
      * @return true if there is at least one Calls* relationship in PKB.
      */
@@ -772,6 +781,74 @@ public:
      * the Calls as key and all Called stored in a vector as value.
      */
     unordered_map<string, vector<string>> get_all_procedures_calls_star_relationship();
+    /**
+     * Get all statements affecting other statements i.e. get all a in Affects(a, _)
+     * @return Return all statements affecting other statements
+     */
+    vector<int> get_all_assigns_affect();
+    /**
+     * Get all statements affecting the input statement
+     * @param stmt
+     * @return Return all statements affecting the input statement
+     */
+    vector<int> get_assigns_affect(int stmt);
+    /**
+     * Get all Affects relationships in the program
+     * @return Return all Affects relationships in the program
+     */
+    unordered_map<int, vector<int>> get_all_affects_relationship();
+    /**
+     * Get all statements affected by other statements i.e. get all a in Affects(_, a)
+     * @return Return all statements affected by other statements
+     */
+    vector<int> get_all_assigns_affected();
+    /**
+     * Get all statements affected by the input statement
+     * @param stmt
+     * @return Return all statements affected by the input statement
+     */
+    vector<int> get_assigns_affected_by(int stmt);
+    /**
+     * If there exists at least one Affects relationship in the program
+     * @return Return true if there is at least one Affects relationship, otherwise false
+     */
+    bool does_affects_exist();
+    /**
+     * Check if there is an Affects relationship between statement1 and statement 2
+     * @param stmt1
+     * @param stmt2
+     * @return Return true if there is an Affects relationship between them, otherwise false
+     */
+    bool is_affects(int stmt1, int stmt2);
+    /**
+     * Get all statement numbers that are in the previous position
+     * in the Next* relationship with the input statement.
+     * @param stmt
+     * @return a vector of statement numbers that are in the previous position
+     * in the Next* relationship with the input statement.
+     */
+    vector<int> get_statements_previous_star(int stmt);   //e.g. Next*(n, 2)
+    /**
+     * Get all statement numbers that are in the next position
+     * in the Next* relationship with the input statement.
+     * @param stmt
+     * @return a vector of statement numbers that are in the next position
+     * in the Next* relationship with the input statement.
+     */
+    vector<int> get_statements_next_star(int stmt);  //e.g. Next*(1, n)
+    /**
+     * Check if stmt1 and stmt2 have a Next* relationship
+     * @param stmt1
+     * @param stmt2
+     * @return return true if they have a Next* relationship
+     */
+    bool is_next_star(int stmt1, int stmt2); //e.g. Next*(1, 2)
+    /**
+     * Get all Next* relationship of this program
+     * @return an unordered_map containing all Next* relationship in the program with statement number as key and
+     * a vector of statement numbers which means they are in the next position in the Next* relationship with the key.
+     */
+    unordered_map<int, vector<int>> get_all_next_star_relationship();  //e.g. Next*(n1, n2)
     /**
      * Get callee of call statement
      * @param stmt caller statement number
@@ -832,6 +909,33 @@ public:
      * @return Return all NextBip relationships in the program
      */
     unordered_map<int, vector<int>> get_all_next_bip_relationship();
+    /**
+    * Check if one assignment statement affects the another assignment directly or indirectly.
+    * That is to say Affects(1, 2).
+    * @param assignment1 assignment statement to check if affects others
+    * @param assignment2 assignment statement that is affected
+    * @return true if Affects* relationship holds for the 2 assignment statement.
+    */
+    bool is_affects_star(int assignment1, int assignment2);
+    /**
+     * Get all assignment statement that affects the quried assignment statement directly or indirectly.
+     * That is to say Affects*(1, a).
+     * @param assignment quried assignment statement
+     * @return vector containing all the statement numbers of assignment statement affected by quried assignment.
+     */
+    vector<int> get_affects_star(int assignment);
+    /**
+     * Get all assignment statement that affected the quried assignment statement directly or indirectly.
+     * That is to say Affects*(a, 1).
+     * @param assignment quried assignment statement
+     * @return vector containing all the statement numbers of assignment statement affects quried assignment.
+     */
+    vector<int> get_affected_star(int assignment);
+    /**
+     * Get all Affects* relationship that exists.
+     * @return unodered_map that contains all the affects* relationship.
+     */
+    unordered_map<int, vector<int>> get_all_affects_star_relationship();
 
 private:
     FollowsBank follows_bank;
@@ -851,6 +955,7 @@ private:
     CallsStarBank calls_star_bank;
     IfBank if_bank;
     NextBipBank next_bip_bank;
+    AffectsStarCompute affects_star_compute;
     int last_statement_num = 0;
 };
 

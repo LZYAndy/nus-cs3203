@@ -2237,18 +2237,18 @@ TEST_CASE("PKB::is_next()")
     }
 }
 
-TEST_CASE("PKB::does_next_exists()")
+TEST_CASE("PKB::does_next_exist()")
 {
     PKB pkb;
     SECTION("return false")
     {
-        REQUIRE_FALSE(pkb.does_next_exists());
+        REQUIRE_FALSE(pkb.does_next_exist());
     }
 
     pkb.insert_next(1, 2);
     SECTION("return true")
     {
-        REQUIRE(pkb.does_next_exists());
+        REQUIRE(pkb.does_next_exist());
     }
 }
 
@@ -3067,6 +3067,1156 @@ TEST_CASE("PKB::insert_uses_for_call()")
         std::sort(expected.begin(), expected.end());
         std::sort(result.begin(), result.end());
         REQUIRE(expected == result);
+
+    }
+}
+
+TEST_CASE("PKB::get_all_assigns_affect()")
+{
+    PKB pkb;
+    std::vector<int> result;
+    std::vector<int> expected;
+
+    SECTION("return 0 statement")
+    {
+        result = pkb.get_all_assigns_affect();
+        REQUIRE(result.empty());
+    }
+
+    pkb.insert_next(1, 2); // Code 5 procedure Second and Third on wiki
+    pkb.insert_next(2, 3);
+    pkb.insert_next(3, 4);
+    pkb.insert_next(3, 7);
+    pkb.insert_next(4, 5);
+    pkb.insert_next(5, 6);
+    pkb.insert_next(6, 3);
+    pkb.insert_next(7, 8);
+    pkb.insert_next(7, 9);
+    pkb.insert_next(8, 10);
+    pkb.insert_next(9, 10);
+    pkb.insert_next(10, 11);
+    pkb.insert_next(11, 12);
+    pkb.insert_next(13, 14);
+    pkb.insert_next(14, 15);
+
+    pkb.insert_type(1, EntityType::ASSIGN);
+    pkb.insert_type(2, EntityType::ASSIGN);
+    pkb.insert_type(3, EntityType::WHILE);
+    pkb.insert_type(4, EntityType::ASSIGN);
+    pkb.insert_type(5, EntityType::CALL);
+    pkb.insert_type(6, EntityType::ASSIGN);
+    pkb.insert_type(7, EntityType::IF);
+    pkb.insert_type(8, EntityType::ASSIGN);
+    pkb.insert_type(9, EntityType::ASSIGN);
+    pkb.insert_type(10, EntityType::ASSIGN);
+    pkb.insert_type(11, EntityType::ASSIGN);
+    pkb.insert_type(12, EntityType::ASSIGN);
+    pkb.insert_type(13, EntityType::ASSIGN);
+    pkb.insert_type(14, EntityType::ASSIGN);
+    pkb.insert_type(15, EntityType::PRINT);
+
+    pkb.insert_modifies(1, "x");
+    pkb.insert_modifies(2, "i");
+    pkb.insert_modifies(3, "x");
+    pkb.insert_modifies(3, "i");
+    pkb.insert_modifies(4, "x");
+    pkb.insert_modifies(6, "i");
+    pkb.insert_modifies(7, "x");
+    pkb.insert_modifies(7, "z");
+    pkb.insert_modifies(8, "x");
+    pkb.insert_modifies(9, "z");
+    pkb.insert_modifies(10, "z");
+    pkb.insert_modifies(11, "y");
+    pkb.insert_modifies(12, "x");
+    pkb.insert_modifies(13, "z");
+    pkb.insert_modifies(14, "v");
+    pkb.insert_modifies("Third", "z");
+    pkb.insert_modifies("Third", "v");
+
+    pkb.insert_uses(3, "i");
+    pkb.insert_uses(3, "x");
+    pkb.insert_uses(3, "y");
+    pkb.insert_uses(3, "v");
+    pkb.insert_uses(4, "x");
+    pkb.insert_uses(4, "y");
+    pkb.insert_uses(5, "v");
+    pkb.insert_uses(6, "i");
+    pkb.insert_uses(7, "x");
+    pkb.insert_uses(8, "x");
+    pkb.insert_uses(10, "z");
+    pkb.insert_uses(10, "x");
+    pkb.insert_uses(10, "i");
+    pkb.insert_uses(11, "z");
+    pkb.insert_uses(12, "x");
+    pkb.insert_uses(12, "y");
+    pkb.insert_uses(12, "z");
+    pkb.insert_uses(15, "v");
+
+    SECTION("return more than 0 statements")
+    {
+        result = pkb.get_all_assigns_affect();
+        REQUIRE(result.size() == 8);
+        expected.push_back(1);
+        expected.push_back(2);
+        expected.push_back(4);
+        expected.push_back(6);
+        expected.push_back(8);
+        expected.push_back(9);
+        expected.push_back(10);
+        expected.push_back(11);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(expected == result);
+    }
+}
+
+TEST_CASE("PKB::get_assigns_affect()")
+{
+    PKB pkb;
+    std::vector<int> result;
+    std::vector<int> expected;
+
+    pkb.insert_next(1, 2); // Code 5 procedure Second and Third on wiki
+    pkb.insert_next(2, 3);
+    pkb.insert_next(3, 4);
+    pkb.insert_next(3, 7);
+    pkb.insert_next(4, 5);
+    pkb.insert_next(5, 6);
+    pkb.insert_next(6, 3);
+    pkb.insert_next(7, 8);
+    pkb.insert_next(7, 9);
+    pkb.insert_next(8, 10);
+    pkb.insert_next(9, 10);
+    pkb.insert_next(10, 11);
+    pkb.insert_next(11, 12);
+    pkb.insert_next(13, 14);
+    pkb.insert_next(14, 15);
+
+    pkb.insert_type(1, EntityType::ASSIGN);
+    pkb.insert_type(2, EntityType::ASSIGN);
+    pkb.insert_type(3, EntityType::WHILE);
+    pkb.insert_type(4, EntityType::ASSIGN);
+    pkb.insert_type(5, EntityType::CALL);
+    pkb.insert_type(6, EntityType::ASSIGN);
+    pkb.insert_type(7, EntityType::IF);
+    pkb.insert_type(8, EntityType::ASSIGN);
+    pkb.insert_type(9, EntityType::ASSIGN);
+    pkb.insert_type(10, EntityType::ASSIGN);
+    pkb.insert_type(11, EntityType::ASSIGN);
+    pkb.insert_type(12, EntityType::ASSIGN);
+    pkb.insert_type(13, EntityType::ASSIGN);
+    pkb.insert_type(14, EntityType::ASSIGN);
+    pkb.insert_type(15, EntityType::PRINT);
+
+    pkb.insert_modifies(1, "x");
+    pkb.insert_modifies(2, "i");
+    pkb.insert_modifies(3, "x");
+    pkb.insert_modifies(3, "i");
+    pkb.insert_modifies(4, "x");
+    pkb.insert_modifies(6, "i");
+    pkb.insert_modifies(7, "x");
+    pkb.insert_modifies(7, "z");
+    pkb.insert_modifies(8, "x");
+    pkb.insert_modifies(9, "z");
+    pkb.insert_modifies(10, "z");
+    pkb.insert_modifies(11, "y");
+    pkb.insert_modifies(12, "x");
+    pkb.insert_modifies(13, "z");
+    pkb.insert_modifies(14, "v");
+    pkb.insert_modifies("Third", "z");
+    pkb.insert_modifies("Third", "v");
+
+    pkb.insert_uses(3, "i");
+    pkb.insert_uses(3, "x");
+    pkb.insert_uses(3, "y");
+    pkb.insert_uses(3, "v");
+    pkb.insert_uses(4, "x");
+    pkb.insert_uses(4, "y");
+    pkb.insert_uses(5, "v");
+    pkb.insert_uses(6, "i");
+    pkb.insert_uses(7, "x");
+    pkb.insert_uses(8, "x");
+    pkb.insert_uses(10, "z");
+    pkb.insert_uses(10, "x");
+    pkb.insert_uses(10, "i");
+    pkb.insert_uses(11, "z");
+    pkb.insert_uses(12, "x");
+    pkb.insert_uses(12, "y");
+    pkb.insert_uses(12, "z");
+    pkb.insert_uses(15, "v");
+
+    SECTION("return 0 statement")
+    {
+        result = pkb.get_assigns_affect(1);
+        REQUIRE(result.empty());
+        result = pkb.get_assigns_affect(5);
+        REQUIRE(result.empty());
+    }
+
+    SECTION("return 1 statement")
+    {
+        result = pkb.get_assigns_affect(11);
+        REQUIRE(result.size() == 1);
+        REQUIRE(result[0] == 10);
+    }
+
+    SECTION("return more than 1 statement")
+    {
+        result = pkb.get_assigns_affect(4);
+        REQUIRE(result.size() == 2);
+        expected.push_back(1);
+        expected.push_back(4);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(expected == result);
+
+        expected.pop_back();
+        expected.pop_back();
+        result = pkb.get_assigns_affect(12);
+        REQUIRE(result.size() == 5);
+        expected.push_back(1);
+        expected.push_back(4);
+        expected.push_back(8);
+        expected.push_back(10);
+        expected.push_back(11);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(expected == result);
+    }
+}
+
+TEST_CASE("PKB::get_all_affects_relationship()")
+{
+    PKB pkb;
+
+    std::vector<int> affected1;
+    affected1.push_back(4);
+    affected1.push_back(8);
+    affected1.push_back(10);
+    affected1.push_back(12);
+    std::vector<int> affected2;
+    affected2.push_back(6);
+    affected2.push_back(10);
+    std::vector<int> affected4;
+    affected4.push_back(4);
+    affected4.push_back(8);
+    affected4.push_back(10);
+    affected4.push_back(12);
+    std::vector<int> affected6;
+    affected6.push_back(6);
+    affected6.push_back(10);
+    std::vector<int> affected8;
+    affected8.push_back(10);
+    affected8.push_back(12);
+    std::vector<int> affected9;
+    affected9.push_back(10);
+    std::vector<int> affected10;
+    affected10.push_back(11);
+    affected10.push_back(12);
+    std::vector<int> affected11;
+    affected11.push_back(12);
+
+    std::unordered_map<int, std::vector<int>> result;
+    std::unordered_map<int, std::vector<int>> expected;
+
+    pkb.insert_next(1, 2); // Code 5 procedure Second and Third on wiki
+    pkb.insert_type(1, EntityType::ASSIGN);
+    pkb.insert_type(2, EntityType::ASSIGN);
+    pkb.insert_modifies(1, "x");
+    pkb.insert_modifies(2, "i");
+
+    SECTION("return empty map")
+    {
+        result = pkb.get_all_affects_relationship();
+        REQUIRE(result.empty());
+    }
+
+    pkb.insert_next(2, 3);
+    pkb.insert_next(3, 4);
+    pkb.insert_next(3, 7);
+    pkb.insert_next(4, 5);
+    pkb.insert_next(5, 6);
+    pkb.insert_next(6, 3);
+    pkb.insert_next(7, 8);
+    pkb.insert_next(7, 9);
+    pkb.insert_next(8, 10);
+    pkb.insert_next(9, 10);
+    pkb.insert_next(10, 11);
+    pkb.insert_next(11, 12);
+    pkb.insert_next(13, 14);
+    pkb.insert_next(14, 15);
+
+    pkb.insert_type(3, EntityType::WHILE);
+    pkb.insert_type(4, EntityType::ASSIGN);
+    pkb.insert_type(5, EntityType::CALL);
+    pkb.insert_type(6, EntityType::ASSIGN);
+    pkb.insert_type(7, EntityType::IF);
+    pkb.insert_type(8, EntityType::ASSIGN);
+    pkb.insert_type(9, EntityType::ASSIGN);
+    pkb.insert_type(10, EntityType::ASSIGN);
+    pkb.insert_type(11, EntityType::ASSIGN);
+    pkb.insert_type(12, EntityType::ASSIGN);
+    pkb.insert_type(13, EntityType::ASSIGN);
+    pkb.insert_type(14, EntityType::ASSIGN);
+    pkb.insert_type(15, EntityType::PRINT);
+
+    pkb.insert_modifies(3, "x");
+    pkb.insert_modifies(3, "i");
+    pkb.insert_modifies(4, "x");
+    pkb.insert_modifies(6, "i");
+    pkb.insert_modifies(7, "x");
+    pkb.insert_modifies(7, "z");
+    pkb.insert_modifies(8, "x");
+    pkb.insert_modifies(9, "z");
+    pkb.insert_modifies(10, "z");
+    pkb.insert_modifies(11, "y");
+    pkb.insert_modifies(12, "x");
+    pkb.insert_modifies(13, "z");
+    pkb.insert_modifies(14, "v");
+    pkb.insert_modifies("Third", "z");
+    pkb.insert_modifies("Third", "v");
+
+    pkb.insert_uses(3, "i");
+    pkb.insert_uses(3, "x");
+    pkb.insert_uses(3, "y");
+    pkb.insert_uses(3, "v");
+    pkb.insert_uses(4, "x");
+    pkb.insert_uses(4, "y");
+    pkb.insert_uses(5, "v");
+    pkb.insert_uses(6, "i");
+    pkb.insert_uses(7, "x");
+    pkb.insert_uses(8, "x");
+    pkb.insert_uses(10, "z");
+    pkb.insert_uses(10, "x");
+    pkb.insert_uses(10, "i");
+    pkb.insert_uses(11, "z");
+    pkb.insert_uses(12, "x");
+    pkb.insert_uses(12, "y");
+    pkb.insert_uses(12, "z");
+    pkb.insert_uses(15, "v");
+
+    SECTION("return non-empty map")
+    {
+        result = pkb.get_all_affects_relationship();
+        expected.emplace(1, affected1);
+        expected.emplace(2, affected2);
+        expected.emplace(4, affected4);
+        expected.emplace(6, affected6);
+        expected.emplace(8, affected8);
+        expected.emplace(9, affected9);
+        expected.emplace(10, affected10);
+        expected.emplace(11, affected11);
+        for (int i = 1; i <= 15; i++)
+        {
+            if(result.find(i) != result.end())
+            {
+                std::sort(expected.at(i).begin(), expected.at(i).end());
+                std::sort(result.at(i).begin(), result.at(i).end());
+                REQUIRE(expected.at(i) == result.at(i));
+            }
+        }
+    }
+}
+
+TEST_CASE("PKB::get_all_assigns_affected()")
+{
+    PKB pkb;
+    std::vector<int> result;
+    std::vector<int> expected;
+
+    pkb.insert_next(1, 2); // Code 5 procedure Second and Third on wiki
+    pkb.insert_type(1, EntityType::ASSIGN);
+    pkb.insert_type(2, EntityType::ASSIGN);
+    pkb.insert_modifies(1, "x");
+    pkb.insert_modifies(2, "i");
+
+    SECTION("return 0 statement")
+    {
+        result = pkb.get_all_assigns_affected();
+        REQUIRE(result.empty());
+    }
+
+    pkb.insert_next(2, 3);
+    pkb.insert_next(3, 4);
+    pkb.insert_next(3, 7);
+    pkb.insert_next(4, 5);
+    pkb.insert_next(5, 6);
+    pkb.insert_next(6, 3);
+    pkb.insert_next(7, 8);
+    pkb.insert_next(7, 9);
+    pkb.insert_next(8, 10);
+    pkb.insert_next(9, 10);
+    pkb.insert_next(10, 11);
+    pkb.insert_next(11, 12);
+    pkb.insert_next(13, 14);
+    pkb.insert_next(14, 15);
+
+    pkb.insert_type(3, EntityType::WHILE);
+    pkb.insert_type(4, EntityType::ASSIGN);
+    pkb.insert_type(5, EntityType::CALL);
+    pkb.insert_type(6, EntityType::ASSIGN);
+    pkb.insert_type(7, EntityType::IF);
+    pkb.insert_type(8, EntityType::ASSIGN);
+    pkb.insert_type(9, EntityType::ASSIGN);
+    pkb.insert_type(10, EntityType::ASSIGN);
+    pkb.insert_type(11, EntityType::ASSIGN);
+    pkb.insert_type(12, EntityType::ASSIGN);
+    pkb.insert_type(13, EntityType::ASSIGN);
+    pkb.insert_type(14, EntityType::ASSIGN);
+    pkb.insert_type(15, EntityType::PRINT);
+
+    pkb.insert_modifies(3, "x");
+    pkb.insert_modifies(3, "i");
+    pkb.insert_modifies(4, "x");
+    pkb.insert_modifies(6, "i");
+    pkb.insert_modifies(7, "x");
+    pkb.insert_modifies(7, "z");
+    pkb.insert_modifies(8, "x");
+    pkb.insert_modifies(9, "z");
+    pkb.insert_modifies(10, "z");
+    pkb.insert_modifies(11, "y");
+    pkb.insert_modifies(12, "x");
+    pkb.insert_modifies(13, "z");
+    pkb.insert_modifies(14, "v");
+    pkb.insert_modifies("Third", "z");
+    pkb.insert_modifies("Third", "v");
+
+    pkb.insert_uses(3, "i");
+    pkb.insert_uses(3, "x");
+    pkb.insert_uses(3, "y");
+    pkb.insert_uses(3, "v");
+    pkb.insert_uses(4, "x");
+    pkb.insert_uses(4, "y");
+    pkb.insert_uses(5, "v");
+    pkb.insert_uses(6, "i");
+    pkb.insert_uses(7, "x");
+    pkb.insert_uses(8, "x");
+    pkb.insert_uses(10, "z");
+    pkb.insert_uses(10, "x");
+    pkb.insert_uses(10, "i");
+    pkb.insert_uses(11, "z");
+    pkb.insert_uses(12, "x");
+    pkb.insert_uses(12, "y");
+    pkb.insert_uses(12, "z");
+    pkb.insert_uses(15, "v");
+
+    SECTION("return more than 0 statement")
+    {
+        result = pkb.get_all_assigns_affected();
+        REQUIRE(result.size() == 6);
+        expected.push_back(4);
+        expected.push_back(6);
+        expected.push_back(8);
+        expected.push_back(10);
+        expected.push_back(11);
+        expected.push_back(12);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(expected == result);
+    }
+}
+
+TEST_CASE("PKB::get_assigns_affected_by()")
+{
+    PKB pkb;
+    std::vector<int> result;
+    std::vector<int> expected;
+
+    pkb.insert_next(1, 2); // Code 5 procedure Second and Third on wiki
+    pkb.insert_type(1, EntityType::ASSIGN);
+    pkb.insert_type(2, EntityType::ASSIGN);
+    pkb.insert_modifies(1, "x");
+    pkb.insert_modifies(2, "i");
+
+    SECTION("return 0 statement")
+    {
+        result = pkb.get_assigns_affected_by(1);
+        REQUIRE(result.empty());
+    }
+
+    pkb.insert_next(2, 3);
+    pkb.insert_next(3, 4);
+    pkb.insert_next(3, 7);
+    pkb.insert_next(4, 5);
+    pkb.insert_next(5, 6);
+    pkb.insert_next(6, 3);
+    pkb.insert_next(7, 8);
+    pkb.insert_next(7, 9);
+    pkb.insert_next(8, 10);
+    pkb.insert_next(9, 10);
+    pkb.insert_next(10, 11);
+    pkb.insert_next(11, 12);
+    pkb.insert_next(13, 14);
+    pkb.insert_next(14, 15);
+
+    pkb.insert_type(3, EntityType::WHILE);
+    pkb.insert_type(4, EntityType::ASSIGN);
+    pkb.insert_type(5, EntityType::CALL);
+    pkb.insert_type(6, EntityType::ASSIGN);
+    pkb.insert_type(7, EntityType::IF);
+    pkb.insert_type(8, EntityType::ASSIGN);
+    pkb.insert_type(9, EntityType::ASSIGN);
+    pkb.insert_type(10, EntityType::ASSIGN);
+    pkb.insert_type(11, EntityType::ASSIGN);
+    pkb.insert_type(12, EntityType::ASSIGN);
+    pkb.insert_type(13, EntityType::ASSIGN);
+    pkb.insert_type(14, EntityType::ASSIGN);
+    pkb.insert_type(15, EntityType::PRINT);
+
+    pkb.insert_modifies(3, "x");
+    pkb.insert_modifies(3, "i");
+    pkb.insert_modifies(4, "x");
+    pkb.insert_modifies(6, "i");
+    pkb.insert_modifies(7, "x");
+    pkb.insert_modifies(7, "z");
+    pkb.insert_modifies(8, "x");
+    pkb.insert_modifies(9, "z");
+    pkb.insert_modifies(10, "z");
+    pkb.insert_modifies(11, "y");
+    pkb.insert_modifies(12, "x");
+    pkb.insert_modifies(13, "z");
+    pkb.insert_modifies(14, "v");
+    pkb.insert_modifies("Third", "z");
+    pkb.insert_modifies("Third", "v");
+
+    pkb.insert_uses(3, "i");
+    pkb.insert_uses(3, "x");
+    pkb.insert_uses(3, "y");
+    pkb.insert_uses(3, "v");
+    pkb.insert_uses(4, "x");
+    pkb.insert_uses(4, "y");
+    pkb.insert_uses(5, "v");
+    pkb.insert_uses(6, "i");
+    pkb.insert_uses(7, "x");
+    pkb.insert_uses(8, "x");
+    pkb.insert_uses(10, "z");
+    pkb.insert_uses(10, "x");
+    pkb.insert_uses(10, "i");
+    pkb.insert_uses(11, "z");
+    pkb.insert_uses(12, "x");
+    pkb.insert_uses(12, "y");
+    pkb.insert_uses(12, "z");
+    pkb.insert_uses(15, "v");
+
+    SECTION("return more than 0 statements")
+    {
+        result = pkb.get_assigns_affected_by(1);
+        REQUIRE(result.size() == 4);
+        expected.push_back(4);
+        expected.push_back(8);
+        expected.push_back(10);
+        expected.push_back(12);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(expected == result);
+
+        result = pkb.get_assigns_affected_by(4);
+        REQUIRE(result.size() == 4);
+        REQUIRE(expected == result);
+        expected.clear();
+
+        result = pkb.get_assigns_affected_by(6);
+        REQUIRE(result.size() == 2);
+        expected.push_back(6);
+        expected.push_back(10);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(expected == result);
+    }
+}
+
+TEST_CASE("PKB::does_affects_exist()")
+{
+    PKB pkb;
+
+    pkb.insert_next(1, 2); // Code 5 procedure Second and Third on wiki
+    pkb.insert_type(1, EntityType::ASSIGN);
+    pkb.insert_type(2, EntityType::ASSIGN);
+    pkb.insert_modifies(1, "x");
+    pkb.insert_modifies(2, "i");
+
+    SECTION("return false")
+    {
+        REQUIRE_FALSE(pkb.does_affects_exist());
+    }
+
+    pkb.insert_next(2, 3);
+    pkb.insert_next(3, 4);
+    pkb.insert_next(3, 7);
+    pkb.insert_next(4, 5);
+    pkb.insert_next(5, 6);
+    pkb.insert_next(6, 3);
+    pkb.insert_next(7, 8);
+    pkb.insert_next(7, 9);
+    pkb.insert_next(8, 10);
+    pkb.insert_next(9, 10);
+    pkb.insert_next(10, 11);
+    pkb.insert_next(11, 12);
+    pkb.insert_next(13, 14);
+    pkb.insert_next(14, 15);
+
+    pkb.insert_type(3, EntityType::WHILE);
+    pkb.insert_type(4, EntityType::ASSIGN);
+    pkb.insert_type(5, EntityType::CALL);
+    pkb.insert_type(6, EntityType::ASSIGN);
+    pkb.insert_type(7, EntityType::IF);
+    pkb.insert_type(8, EntityType::ASSIGN);
+    pkb.insert_type(9, EntityType::ASSIGN);
+    pkb.insert_type(10, EntityType::ASSIGN);
+    pkb.insert_type(11, EntityType::ASSIGN);
+    pkb.insert_type(12, EntityType::ASSIGN);
+    pkb.insert_type(13, EntityType::ASSIGN);
+    pkb.insert_type(14, EntityType::ASSIGN);
+    pkb.insert_type(15, EntityType::PRINT);
+
+    pkb.insert_modifies(3, "x");
+    pkb.insert_modifies(3, "i");
+    pkb.insert_modifies(4, "x");
+    pkb.insert_modifies(6, "i");
+    pkb.insert_modifies(7, "x");
+    pkb.insert_modifies(7, "z");
+    pkb.insert_modifies(8, "x");
+    pkb.insert_modifies(9, "z");
+    pkb.insert_modifies(10, "z");
+    pkb.insert_modifies(11, "y");
+    pkb.insert_modifies(12, "x");
+    pkb.insert_modifies(13, "z");
+    pkb.insert_modifies(14, "v");
+    pkb.insert_modifies("Third", "z");
+    pkb.insert_modifies("Third", "v");
+
+    pkb.insert_uses(3, "i");
+    pkb.insert_uses(3, "x");
+    pkb.insert_uses(3, "y");
+    pkb.insert_uses(3, "v");
+    pkb.insert_uses(4, "x");
+    pkb.insert_uses(4, "y");
+    pkb.insert_uses(5, "v");
+    pkb.insert_uses(6, "i");
+    pkb.insert_uses(7, "x");
+    pkb.insert_uses(8, "x");
+    pkb.insert_uses(10, "z");
+    pkb.insert_uses(10, "x");
+    pkb.insert_uses(10, "i");
+    pkb.insert_uses(11, "z");
+    pkb.insert_uses(12, "x");
+    pkb.insert_uses(12, "y");
+    pkb.insert_uses(12, "z");
+    pkb.insert_uses(15, "v");
+
+    SECTION("return true")
+    {
+        REQUIRE(pkb.does_affects_exist());
+    }
+}
+
+TEST_CASE("PKB::is_affects()")
+{
+    PKB pkb;
+
+    pkb.insert_next(1, 2); // Code 5 procedure Second and Third on wiki
+    pkb.insert_next(2, 3);
+    pkb.insert_next(3, 4);
+    pkb.insert_next(3, 7);
+    pkb.insert_next(4, 5);
+    pkb.insert_next(5, 6);
+    pkb.insert_next(6, 3);
+    pkb.insert_next(7, 8);
+    pkb.insert_next(7, 9);
+    pkb.insert_next(8, 10);
+    pkb.insert_next(9, 10);
+    pkb.insert_next(10, 11);
+    pkb.insert_next(11, 12);
+    pkb.insert_next(13, 14);
+    pkb.insert_next(14, 15);
+
+    pkb.insert_type(1, EntityType::ASSIGN);
+    pkb.insert_type(2, EntityType::ASSIGN);
+    pkb.insert_type(3, EntityType::WHILE);
+    pkb.insert_type(4, EntityType::ASSIGN);
+    pkb.insert_type(5, EntityType::CALL);
+    pkb.insert_type(6, EntityType::ASSIGN);
+    pkb.insert_type(7, EntityType::IF);
+    pkb.insert_type(8, EntityType::ASSIGN);
+    pkb.insert_type(9, EntityType::ASSIGN);
+    pkb.insert_type(10, EntityType::ASSIGN);
+    pkb.insert_type(11, EntityType::ASSIGN);
+    pkb.insert_type(12, EntityType::ASSIGN);
+    pkb.insert_type(13, EntityType::ASSIGN);
+    pkb.insert_type(14, EntityType::ASSIGN);
+    pkb.insert_type(15, EntityType::PRINT);
+
+    pkb.insert_modifies(1, "x");
+    pkb.insert_modifies(2, "i");
+    pkb.insert_modifies(3, "x");
+    pkb.insert_modifies(3, "i");
+    pkb.insert_modifies(4, "x");
+    pkb.insert_modifies(6, "i");
+    pkb.insert_modifies(7, "x");
+    pkb.insert_modifies(7, "z");
+    pkb.insert_modifies(8, "x");
+    pkb.insert_modifies(9, "z");
+    pkb.insert_modifies(10, "z");
+    pkb.insert_modifies(11, "y");
+    pkb.insert_modifies(12, "x");
+    pkb.insert_modifies(13, "z");
+    pkb.insert_modifies(14, "v");
+    pkb.insert_modifies("Third", "z");
+    pkb.insert_modifies("Third", "v");
+
+    pkb.insert_uses(3, "i");
+    pkb.insert_uses(3, "x");
+    pkb.insert_uses(3, "y");
+    pkb.insert_uses(3, "v");
+    pkb.insert_uses(4, "x");
+    pkb.insert_uses(4, "y");
+    pkb.insert_uses(5, "v");
+    pkb.insert_uses(6, "i");
+    pkb.insert_uses(7, "x");
+    pkb.insert_uses(8, "x");
+    pkb.insert_uses(10, "z");
+    pkb.insert_uses(10, "x");
+    pkb.insert_uses(10, "i");
+    pkb.insert_uses(11, "z");
+    pkb.insert_uses(12, "x");
+    pkb.insert_uses(12, "y");
+    pkb.insert_uses(12, "z");
+    pkb.insert_uses(15, "v");
+
+    SECTION("return false")
+    {
+        REQUIRE_FALSE(pkb.is_affects(9, 11));
+        REQUIRE_FALSE(pkb.is_affects(9, 12));
+        REQUIRE_FALSE(pkb.is_affects(2, 3));
+        REQUIRE_FALSE(pkb.is_affects(9, 6));
+    }
+
+    SECTION("return true")
+    {
+        REQUIRE(pkb.is_affects(2, 6));
+        REQUIRE(pkb.is_affects(4, 8));
+        REQUIRE(pkb.is_affects(4, 10));
+        REQUIRE(pkb.is_affects(6, 6));
+        REQUIRE(pkb.is_affects(1, 4));
+        REQUIRE(pkb.is_affects(1, 8));
+        REQUIRE(pkb.is_affects(1, 10));
+        REQUIRE(pkb.is_affects(1, 12));
+        REQUIRE(pkb.is_affects(2, 10));
+        REQUIRE(pkb.is_affects(9, 10));
+        REQUIRE(pkb.is_affects(4, 4));
+    }
+}
+
+TEST_CASE("PKB::is_affects_star()")
+{
+    PKB pkb;
+    pkb.insert_assign(1, "x", "+ y z");
+    pkb.insert_type(1, EntityType::ASSIGN);
+    pkb.insert_uses(1, "y");
+    pkb.insert_uses(1, "z");
+    pkb.insert_modifies(1, "x");
+    pkb.insert_assign(2, "h", "+ ello x");
+    pkb.insert_next(1, 2);
+    pkb.insert_type(2, EntityType::ASSIGN);
+    pkb.insert_uses(2, "ello");
+    pkb.insert_uses(2, "x");
+    pkb.insert_modifies(2, "h");
+    pkb.insert_assign(3, "a", "h");
+    pkb.insert_next(2, 3);
+    pkb.insert_type(3, EntityType::ASSIGN);
+    pkb.insert_uses(3, "h");
+    pkb.insert_modifies(3, "a");
+    pkb.insert_while(4, {"x"});
+    pkb.insert_next(3, 4);
+    pkb.insert_type(4, EntityType::WHILE);
+    pkb.insert_parent(4, 5);
+    pkb.insert_parent(4, 6);
+    pkb.insert_assign(5, "forever", "loop");
+    pkb.insert_next(4, 5);
+    pkb.insert_type(5, EntityType::ASSIGN);
+    pkb.insert_modifies(5, "forever");
+    pkb.insert_uses(5, "loop");
+    pkb.insert_assign(6, "loop", "+ is true");
+    pkb.insert_next(5, 6);
+    pkb.insert_type(6, EntityType::ASSIGN);
+    pkb.insert_modifies(6, "loop");
+    pkb.insert_uses(6, "is");
+    pkb.insert_uses(6, "true");
+    pkb.insert_next(6, 7);
+    pkb.insert_type(7, EntityType::ASSIGN);
+    pkb.insert_assign(6, "true", "forever");
+    pkb.insert_modifies(7, "true");
+    pkb.insert_uses(7, "forever");
+    pkb.insert_next(7, 8);
+    pkb.insert_type(8, EntityType::IF);
+    pkb.insert_next(8, 9);
+    pkb.insert_type(9, EntityType::ASSIGN);
+    pkb.insert_modifies(9, "if");
+    pkb.insert_uses(9, "else");
+    pkb.insert_next(8, 10);
+    pkb.insert_type(10, EntityType::ASSIGN);
+    pkb.insert_modifies(10, "else");
+    pkb.insert_uses(10, "if");
+    pkb.insert_next(9, 4);
+    pkb.insert_next(10, 4);
+    pkb.insert_next(4, 11);
+    pkb.insert_type(11, EntityType::ASSIGN);
+    pkb.insert_modifies(11, "a");
+    pkb.insert_uses(11, "if");
+
+    SECTION("fails")
+    {
+        REQUIRE_FALSE(pkb.is_affects_star(1, 4));
+        REQUIRE_FALSE(pkb.is_affects_star(5, 2));
+    }
+
+    SECTION("success")
+    {
+        REQUIRE(pkb.is_affects_star(1, 2));
+        REQUIRE(pkb.is_affects_star(2, 3));
+        REQUIRE(pkb.is_affects_star(1, 3));
+        REQUIRE(pkb.is_affects_star(6, 5));
+        REQUIRE(pkb.is_affects_star(5, 6));
+        REQUIRE(pkb.is_affects_star(10, 11));
+    }
+}
+
+TEST_CASE("PKB::get_affects_star()")
+{ 
+    PKB pkb;
+    pkb.insert_assign(1, "x", "+ y z");
+    pkb.insert_type(1, EntityType::ASSIGN);
+    pkb.insert_uses(1, "y");
+    pkb.insert_uses(1, "z");
+    pkb.insert_modifies(1, "x");
+    pkb.insert_assign(2, "h", "+ ello x");
+    pkb.insert_next(1, 2);
+    pkb.insert_type(2, EntityType::ASSIGN);
+    pkb.insert_uses(2, "ello");
+    pkb.insert_uses(2, "x");
+    pkb.insert_modifies(2, "h");
+    pkb.insert_assign(3, "a", "h");
+    pkb.insert_next(2, 3);
+    pkb.insert_type(3, EntityType::ASSIGN);
+    pkb.insert_uses(3, "h");
+    pkb.insert_modifies(3, "a");
+    pkb.insert_while(4, {"x"});
+    pkb.insert_next(3, 4);
+    pkb.insert_type(4, EntityType::WHILE);
+    pkb.insert_parent(4, 5);
+    pkb.insert_parent(4, 6);
+    pkb.insert_assign(5, "forever", "loop");
+    pkb.insert_next(4, 5);
+    pkb.insert_type(5, EntityType::ASSIGN);
+    pkb.insert_modifies(5, "forever");
+    pkb.insert_uses(5, "loop");
+    pkb.insert_assign(6, "loop", "+ is true");
+    pkb.insert_next(5, 6);
+    pkb.insert_type(6, EntityType::ASSIGN);
+    pkb.insert_modifies(6, "loop");
+    pkb.insert_uses(6, "is");
+    pkb.insert_uses(6, "true");
+    pkb.insert_next(6, 7);
+    pkb.insert_type(7, EntityType::ASSIGN);
+    pkb.insert_assign(6, "true", "forever");
+    pkb.insert_modifies(7, "true");
+    pkb.insert_uses(7, "forever");
+    pkb.insert_next(7, 8);
+
+
+    SECTION("fails")
+    {
+        REQUIRE(pkb.get_affects_star(3).empty());
+    }
+
+    SECTION("success")
+    {
+        std::vector<int> result = pkb.get_affects_star(1);
+        std::vector<int> expected;
+        expected.push_back(2);
+        expected.push_back(3);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(expected == result);
+    }
+}
+
+TEST_CASE("PKB::get_affected_star()")
+{
+    PKB pkb;
+    pkb.insert_assign(1, "x", "+ y z");
+    pkb.insert_type(1, EntityType::ASSIGN);
+    pkb.insert_uses(1, "y");
+    pkb.insert_uses(1, "z");
+    pkb.insert_modifies(1, "x");
+    pkb.insert_assign(2, "h", "+ ello x");
+    pkb.insert_next(1, 2);
+    pkb.insert_type(2, EntityType::ASSIGN);
+    pkb.insert_uses(2, "ello");
+    pkb.insert_uses(2, "x");
+    pkb.insert_modifies(2, "h");
+    pkb.insert_assign(3, "a", "h");
+    pkb.insert_next(2, 3);
+    pkb.insert_type(3, EntityType::ASSIGN);
+    pkb.insert_uses(3, "h");
+    pkb.insert_modifies(3, "a");
+
+    SECTION("fails")
+    {
+        REQUIRE(pkb.get_affected_star(1).empty());
+    }
+
+    SECTION("success")
+    {
+        std::vector<int> result = pkb.get_affected_star(3);
+        std::vector<int> expected;
+        expected.push_back(2);
+        expected.push_back(1);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(expected == result);
+    }
+}
+
+TEST_CASE("PKB::get_all_affects_star_relationship()")
+{
+    PKB pkb;
+
+    SECTION("fails")
+    {
+        REQUIRE(pkb.get_all_affects_star_relationship().empty());
+    }
+
+    pkb.insert_assign(1, "x", "+ y z");
+    pkb.insert_type(1, EntityType::ASSIGN);
+    pkb.insert_uses(1, "y");
+    pkb.insert_uses(1, "z");
+    pkb.insert_modifies(1, "x");
+    pkb.insert_assign(2, "h", "+ ello x");
+    pkb.insert_next(1, 2);
+    pkb.insert_type(2, EntityType::ASSIGN);
+    pkb.insert_uses(2, "ello");
+    pkb.insert_uses(2, "x");
+    pkb.insert_modifies(2, "h");
+    pkb.insert_assign(3, "a", "h");
+    pkb.insert_next(2, 3);
+    pkb.insert_type(3, EntityType::ASSIGN);
+    pkb.insert_uses(3, "h");
+    pkb.insert_modifies(3, "a");
+
+    SECTION("success")
+    {
+        std::unordered_map<int, ::vector<int>> result = pkb.get_all_affects_star_relationship();
+        std::unordered_map<int, ::vector<int>> expected;
+        expected.insert({1, {2, 3}});
+        expected.insert({2, {3}});
+        REQUIRE(expected == result);
+    }
+}
+
+TEST_CASE("PKB::get_statements_previous_star()")
+{
+    PKB pkb;
+    pkb.insert_next(1, 2);
+    pkb.insert_next(2, 3);
+    pkb.insert_next(3, 4); // stmt3 is while
+    pkb.insert_next(3, 9); // stmt9 is the first stmt out of while stmtList
+    pkb.insert_next(4, 5); // stmt4 is if
+    pkb.insert_next(4, 7); // stmt7 is in else
+    pkb.insert_next(5, 6);
+    pkb.insert_next(6, 8); // stmt8 is not in else
+    pkb.insert_next(7, 8);
+    pkb.insert_next(8, 3);
+    std::vector<int> result;
+    std::vector<int> expected;
+
+    SECTION("return 0 statement")
+    {
+        result = pkb.get_statements_previous_star(1);
+        REQUIRE(result.size() == 0);
+    }
+
+    SECTION("return 1 statement")
+    {
+        result = pkb.get_statements_previous_star(2);
+        REQUIRE(result.size() == 1);
+        REQUIRE(result[0] == 1);
+    }
+
+    SECTION("return more than 1 statement")
+    {
+        result = pkb.get_statements_previous_star(9);
+        REQUIRE(result.size() == 8);
+        for(int i = 1; i <= 8; i++)
+        {
+        expected.push_back(i);
+        }
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(result == expected);
+    }
+}
+
+TEST_CASE("PKB::get_statements_next_star()")
+{
+    PKB pkb;
+    pkb.insert_next(1, 2);
+    pkb.insert_next(2, 3);
+    pkb.insert_next(3, 4);
+    pkb.insert_next(3, 9);
+    pkb.insert_next(4, 5);
+    pkb.insert_next(4, 7);
+    pkb.insert_next(5, 6);
+    pkb.insert_next(6, 8);
+    pkb.insert_next(7, 8);
+    pkb.insert_next(8, 3);
+    pkb.insert_next(9, 10);
+    std::vector<int> result;
+    std::vector<int> expected;
+
+    SECTION("return 0 statement")
+    {
+        result = pkb.get_statements_next_star(10);
+        REQUIRE(result.size() == 0);
+    }
+
+    SECTION("return 1 statement")
+    {
+        result = pkb.get_statements_next_star(9);
+        REQUIRE(result.size() == 1);
+        REQUIRE(result[0] == 10);
+    }
+
+    SECTION("return more than 1 statement")
+    {
+        result = pkb.get_statements_next_star(3);
+        for(int i = 3; i <= 10; i++)
+        {
+            expected.push_back(i);
+        }
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(result == expected);
+    }
+}
+
+TEST_CASE("PKB::is_next_star()")
+{
+    PKB pkb;
+    pkb.insert_next(1, 2);
+    pkb.insert_next(2, 3);
+    pkb.insert_next(3, 4);
+    pkb.insert_next(3, 9);
+    pkb.insert_next(4, 5);
+    pkb.insert_next(4, 7);
+    pkb.insert_next(5, 6);
+    pkb.insert_next(6, 8);
+    pkb.insert_next(7, 8);
+    pkb.insert_next(8, 3);
+
+    SECTION("return false")
+    {
+        REQUIRE_FALSE(pkb.is_next_star(2, 1));
+        REQUIRE_FALSE(pkb.is_next_star(3, 2));
+        REQUIRE_FALSE(pkb.is_next_star(3, 1));
+        REQUIRE_FALSE(pkb.is_next_star(10, 9));
+        REQUIRE_FALSE(pkb.is_next_star(9, 7));
+    }
+
+    SECTION("return true")
+    {
+        REQUIRE(pkb.is_next_star(3, 3));
+        REQUIRE(pkb.is_next_star(5, 5));
+        REQUIRE(pkb.is_next_star(6, 3));
+        REQUIRE(pkb.is_next_star(7, 9));
+        REQUIRE(pkb.is_next_star(5, 7));
+    }
+}
+
+TEST_CASE("PKB::get_all_next_star_relationship()")
+{
+    PKB pkb;
+    std::unordered_map<int, std::vector<int>> result;
+    std::unordered_map<int, std::vector<int>> expected;
+    std::vector<int> vec;
+    std::vector<int> vec1;
+    std::vector<int> vec2;
+    std::vector<int> vec3;
+
+    SECTION("return empty map")
+    {
+        result = pkb.get_all_next_star_relationship();
+        REQUIRE(result.empty());
+    }
+
+    pkb.insert_next(1, 2);
+
+    SECTION("return map with one pair")
+    {
+        pkb.insert_type(2, EntityType::STMT);
+        result = pkb.get_all_next_star_relationship();
+        vec.push_back(2);
+        expected.emplace(1, vec);
+        REQUIRE(result.size() == 1);
+        REQUIRE(result.at(1)[0] == 2);
+        REQUIRE(result == expected);
+    }
+
+    pkb.insert_next(2, 3);
+    pkb.insert_next(3, 4);
+    pkb.insert_next(3, 9);
+    pkb.insert_next(4, 5);
+    pkb.insert_next(4, 7);
+    pkb.insert_next(5, 6);
+    pkb.insert_next(6, 8);
+    pkb.insert_next(7, 8);
+    pkb.insert_next(8, 3);
+    pkb.insert_next(9, 10);
+
+    SECTION("return map with more than one pair")
+    {
+        pkb.insert_type(10, EntityType::STMT);
+        result = pkb.get_all_next_star_relationship();
+        vec3.push_back(10);
+        for(int i = 3; i <= 10; i++)
+        {
+            vec1.push_back(i);
+        }
+        for(int i = 2; i <= 10; i++)
+        {
+            vec2.push_back(i);
+        }
+        REQUIRE(result.size() == 9);
+        for (int i = 1; i <= 9; i++)
+        {
+            std::sort(result.at(i).begin(), result.at(i).end());
+            if(i == 1)
+            {
+                REQUIRE(result.at(i) == vec2);
+            }
+            else if(i == 9)
+            {
+                REQUIRE(result.at(i) == vec3);
+            }
+            else
+            {
+                REQUIRE(result.at(i) == vec1);
+            }
+        }
+    }
+}
+
+TEST_CASE("PKB::get_called_by_statement()")
+{
+    PKB pkb;
+    SECTION("fail")
+    {
+        REQUIRE(pkb.get_called_by_statement(1).empty());
+    }
+    SECTION("success")
+    {
+        pkb.insert_calls(1, "hello", "world");
+        REQUIRE(pkb.get_called_by_statement(1).compare("world") == 0);
     }
 }
 

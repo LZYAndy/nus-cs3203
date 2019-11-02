@@ -158,3 +158,24 @@ TEST_CASE("Bank<std::string, std::string>")
 {
     Bank<std::string, std::string> bank;
 }
+
+TEST_CASE("Bank::get_reverse_bank()")
+{
+    Bank<int, int> bank;
+    std::unordered_map<int, std::vector<int>> result;
+    std::vector<int> vec;
+
+    SECTION("return empty bank")
+    {
+        result = bank.get_reverse_bank();
+        REQUIRE(result.empty());
+    }
+
+    bank.put(1, 2);
+    SECTION("return non_empty bank")
+    {
+        result = bank.get_reverse_bank();
+        REQUIRE(result.size() == 1);
+        REQUIRE(result.at(2)[0] == 1);
+    }
+}
