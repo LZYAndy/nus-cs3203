@@ -1,6 +1,11 @@
 #include "PKB.h"
 
 using namespace std;
+PKB::PKB()
+{
+    next_bip_star_compute = NextBipStarCompute(&next_bip_bank, &type_bank);
+    affects_bip_compute = AffectsBipCompute(&next_bip_bank, &modifies_bank, &uses_bank, &type_bank);
+}
 
 bool PKB::insert_procedure(string name)
 {
@@ -701,6 +706,36 @@ bool PKB::insert_call_ingress_egress(int ingress_prog, int egress_prog)
 {
     return next_bip_bank.insert_call_ingress_egress(ingress_prog, egress_prog);
 }
+
+bool PKB::does_next_bip_exists()
+{
+    return next_bip_bank.does_next_bip_exists();
+}
+
+vector<int> PKB::get_next_bip(int prog_line)
+{
+    return next_bip_bank.get_next_bip(prog_line);
+}
+
+vector<int> PKB::get_previous_bip(int prog_line)
+{
+    return next_bip_bank.get_previous_bip(prog_line);
+}
+
+vector<int> PKB::get_all_next_bip()
+{
+    return next_bip_bank.get_all_next_bip();
+}
+
+vector<int> PKB::get_all_previous_bip()
+{
+    return next_bip_bank.get_all_previous_bip();
+}
+
+unordered_map<int, vector<int>> PKB::get_all_next_bip_relationship()
+{
+    return next_bip_bank.get_all_next_bip_relationship();
+}
 bool PKB::is_affects_star(int assignment1, int assignment2)
 {
     return affects_star_compute.is_affects_star(*this, assignment1, assignment2);
@@ -719,4 +754,58 @@ vector<int> PKB::get_affects_star(int assignment)
 unordered_map<int, vector<int>> PKB::get_all_affects_star_relationship()
 {
     return affects_star_compute.get_all_affects_star_relationship(*this);
+}
+
+bool PKB::is_next_bip_star(int previous, int next)
+{
+    return next_bip_star_compute.is_next_bip_star(previous, next);
+}
+
+vector<int> PKB::get_next_bip_star(int previous)
+{
+    return next_bip_star_compute.get_next_bip_star(previous);
+}
+
+vector<int> PKB::get_previous_bip_star(int next)
+{
+    return next_bip_star_compute.get_previous_bip_star(next);
+}
+
+unordered_map<int, vector<int>> PKB::get_all_next_bip_star_relationship()
+{
+    return next_bip_star_compute.get_all_next_bip_star_relationship();
+}
+
+bool PKB::does_affects_bip_exist()
+{
+    return affects_bip_compute.does_affects_bip_exist();
+}
+
+bool PKB::is_affects_bip(int stmt1, int stmt2)
+{
+    return affects_bip_compute.is_affects_bip(stmt1, stmt2);
+}
+
+std::vector<int> PKB::get_assigns_affects_bip(int stmt)
+{
+    return affects_bip_compute.get_assigns_affects_bip(stmt);
+}
+std::vector<int> PKB::get_assigns_affected_bip_by(int stmt)
+{
+    return affects_bip_compute.get_assigns_affected_bip_by(stmt);
+}
+
+std::vector<int> PKB::get_all_assigns_affects_bip()
+{
+    return affects_bip_compute.get_all_assigns_affects_bip();
+}
+
+std::vector<int> PKB::get_all_assigns_affected_bip()
+{
+    return affects_bip_compute.get_all_assigns_affected_bip();
+}
+
+std::unordered_map<int, std::vector<int>> PKB::get_all_affects_bip_relationship()
+{
+    return affects_bip_compute.get_all_affects_bip_relationship();
 }

@@ -4205,3 +4205,421 @@ TEST_CASE("PKB::get_all_next_star_relationship()")
         }
     }
 }
+
+TEST_CASE("PKB::get_called_by_statement()")
+{
+    PKB pkb;
+    SECTION("fail")
+    {
+        REQUIRE(pkb.get_called_by_statement(1).empty());
+    }
+    SECTION("success")
+    {
+        pkb.insert_calls(1, "hello", "world");
+        REQUIRE(pkb.get_called_by_statement(1).compare("world") == 0);
+    }
+}
+
+TEST_CASE("PKB::get_next_bip")
+{
+    PKB pkb;
+    pkb.insert_next_bip(1, 2);
+    pkb.insert_next_bip(2, 4);
+    pkb.insert_next_bip(4, 5);
+    pkb.insert_next_bip(4, 6);
+    pkb.insert_next_bip(5, 4);
+    pkb.insert_next_bip(6, 7);
+
+    SECTION("no next bip")
+    {
+        REQUIRE(pkb.get_next_bip(7).empty());
+        REQUIRE(pkb.get_next_bip(0).empty());
+    }
+
+    SECTION("1 next bip")
+    {
+        std::vector<int> result = pkb.get_next_bip(1);
+        REQUIRE(result.size() == 1);
+        REQUIRE(result == std::vector<int>({2}));
+    }
+
+    SECTION(">1 next bip")
+    {
+        std::vector<int> result = pkb.get_next_bip(4);
+        REQUIRE(result.size() == 2);
+        std::vector<int> expected({5, 6});
+        std::sort(result.begin(), result.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(expected == result);
+    }
+}
+
+TEST_CASE("PKB::get_previous_bip")
+{
+    PKB pkb;
+    pkb.insert_next_bip(1, 2);
+    pkb.insert_next_bip(2, 4);
+    pkb.insert_next_bip(4, 5);
+    pkb.insert_next_bip(4, 6);
+    pkb.insert_next_bip(5, 4);
+    pkb.insert_next_bip(6, 7);
+
+    SECTION("no previous bip")
+    {
+        REQUIRE(pkb.get_previous_bip(1).empty());
+        REQUIRE(pkb.get_previous_bip(8).empty());
+    }
+
+    SECTION("1 previous bip")
+    {
+        std::vector<int> result = pkb.get_previous_bip(7);
+        REQUIRE(result.size() == 1);
+        REQUIRE(result == std::vector<int>({6}));
+    }
+
+    SECTION(">1 previous bip")
+    {
+        std::vector<int> result = pkb.get_previous_bip(4);
+        REQUIRE(result.size() == 2);
+        std::vector<int> expected({5, 2});
+        std::sort(result.begin(), result.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(expected == result);
+    }
+}
+
+TEST_CASE("PKB::get_all_next_bip")
+{
+    PKB pkb;
+    
+    SECTION("no next bip")
+    {
+        REQUIRE(pkb.get_all_next_bip().empty());
+    }
+    
+    pkb.insert_next_bip(1, 2);
+   
+    SECTION("1 next bip")
+    {
+        std::vector<int> result = pkb.get_all_next_bip();
+        REQUIRE(result.size() == 1);
+        REQUIRE(result == std::vector<int>({2}));
+    }
+
+    pkb.insert_next_bip(2, 4);
+    pkb.insert_next_bip(4, 5);
+    pkb.insert_next_bip(4, 6);
+    pkb.insert_next_bip(5, 4);
+    pkb.insert_next_bip(6, 7);
+
+    SECTION(">1 next bip")
+    {
+        std::vector<int> result = pkb.get_all_next_bip();
+        REQUIRE(result.size() == 5);
+        std::vector<int> expected({2, 4, 5, 6, 7});
+        std::sort(result.begin(), result.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(expected == result);
+    }
+}
+
+TEST_CASE("PKB::get_all_previous_bip")
+{
+    PKB pkb;
+    
+    SECTION("no previous bip")
+    {
+        REQUIRE(pkb.get_all_previous_bip().empty());
+    }
+    
+    pkb.insert_next_bip(1, 2);
+   
+    SECTION("1 previous bip")
+    {
+        std::vector<int> result = pkb.get_all_previous_bip();
+        REQUIRE(result.size() == 1);
+        REQUIRE(result == std::vector<int>({1}));
+    }
+
+    pkb.insert_next_bip(2, 4);
+    pkb.insert_next_bip(4, 5);
+    pkb.insert_next_bip(4, 6);
+    pkb.insert_next_bip(5, 4);
+    pkb.insert_next_bip(6, 7);
+
+    SECTION(">1 previous bip")
+    {
+        std::vector<int> result = pkb.get_all_previous_bip();
+        REQUIRE(result.size() == 5);
+        std::vector<int> expected({2, 4, 5, 6, 1});
+        std::sort(result.begin(), result.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(expected == result);
+    }
+}
+
+TEST_CASE("PKB::get_all_next_bip_relationship")
+{
+    PKB pkb;
+    
+    SECTION("no next bip")
+    {
+        REQUIRE(pkb.get_all_next_bip_relationship().empty());
+    }
+    
+    pkb.insert_next_bip(1, 2);
+   
+    SECTION("1 next bip")
+    {
+        std::unordered_map<int, std::vector<int>> result = pkb.get_all_next_bip_relationship();
+        REQUIRE(result.size() == 1);
+        REQUIRE(result[1] == std::vector<int>({2}));
+    }
+
+    pkb.insert_next_bip(2, 4);
+    pkb.insert_next_bip(4, 5);
+    pkb.insert_next_bip(4, 6);
+    pkb.insert_next_bip(5, 4);
+    pkb.insert_next_bip(6, 7);
+
+    SECTION(">1 next bip")
+    {
+        std::unordered_map<int, std::vector<int>> result = pkb.get_all_next_bip_relationship();
+        REQUIRE(result.size() == 5);
+
+        std::unordered_map<int, std::vector<int>> expected;
+        expected.insert({1, {2}});
+        expected.insert({2, {4}});
+        expected.insert({4, {5, 6}});
+        expected.insert({5, {4}});
+        expected.insert({6, {7}});
+        REQUIRE(expected == result);
+    }
+}
+
+TEST_CASE("PKB::is_next_bip")
+{
+    PKB pkb;
+    pkb.insert_next_bip(1, 2);
+    pkb.insert_next_bip(2, 4);
+    pkb.insert_next_bip(4, 5);
+    pkb.insert_next_bip(4, 6);
+    pkb.insert_next_bip(5, 4);
+    pkb.insert_next_bip(6, 7);
+
+    SECTION("false")
+    {
+        REQUIRE_FALSE(pkb.is_next_bip(1, 4));
+        REQUIRE_FALSE(pkb.is_next_bip(4, 4));
+    }
+
+    SECTION("true")
+    {
+        REQUIRE(pkb.is_next_bip(1, 2));
+        REQUIRE(pkb.is_next_bip(4, 6));
+    }
+}
+
+TEST_CASE("PKB::does_next_bip_exists")
+{
+    PKB pkb;
+
+    SECTION("false")
+    {
+        REQUIRE_FALSE(pkb.does_next_bip_exists());
+    }
+
+    pkb.insert_next_bip(1, 2);
+    pkb.insert_next_bip(2, 4);
+    pkb.insert_next_bip(4, 5);
+    pkb.insert_next_bip(4, 6);
+    pkb.insert_next_bip(5, 4);
+    pkb.insert_next_bip(6, 7);
+
+    SECTION("true")
+    {
+        REQUIRE(pkb.does_next_bip_exists());
+    }
+}
+
+TEST_CASE("PKB::is_next_bip_star")
+{
+    PKB pkb;
+    pkb.insert_next_bip(1, 2);
+    pkb.insert_next_bip(2, 4);
+    pkb.insert_next_bip(4, 5);
+    pkb.insert_next_bip(4, 6);
+    pkb.insert_next_bip(5, 4);
+    pkb.insert_next_bip(6, 7);
+    pkb.insert_next_bip(8, 4);
+    pkb.insert_next_bip(4, 9);
+    pkb.insert_type(1, EntityType::ASSIGN);
+    pkb.insert_type(2, EntityType::CALL);
+    pkb.insert_type(4, EntityType::WHILE);
+    pkb.insert_type(5, EntityType::ASSIGN);
+    pkb.insert_type(6, EntityType::ASSIGN);
+    pkb.insert_type(7, EntityType::ASSIGN);
+    pkb.insert_type(8, EntityType::CALL);
+    pkb.insert_type(9, EntityType::ASSIGN);
+
+    pkb.insert_call_ingress_egress(2, 6);
+    pkb.insert_call_ingress_egress(8, 9);
+
+    SECTION("fail")
+    {
+        REQUIRE_FALSE(pkb.is_next_bip_star(4, 2));
+        REQUIRE_FALSE(pkb.is_next_bip_star(1, 9));
+        REQUIRE_FALSE(pkb.is_next_bip_star(8, 7));
+    }
+
+    SECTION("success")
+    {
+        REQUIRE(pkb.is_next_bip_star(1, 7));
+        REQUIRE(pkb.is_next_bip_star(4, 7));
+        REQUIRE(pkb.is_next_bip_star(5, 5));
+        REQUIRE(pkb.is_next_bip_star(4, 4));
+        REQUIRE(pkb.is_next_bip_star(5, 9));
+        REQUIRE(pkb.is_next_bip_star(5, 9));
+    }
+}
+
+TEST_CASE("PKB::get_next_bip_star")
+{
+    PKB pkb;
+    pkb.insert_next_bip(1, 2);
+    pkb.insert_next_bip(2, 4);
+    pkb.insert_next_bip(4, 5);
+    pkb.insert_next_bip(4, 6);
+    pkb.insert_next_bip(5, 4);
+    pkb.insert_next_bip(6, 7);
+    pkb.insert_next_bip(8, 4);
+    pkb.insert_next_bip(4, 9);
+    pkb.insert_type(1, EntityType::ASSIGN);
+    pkb.insert_type(2, EntityType::CALL);
+    pkb.insert_type(4, EntityType::WHILE);
+    pkb.insert_type(5, EntityType::ASSIGN);
+    pkb.insert_type(6, EntityType::ASSIGN);
+    pkb.insert_type(7, EntityType::ASSIGN);
+    pkb.insert_type(8, EntityType::CALL);
+    pkb.insert_type(9, EntityType::ASSIGN);
+    pkb.insert_call_ingress_egress(2, 6);
+    pkb.insert_call_ingress_egress(8, 9);
+
+    SECTION("empty")
+    {
+        REQUIRE(pkb.get_next_bip_star(7).empty());
+    }
+
+    SECTION(">1")
+    {
+        std::vector<int> result = pkb.get_next_bip_star(5);
+        REQUIRE(result.size() == 5);
+        std::vector<int> expected({9, 4, 5, 6, 7});
+        std::sort(result.begin(), result.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(expected == result);
+
+        std::vector<int> result1 = pkb.get_next_bip_star(2);
+        REQUIRE(result1.size() == 4);
+        std::vector<int> expected1({ 4, 5, 6, 7});
+        std::sort(result1.begin(), result1.end());
+        std::sort(expected1.begin(), expected1.end());
+        REQUIRE(expected1 == result1);
+    }
+}
+
+TEST_CASE("PKB::get_previous_bip_star")
+{
+    PKB pkb;
+    pkb.insert_next_bip(1, 2);
+    pkb.insert_next_bip(2, 4);
+    pkb.insert_next_bip(4, 5);
+    pkb.insert_next_bip(4, 6);
+    pkb.insert_next_bip(5, 4);
+    pkb.insert_next_bip(6, 7);
+    pkb.insert_next_bip(8, 4);
+    pkb.insert_next_bip(4, 9);
+    pkb.insert_type(1, EntityType::ASSIGN);
+    pkb.insert_type(2, EntityType::CALL);
+    pkb.insert_type(4, EntityType::WHILE);
+    pkb.insert_type(5, EntityType::ASSIGN);
+    pkb.insert_type(6, EntityType::ASSIGN);
+    pkb.insert_type(7, EntityType::ASSIGN);
+    pkb.insert_type(8, EntityType::CALL);
+    pkb.insert_type(9, EntityType::ASSIGN);
+    pkb.insert_call_ingress_egress(2, 6);
+    pkb.insert_call_ingress_egress(8, 9);
+
+    SECTION("empty")
+    {
+        REQUIRE(pkb.get_previous_bip_star(8).empty());
+    }
+
+    SECTION(">1")
+    {
+        std::vector<int> result = pkb.get_previous_bip_star(9);
+        REQUIRE(result.size() == 3);
+        std::vector<int> expected({4, 5, 8});
+        std::sort(result.begin(), result.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(expected == result);
+
+        std::vector<int> result1 = pkb.get_previous_bip_star(4);
+        REQUIRE(result1.size() == 5);
+        std::vector<int> expected1({1, 2, 8, 5, 4});
+        std::sort(result1.begin(), result1.end());
+        std::sort(expected1.begin(), expected1.end());
+        REQUIRE(expected1 == result1);
+    }
+}
+
+TEST_CASE("PKB::get_all_next_bip_star_relationship")
+{
+    PKB pkb;
+
+    SECTION("empty")
+    {
+        REQUIRE(pkb.get_all_next_bip_star_relationship().empty());
+    }
+
+    pkb.insert_next_bip(1, 2);
+    pkb.insert_next_bip(2, 4);
+    pkb.insert_next_bip(4, 5);
+    pkb.insert_next_bip(4, 6);
+    pkb.insert_next_bip(5, 4);
+    pkb.insert_next_bip(6, 7);
+    pkb.insert_next_bip(8, 4);
+    pkb.insert_next_bip(4, 9);
+    pkb.insert_type(1, EntityType::ASSIGN);
+    pkb.insert_type(2, EntityType::CALL);
+    pkb.insert_type(4, EntityType::WHILE);
+    pkb.insert_type(5, EntityType::ASSIGN);
+    pkb.insert_type(6, EntityType::ASSIGN);
+    pkb.insert_type(7, EntityType::ASSIGN);
+    pkb.insert_type(8, EntityType::CALL);
+    pkb.insert_type(9, EntityType::ASSIGN);
+    pkb.insert_call_ingress_egress(2, 6);
+    pkb.insert_call_ingress_egress(8, 9);
+
+    SECTION(">1")
+    {
+        std::unordered_map<int, std::vector<int>> result = pkb.get_all_next_bip_star_relationship();
+        std::unordered_map<int, std::vector<int>> expected;
+        expected.insert({1, {2, 4, 5, 6, 7}});
+        expected.insert({2, {4, 5, 6, 7}});
+        expected.insert({4, {4, 5, 6, 7, 9}});
+        expected.insert({5, {4, 5, 6, 7, 9}});
+        expected.insert({6, {7}});
+        expected.insert({8, {4, 5, 9}});
+        REQUIRE(result.size() == 6);
+        for (auto result_pair : result)
+        {
+            auto result_values = result_pair.second;
+            auto expected_values = expected[result_pair.first];
+            std::sort(result_values.begin(), result_values.end());
+            std::sort(expected_values.begin(), expected_values.end());
+            REQUIRE(expected_values == result_values);
+        }
+    }
+}
+

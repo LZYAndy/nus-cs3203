@@ -87,7 +87,7 @@ bool AffectsBipCompute::is_affects_bip(int stmt1, int stmt2)
     return false;
 }
 
-std::vector<int> AffectsBipCompute::get_assigns_affects_bip(int stmt)
+std::vector<int> AffectsBipCompute::get_assigns_affected_bip_by(int stmt)
 {
     std::vector<int> assign_stmts = type_bank->get_all_of_type(EntityType::ASSIGN);
     std::vector<int> visited;
@@ -102,7 +102,7 @@ std::vector<int> AffectsBipCompute::get_assigns_affects_bip(int stmt)
     return visited;
 }
 
-std::vector<int> AffectsBipCompute::get_assigns_affected_bip_by(int stmt)
+std::vector<int> AffectsBipCompute::get_assigns_affects_bip(int stmt)
 {
     std::vector<int> assign_stmts = type_bank->get_all_of_type(EntityType::ASSIGN);
     std::vector<int> visited;
@@ -116,7 +116,7 @@ std::vector<int> AffectsBipCompute::get_assigns_affected_bip_by(int stmt)
     return visited;
 }
 
-std::vector<int> AffectsBipCompute::get_all_assigns_affects_bip()
+std::vector<int> AffectsBipCompute::get_all_assigns_affected_bip()
 {
     std::vector<int> assign_stmts = type_bank->get_all_of_type(EntityType::ASSIGN);
     std::unordered_set<int> visited;
@@ -140,7 +140,7 @@ std::vector<int> AffectsBipCompute::get_all_assigns_affects_bip()
     return visited_vector;
 }
 
-std::vector<int> AffectsBipCompute::get_all_assigns_affected_bip()
+std::vector<int> AffectsBipCompute::get_all_assigns_affects_bip()
 {
     std::vector<int> assign_stmts = type_bank->get_all_of_type(EntityType::ASSIGN);
     std::unordered_set<int> visited;
@@ -187,4 +187,8 @@ AffectsBipCompute::AffectsBipCompute(NextBipBank &next_bip_bank, ModifiesBank &m
     modifies_bank = modifies_bank;
     uses_bank = uses_bank;
     type_bank = type_bank;
+}
+
+AffectsBipCompute::AffectsBipCompute()
+{
 }

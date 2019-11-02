@@ -1,0 +1,5 @@
+1 - select all stmt
+stmt s;
+Select s
+
+5000

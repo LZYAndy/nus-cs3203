@@ -27,6 +27,8 @@
 #include "AffectsStarCompute.h"
 #include "NextStarCompute.h"
 #include "NextBipBank.h"
+#include "NextBipStarCompute.h"
+#include "AffectsBipCompute.h"
 
 using namespace std;
 
@@ -34,6 +36,7 @@ class DesignExtractor;
 class PKB
 {
 public:
+    PKB();
     // Insert APIs
     /**
      * Insert a procedure into the proc_table.
@@ -738,7 +741,7 @@ public:
      * Get all reversed next relationships
      * @return Return all reversed next relationships in the program
      */
-    std::unordered_map<int, std::vector<int>> get_all_previous_relationship();
+    unordered_map<int, vector<int>> get_all_previous_relationship();
 
     /**
      * Check if there exist at least one Calls* relationship in PKB.
@@ -855,6 +858,60 @@ public:
      * @return procedure called.
      */
     string get_called_by_statement(int stmt);
+    
+    /**
+     * Insert NextBip relationship between statement1 and statement2.
+     * @param prev_prog
+     * @param next_prog
+     * @return Return true if the relationship is inserted successfully, otherwise false.
+     */
+    bool insert_next_bip(int prev_prog, int next_prog);
+    /**
+     * Insert Ingress & Egress prog line for Call statement
+     * @param ingress_prog
+     * @param egress_prog
+     * @return Return true if the Ingress & Egress is inserted successfully, otherwise false.
+     */
+    bool insert_call_ingress_egress(int ingress_prog, int egress_prog);
+    /**
+     * If there is a NextBip relationship between statement1 and statement2.
+     * @param prev_prog
+     * @param next_prog
+     * @return Return true if there is a NextBip relationship between these two statements, otherwise false.
+     */
+    bool is_next_bip(int prev_prog, int next_prog);
+    /**
+     * If there exists at least one NextBip relationship in the program.
+     * @return Return true if there exists at least one NextBip relationship, otherwise false.
+     */
+    bool does_next_bip_exists();
+    /**
+     * Get all statements that are the NextBip statement of the input statement
+     * @param prog_line
+     * @return Return a vector of statements which are the NextBip statement of the input statement.
+     */
+    vector<int>  get_next_bip(int prog_line);
+    /**
+     * Get all statements that are the Previous statement of the input statement
+     * @param prog_line
+     * @return Return a vector of statements which are the previous statement of the input statement.
+     */
+    vector<int>  get_previous_bip(int prog_line);
+    /**
+     * Get all statements which are the in next position in their NextBip relationships.
+     * @return Return all which are the in next position in their NextBip relationships.
+     */
+    vector<int>  get_all_next_bip();
+    /**
+     * Get all statements which are the in previous position in their NextBip relationships.
+     * @return Return all which are the in previous position in their NextBip relationships.
+     */
+    vector<int>  get_all_previous_bip();
+    /**
+     * Get all NextBip relationships
+     * @return Return all NextBip relationships in the program
+     */
+    unordered_map<int, vector<int>> get_all_next_bip_relationship();
     /**
     * Check if one assignment statement affects the another assignment directly or indirectly.
     * That is to say Affects(1, 2).
@@ -882,10 +939,70 @@ public:
      * @return unodered_map that contains all the affects* relationship.
      */
     unordered_map<int, vector<int>> get_all_affects_star_relationship();
-
-    bool insert_next_bip(int prev_prog, int next_prog);
-    bool insert_call_ingress_egress(int ingress_prog, int egress_prog);
-    bool is_next_bip(int prev_prog, int next_prog);
+    /**
+     * Check if NextBip* exists between two program line.
+     * @param previous
+     * @param next
+     * @return return true if they have NextBip* relationship
+     */
+    bool is_next_bip_star(int previous, int next);
+    /**
+     * Get all program lines that are in next position of NextBip.
+     * @param previous
+     * @return a vector of program lines that fulfill the condition
+     */
+    vector<int> get_next_bip_star(int previous);
+     /**
+     * Get all program lines that are in previous position of NextBip.
+     * @param next
+     * @return a vector of program lines that fulfill the condition
+     */
+    vector<int> get_previous_bip_star(int next);
+    /**
+     * Get all NextBip* relationship exists.
+     * @return an unordered_map contains all NextBip* relationship
+     */
+    unordered_map<int, vector<int>> get_all_next_bip_star_relationship();
+    /**
+     * Check if Affects Relationship exists.
+     * @return true if there Affects relationship.
+     */
+    bool does_affects_bip_exist();
+    /**
+     * Check if Affects relationship is valid between 2 assignment statement.
+     * @param stmt1 affected stmt
+     * @param stmt2 stmt to be affected
+     * @return true if the relationship is true. else false.
+     */
+    bool is_affects_bip(int stmt1, int stmt2);
+    /**
+     * Get all assignment statements that is affected by queried assignment statement.
+     * @param stmt quried statement
+     * @return a vector of assignment statement affected by queried assignment statement.
+     */
+    std::vector<int> get_assigns_affects_bip(int stmt);
+    /**
+     * Get all assignment statements that the queried assignment statement affects.
+     * @param stmt quried statement
+     * @return a vector of assignment statement that the queried assignment statement affects
+     */
+    std::vector<int> get_assigns_affected_bip_by(int stmt);
+    /**
+     * Get all assignment statement that affect others.
+     * @return a vector of assignment statement that affect others.
+     */
+    std::vector<int> get_all_assigns_affects_bip();
+    /**
+     * Get all assignment statement that affect others.
+     * @return a vector of assignment statements that could be affected
+     */
+    std::vector<int> get_all_assigns_affected_bip();
+    /**
+     * Get all AffectsBip that exists.
+     * @return a unordered_map of AffectBip relationshi that exists
+     */
+    std::unordered_map<int, std::vector<int>> get_all_affects_bip_relationship();
+    
 private:
     FollowsBank follows_bank;
     FollowsStarBank follows_star_bank;
@@ -905,6 +1022,8 @@ private:
     IfBank if_bank;
     AffectsStarCompute affects_star_compute;
     NextBipBank next_bip_bank;
+    NextBipStarCompute next_bip_star_compute;
+    AffectsBipCompute affects_bip_compute;
     int last_statement_num = 0;
 };
 
