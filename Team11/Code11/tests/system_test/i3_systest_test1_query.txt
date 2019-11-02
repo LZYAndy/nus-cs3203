@@ -930,6 +930,10 @@ TRUE
 5000
 
 122 - Affects, lhs syn, rhs syn
+assign a,a1;
+Select a such that Affects(a,a1)
+
+5000
 122 - Affects, lhs syn, rhs syn
 122 - Affects, lhs syn, rhs wc
 122 - Affects, lhs syn, rhs wc
@@ -968,6 +972,10 @@ TRUE
 133 - Affects*, lhs int, rhs int
 
 144 - Pattern assign, syn (var), exact match
+assign a; variable v;
+Select v pattern a(v, "a12")
+a12
+5000
 144 - Pattern assign, syn (var), exact match
 144 - Pattern assign, syn (var), partial match
 144 - Pattern assign, syn (var), partial match
