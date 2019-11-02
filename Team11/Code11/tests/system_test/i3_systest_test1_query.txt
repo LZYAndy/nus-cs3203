@@ -134,28 +134,100 @@ Select BOOLEAN such that Follows(22, 23)
 TRUE
 5000
 11 - Follows, lhs int, rhs int
+
 Select BOOLEAN such that Follows(22, 24)
 FALSE
 5000
+22 - Follows*, lhs syn, rhs syn
+assign a; if ifs;
+Select <a,ifs> such that Follows*(a, ifs)
+1 4,2 4,44 48,45 48,46 48,47 48
+5000
+22 - Follows*, lhs syn, rhs syn
+print pr; assign a;
+Select <pr,a> such that Follows*(pr, a)
+11 12,15 16,20 21,25 27,33 34,40 41
+5000
+22 - Follows*, lhs syn, rhs wc
+print pr;
+Select pr such that Follows*(pr, _)
+3,11,15,20,25,33,40
+5000
+22 - Follows*, lhs syn, rhs wc
+while w;
+Select w such that Follows*(w, _)
+31
+5000
+22 - Follows*, lhs syn, rhs int
+assign a;
+Select a such that Follows*(a, 4)
+1,2
+5000
+22 - Follows*, lhs syn, rhs int
+stmt s;
+Select s such that Follows*(s, 7)
+5,6
+5000
+22 - Follows*, lhs wc, rhs syn
 
-22 - Follows*, lhs syn, rhs syn
-22 - Follows*, lhs syn, rhs syn
-22 - Follows*, lhs syn, rhs wc
-22 - Follows*, lhs syn, rhs wc
-22 - Follows*, lhs syn, rhs int
-22 - Follows*, lhs syn, rhs int
+Select BOOLEAN such that Follows*(_, 42)
+TRUE
+5000
 22 - Follows*, lhs wc, rhs syn
-22 - Follows*, lhs wc, rhs syn
+
+Select BOOLEAN such that Follows*(_, 55)
+TRUE
+5000
 22 - Follows*, lhs wc, rhs wc
+
+Select BOOLEAN such that Follows*(_, _)
+TRUE
+5000
 22 - Follows*, lhs wc, rhs wc
+while w;
+Select w such that Follows*(_,_)
+7, 8, 9, 23, 31, 42, 52
+5000
 22 - Follows*, lhs wc, rhs int
+
+Select BOOLEAN such that Follows*(_,27)
+TRUE
+5000
 22 - Follows*, lhs wc, rhs int
+
+Select BOOLEAN such that Follows*(_,36)
+FALSE
+5000
 22 - Follows*, lhs int, rhs syn
+assign a;
+Select r such that Follows*(43,a)
+44,45,46,47
+5000
 22 - Follows*, lhs int, rhs syn
+stmt s;
+Select s such that Follows*(18,s)
+19,20,21
+5000
 22 - Follows*, lhs int, rhs wc
+
+Select BOOLEAN such that Follows*(21,_)
+FALSE
+5000
 22 - Follows*, lhs int, rhs wc
+
+Select BOOLEAN such that Follows*(25,_)
+TRUE
+5000
 22 - Follows*, lhs int, rhs int
+
+Select BOOLEAN such that Follows*(18,21)
+TRUE
+5000
 22 - Follows*, lhs int, rhs int
+
+Select BOOLEAN such that Follows*(17,18)
+FALSE
+5000
 
 33 - Parent, lhs syn, rhs syn
 33 - Parent, lhs syn, rhs syn
