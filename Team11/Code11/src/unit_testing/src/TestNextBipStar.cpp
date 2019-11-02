@@ -17,7 +17,7 @@ TEST_CASE("NextBipStarCompute::is_next_bip_star")
     type_bank.insert_type(5, EntityType::ASSIGN);
     type_bank.insert_type(6, EntityType::ASSIGN);
     type_bank.insert_type(7, EntityType::ASSIGN);
-    NextBipStarCompute next_bip_star_compute(next_bip_bank, type_bank);
+    NextBipStarCompute next_bip_star_compute(&next_bip_bank, &type_bank);
     next_bip_bank.insert_call_ingress_egress(2, 6);
 
     SECTION("fail")

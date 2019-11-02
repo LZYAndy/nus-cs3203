@@ -25,16 +25,19 @@ bool NextBipStarCompute::is_next_bip_star(int previous, int next)
        }
        std::vector<int> next_bip_stmts = bip_bank->get_next_bip(curr_prog_line);
        // exit if next prog line is egress
-       if (std::find(next_bip_stmts.begin(), next_bip_stmts.end(), call_stack.top()) != next_bip_stmts.end())
+       if (!call_stack.empty())
        {
-           int next_bip_stmt = call_stack.top();
-           call_stack.pop();
-           if (next_bip_stmt == next)
+           if (std::find(next_bip_stmts.begin(), next_bip_stmts.end(), call_stack.top()) != next_bip_stmts.end())
            {
-               return true;
+               int next_bip_stmt = call_stack.top();
+               call_stack.pop();
+               if (next_bip_stmt == next)
+               {
+                   return true;
+               }
+               to_visit.push(next_bip_stmt);
+               continue;
            }
-            to_visit.push(next_bip_stmt);
-            continue;
        }
        for (int next_bip_stmt : next_bip_stmts)
        {
@@ -73,12 +76,15 @@ std::vector<int> NextBipStarCompute::get_next_bip_star(int previous)
        }
        std::vector<int> next_bip_stmts = bip_bank->get_next_bip(curr_prog_line);
        // exit if next prog line is egress
-       if (std::find(next_bip_stmts.begin(), next_bip_stmts.end(), call_stack.top()) != next_bip_stmts.end())
+       if (!call_stack.empty())
        {
-            int next_bip_stmt = call_stack.top();
-            call_stack.pop();
-            to_visit.push(next_bip_stmt);
-            continue;
+           if (std::find(next_bip_stmts.begin(), next_bip_stmts.end(), call_stack.top()) != next_bip_stmts.end())
+           {
+               int next_bip_stmt = call_stack.top();
+               call_stack.pop();
+               to_visit.push(next_bip_stmt);
+               continue;
+           }
        }
        for (int next_bip_stmt : next_bip_stmts)
        {
@@ -116,12 +122,16 @@ std::vector<int> NextBipStarCompute::get_previous_bip_star(int next)
         }
         std::vector<int> previous_bip_stmts = bip_bank->get_previous_bip(curr_prog_line);
         // exit if next prog line is egress
-        if (std::find(previous_bip_stmts.begin(), previous_bip_stmts.end(), call_stack.top()) != previous_bip_stmts.end())
+        if (!call_stack.empty())
         {
-            int previous_bip_stmt = call_stack.top();
-            call_stack.pop();
-            to_visit.push(previous_bip_stmt);
-            continue;
+            if (std::find(previous_bip_stmts.begin(), previous_bip_stmts.end(), call_stack.top())
+                    != previous_bip_stmts.end())
+            {
+                int previous_bip_stmt = call_stack.top();
+                call_stack.pop();
+                to_visit.push(previous_bip_stmt);
+                continue;
+            }
         }
         for (int previous_bip_stmt : previous_bip_stmts)
         {
@@ -144,8 +154,8 @@ std::unordered_map<int, std::vector<int>> NextBipStarCompute::get_all_next_bip_s
     return next_bip_star_relationship;
 }
 
-NextBipStarCompute::NextBipStarCompute(NextBipBank &bip_bank, TypeBank &type_bank)
+NextBipStarCompute::NextBipStarCompute(NextBipBank *bip_bank, TypeBank *type_bank)
 {
-    bip_bank = bip_bank;
-    type_bank = type_bank;
+    this->bip_bank = bip_bank;
+    this->type_bank = type_bank;
 }

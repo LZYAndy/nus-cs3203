@@ -10,7 +10,7 @@
 class NextBipStarCompute
 {
 public:
-    NextBipStarCompute(NextBipBank &bip_bank, TypeBank &type_bank);
+    NextBipStarCompute(NextBipBank *bip_bank, TypeBank *type_bank);
     bool is_next_bip_star(int previous, int next);
     std::vector<int> get_next_bip_star(int previous);
     std::vector<int> get_previous_bip_star(int next);
