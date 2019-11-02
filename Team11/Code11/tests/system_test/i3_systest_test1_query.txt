@@ -1,4 +1,342 @@
-1 - select all
+1 - select all procedure, sanity check
+procedure p;
+Select p
+main,secondProc,thirdProc
+5000
+2 - select all read statement, sanity check
+read r;
+Select r
+5, 13, 14, 18, 30, 43
+5000
+3 - select all print statement, sanity check
+print pr;
+Select pr
+3, 11, 15, 20, 25, 33, 35, 40, 51
+5000
+4 - select all assign statement, sanity check
+assign a;
+Select a
+1, 2, 12, 16, 17, 19, 21, 27, 32, 34, 36, 37, 38, 39, 41, 44, 45, 46, 47, 49, 53, 54, 55
+5000
+5 - select all call statement, sanity check
+call c;
+Select c
+6, 22, 26
+5000
+6 - select all while statement, sanity check
+while w;
+Select w
+7, 8, 9, 23, 31, 42, 52
+5000
+7 - select all ifs statement, sanity check
+if ifs;
+Select ifs
+4, 10, 24, 28, 29, 48, 50
+5000
+8 - select all variable, sanity check
+variable v;
+Select v
+a1,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a2,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a3,a30,a31,a32,a33,a34,a35,a36,a37,a4,a5,a6,a7,a8,a9,b1,b10,b11,b12,b2,b3,b4,b5,b6,b7,b8,b9,c1,c10,c11,c12,c13,c14,c2,c3,c4,c5,c6,c7,c8,c9
+5000
+9 - select all constant, sanity check
+constant c;
+Select c
+0,1,22,4444
+5000
+10 - select all statement, sanity check
 stmt s;
 Select s
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55
 5000
+
+11 - Follows, lhs syn, rhs syn
+11 - Follows, lhs syn, rhs syn
+11 - Follows, lhs syn, rhs wc
+11 - Follows, lhs syn, rhs wc
+11 - Follows, lhs syn, rhs int
+11 - Follows, lhs syn, rhs int
+11 - Follows, lhs wc, rhs syn
+11 - Follows, lhs wc, rhs syn
+11 - Follows, lhs wc, rhs wc
+11 - Follows, lhs wc, rhs wc
+11 - Follows, lhs wc, rhs int
+11 - Follows, lhs wc, rhs int
+11 - Follows, lhs int, rhs syn
+11 - Follows, lhs int, rhs syn
+11 - Follows, lhs int, rhs wc
+11 - Follows, lhs int, rhs wc
+11 - Follows, lhs int, rhs int
+11 - Follows, lhs int, rhs int
+
+22 - Follows*, lhs syn, rhs syn
+22 - Follows*, lhs syn, rhs syn
+22 - Follows*, lhs syn, rhs wc
+22 - Follows*, lhs syn, rhs wc
+22 - Follows*, lhs syn, rhs int
+22 - Follows*, lhs syn, rhs int
+22 - Follows*, lhs wc, rhs syn
+22 - Follows*, lhs wc, rhs syn
+22 - Follows*, lhs wc, rhs wc
+22 - Follows*, lhs wc, rhs wc
+22 - Follows*, lhs wc, rhs int
+22 - Follows*, lhs wc, rhs int
+22 - Follows*, lhs int, rhs syn
+22 - Follows*, lhs int, rhs syn
+22 - Follows*, lhs int, rhs wc
+22 - Follows*, lhs int, rhs wc
+22 - Follows*, lhs int, rhs int
+22 - Follows*, lhs int, rhs int
+
+33 - Parent, lhs syn, rhs syn
+33 - Parent, lhs syn, rhs syn
+33 - Parent, lhs syn, rhs wc
+33 - Parent, lhs syn, rhs wc
+33 - Parent, lhs syn, rhs int
+33 - Parent, lhs syn, rhs int
+33 - Parent, lhs wc, rhs syn
+33 - Parent, lhs wc, rhs syn
+33 - Parent, lhs wc, rhs wc
+33 - Parent, lhs wc, rhs wc
+33 - Parent, lhs wc, rhs int
+33 - Parent, lhs wc, rhs int
+33 - Parent, lhs int, rhs syn
+33 - Parent, lhs int, rhs syn
+33 - Parent, lhs int, rhs wc
+33 - Parent, lhs int, rhs wc
+33 - Parent, lhs int, rhs int
+33 - Parent, lhs int, rhs int
+
+44 - Parent*, lhs syn, rhs syn
+44 - Parent*, lhs syn, rhs syn
+44 - Parent*, lhs syn, rhs wc
+44 - Parent*, lhs syn, rhs wc
+44 - Parent*, lhs syn, rhs int
+44 - Parent*, lhs syn, rhs int
+44 - Parent*, lhs wc, rhs syn
+44 - Parent*, lhs wc, rhs syn
+44 - Parent*, lhs wc, rhs wc
+44 - Parent*, lhs wc, rhs wc
+44 - Parent*, lhs wc, rhs int
+44 - Parent*, lhs wc, rhs int
+44 - Parent*, lhs int, rhs syn
+44 - Parent*, lhs int, rhs syn
+44 - Parent*, lhs int, rhs wc
+44 - Parent*, lhs int, rhs wc
+44 - Parent*, lhs int, rhs int
+44 - Parent*, lhs int, rhs int
+
+55 - Uses, lhs syn, rhs syn
+55 - Uses, lhs syn, rhs syn
+55 - Uses, lhs syn, rhs wc
+55 - Uses, lhs syn, rhs wc
+55 - Uses, lhs syn, rhs ident
+55 - Uses, lhs syn, rhs ident
+55 - Uses, lhs wc, rhs syn
+55 - Uses, lhs wc, rhs syn
+55 - Uses, lhs wc, rhs wc
+55 - Uses, lhs wc, rhs wc
+55 - Uses, lhs wc, rhs ident
+55 - Uses, lhs wc, rhs ident
+55 - Uses, lhs int, rhs syn
+55 - Uses, lhs int, rhs syn
+55 - Uses, lhs int, rhs wc
+55 - Uses, lhs int, rhs wc
+55 - Uses, lhs int, rhs ident
+55 - Uses, lhs int, rhs ident
+55 - Uses, lhs ident, rhs syn
+55 - Uses, lhs ident, rhs syn
+55 - Uses, lhs ident, rhs wc
+55 - Uses, lhs ident, rhs wc
+55 - Uses, lhs ident, rhs ident
+55 - Uses, lhs ident, rhs ident
+
+66 - Modifies, lhs syn, rhs syn
+66 - Modifies, lhs syn, rhs syn
+66 - Modifies, lhs syn, rhs wc
+66 - Modifies, lhs syn, rhs wc
+66 - Modifies, lhs syn, rhs ident
+66 - Modifies, lhs syn, rhs ident
+66 - Modifies, lhs wc, rhs syn
+66 - Modifies, lhs wc, rhs syn
+66 - Modifies, lhs wc, rhs wc
+66 - Modifies, lhs wc, rhs wc
+66 - Modifies, lhs wc, rhs ident
+66 - Modifies, lhs wc, rhs ident
+66 - Modifies, lhs int, rhs syn
+66 - Modifies, lhs int, rhs syn
+66 - Modifies, lhs int, rhs wc
+66 - Modifies, lhs int, rhs wc
+66 - Modifies, lhs int, rhs ident
+66 - Modifies, lhs int, rhs ident
+66 - Modifies, lhs ident, rhs syn
+66 - Modifies, lhs ident, rhs syn
+66 - Modifies, lhs ident, rhs wc
+66 - Modifies, lhs ident, rhs wc
+66 - Modifies, lhs ident, rhs ident
+66 - Modifies, lhs ident, rhs ident
+
+77 - Calls, lhs syn, rhs syn
+77 - Calls, lhs syn, rhs syn
+77 - Calls, lhs syn, rhs wc
+77 - Calls, lhs syn, rhs wc
+77 - Calls, lhs syn, rhs ident
+77 - Calls, lhs syn, rhs ident
+77 - Calls, lhs wc, rhs syn
+77 - Calls, lhs wc, rhs syn
+77 - Calls, lhs wc, rhs wc
+77 - Calls, lhs wc, rhs wc
+77 - Calls, lhs wc, rhs ident
+77 - Calls, lhs wc, rhs ident
+77 - Calls, lhs ident, rhs syn
+77 - Calls, lhs ident, rhs syn
+77 - Calls, lhs ident, rhs wc
+77 - Calls, lhs ident, rhs wc
+77 - Calls, lhs ident, rhs ident
+77 - Calls, lhs ident, rhs ident
+
+88 - Calls*, lhs syn, rhs syn
+88 - Calls*, lhs syn, rhs syn
+88 - Calls*, lhs syn, rhs wc
+88 - Calls*, lhs syn, rhs wc
+88 - Calls*, lhs syn, rhs ident
+88 - Calls*, lhs syn, rhs ident
+88 - Calls*, lhs wc, rhs syn
+88 - Calls*, lhs wc, rhs syn
+88 - Calls*, lhs wc, rhs wc
+88 - Calls*, lhs wc, rhs wc
+88 - Calls*, lhs wc, rhs ident
+88 - Calls*, lhs wc, rhs ident
+88 - Calls*, lhs ident, rhs syn
+88 - Calls*, lhs ident, rhs syn
+88 - Calls*, lhs ident, rhs wc
+88 - Calls*, lhs ident, rhs wc
+88 - Calls*, lhs ident, rhs ident
+88 - Calls*, lhs ident, rhs ident
+
+99 - Next, lhs syn, rhs syn
+99 - Next, lhs syn, rhs syn
+99 - Next, lhs syn, rhs wc
+99 - Next, lhs syn, rhs wc
+99 - Next, lhs syn, rhs int
+99 - Next, lhs syn, rhs int
+99 - Next, lhs wc, rhs syn
+99 - Next, lhs wc, rhs syn
+99 - Next, lhs wc, rhs wc
+99 - Next, lhs wc, rhs wc
+99 - Next, lhs wc, rhs int
+99 - Next, lhs wc, rhs int
+99 - Next, lhs int, rhs syn
+99 - Next, lhs int, rhs syn
+99 - Next, lhs int, rhs wc
+99 - Next, lhs int, rhs wc
+99 - Next, lhs int, rhs int
+99 - Next, lhs int, rhs int
+
+111 - Next*, lhs syn, rhs syn
+111 - Next*, lhs syn, rhs syn
+111 - Next*, lhs syn, rhs wc
+111 - Next*, lhs syn, rhs wc
+111 - Next*, lhs syn, rhs int
+111 - Next*, lhs syn, rhs int
+111- Next*, lhs wc, rhs syn
+111 - Next*, lhs wc, rhs syn
+111 - Next*, lhs wc, rhs wc
+111 - Next*, lhs wc, rhs wc
+111 - Next*, lhs wc, rhs int
+111 - Next*, lhs wc, rhs int
+111 - Next*, lhs int, rhs syn
+111 - Next*, lhs int, rhs syn
+111 - Next*, lhs int, rhs wc
+111 - Next*, lhs int, rhs wc
+111 - Next*, lhs int, rhs int
+111 - Next*, lhs int, rhs int
+
+122 - Affects, lhs syn, rhs syn
+122 - Affects, lhs syn, rhs syn
+122 - Affects, lhs syn, rhs wc
+122 - Affects, lhs syn, rhs wc
+122 - Affects, lhs syn, rhs int
+122 - Affects, lhs syn, rhs int
+122 - Affects, lhs wc, rhs syn
+122 - Affects, lhs wc, rhs syn
+122 - Affects, lhs wc, rhs wc
+122 - Affects, lhs wc, rhs wc
+122 - Affects, lhs wc, rhs int
+122 - Affects, lhs wc, rhs int
+122 - Affects, lhs int, rhs syn
+122 - Affects, lhs int, rhs syn
+122 - Affects, lhs int, rhs wc
+122 - Affects, lhs int, rhs wc
+122 - Affects, lhs int, rhs int
+122 - Affects, lhs int, rhs int
+
+133 - Affects*, lhs syn, rhs syn
+133 - Affects*, lhs syn, rhs syn
+133 - Affects*, lhs syn, rhs wc
+133 - Affects*, lhs syn, rhs wc
+133 - Affects*, lhs syn, rhs int
+133 - Affects*, lhs syn, rhs int
+133 - Affects*, lhs wc, rhs syn
+133 - Affects*, lhs wc, rhs syn
+133 - Affects*, lhs wc, rhs wc
+133 - Affects*, lhs wc, rhs wc
+133 - Affects*, lhs wc, rhs int
+133 - Affects*, lhs wc, rhs int
+133 - Affects*, lhs int, rhs syn
+133 - Affects*, lhs int, rhs syn
+133 - Affects*, lhs int, rhs wc
+133 - Affects*, lhs int, rhs wc
+133 - Affects*, lhs int, rhs int
+133 - Affects*, lhs int, rhs int
+
+144 - Pattern assign, syn (var), exact match
+144 - Pattern assign, syn (var), exact match
+144 - Pattern assign, syn (var), partial match
+144 - Pattern assign, syn (var), partial match
+144 - Pattern assign, wc, exact match
+144 - Pattern assign, wc, exact match
+144 - Pattern assign, wc, partial match
+144 - Pattern assign, wc, partial match
+144 - Pattern assign, ident, exact match
+144 - Pattern assign, ident, exact match
+144 - Pattern assign, ident, partial match
+144 - Pattern assign, ident, partial match
+144 - Pattern if, syn (var)
+144 - Pattern if, syn (var)
+144 - Pattern if, wc
+144 - Pattern if, wc
+144 - Pattern if, ident
+144 - Pattern if, ident
+144 - Pattern while, syn (var)
+144 - Pattern while, syn (var)
+144 - Pattern while, wc
+144 - Pattern while, wc
+144 - Pattern while, ident
+144 - Pattern while, ident
+
+155 - With, lhs ident, rhs ident
+155 - With, lhs ident, rhs syn (prog_line)
+155 - With, lhs ident, rhs procedure.procName (NAME)
+155 - With, lhs ident, rhs call.procName (NAME)
+155 - With, lhs ident, rhs variable.varName (NAME)
+155 - With, lhs ident, rhs print.varName (NAME)
+155 - With, lhs int, rhs int
+155 - With, lhs int, rhs syn (prog_line)
+155 - With, lhs int, rhs constant.value (INT)
+155 - With, lhs int, rhs stmt.stmt# (INT)
+155 - With, lhs int, rhs read.stmt# (INT)
+155 - With, lhs int, rhs print.stmt# (INT)
+155 - With, lhs int, rhs call.stmt# (INT)
+155 - With, lhs int, rhs while.stmt# (INT)
+155 - With, lhs int, rhs if.stmt# (INT)
+155 - With, lhs int, rhs assign.stmt# (INT)
+155 - With, lhs syn (prog_line), rhs int
+155 - With, lhs syn (prog_line), rhs syn (prog_line)
+155 - With, lhs syn (prog_line), rhs constant.value (INT)
+155 - With, lhs syn (prog_line), rhs stmt.stmt# (INT)
+155 - With, lhs syn (prog_line), rhs read.stmt# (INT)
+155 - With, lhs syn (prog_line), rhs print.stmt# (INT)
+155 - With, lhs syn (prog_line), rhs call.stmt# (INT)
+155 - With, lhs syn (prog_line), rhs while.stmt# (INT)
+155 - With, lhs syn (prog_line), rhs if.stmt# (INT)
+155 - With, lhs syn (prog_line), rhs assign.stmt# (INT)
