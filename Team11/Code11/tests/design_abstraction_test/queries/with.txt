@@ -1,0 +1,110 @@
+1 - Select procedure with name "main"
+procedure p;
+Select p with p.proc_name = "main"
+main
+5000
+2 - Select all procedure names
+procedure p;
+Select p.proc_name
+main, calculate, printData
+5000
+3 - Select variable with name "x"
+variable v;
+Select v with v.var_name = "x"
+x
+5000
+4 - Select all variable names
+variable v;
+Select v.var_name
+x, y, z, a, b, c, d, e, f, g, h, i, j
+5000
+5 - Select constant with value 909090
+constant c;
+Select c with c.const_value = 909090
+909090
+5000
+6 - Select all constant values
+constant c;
+Select c.const_value
+1, 2, 5, 9, 10, 20, 100, 909090, 8765
+5000
+7 - Select statement with statement number 1
+stmt s;
+Select s with s.stmt# = 1
+1
+5000
+8 - Select all statement numbers
+stmt s;
+Select s.stmt#
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24
+5000
+9 - Select all read statements
+read r;
+Select r.stmt#
+13, 14
+5000
+10 - Select all print statements
+print p;
+Select p.stmt#
+16, 17, 22, 23, 24
+5000
+11 - Select all assignment statements
+assign a;
+Select a.stmt#
+1, 2, 3, 4, 5, 8, 9, 10, 11, 19, 20, 21
+5000
+12 - Select all call statements
+call c;
+Select c.stmt#
+15, 18
+5000
+13 - Select all if statements
+if ifs;
+Select ifs.stmt#
+6, 7
+5000
+14 - Select all while statements
+while w;
+Select w.stmt#
+12
+5000
+15 - Select while statements with non-related with
+while w; assign a;
+Select w with a.stmt# = 1
+12
+5000
+16 - Select if statements with non-related with
+if ifs; assign a;
+Select ifs with a.stmt# = 6
+
+5000
+17 - Select read with certain statement number
+read r;
+Select r with r.stmt# = 13
+13
+5000
+18 - Select print with certain statement number
+print p;
+Select p with p.stmt# = 19
+19
+5000
+19 - Select if with certain statement number
+if ifs;
+Select ifs with ifs.stmt# = 7
+7
+5000
+20 - Select while with certain statement number
+while w;
+Select w with w.stmt# = 15
+15
+5000
+21 - Select call with certain statement number
+call cl;
+Select cl with cl.stmt# = 21
+21
+5000
+22 - Select assign with certain statement number
+assign a;
+Select a with a.stmt# = 1
+1
+5000

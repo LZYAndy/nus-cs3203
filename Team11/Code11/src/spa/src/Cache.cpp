@@ -142,7 +142,7 @@ unordered_map<string, vector<string>> Cache::get_clause_map(pql_dto::Constraint 
 
 int Cache::get_clause_size(pql_dto::Constraint &clause)
 {
-    int size;
+    int size = 0;
     unordered_map<string, vector<string>> clause_map = Cache::get_clause_map(clause);
     for (auto iter : clause_map)
     {
