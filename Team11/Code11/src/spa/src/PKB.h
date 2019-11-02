@@ -27,6 +27,7 @@
 #include "AffectsStarCompute.h"
 #include "NextStarCompute.h"
 #include "NextBipBank.h"
+#include "NextBipStarCompute.h"
 
 using namespace std;
 
@@ -34,6 +35,7 @@ class DesignExtractor;
 class PKB
 {
 public:
+    PKB();
     // Insert APIs
     /**
      * Insert a procedure into the proc_table.
@@ -738,7 +740,7 @@ public:
      * Get all reversed next relationships
      * @return Return all reversed next relationships in the program
      */
-    std::unordered_map<int, std::vector<int>> get_all_previous_relationship();
+    unordered_map<int, vector<int>> get_all_previous_relationship();
 
     /**
      * Check if there exist at least one Calls* relationship in PKB.
@@ -936,6 +938,30 @@ public:
      * @return unodered_map that contains all the affects* relationship.
      */
     unordered_map<int, vector<int>> get_all_affects_star_relationship();
+    /**
+     * Check if NextBip* exists between two program line.
+     * @param previous
+     * @param next
+     * @return return true if they have NextBip* relationship
+     */
+    bool is_next_bip_star(int previous, int next);
+    /**
+     * Get all program lines that are in next position of NextBip.
+     * @param previous
+     * @return a vector of program lines that fulfill the condition
+     */
+    vector<int> get_next_bip_star(int previous);
+     /**
+     * Get all program lines that are in previous position of NextBip.
+     * @param next
+     * @return a vector of program lines that fulfill the condition
+     */
+    vector<int> get_previous_bip_star(int next);
+    /**
+     * Get all NextBip* relationship exists.
+     * @return an unordered_map contains all NextBip* relationship
+     */
+    unordered_map<int, vector<int>> get_all_next_bip_star_relationship();
 
 private:
     FollowsBank follows_bank;
@@ -956,6 +982,7 @@ private:
     IfBank if_bank;
     NextBipBank next_bip_bank;
     AffectsStarCompute affects_star_compute;
+    NextBipStarCompute next_bip_star_compute;
     int last_statement_num = 0;
 };
 
