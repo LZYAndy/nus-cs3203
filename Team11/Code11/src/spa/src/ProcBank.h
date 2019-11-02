@@ -10,7 +10,7 @@ class ProcBank
 {
 public:
     /**
-     * Insert a procedure into the proc_table.
+     * Insert procedure info into ProcBank.
      * @param name
      * @param first_prog procedure first program line
      * @param last_progs last program lines in procedure before exit procedure
@@ -18,7 +18,7 @@ public:
      */
     bool insert_procedure(std::string name, int first_prog, std::vector<int> last_progs);
     /**
-     * Get all procedures in the proc_table.
+     * Get all procedures in the ProcBank.
      * @return Return a string unordered_set of procedures that are contained in the proc_table.
      */
     std::vector<std::string>get_all_procedures();
