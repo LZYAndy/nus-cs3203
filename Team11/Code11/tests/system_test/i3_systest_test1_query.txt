@@ -1173,33 +1173,136 @@ while w;
 Select w pattern w("b1",_)
 23
 5000
-
 155 - With, lhs ident, rhs ident
+
+Select BOOLEAN with "hello" = "hello"
+TRUE
+5000
 155 - With, lhs ident, rhs syn (prog_line)
+prog_line n;
+Select BOOLEAN with "hello" = n
+FALSE
+5000
 155 - With, lhs ident, rhs procedure.procName (NAME)
+procedure p;
+Select p.procName with "main" = p.procName
+main
+5000
 155 - With, lhs ident, rhs call.procName (NAME)
+call c;
+Select c with "thirdProc" = c.procName
+22,26
+5000
 155 - With, lhs ident, rhs variable.varName (NAME)
+variable v;
+Select v.varName with "a2" = v.varName
+a2
+5000
 155 - With, lhs ident, rhs print.varName (NAME)
+print pr;
+Select pr with "a32" = pr.varName
+15
+5000
 155 - With, lhs int, rhs int
+
+Select BOOLEAN with 10 = 10
+TRUE
+5000
 155 - With, lhs int, rhs syn (prog_line)
+prog_line n;
+Select BOOLEAN with 16 = n
+TRUE
+5000
 155 - With, lhs int, rhs constant.value (INT)
+constant c;
+Select c.value with 0 = c.value
+0
+5000
 155 - With, lhs int, rhs stmt.stmt# (INT)
+stmt s;
+Select BOOLEAN with 8 = s.stmt#
+TRUE
+5000
 155 - With, lhs int, rhs read.stmt# (INT)
+read r;
+Select r.stmt# with 18 = r.stmt#
+18
+5000
 155 - With, lhs int, rhs print.stmt# (INT)
+print pr;
+Select pr.stmt# with 20 = pr.stmt#
+20
+5000
 155 - With, lhs int, rhs call.stmt# (INT)
+call c;
+Select c.stmt# with 6 = c.stmt#
+6
+5000
 155 - With, lhs int, rhs while.stmt# (INT)
+while w;
+Select w.stmt# with 9 = w.stmt#
+9
+5000
 155 - With, lhs int, rhs if.stmt# (INT)
+if ifs;
+Select ifs.stmt# with 28 = ifs.stmt#
+28
+5000
 155 - With, lhs int, rhs assign.stmt# (INT)
+assign a;
+Select a.stmt# with 12 = a.stmt#
+12
+5000
 155 - With, lhs syn (prog_line), rhs int
+prog_line n;
+Select n with n = 10
+10
+5000
 155 - With, lhs syn (prog_line), rhs syn (prog_line)
+prog_line n;
+Select BOOLEAN with n = n
+TRUE
+5000
 155 - With, lhs syn (prog_line), rhs constant.value (INT)
+prog_line n; constant c;
+Select BOOLEAN with n = c.value
+TRUE
+5000
 155 - With, lhs syn (prog_line), rhs stmt.stmt# (INT)
+prog_line n; stmt s;
+Select BOOLEAN with n = s.stmt#
+TRUE
+5000
 155 - With, lhs syn (prog_line), rhs read.stmt# (INT)
+prog_line n; read r;
+Select BOOLEAN with n = r.stmt#
+TRUE
+5000
 155 - With, lhs syn (prog_line), rhs print.stmt# (INT)
+prog_line n; print pr;
+Select BOOLEAN with n = pr.stmt#
+TRUE
+5000
 155 - With, lhs syn (prog_line), rhs call.stmt# (INT)
+prog_line n; call c;
+Select BOOLEAN with n = c.stmt#
+TRUE
+5000
 155 - With, lhs syn (prog_line), rhs while.stmt# (INT)
+prog_line n; while w;
+Select BOOLEAN with n = w.stmt#
+TRUE
+5000
 155 - With, lhs syn (prog_line), rhs if.stmt# (INT)
+prog_line n; if ifs;
+Select BOOLEAN with n = ifs.stmt#
+TRUE
+5000
 155 - With, lhs syn (prog_line), rhs assign.stmt# (INT)
+prog_line n; assign a;
+Select BOOLEAN with n = a.stmt#
+TRUE
+5000
 
 166 - NextBip, lhs syn, rhs syn
 166 - NextBip, lhs syn, rhs wc
