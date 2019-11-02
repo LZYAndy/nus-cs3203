@@ -2,6 +2,17 @@
 
 bool ProcBank::insert_procedure(std::string name, int first_prog, std::vector<int> last_progs)
 {
+    if (!first_line_bank.get(name).empty())
+    {
+        return false;
+    }
+    if (!first_line_bank.get_reverse(first_prog).empty())
+    {
+        if (first_line_bank.get_reverse(first_prog)[0].compare(name) != 0)
+        {
+            return false;
+        }
+    }
     first_line_bank.put(name, first_prog);
     for (int prog_line: last_progs)
     {

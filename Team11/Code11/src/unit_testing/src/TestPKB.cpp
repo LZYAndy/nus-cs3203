@@ -7,14 +7,14 @@ TEST_CASE("PKB::insert_procedure()")
 
     SECTION("insert success")
     {
-        REQUIRE(pkb.insert_procedure("test"));
-        REQUIRE(pkb.insert_procedure("extra"));
+        REQUIRE(pkb.insert_procedure("test", 1, {3}));
+        REQUIRE(pkb.insert_procedure("extra", 1, {2, 4}));
     }
 
     SECTION("insert fail")
     {
-        REQUIRE(pkb.insert_procedure("test"));
-        REQUIRE_FALSE(pkb.insert_procedure("test"));
+        REQUIRE(pkb.insert_procedure("test", 1, {3}));
+        REQUIRE_FALSE(pkb.insert_procedure("test", 1, {3}));
     }
 }
 
@@ -806,9 +806,9 @@ TEST_CASE("PKB::get_all_procedures()")
         REQUIRE(proc_table.size() == 0);
     }
 
-    pkb.insert_procedure("main");
-    pkb.insert_procedure("procX");
-    pkb.insert_procedure("procX");
+    pkb.insert_procedure("main", 1, {3});
+    pkb.insert_procedure("procX", 1 , {2, 4});
+    pkb.insert_procedure("procX", 1, {3, 5} );
 
     SECTION("more than 0 procedure")
     {
@@ -4203,5 +4203,50 @@ TEST_CASE("PKB::get_all_next_star_relationship()")
                 REQUIRE(result.at(i) == vec1);
             }
         }
+    }
+}
+
+
+TEST_CASE("PKB::get_procedure_first_line")
+{
+    PKB pkb;
+    SECTION("no first line")
+    {
+        REQUIRE(pkb.get_procedure_first_line("a") == -1);
+    }
+
+    pkb.insert_procedure("main", 1, {3});
+    pkb.insert_procedure("procX", 6 , {2, 4});
+    pkb.insert_procedure("procX", 1, {3, 5} );
+
+    SECTION("return first line")
+    {
+        int result = pkb.get_procedure_first_line("main");
+
+        REQUIRE(1 == result);
+    }
+}
+
+TEST_CASE("PKB::get_procedure_last_lines")
+{
+    PKB pkb;
+    SECTION("no last_lines")
+    {
+        REQUIRE(pkb.get_procedure_last_lines("a").empty());
+    }
+
+    pkb.insert_procedure("main", 1, {3});
+    pkb.insert_procedure("procX", 6 , {2, 4});
+    pkb.insert_procedure("procX", 1, {3, 5} );
+
+    SECTION("return last_lines")
+    {
+        std::vector<int> result = pkb.get_procedure_last_lines("procX");
+        std::vector<int> expected;
+        expected.push_back(4);
+        expected.push_back(2);
+        std::sort(expected.begin(), expected.end());
+        std::sort(result.begin(), result.end());
+        REQUIRE(expected == result);
     }
 }

@@ -23,7 +23,7 @@ int Parser::parse(std::string simple)
     std::vector<Procedure> list_of_proc = procedure_analyser.analyse();
     for (Procedure p : list_of_proc)
     {
-        pkb->insert_procedure(p.get_name());
+        pkb->insert_procedure(p.get_name(), 1, {2}); // temp to build
     }
 
     int num_of_proc = list_of_proc.size();
