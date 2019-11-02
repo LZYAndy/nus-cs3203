@@ -1,6 +1,6 @@
 #include "NextBipStarCompute.h"
 
-bool NextBipStarCompute::is_next_bip_star(NextBipBank &bip_bank, int previous, int next, TypeBank &type_bank)
+bool NextBipStarCompute::is_next_bip_star(int previous, int next)
 {
    std::stack<int> to_visit;
    std::unordered_set<int> visited;
@@ -19,11 +19,11 @@ bool NextBipStarCompute::is_next_bip_star(NextBipBank &bip_bank, int previous, i
            continue;
        }
        // keep track egress if next line will branchin another procedure
-       if (type_bank.get_statement_type(curr_prog_line) == EntityType::CALL)
+       if (type_bank->get_statement_type(curr_prog_line) == EntityType::CALL)
        {
-           call_stack.push(bip_bank.get_egress(curr_prog_line));
+           call_stack.push(bip_bank->get_egress(curr_prog_line));
        }
-       std::vector<int> next_bip_stmts = bip_bank.get_next_bip(curr_prog_line);
+       std::vector<int> next_bip_stmts = bip_bank->get_next_bip(curr_prog_line);
        // exit if next prog line is egress
        if (std::find(next_bip_stmts.begin(), next_bip_stmts.end(), call_stack.top()) != next_bip_stmts.end())
        {
@@ -48,7 +48,7 @@ bool NextBipStarCompute::is_next_bip_star(NextBipBank &bip_bank, int previous, i
    return false;
 }
 
-std::vector<int> NextBipStarCompute::get_next_bip_star(NextBipBank &bip_bank, int previous, TypeBank &type_bank)
+std::vector<int> NextBipStarCompute::get_next_bip_star(int previous)
 {
    std::stack<int> to_visit;
    std::unordered_set<int> visited;
@@ -67,11 +67,11 @@ std::vector<int> NextBipStarCompute::get_next_bip_star(NextBipBank &bip_bank, in
            continue;
        }
        // keep track egress if next line will branchin another procedure
-       if (type_bank.get_statement_type(curr_prog_line) == EntityType::CALL)
+       if (type_bank->get_statement_type(curr_prog_line) == EntityType::CALL)
        {
-           call_stack.push(bip_bank.get_egress(curr_prog_line));
+           call_stack.push(bip_bank->get_egress(curr_prog_line));
        }
-       std::vector<int> next_bip_stmts = bip_bank.get_next_bip(curr_prog_line);
+       std::vector<int> next_bip_stmts = bip_bank->get_next_bip(curr_prog_line);
        // exit if next prog line is egress
        if (std::find(next_bip_stmts.begin(), next_bip_stmts.end(), call_stack.top()) != next_bip_stmts.end())
        {
@@ -91,7 +91,7 @@ std::vector<int> NextBipStarCompute::get_next_bip_star(NextBipBank &bip_bank, in
    return visited_vector;
 }
 
-std::vector<int> NextBipStarCompute::get_previous_bip_star(NextBipBank &bip_bank, int next, TypeBank &type_bank)
+std::vector<int> NextBipStarCompute::get_previous_bip_star(int next)
 {
     std::stack<int> to_visit;
     std::unordered_set<int> visited;
@@ -110,11 +110,11 @@ std::vector<int> NextBipStarCompute::get_previous_bip_star(NextBipBank &bip_bank
             continue;
         }
         // keep track egress if next line will branchin another procedure
-        if (type_bank.get_statement_type(curr_prog_line) == EntityType::CALL)
+        if (type_bank->get_statement_type(curr_prog_line) == EntityType::CALL)
         {
-            call_stack.push(bip_bank.get_ingress(curr_prog_line));
+            call_stack.push(bip_bank->get_ingress(curr_prog_line));
         }
-        std::vector<int> previous_bip_stmts = bip_bank.get_previous_bip(curr_prog_line);
+        std::vector<int> previous_bip_stmts = bip_bank->get_previous_bip(curr_prog_line);
         // exit if next prog line is egress
         if (std::find(previous_bip_stmts.begin(), previous_bip_stmts.end(), call_stack.top()) != previous_bip_stmts.end())
         {
@@ -134,24 +134,18 @@ std::vector<int> NextBipStarCompute::get_previous_bip_star(NextBipBank &bip_bank
     return visited_vector;
 }
 
-std::vector<int> get_all_next_bip_star(NextBipBank &bip_bank)
+std::unordered_map<int, std::vector<int>> NextBipStarCompute::get_all_next_bip_star_relationship()
 {
-   return bip_bank.get_all_next_bip();
-}
-
-std::vector<int> get_all_previous_bip_star(NextBipBank &bip_bank)
-{
-    return bip_bank.get_all_previous_bip();
-}
-
-std::unordered_map<int, std::vector<int>> NextBipStarCompute::get_all_next_bip_star_relationship(NextBipBank &bip_bank, TypeBank &type_bank)
-{
-    // super naive way
-    int curr_stmt = 1;
-    auto next_bip_star_relationship = bip_bank.get_all_next_bip_relationship();
+    auto next_bip_star_relationship = bip_bank->get_all_next_bip_relationship();
     for (auto next_bip_star_entry: next_bip_star_relationship)
     {
-        next_bip_star_relationship[next_bip_star_entry.first] = get_next_bip_star(bip_bank, next_bip_star_entry.first, type_bank);
+        next_bip_star_relationship[next_bip_star_entry.first] = get_next_bip_star(next_bip_star_entry.first);
     }
     return next_bip_star_relationship;
+}
+
+NextBipStarCompute::NextBipStarCompute(NextBipBank &bip_bank, TypeBank &type_bank)
+{
+    bip_bank = bip_bank;
+    type_bank = type_bank;
 }

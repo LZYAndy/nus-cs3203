@@ -10,11 +10,13 @@
 class NextBipStarCompute
 {
 public:
-    bool is_next_bip_star(NextBipBank &bip_bank, int previous, int next, TypeBank &type_bank);
-    std::vector<int> get_next_bip_star(NextBipBank &bip_bank, int previous,  TypeBank &type_bank);
-    std::vector<int> get_previous_bip_star(NextBipBank &bip_bank, int nex,  TypeBank &type_bank);
-    std::vector<int> get_all_next_bip_star(NextBipBank &bip_bank);
-    std::vector<int> get_all_previous_bip_star(NextBipBank &bip_bank);
-    std::unordered_map<int, std::vector<int>> get_all_next_bip_star_relationship(NextBipBank &bip_bank, TypeBank &type_bank);
+    NextBipStarCompute(NextBipBank &bip_bank, TypeBank &type_bank);
+    bool is_next_bip_star(int previous, int next);
+    std::vector<int> get_next_bip_star(int previous);
+    std::vector<int> get_previous_bip_star(int next);
+    std::unordered_map<int, std::vector<int>> get_all_next_bip_star_relationship();
+private:
+    NextBipBank *bip_bank;
+    TypeBank *type_bank;
 };
 #endif
