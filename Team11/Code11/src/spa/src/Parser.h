@@ -7,9 +7,23 @@
 class Parser
 {
 public:
-    // Constructor
+
+    /**
+     * Constructor of Parser with an instance of pkb
+     * @param pkb the pkb instance
+     */
     Parser(PKB *pkb);
+
+    /**
+     * Constructor of Parser without an instance of pkb.
+     */
     Parser();
+
+    /**
+     * Parse the whole SIMPLE program and populate the necessary relationships and information into PKB
+     * @param SIMPLE_prog the source SIMPLE program
+     * @return 0
+     */
     int parse(std::string SIMPLE_prog);
 
     /**

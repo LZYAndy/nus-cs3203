@@ -54,7 +54,9 @@ int Parser::parse(std::string simple)
         last_line_num = last_statement.get_prog_line() + 1;
 
         // Insert into PKB with the first statements and last statements for the each procedure.
-
+        int first_stmt = list_of_stmt[0].get_prog_line();
+        std::vector<int> last_stmts = get_last_statements(list_of_stmt[list_of_stmt.size() - 1]);
+        pkb->insert_procedure(this_procedure.get_name(), first_stmt, last_stmts);
     }
 
     bool de_check = this->pkb->extract_design();
