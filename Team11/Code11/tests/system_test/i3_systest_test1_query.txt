@@ -928,49 +928,146 @@ TRUE
 Select BOOLEAN such that Next*(15, 11)
 TRUE
 5000
-
 122 - Affects, lhs syn, rhs syn
 assign a,a1;
-Select a such that Affects(a,a1)
-
+Select <a,a1> such that Affects(a,a1)
+19 21,32 34,38 27,39 41,44 44,45 46,45 54,46 49,53 44,53 53,54 45,55 55
 5000
-122 - Affects, lhs syn, rhs syn
 122 - Affects, lhs syn, rhs wc
-122 - Affects, lhs syn, rhs wc
+assign a;
+Select a such that Affects(a,_)
+16,19,32,36,37,38,39,44,45,46,49,53,54,55
+5000
 122 - Affects, lhs syn, rhs int
+assign a;
+Select a such that Affects(a,44)
+44,53
+5000
 122 - Affects, lhs syn, rhs int
+assign a;
+Select a such that Affects(a,49)
+46
+5000
 122 - Affects, lhs wc, rhs syn
-122 - Affects, lhs wc, rhs syn
+assign a;
+Select a such that Affects(_,a)
+21,27,34,41,44,45,46,47,49,53,54,55
+5000
 122 - Affects, lhs wc, rhs wc
-122 - Affects, lhs wc, rhs wc
+
+Select BOOLEAN such that Affects(_,_)
+TRUE
+5000
 122 - Affects, lhs wc, rhs int
+
+Select BOOLEAN such that Affects(_,27)
+TRUE
+5000
 122 - Affects, lhs wc, rhs int
+
+Select BOOLEAN such that Affects(_,35)
+FALSE
+5000
 122 - Affects, lhs int, rhs syn
+assign a;
+Select BOOLEAN such that Affects(53,a)
+TRUE
+5000
 122 - Affects, lhs int, rhs syn
+assign a;
+Select BOOLEAN such that Affects(47,a)
+FALSE
+5000
 122 - Affects, lhs int, rhs wc
+assign a;
+Select BOOLEAN such that Affects(46,_)
+TRUE
+5000
 122 - Affects, lhs int, rhs wc
-122 - Affects, lhs int, rhs int
+assign a;
+Select BOOLEAN such that Affects(12,_)
+FALSE
+5000
 122 - Affects, lhs int, rhs int
 
+Select BOOLEAN such that Affects(53,53)
+TRUE
+5000
+122 - Affects, lhs int, rhs int
+
+Select BOOLEAN such that Affects(18,19)
+FALSE
+5000
 133 - Affects*, lhs syn, rhs syn
-133 - Affects*, lhs syn, rhs syn
+assign a,a1;
+Select <a,a1> such that Affects*(a,a1)
+19 21,32 34,38 27,39 41,44 44,45 45,45 46,45 49,45 54,46 49,53 44,53 53,54 45,54 46,54 49,54 54,55 55
+50000
 133 - Affects*, lhs syn, rhs wc
-133 - Affects*, lhs syn, rhs wc
+assign a;
+Select a such that Affects*(a,_)
+16,19,32,36,37,38,39,44,45,46,49,53,54,55
+5000
 133 - Affects*, lhs syn, rhs int
+assign a;
+Select a such that Affects*(a,55)
+55
+5000
 133 - Affects*, lhs syn, rhs int
+assign a;
+Select a such that Affects*(a,44)
+44
+5000
 133 - Affects*, lhs wc, rhs syn
-133 - Affects*, lhs wc, rhs syn
+assign a;
+Select a such that Affects*(_,a)
+21,27,34,41,44,45,46,47,49,53,54,55
+5000
 133 - Affects*, lhs wc, rhs wc
-133 - Affects*, lhs wc, rhs wc
+
+Select BOOLEAN such that Affects*(_,_)
+TRUE
+5000
 133 - Affects*, lhs wc, rhs int
+
+Select BOOLEAN such that Affects*(_,27)
+FALSE
+5000
 133 - Affects*, lhs wc, rhs int
+
+Select BOOLEAN such that Affects*(_,21)
+FALSE
+5000
 133 - Affects*, lhs int, rhs syn
+assign a;
+Select BOOLEAN such that Affects*(53,a)
+TRUE
+5000
 133 - Affects*, lhs int, rhs syn
+assign a;
+Select BOOLEAN such that Affects*(54,a)
+TRUE
+5000
 133 - Affects*, lhs int, rhs wc
+assign a;
+Select BOOLEAN such that Affects*(46,_)
+TRUE
+5000
 133 - Affects*, lhs int, rhs wc
-133 - Affects*, lhs int, rhs int
+assign a;
+Select BOOLEAN such that Affects*(12,_)
+FALSE
+5000
 133 - Affects*, lhs int, rhs int
 
+Select BOOLEAN such that Affects*(54,45)
+TRUE
+5000
+133 - Affects*, lhs int, rhs int
+
+Select BOOLEAN such that Affects*(55,47)
+FALSE
+5000
 144 - Pattern assign, syn (var), exact match
 assign a; variable v;
 Select v pattern a(v, "0-a12+1")

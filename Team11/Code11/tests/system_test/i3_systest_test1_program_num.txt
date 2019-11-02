@@ -59,10 +59,10 @@ procedure thirdProc {
 47        c13 = c12;
 48        if (1 != 0) then {
 49            c9 = c9 + 1;} 
-        else {
+          else {
 50            if (c10 < c11) then {
 51               print c8;} 
-            else {
+             else {
 52                while (c14 >= c13) {
 53                    c6 = c6;  
 54                    c7 = c8;
