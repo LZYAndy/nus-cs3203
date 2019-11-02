@@ -576,6 +576,93 @@ TEST_CASE("One such that clause: Next and Next*")
     }
 }
 
+TEST_CASE("Affects clause")
+{
+    SECTION("Affects(a, _)")
+    {
+        string pql_query = "assign a; Select a such that Affects(a, _)";
+        unordered_set<string> expected_result {"10", "11", "12", "15", "16", "17", "21", "22"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("Affects(a, 15)")
+    {
+        string pql_query = "assign a; Select a such that Affects(a, 15)";
+        unordered_set<string> expected_result {"10", "15"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("Affects(a, a)")
+    {
+        string pql_query = "assign a; Select a such that Affects(a, a)";
+        unordered_set<string> expected_result {"15", "16", "17"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("Affects(_, a)")
+    {
+        string pql_query = "assign a; Select a such that Affects(_, a)";
+        unordered_set<string> expected_result {"15", "16", "17", "20", "21", "22", "23"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("Affects(21, a)")
+    {
+        string pql_query = "assign a; Select a such that Affects(21, a)";
+        unordered_set<string> expected_result {"11", "16"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("Affects(_, _)")
+    {
+        string pql_query = "assign a; Select BOOLEAN such that Affects(_, _)";
+        unordered_set<string> expected_result {"TRUE"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("Affects(10, 15)")
+    {
+        string pql_query = "assign a; Select BOOLEAN such that Affects(10, 15)";
+        unordered_set<string> expected_result {"TRUE"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("Affects*(a, 23)")
+    {
+        string pql_query = "assign a; Select a such that Affects(a, 23)";
+        unordered_set<string> expected_result {"11", "12", "16", "17", "21", "22"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("Affects*(a, a)")
+    {
+        string pql_query = "assign a; Select a such that Affects(a, a)";
+        unordered_set<string> expected_result {"15", "16", "17"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("Affects*(11, a)")
+    {
+        string pql_query = "assign a; Select a such that Affects(11, a)";
+        unordered_set<string> expected_result {"16", "21", "23"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("Affects*(_, _)")
+    {
+        string pql_query = "assign a; Select BOOLEAN such that Affects*(_, _)";
+        unordered_set<string> expected_result {"TRUE"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("Affects(11, 23)")
+    {
+        string pql_query = "assign a; Select BOOLEAN such that Affects(11, 23)";
+        unordered_set<string> expected_result {"TRUE"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+}
+
 TEST_CASE("With clause")
 {
     SECTION("with c.value = cl.stmt#")
@@ -585,20 +672,19 @@ TEST_CASE("With clause")
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 
-//    SECTION("with p.procName = cl.procName")
-//    {
-//        string pql_query = "procedure p; call cl; Select cl.procName with p.procName = cl.procName";
-//        unordered_set<string> expected_result {"computeCentroid", "printResult", "readPoint"};
-//        cout << "!" << PKB.get_called_by_statement(2) << "\n";
-//        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
-//    }
+    SECTION("with p.procName = cl.procName")
+    {
+        string pql_query = "procedure p; call cl; Select cl.procName with p.procName = cl.procName";
+        unordered_set<string> expected_result {"computeCentroid", "printResult", "readPoint"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
 }
 
 TEST_CASE("One pattern clause: Assign")
 {
     SECTION("pattern a(_, _)")
     {
-        string pql_query = "assign a; Select a pattern a(_, _)";
+        string pql_query = "assign a; Select a pat tern a(_, _)";
         unordered_set<string> expected_result {"1", "10", "11", "12", "15", "16", "17", "20", "21", "22", "23", "28", "29", "30", "31", "32"};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
