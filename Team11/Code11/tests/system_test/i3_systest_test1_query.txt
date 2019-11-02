@@ -618,82 +618,316 @@ TRUE
 Select BOOLEAN such that Modifies("thirdProc", "c5")
 TRUE
 5000
-
 77 - Calls, lhs syn, rhs syn
-77 - Calls, lhs syn, rhs syn
+procedure p, p1;
+Select <p,p1> such that Calls(p, p1)
+main secondProc,secondProc thirdProc
+5000
 77 - Calls, lhs syn, rhs wc
-77 - Calls, lhs syn, rhs wc
+procedure p;
+Select p such that Calls(p, _)
+main,secondProc
+5000
 77 - Calls, lhs syn, rhs ident
+procedure p;
+Select p such that Calls(p, "secondProc")
+main
+5000
 77 - Calls, lhs syn, rhs ident
+procedure p;
+Select p such that Calls(p, "thirdProc")
+secondProc
+5000
 77 - Calls, lhs wc, rhs syn
-77 - Calls, lhs wc, rhs syn
+procedure p;
+Select p such that Calls(_, p)
+secondProc, thirdProc
+5000
 77 - Calls, lhs wc, rhs wc
-77 - Calls, lhs wc, rhs wc
+
+Select BOOLEAN such that Calls(_, _)
+TRUE
+5000
 77 - Calls, lhs wc, rhs ident
+
+Select BOOLEAN such that Calls(_, "secondProc")
+TRUE
+5000
 77 - Calls, lhs wc, rhs ident
+
+Select BOOLEAN such that Calls(_, "fourthProc")
+FALSE
+5000
 77 - Calls, lhs ident, rhs syn
+procedure p;
+Select BOOLEAN such that Calls("thirdProc", p)
+FALSE
+5000
 77 - Calls, lhs ident, rhs syn
+procedure p;
+Select BOOLEAN such that Calls("main", p)
+TRUE
+5000
 77 - Calls, lhs ident, rhs wc
+procedure p;
+Select BOOLEAN such that Calls("main", _)
+TRUE
+5000
 77 - Calls, lhs ident, rhs wc
+
+Select BOOLEAN such that Calls("thirdProc", _)
+FALSE
+5000
 77 - Calls, lhs ident, rhs ident
+
+Select BOOLEAN such that Calls("main", "secondProc")
+TRUE
+5000
 77 - Calls, lhs ident, rhs ident
 
+Select BOOLEAN such that Calls("main", "thirdProc")
+FALSE
+5000
 88 - Calls*, lhs syn, rhs syn
-88 - Calls*, lhs syn, rhs syn
+procedure p, p1;
+Select <p,p1> such that Calls*(p, p1)
+main secondProc,main thirdProc,secondProc thirdProc
+5000
 88 - Calls*, lhs syn, rhs wc
-88 - Calls*, lhs syn, rhs wc
+procedure p;
+Select p such that Calls*(p, _)
+main,secondProc
+5000
 88 - Calls*, lhs syn, rhs ident
+procedure p;
+Select p such that Calls*(p, "secondProc")
+main
+5000
 88 - Calls*, lhs syn, rhs ident
+procedure p;
+Select p such that Calls*(p, "thirdProc")
+main,secondProc
+5000
 88 - Calls*, lhs wc, rhs syn
-88 - Calls*, lhs wc, rhs syn
+procedure p;
+Select p such that Calls*(_, p)
+secondProc,thirdProc
+5000
 88 - Calls*, lhs wc, rhs wc
-88 - Calls*, lhs wc, rhs wc
+
+Select BOOLEAN such that Calls*(_, _)
+TRUE
+5000
 88 - Calls*, lhs wc, rhs ident
+
+Select BOOLEAN such that Calls*(_, "secondProc")
+TRUE
+5000
 88 - Calls*, lhs wc, rhs ident
+
+Select BOOLEAN such that Calls*(_, "fourthProc")
+FALSE
+5000
 88 - Calls*, lhs ident, rhs syn
+procedure p;
+Select BOOLEAN such that Calls*("thirdProc", p)
+FALSE
+5000
 88 - Calls*, lhs ident, rhs syn
+procedure p;
+Select BOOLEAN such that Calls*("main", p)
+TRUE
+5000
 88 - Calls*, lhs ident, rhs wc
+procedure p;
+Select BOOLEAN such that Calls*("main", _)
+TRUE
+5000
 88 - Calls*, lhs ident, rhs wc
-88 - Calls*, lhs ident, rhs ident
+
+Select BOOLEAN such that Calls*("thirdProc", _)
+FALSE
+5000
 88 - Calls*, lhs ident, rhs ident
 
+Select BOOLEAN such that Calls*("main", "secondProc")
+TRUE
+5000
+88 - Calls*, lhs ident, rhs ident
+
+Select BOOLEAN such that Calls*("main", "thirdProc")
+TRUE
+5000
 99 - Next, lhs syn, rhs syn
+assign a1, a2;
+Select <a1,a2> such that Next(a1, a2)
+1 2,27 38,36 38,37 38,44 45,45 46,46 47,53 54,54 55
+5000
 99 - Next, lhs syn, rhs syn
+while w1, w2;
+Select <w1,w2> such that Next(w1, w2)
+52 42,7 8,8 7,8 9,9 8
+5000
 99 - Next, lhs syn, rhs wc
+print pr;
+Select pr such that Next(pr, _)
+11,15,20,25,3,33,35,40,51,57,59,60
+5000
 99 - Next, lhs syn, rhs wc
+call c;
+Select c such that Next(c, _)
+6,22,26
+5000
 99 - Next, lhs syn, rhs int
+read r;
+Select r such that Next(r, 44)
+43
+5000
 99 - Next, lhs syn, rhs int
+call c;
+Select c such that Next(c, 7)
+6
+5000
 99 - Next, lhs wc, rhs syn
+assign a;
+Select BOOLEAN such that Next(_, a)
+TRUE
+5000
 99 - Next, lhs wc, rhs syn
+if ifs;
+Select ifs such that Next(_, ifs)
+4, 10, 24, 28, 29, 48, 50, 58, 63
+5000
 99 - Next, lhs wc, rhs wc
-99 - Next, lhs wc, rhs wc
+
+Select BOOLEAN such that Next(_, _)
+TRUE
+5000
 99 - Next, lhs wc, rhs int
+
+Select BOOLEAN such that Next(_, 9)
+TRUE
+5000
 99 - Next, lhs wc, rhs int
+
+Select BOOLEAN such that Next(_, 1)
+FALSE
+5000
 99 - Next, lhs int, rhs syn
+assign a;
+Select a such that Next(1, a)
+2
+5000
 99 - Next, lhs int, rhs syn
+print pr;
+Select pr such that Next(19, pr)
+20
+5000
 99 - Next, lhs int, rhs wc
+
+Select BOOLEAN such that Next(22, _)
+TRUE
+5000
 99 - Next, lhs int, rhs wc
-99 - Next, lhs int, rhs int
+
+Select BOOLEAN such that Next(21, _)
+FALSE
+5000
 99 - Next, lhs int, rhs int
 
+Select BOOLEAN such that Next(25, 26)
+TRUE
+5000
+99 - Next, lhs int, rhs int
+
+Select BOOLEAN such that Next(13, 9)
+TRUE
+5000
 111 - Next*, lhs syn, rhs syn
+assign a; call c;
+Select <a,c> such that Next*(a, c)
+1 6,2 6,27 26,32 26,34 26,36 26,37 26,38 26
+5000
 111 - Next*, lhs syn, rhs syn
+read r; print pr;
+Select <r,pr> such that Next*(r, pr)
+13 11,13 15,13 20,14 11,14 15,14 20,18 20,30 25,30 33,30 35,43 51,5 11,5 15,5 20
+5000
 111 - Next*, lhs syn, rhs wc
+print pr;
+Select pr such that Next*(pr, _)
+11,15,20,25,3,33,35,40,51,57,59,60
+5000
 111 - Next*, lhs syn, rhs wc
+call c;
+Select c such that Next*(c, _)
+6,22,26
+5000
 111 - Next*, lhs syn, rhs int
+assign a;
+Select a such that Next*(a, 44)
+39,41,44,45,46,47,49,53,54,55
+5000
 111 - Next*, lhs syn, rhs int
+print pr;
+Select pr such that Next*(pr, 38)
+25,33,35
+5000
 111 - Next*, lhs wc, rhs syn
+assign a;
+Select BOOLEAN such that Next*(_, a)
+TRUE
+5000
 111 - Next*, lhs wc, rhs syn
+if ifs;
+Select ifs such that Next*(_, ifs)
+10,24,28,29,4,48,50,58,63
+5000
 111 - Next*, lhs wc, rhs wc
-111 - Next*, lhs wc, rhs wc
+
+Select BOOLEAN such that Next*(_, _)
+TRUE
+5000
 111 - Next*, lhs wc, rhs int
+
+Select BOOLEAN such that Next*(_, 9)
+TRUE
+5000
 111 - Next*, lhs wc, rhs int
+
+Select BOOLEAN such that Next*(_, 1)
+FALSE
+5000
 111 - Next*, lhs int, rhs syn
+assign a;
+Select a such that Next*(1, a)
+12,16,17,19,2,21
+5000
 111 - Next*, lhs int, rhs syn
+print pr;
+Select pr such that Next*(7, pr)
+11,15,20
+5000
 111 - Next*, lhs int, rhs wc
+
+Select BOOLEAN such that Next*(22, _)
+TRUE
+5000
 111 - Next*, lhs int, rhs wc
+
+Select BOOLEAN such that Next*(21, _)
+FALSE
+5000
 111 - Next*, lhs int, rhs int
+
+Select BOOLEAN such that Next*(12, 11)
+TRUE
+5000
 111 - Next*, lhs int, rhs int
+
+Select BOOLEAN such that Next*(15, 11)
+TRUE
+5000
 
 122 - Affects, lhs syn, rhs syn
 122 - Affects, lhs syn, rhs syn

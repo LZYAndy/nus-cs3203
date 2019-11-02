@@ -31,7 +31,7 @@ procedure secondProc {
 25            print b4;
 26            call thirdProc;
 27            b5 = b1;} 
-        else {
+          else {
 28            if ((b5%b6)<=(b7<b8)) then {
 29                if (b8<0) then {
 30                    read b9;
