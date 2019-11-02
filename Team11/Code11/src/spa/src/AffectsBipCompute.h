@@ -13,7 +13,7 @@ class AffectsBipCompute
 {
 public:
     AffectsBipCompute();
-    AffectsBipCompute(NextBipBank &next_bip_bank, ModifiesBank &modifies_bank, UsesBank &uses_bank, TypeBank &type_bank);
+    AffectsBipCompute(NextBipBank *next_bip_bank, ModifiesBank *modifies_bank, UsesBank *uses_bank, TypeBank *type_bank);
     /**
      * Check if Affects Relationship exists.
      * @return true if there Affects relationship.

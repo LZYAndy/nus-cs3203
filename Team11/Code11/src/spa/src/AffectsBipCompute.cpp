@@ -181,12 +181,12 @@ std::unordered_map<int, std::vector<int>> AffectsBipCompute::get_all_affects_bip
     return affects_bip_bank.copy();
 }
 
-AffectsBipCompute::AffectsBipCompute(NextBipBank &next_bip_bank, ModifiesBank &modifies_bank, UsesBank &uses_bank, TypeBank &type_bank)
+AffectsBipCompute::AffectsBipCompute(NextBipBank *next_bip_bank, ModifiesBank *modifies_bank, UsesBank *uses_bank, TypeBank *type_bank)
 {
-    next_bip_bank  = next_bip_bank;
-    modifies_bank = modifies_bank;
-    uses_bank = uses_bank;
-    type_bank = type_bank;
+    this->next_bip_bank  = next_bip_bank;
+    this->modifies_bank = modifies_bank;
+    this->uses_bank = uses_bank;
+    this->type_bank = type_bank;
 }
 
 AffectsBipCompute::AffectsBipCompute()
