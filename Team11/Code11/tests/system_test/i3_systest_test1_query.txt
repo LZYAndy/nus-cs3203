@@ -238,7 +238,7 @@ Select s
 111 - Next*, lhs syn, rhs wc
 111 - Next*, lhs syn, rhs int
 111 - Next*, lhs syn, rhs int
-111- Next*, lhs wc, rhs syn
+111 - Next*, lhs wc, rhs syn
 111 - Next*, lhs wc, rhs syn
 111 - Next*, lhs wc, rhs wc
 111 - Next*, lhs wc, rhs wc
@@ -340,3 +340,36 @@ Select s
 155 - With, lhs syn (prog_line), rhs while.stmt# (INT)
 155 - With, lhs syn (prog_line), rhs if.stmt# (INT)
 155 - With, lhs syn (prog_line), rhs assign.stmt# (INT)
+
+999 - Invalid Follows, skip stmt number
+999 - Invalid Follows, jump into within container stmt number
+999 - Invalid Follows, container stmt number to first line in container
+999 - Invalid Follows, jump to other procedure
+999 - Invalid Follows*, jump into within container stmt number
+999 - Invalid Follows*, container stmt number to first line in container
+999 - Invalid Follows*, jump to other procedure
+999 - Invalid Parent, parent of root statements
+999 - Invalid Parent, nested parent
+999 - Invalid Parent*, jump out of a non-parent
+999 - Invalid Uses, stmt does not use
+999 - Invalid Uses, stmt does not use in container condition
+999 - Invalid Uses, stmt does not use in container substatements
+999 - Invalid Uses, stmt does not use in call
+999 - Invalid Uses, stmt does not use in procedure
+999 - Invalid Modifies, stmt does not use
+999 - Invalid Modifies, stmt does not use in container substatements
+999 - Invalid Modifies, stmt does not use in call
+999 - Invalid Modifies, stmt does not use in procedure
+999 - Invalid Calls, calls indirectly
+999 - Invalid Calls*, no call flow
+999 - Invalid Next, statement skip next stmt
+999 - Invalid Next, last statement of if then and if else does not join to immediate stmt
+999 - Invalid Next, last statement of while jumps out of while
+999 - Invalid Next*, stmt does not flow using cfg 
+999 - Invalid Affects, lhs is modified in same stmtlist
+999 - Invalid Affects, lhs is modified in other procedure
+999 - Invalid Affects*, intermediary var got overwritten
+999 - Invalid Pattern assign, no exact match
+999 - Invalid Pattern assign, no partial match
+999 - Invalid Pattern if, no use of var
+999 - Invalid Pattern while, no use of var
