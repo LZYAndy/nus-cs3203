@@ -51,6 +51,7 @@ unordered_map<string, vector<string>> NextStarEvaluator::evaluate_non_trivial(pq
             result = QueryUtility::mapping(second_param, int_vec, PKB);
         }
     }
+
     return result;
 }
 
@@ -88,5 +89,6 @@ bool NextStarEvaluator::evaluate_trivial(pql_dto::Entity &first_param,
             result = PKB.is_next_star(stoi(first_name), stoi(second_name));
         }
     }
+
     return result;
 }

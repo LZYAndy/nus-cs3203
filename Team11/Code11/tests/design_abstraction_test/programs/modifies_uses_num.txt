@@ -1,0 +1,39 @@
+procedure main {
+1    var1 = a + (b - c) * (d / e) % f;
+2    if (g < 1) then {
+3        h = j;
+4        while (k > 22) {
+5            l = m;
+6            if (a1 != a2) then {
+7                print a4;}
+            else {
+8                if (!(a8 < 333)) then {
+9                    read a5;}
+                else {
+10                    a6 = a7;}}}}
+    else {
+11        n = o;
+12        while (p <= q) {
+13            read s;}}
+}
+
+procedure secondProc {
+14    read t;
+15    while (v == w) {
+16        x = y;
+17        if (z == x) then {
+18            b1 = b2;}
+          else {
+19            read b3;
+20            while (b5 < 4444) {
+21                b6 = b7;
+22                while (b8 <= b9){
+23                    b10 = b11 % b12;}}
+24            print b4;}}
+25    b13 = 55555 + 666666;
+26    print u;
+}
+
+procedure thirdProc {
+27    call secondProc;
+}

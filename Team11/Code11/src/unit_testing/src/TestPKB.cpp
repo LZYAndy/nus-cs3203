@@ -4205,3 +4205,17 @@ TEST_CASE("PKB::get_all_next_star_relationship()")
         }
     }
 }
+
+TEST_CASE("PKB::get_called_by_statement()")
+{
+    PKB pkb;
+    SECTION("fail")
+    {
+        REQUIRE(pkb.get_called_by_statement(1).empty());
+    }
+    SECTION("success")
+    {
+        pkb.insert_calls(1, "hello", "world");
+        REQUIRE(pkb.get_called_by_statement(1).compare("world") == 0);
+    }
+}
