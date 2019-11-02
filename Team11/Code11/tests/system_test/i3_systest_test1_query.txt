@@ -54,19 +54,19 @@ Select <a,pr> such that Follows(a,pr)
 2 3, 19 20,32 33,39 40
 5000
 11 - Follows, lhs syn, rhs syn
-while w,w1;
-Select <w,w1> such that Follows(w,w1)
-7 8,8 9
+assign a; read r;
+Select <a,r> such that Follows(a,r)
+12 13
 5000
 11 - Follows, lhs syn, rhs wc
 call c;
 Select c such that Follows(c, _)
-6,26
+6,22,26
 5000
 11 - Follows, lhs syn, rhs wc
 print pr;
 Select pr such that Follows(pr, _)
-3,11,15,20,25,33,35,40,51
+3,11,15,20,25,33,40
 5000
 11 - Follows, lhs syn, rhs int
 if ifs;
@@ -146,7 +146,7 @@ Select <a,ifs> such that Follows*(a, ifs)
 22 - Follows*, lhs syn, rhs syn
 print pr; assign a;
 Select <pr,a> such that Follows*(pr, a)
-11 12,15 16,20 21,25 27,33 34,40 41
+3 19,3 21,11 12,15 16,20 21,25 27,33 34,40 41
 5000
 22 - Follows*, lhs syn, rhs wc
 print pr;

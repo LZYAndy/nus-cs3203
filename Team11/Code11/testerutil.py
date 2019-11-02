@@ -99,6 +99,9 @@ def process_result():
     if "./tests/output/analysis.xsl" in result_files:
         result_files.remove("./tests/output/analysis.xsl")
 
+    if "./tests/output/invalid_calls_missing_procedure_output.xml" in result_files:
+        result_files.remove("./tests/output/invalid_calls_missing_procedure_output.xml")
+
     for rf in result_files:
         with open(rf) as f:
             for line in f:

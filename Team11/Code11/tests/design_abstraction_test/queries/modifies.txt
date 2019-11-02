@@ -141,5 +141,5 @@ TRUE
 29 - select boolean - invalid clause
 
 Select BOOLEAN such that Modifies(_, "b12")
-
+FALSE
 5000

@@ -106,7 +106,7 @@ Select s such that Follows*(s, 26)
 22 - Follows* with RHS syn
 while w; if ifs;
 Select ifs such that Follows*(6, w)
-4,9,10,22
+4,10,12,22
 5000
 23 - Follows* with 2 syn get LHS syn
 assign a; read r;
