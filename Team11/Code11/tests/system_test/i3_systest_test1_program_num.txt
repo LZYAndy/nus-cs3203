@@ -68,3 +68,18 @@ procedure thirdProc {
 54                    c7 = c8;
 55                    c12 = c12;}}}}
 }
+
+procedure fourthProc {
+56    while (1 < 0){
+57        print d1;}
+58    if (1 == 0) then {
+59        print d2;} 
+      else {
+60        print d2;}
+61    while (1 < 0){
+62        read d3;}
+63    if (1 == 0) then {
+64        read d4;} 
+      else {
+65        read d4;}
+}
