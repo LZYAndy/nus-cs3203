@@ -1,0 +1,10 @@
+1 - select affects
+assign a;
+Select a such that Affects(2, a)
+10
+5000
+2 - select affects
+assign a, a1;
+Select a such that Affects(a, a1)
+
+5000
