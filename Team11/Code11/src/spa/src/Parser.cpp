@@ -52,6 +52,9 @@ int Parser::parse(std::string simple)
             }
         }
         last_line_num = last_statement.get_prog_line() + 1;
+
+        // Insert into PKB with the first statements and last statements for the each procedure.
+
     }
 
     bool de_check = this->pkb->extract_design();
@@ -61,4 +64,34 @@ int Parser::parse(std::string simple)
     }
 
     return 0;
+}
+
+std::vector<int> Parser::get_last_statements(Statement statement)
+{
+    std::vector<int> result;
+    if (statement.get_statement_type() != EntityType::IF)
+    {
+        result.push_back(statement.get_prog_line());
+        return result;
+    }
+    else
+    {
+        std::vector<Statement> then_sl = statement.get_first_block();
+        Statement last_then = then_sl[then_sl.size() - 1];
+        result = append_vec(result, get_last_statements(last_then));
+        std::vector<Statement> else_sl = statement.get_second_block();
+        Statement last_else = else_sl[else_sl.size() - 1];
+        result = append_vec(result, get_last_statements(last_else));
+        return result;
+    }
+}
+
+std::vector<int> Parser::append_vec(std::vector<int> src, std::vector<int> to_append)
+{
+    int leng = to_append.size();
+    for(int i = 0;i < leng;i++)
+    {
+        src.push_back(to_append[i]);
+    }
+    return src;
 }
