@@ -236,3 +236,17 @@ TEST_CASE("CallsBank::get_all_statements_calls_relationship()")
         REQUIRE(expected == result);
     }
 }
+
+TEST_CASE("CallsBank::get_called_by_statement()")
+{
+    CallsBank calls_bank;
+    SECTION("fail")
+    {
+        REQUIRE(calls_bank.get_called_by_statement(1).empty());
+    }
+    SECTION("success")
+    {
+        calls_bank.insert_calls(1, "hello", "world");
+        REQUIRE(calls_bank.get_called_by_statement(1).compare("world") == 0);
+    }
+}
