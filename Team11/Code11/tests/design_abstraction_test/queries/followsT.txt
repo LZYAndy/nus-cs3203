@@ -6,12 +6,12 @@ main
 2 - select all read statement, sanity check
 read r;
 Select r
-8,11,15,18,26
+8,11,15,18,26,30
 5000
 3 - select all print statement, sanity check
 print pr;
 Select pr
-7,14,17,25
+7,14,17,25,29
 5000
 4 - select all assign statement, sanity check
 assign a;
@@ -36,7 +36,7 @@ Select ifs
 8 - select all variable, sanity check
 variable v;
 Select v
-var,b,x,y,z,a,vAR1,Variable,c,var2
+var,b,x,y,z,a,vAR1,Variable,c,var2,k,j
 5000
 9 - select all constant, sanity check
 constant c;
@@ -46,30 +46,80 @@ Select c
 10 - select all statement, sanity check
 stmt s;
 Select s
-1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 5000
-11 - select follows, bool, no syn
+11 - select follows*, bool, no syn
 
 Select BOOLEAN such that Follows*(6,8)
 TRUE
 5000
-12 - select follows, 1 syn
+12 - select follows*, 1 syn
 stmt s;
 Select s such that Follows*(6,s)
 7,8,9,21
 5000
-13 - select follows, 1 syn
+13 - select follows*, 1 syn
 stmt s;
 Select s such that Follows*(1,s)
-2,3,28
+2,3,28,29,30
 5000
-14 - select follows, 2 syn
+14 - select follows*, 2 syn
 assign a; read r;
 Select <a,r> such that Follows*(a,r)
-6 8,13 15,16 18,24 26
+1 30,6 8,13 15,16 18,24 26,28 30
 5000
-15 - select follows, 2 syn
+15 - select follows*, 2 syn
 stmt s; assign a;
 Select <a,s> such that Follows*(a,s)
-1 2,1 3,1 28,6 7,6 8,6 9,6 21,13 14,13 15,16 17,16 18,24 25,24 26
+1 2,1 3,1 28,6 7,6 8,6 9,6 21,13 14,13 15,16 17,16 18,24 25,24 26,1 29,1 30,28 29,28 30
+5000
+16 - Follows* with 2 wildcards (print surrounded by stmt)
+print p;
+Select p such that Follows*(_, _)
+7,14,17,25,29
+5000
+17 - Follows* with LHS wildcard
+stmt s;
+Select s such that Follows*(_, 15)
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
+5000
+18 - Follows* with RHS wildcard
+read r;
+Select r such that Follows*(1, _)
+8,11,15,18,26,30
+5000
+19 - Follows* with RHS wildcard, LHS syn
+stmt s;
+Select s such that Follows*(s,_)
+1,2,3,6,7,8,9,11,13,14,16,17,24,25,28,29
+5000
+20 - Follows* with LHS wildcard, RHS syn
+stmt s;
+Select s such that Follows*(_, s)
+2,3,7,8,9,12,14,15,17,18,21,25,26,28,29,30
+5000
+21 - Follows* with LHS syn
+stmt s;
+Select s such that Follows*(s, 26)
+24,25
+5000
+22 - Follows* with RHS syn
+while w; if ifs;
+Select ifs such that Follows*(6, w)
+4,10,12,22
+5000
+23 - Follows* with 2 syn get LHS syn
+assign a; read r;
+Select a such that Follows*(a, r)
+1,6,13,16,24,28
+5000
+24 - Follows* with 2 syn get RHS syn
+assign a; read r;
+Select a such that Follows*(a, r)
+1,6,13,16,24,28
+5000
+25 - Follows* with 2 syn get both
+assign a; read r;
+Select <a,r> such that Follows*(a,r)
+1 30,6 8,13 15,16 18,24 26,28 30
 5000

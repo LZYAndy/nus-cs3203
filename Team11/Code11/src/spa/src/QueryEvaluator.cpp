@@ -94,10 +94,18 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
             {
                 return QueryEvaluator::evaluateEmptyMap(is_select_bool);
             }
+
+            // sort
+            Optimizer::sort(group, cache);
+
+            // merge
+            unordered_map<string, vector<string>> temp_map = QueryEvaluator::mergeGroup(group, cache);
+            if (QueryEvaluator::is_empty_map(temp_map))
+            {
+                return QueryEvaluator::evaluateEmptyMap(is_select_bool);
+            }
         }
     }
-    // sort
-    // merge
 
     // have clauses with synonym(s) and synonym(s) are in select clause
     if (!synonyms_in_select_clauses.empty())
@@ -110,10 +118,18 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
             {
                 return QueryEvaluator::evaluateEmptyMap(is_select_bool);
             }
+
+            // sort
+            Optimizer::sort(group, cache);
+
+            // merge
+            final_map = QueryEvaluator::mergeGroup(group, cache);
+            if (QueryEvaluator::is_empty_map(final_map))
+            {
+                return QueryEvaluator::evaluateEmptyMap(is_select_bool);
+            }
         }
     }
-    // sort
-    // merge
 
     // Select synonyms
     result = QueryEvaluator::select(select_clause, select_map, final_map, PKB);
@@ -463,7 +479,7 @@ pair<bool, unordered_map<string, vector<string>>> QueryEvaluator::evaluateSuchTh
 //    }
 
     cache.insert_clause(relation, first_param, second_param, intermediary_map);
-    return make_pair(trivial_result, empty_map);
+    return make_pair(trivial_result, intermediary_map);
 }
 
 unordered_map<string, vector<string>> QueryEvaluator::evaluatePattern(pql_dto::Pattern &pattern, PKB &PKB, Cache &cache)

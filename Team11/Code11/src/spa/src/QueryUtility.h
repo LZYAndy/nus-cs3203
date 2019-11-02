@@ -36,6 +36,8 @@ public:
     static unordered_map<string, vector<string>> mapping(pql_dto::Entity &key_1, pql_dto::Entity &key_2,
             unordered_map<int, vector<int>> &int_map, PKB &PKB);
     static unordered_map<string, vector<string>> mapping(pql_dto::Entity &key_1, pql_dto::Entity &key_2,
+            string &name_1, string &name_2, unordered_map<int, vector<int>> &int_map, PKB &PKB);
+    static unordered_map<string, vector<string>> mapping(pql_dto::Entity &key_1, pql_dto::Entity &key_2,
             unordered_map<string, vector<string>> &str_map);
     static unordered_map<string, vector<string>> mapping(pql_dto::Entity &key_1, pql_dto::Entity &key_2,
             unordered_map<int, vector<string>> &int_str_map, PKB &PKB);

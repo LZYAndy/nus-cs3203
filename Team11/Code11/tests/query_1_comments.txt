@@ -24,12 +24,12 @@
 24 - Follows* with 2 syn get LHS syn
 25 - Follows* with 2 syn get RHS syn
 26 - Parent with 2 wildcards
-27 - Parent* with LHS wildcard
-28 - Parent* with RHS wildcard
-29 - Parent* with LHS wildcard, RHS syn
-30 - Parent* with RHS wildcard, LHS syn
-31 - Parent* with 2 syn get LHS syn
-32 - Parent* with 2 syn get RHS syn
+27 - Parent with LHS wildcard
+28 - Parent with RHS wildcard
+29 - Parent with LHS wildcard, RHS syn
+30 - Parent with RHS wildcard, LHS syn
+31 - Parent with 2 syn get LHS syn
+32 - Parent with 2 syn get RHS syn
 33 - Parent* with 2 wildcards
 34 - Parent* with LHS wildcard
 35 - Parent* with RHS wildcard

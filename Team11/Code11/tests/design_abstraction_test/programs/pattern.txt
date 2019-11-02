@@ -1,0 +1,26 @@
+procedure main {
+    a = (b + (c - d)) * (e / f) % g;
+    if ((a1 > a2) && (a3 > a4)) then {
+        read z;}
+    else {
+        i = b + c;
+        if (1 > 22) then {
+            while ((a5 >= a6) || (a7 <= 333)) {
+                read z;}}
+        else {
+            aa1 = (b * (e / f)) + (((c - d) % g) - 4444);}}
+    h = e / f;
+}
+
+procedure secondProc {
+    b1 = b + c - d;
+    while (1 > 55555) {
+        if ((b2 == b3) && (b4 != b5)) then {
+            while (!((a1 < b1) || (b2 > a6))) {
+                b2 = c - d % g;
+                while (( d4 >= a3) && !(d5 < 666666)) {
+                    read z;}}}
+        else {
+            b6 = g;
+            b7 = c;}}
+}
