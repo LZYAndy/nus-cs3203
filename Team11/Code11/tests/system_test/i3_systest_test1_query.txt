@@ -200,7 +200,7 @@ FALSE
 5000
 22 - Follows*, lhs int, rhs syn
 assign a;
-Select r such that Follows*(43,a)
+Select a such that Follows*(43,a)
 44,45,46,47
 5000
 22 - Follows*, lhs int, rhs syn
@@ -228,44 +228,186 @@ TRUE
 Select BOOLEAN such that Follows*(17,18)
 FALSE
 5000
-
 33 - Parent, lhs syn, rhs syn
+while w,w1;
+Select <w,w1> such that Parent(w,w1)
+7 8,8 9
+5000
 33 - Parent, lhs syn, rhs syn
+if ifs; assign a;
+Select <ifs,a> such that Parent(ifs,a)
+10 12,10 16,24 27,28 37,29 36,4 17,48 49
+5000
 33 - Parent, lhs syn, rhs wc
+if ifs;
+Select BOOLEAN such that Parent(ifs,_)
+TRUE
+5000
 33 - Parent, lhs syn, rhs wc
+while w;
+Select BOOLEAN such that Parent(w,_)
+TRUE
+5000
 33 - Parent, lhs syn, rhs int
+while w;
+Select BOOLEAN such that Parent(w,10)
+TRUE
+5000
 33 - Parent, lhs syn, rhs int
+if ifs;
+Select BOOLEAN such that Parent(ifs,13)
+TRUE
+5000
 33 - Parent, lhs wc, rhs syn
+if ifs;
+Select ifs such that Parent(_,ifs)
+10,24,28,29,48,50
+5000
 33 - Parent, lhs wc, rhs syn
+while w;
+Select w such that Parent(_,w)
+7, 8, 9, 31, 52
+5000
 33 - Parent, lhs wc, rhs wc
+
+Select BOOLEAN such that Parent(_,_)
+TRUE
+5000
 33 - Parent, lhs wc, rhs wc
+read r;
+Select r such that Parent(_,_)
+5, 13, 14, 18, 30, 43
+5000
 33 - Parent, lhs wc, rhs int
+
+Select BOOLEAN such that Parent(_,55)
+TRUE
+5000
 33 - Parent, lhs wc, rhs int
+
+Select BOOLEAN such that Parent(_,24)
+TRUE
+5000
 33 - Parent, lhs int, rhs syn
+if ifs;
+Select BOOLEAN such that Parent(23,ifs)
+TRUE
+5000
 33 - Parent, lhs int, rhs syn
+while w;
+Select BOOLEAN such that Parent(29,w)
+TRUE
+5000
 33 - Parent, lhs int, rhs wc
+
+Select BOOLEAN such that Parent(28,_)
+TRUE
+5000
 33 - Parent, lhs int, rhs wc
-33 - Parent, lhs int, rhs int
+
+Select BOOLEAN such that Parent(22,_)
+FALSE
+5000
 33 - Parent, lhs int, rhs int
 
+Select BOOLEAN such that Parent(24,27)
+TRUE
+5000
+33 - Parent, lhs int, rhs int
+
+Select BOOLEAN such that Parent(42,47)
+TRUE
+5000
 44 - Parent*, lhs syn, rhs syn
+if ifs; while w;
+Select <ifs,w> such that Parent*(ifs,w)
+4 7,4 8,4 9,24 31,28 31,29 31,48 52,50 52
+5000
 44 - Parent*, lhs syn, rhs syn
+if ifs; print pr;
+Select pr such that Parent*(ifs,pr)
+11,15,25,33,35,51
+5000
 44 - Parent*, lhs syn, rhs wc
+while w;
+Select w such that Parent*(w,_)
+7, 8, 9, 23, 31, 42, 52
+5000
 44 - Parent*, lhs syn, rhs wc
+assign a;
+Select a such that Parent*(a,_)
+
+5000
 44 - Parent*, lhs syn, rhs int
+if ifs;
+Select ifs such that Parent*(ifs,33)
+24,28,29
+5000
 44 - Parent*, lhs syn, rhs int
+while w;
+Select w such that Parent*(w,13)
+7,8,9
+5000
 44 - Parent*, lhs wc, rhs syn
+read r;
+Select r such that Parent*(_,r)
+5, 13, 14, 30, 43
+5000
 44 - Parent*, lhs wc, rhs syn
+assign a;
+Select a such that Parent*(_,a)
+12, 16, 17, 27, 32, 34, 36, 37, 38, 44, 45, 46, 47, 49, 53, 54, 55
+5000
 44 - Parent*, lhs wc, rhs wc
+
+Select BOOLEAN such that Parent*(_,_)
+TRUE
+5000
 44 - Parent*, lhs wc, rhs wc
+assign a;
+Select a such that Parent*(_,_)
+1, 2, 12, 16, 17, 19, 21, 27, 32, 34, 36, 37, 38, 39, 41, 44, 45, 46, 47, 49, 53, 54, 55
+5000
 44 - Parent*, lhs wc, rhs int
+
+Select BOOLEAN such that Parent*(_,33)
+TRUE
+5000
 44 - Parent*, lhs wc, rhs int
+
+Select BOOLEAN such that Parent*(_,3)
+FALSE
+5000
 44 - Parent*, lhs int, rhs syn
+assign a;
+Select a such that Parent*(4,a)
+12,16,17
+5000
 44 - Parent*, lhs int, rhs syn
+call c;
+Select c such that Parent*(23,c)
+26
+5000
 44 - Parent*, lhs int, rhs wc
+
+Select BOOLEAN such that Parent*(31,_)
+TRUE
+5000
 44 - Parent*, lhs int, rhs wc
+
+Select BOOLEAN such that Parent*(3,_)
+FALSE
+5000
 44 - Parent*, lhs int, rhs int
+
+Select BOOLEAN such that Parent*(7,16)
+TRUE
+5000
 44 - Parent*, lhs int, rhs int
+
+Select BOOLEAN such that Parent*(15,16)
+FALSE
+5000
 
 55 - Uses, lhs syn, rhs syn
 55 - Uses, lhs syn, rhs syn
