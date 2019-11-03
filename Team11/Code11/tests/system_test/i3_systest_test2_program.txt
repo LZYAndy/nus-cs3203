@@ -69,15 +69,6 @@ procedure                 two                                                   
     beta = alpha;
 }
 
-procedure                   three
-
-
-
-
-
-
-
-
-{
+procedure                   three {
     alpha = alpha + b;
 }

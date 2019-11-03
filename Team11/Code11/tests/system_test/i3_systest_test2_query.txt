@@ -1,0 +1,964 @@
+1 - select all procedure, sanity check
+procedure p;
+Select p
+main, one, two, three
+5000
+2 - select all read statement, sanity check
+read r;
+Select r
+1, 18, 46, 47, 53, 58
+5000
+3 - select all print statement, sanity check
+print pr;
+Select pr
+2, 16, 17, 48, 55
+5000
+4 - select all assign statement, sanity check
+assign a;
+Select a
+3, 5, 7, 9, 10, 11, 12, 13, 19, 20, 23, 24, 25, 26, 30, 31, 33, 34, 35, 36, 39, 40, 41, 43, 45, 49, 50, 51, 52, 54, 60, 61
+5000
+5 - select all call statement, sanity check
+call c;
+Select c
+4, 6, 14, 15, 27, 29, 37, 56, 57, 59
+5000
+6 - select all while statement, sanity check
+while w;
+Select w
+8, 21, 22, 38, 42
+5000
+7 - select all ifs statement, sanity check
+if ifs;
+Select ifs
+28, 32, 44
+5000
+8 - select all variable, sanity check
+variable v;
+Select v
+a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, alpha, beta, sigma, delta, gama, theta
+5000
+9 - select all constant, sanity check
+constant c;
+Select c
+0, 1, 2
+5000
+10 - select all statement, sanity check
+stmt s;
+Select s
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61
+5000
+11 - Follows, lhs syn, rhs syn
+assign a; read r;
+Select <a,r> such that Follows(a,r)
+45 46
+5000
+11 - Follows, lhs syn, rhs wc
+call c;
+Select c such that Follows(c, _)
+5, 7, 15, 16, 28, 30, 38, 57, 60
+5000
+11 - Follows, lhs syn, rhs wc
+print pr;
+Select pr such that Follows(pr, _)
+3, 17, 18, 49, 56
+5000
+11 - Follows, lhs syn, rhs int
+if ifs;
+Select BOOLEAN such that Follows(ifs, 27)
+FALSE
+5000
+11 - Follows, lhs syn, rhs int
+stmt s;
+Select s such that Follows(s, 11)
+10
+5000
+11 - Follows, lhs wc, rhs syn
+read r;
+Select r such that Follows(_, r)
+18, 46, 47
+5000
+11 - Follows, lhs wc, rhs syn
+call c;
+Select c such that Follows(_, c)
+4, 6, 14, 15, 27, 37, 56, 57, 59
+5000
+11 - Follows, lhs wc, rhs wc
+
+Select BOOLEAN such that Follows(_, _)
+TRUE
+5000
+11 - Follows, lhs wc, rhs wc
+if ifs;
+Select ifs such that Follows(_, _)
+28, 32, 44
+5000
+11 - Follows, lhs wc, rhs int
+
+Select BOOLEAN such that Follows(_, 19)
+TRUE
+5000
+11 - Follows, lhs wc, rhs int
+
+Select BOOLEAN such that Follows(_, 1)
+FALSE
+5000
+11 - Follows, lhs int, rhs syn
+call c;
+Select c such that Follows(3, c)
+4
+5000
+11 - Follows, lhs int, rhs syn
+read r;
+Select r such that Follows(17, r)
+18
+5000
+11 - Follows, lhs int, rhs wc
+
+Select BOOLEAN such that Follows(32, _)
+FALSE
+5000
+11 - Follows, lhs int, rhs wc
+
+Select BOOLEAN such that Follows(16, _)
+TRUE
+5000
+11 - Follows, lhs int, rhs int
+
+Select BOOLEAN such that Follows(23, 24)
+TRUE
+5000
+11 - Follows, lhs int, rhs int
+
+Select BOOLEAN such that Follows(22, 24)
+FALSE
+5000
+22 - Follows*, lhs syn, rhs syn
+assign a; if ifs;
+Select <a,ifs> such that Follows*(a, ifs)
+23 28, 24 28, 25 28, 26 28, 30 32, 31 32, 43 44
+5000
+22 - Follows*, lhs syn, rhs syn
+print pr; assign a;
+Select <pr,a> such that Follows*(pr, a)
+2 3, 2 5, 2 7, 2 19, 2 20, 16 19, 16 20, 17 19, 17 20, 48 50, 49 50
+5000
+22 - Follows*, lhs syn, rhs wc
+print pr;
+Select pr such that Follows*(pr, _)
+2, 16, 17, 48, 55
+5000
+22 - Follows*, lhs syn, rhs wc
+while w;
+Select w such that Follows*(w, _)
+8
+5000
+22 - Follows*, lhs syn, rhs int
+assign a;
+Select a such that Follows*(a, 20)
+3, 5, 7, 19
+5000
+22 - Follows*, lhs syn, rhs int
+stmt s;
+Select s such that Follows*(s, 7)
+1, 2, 3, 4, 5, 6
+5000
+22 - Follows*, lhs wc, rhs syn
+
+Select BOOLEAN such that Follows*(_, 42)
+TRUE
+5000
+22 - Follows*, lhs wc, rhs syn
+
+Select BOOLEAN such that Follows*(_, 55)
+TRUE
+5000
+22 - Follows*, lhs wc, rhs wc
+
+Select BOOLEAN such that Follows*(_, _)
+TRUE
+5000
+22 - Follows*, lhs wc, rhs wc
+while w;
+Select w such that Follows*(_,_)
+8, 21, 22, 38, 42
+5000
+22 - Follows*, lhs wc, rhs int
+
+Select BOOLEAN such that Follows*(_,27)
+TRUE
+5000
+22 - Follows*, lhs wc, rhs int
+
+Select BOOLEAN such that Follows*(_,22)
+FALSE
+5000
+22 - Follows*, lhs int, rhs syn
+assign a;
+Select a such that Follows*(43,a)
+
+5000
+22 - Follows*, lhs int, rhs syn
+stmt s;
+Select s such that Follows*(18,s)
+19, 20, 21
+5000
+22 - Follows*, lhs int, rhs wc
+
+Select BOOLEAN such that Follows*(21,_)
+FALSE
+5000
+22 - Follows*, lhs int, rhs wc
+
+Select BOOLEAN such that Follows*(25,_)
+TRUE
+5000
+22 - Follows*, lhs int, rhs int
+
+Select BOOLEAN such that Follows*(1,20)
+TRUE
+5000
+22 - Follows*, lhs int, rhs int
+
+Select BOOLEAN such that Follows*(21,22)
+FALSE
+5000
+33 - Parent, lhs syn, rhs syn
+while w,w1;
+Select <w,w1> such that Parent(w,w1)
+21 22, 38 42
+5000
+33 - Parent, lhs syn, rhs syn
+if ifs; assign a;
+Select <ifs,a> such that Parent(ifs,a)
+28 30, 28 31, 28 52, 32 33, 32 34, 32 35, 32 36, 32 51, 44 45, 44 49, 44 50
+5000
+33 - Parent, lhs syn, rhs wc
+if ifs;
+Select BOOLEAN such that Parent(ifs,_)
+TRUE
+5000
+33 - Parent, lhs syn, rhs wc
+while w;
+Select BOOLEAN such that Parent(w,_)
+TRUE
+5000
+33 - Parent, lhs syn, rhs int
+while w;
+Select BOOLEAN such that Parent(w,24)
+TRUE
+5000
+33 - Parent, lhs syn, rhs int
+if ifs;
+Select BOOLEAN such that Parent(ifs,35)
+TRUE
+5000
+33 - Parent, lhs wc, rhs syn
+if ifs;
+Select ifs such that Parent(_,ifs)
+22, 28, 42
+5000
+33 - Parent, lhs wc, rhs syn
+while w;
+Select w such that Parent(_,w)
+21, 32, 38
+5000
+33 - Parent, lhs wc, rhs wc
+
+Select BOOLEAN such that Parent(_,_)
+TRUE
+5000
+33 - Parent, lhs wc, rhs wc
+read r;
+Select r such that Parent(_,_)
+1, 18, 46, 47, 53, 58
+5000
+33 - Parent, lhs wc, rhs int
+
+Select BOOLEAN such that Parent(_,55)
+FALSE
+5000
+33 - Parent, lhs wc, rhs int
+
+Select BOOLEAN such that Parent(_,24)
+TRUE
+5000
+33 - Parent, lhs int, rhs syn
+if ifs;
+Select BOOLEAN such that Parent(22,ifs)
+TRUE
+5000
+33 - Parent, lhs int, rhs syn
+while w;
+Select BOOLEAN such that Parent(32, w)
+TRUE
+5000
+33 - Parent, lhs int, rhs wc
+
+Select BOOLEAN such that Parent(28, _)
+TRUE
+5000
+33 - Parent, lhs int, rhs wc
+
+Select BOOLEAN such that Parent(22, _)
+FALSE
+5000
+33 - Parent, lhs int, rhs int
+
+Select BOOLEAN such that Parent(21, 22)
+TRUE
+5000
+33 - Parent, lhs int, rhs int
+
+Select BOOLEAN such that Parent(32, 38)
+TRUE
+5000
+44 - Parent*, lhs syn, rhs syn
+if ifs; while w;
+Select <ifs,w> such that Parent*(ifs, w)
+28 38, 28 42, 32 38, 32 42
+5000
+44 - Parent*, lhs syn, rhs syn
+if ifs; print pr;
+Select pr such that Parent*(ifs, pr)
+28 48, 32 48, 44 48
+5000
+44 - Parent*, lhs syn, rhs wc
+while w;
+Select w such that Parent*(w, _)
+8, 21, 22, 38, 42
+5000
+44 - Parent*, lhs syn, rhs wc
+assign a;
+Select a such that Parent*(a, _)
+
+5000
+44 - Parent*, lhs syn, rhs int
+if ifs;
+Select ifs such that Parent*(ifs, 47)
+28, 32, 44
+5000
+44 - Parent*, lhs syn, rhs int
+while w;
+Select w such that Parent*(w, 24)
+21, 22
+5000
+44 - Parent*, lhs wc, rhs syn
+read r;
+Select r such that Parent*(_,r)
+46, 47
+5000
+44 - Parent*, lhs wc, rhs syn
+assign a;
+Select a such that Parent*(_,a)
+9, 10, 11, 12, 13, 23, 24, 25, 26, 30, 31, 33, 34, 35, 36, 39, 40, 41, 43, 45, 49, 50, 51, 52
+5000
+44 - Parent*, lhs wc, rhs wc
+
+Select BOOLEAN such that Parent*(_,_)
+TRUE
+5000
+44 - Parent*, lhs wc, rhs wc
+assign a;
+Select a such that Parent*(_,_)
+3, 5, 7, 9, 10, 11, 12, 13, 19, 20, 23, 24, 25, 26, 30, 31, 33, 34, 35, 36, 39, 40, 41, 43, 45, 49, 50, 51, 52, 54, 60, 61
+5000
+44 - Parent*, lhs wc, rhs int
+
+Select BOOLEAN such that Parent*(_,33)
+TRUE
+5000
+44 - Parent*, lhs wc, rhs int
+
+Select BOOLEAN such that Parent*(_,3)
+FALSE
+5000
+44 - Parent*, lhs int, rhs syn
+assign a;
+Select a such that Parent*(8, a)
+9, 10, 11, 12, 13
+5000
+44 - Parent*, lhs int, rhs syn
+call c;
+Select c such that Parent*(22,c)
+27, 29, 37
+5000
+44 - Parent*, lhs int, rhs wc
+
+Select BOOLEAN such that Parent*(32,_)
+TRUE
+5000
+44 - Parent*, lhs int, rhs wc
+
+Select BOOLEAN such that Parent*(3,_)
+FALSE
+5000
+44 - Parent*, lhs int, rhs int
+
+Select BOOLEAN such that Parent*(8,13)
+TRUE
+5000
+44 - Parent*, lhs int, rhs int
+
+Select BOOLEAN such that Parent*(15,16)
+FALSE
+5000
+55 - Uses, lhs syn, rhs syn
+stmt s; variable v;
+Select s such that Uses(s, v)
+2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 48, 49, 50, 51, 52, 54, 55, 56, 57, 59, 60, 61
+5000
+55 - Uses, lhs syn, rhs syn
+while w; variable v;
+Select w such that Uses(w, v)
+8, 21, 22, 38, 42
+5000
+55 - Uses, lhs syn, rhs wc
+while w;
+Select w such that Uses(w, _)
+8, 21, 22, 38, 42
+5000
+55 - Uses, lhs syn, rhs wc
+stmt s;
+Select s such that Uses(s, _)
+2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 48, 49, 50, 51, 52, 54, 55, 56, 57, 59, 60, 61
+5000
+55 - Uses, lhs syn, rhs ident
+stmt s;
+Select s such that Uses(s, "z")
+3, 21, 22, 28, 26, 32, 33, 34, 38, 42, 44
+5000
+55 - Uses, lhs syn, rhs ident
+stmt s;
+Select s such that Uses(s, "o")
+3
+5000
+55 - Uses, lhs wc, rhs syn
+variable v;
+Select v such that Uses(_, v)
+a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, alpha, beta, sigma, delta, gama
+5000
+55 - Uses, lhs wc, rhs syn
+variable v;
+Select BOOLEAN such that Uses(_, v)
+TRUE
+5000
+55 - Uses, lhs wc, rhs wc
+
+Select BOOLEAN such that Uses(_, _)
+TRUE
+5000
+55 - Uses, lhs wc, rhs wc
+variable v;
+Select v such that Uses(_, _)
+a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, alpha, beta, sigma, delta, gama, theta
+5000
+55 - Uses, lhs wc, rhs ident
+
+Select BOOLEAN such that Uses(_, "a")
+TRUE
+5000
+55 - Uses, lhs wc, rhs ident
+
+Select BOOLEAN such that Uses(_, "pp")
+FALSE
+5000
+55 - Uses, lhs int, rhs syn
+variable v;
+Select v such that Uses(4, v)
+a, b, alpha
+5000
+55 - Uses, lhs int, rhs syn
+variable v;
+Select v such that Uses(8, v)
+alpha, beta, delta, sigma
+5000
+55 - Uses, lhs int, rhs wc
+
+Select BOOLEAN such that Uses(8, _)
+TRUE
+5000
+55 - Uses, lhs int, rhs wc
+while w;
+Select w such that Uses(8, _)
+8, 21, 22, 38, 42
+5000
+55 - Uses, lhs int, rhs ident
+
+Select BOOLEAN such that Uses(2, "x")
+TRUE
+5000
+55 - Uses, lhs int, rhs ident
+if ifs;
+Select ifs such that Uses(2, "x")
+28, 32, 44
+5000
+55 - Uses, lhs ident, rhs syn
+variable v;
+Select v such that Uses("main", v)
+a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, alpha, beta, sigma, delta, gama
+5000
+55 - Uses, lhs ident, rhs syn
+variable v;
+Select v such that Uses("one", v)
+a, b, alpha
+5000
+55 - Uses, lhs ident, rhs wc
+
+Select BOOLEAN such that Uses("main", _)
+TRUE
+5000
+55 - Uses, lhs ident, rhs wc
+if ifs; while w;
+Select <ifs, w> such that Uses("one", _)
+28 8, 28 21, 28 22, 28 38, 28 42, 32 8, 32 21, 32 22, 32 38, 32 42, 44 8, 44 21, 44 22, 44 38, 44 42
+5000
+55 - Uses, lhs ident, rhs ident
+
+Select BOOLEAN such that Uses("main", "a")
+TRUE
+5000
+55 - Uses, lhs ident, rhs ident
+
+Select BOOLEAN such that Uses("three", "o")
+FALSE
+5000
+66 - Modifies, lhs syn, rhs syn
+stmt s; variable v;
+Select s such that Modifies(s, v)
+1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 49, 50, 51, 52, 53, 54, 56, 57, 58, 59, 60, 61
+5000
+66 - Modifies, lhs syn, rhs syn
+call cl; variable v;
+Select cl such that Modifies(cl, v)
+4, 6, 14, 15, 27, 29, 37, 56, 57, 59
+5000
+66 - Modifies, lhs syn, rhs wc
+stmt s; variable v;
+Select s such that Modifies(s, _)
+1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 49, 50, 51, 52, 53, 54, 56, 57, 58, 59, 60, 61
+5000
+66 - Modifies, lhs syn, rhs wc
+procedure p;
+Select p such that Modifies(p, _)
+main, one, two, three
+5000
+66 - Modifies, lhs syn, rhs ident
+procedure p;
+Select p such that Modifies(p, "alpha")
+main, one, two, three
+5000
+66 - Modifies, lhs syn, rhs ident
+stmt s;
+Select s such that Modifies(s, "alpha")
+4, 5, 6, 8, 11, 14, 15, 21, 22, 26, 27, 28, 29, 31, 32, 35, 37, 38, 42, 43, 44, 45, 51, 56, 59, 61
+5000
+66 - Modifies, lhs wc, rhs syn
+variable v;
+Select BOOLEAN such that Modifies(_, v)
+TRUE
+5000
+66 - Modifies, lhs wc, rhs syn
+variable v;
+Select v such that Modifies(_, v)
+a, x, alpha, delta, beta, sigma, theta, y, z, f, b
+5000
+66 - Modifies, lhs wc, rhs wc
+
+Select BOOLEAN such that Modifies(_, _)
+TRUE
+5000
+66 - Modifies, lhs wc, rhs wc
+procedure pl
+Select p such that Modifies(_, _)
+main, one, two, three
+5000
+66 - Modifies, lhs wc, rhs ident
+procedure p;
+Select p such that Modifies(_, "a")
+main, one, two, three
+5000
+66 - Modifies, lhs wc, rhs ident
+
+Select BOOLEAN such that Modifies(_, "o")
+FALSE
+5000
+66 - Modifies, lhs int, rhs syn
+variable v;
+Select v such that Modifies(3, v)
+a
+5000
+66 - Modifies, lhs int, rhs syn
+variable v;
+Select v such that Modifies(6, v)
+alpha, beta
+5000
+66 - Modifies, lhs int, rhs wc
+
+Select BOOLEAN such that Modifies(1, _)
+TRUE
+5000
+66 - Modifies, lhs int, rhs wc
+
+Select BOOLEAN such that Modifies(2, _)
+FALSE
+5000
+66 - Modifies, lhs int, rhs ident
+
+Select BOOLEAN such that Modifies(2, "x")
+FALSE
+5000
+66 - Modifies, lhs int, rhs ident
+
+Select BOOLEAN such that Modifies(3, "a")
+TRUE
+5000
+66 - Modifies, lhs int, rhs syn
+variable v;
+Select v such that Modifies(3, v)
+a
+5000
+66 - Modifies, lhs int, rhs syn
+variable v;
+Select v such that Modifies(8, v)
+alpha, beta, delta, sigma, theta
+5000
+66 - Modifies, lhs ident, rhs syn
+variable v;
+Select v such that Modifies("main", v)
+a, x, alpha, delta, beta, sigma, theta, y, z, f, b
+5000
+66 - Modifies, lhs ident, rhs syn
+variable v;
+Select v such that Modifies("three", v)
+alpha
+5000
+66 - Modifies, lhs ident, rhs wc
+
+Select BOOLEAN such that Modifies("three", _)
+TRUE
+5000
+66 - Modifies, lhs ident, rhs wc
+while w;
+Select w such that Modifies("three", _)
+8, 21, 22, 38, 42
+5000
+66 - Modifies, lhs ident, rhs ident
+
+Select BOOLEAN such that Modifies("three", "alpha")
+TRUE
+5000
+66 - Modifies, lhs ident, rhs ident
+
+Select BOOLEAN such that Modifies("three", "a")
+FALSE
+5000
+77 - Calls, lhs syn, rhs syn
+procedure p1, p2;
+Select p1 such that Calls(p1, p2)
+main, one, two
+5000
+77 - Calls, lhs syn, rhs syn
+procedure p1, p2;
+Select p2 such that Calls(p1, p2)
+one, two, three
+5000
+77 - Calls, lhs syn, rhs wc
+procedure p;
+Select p such that Calls(p, _)
+main, one, two
+5000
+77 - Calls, lhs syn, rhs wc
+procedure p, p1;
+Select p1 such that Calls(p, _)
+main, one, two, three
+5000
+77 - Calls, lhs syn, rhs ident
+procedure p;
+Select p such that Calls(p, "two")
+main, one
+5000
+77 - Calls, lhs syn, rhs ident
+procedure p; while w;
+Select w such that Calls(p, "two")
+8, 21, 22, 38, 42
+5000
+77 - Calls, lhs wc, rhs syn
+procedure p;
+Select p such that Calls(_, p)
+one, two, three
+5000
+77 - Calls, lhs wc, rhs syn
+procedure p; while w;
+Select w such that Calls(_, p)
+8, 21, 22, 38, 42
+5000
+77 - Calls, lhs wc, rhs wc
+
+Select BOOLEAN such that Calls(_, _)
+TRUE
+5000
+77 - Calls, lhs wc, rhs wc
+
+Select w such that Calls(_, _)
+8, 21, 22, 38, 42
+5000
+77 - Calls, lhs wc, rhs ident
+
+Select BOOLEAN such that Calls(_, "two")
+TRUE
+5000
+77 - Calls, lhs wc, rhs ident
+
+Select BOOLEAN such that Calls(_, "main")
+FALSE
+5000
+77 - Calls, lhs ident, rhs syn
+procedure p;
+Select p such that Calls("main", p)
+one, two, three
+5000
+77 - Calls, lhs ident, rhs syn
+procedure p;
+Select p such that Calls("one", p)
+two, three
+5000
+77 - Calls, lhs ident, rhs wc
+
+Select BOOLEAN such that Calls("one", _)
+TRUE
+5000
+77 - Calls, lhs ident, rhs wc
+
+Select BOOLEAN such that Calls("three", _)
+FALSE
+5000
+77 - Calls, lhs ident, rhs ident
+Procedure p;
+Select p such that Calls("one", "two")
+TRUE
+5000
+77 - Calls, lhs ident, rhs ident
+
+Select BOOLEAN such that Calls("main", "three")
+TRUE
+5000
+88 - Calls*, lhs syn, rhs syn
+88 - Calls*, lhs syn, rhs syn
+88 - Calls*, lhs syn, rhs wc
+88 - Calls*, lhs syn, rhs wc
+88 - Calls*, lhs syn, rhs ident
+88 - Calls*, lhs syn, rhs ident
+88 - Calls*, lhs wc, rhs syn
+88 - Calls*, lhs wc, rhs syn
+88 - Calls*, lhs wc, rhs wc
+88 - Calls*, lhs wc, rhs wc
+88 - Calls*, lhs wc, rhs ident
+88 - Calls*, lhs wc, rhs ident
+88 - Calls*, lhs ident, rhs syn
+88 - Calls*, lhs ident, rhs syn
+88 - Calls*, lhs ident, rhs wc
+88 - Calls*, lhs ident, rhs wc
+88 - Calls*, lhs ident, rhs ident
+88 - Calls*, lhs ident, rhs ident
+
+99 - Next, lhs syn, rhs syn
+99 - Next, lhs syn, rhs syn
+99 - Next, lhs syn, rhs wc
+99 - Next, lhs syn, rhs wc
+99 - Next, lhs syn, rhs int
+99 - Next, lhs syn, rhs int
+99 - Next, lhs wc, rhs syn
+99 - Next, lhs wc, rhs syn
+99 - Next, lhs wc, rhs wc
+99 - Next, lhs wc, rhs wc
+99 - Next, lhs wc, rhs int
+99 - Next, lhs wc, rhs int
+99 - Next, lhs int, rhs syn
+99 - Next, lhs int, rhs syn
+99 - Next, lhs int, rhs wc
+99 - Next, lhs int, rhs wc
+99 - Next, lhs int, rhs int
+99 - Next, lhs int, rhs int
+
+111 - Next*, lhs syn, rhs syn
+111 - Next*, lhs syn, rhs syn
+111 - Next*, lhs syn, rhs wc
+111 - Next*, lhs syn, rhs wc
+111 - Next*, lhs syn, rhs int
+111 - Next*, lhs syn, rhs int
+111 - Next*, lhs wc, rhs syn
+111 - Next*, lhs wc, rhs syn
+111 - Next*, lhs wc, rhs wc
+111 - Next*, lhs wc, rhs wc
+111 - Next*, lhs wc, rhs int
+111 - Next*, lhs wc, rhs int
+111 - Next*, lhs int, rhs syn
+111 - Next*, lhs int, rhs syn
+111 - Next*, lhs int, rhs wc
+111 - Next*, lhs int, rhs wc
+111 - Next*, lhs int, rhs int
+111 - Next*, lhs int, rhs int
+
+122 - Affects, lhs syn, rhs syn
+122 - Affects, lhs syn, rhs syn
+122 - Affects, lhs syn, rhs wc
+122 - Affects, lhs syn, rhs wc
+122 - Affects, lhs syn, rhs int
+122 - Affects, lhs syn, rhs int
+122 - Affects, lhs wc, rhs syn
+122 - Affects, lhs wc, rhs syn
+122 - Affects, lhs wc, rhs wc
+122 - Affects, lhs wc, rhs wc
+122 - Affects, lhs wc, rhs int
+122 - Affects, lhs wc, rhs int
+122 - Affects, lhs int, rhs syn
+122 - Affects, lhs int, rhs syn
+122 - Affects, lhs int, rhs wc
+122 - Affects, lhs int, rhs wc
+122 - Affects, lhs int, rhs int
+122 - Affects, lhs int, rhs int
+
+133 - Affects*, lhs syn, rhs syn
+133 - Affects*, lhs syn, rhs syn
+133 - Affects*, lhs syn, rhs wc
+133 - Affects*, lhs syn, rhs wc
+133 - Affects*, lhs syn, rhs int
+133 - Affects*, lhs syn, rhs int
+133 - Affects*, lhs wc, rhs syn
+133 - Affects*, lhs wc, rhs syn
+133 - Affects*, lhs wc, rhs wc
+133 - Affects*, lhs wc, rhs wc
+133 - Affects*, lhs wc, rhs int
+133 - Affects*, lhs wc, rhs int
+133 - Affects*, lhs int, rhs syn
+133 - Affects*, lhs int, rhs syn
+133 - Affects*, lhs int, rhs wc
+133 - Affects*, lhs int, rhs wc
+133 - Affects*, lhs int, rhs int
+133 - Affects*, lhs int, rhs int
+
+144 - Pattern assign, syn (var), exact match
+144 - Pattern assign, syn (var), exact match
+144 - Pattern assign, syn (var), partial match
+144 - Pattern assign, syn (var), partial match
+144 - Pattern assign, wc, exact match
+144 - Pattern assign, wc, exact match
+144 - Pattern assign, wc, partial match
+144 - Pattern assign, wc, partial match
+144 - Pattern assign, ident, exact match
+144 - Pattern assign, ident, exact match
+144 - Pattern assign, ident, partial match
+144 - Pattern assign, ident, partial match
+144 - Pattern if, syn (var)
+144 - Pattern if, syn (var)
+144 - Pattern if, wc
+144 - Pattern if, wc
+144 - Pattern if, ident
+144 - Pattern if, ident
+144 - Pattern while, syn (var)
+144 - Pattern while, syn (var)
+144 - Pattern while, wc
+144 - Pattern while, wc
+144 - Pattern while, ident
+144 - Pattern while, ident
+
+155 - With, lhs ident, rhs ident
+155 - With, lhs ident, rhs syn (prog_line)
+155 - With, lhs ident, rhs procedure.procName (NAME)
+155 - With, lhs ident, rhs call.procName (NAME)
+155 - With, lhs ident, rhs variable.varName (NAME)
+155 - With, lhs ident, rhs print.varName (NAME)
+155 - With, lhs int, rhs int
+155 - With, lhs int, rhs syn (prog_line)
+155 - With, lhs int, rhs constant.value (INT)
+155 - With, lhs int, rhs stmt.stmt# (INT)
+155 - With, lhs int, rhs read.stmt# (INT)
+155 - With, lhs int, rhs print.stmt# (INT)
+155 - With, lhs int, rhs call.stmt# (INT)
+155 - With, lhs int, rhs while.stmt# (INT)
+155 - With, lhs int, rhs if.stmt# (INT)
+155 - With, lhs int, rhs assign.stmt# (INT)
+155 - With, lhs syn (prog_line), rhs int
+155 - With, lhs syn (prog_line), rhs syn (prog_line)
+155 - With, lhs syn (prog_line), rhs constant.value (INT)
+155 - With, lhs syn (prog_line), rhs stmt.stmt# (INT)
+155 - With, lhs syn (prog_line), rhs read.stmt# (INT)
+155 - With, lhs syn (prog_line), rhs print.stmt# (INT)
+155 - With, lhs syn (prog_line), rhs call.stmt# (INT)
+155 - With, lhs syn (prog_line), rhs while.stmt# (INT)
+155 - With, lhs syn (prog_line), rhs if.stmt# (INT)
+155 - With, lhs syn (prog_line), rhs assign.stmt# (INT)
+
+166 - NextBip, lhs syn, rhs syn
+166 - NextBip, lhs syn, rhs wc
+166 - NextBip, lhs syn, rhs int
+166 - NextBip, lhs wc, rhs syn
+166 - NextBip, lhs wc, rhs wc
+166 - NextBip, lhs wc, rhs int
+166 - NextBip, lhs int, rhs syn
+166 - NextBip, lhs int, rhs wc
+166 - NextBip, lhs int, rhs int
+
+177 - NextBip*, lhs syn, rhs syn
+177 - NextBip*, lhs syn, rhs wc
+177 - NextBip*, lhs syn, rhs int
+177 - NextBip*, lhs wc, rhs syn
+177 - NextBip*, lhs wc, rhs wc
+177 - NextBip*, lhs wc, rhs int
+177 - NextBip*, lhs int, rhs syn
+177 - NextBip*, lhs int, rhs wc
+177 - NextBip*, lhs int, rhs int
+
+188 - AffectsBip, lhs syn, rhs syn
+188 - AffectsBip, lhs syn, rhs wc
+188 - AffectsBip, lhs syn, rhs int
+188 - AffectsBip, lhs wc, rhs syn
+188 - AffectsBip, lhs wc, rhs wc
+188 - AffectsBip, lhs wc, rhs int
+188 - AffectsBip, lhs int, rhs syn
+188 - AffectsBip, lhs int, rhs wc
+188 - AffectsBip, lhs int, rhs int
+
+199 - AffectsBip*, lhs syn, rhs syn
+199 - AffectsBip*, lhs syn, rhs wc
+199 - AffectsBip*, lhs syn, rhs int
+199 - AffectsBip*, lhs wc, rhs syn
+199 - AffectsBip*, lhs wc, rhs wc
+199 - AffectsBip*, lhs wc, rhs int
+199 - AffectsBip*, lhs int, rhs syn
+199 - AffectsBip*, lhs int, rhs wc
+199 - AffectsBip*, lhs int, rhs int
+
+999 - Invalid Follows, skip stmt number
+999 - Invalid Follows, jump into within container stmt number
+999 - Invalid Follows, container stmt number to first line in container
+999 - Invalid Follows, jump to other procedure
+999 - Invalid Follows*, jump into within container stmt number
+999 - Invalid Follows*, container stmt number to first line in container
+999 - Invalid Follows*, jump to other procedure
+999 - Invalid Parent, parent of root statements
+999 - Invalid Parent, nested parent
+999 - Invalid Parent*, jump out of a non-parent
+999 - Invalid Uses, stmt does not use
+999 - Invalid Uses, stmt does not use in container condition
+999 - Invalid Uses, stmt does not use in container substatements
+999 - Invalid Uses, stmt does not use in call
+999 - Invalid Uses, stmt does not use in procedure
+999 - Invalid Modifies, stmt does not use
+999 - Invalid Modifies, stmt does not use in container substatements
+999 - Invalid Modifies, stmt does not use in call
+999 - Invalid Modifies, stmt does not use in procedure
+999 - Invalid Calls, calls indirectly
+999 - Invalid Calls*, no call flow
+999 - Invalid Next, statement skip next stmt
+999 - Invalid Next, last statement of if then and if else does not join to immediate stmt
+999 - Invalid Next, last statement of while jumps out of while
+999 - Invalid Next*, stmt does not flow using cfg
+999 - Invalid Affects, lhs is modified in same stmtlist
+999 - Invalid Affects, lhs is modified in other procedure
+999 - Invalid Affects*, intermediary var got overwritten
+999 - Invalid Pattern assign, no exact match
+999 - Invalid Pattern assign, no partial match
+999 - Invalid Pattern if, no use of var
+999 - Invalid Pattern while, no use of var
