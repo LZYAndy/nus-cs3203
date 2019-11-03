@@ -38,8 +38,13 @@ public:
      * @return unodered_map that contains all the affects* relationship.
      */
     std::unordered_map<int, std::vector<int>> get_all_affects_star_relationship(PKB &pkb);
+    /**
+     * Clear affects* cache
+     */
+    void clear_cache();
 
 private:
+    Bank<int, int> affects_star_cache;
     bool is_affects_star_helper(PKB& pkb, int assignment1, int assignment2, std::unordered_set<std::string> &states);
 };
 

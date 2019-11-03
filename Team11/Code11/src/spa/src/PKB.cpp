@@ -619,146 +619,57 @@ unordered_map<int, vector<string>> PKB::get_all_statements_calls_relationship()
 
 vector<int> PKB::get_all_assigns_affect()
 {
-    if (affects_cache.empty())
-    {
-        return AffectsCompute().get_all_assigns_affect(last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
-    }
-    else
-    {
-        return affects_cache.get_all_keys();
-    }
+    return AffectsCompute().get_all_assigns_affect(last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
 }
 
 vector<int> PKB::get_assigns_affect(int stmt)
 {
-    if (affects_cache.empty())
-    {
-        return AffectsCompute().get_assigns_affect(stmt, last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
-    }
-    else
-    {
-        return affects_cache.get_reverse(stmt);
-    }
+    return AffectsCompute().get_assigns_affect(stmt, last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
 }
 
 unordered_map<int, vector<int>> PKB::get_all_affects_relationship()
 {
-    unordered_map<int, vector<int>> result = AffectsCompute().get_all_affects_relationship(last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
-    for(auto& itr: result)
-    {
-        int affect_stmt = itr.first;
-        for(int i: itr.second)
-        {
-            affects_cache.put(affect_stmt, i);
-        }
-    }
-    return result;
+    return AffectsCompute().get_all_affects_relationship(last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
 }
 
 vector<int> PKB::get_all_assigns_affected()
 {
-    if (affects_cache.empty())
-    {
-        return AffectsCompute().get_all_assigns_affected(last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
-    }
-    else
-    {
-        return affects_cache.get_all_values();
-    }
+    return AffectsCompute().get_all_assigns_affected(last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
 }
 
 vector<int> PKB::get_assigns_affected_by(int stmt)
 {
-    if (affects_cache.empty())
-    {
-        return AffectsCompute().get_assigns_affected_by(stmt, last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
-    }
-    else
-    {
-        return affects_cache.get(stmt);
-    }
+    return AffectsCompute().get_assigns_affected_by(stmt, last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
 }
 
 bool PKB::does_affects_exist()
 {
-    if (!affects_cache.empty())
-    {
-        return true;
-    }
-    else
-    {
-        return AffectsCompute().does_affects_exist(last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
-    }
+    return AffectsCompute().does_affects_exist(last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
 }
 
 bool PKB::is_affects(int stmt1, int stmt2)
 {
-    if (affects_cache.empty())
-    {
-        return AffectsCompute().is_affects(stmt1, stmt2, next_bank, modifies_bank, uses_bank, type_bank);
-    }
-    else
-    {
-        vector<int> affected = affects_cache.get(stmt1);
-        if (find(affected.begin(), affected.end(), stmt2) != affected.end())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+    return AffectsCompute().is_affects(stmt1, stmt2, next_bank, modifies_bank, uses_bank, type_bank);
 }
 
 vector<int> PKB::get_statements_previous_star(int stmt)
 {
-    if (next_star_cache.empty())
-    {
-        return NextStarCompute().get_statements_previous_star(stmt, next_bank);
-    }
-    else
-    {
-        return next_star_cache.get_reverse(stmt);
-    }
+    return NextStarCompute().get_statements_previous_star(stmt, next_bank);
 }
 
 vector<int> PKB::get_statements_next_star(int stmt)
 {
-    if (next_star_cache.empty())
-    {
-        return NextStarCompute().get_statements_next_star(stmt, next_bank);
-    }
-    else
-    {
-        return next_star_cache.get(stmt);
-    }
+    return NextStarCompute().get_statements_next_star(stmt, next_bank);
 }
 
 bool PKB::is_next_star(int stmt1, int stmt2)
 {
-    if (!next_star_cache.empty())
-    {
-        return true;
-    }
-    else
-    {
-        return NextStarCompute().is_next_star(stmt1, stmt2, next_bank);
-    }
+    return NextStarCompute().is_next_star(stmt1, stmt2, next_bank);
 }
 
 unordered_map<int, vector<int>> PKB::get_all_next_star_relationship()
 {
-    unordered_map<int, vector<int>> result = NextStarCompute().get_all_next_star_relationship(last_statement_num, next_bank);
-    for(auto& itr: result)
-    {
-        int next_stmt = itr.first;
-        for(int i: itr.second)
-        {
-            next_star_cache.put(next_stmt, i);
-        }
-    }
-    return result;
+    return NextStarCompute().get_all_next_star_relationship(last_statement_num, next_bank);
 }
 
 std::unordered_map<int, std::vector<int>> PKB::get_all_previous_relationship()
@@ -773,57 +684,27 @@ string PKB::get_called_by_statement(int stmt)
 
 bool PKB::is_affects_star(int assignment1, int assignment2)
 {
-    if (!affects_star_cache.empty())
-    {
-        return true;
-    }
-    else
-    {
-        return affects_star_compute.is_affects_star(*this, assignment1, assignment2);
-    }
+    return affects_star_compute.is_affects_star(*this, assignment1, assignment2);
 }
 
 vector<int> PKB::get_affected_star(int assignment)
 {
-    if (affects_star_cache.empty())
-    {
-        return affects_star_compute.get_affected_star(*this, assignment);
-    }
-    else
-    {
-        return affects_star_cache.get(assignment);
-    }
+    return affects_star_compute.get_affected_star(*this, assignment);
 }
 
 vector<int> PKB::get_affects_star(int assignment)
 {
-    if (affects_star_cache.empty())
-    {
-        return affects_star_compute.get_affects_star(*this, assignment);
-    }
-    else
-    {
-        return affects_star_cache.get_reverse(assignment);
-    }
+    return affects_star_compute.get_affects_star(*this, assignment);
 }
 
 unordered_map<int, vector<int>> PKB::get_all_affects_star_relationship()
 {
-    unordered_map<int, vector<int>> result = affects_star_compute.get_all_affects_star_relationship(*this);
-    for(auto& itr: result)
-    {
-        int affect_star_stmt = itr.first;
-        for(int i: itr.second)
-        {
-            affects_star_cache.put(affect_star_stmt, i);
-        }
-    }
-    return result;
+    return affects_star_compute.get_all_affects_star_relationship(*this);
 }
 
 void PKB::clear_cache()
 {
-    next_star_cache.clear_banks();
-    affects_cache.clear_banks();
-    affects_star_cache.clear_banks();
+    AffectsCompute().clear_cache();
+    NextStarCompute().clear_cache();
+    affects_star_compute.clear_cache();
 }

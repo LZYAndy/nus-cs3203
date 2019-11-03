@@ -3,6 +3,19 @@
 
 bool AffectsStarCompute::is_affects_star(PKB& pkb, int assignment1, int assignment2)
 {
+    if (!affects_star_cache.empty())
+    {
+        std::vector<int> affected = affects_star_cache.get(assignment1);
+        if (find(affected.begin(), affected.end(), assignment2) != affected.end())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     std::unordered_set<std::string> states;
     return is_affects_star_helper(pkb, assignment1, assignment2, states); 
 }
@@ -38,6 +51,11 @@ bool AffectsStarCompute::is_affects_star_helper(PKB& pkb, int assignment1, int a
 // affects*(1,a)
 std::vector<int> AffectsStarCompute::get_affects_star(PKB& pkb, int assignment)
 {
+    if (!affects_star_cache.empty())
+    {
+        return affects_star_cache.get(assignment);
+    }
+
     vector<int> result;
     vector<int> assign_stmts = pkb.get_all_assigns();
     for (int assign_stmt : assign_stmts)
@@ -53,6 +71,11 @@ std::vector<int> AffectsStarCompute::get_affects_star(PKB& pkb, int assignment)
 // affects*(a, 1)
 std::vector<int> AffectsStarCompute::get_affected_star(PKB& pkb, int assignment)
 {
+    if (!affects_star_cache.empty())
+    {
+        return affects_star_cache.get_reverse(assignment);
+    }
+
     vector<int> result;
     vector<int> assign_stmts = pkb.get_all_assigns();
     for (int assign_stmt : assign_stmts)
@@ -79,5 +102,19 @@ std::unordered_map<int, std::vector<int>> AffectsStarCompute::get_all_affects_st
         }
         affects_star_map.insert({assign_stmt, affected_stmts});
     }
+
+    for(auto& itr: affects_star_map)
+    {
+        int affect_star_stmt = itr.first;
+        for(int i: itr.second)
+        {
+            affects_star_cache.put(affect_star_stmt, i);
+        }
+    }
+
     return affects_star_map;
+}
+
+void AffectsStarCompute::clear_cache() {
+    affects_star_cache.clear_banks();
 }

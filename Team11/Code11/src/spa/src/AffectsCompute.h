@@ -84,8 +84,13 @@ public:
      * @return Return true if there is an Affects relationship between them, otherwise false
      */
     bool is_affects(int stmt1, int stmt2, NextBank next_bank, ModifiesBank modifies_bank, UsesBank uses_bank, TypeBank type_bank);
+    /**
+     * Clear affects cache
+     */
+    void clear_cache();
 
 private:
+    Bank<int, int> affects_cache;
     bool can_exist_affects(int stmt1, int stmt2, NextBank next_bank, ModifiesBank modifies_bank, UsesBank uses_bank, TypeBank type_bank);
     bool modified_by_others(int stmt1, int inter_stmt, NextBank next_bank, ModifiesBank modifies_bank, UsesBank uses_bank, TypeBank type_bank);
     bool affects_other_stmts(int stmt, NextBank next_bank, ModifiesBank modifies_bank, UsesBank uses_bank, TypeBank type_bank);

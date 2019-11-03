@@ -45,8 +45,13 @@ public:
      * a vector of statement numbers which means they are in the next position in the Next* relationship with the key.
      */
     std::unordered_map<int, std::vector<int>> get_all_next_star_relationship(int last_stmt_num, NextBank& next_bank);  //e.g. Next*(n1, n2)
+    /**
+     * Clear Next* cache
+     */
+    void clear_cache();
 
 private:
+    Bank<int, int> next_star_cache;
     //std::unordered_map<int, std::unordered_set<int>> dfs_for_cfg(int target_stmt, std::unordered_map<int, std::vector<int>> cfg);
     /**
      * DFS algorithm

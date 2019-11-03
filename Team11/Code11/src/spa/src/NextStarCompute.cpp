@@ -143,16 +143,36 @@ std::unordered_map<int, std::unordered_set<int>> NextStarCompute::dfs_for_cfg(in
 
 std::vector<int> NextStarCompute::get_statements_previous_star(int next, NextBank& next_bank)
 {
+    if (!next_star_cache.empty())
+    {
+        return next_star_cache.get_reverse(next);
+    }
     return dfs_for_cfg(next, next_bank.get_all_previous_relationship());
 }
 
 std::vector<int> NextStarCompute::get_statements_next_star(int previous, NextBank& next_bank)
 {
+    if (!next_star_cache.empty())
+    {
+        return next_star_cache.get(previous);
+    }
     return dfs_for_cfg(previous, next_bank.get_all_next_relationship());
 }
 
 bool NextStarCompute::is_next_star(int previous, int next, NextBank& next_bank)
 {
+    if (!next_star_cache.empty())
+    {
+        std::vector<int> next_stmts = next_star_cache.get(previous);
+        if (find(next_stmts.begin(), next_stmts.end(), next) != next_stmts.end())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     std::vector<int> vec = dfs_for_cfg(previous, next_bank.get_all_next_relationship());
     return find(vec.begin(), vec.end(), next) != vec.end();
 }
@@ -170,6 +190,16 @@ std::unordered_map<int, std::vector<int>> NextStarCompute::get_all_next_star_rel
             result.emplace(i, next_star_stmts);
         }
     }
+
+    for(auto& itr: result)
+    {
+        int next_stmt = itr.first;
+        for(int i: itr.second)
+        {
+            next_star_cache.put(next_stmt, i);
+        }
+    }
+
     return result;
 }
 
@@ -211,4 +241,8 @@ std::vector<int> NextStarCompute::dfs_for_cfg(int target_stmt, std::unordered_ma
         }
     }
     return result;
+}
+
+void NextStarCompute::clear_cache() {
+    next_star_cache.clear_banks();
 }
