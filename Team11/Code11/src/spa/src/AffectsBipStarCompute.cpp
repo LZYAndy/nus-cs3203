@@ -1,11 +1,5 @@
 
-#include "AffectsStarBipCompute.h"
-
-AffectsBipStarCompute::AffectsBipStarCompute(AffectsBipCompute &affects_bip_compute, TypeBank &type_bank)
-{
-    affects_bip_compute = affects_bip_compute;
-    type_bank = type_bank;
-}
+#include "AffectsBipStarCompute.h"
 
 bool AffectsBipStarCompute::is_affects_bip_star(int assignment1, int assignment2)
 {
@@ -13,7 +7,7 @@ bool AffectsBipStarCompute::is_affects_bip_star(int assignment1, int assignment2
     return is_affects_bip_star_helper(assignment1, assignment2, states); 
 }
 
-std::vector<int> AffectsBipStarCompute::get_affects_bip_star(int assignment)
+std::vector<int> AffectsBipStarCompute::get_affected_bip_star(int assignment)
 {
     std::vector<int> result;
     std::vector<int> assign_stmts = type_bank->get_all_of_type(EntityType::ASSIGN);
@@ -27,7 +21,7 @@ std::vector<int> AffectsBipStarCompute::get_affects_bip_star(int assignment)
     return result;
 }
 
-std::vector<int> AffectsBipStarCompute::get_affected_bip_star(int assignment)
+std::vector<int> AffectsBipStarCompute::get_affects_bip_star(int assignment)
 {
     std::vector<int> result;
     std::vector<int> assign_stmts = type_bank->get_all_of_type(EntityType::ASSIGN);
@@ -47,7 +41,7 @@ std::unordered_map<int, std::vector<int>> AffectsBipStarCompute::get_all_affects
     std::vector<int> assign_stmts = type_bank->get_all_of_type(EntityType::ASSIGN);
     for (int assign_stmt : assign_stmts)
     {
-        std::vector<int> affected_stmts = get_affects_bip_star(assign_stmt);
+        std::vector<int> affected_stmts = get_affected_bip_star(assign_stmt);
         if (affected_stmts.empty())
         {
             continue;
@@ -83,4 +77,9 @@ bool AffectsBipStarCompute::is_affects_bip_star_helper(int assignment1, int assi
         }
     }
     return false;
+}
+AffectsBipStarCompute::AffectsBipStarCompute(AffectsBipCompute* affects_bip_compute, TypeBank* type_bank)
+{
+    this->affects_bip_compute = affects_bip_compute;
+    this->type_bank = type_bank;
 }

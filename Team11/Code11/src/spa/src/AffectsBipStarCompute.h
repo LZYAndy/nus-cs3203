@@ -9,7 +9,7 @@
 class AffectsBipStarCompute
 {
 public:
-    AffectsBipStarCompute(AffectsBipCompute &affects_bip_compute, TypeBank &type_bank);
+    AffectsBipStarCompute(AffectsBipCompute *affects_bip_compute, TypeBank *type_bank);
     bool is_affects_bip_star(int assignment1, int assignment2);
     std::vector<int> get_affects_bip_star(int assignment);
     std::vector<int> get_affected_bip_star(int assignment);
