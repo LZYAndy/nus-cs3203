@@ -21,6 +21,7 @@ public:
     static bool is_same_type(EntityType type_1, EntityType type_2);
     static bool is_statement_num(pql_dto::Entity &entity);
     static bool is_program_line(pql_dto::Entity &entity);
+    static bool is_constant(pql_dto::Entity &entity);
     static bool is_proc_name(pql_dto::Entity &entity);
     static bool is_proc_declared(pql_dto::Entity &entity);
     static bool is_var_name(pql_dto::Entity &entity);
@@ -35,6 +36,8 @@ public:
     static unordered_map<string, vector<string>> mapping(pql_dto::Entity &key, int n, PKB &PKB);
     static unordered_map<string, vector<string>> mapping(pql_dto::Entity &key_1, pql_dto::Entity &key_2,
             unordered_map<int, vector<int>> &int_map, PKB &PKB);
+    static unordered_map<string, vector<string>> mapping(pql_dto::Entity &key_1, pql_dto::Entity &key_2,
+            string &name_1, string &name_2, unordered_map<int, vector<int>> &int_map, PKB &PKB);
     static unordered_map<string, vector<string>> mapping(pql_dto::Entity &key_1, pql_dto::Entity &key_2,
             unordered_map<string, vector<string>> &str_map);
     static unordered_map<string, vector<string>> mapping(pql_dto::Entity &key_1, pql_dto::Entity &key_2,

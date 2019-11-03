@@ -91,7 +91,7 @@ public:
         insert_modifies("computeCentroid", "cenY");
         insert_type(12, EntityType::ASSIGN);
         insert_follows(11, 12);
-        insert_next(12, 12);
+        insert_next(11, 12);
 
         insert_calls(13, "computeCentroid", "readPoint");
         insert_type(13, EntityType::CALL);

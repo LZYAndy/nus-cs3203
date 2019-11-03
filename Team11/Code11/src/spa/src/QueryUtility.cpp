@@ -6,7 +6,7 @@ Checks if the entity is a statement number
  */
 bool QueryUtility::is_statement_num(pql_dto::Entity &entity)
 {
-    return !(entity.is_entity_declared() || entity.get_entity_type() != EntityType::STMT);
+    return !entity.is_entity_declared() && (entity.get_entity_type() == EntityType::STMT || entity.get_entity_attr() == AttributeType::STMTNUM);
 }
 
 /*
@@ -17,12 +17,17 @@ bool QueryUtility::is_program_line(pql_dto::Entity &entity)
     return !(entity.is_entity_declared() || entity.get_entity_type() != EntityType::PROG_LINE);
 }
 
+bool QueryUtility::is_constant(pql_dto::Entity &entity)
+{
+    return !entity.is_entity_declared() && entity.get_entity_type() == EntityType::CONSTANT;
+}
+
 /*
 Checks if the entity is a procedure undeclared
 */
 bool QueryUtility::is_proc_name(pql_dto::Entity &entity)
 {
-    return !(entity.is_entity_declared() || entity.get_entity_type() != EntityType::PROCEDURE);
+    return !entity.is_entity_declared() && (entity.get_entity_type() == EntityType::PROCEDURE || entity.get_entity_attr() == AttributeType::PROCNAME);
 }
 
 /*
@@ -216,7 +221,7 @@ vector<string> QueryUtility::change_to_attributes(pql_dto::Entity &select_entity
         vector<string> temp_vec, PKB &PKB)
 {
     vector<string> result;
-    if (select_entity.get_entity_attr() == AttributeType::NONE)
+    if (select_entity.get_entity_attr() == AttributeType::NONE || select_entity.get_entity_attr() == AttributeType::STMTNUM || select_entity.get_entity_attr() == AttributeType::VALUE)
     {
         return temp_vec;
     }
@@ -224,14 +229,14 @@ vector<string> QueryUtility::change_to_attributes(pql_dto::Entity &select_entity
     {
         for (const auto& iter : temp_vec)
         {
-            result.push_back(PKB.get_modified_by_statement(stoi(iter)).at(0));
+            result.push_back(PKB.get_called_by_statement(stoi(iter)));
         }
     }
     else if (select_entity.get_entity_type() == EntityType::READ)
     {
         for (const auto& iter : temp_vec)
         {
-            result.push_back(PKB.get_called_by_statement(stoi(iter)));
+            result.push_back(PKB.get_modified_by_statement(stoi(iter)).at(0));
         }
     }
     else if (select_entity.get_entity_type() == EntityType::PRINT)
@@ -296,7 +301,7 @@ vector<string> QueryUtility::get_certain_type_int_list(EntityType &type, PKB &PK
         type_list = PKB.get_all_assigns();
     }
 
-    if (type == EntityType::STMT)
+    if (type == EntityType::STMT || type == EntityType::PROG_LINE)
     {
         type_list = PKB.get_all_statement_nums();
     }
@@ -420,6 +425,36 @@ unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity &key
                 {
                     key_value_1.push_back(to_string(first));
                     key_value_2.push_back(to_string(it));
+                }
+            }
+        }
+    }
+    result[key_1.get_entity_name()] = key_value_1;
+    result[key_2.get_entity_name()] = key_value_2;
+    return result;
+}
+
+unordered_map<string, vector<string>> QueryUtility::mapping(pql_dto::Entity &key_1, pql_dto::Entity &key_2,
+        string &name_1, string &name_2, unordered_map<int, vector<int>> &int_map, PKB &PKB)
+{
+    unordered_map<std::string, std::vector<std::string>> result;
+    vector<string> key_value_1;
+    vector<string> key_value_2;
+    for (auto &iter : int_map)
+    {
+        int first = iter.first;
+        vector<int> second = iter.second;
+        if (QueryUtility::is_same_type(PKB.get_statement_type(first), key_1.get_entity_type()))
+        {
+            for (auto &it : second)
+            {
+                if (QueryUtility::is_same_type(PKB.get_statement_type(it), key_2.get_entity_type()))
+                {
+                    if (first == it)
+                    {
+                        key_value_1.push_back(to_string(first));
+                        key_value_2.push_back(to_string(it));
+                    }
                 }
             }
         }
