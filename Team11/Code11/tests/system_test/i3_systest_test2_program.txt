@@ -1,0 +1,83 @@
+procedure main {
+    read x;
+    print x;
+    a = b + c + d - f * d + e / f - g % h + (((i * j) / k % l + m - n) * o / (p + (q - r - s) * t + u) + v * w) / x % y + z;
+    call one;
+    alpha = beta + 2 + sigma;
+    call two;
+    delta = alpha + beta;
+    while (delta > 1) {
+        delta = delta + 1;
+        sigma = sigma + delta;
+        alpha = sigma + delta;
+        theta = alpha + sigma;
+        beta = beta + alpha;}
+    call three;
+    call one;
+    print x;
+    print y;
+    read x;
+    x = x + 1;
+    y = y + 1;
+    while (delta > 0) {
+        while (x > y) {
+            x = y;
+            y = x;
+            z = y;
+            alpha = a + b + v + x + y / z;
+            call three;
+            if (alpha < y) then {
+                call two;
+                x = x + 1;
+                alpha = a;
+                if(x > y) then {
+                    x = y + z;
+                    y = y + z;
+                    alpha = beta + gama + sigma + delta;
+                    delta = 0;
+                    call two;
+                    while (x > y) {
+                        delta = delta + alpha;
+                        f = delta;
+                        b = alpha;
+                        while (a > b) {
+                            alpha = x;
+                            if (x > z) then {
+                                alpha = alpha + b;
+                                read alpha;
+                                read beta;}
+                            else {
+                                print x;
+                                x = x + alpha;
+                                y = y + alpha;}}}}
+                else {
+                    alpha = sigma;}}
+            else {
+                x = y;}}}}
+
+procedure one {
+    read a;
+    x = a + b;
+    print b;
+    call two;
+    call three;
+}
+
+procedure                 two                                                             {
+    read alpha;
+    call three;
+    beta = alpha;
+}
+
+procedure                   three
+
+
+
+
+
+
+
+
+{
+    alpha = alpha + b;
+}
