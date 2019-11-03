@@ -16,6 +16,8 @@ namespace pql_dto
         Relationships relationship;
         With with;
 
+        int size = 0;
+
         bool is_pattern_object = false;
         bool is_relationship_object = false;
         bool is_with_object = false;
@@ -35,6 +37,11 @@ namespace pql_dto
          *  @param other The with object.
          */
         void set_with(With with);
+
+        /** Sets the size of the clause in the Constraint.
+         *  @param size The size of the result.
+         */
+        void set_size(int size);
 
         // Returns true if it is a pattern object.
         bool is_pattern();
@@ -62,6 +69,9 @@ namespace pql_dto
 
         // Returns the pattern entity of the pattern object.
         Entity get_pattern_entity();
+
+        // Returns the clause size of the constraint.
+        int get_size();
 
         /** Checks if both constraints are the same.
          *  @param other The object to be compared.

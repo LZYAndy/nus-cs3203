@@ -97,4 +97,10 @@ namespace pql_dto
                && second_param.equals(relationship.second_param)
                && is_star == relationship.is_star;
     }
+
+    std::string Relationships::to_string()
+    {
+        return std::to_string(static_cast<std::size_t>(relationship_type)) + first_param.to_string()
+            + second_param.to_string() + std::to_string(is_star);
+    }
 }

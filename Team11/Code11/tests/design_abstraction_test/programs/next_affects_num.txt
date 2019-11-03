@@ -1,0 +1,90 @@
+procedure one {
+1     read x;
+2     a = b + c;
+3     ep = x;
+4     print a;
+5     call two;
+6     while (i > j) {
+7         alpha = delta + c;
+8         e = f + d * c;
+9         alpha = c + d;
+10        delta = a + e;}
+11    while (a > b) {
+12        alpha = b + c;
+13        t = a;
+14        if (x > y) then {
+15            a = x;
+16            call two;
+17            if (a > b) then {
+18                alpha = beta;
+19                while (alpha > b) {
+20                    c = alpha;
+21                    delta = alpha;
+22                    d = delta;
+23                    e = alpha;
+24                    p = alpha + delta;}
+25                x = p;
+26                y = delta;}
+              else {
+27                b = y;
+28                y = x;
+29                delta = p;
+30                while (p > delta) {
+31                    xx = p;
+32                    delta = a;
+33                    p = ep;
+34                    o = alt;}}}
+          else {
+35            a = b + c - d * c / e;
+36            u = t;
+37            x = ep;
+38            p = delta;
+39            delta = x;}}
+40    while (alpha > b) {
+41        if (a > b) then {
+42            if (x > y) then {
+43                while (y > z) {
+44                    a = b;}}
+              else {
+45                while (a > b) {
+46                    x = y + b;}}}
+          else {
+47            while ( p > b) {
+48                p = a;}}}
+49    while ( x > y) {
+50        while (a > b) {
+51            while (b > c) {
+52                while (c > d) {
+53                    while (d > e) {
+54                        while (e > f) {
+55                            e = f;}}}}}}
+56    g = alpha;
+57    f = x;
+58    if (a > b) then {
+59        if (b > c) then {
+60            if (c > d) then {
+61                if (d > e) then {
+62                    if (e > f) then {
+63                        if (f > g) then {
+64                            f = g;}
+                          else {
+65                            g = f;}}
+                      else {
+66                        e = f;}}
+                  else {
+67                    d = e;}}
+              else {
+68                c = d;}}
+          else {
+69            b = c;}}
+      else {
+70        a = b;}
+71    f = a;}
+
+procedure two {
+72    x = a;
+73    call three;
+74    z = y;}
+
+procedure three {
+75    y = x;}

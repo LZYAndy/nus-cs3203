@@ -2,10 +2,9 @@
 
 using namespace std;
 
-bool PKB::insert_procedure(string name)
+bool PKB::insert_procedure(string name, int first_prog, vector<int> last_progs)
 {
-    auto result = proc_table.emplace(name);
-    return result.second;
+    return proc_bank.insert_procedure(name, first_prog, last_progs);
 }
 
 bool PKB::insert_variable(string name)
@@ -52,7 +51,12 @@ vector<int> PKB::get_all_statement_nums()
 
 unordered_set<string> PKB::get_all_procedures()
 {
-    return proc_table;
+    unordered_set<string> result;
+    for(string procedure : proc_bank.get_all_procedures())
+    {
+        result.insert(procedure);
+    }
+    return result;
 }
 
 vector<int> PKB::get_statements_modifies(string variable)
@@ -457,9 +461,9 @@ bool PKB::is_next(int stmt1, int stmt2)
     return next_bank.is_next(stmt1, stmt2);
 }
 
-bool PKB::does_next_exists()
+bool PKB::does_next_exist()
 {
-    return next_bank.does_next_exists();
+    return next_bank.does_next_exist();
 }
 
 vector<int> PKB::get_statements_previous(int statement)
@@ -622,6 +626,66 @@ unordered_map<int, vector<string>> PKB::get_all_statements_calls_relationship()
     return calls_bank.get_all_statements_calls_relationship();
 }
 
+vector<int> PKB::get_all_assigns_affect()
+{
+    return AffectsCompute().get_all_assigns_affect(last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
+}
+
+vector<int> PKB::get_assigns_affect(int stmt)
+{
+    return AffectsCompute().get_assigns_affect(stmt, last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
+}
+
+unordered_map<int, vector<int>> PKB::get_all_affects_relationship()
+{
+    return AffectsCompute().get_all_affects_relationship(last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
+}
+
+vector<int> PKB::get_all_assigns_affected()
+{
+    return AffectsCompute().get_all_assigns_affected(last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
+}
+
+vector<int> PKB::get_assigns_affected_by(int stmt)
+{
+    return AffectsCompute().get_assigns_affected_by(stmt, last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
+}
+
+bool PKB::does_affects_exist()
+{
+    return AffectsCompute().does_affects_exist(last_statement_num, next_bank, modifies_bank, uses_bank, type_bank);
+}
+
+bool PKB::is_affects(int stmt1, int stmt2)
+{
+    return AffectsCompute().is_affects(stmt1, stmt2, next_bank, modifies_bank, uses_bank, type_bank);
+}
+
+vector<int> PKB::get_statements_previous_star(int stmt)
+{
+    return NextStarCompute().get_statements_previous_star(stmt, next_bank);
+}
+
+vector<int> PKB::get_statements_next_star(int stmt)
+{
+    return NextStarCompute().get_statements_next_star(stmt, next_bank);
+}
+
+bool PKB::is_next_star(int stmt1, int stmt2)
+{
+    return NextStarCompute().is_next_star(stmt1, stmt2, next_bank);
+}
+
+unordered_map<int, vector<int>> PKB::get_all_next_star_relationship()
+{
+    return NextStarCompute().get_all_next_star_relationship(last_statement_num, next_bank);
+}
+
+std::unordered_map<int, std::vector<int>> PKB::get_all_previous_relationship()
+{
+    return next_bank.get_all_previous_relationship();
+}
+
 string PKB::get_called_by_statement(int stmt)
 {
     return calls_bank.get_called_by_statement(stmt);
@@ -640,4 +704,34 @@ bool PKB::is_next_bip(int prev_prog, int next_prog)
 bool PKB::insert_call_ingress_egress(int ingress_prog, int egress_prog)
 {
     return next_bip_bank.insert_call_ingress_egress(ingress_prog, egress_prog);
+}
+
+bool PKB::is_affects_star(int assignment1, int assignment2)
+{
+    return affects_star_compute.is_affects_star(*this, assignment1, assignment2);
+}
+
+vector<int> PKB::get_affected_star(int assignment)
+{
+    return affects_star_compute.get_affected_star(*this, assignment);
+}
+
+vector<int> PKB::get_affects_star(int assignment)
+{
+    return affects_star_compute.get_affects_star(*this, assignment);
+}
+
+unordered_map<int, vector<int>> PKB::get_all_affects_star_relationship()
+{
+    return affects_star_compute.get_all_affects_star_relationship(*this);
+}
+
+int PKB::get_procedure_first_line(string procedure)
+{
+    return proc_bank.get_procedure_first_line(procedure);
+}
+
+vector<int> PKB::get_procedure_last_lines(string procedure)
+{
+    return proc_bank.get_procedure_last_lines(procedure);
 }

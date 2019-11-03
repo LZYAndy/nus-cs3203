@@ -141,4 +141,9 @@ namespace pql_dto
         return first_param.equals(with.first_param)
             && second_param.equals(with.second_param);
     }
+
+    std::string With::to_string()
+    {
+        return first_param.to_string() + second_param.to_string();
+    }
 }

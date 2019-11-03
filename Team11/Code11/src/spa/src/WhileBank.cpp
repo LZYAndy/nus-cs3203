@@ -1,7 +1,9 @@
 #include "WhileBank.h"
 
-bool WhileBank::insert_while(int statement, std::vector<std::string> control_var) {
-    if (statement <= 0) {
+bool WhileBank::insert_while(int statement, std::vector<std::string> control_var)
+{
+    if (statement <= 0)
+    {
         return false;
     }
     else
@@ -14,7 +16,8 @@ bool WhileBank::insert_while(int statement, std::vector<std::string> control_var
     }
 }
 
-bool WhileBank::is_while(int statement) {
+bool WhileBank::is_while(int statement)
+{
     std::vector<int> keys = while_bank.get_all_keys();
     if (keys.size() == 0)
     {
@@ -35,11 +38,13 @@ bool WhileBank::is_while(int statement) {
     }
 }
 
-std::vector<int> WhileBank::get_while_stmtLst(int statement) {
+std::vector<int> WhileBank::get_while_stmtLst(int statement)
+{
     return while_stmtLst.get(statement);
 }
 
-bool WhileBank::insert_stmt_in_while_stmtLst(int whileStmt, int statement) {
+bool WhileBank::insert_stmt_in_while_stmtLst(int whileStmt, int statement)
+{
     if (whileStmt <= 0 || statement <= whileStmt || !is_while(whileStmt))
     {
         return false;
@@ -51,10 +56,12 @@ bool WhileBank::insert_stmt_in_while_stmtLst(int whileStmt, int statement) {
     }
 }
 
-std::vector<int> WhileBank::get_while_with_control_var(std::string control_var) {
+std::vector<int> WhileBank::get_while_with_control_var(std::string control_var)
+{
     return while_bank.get_reverse(control_var);
 }
 
-std::unordered_map<int, std::vector<std::string>> WhileBank::get_all_whilestmt_and_control_var() {
+std::unordered_map<int, std::vector<std::string>> WhileBank::get_all_whilestmt_and_control_var()
+{
     return while_bank.copy();
 }

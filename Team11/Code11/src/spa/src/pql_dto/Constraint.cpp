@@ -20,6 +20,11 @@ namespace pql_dto
         is_with_object = true;
     }
 
+    void Constraint::set_size(int clause_size)
+    {
+        size = clause_size;
+    }
+
     bool Constraint::is_pattern()
     {
         return is_pattern_object;
@@ -90,6 +95,11 @@ namespace pql_dto
         }
 
         throw std::runtime_error(error_messages::not_a_pattern_object);
+    }
+
+    int Constraint::get_size()
+    {
+        return size;
     }
 
     bool Constraint::equals(Constraint other)

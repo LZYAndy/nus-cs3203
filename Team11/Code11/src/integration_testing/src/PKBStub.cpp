@@ -5,7 +5,7 @@ class PKBStub: public PKB
 public:
     PKBStub()
     {
-        insert_procedure("main");
+        insert_procedure("main", 1, {3});
 
         insert_assign(1, "flag", "0");
         insert_constant("0");
@@ -24,7 +24,7 @@ public:
         insert_follows(2, 3);
         insert_next(2, 3);
 
-        insert_procedure("readPoint");
+        insert_procedure("readPoint",4, {5});
 
         insert_type(4, EntityType::READ);
         insert_modifies(4, "x");
@@ -38,7 +38,7 @@ public:
         insert_follows(4, 5);
         insert_next(4, 5);
 
-        insert_procedure("printResults");
+        insert_procedure("printResults",6 ,{9});
 
         insert_type(6, EntityType::PRINT);
         insert_uses(6, "flag");
@@ -66,7 +66,7 @@ public:
         insert_follows(8, 9);
         insert_next(8, 9);
 
-        insert_procedure("computeCentroid");
+        insert_procedure("computeCentroid", 10, {23});
 
         insert_assign(10, "count", "0");
         insert_constant("0");
@@ -232,7 +232,7 @@ public:
         insert_next(20, 23);
         insert_next(22, 23);
 
-        insert_procedure("whileIfProc");
+        insert_procedure("whileIfProc", 24, {24});
 
         insert_type(24, EntityType::WHILE);
         insert_while(24, vector<string> {"x"});
