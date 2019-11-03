@@ -879,6 +879,10 @@ public:
      * @return unodered_map that contains all the affects* relationship.
      */
     unordered_map<int, vector<int>> get_all_affects_star_relationship();
+    /**
+     * Clear all cache
+     */
+    void clear_cache();
 
 private:
     FollowsBank follows_bank;
@@ -898,6 +902,9 @@ private:
     CallsStarBank calls_star_bank;
     IfBank if_bank;
     AffectsStarCompute affects_star_compute;
+    Bank<int, int> affects_cache;
+    Bank<int, int> next_star_cache;
+    Bank<int, int> affects_star_cache;
     int last_statement_num = 0;
 };
 
