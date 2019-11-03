@@ -26,7 +26,7 @@ system_test_program_query_mapping = [
                         ("i1_systest_test2_program", "i1_systest_test2_query"),
                         ("i1_systest_test3_program", "i1_systest_test3_query"),
                         ("i2_systest_test_program", "i2_systest_test_query"),
-                        # ("i3_systest_test1_program", "i3_systest_test1_query"),
+                        #("i3_systest_test1_program", "i3_systest_test1_query"),
                         ("i3_systest_test2_program", "i3_systest_test2_query"),
                         ("i3_systest_test3_program", "i3_systest_test3_query"),
                         ("i3_systest_test4_program", "i3_systest_test4_query")]

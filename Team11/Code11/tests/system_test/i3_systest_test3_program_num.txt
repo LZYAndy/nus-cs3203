@@ -21,7 +21,7 @@ procedure main {
 19                            read a6;}
                         else {
 20                           a7 = a8 - a9;
-21                            a10 = a11 % (a12 / a13);}}}
+21                           a10 = a11 % (a12 / a13);}}}
                 else {
 22                    a14 = a15;
 23                    a16 = a17;}}
