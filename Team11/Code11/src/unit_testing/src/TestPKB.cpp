@@ -4263,19 +4263,6 @@ TEST_CASE("PKB::get_called_by_statement()")
         REQUIRE(pkb.get_called_by_statement(1).compare("world") == 0);
     }
 }
-TEST_CASE("PKB::get_called_by_statement()")
-{
-    PKB pkb;
-    SECTION("fail")
-    {
-        REQUIRE(pkb.get_called_by_statement(1).empty());
-    }
-    SECTION("success")
-    {
-        pkb.insert_calls(1, "hello", "world");
-        REQUIRE(pkb.get_called_by_statement(1).compare("world") == 0);
-    }
-}
 
 TEST_CASE("PKB::get_next_bip")
 {
