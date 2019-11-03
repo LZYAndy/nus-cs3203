@@ -13,12 +13,20 @@ unordered_map<string, vector<string>> WithEvaluator::evaluate(pql_dto::Entity &f
     vector<string> result_vec_1;
     vector<string> result_vec_2;
 
-    if (QueryUtility::is_program_line(first_param) || QueryUtility::is_statement_num(first_param))
+
+    if (QueryUtility::is_program_line(first_param) || QueryUtility::is_statement_num(first_param) || QueryUtility::is_constant(first_param))
     { // e.g. with 10 = s.stmt#
-        str_vec_1 = QueryUtility::get_certain_type_int_list(second_type, PKB);
+        if (second_type == EntityType::CONSTANT)
+        {
+            str_vec_1 = QueryUtility::get_certain_type_str_list(second_type, PKB);
+        }
+        else
+        {
+            str_vec_1 = QueryUtility::get_certain_type_int_list(second_type, PKB);
+        }
         temp_vec_1 = QueryUtility::change_to_attributes(second_param, str_vec_1, PKB);
         int i = 0;
-        for (auto iter : temp_vec_1)
+        for (const auto& iter : temp_vec_1)
         {
             if (iter == first_param.get_entity_name())
             {
@@ -28,12 +36,20 @@ unordered_map<string, vector<string>> WithEvaluator::evaluate(pql_dto::Entity &f
         }
         result[second_param.get_entity_name()] = result_vec_1;
     }
-    else if (QueryUtility::is_program_line(second_param) || QueryUtility::is_statement_num(second_param))
+
+    else if (QueryUtility::is_program_line(second_param) || QueryUtility::is_statement_num(second_param) || QueryUtility::is_constant(first_param))
     { // e.g. with s.stmt# = 10
-        str_vec_1 = QueryUtility::get_certain_type_int_list(first_type, PKB);
+        if (first_type == EntityType::CONSTANT)
+        {
+            str_vec_1 = QueryUtility::get_certain_type_str_list(first_type, PKB);
+        }
+        else
+        {
+            str_vec_1 = QueryUtility::get_certain_type_int_list(first_type, PKB);
+        }
         temp_vec_1 = QueryUtility::change_to_attributes(first_param, str_vec_1, PKB);
         int i = 0;
-        for (auto iter : temp_vec_1)
+        for (const auto& iter : temp_vec_1)
         {
             if (iter == second_param.get_entity_name())
             {
@@ -45,10 +61,18 @@ unordered_map<string, vector<string>> WithEvaluator::evaluate(pql_dto::Entity &f
     }
     else if (QueryUtility::is_proc_name(first_param) || QueryUtility::is_var_name(first_param))
     { // e.g. with "main" = cl.procName
-        str_vec_1 = QueryUtility::get_certain_type_str_list(second_type, PKB);
+
+        if (second_type == EntityType::CALL)
+        {
+            str_vec_1 = QueryUtility::get_certain_type_int_list(first_type, PKB);
+        }
+        else
+        {
+            str_vec_1 = QueryUtility::get_certain_type_str_list(first_type, PKB);
+        }
         temp_vec_1 = QueryUtility::change_to_attributes(second_param, str_vec_1, PKB);
         int i = 0;
-        for (auto iter : temp_vec_1)
+        for (const auto& iter : temp_vec_1)
         {
             if (iter == first_param.get_entity_name())
             {
@@ -60,10 +84,18 @@ unordered_map<string, vector<string>> WithEvaluator::evaluate(pql_dto::Entity &f
     }
     else if (QueryUtility::is_proc_name(second_param) || QueryUtility::is_var_name(second_param))
     { // e.g. with cl.procName = "main"
-        str_vec_1 = QueryUtility::get_certain_type_str_list(first_type, PKB);
+        if (first_type == EntityType::CALL)
+        {
+            str_vec_1 = QueryUtility::get_certain_type_int_list(first_type, PKB);
+        }
+        else
+        {
+            str_vec_1 = QueryUtility::get_certain_type_str_list(first_type, PKB);
+        }
         temp_vec_1 = QueryUtility::change_to_attributes(first_param, str_vec_1, PKB);
+
         int i = 0;
-        for (auto iter : temp_vec_1)
+        for (const auto& iter : temp_vec_1)
         {
             if (iter == second_param.get_entity_name())
             {

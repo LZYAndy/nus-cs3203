@@ -6,7 +6,7 @@ Checks if the entity is a statement number
  */
 bool QueryUtility::is_statement_num(pql_dto::Entity &entity)
 {
-    return !(entity.is_entity_declared() || entity.get_entity_type() != EntityType::STMT);
+    return !entity.is_entity_declared() && (entity.get_entity_type() == EntityType::STMT || entity.get_entity_attr() == AttributeType::STMTNUM);
 }
 
 /*
@@ -17,12 +17,17 @@ bool QueryUtility::is_program_line(pql_dto::Entity &entity)
     return !(entity.is_entity_declared() || entity.get_entity_type() != EntityType::PROG_LINE);
 }
 
+bool QueryUtility::is_constant(pql_dto::Entity &entity)
+{
+    return !entity.is_entity_declared() && entity.get_entity_type() == EntityType::CONSTANT;
+}
+
 /*
 Checks if the entity is a procedure undeclared
 */
 bool QueryUtility::is_proc_name(pql_dto::Entity &entity)
 {
-    return !(entity.is_entity_declared() || entity.get_entity_type() != EntityType::PROCEDURE);
+    return !entity.is_entity_declared() && (entity.get_entity_type() == EntityType::PROCEDURE || entity.get_entity_attr() == AttributeType::PROCNAME);
 }
 
 /*
@@ -296,7 +301,7 @@ vector<string> QueryUtility::get_certain_type_int_list(EntityType &type, PKB &PK
         type_list = PKB.get_all_assigns();
     }
 
-    if (type == EntityType::STMT)
+    if (type == EntityType::STMT || type == EntityType::PROG_LINE)
     {
         type_list = PKB.get_all_statement_nums();
     }
