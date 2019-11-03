@@ -223,7 +223,7 @@ void Optimizer::replace_with_synonyms(std::vector<pql_dto::Entity>& select_claus
                 {
                     pql_dto::Entity same_select_entity = select_clause.at(index);
                     same_select_entity.set_solution(left_ref.get_entity_name());
-                    same_select_entity.set_entity_type(EntityType::FIX);
+//                    same_select_entity.set_entity_type(EntityType::FIX);
                     select_clause.at(index) = same_select_entity;
                 }
             }
@@ -277,7 +277,7 @@ void Optimizer::replace_with_synonyms(std::vector<pql_dto::Entity>& select_claus
                 {
                     pql_dto::Entity same_select_entity = select_clause.at(index);
                     same_select_entity.set_solution(left_ref.get_entity_name());
-                    same_select_entity.set_entity_type(EntityType::FIX);
+//                    same_select_entity.set_entity_type(EntityType::FIX);
                     select_clause.at(index) = same_select_entity;
                 }
             }
