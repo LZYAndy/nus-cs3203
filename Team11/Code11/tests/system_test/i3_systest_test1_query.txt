@@ -1303,6 +1303,156 @@ prog_line n; assign a;
 Select BOOLEAN with n = a.stmt#
 TRUE
 5000
+999 - Invalid Follows, skip stmt number
+
+Select BOOLEAN such that Follows(11,13)
+FALSE
+5000
+999 - Invalid Follows, jump into within container stmt number
+
+Select BOOLEAN such that Follows(3,5)
+FALSE
+5000
+999 - Invalid Follows, container stmt number to first line in container
+
+Select BOOLEAN such that Follows(7,8)
+FALSE
+5000
+999 - Invalid Follows, jump to other procedure
+
+Select BOOLEAN such that Follows(22,39)
+FALSE
+5000
+999 - Invalid Follows*, jump into within container stmt number
+
+Select BOOLEAN such that Follows*(39,43)
+FALSE
+5000
+999 - Invalid Follows*, container stmt number to first line in container
+
+Select BOOLEAN such that Follows*(42,43)
+FALSE
+5000
+999 - Invalid Follows*, jump to other procedure
+
+Select BOOLEAN such that Follows*(22,39)
+FALSE
+5000
+999 - Invalid Parent, parent of root statements
+
+Select BOOLEAN such that Parent(_,56)
+FALSE
+5000
+999 - Invalid Parent, nested parent
+
+Select BOOLEAN such that Parent(_,56)
+FALSE
+5000
+999 - Invalid Parent*, jump out of a non-parent
+
+Select BOOLEAN such that Parent*(30,33)
+FALSE
+5000
+999 - Invalid Uses, stmt does not use
+
+Select BOOLEAN such that Parent*(30,33)
+FALSE
+5000
+999 - Invalid Uses, stmt does not use in container condition
+
+Select BOOLEAN such that Uses(42,"x")
+FALSE
+5000
+999 - Invalid Uses, stmt does not use in container substatements
+
+Select BOOLEAN such that Uses(31,"x")
+FALSE
+5000
+999 - Invalid Uses, stmt does not use in call
+
+Select BOOLEAN such that Uses(26,"x")
+FALSE
+5000
+999 - Invalid Uses, stmt does not use in procedure
+
+Select BOOLEAN such that Uses("thirdProc","x")
+FALSE
+5000
+999 - Invalid Modifies, stmt does not use
+
+Select BOOLEAN such that Modifies(39,"x")
+FALSE
+5000
+999 - Invalid Modifies, stmt does not use in container substatements
+
+Select BOOLEAN such that Modifies(48,"x")
+FALSE
+5000
+999 - Invalid Modifies, stmt does not use in call
+
+Select BOOLEAN such that Modifies(6,"x")
+FALSE
+5000
+999 - Invalid Modifies, stmt does not use in procedure
+
+Select BOOLEAN such that Modifies("main","x")
+FALSE
+5000
+999 - Invalid Calls, calls indirectly
+
+Select BOOLEAN such that Calls("main","fourthProc")
+FALSE
+5000
+999 - Invalid Calls*, no call flow
+
+Select BOOLEAN such that Calls("fourthProc,"main")
+FALSE
+5000
+999 - Invalid Next, statement skip next stmt
+
+Select BOOLEAN such that Next(18,20)
+FALSE
+5000
+999 - Invalid Next, last statement of while jumps out of while
+
+Select BOOLEAN such that Next(57,58)
+FALSE
+5000
+999 - Invalid Next*, stmt does not flow using cfg 
+
+Select BOOLEAN such that Next*(21,18)
+FALSE
+5000
+999 - Invalid Affects, lhs is modified in same stmtlist
+
+Select BOOLEAN such that Affects(21,18)
+FALSE
+5000
+999 - Invalid Affects*, intermediary var got overwritten
+
+Select BOOLEAN such that Affects*(55,5)
+FALSE
+5000
+999 - Invalid Pattern assign, no exact match
+assign a;
+Select BOOLEAN pattern a(_,"x")
+FALSE
+5000
+999 - Invalid Pattern assign, no partial match
+assign a;
+Select BOOLEAN pattern a(_,_"x"_)
+FALSE
+5000
+999 - Invalid Pattern if, no use of var
+if ifs;
+Select BOOLEAN pattern ifs("x",_,_)
+FALSE
+5000
+999 - Invalid Pattern while, no use of var
+if ifs;
+Select BOOLEAN pattern while("x",_)
+FALSE
+5000
 
 166 - NextBip, lhs syn, rhs syn
 166 - NextBip, lhs syn, rhs wc
@@ -1343,36 +1493,3 @@ TRUE
 199 - AffectsBip*, lhs int, rhs syn
 199 - AffectsBip*, lhs int, rhs wc
 199 - AffectsBip*, lhs int, rhs int
-
-999 - Invalid Follows, skip stmt number
-999 - Invalid Follows, jump into within container stmt number
-999 - Invalid Follows, container stmt number to first line in container
-999 - Invalid Follows, jump to other procedure
-999 - Invalid Follows*, jump into within container stmt number
-999 - Invalid Follows*, container stmt number to first line in container
-999 - Invalid Follows*, jump to other procedure
-999 - Invalid Parent, parent of root statements
-999 - Invalid Parent, nested parent
-999 - Invalid Parent*, jump out of a non-parent
-999 - Invalid Uses, stmt does not use
-999 - Invalid Uses, stmt does not use in container condition
-999 - Invalid Uses, stmt does not use in container substatements
-999 - Invalid Uses, stmt does not use in call
-999 - Invalid Uses, stmt does not use in procedure
-999 - Invalid Modifies, stmt does not use
-999 - Invalid Modifies, stmt does not use in container substatements
-999 - Invalid Modifies, stmt does not use in call
-999 - Invalid Modifies, stmt does not use in procedure
-999 - Invalid Calls, calls indirectly
-999 - Invalid Calls*, no call flow
-999 - Invalid Next, statement skip next stmt
-999 - Invalid Next, last statement of if then and if else does not join to immediate stmt
-999 - Invalid Next, last statement of while jumps out of while
-999 - Invalid Next*, stmt does not flow using cfg 
-999 - Invalid Affects, lhs is modified in same stmtlist
-999 - Invalid Affects, lhs is modified in other procedure
-999 - Invalid Affects*, intermediary var got overwritten
-999 - Invalid Pattern assign, no exact match
-999 - Invalid Pattern assign, no partial match
-999 - Invalid Pattern if, no use of var
-999 - Invalid Pattern while, no use of var
