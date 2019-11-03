@@ -18,7 +18,7 @@ unordered_map<string, vector<string>> WithEvaluator::evaluate(pql_dto::Entity &f
         str_vec_1 = QueryUtility::get_certain_type_int_list(second_type, PKB);
         temp_vec_1 = QueryUtility::change_to_attributes(second_param, str_vec_1, PKB);
         int i = 0;
-        for (auto iter : temp_vec_1)
+        for (const auto& iter : temp_vec_1)
         {
             if (iter == first_param.get_entity_name())
             {
@@ -33,7 +33,7 @@ unordered_map<string, vector<string>> WithEvaluator::evaluate(pql_dto::Entity &f
         str_vec_1 = QueryUtility::get_certain_type_int_list(first_type, PKB);
         temp_vec_1 = QueryUtility::change_to_attributes(first_param, str_vec_1, PKB);
         int i = 0;
-        for (auto iter : temp_vec_1)
+        for (const auto& iter : temp_vec_1)
         {
             if (iter == second_param.get_entity_name())
             {
@@ -45,10 +45,17 @@ unordered_map<string, vector<string>> WithEvaluator::evaluate(pql_dto::Entity &f
     }
     else if (QueryUtility::is_proc_name(first_param) || QueryUtility::is_var_name(first_param))
     { // e.g. with "main" = cl.procName
-        str_vec_1 = QueryUtility::get_certain_type_str_list(second_type, PKB);
+        if (second_type == EntityType::CALL)
+        {
+            str_vec_1 = QueryUtility::get_certain_type_int_list(first_type, PKB);
+        }
+        else
+        {
+            str_vec_1 = QueryUtility::get_certain_type_str_list(first_type, PKB);
+        }
         temp_vec_1 = QueryUtility::change_to_attributes(second_param, str_vec_1, PKB);
         int i = 0;
-        for (auto iter : temp_vec_1)
+        for (const auto& iter : temp_vec_1)
         {
             if (iter == first_param.get_entity_name())
             {
@@ -60,10 +67,18 @@ unordered_map<string, vector<string>> WithEvaluator::evaluate(pql_dto::Entity &f
     }
     else if (QueryUtility::is_proc_name(second_param) || QueryUtility::is_var_name(second_param))
     { // e.g. with cl.procName = "main"
-        str_vec_1 = QueryUtility::get_certain_type_str_list(first_type, PKB);
+        if (first_type == EntityType::CALL)
+        {
+            str_vec_1 = QueryUtility::get_certain_type_int_list(first_type, PKB);
+        }
+        else
+        {
+            str_vec_1 = QueryUtility::get_certain_type_str_list(first_type, PKB);
+        }
         temp_vec_1 = QueryUtility::change_to_attributes(first_param, str_vec_1, PKB);
+
         int i = 0;
-        for (auto iter : temp_vec_1)
+        for (const auto& iter : temp_vec_1)
         {
             if (iter == second_param.get_entity_name())
             {
