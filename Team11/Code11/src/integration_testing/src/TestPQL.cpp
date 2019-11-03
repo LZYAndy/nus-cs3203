@@ -728,6 +728,13 @@ TEST_CASE("With clause")
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 
+    SECTION("with \"x\" = r.varName")
+    {
+        string pql_query = "read r; Select r with \"x\" = r.varName";
+        unordered_set<string> expected_result {"4"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
     SECTION("with 0 = c.value")
     {
         string pql_query = "constant c; Select c.value with 0 = c.value";
