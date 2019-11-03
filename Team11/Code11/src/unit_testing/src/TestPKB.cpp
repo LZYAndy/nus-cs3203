@@ -8,13 +8,14 @@ TEST_CASE("PKB::insert_procedure()")
     SECTION("insert success")
     {
         REQUIRE(pkb.insert_procedure("test", 1, {3}));
-        REQUIRE(pkb.insert_procedure("extra", 1, {2, 4}));
+        REQUIRE(pkb.insert_procedure("extra", 5, {2, 4}));
     }
 
     SECTION("insert fail")
     {
         REQUIRE(pkb.insert_procedure("test", 1, {3}));
         REQUIRE_FALSE(pkb.insert_procedure("test", 1, {3}));
+        REQUIRE_FALSE(pkb.insert_procedure("something", 1, {3}));
     }
 }
 
@@ -807,8 +808,8 @@ TEST_CASE("PKB::get_all_procedures()")
     }
 
     pkb.insert_procedure("main", 1, {3});
-    pkb.insert_procedure("procX", 1 , {2, 4});
-    pkb.insert_procedure("procX", 1, {3, 5} );
+    pkb.insert_procedure("procX", 2 , {2, 4});
+    pkb.insert_procedure("procX", 3, {3, 5} );
 
     SECTION("more than 0 procedure")
     {

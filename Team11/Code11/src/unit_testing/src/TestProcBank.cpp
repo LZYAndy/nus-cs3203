@@ -7,13 +7,14 @@ TEST_CASE("ProcBank::insert_procedure")
     SECTION("insert success")
     {
         REQUIRE(proc_bank.insert_procedure("test", 1, {3}));
-        REQUIRE(proc_bank.insert_procedure("extra", 1, {2, 4}));
+        REQUIRE(proc_bank.insert_procedure("extra", 5, {2, 4}));
     }
 
     SECTION("insert fail")
     {
         REQUIRE(proc_bank.insert_procedure("test", 1, {3}));
         REQUIRE_FALSE(proc_bank.insert_procedure("test", 1, {3}));
+        REQUIRE_FALSE(proc_bank.insert_procedure("something", 1, {3}));
     }
 }
 
@@ -26,7 +27,7 @@ TEST_CASE("ProcBank::get_all_procedures")
     }
 
     proc_bank.insert_procedure("main", 1, {3});
-    proc_bank.insert_procedure("procX", 1 , {2, 4});
+    proc_bank.insert_procedure("procX", 6 , {2, 4});
     proc_bank.insert_procedure("procX", 1, {3, 5} );
 
     SECTION("more than 0 procedure")
