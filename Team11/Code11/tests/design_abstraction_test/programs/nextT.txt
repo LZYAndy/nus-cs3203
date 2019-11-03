@@ -1,0 +1,106 @@
+procedure IfIfIf {
+    if (1 > 0) then {
+        a0 = a1 + a2;
+        if (a != b) then {
+            a1 = a2;
+            read a3;
+            a4 = a5;}
+        else {
+            a5 = 0;
+            if (c > 0) then {
+                print a5;
+                call IfIfWhile;
+                read a6;}
+            else {
+                a7 = a8 - a9;
+                a10 = a11 % (a12 / a13);}}}
+    else {
+        a14 = a15;}
+    a16 = a17;
+}
+
+procedure IfIfWhile {
+    if (b1 < b2) then {
+        if (b3 != b1) then {
+            read b4;
+            b6 = b4 + b5;
+            print b5;}
+        else {
+            while (b6 <= b5) {
+                read b7;
+                call IfWhileIf;}
+            b8 = 1;}}
+    else {
+        b9 = b10 * b11;
+        b10 = b12;}
+    print b10;
+}
+
+procedure IfWhileIf {
+    if (c1 == c2) then {
+        while (c3 < c4) {
+            if (c4 >= c5) then {
+                c6 = c6 + 22;}
+            else {
+                read c7;
+                c8 = 333;}
+            print c9;}}
+    else {
+        c10 = c9;}
+}
+
+procedure IfWhileWhile {
+    if (d1 < d2) then {
+        while (d3 != d4) {
+            read d10;
+            while (d5 == d5) {
+                d6 = d7 - d5;
+                print d6;}}}
+    else {
+        read d8;}
+    d9 = 4444;
+}
+
+procedure WhileIfIf{
+    while (e1 < e2) {
+        if (e3 >= e4) then {
+            e5 = e5 - e6;}
+        else {
+            e7 = e5;
+            if (e8 != e9) then {
+                print e10;}
+            else {
+                read e11;}}}
+    e12 = e13;
+}
+
+procedure WhileIfWhile {
+    while (f1 >= f2) {
+        if (f2 != f3) then {
+            f4 = f5 - f5 + 0;}
+        else {
+            while ((f6 < 55555)&&(f7 > 666666)) {
+                f8 = 7777777;
+                f9 = 22;}}}
+}
+
+procedure WhileWhileIf {
+    while ((g1 < g2) || (g3 > g1)) {
+        while (g3 == g4) {
+            if (g5 != g6) then {
+                read g7;
+                print g8;
+                call WhileWhileWhile;}
+            else {
+                g9 = g10;
+                g10 = g11-0;}}}
+}
+
+procedure WhileWhileWhile {
+    while (h1 < 333) {
+        while (h2 <= 4444) {
+            while (h3 < 22) {
+                h4 = h5 + h6;
+                h7 = h5 - 10;}}}
+    h8 = 999999999;
+}

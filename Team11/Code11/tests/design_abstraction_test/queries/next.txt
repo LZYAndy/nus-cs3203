@@ -1,0 +1,146 @@
+1 - select all procedure, sanity check
+procedure p;
+Select p
+one,two,three
+5000
+2 - select all read statement, sanity check
+read r;
+Select r
+1
+5000
+3 - select all print statement, sanity check
+print pr;
+Select pr
+4
+5000
+4 - select all assign statement, sanity check
+assign a;
+Select a
+2,3,7,8,9,10,12,13,15,18,20,21,22,23,24,25,26,27,28,29,31,32,33,34,35,36,37,38,39,44,46,48,55,56,57,64,65,66,67,68,69,70,71,72,74,75
+5000
+5 - select all call statement, sanity check
+call c;
+Select c
+5,16,73
+5000
+6 - select all while statement, sanity check
+while w;
+Select w
+6,11,19,30,40,43,45,47,49,50,51,52,53,54
+5000
+7 - select all ifs statement, sanity check
+if ifs;
+Select ifs
+14,17,41,42,58,59,60,61,62,63
+5000
+8 - select all variable, sanity check
+variable v;
+Select v
+a,b,c,j,x,y,z,alpha,alt,beta,d,delta,e,ep,f,g,i,o,p,t,u,xx
+5000
+9 - select all constant, sanity check
+constant c;
+Select c
+
+5000
+10 - select all statement, sanity check
+stmt s;
+Select s
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75
+5000
+11 - Next with lhs syn, rhs syn
+assign a1,a2;
+Select <a1,a2> such that Next(a1,a2)
+12 13,2 3,20 21,21 22,22 23,23 24,25 26,27 28,28 29,31 32,32 33,33 34,35 36,36 37,37 38,38 39,56 57,64 71,65 71,66 71,67 71,68 71,69 71,7 8,70 71,8 9,9 10
+5000
+12 - Next with lhs syn, rhs wildcard (74,75 excluded)
+assign a;
+Select a such that Next(a,_)
+2,3,7,8,9,10,12,13,15,18,20,21,22,23,24,25,26,27,28,29,31,32,33,34,35,36,37,38,39,44,46,48,55,56,57,64,65,66,67,68,69,70,72
+5000
+13 - Next with lhs syn, rhs integer
+assign a;
+Select a such that Next(a,57)
+56
+5000
+14 - Next with lhs wildcard, rhs syn
+call c;
+Select c such that Next(_, c)
+5,16,73
+5000
+15 - Next with lhs wildcard, rhs wildcard
+
+Select BOOLEAN such that Next(_, _)
+TRUE
+5000
+16 - Next with lhs wildcard, rhs integer
+
+Select BOOLEAN such that Next(_, 73)
+TRUE
+5000
+
+17 - Next with lhs integer, rhs syn
+print pr;
+Select pr such that Next(3, pr)
+4
+5000
+18 - Next with lhs integer, rhs wildcard
+
+Select BOOLEAN such that Next(6, _)
+TRUE
+5000
+19 - Next with lhs integer, rhs integer
+
+Select BOOLEAN such that Next(36, 37)
+TRUE
+5000
+20 - Next with lhs integer, rhs integer
+
+Select BOOLEAN such that Next(74, 75)
+FALSE
+5000
+21 - Next if split (then)
+
+Select BOOLEAN such that Next(17, 18)
+TRUE
+5000
+22 - Next if split (else)
+
+Select BOOLEAN such that Next(17, 27)
+TRUE
+5000
+23 - Next if join (then)
+
+Select BOOLEAN such that Next(26, 11)
+TRUE
+5000
+24 - Next if join (else)
+
+Select BOOLEAN such that Next(34, 11)
+TRUE
+5000
+25 - Next while (while to body)
+
+Select BOOLEAN such that Next(19, 20)
+TRUE
+5000
+26 - Next while (body to while)
+
+Select BOOLEAN such that Next(24, 19)
+TRUE
+5000
+27 - Next while (while to after while)
+
+Select BOOLEAN such that Next(19, 25)
+TRUE
+5000
+28 - Invalid Next (different statement list)
+
+Select BOOLEAN such that Next(39, 41)
+FALSE
+5000
+29 - Invalid Next (same statement list, not close)
+
+Select BOOLEAN such that Next(36, 38)
+FALSE
+5000

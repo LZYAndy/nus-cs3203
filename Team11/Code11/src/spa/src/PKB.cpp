@@ -706,6 +706,35 @@ bool PKB::insert_call_ingress_egress(int ingress_prog, int egress_prog)
     return next_bip_bank.insert_call_ingress_egress(ingress_prog, egress_prog);
 }
 
+bool PKB::does_next_bip_exists()
+{
+    return next_bip_bank.does_next_bip_exists();
+}
+
+vector<int> PKB::get_next_bip(int prog_line)
+{
+    return next_bip_bank.get_next_bip(prog_line);
+}
+
+vector<int> PKB::get_previous_bip(int prog_line)
+{
+    return next_bip_bank.get_previous_bip(prog_line);
+}
+
+vector<int> PKB::get_all_next_bip()
+{
+    return next_bip_bank.get_all_next_bip();
+}
+
+vector<int> PKB::get_all_previous_bip()
+{
+    return next_bip_bank.get_all_previous_bip();
+}
+
+unordered_map<int, vector<int>> PKB::get_all_next_bip_relationship()
+{
+    return next_bip_bank.get_all_next_bip_relationship();
+}
 bool PKB::is_affects_star(int assignment1, int assignment2)
 {
     return affects_star_compute.is_affects_star(*this, assignment1, assignment2);
