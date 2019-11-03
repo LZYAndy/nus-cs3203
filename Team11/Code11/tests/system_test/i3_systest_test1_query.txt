@@ -1355,7 +1355,7 @@ FALSE
 5000
 999 - Invalid Uses, stmt does not use
 
-Select BOOLEAN such that Parent*(30,33)
+Select BOOLEAN such that Uses(3,"x")
 FALSE
 5000
 999 - Invalid Uses, stmt does not use in container condition
