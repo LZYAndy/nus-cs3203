@@ -13,6 +13,25 @@ TEST_CASE("Valid SIMPLE code")
 
     parser.parse(simple_code);
 
+    SECTION("Check insertion of last statement")
+    {
+        Statement if_stmt = Statement(EntityType::IF, 1, "");
+        Statement call_stmt = Statement(EntityType::CALL, 2, "call calculate;");
+        Statement read_stmt = Statement(EntityType::READ, 3, "read x;");
+        Statement print_stmt = Statement(EntityType::PRINT, 4, "print x;");
+        Statement assign_stmt = Statement(EntityType::ASSIGN, 5, "x = x + 1;");
+        std::vector<Statement> then_p;
+        std::vector<Statement> else_p;
+        then_p.push_back(call_stmt);
+        then_p.push_back(read_stmt);
+        else_p.push_back(print_stmt);
+        else_p.push_back(assign_stmt);
+        if_stmt.set_first_block(then_p);
+        if_stmt.set_second_block(else_p);
+        std::vector<int> re = parser.get_last_statements(if_stmt);
+        REQUIRE(re.size() == 2);
+    }
+
     SECTION("Check Statement Table")
     {
         std::vector<int> stmt_list = pkb.get_all_statement_nums();
