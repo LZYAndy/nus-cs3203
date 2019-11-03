@@ -29,7 +29,7 @@ bool AffectsBipCompute::is_affects_bip(int stmt1, int stmt2)
     }
     std::string modifies_var = modifies_bank->get_modified_by_statement(stmt1).back();
     std::vector<std::string> uses_vars = uses_bank->get_used_by_statement(stmt2);
-    if (std::find(uses_vars.begin(), uses_vars.end(), modifies_var) != uses_vars.end())
+    if (std::find(uses_vars.begin(), uses_vars.end(), modifies_var) == uses_vars.end())
     {
         return false;
     }
@@ -72,15 +72,26 @@ bool AffectsBipCompute::is_affects_bip(int stmt1, int stmt2)
             call_stack.push(next_bip_bank->get_egress(stmt));
         }
         std::vector<int> next_bip_stmts = next_bip_bank->get_next_bip(stmt);
-        if (std::find(next_bip_stmts.begin(), next_bip_stmts.end(), call_stack.top()) != next_bip_stmts.end())
+        if (!call_stack.empty())
         {
-            int next_bip_stmt = call_stack.top();
-            call_stack.pop();
-            to_visit.push(next_bip_stmt);
-            continue;
+            if (std::find(next_bip_stmts.begin(), next_bip_stmts.end(), call_stack.top()) != next_bip_stmts.end())
+            {
+                int next_bip_stmt = call_stack.top();
+                call_stack.pop();
+                if (next_bip_stmt == stmt2)
+                {
+                    return true;
+                }
+                to_visit.push(next_bip_stmt);
+                continue;
+            }
         }
         for (int next_bip_stmt : next_bip_stmts)
         {
+            if (next_bip_stmt == stmt2)
+            {
+                return true;
+            }
             to_visit.push(next_bip_stmt);
         }
     }
