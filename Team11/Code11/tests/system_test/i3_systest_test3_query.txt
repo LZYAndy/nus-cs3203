@@ -938,7 +938,7 @@ Select <a,a1> such that Affects(a,a1)
 122 - Affects, lhs syn, rhs wc
 assign a;
 Select a such that Affects(a,_)
-
+1,2,12,14,15,20,21,24,25,33,34,39,43,44,45,46,48,49,50,51,53,56,57,58,61,66,80,81,82,83,84,85,86,87,88,91,92,97,116,118,119,120,124,125
 5000
 122 - Affects, lhs syn, rhs int
 assign a,a1;
@@ -953,53 +953,54 @@ Select a such that Affects(a,49)
 122 - Affects, lhs wc, rhs syn
 assign a;
 Select a such that Affects(_,a)
-
+10,14,20,21,24,26,27,33,34,41,42,43,44,45,46,53,56,57,58,59,61,66,67,74,79,80,81,82,83,84,85,86,87,88,91,92,97,114,118,119
 5000
 122 - Affects, lhs wc, rhs wc
 
 Select BOOLEAN such that Affects(_,_)
-
+TRUE
 5000
 122 - Affects, lhs wc, rhs int
 
 Select BOOLEAN such that Affects(_,27)
-
+TRUE
 5000
 122 - Affects, lhs wc, rhs int
 
 Select BOOLEAN such that Affects(_,35)
-
+FALSE
 5000
 122 - Affects, lhs int, rhs syn
 assign a;
-Select BOOLEAN such that Affects(53,a)
-
+Select a such that Affects(53,a)
+74
 5000
 122 - Affects, lhs int, rhs syn
 assign a;
-Select BOOLEAN such that Affects(47,a)
+Select a such that Affects(105,a)
 
 5000
 122 - Affects, lhs int, rhs wc
 assign a;
 Select BOOLEAN such that Affects(46,_)
-
+TRUE
 5000
 122 - Affects, lhs int, rhs wc
 assign a;
 Select BOOLEAN such that Affects(12,_)
-
+FALSE
 5000
 122 - Affects, lhs int, rhs int
 
-Select BOOLEAN such that Affects(53,53)
-
+Select BOOLEAN such that Affects(43,43)
+TRUE
 5000
 122 - Affects, lhs int, rhs int
 
-Select BOOLEAN such that Affects(18,19)
-
+Select BOOLEAN such that Affects(91,91)
+TRUE
 5000
+
 133 - Affects*, lhs syn, rhs syn
 assign a,a1;
 Select <a,a1> such that Affects*(a,a1)
@@ -1177,28 +1178,28 @@ Select w pattern w("p",_)
 5000
 155 - With, lhs ident, rhs ident
 
-Select BOOLEAN with "hello" = "hello"
-
+Select BOOLEAN with "hi" = "hi"
+TRUE
 5000
 155 - With, lhs ident, rhs syn (prog_line)
 prog_line n;
 Select BOOLEAN with "hello" = n
-
+FALSE
 5000
 155 - With, lhs ident, rhs procedure.procName (NAME)
 procedure p;
-Select p.procName with "main" = p.procName
-
+Select p.procName with "secondProc" = p.procName
+secondProc
 5000
 155 - With, lhs ident, rhs call.procName (NAME)
 call c;
-Select c with "thirdProc" = c.procName
-
+Select c.procName with "thirdProc" = c.procName
+thirdProc
 5000
 155 - With, lhs ident, rhs variable.varName (NAME)
 variable v;
-Select v.varName with "a2" = v.varName
-
+Select v.varName with "a10" = v.varName
+a10
 5000
 155 - With, lhs ident, rhs print.varName (NAME)
 print pr;
@@ -1207,103 +1208,103 @@ Select pr with "a32" = pr.varName
 5000
 155 - With, lhs int, rhs int
 
-Select BOOLEAN with 10 = 10
-
+Select BOOLEAN with 0 = 0
+TRUE
 5000
 155 - With, lhs int, rhs syn (prog_line)
 prog_line n;
-Select BOOLEAN with 16 = n
-
+Select BOOLEAN with 1 = n
+TRUE
 5000
 155 - With, lhs int, rhs constant.value (INT)
 constant c;
 Select c.value with 0 = c.value
-
+0
 5000
 155 - With, lhs int, rhs stmt.stmt# (INT)
 stmt s;
 Select BOOLEAN with 8 = s.stmt#
-
+TRUE
 5000
 155 - With, lhs int, rhs read.stmt# (INT)
 read r;
-Select r.stmt# with 18 = r.stmt#
-
+Select r.stmt# with 13 = r.stmt#
+13
 5000
 155 - With, lhs int, rhs print.stmt# (INT)
 print pr;
-Select pr.stmt# with 20 = pr.stmt#
-
+Select pr.stmt# with 31 = pr.stmt#
+31
 5000
 155 - With, lhs int, rhs call.stmt# (INT)
 call c;
-Select c.stmt# with 6 = c.stmt#
-
+Select c.stmt# with 18 = c.stmt#
+18
 5000
 155 - With, lhs int, rhs while.stmt# (INT)
 while w;
-Select w.stmt# with 9 = w.stmt#
-
+Select w.stmt# with 29 = w.stmt#
+29
 5000
 155 - With, lhs int, rhs if.stmt# (INT)
 if ifs;
-Select ifs.stmt# with 28 = ifs.stmt#
-
+Select ifs.stmt# with 30 = ifs.stmt#
+30
 5000
 155 - With, lhs int, rhs assign.stmt# (INT)
 assign a;
-Select a.stmt# with 12 = a.stmt#
-
+Select a.stmt# with 59 = a.stmt#
+59
 5000
 155 - With, lhs syn (prog_line), rhs int
 prog_line n;
 Select n with n = 10
-
+10
 5000
 155 - With, lhs syn (prog_line), rhs syn (prog_line)
 prog_line n;
 Select BOOLEAN with n = n
-
+TRUE
 5000
 155 - With, lhs syn (prog_line), rhs constant.value (INT)
 prog_line n; constant c;
 Select BOOLEAN with n = c.value
-
+TRUE
 5000
 155 - With, lhs syn (prog_line), rhs stmt.stmt# (INT)
 prog_line n; stmt s;
 Select BOOLEAN with n = s.stmt#
-
+TRUE
 5000
 155 - With, lhs syn (prog_line), rhs read.stmt# (INT)
 prog_line n; read r;
 Select BOOLEAN with n = r.stmt#
-
+TRUE
 5000
 155 - With, lhs syn (prog_line), rhs print.stmt# (INT)
 prog_line n; print pr;
 Select BOOLEAN with n = pr.stmt#
-
+TRUE
 5000
 155 - With, lhs syn (prog_line), rhs call.stmt# (INT)
 prog_line n; call c;
 Select BOOLEAN with n = c.stmt#
-
+TRUE
 5000
 155 - With, lhs syn (prog_line), rhs while.stmt# (INT)
 prog_line n; while w;
 Select BOOLEAN with n = w.stmt#
-
+TRUE
 5000
 155 - With, lhs syn (prog_line), rhs if.stmt# (INT)
 prog_line n; if ifs;
 Select BOOLEAN with n = ifs.stmt#
-
+TRUE
 5000
 155 - With, lhs syn (prog_line), rhs assign.stmt# (INT)
 prog_line n; assign a;
 Select BOOLEAN with n = a.stmt#
-
+TRUE
 5000
 
 166 - NextBip, lhs syn, rhs syn
