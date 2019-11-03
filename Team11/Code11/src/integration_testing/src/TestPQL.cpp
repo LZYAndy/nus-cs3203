@@ -665,68 +665,68 @@ TEST_CASE("Affects clause")
 
 TEST_CASE("With clause")
 {
-//    SECTION("with c.value = cl.stmt#")
-//    {
-//        string pql_query = "constant c; call cl; Select cl with c.value = cl.stmt#";
-//        unordered_set<string> expected_result {"2", "3"};
-//        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
-//    }
-//
-//    SECTION("with p.procName = cl.procName")
-//    {
-//        string pql_query = "procedure p; call cl; Select cl.procName with p.procName = cl.procName";
-//        unordered_set<string> expected_result {"computeCentroid", "printResults", "readPoint"};
-//        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
-//    }
-//
-//    SECTION("with cl.procName = \"printResults\"")
-//    {
-//        string pql_query = "call cl; Select cl with cl.procName = \"printResults\"";
-//        unordered_set<string> expected_result {"3"};
-//        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
-//    }
-//
-//    SECTION("with cl.procName = \"printResults\"")
-//    {
-//        string pql_query = "call cl; Select cl.procName with cl.procName = \"printResults\"";
-//        unordered_set<string> expected_result {"printResults"};
-//        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
-//    }
-//
-//    SECTION("with cl.procName = \"printResults\"")
-//    {
-//        string pql_query = "call cl; Select BOOLEAN with cl.procName = \"printResults\"";
-//        unordered_set<string> expected_result {"TRUE"};
-//        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
-//    }
-//
-//    SECTION("with \"printResults\" = cl.procName")
-//    {
-//        string pql_query = "call cl; Select cl with \"printResults\" = cl.procName";
-//        unordered_set<string> expected_result {"3"};
-//        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
-//    }
-//
-//    SECTION("with cl.stmt# = 18")
-//    {
-//        string pql_query = "call cl; Select cl with cl.stmt# = 18";
-//        unordered_set<string> expected_result {"18"};
-//        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
-//    }
-//
-//    SECTION("with 18 = cl.stmt#")
-//    {
-//        string pql_query = "call cl; Select cl with 18 = cl.stmt#";
-//        unordered_set<string> expected_result {"18"};
-//        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
-//    }
-//
-//    SECTION("with n = 16")
-//    {
-//        string pql_query = "prog_line n; Select BOOLEAN with n = 16";
-//        unordered_set<string> expected_result {"TRUE"};
-//        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
-//    }
+    SECTION("with c.value = cl.stmt#")
+    {
+        string pql_query = "constant c; call cl; Select cl with c.value = cl.stmt#";
+        unordered_set<string> expected_result {"2", "3"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("with p.procName = cl.procName")
+    {
+        string pql_query = "procedure p; call cl; Select cl.procName with p.procName = cl.procName";
+        unordered_set<string> expected_result {"computeCentroid", "printResults", "readPoint"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("with cl.procName = \"printResults\"")
+    {
+        string pql_query = "call cl; Select cl with cl.procName = \"printResults\"";
+        unordered_set<string> expected_result {"3"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("with cl.procName = \"printResults\"")
+    {
+        string pql_query = "call cl; Select cl.procName with cl.procName = \"printResults\"";
+        unordered_set<string> expected_result {"printResults"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("with cl.procName = \"printResults\"")
+    {
+        string pql_query = "call cl; Select BOOLEAN with cl.procName = \"printResults\"";
+        unordered_set<string> expected_result {"TRUE"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("with \"printResults\" = cl.procName")
+    {
+        string pql_query = "call cl; Select cl with \"printResults\" = cl.procName";
+        unordered_set<string> expected_result {"3"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("with cl.stmt# = 18")
+    {
+        string pql_query = "call cl; Select cl with cl.stmt# = 18";
+        unordered_set<string> expected_result {"18"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("with 18 = cl.stmt#")
+    {
+        string pql_query = "call cl; Select cl with 18 = cl.stmt#";
+        unordered_set<string> expected_result {"18"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("with n = 16")
+    {
+        string pql_query = "prog_line n; Select BOOLEAN with n = 16";
+        unordered_set<string> expected_result {"TRUE"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
 
     SECTION("with \"x\" = r.varName")
     {
@@ -735,12 +735,12 @@ TEST_CASE("With clause")
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 
-//    SECTION("with 0 = c.value")
-//    {
-//        string pql_query = "constant c; Select c.value with 0 = c.value";
-//        unordered_set<string> expected_result {"0"};
-//        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
-//    }
+    SECTION("with 0 = c.value")
+    {
+        string pql_query = "constant c; Select c.value with 0 = c.value";
+        unordered_set<string> expected_result {"0"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
 }
 
 TEST_CASE("One pattern clause: Assign")
