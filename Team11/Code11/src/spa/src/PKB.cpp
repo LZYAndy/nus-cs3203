@@ -5,6 +5,7 @@ PKB::PKB()
 {
     next_bip_star_compute = NextBipStarCompute(&next_bip_bank, &type_bank);
     affects_bip_compute = AffectsBipCompute(&next_bip_bank, &modifies_bank, &uses_bank, &type_bank);
+    affects_bip_star_compute = AffectsBipStarCompute(&affects_bip_compute, &type_bank);
 }
 
 bool PKB::insert_procedure(string name)
@@ -682,7 +683,7 @@ unordered_map<int, vector<int>> PKB::get_all_next_star_relationship()
     return NextStarCompute().get_all_next_star_relationship(last_statement_num, next_bank);
 }
 
-std::unordered_map<int, std::vector<int>> PKB::get_all_previous_relationship()
+unordered_map<int, vector<int>> PKB::get_all_previous_relationship()
 {
     return next_bank.get_all_previous_relationship();
 }
@@ -786,26 +787,46 @@ bool PKB::is_affects_bip(int stmt1, int stmt2)
     return affects_bip_compute.is_affects_bip(stmt1, stmt2);
 }
 
-std::vector<int> PKB::get_assigns_affects_bip(int stmt)
+vector<int> PKB::get_assigns_affects_bip(int stmt)
 {
     return affects_bip_compute.get_assigns_affects_bip(stmt);
 }
-std::vector<int> PKB::get_assigns_affected_bip_by(int stmt)
+vector<int> PKB::get_assigns_affected_bip_by(int stmt)
 {
     return affects_bip_compute.get_assigns_affected_bip_by(stmt);
 }
 
-std::vector<int> PKB::get_all_assigns_affects_bip()
+vector<int> PKB::get_all_assigns_affects_bip()
 {
     return affects_bip_compute.get_all_assigns_affects_bip();
 }
 
-std::vector<int> PKB::get_all_assigns_affected_bip()
+vector<int> PKB::get_all_assigns_affected_bip()
 {
     return affects_bip_compute.get_all_assigns_affected_bip();
 }
 
-std::unordered_map<int, std::vector<int>> PKB::get_all_affects_bip_relationship()
+unordered_map<int, vector<int>> PKB::get_all_affects_bip_relationship()
 {
     return affects_bip_compute.get_all_affects_bip_relationship();
+}
+
+bool PKB::is_affects_bip_star(int assignment1, int assignment2)
+{
+    return affects_bip_star_compute.is_affects_bip_star(assignment1, assignment2);
+}
+
+vector<int> PKB::get_affects_bip_star(int assignment)
+{
+    return affects_bip_star_compute.get_affects_bip_star(assignment);
+}
+
+vector<int> PKB::get_affected_bip_star(int assignment)
+{
+    return affects_bip_star_compute.get_affected_bip_star(assignment);
+}
+
+unordered_map<int, vector<int>> PKB::get_all_affects_bip_star_relationship()
+{
+    return affects_bip_star_compute.get_all_affects_bip_star_relationship();
 }

@@ -29,6 +29,7 @@
 #include "NextBipBank.h"
 #include "NextBipStarCompute.h"
 #include "AffectsBipCompute.h"
+#include "AffectsBipStarCompute.h"
 
 using namespace std;
 
@@ -964,45 +965,68 @@ public:
      */
     unordered_map<int, vector<int>> get_all_next_bip_star_relationship();
     /**
-     * Check if Affects Relationship exists.
-     * @return true if there Affects relationship.
+     * Check if AffectsBip Relationship exists.
+     * @return true if there AffectsBip relationship.
      */
     bool does_affects_bip_exist();
     /**
-     * Check if Affects relationship is valid between 2 assignment statement.
-     * @param stmt1 affected stmt
-     * @param stmt2 stmt to be affected
+     * Check if AffectsBip relationship is valid between 2 assignment statement.
+     * @param stmt1 affected_bip stmt
+     * @param stmt2 stmt to be affected_bip
      * @return true if the relationship is true. else false.
      */
     bool is_affects_bip(int stmt1, int stmt2);
     /**
-     * Get all assignment statements that is affected by queried assignment statement.
-     * @param stmt quried statement
-     * @return a vector of assignment statement affected by queried assignment statement.
+     * Get all assignment statements that is affected_bip by queried assignment statement.
+     * @param stmt queried statement
+     * @return a vector of assignment statement affected_bip by queried assignment statement.
      */
-    std::vector<int> get_assigns_affects_bip(int stmt);
+    vector<int> get_assigns_affects_bip(int stmt);
     /**
-     * Get all assignment statements that the queried assignment statement affects.
-     * @param stmt quried statement
-     * @return a vector of assignment statement that the queried assignment statement affects
+     * Get all assignment statements that the queried assignment statement AffectsBip.
+     * @param stmt queried statement
+     * @return a vector of assignment statement that the queried assignment statement AffectsBip
      */
-    std::vector<int> get_assigns_affected_bip_by(int stmt);
+    vector<int> get_assigns_affected_bip_by(int stmt);
     /**
-     * Get all assignment statement that affect others.
-     * @return a vector of assignment statement that affect others.
+     * Get all assignment statement that AffectsBip others.
+     * @return a vector of assignment statement that AffectsBip others.
      */
-    std::vector<int> get_all_assigns_affects_bip();
+    vector<int> get_all_assigns_affects_bip();
     /**
-     * Get all assignment statement that affect others.
-     * @return a vector of assignment statements that could be affected
+     * Get all assignment statement that AffectsBip others.
+     * @return a vector of assignment statements that could be affected_bip
      */
-    std::vector<int> get_all_assigns_affected_bip();
+    vector<int> get_all_assigns_affected_bip();
     /**
      * Get all AffectsBip that exists.
-     * @return a unordered_map of AffectBip relationshi that exists
+     * @return a unordered_map of AffectBip relationship that exists
      */
-    std::unordered_map<int, std::vector<int>> get_all_affects_bip_relationship();
-    
+    unordered_map<int, vector<int>> get_all_affects_bip_relationship();
+    /**
+     * Check if AffectsBip* relationship is valid between 2 assignment statement.
+     * @param stmt1 affected_bip stmt
+     * @param stmt2 stmt to be affected_bip
+     * @return true if the relationship is true. else false.
+     */
+    bool is_affects_bip_star(int assignment1, int assignment2);
+    /**
+     * Get all assignment statements that is affected_bip* by queried assignment statement.
+     * @param stmt queried statement
+     * @return a vector of assignment statement affected_bip* by queried assignment statement.
+     */
+    vector<int> get_affects_bip_star(int assignment);
+    /**
+     * Get all assignment statements that is AffectsBip* by queried assignment statement.
+     * @param stmt queried statement
+     * @return a vector of assignment statement AffectsBip* by queried assignment statement.
+     */
+    vector<int> get_affected_bip_star(int assignment);
+    /**
+    * Get all AffectsBip* that exists.
+    * @return a unordered_map of AffectBip relationship that exists
+    */
+    unordered_map<int, vector<int>> get_all_affects_bip_star_relationship();
 private:
     FollowsBank follows_bank;
     FollowsStarBank follows_star_bank;
@@ -1024,6 +1048,7 @@ private:
     NextBipBank next_bip_bank;
     NextBipStarCompute next_bip_star_compute;
     AffectsBipCompute affects_bip_compute;
+    AffectsBipStarCompute affects_bip_star_compute;
     int last_statement_num = 0;
 };
 

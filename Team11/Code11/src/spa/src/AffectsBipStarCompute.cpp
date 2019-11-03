@@ -83,3 +83,7 @@ AffectsBipStarCompute::AffectsBipStarCompute(AffectsBipCompute* affects_bip_comp
     this->affects_bip_compute = affects_bip_compute;
     this->type_bank = type_bank;
 }
+
+AffectsBipStarCompute::AffectsBipStarCompute()
+{
+}
