@@ -6,29 +6,29 @@ using namespace std;
 
 PKBStub PKB;
 
-//TEST_CASE("No such that or pattern clauses")
-//{
-//    SECTION("variable")
-//    {
-//        string pql_query = "variable v; Select v";
-//        unordered_set<string> expected_result {"flag", "count", "cenX", "cenY", "x", "y", "normSq"};
-//        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
-//    }
-//
-//    SECTION("assign")
-//    {
-//        string pql_query = "assign a; Select a";
-//        unordered_set<string> expected_result {"1", "10", "11", "12", "15", "16", "17", "20", "21", "22", "23", "28", "29", "30", "31", "32"};
-//        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
-//    }
-//
-//    SECTION("constant")
-//    {
-//        string pql_query = "constant c; Select c";
-//        unordered_set<string> expected_result {"0", "1", "2", "3"};
-//        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
-//    }
-//}
+TEST_CASE("No such that or pattern clauses")
+{
+    SECTION("variable")
+    {
+        string pql_query = "variable v; Select v";
+        unordered_set<string> expected_result {"flag", "count", "cenX", "cenY", "x", "y", "normSq"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("assign")
+    {
+        string pql_query = "assign a; Select a";
+        unordered_set<string> expected_result {"1", "10", "11", "12", "15", "16", "17", "20", "21", "22", "23", "28", "29", "30", "31", "32"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("constant")
+    {
+        string pql_query = "constant c; Select c";
+        unordered_set<string> expected_result {"0", "1", "2", "3"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+}
 
 TEST_CASE("One such that clause: Follows and Follows*")
 {
@@ -686,6 +686,20 @@ TEST_CASE("With clause")
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 
+    SECTION("with cl.procName = \"printResults\"")
+    {
+        string pql_query = "call cl; Select cl.procName with cl.procName = \"printResults\"";
+        unordered_set<string> expected_result {"printResults"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("with cl.procName = \"printResults\"")
+    {
+        string pql_query = "call cl; Select BOOLEAN with cl.procName = \"printResults\"";
+        unordered_set<string> expected_result {"TRUE"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
     SECTION("with \"printResults\" = cl.procName")
     {
         string pql_query = "call cl; Select cl with \"printResults\" = cl.procName";
@@ -702,9 +716,23 @@ TEST_CASE("With clause")
 
     SECTION("with 18 = cl.stmt#")
     {
-    string pql_query = "call cl; Select cl with 18 = cl.stmt#";
-    unordered_set<string> expected_result {"18"};
-    REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+        string pql_query = "call cl; Select cl with 18 = cl.stmt#";
+        unordered_set<string> expected_result {"18"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("with n = 16")
+    {
+        string pql_query = "prog_line n; Select BOOLEAN with n = 16";
+        unordered_set<string> expected_result {"TRUE"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("with 0 = c.value")
+    {
+        string pql_query = "constant c; Select c.value with 0 = c.value";
+        unordered_set<string> expected_result {"0"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 }
 

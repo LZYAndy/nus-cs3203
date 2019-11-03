@@ -52,10 +52,6 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
             {
                 is_select_bool = true;
             }
-            else if (select_type == EntityType::FIX)
-            {
-                select_map[select_name] = vector<string> {select_entity.get_solution()};
-            }
             else if (select_type == EntityType::VARIABLE || select_type == EntityType::PROCEDURE || select_type == EntityType::CONSTANT || select_type == EntityType::BOOLEAN)
             {
                 select_map[select_name] = QueryUtility::get_certain_type_str_list(select_type, PKB);
