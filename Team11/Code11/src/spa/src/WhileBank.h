@@ -4,7 +4,8 @@
 
 #include "Bank.h"
 
-class WhileBank {
+class WhileBank
+{
 public:
     /**
      * Insert a while statement into the while_bank.

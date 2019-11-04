@@ -346,12 +346,12 @@ b, sigma, x, false, bool
 70 - Select multiple Modifies but with a false clause
 procedure p;
 Select p such that Modifies(p, "sigma") and Modifies(p, "x") and Modifies(p, "bool") and Modifies(p, "y") and Follows(1, 8)
-none
+
 5000
 71 - Select invalid Next
 stmt s; variable v;
 Select s such that Modifies(s, v) and Uses(s, v) and Next(41, 61)
-none
+
 5000
 72 - Select Modifies and Uses
 variable v;

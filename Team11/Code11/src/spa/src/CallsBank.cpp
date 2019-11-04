@@ -54,5 +54,5 @@ std::unordered_map<int, std::vector<std::string>> CallsBank::get_all_statements_
 std::string CallsBank::get_called_by_statement(int stmt)
 {
     auto result = calls_stmt_bank.get(stmt);
-    return result.empty() ? result[0] : "";
+    return !result.empty() ? result[0] : "";
 }
