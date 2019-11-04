@@ -77,7 +77,7 @@ TEST_CASE("AffectsStarCompute::is_affects_star()")
     }
 }
 
-TEST_CASE("AffectsStarCompute::get_affects_star()")
+TEST_CASE("AffectsStarCompute::get_affected_star()")
 {
     AffectsStarCompute affects_star_compute;
     PKB pkb;
@@ -123,12 +123,12 @@ TEST_CASE("AffectsStarCompute::get_affects_star()")
 
     SECTION("fails")
     {
-        REQUIRE(affects_star_compute.get_affects_star(pkb, 3).empty());
+        REQUIRE(affects_star_compute.get_affected_star(pkb, 3).empty());
     }
 
     SECTION("success")
     {
-        std::vector<int> result = affects_star_compute.get_affects_star(pkb, 1);
+        std::vector<int> result = affects_star_compute.get_affected_star(pkb, 1);
         std::vector<int> expected;
         expected.push_back(2);
         expected.push_back(3);
@@ -139,7 +139,7 @@ TEST_CASE("AffectsStarCompute::get_affects_star()")
 }
 
 
-TEST_CASE("AffectsStarCompute::get_affected_star()")
+TEST_CASE("AffectsStarCompute::get_affects_star()")
 {
     AffectsStarCompute affects_star_compute;
     PKB pkb;
@@ -162,12 +162,12 @@ TEST_CASE("AffectsStarCompute::get_affected_star()")
 
     SECTION("fails")
     {
-        REQUIRE(affects_star_compute.get_affected_star(pkb, 1).empty());
+        REQUIRE(affects_star_compute.get_affects_star(pkb, 1).empty());
     }
 
     SECTION("success")
     {
-        std::vector<int> result = affects_star_compute.get_affected_star(pkb, 3);
+        std::vector<int> result = affects_star_compute.get_affects_star(pkb, 3);
         std::vector<int> expected;
         expected.push_back(2);
         expected.push_back(1);

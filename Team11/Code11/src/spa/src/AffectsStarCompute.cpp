@@ -49,7 +49,7 @@ bool AffectsStarCompute::is_affects_star_helper(PKB& pkb, int assignment1, int a
 }
 
 // affects*(1,a)
-std::vector<int> AffectsStarCompute::get_affects_star(PKB& pkb, int assignment)
+std::vector<int> AffectsStarCompute::get_affected_star(PKB& pkb, int assignment)
 {
     if (!affects_star_cache.empty())
     {
@@ -69,7 +69,7 @@ std::vector<int> AffectsStarCompute::get_affects_star(PKB& pkb, int assignment)
 }
 
 // affects*(a, 1)
-std::vector<int> AffectsStarCompute::get_affected_star(PKB& pkb, int assignment)
+std::vector<int> AffectsStarCompute::get_affects_star(PKB& pkb, int assignment)
 {
     if (!affects_star_cache.empty())
     {
@@ -95,7 +95,7 @@ std::unordered_map<int, std::vector<int>> AffectsStarCompute::get_all_affects_st
     std::vector<int> assign_stmts = pkb.get_all_assigns();
     for (int assign_stmt : assign_stmts)
     {
-        std::vector<int> affected_stmts = get_affects_star(pkb, assign_stmt);
+        std::vector<int> affected_stmts = get_affected_star(pkb, assign_stmt);
         if (affected_stmts.empty())
         {
             continue;

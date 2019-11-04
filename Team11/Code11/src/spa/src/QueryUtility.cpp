@@ -43,7 +43,7 @@ Checks if the entity is a variable undeclared
 */
 bool QueryUtility::is_var_name(pql_dto::Entity &entity)
 {
-    return !(entity.is_entity_declared() || entity.get_entity_type() != EntityType::VARIABLE);
+    return !entity.is_entity_declared() && (entity.get_entity_type() == EntityType::VARIABLE || entity.get_entity_attr() == AttributeType::VARNAME);
 }
 
 string QueryUtility::get_entity_type_name(pql_dto::Entity entity)

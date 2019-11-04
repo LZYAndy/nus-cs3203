@@ -202,13 +202,8 @@ void Optimizer::remove_duplicates(std::vector<pql_dto::Relationships>& such_that
 void Optimizer::replace_with_synonyms(std::vector<pql_dto::Entity>& select_clause, std::vector<pql_dto::Relationships>& such_that_clause,
     std::vector<pql_dto::Pattern>& pattern_clause, std::vector<pql_dto::With>& with_clause)
 {
-    std::unordered_map<std::string, std::vector<int>> select_map;
     int index = 0;
-    for (pql_dto::Entity select_entity : select_clause)
-    {
-        select_map[select_entity.get_entity_name()].push_back(index++);
-    }
-
+    
     for (pql_dto::With with_object : with_clause)
     {
         pql_dto::Entity right_ref = with_object.get_second_param();
@@ -217,17 +212,6 @@ void Optimizer::replace_with_synonyms(std::vector<pql_dto::Entity>& select_claus
         /// If left reference in With object is not declared
         if (!left_ref.is_entity_declared())
         {
-            if (select_map.find(right_ref.get_entity_name()) != select_map.end())
-            {
-                for (int index : select_map.at(right_ref.get_entity_name()))
-                {
-                    pql_dto::Entity same_select_entity = select_clause.at(index);
-                    same_select_entity.set_solution(left_ref.get_entity_name());
-//                    same_select_entity.set_entity_type(EntityType::FIX);
-                    select_clause.at(index) = same_select_entity;
-                }
-            }
-
             int index = 0;
             for (pql_dto::Relationships relationship : such_that_clause)
             {
@@ -271,17 +255,6 @@ void Optimizer::replace_with_synonyms(std::vector<pql_dto::Entity>& select_claus
         }
         else if (!right_ref.is_entity_declared())
         {
-            if (select_map.find(left_ref.get_entity_name()) != select_map.end())
-            {
-                for (int index : select_map.at(left_ref.get_entity_name()))
-                {
-                    pql_dto::Entity same_select_entity = select_clause.at(index);
-                    same_select_entity.set_solution(right_ref.get_entity_name());
-//                    same_select_entity.set_entity_type(EntityType::FIX);
-                    select_clause.at(index) = same_select_entity;
-                }
-            }
-
             int index = 0;
 
             for (pql_dto::Relationships relationship : such_that_clause)
@@ -498,7 +471,7 @@ void Optimizer::sort(std::vector<pql_dto::Constraint>& entity_group, Cache& cach
                 }
                 else
                 {
-                    if (synonyms_in_set.find(first_param.get_entity_name()) != synonyms_in_set.end())
+                    if (synonyms_in_set.find(second_param.get_entity_name()) != synonyms_in_set.end())
                     {
                         sorted_entity_group.push_back(one_syn_clause);
                         continue;

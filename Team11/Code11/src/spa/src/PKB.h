@@ -9,35 +9,41 @@
 #include <unordered_set>
 #include <numeric>
 
+#include "DesignExtractor.h"
 #include "UsesBank.h"
 #include "ModifiesBank.h"
 #include "TypeBank.h"
 #include "FollowsBank.h"
 #include "FollowsStarBank.h"
-#include "DesignExtractor.h"
 #include "ParentBank.h"
 #include "ParentStarBank.h"
 #include "AssignBank.h"
 #include "NextBank.h"
 #include "WhileBank.h"
 #include "CallsBank.h"
+#include "CallsStarBank.h"
 #include "IfBank.h"
+#include "NextBipBank.h"
 #include "AffectsCompute.h"
 #include "AffectsStarCompute.h"
 #include "NextStarCompute.h"
+#include "ProcBank.h"
 
 using namespace std;
 
+class DesignExtractor;
 class PKB
 {
 public:
     // Insert APIs
     /**
-     * Insert a procedure into the proc_table.
+     * Insert procedure info into PKB.
      * @param name
+     * @param first_prog procedure first program line
+     * @param last_progs last program lines in procedure before exit procedure
      * @return Return true if the procedure is inserted successfully, otherwise false.
      */
-    bool insert_procedure(string name);
+    bool insert_procedure(string name, int first_prog, vector<int> last_progs);
 
     /**
      * Insert a variable into the var_table.
@@ -198,7 +204,7 @@ public:
     vector<int> get_all_calls();
 
     /**
-     * Get all procedures in the proc_table.
+     * Get all procedures in the PKB.
      * @return Return a string unordered_set of procedures that are contained in the proc_table.
      */
     unordered_set<string> get_all_procedures();
@@ -735,7 +741,7 @@ public:
      * Get all reversed next relationships
      * @return Return all reversed next relationships in the program
      */
-    std::unordered_map<int, std::vector<int>> get_all_previous_relationship();
+    unordered_map<int, vector<int>> get_all_previous_relationship();
 
     /**
      * Check if there exist at least one Calls* relationship in PKB.
@@ -852,6 +858,60 @@ public:
      * @return procedure called.
      */
     string get_called_by_statement(int stmt);
+    
+    /**
+     * Insert NextBip relationship between statement1 and statement2.
+     * @param prev_prog
+     * @param next_prog
+     * @return Return true if the relationship is inserted successfully, otherwise false.
+     */
+    bool insert_next_bip(int prev_prog, int next_prog);
+    /**
+     * Insert Ingress & Egress prog line for Call statement
+     * @param ingress_prog
+     * @param egress_prog
+     * @return Return true if the Ingress & Egress is inserted successfully, otherwise false.
+     */
+    bool insert_call_ingress_egress(int ingress_prog, int egress_prog);
+    /**
+     * If there is a NextBip relationship between statement1 and statement2.
+     * @param prev_prog
+     * @param next_prog
+     * @return Return true if there is a NextBip relationship between these two statements, otherwise false.
+     */
+    bool is_next_bip(int prev_prog, int next_prog);
+    /**
+     * If there exists at least one NextBip relationship in the program.
+     * @return Return true if there exists at least one NextBip relationship, otherwise false.
+     */
+    bool does_next_bip_exists();
+    /**
+     * Get all statements that are the NextBip statement of the input statement
+     * @param prog_line
+     * @return Return a vector of statements which are the NextBip statement of the input statement.
+     */
+    vector<int>  get_next_bip(int prog_line);
+    /**
+     * Get all statements that are the Previous statement of the input statement
+     * @param prog_line
+     * @return Return a vector of statements which are the previous statement of the input statement.
+     */
+    vector<int>  get_previous_bip(int prog_line);
+    /**
+     * Get all statements which are the in next position in their NextBip relationships.
+     * @return Return all which are the in next position in their NextBip relationships.
+     */
+    vector<int>  get_all_next_bip();
+    /**
+     * Get all statements which are the in previous position in their NextBip relationships.
+     * @return Return all which are the in previous position in their NextBip relationships.
+     */
+    vector<int>  get_all_previous_bip();
+    /**
+     * Get all NextBip relationships
+     * @return Return all NextBip relationships in the program
+     */
+    unordered_map<int, vector<int>> get_all_next_bip_relationship();
     /**
     * Check if one assignment statement affects the another assignment directly or indirectly.
     * That is to say Affects(1, 2).
@@ -883,6 +943,18 @@ public:
      * Clear all cache
      */
     void clear_cache();
+    /**
+     * Get the first program line of the procedure
+     * @param procedure quried procedure
+     * @return the first program line of the procedure quried
+     */
+    int get_procedure_first_line(string procedure);
+    /**
+     * Get the last program lines in procedure before exit procedure
+     * @param procedure quried procedure
+     * @return the last program lines in procedure before exit procedure
+     */
+    vector<int> get_procedure_last_lines(string procedure);
 
 private:
     FollowsBank follows_bank;
@@ -891,7 +963,6 @@ private:
     ParentStarBank parent_star_bank;
     AssignBank assign_bank;
     unordered_set<string> var_table;
-    unordered_set<string> proc_table;
     unordered_set<string> const_table;
     UsesBank uses_bank;
     ModifiesBank modifies_bank;
@@ -903,7 +974,9 @@ private:
     IfBank if_bank;
     NextStarCompute next_star_compute;
     AffectsCompute affects_compute;
+    NextBipBank next_bip_bank;
     AffectsStarCompute affects_star_compute;
+    ProcBank proc_bank;
     int last_statement_num = 0;
 };
 

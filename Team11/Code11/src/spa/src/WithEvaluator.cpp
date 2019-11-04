@@ -13,6 +13,7 @@ unordered_map<string, vector<string>> WithEvaluator::evaluate(pql_dto::Entity &f
     vector<string> result_vec_1;
     vector<string> result_vec_2;
 
+
     if (QueryUtility::is_program_line(first_param) || QueryUtility::is_statement_num(first_param) || QueryUtility::is_constant(first_param))
     { // e.g. with 10 = s.stmt#
         if (second_type == EntityType::CONSTANT)
@@ -35,6 +36,7 @@ unordered_map<string, vector<string>> WithEvaluator::evaluate(pql_dto::Entity &f
         }
         result[second_param.get_entity_name()] = result_vec_1;
     }
+
     else if (QueryUtility::is_program_line(second_param) || QueryUtility::is_statement_num(second_param) || QueryUtility::is_constant(first_param))
     { // e.g. with s.stmt# = 10
         if (first_type == EntityType::CONSTANT)
@@ -59,13 +61,13 @@ unordered_map<string, vector<string>> WithEvaluator::evaluate(pql_dto::Entity &f
     }
     else if (QueryUtility::is_proc_name(first_param) || QueryUtility::is_var_name(first_param))
     { // e.g. with "main" = cl.procName
-        if (second_type == EntityType::CALL)
+        if (second_type == EntityType::CALL || second_type == EntityType::READ || second_type == EntityType::PRINT)
         {
-            str_vec_1 = QueryUtility::get_certain_type_int_list(first_type, PKB);
+            str_vec_1 = QueryUtility::get_certain_type_int_list(second_type, PKB);
         }
         else
         {
-            str_vec_1 = QueryUtility::get_certain_type_str_list(first_type, PKB);
+            str_vec_1 = QueryUtility::get_certain_type_str_list(second_type, PKB);
         }
         temp_vec_1 = QueryUtility::change_to_attributes(second_param, str_vec_1, PKB);
         int i = 0;
@@ -81,7 +83,7 @@ unordered_map<string, vector<string>> WithEvaluator::evaluate(pql_dto::Entity &f
     }
     else if (QueryUtility::is_proc_name(second_param) || QueryUtility::is_var_name(second_param))
     { // e.g. with cl.procName = "main"
-        if (first_type == EntityType::CALL)
+        if (first_type == EntityType::CALL || first_type == EntityType::READ || first_type == EntityType::PRINT)
         {
             str_vec_1 = QueryUtility::get_certain_type_int_list(first_type, PKB);
         }

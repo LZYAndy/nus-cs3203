@@ -138,4 +138,5 @@ void Bank<T, S>::clear_banks()
 template class Bank<int, int>;
 template class Bank<int, std::string>;
 template class Bank<std::string, std::string>;
+template class Bank<std::string, int>;
 
