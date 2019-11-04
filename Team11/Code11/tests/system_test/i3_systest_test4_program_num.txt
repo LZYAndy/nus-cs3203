@@ -9,7 +9,7 @@ procedure one {
 8         read y;
 9         print y;}
       else {
-10          while (t > a) {
+10        while (t > a) {
 11            i = i + 1;
 12            read i;
 13            print y;}
@@ -113,7 +113,7 @@ procedure three {
 procedure four {
 100    alpha = alpha + b;
 101    nus = nus + alpha;
-102    call p;
+102    call five;
 103    while (nus > 100) {
 104        nus = 2000;
 105        c = 1000;

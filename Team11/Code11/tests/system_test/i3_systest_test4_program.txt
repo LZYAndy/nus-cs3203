@@ -113,7 +113,7 @@ procedure three {
 procedure four {
     alpha = alpha + b;
     nus = nus + alpha;
-    call p;
+    call five;
     while (nus > 100) {
         nus = 2000;
         c = 1000;
