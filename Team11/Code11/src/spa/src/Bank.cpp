@@ -131,4 +131,5 @@ std::unordered_map<S, std::vector<T>> Bank<T, S>::get_reverse_bank()
 template class Bank<int, int>;
 template class Bank<int, std::string>;
 template class Bank<std::string, std::string>;
+template class Bank<std::string, int>;
 

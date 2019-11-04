@@ -31,7 +31,7 @@ procedure secondProc {
 25            print b4;
 26            call thirdProc;
 27            b5 = b1;} 
-        else {
+          else {
 28            if ((b5%b6)<=(b7<b8)) then {
 29                if (b8<0) then {
 30                    read b9;
@@ -59,12 +59,27 @@ procedure thirdProc {
 47        c13 = c12;
 48        if (1 != 0) then {
 49            c9 = c9 + 1;} 
-        else {
+          else {
 50            if (c10 < c11) then {
 51               print c8;} 
-            else {
+             else {
 52                while (c14 >= c13) {
 53                    c6 = c6;  
 54                    c7 = c8;
 55                    c12 = c12;}}}}
+}
+
+procedure fourthProc {
+56    while (1 < 0){
+57        print d1;}
+58    if (1 == 0) then {
+59        print d2;} 
+      else {
+60        print d2;}
+61    while (1 < 0){
+62        read d3;}
+63    if (1 == 0) then {
+64        read d4;} 
+      else {
+65        read d4;}
 }

@@ -52,10 +52,6 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
             {
                 is_select_bool = true;
             }
-            else if (select_type == EntityType::FIX)
-            {
-                select_map[select_name] = vector<string> {select_entity.get_solution()};
-            }
             else if (select_type == EntityType::VARIABLE || select_type == EntityType::PROCEDURE || select_type == EntityType::CONSTANT || select_type == EntityType::BOOLEAN)
             {
                 select_map[select_name] = QueryUtility::get_certain_type_str_list(select_type, PKB);
@@ -123,7 +119,9 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
             Optimizer::sort(group, cache);
 
             // merge
-            final_map = QueryEvaluator::mergeGroup(group, cache);
+            unordered_map<string, vector<string>> temp_map = QueryEvaluator::mergeGroup(group, cache);
+            unordered_set<string> common_synonyms = QueryEvaluator::get_common_synonyms(final_map, temp_map);
+            final_map = QueryEvaluator::merge_two_maps(final_map, temp_map, common_synonyms);
             if (QueryEvaluator::is_empty_map(final_map))
             {
                 return QueryEvaluator::evaluateEmptyMap(is_select_bool);

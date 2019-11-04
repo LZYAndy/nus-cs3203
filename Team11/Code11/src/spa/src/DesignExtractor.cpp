@@ -143,11 +143,9 @@ bool DesignExtractor::extract_next_bip(PKB &pkb)
     {
         if (pkb.get_statement_type(previous) == EntityType::CALL) // check if previous is a call stmt
         {
-            // TODO: get first stmt num of procedure
             std::string procedure_called = pkb.get_called_by_statement(previous);
-            // int procedure_called
-            int callee_start_stmt_no = 10; // TODO: PLACERHOLDER VALUE
-            std::vector<int> callee_end_stmts_no = {10}; // TODO: PLACERHOLDER VALUE
+            int callee_start_stmt_no = pkb.get_procedure_first_line(procedure_called);
+            std::vector<int> callee_end_stmts_no = pkb.get_procedure_last_lines(procedure_called); 
             pkb.insert_next_bip(previous, callee_start_stmt_no);
             std::stack<int> to_visit;
             std::unordered_set<int> visited;
