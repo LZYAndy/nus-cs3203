@@ -897,4 +897,11 @@ TEST_CASE("Multiple select, such that, and pattern")
         unordered_set<string> expected_result {"15 14", "28 24", "28 26"};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
+
+    SECTION("select tuple, multiple clauses")
+    { // v = "count", "cenX", "cenY", "x", "y"; s = 24, 25, 26, 27
+        string pql_query = "variable v; stmt s; Select <v, s> such that Modifies(14, v) and Parent*(s, 28)";
+        unordered_set<string> expected_result {"count 24", "count 25", "count 26", "count 27", "cenX 24", "cenX 25", "cenX 26", "cenX 27", "cenY 24", "cenY 25", "cenY 26", "cenY 27",  "x 24", "x 25", "x 26", "x 27", "y 24", "y 25", "y 26", "y 27"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
 }
