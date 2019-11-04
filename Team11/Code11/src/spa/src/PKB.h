@@ -28,6 +28,8 @@
 #include "NextStarCompute.h"
 #include "NextBipBank.h"
 #include "NextBipStarCompute.h"
+#include "AffectsBipCompute.h"
+#include "AffectsBipStarCompute.h"
 #include "ProcBank.h"
 
 using namespace std;
@@ -966,6 +968,69 @@ public:
      */
     unordered_map<int, vector<int>> get_all_next_bip_star_relationship();
     /**
+     * Check if AffectsBip Relationship exists.
+     * @return true if there AffectsBip relationship.
+     */
+    bool does_affects_bip_exist();
+    /**
+     * Check if AffectsBip relationship is valid between 2 assignment statement.
+     * @param stmt1 affected_bip stmt
+     * @param stmt2 stmt to be affected_bip
+     * @return true if the relationship is true. else false.
+     */
+    bool is_affects_bip(int stmt1, int stmt2);
+    /**
+     * Get all assignment statements that is affected_bip by queried assignment statement.
+     * @param stmt queried statement
+     * @return a vector of assignment statement affected_bip by queried assignment statement.
+     */
+    vector<int> get_assigns_affects_bip(int stmt);
+    /**
+     * Get all assignment statements that the queried assignment statement AffectsBip.
+     * @param stmt queried statement
+     * @return a vector of assignment statement that the queried assignment statement AffectsBip
+     */
+    vector<int> get_assigns_affected_bip_by(int stmt);
+    /**
+     * Get all assignment statement that AffectsBip others.
+     * @return a vector of assignment statement that AffectsBip others.
+     */
+    vector<int> get_all_assigns_affects_bip();
+    /**
+     * Get all assignment statement that AffectsBip others.
+     * @return a vector of assignment statements that could be affected_bip
+     */
+    vector<int> get_all_assigns_affected_bip();
+    /**
+     * Get all AffectsBip that exists.
+     * @return a unordered_map of AffectBip relationship that exists
+     */
+    unordered_map<int, vector<int>> get_all_affects_bip_relationship();
+    /**
+     * Check if AffectsBip* relationship is valid between 2 assignment statement.
+     * @param stmt1 affected_bip stmt
+     * @param stmt2 stmt to be affected_bip
+     * @return true if the relationship is true. else false.
+     */
+    bool is_affects_bip_star(int assignment1, int assignment2);
+    /**
+     * Get all assignment statements that is affected_bip* by queried assignment statement.
+     * @param stmt queried statement
+     * @return a vector of assignment statement affected_bip* by queried assignment statement.
+     */
+    vector<int> get_affects_bip_star(int assignment);
+    /**
+     * Get all assignment statements that is AffectsBip* by queried assignment statement.
+     * @param stmt queried statement
+     * @return a vector of assignment statement AffectsBip* by queried assignment statement.
+     */
+    vector<int> get_affected_bip_star(int assignment);
+    /**
+     * Get all AffectsBip* that exists.
+     * @return a unordered_map of AffectBip relationship that exists
+     */
+    unordered_map<int, vector<int>> get_all_affects_bip_star_relationship();
+    /**
      * Get the first program line of the procedure
      * @param procedure quried procedure
      * @return the first program line of the procedure quried
@@ -997,6 +1062,8 @@ private:
     NextBipBank next_bip_bank;
     AffectsStarCompute affects_star_compute;
     NextBipStarCompute next_bip_star_compute;
+    AffectsBipCompute affects_bip_compute;
+    AffectsBipStarCompute affects_bip_star_compute;
     ProcBank proc_bank;
     int last_statement_num = 0;
 };
