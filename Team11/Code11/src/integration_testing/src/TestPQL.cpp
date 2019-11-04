@@ -672,6 +672,7 @@ TEST_CASE("With clause")
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 
+
     SECTION("with p.procName = cl.procName")
     {
         string pql_query = "procedure p; call cl; Select cl.procName with p.procName = cl.procName";
