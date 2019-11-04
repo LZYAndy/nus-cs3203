@@ -36,7 +36,7 @@ bool AffectsStarCompute::is_affects_star_helper(PKB& pkb, int assignment1, int a
 }
 
 // affects*(1,a)
-std::vector<int> AffectsStarCompute::get_affects_star(PKB& pkb, int assignment)
+std::vector<int> AffectsStarCompute::get_affected_star(PKB& pkb, int assignment)
 {
     vector<int> result;
     vector<int> assign_stmts = pkb.get_all_assigns();
@@ -51,7 +51,7 @@ std::vector<int> AffectsStarCompute::get_affects_star(PKB& pkb, int assignment)
 }
 
 // affects*(a, 1)
-std::vector<int> AffectsStarCompute::get_affected_star(PKB& pkb, int assignment)
+std::vector<int> AffectsStarCompute::get_affects_star(PKB& pkb, int assignment)
 {
     vector<int> result;
     vector<int> assign_stmts = pkb.get_all_assigns();
