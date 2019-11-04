@@ -72,7 +72,7 @@ std::unordered_map<int, std::vector<int>> AffectsStarCompute::get_all_affects_st
     std::vector<int> assign_stmts = pkb.get_all_assigns();
     for (int assign_stmt : assign_stmts)
     {
-        std::vector<int> affected_stmts = get_affects_star(pkb, assign_stmt);
+        std::vector<int> affected_stmts = get_affected_star(pkb, assign_stmt);
         if (affected_stmts.empty())
         {
             continue;
