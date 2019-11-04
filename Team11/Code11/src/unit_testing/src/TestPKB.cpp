@@ -4028,6 +4028,7 @@ TEST_CASE("PKB::get_statements_previous_star()")
     pkb.insert_next(6, 8); // stmt8 is not in else
     pkb.insert_next(7, 8);
     pkb.insert_next(8, 3);
+    pkb.insert_type(9, EntityType::STMT);
     vector<int> result;
     vector<int> expected;
 
@@ -4072,6 +4073,8 @@ TEST_CASE("PKB::get_statements_next_star()")
     pkb.insert_next(7, 8);
     pkb.insert_next(8, 3);
     pkb.insert_next(9, 10);
+    pkb.insert_type(10, EntityType::STMT);
+
     vector<int> result;
     vector<int> expected;
 
@@ -4114,6 +4117,7 @@ TEST_CASE("PKB::is_next_star()")
     pkb.insert_next(6, 8);
     pkb.insert_next(7, 8);
     pkb.insert_next(8, 3);
+    pkb.insert_type(9, EntityType::STMT);
 
     SECTION("return false")
     {

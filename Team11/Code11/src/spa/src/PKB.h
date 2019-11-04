@@ -944,6 +944,10 @@ public:
      */
     unordered_map<int, vector<int>> get_all_affects_star_relationship();
     /**
+     * Clear all cache
+     */
+    void clear_cache();
+    /**
      * Check if NextBip* exists between two program line.
      * @param previous
      * @param next
@@ -1059,6 +1063,8 @@ private:
     CallsBank calls_bank;
     CallsStarBank calls_star_bank;
     IfBank if_bank;
+    NextStarCompute next_star_compute;
+    AffectsCompute affects_compute;
     NextBipBank next_bip_bank;
     AffectsStarCompute affects_star_compute;
     NextBipStarCompute next_bip_star_compute;

@@ -479,7 +479,7 @@ TEST_CASE("AffectsCompute::get_assigns_affected_by()")
 
     SECTION("return 0 statement")
     {
-        result = affects.get_assigns_affected_by(1, 2, next_bank, modifies_bank, uses_bank, type_bank);
+        result = affects.get_assigns_affected_by(1, 2, next_bank, modifies_bank, uses_bank, type_bank, false);
         REQUIRE(result.empty());
     }
 
@@ -549,7 +549,7 @@ TEST_CASE("AffectsCompute::get_assigns_affected_by()")
 
     SECTION("return more than 0 statements")
     {
-        result = affects.get_assigns_affected_by(1, 15, next_bank, modifies_bank, uses_bank, type_bank);
+        result = affects.get_assigns_affected_by(1, 15, next_bank, modifies_bank, uses_bank, type_bank, false);
         REQUIRE(result.size() == 4);
         expected.push_back(4);
         expected.push_back(8);
@@ -559,12 +559,12 @@ TEST_CASE("AffectsCompute::get_assigns_affected_by()")
         std::sort(result.begin(), result.end());
         REQUIRE(expected == result);
 
-        result = affects.get_assigns_affected_by(4, 15, next_bank, modifies_bank, uses_bank, type_bank);
+        result = affects.get_assigns_affected_by(4, 15, next_bank, modifies_bank, uses_bank, type_bank, false);
         REQUIRE(result.size() == 4);
         REQUIRE(expected == result);
         expected.clear();
 
-        result = affects.get_assigns_affected_by(6, 15, next_bank, modifies_bank, uses_bank, type_bank);
+        result = affects.get_assigns_affected_by(6, 15, next_bank, modifies_bank, uses_bank, type_bank, false);
         REQUIRE(result.size() == 2);
         expected.push_back(6);
         expected.push_back(10);
@@ -742,24 +742,24 @@ TEST_CASE("AffectsCompute::is_affects()")
 
     SECTION("return false")
     {
-        REQUIRE_FALSE(affects.is_affects(9, 11, next_bank, modifies_bank, uses_bank, type_bank));
-        REQUIRE_FALSE(affects.is_affects(9, 12, next_bank, modifies_bank, uses_bank, type_bank));
-        REQUIRE_FALSE(affects.is_affects(2, 3, next_bank, modifies_bank, uses_bank, type_bank));
-        REQUIRE_FALSE(affects.is_affects(9, 6, next_bank, modifies_bank, uses_bank, type_bank));
+        REQUIRE_FALSE(affects.is_affects(9, 11, 15, next_bank, modifies_bank, uses_bank, type_bank));
+        REQUIRE_FALSE(affects.is_affects(9, 12, 15, next_bank, modifies_bank, uses_bank, type_bank));
+        REQUIRE_FALSE(affects.is_affects(2, 3, 15, next_bank, modifies_bank, uses_bank, type_bank));
+        REQUIRE_FALSE(affects.is_affects(9, 6, 15, next_bank, modifies_bank, uses_bank, type_bank));
     }
 
     SECTION("return true")
     {
-        REQUIRE(affects.is_affects(2, 6, next_bank, modifies_bank, uses_bank, type_bank));
-        REQUIRE(affects.is_affects(4, 8, next_bank, modifies_bank, uses_bank, type_bank));
-        REQUIRE(affects.is_affects(4, 10, next_bank, modifies_bank, uses_bank, type_bank));
-        REQUIRE(affects.is_affects(6, 6, next_bank, modifies_bank, uses_bank, type_bank));
-        REQUIRE(affects.is_affects(1, 4, next_bank, modifies_bank, uses_bank, type_bank));
-        REQUIRE(affects.is_affects(1, 8, next_bank, modifies_bank, uses_bank, type_bank));
-        REQUIRE(affects.is_affects(1, 10, next_bank, modifies_bank, uses_bank, type_bank));
-        REQUIRE(affects.is_affects(1, 12, next_bank, modifies_bank, uses_bank, type_bank));
-        REQUIRE(affects.is_affects(2, 10, next_bank, modifies_bank, uses_bank, type_bank));
-        REQUIRE(affects.is_affects(9, 10, next_bank, modifies_bank, uses_bank, type_bank));
-        REQUIRE(affects.is_affects(4, 4, next_bank, modifies_bank, uses_bank, type_bank));
+        REQUIRE(affects.is_affects(2, 6, 15, next_bank, modifies_bank, uses_bank, type_bank));
+        REQUIRE(affects.is_affects(4, 8, 15, next_bank, modifies_bank, uses_bank, type_bank));
+        REQUIRE(affects.is_affects(4, 10, 15, next_bank, modifies_bank, uses_bank, type_bank));
+        REQUIRE(affects.is_affects(6, 6, 15, next_bank, modifies_bank, uses_bank, type_bank));
+        REQUIRE(affects.is_affects(1, 4, 15, next_bank, modifies_bank, uses_bank, type_bank));
+        REQUIRE(affects.is_affects(1, 8, 15, next_bank, modifies_bank, uses_bank, type_bank));
+        REQUIRE(affects.is_affects(1, 10, 15, next_bank, modifies_bank, uses_bank, type_bank));
+        REQUIRE(affects.is_affects(1, 12, 15, next_bank, modifies_bank, uses_bank, type_bank));
+        REQUIRE(affects.is_affects(2, 10, 15, next_bank, modifies_bank, uses_bank, type_bank));
+        REQUIRE(affects.is_affects(9, 10, 15, next_bank, modifies_bank, uses_bank, type_bank));
+        REQUIRE(affects.is_affects(4, 4, 15, next_bank, modifies_bank, uses_bank, type_bank));
     }
 }
