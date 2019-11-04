@@ -1,6 +1,10 @@
 #include "PKB.h"
 
 using namespace std;
+PKB::PKB()
+{
+    next_bip_star_compute = NextBipStarCompute(&next_bip_bank, &type_bank);
+}
 
 bool PKB::insert_procedure(string name, int first_prog, vector<int> last_progs)
 {
@@ -755,11 +759,29 @@ unordered_map<int, vector<int>> PKB::get_all_affects_star_relationship()
     return affects_star_compute.get_all_affects_star_relationship(*this);
 }
 
-void PKB::clear_cache()
-{
+void PKB::clear_cache() {
     affects_compute.clear_cache();
     next_star_compute.clear_cache();
     affects_star_compute.clear_cache();
+}
+bool PKB::is_next_bip_star(int previous, int next)
+{
+    return next_bip_star_compute.is_next_bip_star(previous, next);
+}
+
+vector<int> PKB::get_next_bip_star(int previous)
+{
+    return next_bip_star_compute.get_next_bip_star(previous);
+}
+
+vector<int> PKB::get_previous_bip_star(int next)
+{
+    return next_bip_star_compute.get_previous_bip_star(next);
+}
+
+unordered_map<int, vector<int>> PKB::get_all_next_bip_star_relationship()
+{
+    return next_bip_star_compute.get_all_next_bip_star_relationship();
 }
 
 int PKB::get_procedure_first_line(string procedure)

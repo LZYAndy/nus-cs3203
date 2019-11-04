@@ -1,0 +1,83 @@
+procedure main {
+1     read x;
+2     print x;
+3     a = b + c + d - f * d + e / f - g % h + (((i * j) / k % l + m - n) * o / (p + (q - r - s) * t + u) + v * w) / x % y + z;
+4     call one;
+5     alpha = beta + 2 + sigma;
+6     call two;
+7     delta = alpha + beta;
+8     while (delta > 1) {
+9         delta = delta + 1;
+10        sigma = sigma + delta;
+11        alpha = sigma + delta;
+12        theta = alpha + sigma;
+13        beta = beta + alpha;}
+14    call three;
+15    call one;
+16    print x;
+17    print y;
+18    read x;
+19    x = x + 1;
+20    y = y + 1;
+21    while (delta > 0) {
+22        while (x > y) {
+23            x = y;
+24            y = x;
+25            z = y;
+26            alpha = a + b + v + x + y / z;
+27            call three;
+28            if (alpha < y) then {
+29                call two;
+30                x = x + 1;
+31                alpha = a;
+32                if(x > y) then {
+33                    x = y + z;
+34                    y = y + z;
+35                    alpha = beta + gama + sigma + delta;
+36                    delta = 0;
+37                    call two;
+38                    while (x > y) {
+39                        delta = delta + alpha;
+40                        f = delta;
+41                        b = alpha;
+42                        while (a > b) {
+43                            alpha = x;
+44                            if (x > z) then {
+45                                alpha = alpha + b;
+46                                read alpha;
+47                                read beta;}
+                              else {
+48                                print x;
+49                                x = x + alpha;
+50                                y = y + alpha;}}}}
+                  else {
+51                    alpha = sigma;}}
+              else {
+52                x = y;}}}}
+
+procedure one {
+53    read a;
+54    x = a + b;
+55    print b;
+56    call two;
+57    call three;
+}
+
+procedure                 two                                                             {
+58    read alpha;
+59    call three;
+60    beta = alpha;
+}
+
+procedure                   three
+
+
+
+
+
+
+
+
+{
+61    alpha = alpha + b;
+}

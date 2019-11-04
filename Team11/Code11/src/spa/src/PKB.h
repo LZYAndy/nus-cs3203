@@ -23,10 +23,11 @@
 #include "CallsBank.h"
 #include "CallsStarBank.h"
 #include "IfBank.h"
-#include "NextBipBank.h"
 #include "AffectsCompute.h"
 #include "AffectsStarCompute.h"
 #include "NextStarCompute.h"
+#include "NextBipBank.h"
+#include "NextBipStarCompute.h"
 #include "ProcBank.h"
 
 using namespace std;
@@ -35,6 +36,7 @@ class DesignExtractor;
 class PKB
 {
 public:
+    PKB();
     // Insert APIs
     /**
      * Insert procedure info into PKB.
@@ -944,6 +946,30 @@ public:
      */
     void clear_cache();
     /**
+     * Check if NextBip* exists between two program line.
+     * @param previous
+     * @param next
+     * @return return true if they have NextBip* relationship
+     */
+    bool is_next_bip_star(int previous, int next);
+    /**
+     * Get all program lines that are in next position of NextBip.
+     * @param previous
+     * @return a vector of program lines that fulfill the condition
+     */
+    vector<int> get_next_bip_star(int previous);
+     /**
+     * Get all program lines that are in previous position of NextBip.
+     * @param next
+     * @return a vector of program lines that fulfill the condition
+     */
+    vector<int> get_previous_bip_star(int next);
+    /**
+     * Get all NextBip* relationship exists.
+     * @return an unordered_map contains all NextBip* relationship
+     */
+    unordered_map<int, vector<int>> get_all_next_bip_star_relationship();
+    /**
      * Get the first program line of the procedure
      * @param procedure quried procedure
      * @return the first program line of the procedure quried
@@ -976,6 +1002,7 @@ private:
     AffectsCompute affects_compute;
     NextBipBank next_bip_bank;
     AffectsStarCompute affects_star_compute;
+    NextBipStarCompute next_bip_star_compute;
     ProcBank proc_bank;
     int last_statement_num = 0;
 };
