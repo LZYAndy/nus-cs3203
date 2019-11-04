@@ -1062,7 +1062,6 @@ private:
     IfBank if_bank;
     NextBipBank next_bip_bank;
     AffectsStarCompute affects_star_compute;
-    NextBipBank next_bip_bank;
     NextBipStarCompute next_bip_star_compute;
     AffectsBipCompute affects_bip_compute;
     AffectsBipStarCompute affects_bip_star_compute;
