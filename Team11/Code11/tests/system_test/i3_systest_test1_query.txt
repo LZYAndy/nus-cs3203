@@ -928,6 +928,7 @@ TRUE
 Select BOOLEAN such that Next*(15, 11)
 TRUE
 5000
+
 122 - Affects, lhs syn, rhs syn
 assign a,a1;
 Select <a,a1> such that Affects(a,a1)
