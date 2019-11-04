@@ -18,7 +18,7 @@ public:
      * @return a vector of statement numbers that are in the previous position
      * in the Next* relationship with the input statement.
      */
-    std::vector<int> get_statements_previous_star(int next, NextBank& next_bank);   //e.g. Next*(n, 2)
+    std::vector<int> get_statements_previous_star(int next, int last_stmt_num, NextBank& next_bank);   //e.g. Next*(n, 2)
     /**
      * Get all statement numbers that are in the next position
      * in the Next* relationship with the input statement.
@@ -27,7 +27,7 @@ public:
      * @return a vector of statement numbers that are in the next position
      * in the Next* relationship with the input statement.
      */
-    std::vector<int> get_statements_next_star(int previous, NextBank& next_bank);  //e.g. Next*(1, n)
+    std::vector<int> get_statements_next_star(int previous, int last_stmt_num, NextBank& next_bank);  //e.g. Next*(1, n)
     /**
      * Check if stmt1 and stmt2 have a Next* relationship
      * @param previous
@@ -35,7 +35,7 @@ public:
      * @param next_bank
      * @return return true if they have a Next* relationship
      */
-    bool is_next_star(int previous, int next, NextBank& next_bank); //e.g. Next*(1, 2)
+    bool is_next_star(int previous, int next, int last_stmt_num, NextBank& next_bank); //e.g. Next*(1, 2)
     //std::unordered_map<int, std::vector<int>> get_all_next_star_relationship(NextBank& next_bank);  //e.g. Next*(n1, n2)
     /**
      * Get all Next* relationship of this program

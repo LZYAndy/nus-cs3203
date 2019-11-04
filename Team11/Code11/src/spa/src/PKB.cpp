@@ -667,17 +667,17 @@ bool PKB::is_affects(int stmt1, int stmt2)
 
 vector<int> PKB::get_statements_previous_star(int stmt)
 {
-    return next_star_compute.get_statements_previous_star(stmt, next_bank);
+    return next_star_compute.get_statements_previous_star(stmt, last_statement_num, next_bank);
 }
 
 vector<int> PKB::get_statements_next_star(int stmt)
 {
-    return next_star_compute.get_statements_next_star(stmt, next_bank);
+    return next_star_compute.get_statements_next_star(stmt, last_statement_num, next_bank);
 }
 
 bool PKB::is_next_star(int stmt1, int stmt2)
 {
-    return next_star_compute.is_next_star(stmt1, stmt2, next_bank);
+    return next_star_compute.is_next_star(stmt1, stmt2, last_statement_num, next_bank);
 }
 
 unordered_map<int, vector<int>> PKB::get_all_next_star_relationship()

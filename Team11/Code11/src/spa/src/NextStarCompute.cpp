@@ -141,25 +141,35 @@ std::unordered_map<int, std::unordered_set<int>> NextStarCompute::dfs_for_cfg(in
     return result;
 }*/
 
-std::vector<int> NextStarCompute::get_statements_previous_star(int next, NextBank& next_bank)
+std::vector<int> NextStarCompute::get_statements_previous_star(int next, int last_stmt_num, NextBank& next_bank)
 {
     if (!next_star_cache.empty())
     {
         return next_star_cache.get_reverse(next);
     }
-    return dfs_for_cfg(next, next_bank.get_all_previous_relationship());
+    else
+    {
+        get_all_next_star_relationship(last_stmt_num, next_bank);
+        return next_star_cache.get_reverse(next);
+    }
+    //return dfs_for_cfg(next, next_bank.get_all_previous_relationship());
 }
 
-std::vector<int> NextStarCompute::get_statements_next_star(int previous, NextBank& next_bank)
+std::vector<int> NextStarCompute::get_statements_next_star(int previous, int last_stmt_num, NextBank& next_bank)
 {
     if (!next_star_cache.empty())
     {
         return next_star_cache.get(previous);
     }
-    return dfs_for_cfg(previous, next_bank.get_all_next_relationship());
+    else
+    {
+        get_all_next_star_relationship(last_stmt_num, next_bank);
+        return next_star_cache.get(previous);
+    }
+    //return dfs_for_cfg(previous, next_bank.get_all_next_relationship());
 }
 
-bool NextStarCompute::is_next_star(int previous, int next, NextBank& next_bank)
+bool NextStarCompute::is_next_star(int previous, int next, int last_stmt_num, NextBank& next_bank)
 {
     if (!next_star_cache.empty())
     {
@@ -173,34 +183,54 @@ bool NextStarCompute::is_next_star(int previous, int next, NextBank& next_bank)
             return false;
         }
     }
-    std::vector<int> vec = dfs_for_cfg(previous, next_bank.get_all_next_relationship());
-    return find(vec.begin(), vec.end(), next) != vec.end();
+    else
+    {
+        get_all_next_star_relationship(last_stmt_num, next_bank);
+        std::vector<int> next_stmts = next_star_cache.get(previous);
+        if (find(next_stmts.begin(), next_stmts.end(), next) != next_stmts.end())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    //std::vector<int> vec = dfs_for_cfg(previous, next_bank.get_all_next_relationship());
+    //return find(vec.begin(), vec.end(), next) != vec.end();
 }
 
 std::unordered_map<int, std::vector<int>> NextStarCompute::get_all_next_star_relationship(int last_stmt_num, NextBank& next_bank)
 {
-    std::unordered_map<int, std::vector<int>> result;
-    std::unordered_map<int, std::vector<int>> cfg = next_bank.get_all_next_relationship();
-    std::vector<int> next_star_stmts;
-    for(int i = 1; i <= last_stmt_num; i++)
+    if (next_star_cache.empty())
     {
-        next_star_stmts = dfs_for_cfg(i, cfg);
-        if (!next_star_stmts.empty())
+        std::unordered_map<int, std::vector<int>> result;
+        std::unordered_map<int, std::vector<int>> cfg = next_bank.get_all_next_relationship();
+        std::vector<int> next_star_stmts;
+        for(int i = 1; i <= last_stmt_num; i++)
         {
-            result.emplace(i, next_star_stmts);
+            next_star_stmts = dfs_for_cfg(i, cfg);
+            if (!next_star_stmts.empty())
+            {
+                result.emplace(i, next_star_stmts);
+            }
         }
-    }
 
-    for(auto& itr: result)
+        for(auto& itr: result)
+        {
+            int next_stmt = itr.first;
+            for(int i: itr.second)
+            {
+                next_star_cache.put(next_stmt, i);
+            }
+        }
+
+        return result;
+    }
+    else
     {
-        int next_stmt = itr.first;
-        for(int i: itr.second)
-        {
-            next_star_cache.put(next_stmt, i);
-        }
+        return next_star_cache.copy();
     }
-
-    return result;
 }
 
 std::vector<int> NextStarCompute::dfs_for_cfg(int target_stmt, std::unordered_map<int, std::vector<int>> cfg)
