@@ -1,12 +1,17 @@
 #include "AffectsCompute.h"
 
-std::vector<int> AffectsCompute::get_all_assigns_affect(int last_stmt_num, NextBank next_bank, ModifiesBank modifies_bank, UsesBank uses_bank, TypeBank type_bank)
+std::vector<int> AffectsCompute::get_all_assigns_affect(int last_stmt_num, NextBank& next_bank, ModifiesBank& modifies_bank, UsesBank& uses_bank, TypeBank& type_bank)
 {
     if (!affects_cache.empty())
     {
         return affects_cache.get_all_keys();
     }
-
+    else
+    {
+        get_all_affects_relationship(last_stmt_num, next_bank, modifies_bank, uses_bank, type_bank);
+        return affects_cache.get_all_keys();
+    }
+/*
     std::vector<int> result;
 
     for (int i = 1; i <= last_stmt_num; i++)
@@ -16,16 +21,21 @@ std::vector<int> AffectsCompute::get_all_assigns_affect(int last_stmt_num, NextB
             result.push_back(i);
         }
     }
-    return result;
+    return result;*/
 }
 
-std::vector<int> AffectsCompute::get_assigns_affect(int stmt, int last_stmt_num, NextBank next_bank, ModifiesBank modifies_bank, UsesBank uses_bank, TypeBank type_bank)
+std::vector<int> AffectsCompute::get_assigns_affect(int stmt, int last_stmt_num, NextBank& next_bank, ModifiesBank& modifies_bank, UsesBank& uses_bank, TypeBank& type_bank)
 {
     if (!affects_cache.empty())
     {
         return affects_cache.get_reverse(stmt);
     }
-
+    else
+    {
+        get_all_affects_relationship(last_stmt_num, next_bank, modifies_bank, uses_bank, type_bank);
+        return affects_cache.get_reverse(stmt);
+    }
+/*
     std::vector<int> result;
 
     for (int i = 1; i <= last_stmt_num; i++)
@@ -40,41 +50,53 @@ std::vector<int> AffectsCompute::get_assigns_affect(int stmt, int last_stmt_num,
             result.push_back(i);
         }
     }
-    return result;
+    return result;*/
 }
 
-std::unordered_map<int, std::vector<int>> AffectsCompute::get_all_affects_relationship(int last_stmt_num, NextBank next_bank, ModifiesBank modifies_bank, UsesBank uses_bank, TypeBank type_bank)
+std::unordered_map<int, std::vector<int>> AffectsCompute::get_all_affects_relationship(int last_stmt_num, NextBank& next_bank, ModifiesBank& modifies_bank, UsesBank& uses_bank, TypeBank& type_bank)
 {
-    std::unordered_map<int, std::vector<int>> result;
-    std::vector<int> affected;
-
-    for (int i = 1; i <= last_stmt_num; i++)
+    if (affects_cache.empty())
     {
-        affected = get_assigns_affected_by(i, last_stmt_num, next_bank, modifies_bank, uses_bank, type_bank);
-        if (!affected.empty())
-        {
-            result.emplace(i, affected);
-        }
-    }
+        std::unordered_map<int, std::vector<int>> result;
+        std::vector<int> affected;
 
-    for(auto& itr: result)
-    {
-        int affect_stmt = itr.first;
-        for(int i: itr.second)
+        for (int i = 1; i <= last_stmt_num; i++)
         {
-            affects_cache.put(affect_stmt, i);
+            affected = get_assigns_affected_by(i, last_stmt_num, next_bank, modifies_bank, uses_bank, type_bank, true);
+            if (!affected.empty())
+            {
+                result.emplace(i, affected);
+            }
         }
+
+        for(auto& itr: result)
+        {
+            int affect_stmt = itr.first;
+            for(int i: itr.second)
+            {
+                affects_cache.put(affect_stmt, i);
+            }
+        }
+        return result;
     }
-    return result;
+    else
+    {
+        return affects_cache.copy();
+    }
 }
 
-std::vector<int> AffectsCompute::get_all_assigns_affected(int last_stmt_num, NextBank next_bank, ModifiesBank modifies_bank, UsesBank uses_bank, TypeBank type_bank)
+std::vector<int> AffectsCompute::get_all_assigns_affected(int last_stmt_num, NextBank& next_bank, ModifiesBank& modifies_bank, UsesBank& uses_bank, TypeBank& type_bank)
 {
     if (!affects_cache.empty())
     {
         return affects_cache.get_all_values();
     }
-
+    else
+    {
+        get_all_affects_relationship(last_stmt_num, next_bank, modifies_bank, uses_bank, type_bank);
+        return affects_cache.get_all_values();
+    }
+/*
     std::vector<int> result;
 
     for (int i = 1; i <= last_stmt_num; i++)
@@ -84,40 +106,59 @@ std::vector<int> AffectsCompute::get_all_assigns_affected(int last_stmt_num, Nex
             result.push_back(i);
         }
     }
-    return result;
+    return result;*/
 }
 
-std::vector<int> AffectsCompute::get_assigns_affected_by(int stmt, int last_stmt_num, NextBank next_bank, ModifiesBank modifies_bank, UsesBank uses_bank, TypeBank type_bank)
+std::vector<int> AffectsCompute::get_assigns_affected_by(int stmt, int last_stmt_num, NextBank& next_bank, ModifiesBank& modifies_bank, UsesBank& uses_bank, TypeBank& type_bank,
+                                                         bool called_from_get_all_relationship)
 {
-    if (!affects_cache.empty())
+    if (called_from_get_all_relationship)
     {
-        return affects_cache.get(stmt);
+        if (affects_cache.empty())
+        {
+            std::vector<int> result;
+
+            for (int i = 1; i <= last_stmt_num; i++)
+            {
+                if (!can_exist_affects(stmt, i, next_bank, modifies_bank, uses_bank, type_bank))
+                {
+                    continue;
+                }
+
+                if (dfs_checking_assigns_affect(stmt, i, next_bank, modifies_bank, uses_bank, type_bank))
+                {
+                    result.push_back(i);
+                }
+            }
+            return result;
+        }
     }
-
-    std::vector<int> result;
-
-    for (int i = 1; i <= last_stmt_num; i++)
+    else
     {
-        if (!can_exist_affects(stmt, i, next_bank, modifies_bank, uses_bank, type_bank))
+        if (!affects_cache.empty())
         {
-            continue;
+            return affects_cache.get(stmt);
         }
-
-        if (dfs_checking_assigns_affect(stmt, i, next_bank, modifies_bank, uses_bank, type_bank))
+        else
         {
-            result.push_back(i);
+            get_all_affects_relationship(last_stmt_num, next_bank, modifies_bank, uses_bank, type_bank);
+            return affects_cache.get(stmt);
         }
     }
-    return result;
 }
 
-bool AffectsCompute::does_affects_exist(int last_stmt_num, NextBank next_bank, ModifiesBank modifies_bank, UsesBank uses_bank, TypeBank type_bank)
+bool AffectsCompute::does_affects_exist(int last_stmt_num, NextBank& next_bank, ModifiesBank& modifies_bank, UsesBank& uses_bank, TypeBank& type_bank)
 {
     if (!affects_cache.empty())
     {
         return true;
     }
-
+    else
+    {
+        get_all_affects_relationship(last_stmt_num, next_bank, modifies_bank, uses_bank, type_bank);
+        return !affects_cache.empty();
+    }
+/*
     std::vector<int> assign_stmts = type_bank.get_all_of_type(EntityType::ASSIGN);
 
     for (int i: assign_stmts)
@@ -127,10 +168,10 @@ bool AffectsCompute::does_affects_exist(int last_stmt_num, NextBank next_bank, M
             return true;
         }
     }
-    return false;
+    return false;*/
 }
 
-bool AffectsCompute::is_affects(int stmt1, int stmt2, NextBank next_bank, ModifiesBank modifies_bank, UsesBank uses_bank, TypeBank type_bank)
+bool AffectsCompute::is_affects(int stmt1, int stmt2, int last_stmt_num, NextBank& next_bank, ModifiesBank& modifies_bank, UsesBank& uses_bank, TypeBank& type_bank)
 {
     if (!affects_cache.empty())
     {
@@ -144,15 +185,28 @@ bool AffectsCompute::is_affects(int stmt1, int stmt2, NextBank next_bank, Modifi
             return false;
         }
     }
-
+    else
+    {
+        get_all_affects_relationship(last_stmt_num, next_bank, modifies_bank, uses_bank, type_bank);
+        std::vector<int> affected = affects_cache.get(stmt1);
+        if (find(affected.begin(), affected.end(), stmt2) != affected.end())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+/*
     if (can_exist_affects(stmt1, stmt2, next_bank, modifies_bank, uses_bank, type_bank))
     {
         return dfs_checking_is_affects(stmt1, stmt2, next_bank, modifies_bank, uses_bank, type_bank);
     }
-    return false;
+    return false;*/
 }
 
-bool AffectsCompute::can_exist_affects(int stmt1, int stmt2, NextBank next_bank, ModifiesBank modifies_bank, UsesBank uses_bank, TypeBank type_bank)
+bool AffectsCompute::can_exist_affects(int stmt1, int stmt2, NextBank& next_bank, ModifiesBank& modifies_bank, UsesBank& uses_bank, TypeBank& type_bank)
 {
     if (type_bank.get_statement_type(stmt1) != EntityType::ASSIGN || type_bank.get_statement_type(stmt2) != EntityType::ASSIGN)
     {
@@ -174,7 +228,7 @@ bool AffectsCompute::can_exist_affects(int stmt1, int stmt2, NextBank next_bank,
     return false;
 }
 
-bool AffectsCompute::modified_by_others(int stmt1, int inter_stmt, NextBank next_bank, ModifiesBank modifies_bank, UsesBank uses_bank, TypeBank type_bank)
+bool AffectsCompute::modified_by_others(int stmt1, int inter_stmt, NextBank& next_bank, ModifiesBank& modifies_bank, UsesBank& uses_bank, TypeBank& type_bank)
 {
     EntityType type = type_bank.get_statement_type(inter_stmt);
     if (type == EntityType::ASSIGN || type == EntityType::CALL || type == EntityType::READ)
@@ -194,8 +248,8 @@ bool AffectsCompute::modified_by_others(int stmt1, int inter_stmt, NextBank next
     }
     return false;
 }
-
-bool AffectsCompute::affects_other_stmts(int stmt, NextBank next_bank, ModifiesBank modifies_bank, UsesBank uses_bank, TypeBank type_bank)
+/*
+bool AffectsCompute::affects_other_stmts(int stmt, NextBank& next_bank, ModifiesBank& modifies_bank, UsesBank& uses_bank, TypeBank& type_bank)
 {
     if (type_bank.get_statement_type(stmt) != EntityType::ASSIGN)
     {
@@ -204,7 +258,7 @@ bool AffectsCompute::affects_other_stmts(int stmt, NextBank next_bank, ModifiesB
     return dfs_checking_all_assign_affects(stmt, next_bank, modifies_bank, uses_bank, type_bank);
 }
 
-bool AffectsCompute::affected_by_other_stmts(int stmt, NextBank next_bank, ModifiesBank modifies_bank, UsesBank uses_bank, TypeBank type_bank)
+bool AffectsCompute::affected_by_other_stmts(int stmt, NextBank& next_bank, ModifiesBank& modifies_bank, UsesBank& uses_bank, TypeBank& type_bank)
 {
     if (type_bank.get_statement_type(stmt) != EntityType::ASSIGN)
     {
@@ -213,7 +267,7 @@ bool AffectsCompute::affected_by_other_stmts(int stmt, NextBank next_bank, Modif
     return dfs_checking_all_assigns_affected(stmt, next_bank, modifies_bank, uses_bank, type_bank);
 }
 
-bool AffectsCompute::dfs_checking_is_affects(int stmt1, int stmt2, NextBank next_bank, ModifiesBank modifies_bank, UsesBank uses_bank, TypeBank type_bank)
+bool AffectsCompute::dfs_checking_is_affects(int stmt1, int stmt2, NextBank& next_bank, ModifiesBank& modifies_bank, UsesBank& uses_bank, TypeBank& type_bank)
 {
     std::unordered_set<int> visited;
     std::vector<int> next_stmts = next_bank.get_statements_next(stmt1);
@@ -250,7 +304,7 @@ bool AffectsCompute::dfs_checking_is_affects(int stmt1, int stmt2, NextBank next
     return false;
 }
 
-bool AffectsCompute::dfs_checking_all_assign_affects(int stmt, NextBank next_bank, ModifiesBank modifies_bank, UsesBank uses_bank, TypeBank type_bank)
+bool AffectsCompute::dfs_checking_all_assign_affects(int stmt, NextBank& next_bank, ModifiesBank& modifies_bank, UsesBank& uses_bank, TypeBank& type_bank)
 {
     std::string mod_var = modifies_bank.get_modified_by_statement(stmt)[0];
     std::unordered_set<int> visited;
@@ -303,7 +357,7 @@ bool AffectsCompute::dfs_checking_all_assign_affects(int stmt, NextBank next_ban
     return false;
 }
 
-bool AffectsCompute::dfs_checking_all_assigns_affected(int stmt, NextBank next_bank, ModifiesBank modifies_bank, UsesBank uses_bank, TypeBank type_bank)
+bool AffectsCompute::dfs_checking_all_assigns_affected(int stmt, NextBank& next_bank, ModifiesBank& modifies_bank, UsesBank& uses_bank, TypeBank& type_bank)
 {
     std::vector<std::string> used_vars = uses_bank.get_used_by_statement(stmt);
     std::unordered_set<int> visited;
@@ -358,8 +412,8 @@ bool AffectsCompute::dfs_checking_all_assigns_affected(int stmt, NextBank next_b
     }
     return false;
 }
-
-bool AffectsCompute::dfs_checking_assigns_affect(int stmt, int target, NextBank next_bank, ModifiesBank modifies_bank, UsesBank uses_bank, TypeBank type_bank)
+*/
+bool AffectsCompute::dfs_checking_assigns_affect(int stmt, int target, NextBank& next_bank, ModifiesBank& modifies_bank, UsesBank& uses_bank, TypeBank& type_bank)
 {
     std::unordered_set<int> visited;
     std::vector<int> next_stmts = next_bank.get_statements_next(stmt);

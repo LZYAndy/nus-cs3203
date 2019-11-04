@@ -901,6 +901,8 @@ private:
     CallsBank calls_bank;
     CallsStarBank calls_star_bank;
     IfBank if_bank;
+    NextStarCompute next_star_compute;
+    AffectsCompute affects_compute;
     AffectsStarCompute affects_star_compute;
     int last_statement_num = 0;
 };
