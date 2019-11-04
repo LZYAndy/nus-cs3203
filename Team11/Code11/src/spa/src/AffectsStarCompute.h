@@ -18,7 +18,7 @@ public:
      * @param assignment2 assignment statement that is affected
      * @return true if Affects* relationship holds for the 2 assignment statement.
      */
-    bool is_affects_star(PKB& pkb, int assignment1, int assignment2);
+    bool is_affects_star(PKB& pkb, int assignment1, int assignment2, bool called_by_affects_star);
     /**
      * Get all assignment statement that affects the quried assignment statement directly or indirectly.
      * That is to say Affects*(1, a).
@@ -32,7 +32,7 @@ public:
      * @param assignment quried assignment statement
      * @return vector containing all the statement numbers of assignment statement affects quried assignment.
      */
-    std::vector<int> get_affected_star(PKB& pkb, int assignment);
+    std::vector<int> get_affected_star(PKB& pkb, int assignment, bool called_from_all_relationship);
     /**
      * Get all Affects* relationship that exists.
      * @return unodered_map that contains all the affects* relationship.

@@ -741,12 +741,12 @@ unordered_map<int, vector<int>> PKB::get_all_next_bip_relationship()
 }
 bool PKB::is_affects_star(int assignment1, int assignment2)
 {
-    return affects_star_compute.is_affects_star(*this, assignment1, assignment2);
+    return affects_star_compute.is_affects_star(*this, assignment1, assignment2, false);
 }
 
 vector<int> PKB::get_affected_star(int assignment)
 {
-    return affects_star_compute.get_affected_star(*this, assignment);
+    return affects_star_compute.get_affected_star(*this, assignment, false);
 }
 
 vector<int> PKB::get_affects_star(int assignment)
