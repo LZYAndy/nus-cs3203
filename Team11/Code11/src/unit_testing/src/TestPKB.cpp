@@ -3882,7 +3882,7 @@ TEST_CASE("PKB::is_affects_star()")
     }
 }
 
-TEST_CASE("PKB::get_affects_star()")
+TEST_CASE("PKB::get_affected_star()")
 {
     PKB pkb;
     pkb.insert_assign(1, "x", "+ y z");
@@ -3927,12 +3927,12 @@ TEST_CASE("PKB::get_affects_star()")
 
     SECTION("fails")
     {
-        REQUIRE(pkb.get_affects_star(3).empty());
+        REQUIRE(pkb.get_affected_star(3).empty());
     }
 
     SECTION("success")
     {
-        vector<int> result = pkb.get_affects_star(1);
+        vector<int> result = pkb.get_affected_star(1);
         vector<int> expected;
         expected.push_back(2);
         expected.push_back(3);
@@ -3942,7 +3942,7 @@ TEST_CASE("PKB::get_affects_star()")
     }
 }
 
-TEST_CASE("PKB::get_affected_star()")
+TEST_CASE("PKB::get_affects_star()")
 {
     PKB pkb;
     pkb.insert_assign(1, "x", "+ y z");
@@ -3964,12 +3964,12 @@ TEST_CASE("PKB::get_affected_star()")
 
     SECTION("fails")
     {
-        REQUIRE(pkb.get_affected_star(1).empty());
+        REQUIRE(pkb.get_affects_star(1).empty());
     }
 
     SECTION("success")
     {
-        vector<int> result = pkb.get_affected_star(3);
+        vector<int> result = pkb.get_affects_star(3);
         vector<int> expected;
         expected.push_back(2);
         expected.push_back(1);
