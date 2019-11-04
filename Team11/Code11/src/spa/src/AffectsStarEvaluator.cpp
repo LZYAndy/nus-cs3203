@@ -22,6 +22,12 @@ unordered_map<string, vector<string>> AffectsStarEvaluator::evaluate_non_trivial
             vector<int> int_vec = PKB.get_affects_star(stoi(second_name));
             result = QueryUtility::mapping(first_param, int_vec, PKB);
         }
+        else if (first_param.equals(second_param))
+        {
+            // e.g. Affects*(a, a)
+            unordered_map<int, vector<int>> int_map = PKB.get_all_affects_star_relationship();
+            result = QueryUtility::mapping(first_param, second_param, first_name, second_name, int_map, PKB);
+        }
         else
         {
             // e.g. Affects*(a1, a2), where a1 could equal to a2

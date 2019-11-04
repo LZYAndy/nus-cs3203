@@ -22,6 +22,12 @@
 //            vector<int> int_vec = PKB.get_assigns_affect_bip(stoi(second_name));
 //            result = QueryUtility::mapping(first_param, int_vec, PKB);
 //        }
+//        else if (first_param.equals(second_param))
+//        {
+//            // e.g. AffectsBip(a, a)
+//            unordered_map<int, vector<int>> int_map = PKB.get_all_affects_bip_relationship();
+//            result = QueryUtility::mapping(first_param, second_param, first_name, second_name, int_map, PKB);
+//        }
 //        else
 //        {
 //            // e.g. AffectsBip(a1, a2), where a1 could equal to a2
