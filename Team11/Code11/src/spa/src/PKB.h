@@ -23,7 +23,6 @@
 #include "CallsBank.h"
 #include "CallsStarBank.h"
 #include "IfBank.h"
-#include "NextBipBank.h"
 #include "AffectsCompute.h"
 #include "AffectsStarCompute.h"
 #include "NextStarCompute.h"
@@ -1027,9 +1026,9 @@ public:
      */
     vector<int> get_affected_bip_star(int assignment);
     /**
-    * Get all AffectsBip* that exists.
-    * @return a unordered_map of AffectBip relationship that exists
-    */
+     * Get all AffectsBip* that exists.
+     * @return a unordered_map of AffectBip relationship that exists
+     */
     unordered_map<int, vector<int>> get_all_affects_bip_star_relationship();
     /**
      * Get the first program line of the procedure

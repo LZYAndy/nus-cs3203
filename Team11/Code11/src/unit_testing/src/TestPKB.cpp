@@ -4667,7 +4667,6 @@ TEST_CASE("PKB::get_all_next_bip_star_relationship")
     }
 }
 
-
 TEST_CASE("PKB::is_affects_bip()")
 {
     PKB pkb;
