@@ -1,11 +1,14 @@
 #include "PKB.h"
 
 using namespace std;
-
-bool PKB::insert_procedure(string name)
+PKB::PKB()
 {
-    auto result = proc_table.emplace(name);
-    return result.second;
+    next_bip_star_compute = NextBipStarCompute(&next_bip_bank, &type_bank);
+}
+
+bool PKB::insert_procedure(string name, int first_prog, vector<int> last_progs)
+{
+    return proc_bank.insert_procedure(name, first_prog, last_progs);
 }
 
 bool PKB::insert_variable(string name)
@@ -52,7 +55,12 @@ vector<int> PKB::get_all_statement_nums()
 
 unordered_set<string> PKB::get_all_procedures()
 {
-    return proc_table;
+    unordered_set<string> result;
+    for(string procedure : proc_bank.get_all_procedures())
+    {
+        result.insert(procedure);
+    }
+    return result;
 }
 
 vector<int> PKB::get_statements_modifies(string variable)
@@ -133,7 +141,12 @@ bool PKB::extract_design()
     DesignExtractor::extract_follows_star(follows_bank, follows_star_bank);
     DesignExtractor::extract_parent_star(parent_bank, parent_star_bank, uses_bank, modifies_bank);
     bool result_calls = DesignExtractor::extract_calls_star(calls_bank, calls_star_bank, uses_bank, modifies_bank, parent_star_bank);
-    return result_calls;
+    if (!result_calls)
+    {
+        return false;
+    }
+    DesignExtractor::extract_next_bip(*this);
+    return true;
 }
 
 bool PKB::insert_parent(int stmt1, int stmt2)
@@ -682,6 +695,50 @@ string PKB::get_called_by_statement(int stmt)
     return calls_bank.get_called_by_statement(stmt);
 }
 
+bool PKB::insert_next_bip(int prev_prog, int next_prog)
+{
+    return next_bip_bank.insert_next_bip(prev_prog, next_prog);
+}
+
+bool PKB::is_next_bip(int prev_prog, int next_prog)
+{
+    return next_bip_bank.is_next_bip(prev_prog, next_prog);
+}
+
+bool PKB::insert_call_ingress_egress(int ingress_prog, int egress_prog)
+{
+    return next_bip_bank.insert_call_ingress_egress(ingress_prog, egress_prog);
+}
+
+bool PKB::does_next_bip_exists()
+{
+    return next_bip_bank.does_next_bip_exists();
+}
+
+vector<int> PKB::get_next_bip(int prog_line)
+{
+    return next_bip_bank.get_next_bip(prog_line);
+}
+
+vector<int> PKB::get_previous_bip(int prog_line)
+{
+    return next_bip_bank.get_previous_bip(prog_line);
+}
+
+vector<int> PKB::get_all_next_bip()
+{
+    return next_bip_bank.get_all_next_bip();
+}
+
+vector<int> PKB::get_all_previous_bip()
+{
+    return next_bip_bank.get_all_previous_bip();
+}
+
+unordered_map<int, vector<int>> PKB::get_all_next_bip_relationship()
+{
+    return next_bip_bank.get_all_next_bip_relationship();
+}
 bool PKB::is_affects_star(int assignment1, int assignment2)
 {
     return affects_star_compute.is_affects_star(*this, assignment1, assignment2);
@@ -700,4 +757,34 @@ vector<int> PKB::get_affects_star(int assignment)
 unordered_map<int, vector<int>> PKB::get_all_affects_star_relationship()
 {
     return affects_star_compute.get_all_affects_star_relationship(*this);
+}
+
+bool PKB::is_next_bip_star(int previous, int next)
+{
+    return next_bip_star_compute.is_next_bip_star(previous, next);
+}
+
+vector<int> PKB::get_next_bip_star(int previous)
+{
+    return next_bip_star_compute.get_next_bip_star(previous);
+}
+
+vector<int> PKB::get_previous_bip_star(int next)
+{
+    return next_bip_star_compute.get_previous_bip_star(next);
+}
+
+unordered_map<int, vector<int>> PKB::get_all_next_bip_star_relationship()
+{
+    return next_bip_star_compute.get_all_next_bip_star_relationship();
+}
+
+int PKB::get_procedure_first_line(string procedure)
+{
+    return proc_bank.get_procedure_first_line(procedure);
+}
+
+vector<int> PKB::get_procedure_last_lines(string procedure)
+{
+    return proc_bank.get_procedure_last_lines(procedure);
 }

@@ -311,3 +311,21 @@ TEST_CASE("DesignExtractor::extract_calls_star()")
         }
     }
 }
+
+TEST_CASE("DesignExtractor::extract_next_bip")
+{
+    SECTION("SIMPLE SANITY CHECK")
+    {
+        PKB pkb;
+        pkb.insert_procedure("B", 4, {5});
+        pkb.insert_next(1, 2);
+        pkb.insert_next(2, 3);
+        pkb.insert_type(2, EntityType::CALL);
+        pkb.insert_calls(2, "A", "B");
+        pkb.insert_next(4, 5);
+        pkb.extract_design();
+
+        REQUIRE(pkb.is_next_bip(2,4));
+        REQUIRE(pkb.is_next_bip(5,3));
+    }
+}

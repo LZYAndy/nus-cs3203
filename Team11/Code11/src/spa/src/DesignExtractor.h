@@ -2,6 +2,8 @@
 #ifndef AUTOTESTER_DESIGNEXTRACTOR_H
 #define AUTOTESTER_DESIGNEXTRACTOR_H
 
+#include <stack>
+
 #include "Bank.h"
 #include "FollowsBank.h"
 #include "FollowsStarBank.h"
@@ -11,7 +13,9 @@
 #include "ModifiesBank.h"
 #include "CallsBank.h"
 #include "CallsStarBank.h"
+#include "PKB.h"
 
+class PKB;
 class DesignExtractor
 {
 public:
@@ -51,6 +55,8 @@ public:
      */
     static bool extract_calls_star(CallsBank &bank_in, CallsStarBank &bank_out, UsesBank &uses_bank, ModifiesBank &modifies_bank, ParentStarBank &parent_star_bank);
     
+    static bool extract_next_bip(PKB &pkb);
+
 private:
     static void extract_further_parents_child(ParentBank &bank_in, ParentStarBank &bank_out,
             UsesBank &uses_bank, ModifiesBank &modifies_bank, std::vector<int> parents, int child);
