@@ -132,6 +132,10 @@ std::vector<int> AffectsCompute::get_assigns_affected_by(int stmt, int last_stmt
             }
             return result;
         }
+        else
+        {
+            return affects_cache.get(stmt);
+        }
     }
     else
     {
