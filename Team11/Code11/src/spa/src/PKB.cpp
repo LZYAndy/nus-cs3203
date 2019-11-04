@@ -6,10 +6,9 @@ PKB::PKB()
     next_bip_star_compute = NextBipStarCompute(&next_bip_bank, &type_bank);
 }
 
-bool PKB::insert_procedure(string name)
+bool PKB::insert_procedure(string name, int first_prog, vector<int> last_progs)
 {
-    auto result = proc_table.emplace(name);
-    return result.second;
+    return proc_bank.insert_procedure(name, first_prog, last_progs);
 }
 
 bool PKB::insert_variable(string name)
@@ -56,7 +55,12 @@ vector<int> PKB::get_all_statement_nums()
 
 unordered_set<string> PKB::get_all_procedures()
 {
-    return proc_table;
+    unordered_set<string> result;
+    for(string procedure : proc_bank.get_all_procedures())
+    {
+        result.insert(procedure);
+    }
+    return result;
 }
 
 vector<int> PKB::get_statements_modifies(string variable)
@@ -773,4 +777,14 @@ vector<int> PKB::get_previous_bip_star(int next)
 unordered_map<int, vector<int>> PKB::get_all_next_bip_star_relationship()
 {
     return next_bip_star_compute.get_all_next_bip_star_relationship();
+}
+
+int PKB::get_procedure_first_line(string procedure)
+{
+    return proc_bank.get_procedure_first_line(procedure);
+}
+
+vector<int> PKB::get_procedure_last_lines(string procedure)
+{
+    return proc_bank.get_procedure_last_lines(procedure);
 }

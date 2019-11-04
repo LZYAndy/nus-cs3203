@@ -28,6 +28,7 @@
 #include "NextStarCompute.h"
 #include "NextBipBank.h"
 #include "NextBipStarCompute.h"
+#include "ProcBank.h"
 
 using namespace std;
 
@@ -38,11 +39,13 @@ public:
     PKB();
     // Insert APIs
     /**
-     * Insert a procedure into the proc_table.
+     * Insert procedure info into PKB.
      * @param name
+     * @param first_prog procedure first program line
+     * @param last_progs last program lines in procedure before exit procedure
      * @return Return true if the procedure is inserted successfully, otherwise false.
      */
-    bool insert_procedure(string name);
+    bool insert_procedure(string name, int first_prog, vector<int> last_progs);
 
     /**
      * Insert a variable into the var_table.
@@ -203,7 +206,7 @@ public:
     vector<int> get_all_calls();
 
     /**
-     * Get all procedures in the proc_table.
+     * Get all procedures in the PKB.
      * @return Return a string unordered_set of procedures that are contained in the proc_table.
      */
     unordered_set<string> get_all_procedures();
@@ -962,6 +965,18 @@ public:
      * @return an unordered_map contains all NextBip* relationship
      */
     unordered_map<int, vector<int>> get_all_next_bip_star_relationship();
+    /**
+     * Get the first program line of the procedure
+     * @param procedure quried procedure
+     * @return the first program line of the procedure quried
+     */
+    int get_procedure_first_line(string procedure);
+    /**
+     * Get the last program lines in procedure before exit procedure
+     * @param procedure quried procedure
+     * @return the last program lines in procedure before exit procedure
+     */
+    vector<int> get_procedure_last_lines(string procedure);
 
 private:
     FollowsBank follows_bank;
@@ -970,7 +985,6 @@ private:
     ParentStarBank parent_star_bank;
     AssignBank assign_bank;
     unordered_set<string> var_table;
-    unordered_set<string> proc_table;
     unordered_set<string> const_table;
     UsesBank uses_bank;
     ModifiesBank modifies_bank;
@@ -983,6 +997,7 @@ private:
     NextBipBank next_bip_bank;
     AffectsStarCompute affects_star_compute;
     NextBipStarCompute next_bip_star_compute;
+    ProcBank proc_bank;
     int last_statement_num = 0;
 };
 

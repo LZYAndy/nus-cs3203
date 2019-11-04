@@ -52,10 +52,6 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
             {
                 is_select_bool = true;
             }
-            else if (select_type == EntityType::FIX)
-            {
-                select_map[select_name] = vector<string> {select_entity.get_solution()};
-            }
             else if (select_type == EntityType::VARIABLE || select_type == EntityType::PROCEDURE || select_type == EntityType::CONSTANT || select_type == EntityType::BOOLEAN)
             {
                 select_map[select_name] = QueryUtility::get_certain_type_str_list(select_type, PKB);
@@ -450,33 +446,33 @@ pair<bool, unordered_map<string, vector<string>>> QueryEvaluator::evaluateSuchTh
         }
     }
 
-//    if (relation_type == RelationshipType::AFFECTS)
-//    {
-//        if (!relation.is_relationship_star())
-//        {
-//            if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
-//            {
-//                trivial_result = AffectsEvaluator::evaluate_trivial(first_param, second_param, PKB);
-//                return make_pair(trivial_result, empty_map);
-//            }
-//            else
-//            {
-//                intermediary_map = AffectsEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
-//            }
-//        }
-//        else
-//        {
-//            if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
-//            {
-//                trivial_result = AffectsStarEvaluator::evaluate_trivial(first_param, second_param, PKB);
-//                return make_pair(trivial_result, empty_map);
-//            }
-//            else
-//            {
-//                intermediary_map = AffectsStarEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
-//            }
-//        }
-//    }
+    if (relation_type == RelationshipType::AFFECTS)
+    {
+        if (!relation.is_relationship_star())
+        {
+            if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
+            {
+                trivial_result = AffectsEvaluator::evaluate_trivial(first_param, second_param, PKB);
+                return make_pair(trivial_result, empty_map);
+            }
+            else
+            {
+                intermediary_map = AffectsEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
+            }
+        }
+        else
+        {
+            if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
+            {
+                trivial_result = AffectsStarEvaluator::evaluate_trivial(first_param, second_param, PKB);
+                return make_pair(trivial_result, empty_map);
+            }
+            else
+            {
+                intermediary_map = AffectsStarEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
+            }
+        }
+    }
 
     cache.insert_clause(relation, first_param, second_param, intermediary_map);
     return make_pair(trivial_result, intermediary_map);
