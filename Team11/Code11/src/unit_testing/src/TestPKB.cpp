@@ -3882,7 +3882,7 @@ TEST_CASE("PKB::is_affects_star()")
     }
 }
 
-TEST_CASE("PKB::get_affects_star()")
+TEST_CASE("PKB::get_affected_star()")
 {
     PKB pkb;
     pkb.insert_assign(1, "x", "+ y z");
@@ -3927,12 +3927,12 @@ TEST_CASE("PKB::get_affects_star()")
 
     SECTION("fails")
     {
-        REQUIRE(pkb.get_affects_star(3).empty());
+        REQUIRE(pkb.get_affected_star(3).empty());
     }
 
     SECTION("success")
     {
-        vector<int> result = pkb.get_affects_star(1);
+        vector<int> result = pkb.get_affected_star(1);
         vector<int> expected;
         expected.push_back(2);
         expected.push_back(3);
@@ -3942,7 +3942,7 @@ TEST_CASE("PKB::get_affects_star()")
     }
 }
 
-TEST_CASE("PKB::get_affected_star()")
+TEST_CASE("PKB::get_affects_star()")
 {
     PKB pkb;
     pkb.insert_assign(1, "x", "+ y z");
@@ -3964,12 +3964,12 @@ TEST_CASE("PKB::get_affected_star()")
 
     SECTION("fails")
     {
-        REQUIRE(pkb.get_affected_star(1).empty());
+        REQUIRE(pkb.get_affects_star(1).empty());
     }
 
     SECTION("success")
     {
-        vector<int> result = pkb.get_affected_star(3);
+        vector<int> result = pkb.get_affects_star(3);
         vector<int> expected;
         expected.push_back(2);
         expected.push_back(1);
@@ -4261,5 +4261,227 @@ TEST_CASE("PKB::get_called_by_statement()")
     {
         pkb.insert_calls(1, "hello", "world");
         REQUIRE(pkb.get_called_by_statement(1).compare("world") == 0);
+    }
+}
+
+TEST_CASE("PKB::get_next_bip")
+{
+    PKB pkb;
+    pkb.insert_next_bip(1, 2);
+    pkb.insert_next_bip(2, 4);
+    pkb.insert_next_bip(4, 5);
+    pkb.insert_next_bip(4, 6);
+    pkb.insert_next_bip(5, 4);
+    pkb.insert_next_bip(6, 7);
+
+    SECTION("no next bip")
+    {
+        REQUIRE(pkb.get_next_bip(7).empty());
+        REQUIRE(pkb.get_next_bip(0).empty());
+    }
+
+    SECTION("1 next bip")
+    {
+        std::vector<int> result = pkb.get_next_bip(1);
+        REQUIRE(result.size() == 1);
+        REQUIRE(result == std::vector<int>({2}));
+    }
+
+    SECTION(">1 next bip")
+    {
+        std::vector<int> result = pkb.get_next_bip(4);
+        REQUIRE(result.size() == 2);
+        std::vector<int> expected({5, 6});
+        std::sort(result.begin(), result.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(expected == result);
+    }
+}
+
+TEST_CASE("PKB::get_previous_bip")
+{
+    PKB pkb;
+    pkb.insert_next_bip(1, 2);
+    pkb.insert_next_bip(2, 4);
+    pkb.insert_next_bip(4, 5);
+    pkb.insert_next_bip(4, 6);
+    pkb.insert_next_bip(5, 4);
+    pkb.insert_next_bip(6, 7);
+
+    SECTION("no previous bip")
+    {
+        REQUIRE(pkb.get_previous_bip(1).empty());
+        REQUIRE(pkb.get_previous_bip(8).empty());
+    }
+
+    SECTION("1 previous bip")
+    {
+        std::vector<int> result = pkb.get_previous_bip(7);
+        REQUIRE(result.size() == 1);
+        REQUIRE(result == std::vector<int>({6}));
+    }
+
+    SECTION(">1 previous bip")
+    {
+        std::vector<int> result = pkb.get_previous_bip(4);
+        REQUIRE(result.size() == 2);
+        std::vector<int> expected({5, 2});
+        std::sort(result.begin(), result.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(expected == result);
+    }
+}
+
+TEST_CASE("PKB::get_all_next_bip")
+{
+    PKB pkb;
+    
+    SECTION("no next bip")
+    {
+        REQUIRE(pkb.get_all_next_bip().empty());
+    }
+    
+    pkb.insert_next_bip(1, 2);
+   
+    SECTION("1 next bip")
+    {
+        std::vector<int> result = pkb.get_all_next_bip();
+        REQUIRE(result.size() == 1);
+        REQUIRE(result == std::vector<int>({2}));
+    }
+
+    pkb.insert_next_bip(2, 4);
+    pkb.insert_next_bip(4, 5);
+    pkb.insert_next_bip(4, 6);
+    pkb.insert_next_bip(5, 4);
+    pkb.insert_next_bip(6, 7);
+
+    SECTION(">1 next bip")
+    {
+        std::vector<int> result = pkb.get_all_next_bip();
+        REQUIRE(result.size() == 5);
+        std::vector<int> expected({2, 4, 5, 6, 7});
+        std::sort(result.begin(), result.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(expected == result);
+    }
+}
+
+TEST_CASE("PKB::get_all_previous_bip")
+{
+    PKB pkb;
+    
+    SECTION("no previous bip")
+    {
+        REQUIRE(pkb.get_all_previous_bip().empty());
+    }
+    
+    pkb.insert_next_bip(1, 2);
+   
+    SECTION("1 previous bip")
+    {
+        std::vector<int> result = pkb.get_all_previous_bip();
+        REQUIRE(result.size() == 1);
+        REQUIRE(result == std::vector<int>({1}));
+    }
+
+    pkb.insert_next_bip(2, 4);
+    pkb.insert_next_bip(4, 5);
+    pkb.insert_next_bip(4, 6);
+    pkb.insert_next_bip(5, 4);
+    pkb.insert_next_bip(6, 7);
+
+    SECTION(">1 previous bip")
+    {
+        std::vector<int> result = pkb.get_all_previous_bip();
+        REQUIRE(result.size() == 5);
+        std::vector<int> expected({2, 4, 5, 6, 1});
+        std::sort(result.begin(), result.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(expected == result);
+    }
+}
+
+TEST_CASE("PKB::get_all_next_bip_relationship")
+{
+    PKB pkb;
+    
+    SECTION("no next bip")
+    {
+        REQUIRE(pkb.get_all_next_bip_relationship().empty());
+    }
+    
+    pkb.insert_next_bip(1, 2);
+   
+    SECTION("1 next bip")
+    {
+        std::unordered_map<int, std::vector<int>> result = pkb.get_all_next_bip_relationship();
+        REQUIRE(result.size() == 1);
+        REQUIRE(result[1] == std::vector<int>({2}));
+    }
+
+    pkb.insert_next_bip(2, 4);
+    pkb.insert_next_bip(4, 5);
+    pkb.insert_next_bip(4, 6);
+    pkb.insert_next_bip(5, 4);
+    pkb.insert_next_bip(6, 7);
+
+    SECTION(">1 next bip")
+    {
+        std::unordered_map<int, std::vector<int>> result = pkb.get_all_next_bip_relationship();
+        REQUIRE(result.size() == 5);
+
+        std::unordered_map<int, std::vector<int>> expected;
+        expected.insert({1, {2}});
+        expected.insert({2, {4}});
+        expected.insert({4, {5, 6}});
+        expected.insert({5, {4}});
+        expected.insert({6, {7}});
+        REQUIRE(expected == result);
+    }
+}
+
+TEST_CASE("PKB::is_next_bip")
+{
+    PKB pkb;
+    pkb.insert_next_bip(1, 2);
+    pkb.insert_next_bip(2, 4);
+    pkb.insert_next_bip(4, 5);
+    pkb.insert_next_bip(4, 6);
+    pkb.insert_next_bip(5, 4);
+    pkb.insert_next_bip(6, 7);
+
+    SECTION("false")
+    {
+        REQUIRE_FALSE(pkb.is_next_bip(1, 4));
+        REQUIRE_FALSE(pkb.is_next_bip(4, 4));
+    }
+
+    SECTION("true")
+    {
+        REQUIRE(pkb.is_next_bip(1, 2));
+        REQUIRE(pkb.is_next_bip(4, 6));
+    }
+}
+
+TEST_CASE("PKB::does_next_bip_exists")
+{
+    PKB pkb;
+
+    SECTION("false")
+    {
+        REQUIRE_FALSE(pkb.does_next_bip_exists());
+    }
+
+    pkb.insert_next_bip(1, 2);
+    pkb.insert_next_bip(2, 4);
+    pkb.insert_next_bip(4, 5);
+    pkb.insert_next_bip(4, 6);
+    pkb.insert_next_bip(5, 4);
+    pkb.insert_next_bip(6, 7);
+
+    SECTION("true")
+    {
+        REQUIRE(pkb.does_next_bip_exists());
     }
 }

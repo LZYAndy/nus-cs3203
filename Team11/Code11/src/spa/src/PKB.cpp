@@ -137,7 +137,12 @@ bool PKB::extract_design()
     DesignExtractor::extract_follows_star(follows_bank, follows_star_bank);
     DesignExtractor::extract_parent_star(parent_bank, parent_star_bank, uses_bank, modifies_bank);
     bool result_calls = DesignExtractor::extract_calls_star(calls_bank, calls_star_bank, uses_bank, modifies_bank, parent_star_bank);
-    return result_calls;
+    if (!result_calls)
+    {
+        return false;
+    }
+    DesignExtractor::extract_next_bip(*this);
+    return true;
 }
 
 bool PKB::insert_parent(int stmt1, int stmt2)
@@ -686,6 +691,50 @@ string PKB::get_called_by_statement(int stmt)
     return calls_bank.get_called_by_statement(stmt);
 }
 
+bool PKB::insert_next_bip(int prev_prog, int next_prog)
+{
+    return next_bip_bank.insert_next_bip(prev_prog, next_prog);
+}
+
+bool PKB::is_next_bip(int prev_prog, int next_prog)
+{
+    return next_bip_bank.is_next_bip(prev_prog, next_prog);
+}
+
+bool PKB::insert_call_ingress_egress(int ingress_prog, int egress_prog)
+{
+    return next_bip_bank.insert_call_ingress_egress(ingress_prog, egress_prog);
+}
+
+bool PKB::does_next_bip_exists()
+{
+    return next_bip_bank.does_next_bip_exists();
+}
+
+vector<int> PKB::get_next_bip(int prog_line)
+{
+    return next_bip_bank.get_next_bip(prog_line);
+}
+
+vector<int> PKB::get_previous_bip(int prog_line)
+{
+    return next_bip_bank.get_previous_bip(prog_line);
+}
+
+vector<int> PKB::get_all_next_bip()
+{
+    return next_bip_bank.get_all_next_bip();
+}
+
+vector<int> PKB::get_all_previous_bip()
+{
+    return next_bip_bank.get_all_previous_bip();
+}
+
+unordered_map<int, vector<int>> PKB::get_all_next_bip_relationship()
+{
+    return next_bip_bank.get_all_next_bip_relationship();
+}
 bool PKB::is_affects_star(int assignment1, int assignment2)
 {
     return affects_star_compute.is_affects_star(*this, assignment1, assignment2);
