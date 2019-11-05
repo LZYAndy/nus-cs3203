@@ -151,6 +151,7 @@ unordered_set<string> QueryEvaluator::select(vector<pql_dto::Entity> &select_cla
             return unordered_set<string> ({"TRUE"});
         }
     }
+
     // if the select type is tuple
     unordered_set<string> common_select_synonyms = QueryEvaluator::get_common_synonyms(final_map, select_map);
     unordered_map<string, vector<string>> acc_map;
@@ -165,14 +166,33 @@ unordered_set<string> QueryEvaluator::select(vector<pql_dto::Entity> &select_cla
 
     // cross product
     bool is_first_common_synonym = true;
-    result_vec.reserve(select_clause.size());
 
-    for (pql_dto::Entity clause : select_clause)
+    for (const auto& synonym : select_map)
     {
-        string synonym_name = clause.get_entity_name();
-        vector<string> synonym_vec = select_map[synonym_name];
         unordered_map<string, vector<string>> temp_map;
-        result_vec.push_back(QueryUtility::change_to_attributes(clause, synonym_vec, PKB));
+        if (common_select_synonyms.find(synonym.first) != common_select_synonyms.end() && is_first_common_synonym)
+        {
+            is_first_common_synonym = false;
+            for (const auto& cs : common_select_synonyms)
+            {
+                temp_map[cs] = select_map[cs];
+            }
+        }
+        else if (common_select_synonyms.find(synonym.first) != common_select_synonyms.end())
+        {
+            continue;
+        }
+        else
+        {
+            temp_map[synonym.first] = synonym.second;
+        }
+        acc_map = QueryEvaluator::merge_two_maps(temp_map, acc_map, QueryEvaluator::get_common_synonyms(temp_map, acc_map));
+    }
+
+    result_vec.reserve(select_clause.size());
+    for (auto entity : select_clause)
+    {
+        result_vec.push_back(QueryUtility::change_to_attributes(entity, acc_map.at(entity.get_entity_name()), PKB));
     }
 
     int height = result_vec.at(0).size();
@@ -478,6 +498,33 @@ pair<bool, unordered_map<string, vector<string>>> QueryEvaluator::evaluateSuchTh
             else
             {
                 intermediary_map = AffectsStarEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
+            }
+        }
+    }
+    else if (relation_type == RelationshipType::AFFECTSBIP)
+    {
+        if (!relation.is_relationship_star())
+        {
+            if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
+            {
+                trivial_result = AffectsBipEvaluator::evaluate_trivial(first_param, second_param, PKB);
+                return make_pair(trivial_result, empty_map);
+            }
+            else
+            {
+                intermediary_map = AffectsBipEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
+            }
+        }
+        else
+        {
+            if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
+            {
+                trivial_result = AffectsBipStarEvaluator::evaluate_trivial(first_param, second_param, PKB);
+                return make_pair(trivial_result, empty_map);
+            }
+            else
+            {
+                intermediary_map = AffectsBipStarEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
             }
         }
     }
