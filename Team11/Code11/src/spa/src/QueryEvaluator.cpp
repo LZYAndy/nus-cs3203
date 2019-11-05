@@ -131,6 +131,7 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
 
     // Select synonyms
     result = QueryEvaluator::select(select_clause, select_map, final_map, PKB);
+    PKB.clear_cache();
     return result;
 }
 
@@ -164,32 +165,16 @@ unordered_set<string> QueryEvaluator::select(vector<pql_dto::Entity> &select_cla
 
     // cross product
     bool is_first_common_synonym = true;
-    for (const auto& synonym : select_map)
-    {
-        unordered_map<string, vector<string>> temp_map;
-        if (common_select_synonyms.find(synonym.first) != common_select_synonyms.end() && is_first_common_synonym)
-        {
-            is_first_common_synonym = false;
-            for (const auto& cs : common_select_synonyms)
-            {
-                temp_map[cs] = QueryUtility::change_to_attributes(select_clause.at(QueryEvaluator::get_element_index_in_map(select_map, cs)), select_map.at(cs), PKB);
-            }
-        }
-        else if (common_select_synonyms.find(synonym.first) != common_select_synonyms.end())
-        {
-            continue;
-        }
-        else
-        {
-            temp_map[synonym.first] = QueryUtility::change_to_attributes(select_clause.at(QueryEvaluator::get_element_index_in_map(select_map, synonym.first)), synonym.second, PKB);
-        }
-        acc_map = QueryEvaluator::merge_two_maps(temp_map, acc_map, QueryEvaluator::get_common_synonyms(temp_map, acc_map));
-    }
     result_vec.reserve(select_clause.size());
-    for (auto entity : select_clause)
+
+    for (pql_dto::Entity clause : select_clause)
     {
-        result_vec.push_back(acc_map.at(entity.get_entity_name()));
+        string synonym_name = clause.get_entity_name();
+        vector<string> synonym_vec = select_map[synonym_name];
+        unordered_map<string, vector<string>> temp_map;
+        result_vec.push_back(QueryUtility::change_to_attributes(clause, synonym_vec, PKB));
     }
+
     int height = result_vec.at(0).size();
     int width = result_vec.size();
     vector<string> temp_vec;
