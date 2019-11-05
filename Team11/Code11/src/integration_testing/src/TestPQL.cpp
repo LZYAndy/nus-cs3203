@@ -925,4 +925,18 @@ TEST_CASE("Multiple select, such that, and pattern")
         unordered_set<string> expected_result {};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
+
+    SECTION("select tuple, multiple clauses")
+    {
+        string pql_query = "procedure p; call cl; Select <p, cl> such that Next(1, 2)";
+        unordered_set<string> expected_result {"main 2", "main 3", "main 13", "main 18", "readPoint 2", "readPoint 3", "readPoint 13", "readPoint 18", "printResults 2", "printResults 3", "printResults 13", "printResults 18", "computeCentroid 2", "computeCentroid 3", "computeCentroid 13", "computeCentroid 18", "whileIfProc 2", "whileIfProc 3", "whileIfProc 13", "whileIfProc 18"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("select tuple, multiple clauses")
+    {
+        string pql_query = "call cl; Select <cl, cl, cl> such that Follows*(_, _)";
+        unordered_set<string> expected_result {"2 2 2", "3 3 3", "13 13 13", "18 18 18"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
 }
