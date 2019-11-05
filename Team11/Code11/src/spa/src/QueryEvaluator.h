@@ -24,9 +24,13 @@
 #include <CallsEvaluator.h>
 #include <CallsStarEvaluator.h>
 #include <NextEvaluator.h>
+#include <NextBipEvaluator.h>
 #include <NextStarEvaluator.h>
+#include <NextBipStarEvaluator.h>
 #include <AffectsEvaluator.h>
+#include <AffectsBipEvaluator.h>
 #include <AffectsStarEvaluator.h>
+#include <AffectsBipStarEvaluator.h>
 #include <WhileEvaluator.h>
 #include <IfEvaluator.h>
 #include <WithEvaluator.h>

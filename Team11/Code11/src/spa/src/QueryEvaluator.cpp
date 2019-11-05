@@ -448,6 +448,34 @@ pair<bool, unordered_map<string, vector<string>>> QueryEvaluator::evaluateSuchTh
         }
     }
 
+    if (relation_type == RelationshipType::NEXTBIP)
+    {
+        if (!relation.is_relationship_star())
+        {
+            if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
+            {
+                trivial_result = NextBipEvaluator::evaluate_trivial(first_param, second_param, PKB);
+                return make_pair(trivial_result, empty_map);
+            }
+            else
+            {
+                intermediary_map = NextBipEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
+            }
+        }
+        else
+        {
+            if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
+            {
+                trivial_result = NextBipStarEvaluator::evaluate_trivial(first_param, second_param, PKB);
+                return make_pair(trivial_result, empty_map);
+            }
+            else
+            {
+                intermediary_map = NextBipStarEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
+            }
+        }
+    }
+
     if (relation_type == RelationshipType::AFFECTS)
     {
         if (!relation.is_relationship_star())
