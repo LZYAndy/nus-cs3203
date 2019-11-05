@@ -13,13 +13,13 @@ unordered_map<string, vector<string>> AffectsBipEvaluator::evaluate_non_trivial(
         if (second_param.get_entity_type() == EntityType::ANY)
         {
             // e.g. AffectsBip(a, _)
-            vector<int> int_vec = PKB.get_all_assigns_affect_bip();
+            vector<int> int_vec = PKB.get_all_assigns_affects_bip();
             result = QueryUtility::mapping(first_param, int_vec, PKB);
         }
         else if (QueryUtility::is_statement_num(second_param))
         {
             // e.g. AffectsBip(a, 2)
-            vector<int> int_vec = PKB.get_assigns_affect_bip(stoi(second_name));
+            vector<int> int_vec = PKB.get_assigns_affects_bip(stoi(second_name));
             result = QueryUtility::mapping(first_param, int_vec, PKB);
         }
         else if (first_param.equals(second_param))
@@ -71,7 +71,7 @@ bool AffectsBipEvaluator::evaluate_trivial(pql_dto::Entity &first_param,
         else if (QueryUtility::is_statement_num(second_param))
         {
             // e.g. AffectsBip(_, 2)
-            result = !PKB.get_assigns_affect_bip(stoi(second_name)).empty();
+            result = !PKB.get_assigns_affects_bip(stoi(second_name)).empty();
         }
     }
 
