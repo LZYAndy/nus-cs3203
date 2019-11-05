@@ -52,9 +52,9 @@ public:
     static bool evaluateBoolGroup(deque<pql_dto::Constraint> &group, PKB &PKB, Cache &cache);
     static bool evaluateGroup(vector<pql_dto::Constraint> &group, PKB &PKB, Cache &cache);
     static unordered_set<string> evaluateEmptyMap(bool is_select_bool);
-    static pair<bool, unordered_map<string, vector<string>>> evaluateSuchThat(pql_dto::Relationships &relation, PKB &PKB, Cache &cache);
-    static unordered_map<string, vector<string>> evaluatePattern(pql_dto::Pattern &pattern, PKB &PKB, Cache &cache);
-    static unordered_map<string, vector<string>> evaluateWith(pql_dto::With &with, PKB &PKB, Cache &cache);
+    static pair<bool, unordered_map<string, vector<string>>> evaluateSuchThat(pql_dto::Constraint clause, pql_dto::Relationships &relation, PKB &PKB, Cache &cache);
+    static unordered_map<string, vector<string>> evaluatePattern(pql_dto::Constraint clause, pql_dto::Pattern &pattern, PKB &PKB, Cache &cache);
+    static unordered_map<string, vector<string>> evaluateWith(pql_dto::Constraint clause, pql_dto::With &with, PKB &PKB, Cache &cache);
     static unordered_set<string> get_common_synonyms(unordered_map<string, vector<string>> &map_1,
             unordered_map<string, vector<string>> &map_2);
     static unordered_set<string> get_common_synonyms(unordered_map<string, vector<string>> &map_1,
