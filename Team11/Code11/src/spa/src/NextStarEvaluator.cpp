@@ -24,6 +24,8 @@ unordered_map<string, vector<string>> NextStarEvaluator::evaluate_non_trivial(pq
         }
         else if (first_param.equals(second_param))
         {
+
+            // e.g. Next*(n, n)
             unordered_map<int, vector<int>> int_map = PKB.get_all_next_star_relationship();
             result = QueryUtility::mapping(first_param, second_param, first_name, second_name, int_map, PKB);
         }

@@ -334,85 +334,6 @@ TEST_CASE("Optimizer replaces with synonyms correctly.")
     }
 }
 
-TEST_CASE("Optimizer add solution to select synonyms correctly.")
-{
-    std::vector<pql_dto::Entity> select_clause;
-    std::vector<pql_dto::Relationships> such_that_clause;
-    std::vector<pql_dto::Pattern> pattern_clause;
-    std::vector<pql_dto::With> with_clause;
-    std::deque<pql_dto::Constraint> no_synonym_clauses;
-    std::deque<pql_dto::Constraint> synonym_clauses;
-
-    SECTION("1 select and 1 with clause.")
-    {
-        std::string test_query = "variable v; Select v with v.varName = \"variable\"";
-        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
-
-        CHECK(select_clause.size() == 1);
-        CHECK(such_that_clause.size() == 0);
-        CHECK(pattern_clause.size() == 0);
-        CHECK(with_clause.size() == 1);
-
-        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
-
-        pql_dto::Entity select_var = select_clause.at(0);
-        pql_dto::Entity expected_entity = pql_dto::Entity("variable", "v", true);
-        expected_entity.set_entity_type(EntityType::FIX);
-        expected_entity.set_solution("variable");
-
-        REQUIRE(select_var.equals(expected_entity));
-    }
-
-    SECTION("2 same select and 1 with clause.")
-    {
-        std::string test_query = "variable v; stmt s; Select <v,s,v> with v.varName = \"variable\"";
-        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
-
-        CHECK(select_clause.size() == 3);
-        CHECK(such_that_clause.size() == 0);
-        CHECK(pattern_clause.size() == 0);
-        CHECK(with_clause.size() == 1);
-
-        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
-
-        pql_dto::Entity select_var_1 = select_clause.at(0);
-        pql_dto::Entity select_var_2 = select_clause.at(2);
-        pql_dto::Entity expected_entity = pql_dto::Entity("variable", "v", true);
-        expected_entity.set_entity_type(EntityType::FIX);
-        expected_entity.set_solution("variable");
-
-        REQUIRE(select_var_1.equals(expected_entity));
-        REQUIRE(select_var_2.equals(expected_entity));
-    }
-
-    SECTION("2 diff select and 2 with clause.")
-    {
-        std::string test_query = "stmt s; procedure p; Select <s,p> with p.procName = \"variable\" and s.stmt# = 7";
-        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
-
-        CHECK(select_clause.size() == 2);
-        CHECK(such_that_clause.size() == 0);
-        CHECK(pattern_clause.size() == 0);
-        CHECK(with_clause.size() == 2);
-
-        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
-
-        pql_dto::Entity select_var_1 = select_clause.at(0);
-        pql_dto::Entity select_var_2 = select_clause.at(1);
-        
-        pql_dto::Entity expected_entity_1 = pql_dto::Entity("stmt", "s", true);
-        expected_entity_1.set_entity_type(EntityType::FIX);
-        expected_entity_1.set_solution("7");
-
-        pql_dto::Entity expected_entity_2 = pql_dto::Entity("procedure", "p", true);
-        expected_entity_2.set_entity_type(EntityType::FIX);
-        expected_entity_2.set_solution("variable");
-
-        REQUIRE(select_var_1.equals(expected_entity_1));
-        REQUIRE(select_var_2.equals(expected_entity_2));
-    }
-}
-
 TEST_CASE("Optimizer splits clauses into groups in select and not in select correctly.")
 {
     std::vector<pql_dto::Entity> select_clause;
@@ -491,7 +412,7 @@ TEST_CASE("Optimizer splits clauses into groups in select and not in select corr
         REQUIRE(synonyms_not_in_select_clause.at(1).size() == 1);
     }
 
-    SECTION("All in select clause.")
+    SECTION("All in select clause 1.")
     {
         std::string test_query = "variable v; procedure p, p1; Select v with v.varName = \"variable\" with p.procName = p1.procName and v.varName = p.procName";
         std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
@@ -500,6 +421,48 @@ TEST_CASE("Optimizer splits clauses into groups in select and not in select corr
         CHECK(such_that_clause.size() == 0);
         CHECK(pattern_clause.size() == 0);
         CHECK(with_clause.size() == 3);
+
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+
+        CHECK(synonym_clauses.size() == 3);
+
+        error = Optimizer::split_clauses_into_groups(select_clause, synonym_clauses, synonyms_in_select_clause, synonyms_not_in_select_clause);
+
+        REQUIRE(synonyms_in_select_clause.size() == 1);
+        REQUIRE(synonyms_in_select_clause.at(0).size() == 3);
+        REQUIRE(synonyms_not_in_select_clause.size() == 0);
+    }
+
+    SECTION("All in select clause 2.")
+    {
+        std::string test_query = "variable v; stmt s; Select s such that Modifies(s, v) and Uses(s, \"a\") and Parent (22, s) ";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        CHECK(select_clause.size() == 1);
+        CHECK(such_that_clause.size() == 3);
+        CHECK(pattern_clause.size() == 0);
+        CHECK(with_clause.size() == 0);
+
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+
+        CHECK(synonym_clauses.size() == 3);
+
+        error = Optimizer::split_clauses_into_groups(select_clause, synonym_clauses, synonyms_in_select_clause, synonyms_not_in_select_clause);
+
+        REQUIRE(synonyms_in_select_clause.size() == 1);
+        REQUIRE(synonyms_in_select_clause.at(0).size() == 3);
+        REQUIRE(synonyms_not_in_select_clause.size() == 0);
+    }
+
+    SECTION("All in select clause 3.")
+    {
+        std::string test_query = "variable v; stmt s; Select s such that Modifies(s, v) and Uses(s, \"a\") and Follows (22, s) ";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        CHECK(select_clause.size() == 1);
+        CHECK(such_that_clause.size() == 3);
+        CHECK(pattern_clause.size() == 0);
+        CHECK(with_clause.size() == 0);
 
         error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
 
@@ -686,12 +649,6 @@ TEST_CASE("Optimizer sorts clauses correctly without table size.")
         Optimizer::sort(entity_group, cache);
 
         REQUIRE(entity_group.size() == 6);
-        /*REQUIRE(entity_group.at(0).equals(synonyms_in_select_clause.at(0).at(3)));
-        REQUIRE(entity_group.at(1).equals(synonyms_in_select_clause.at(0).at(4)));
-        REQUIRE(entity_group.at(2).equals(synonyms_in_select_clause.at(0).at(2)));
-        REQUIRE(entity_group.at(3).equals(synonyms_in_select_clause.at(0).at(0)));
-        REQUIRE(entity_group.at(4).equals(synonyms_in_select_clause.at(0).at(5)));
-        REQUIRE(entity_group.at(5).equals(synonyms_in_select_clause.at(0).at(1)));*/
     }
 
     SECTION("Sorting test 3.")
@@ -711,12 +668,6 @@ TEST_CASE("Optimizer sorts clauses correctly without table size.")
         Optimizer::sort(entity_group, cache);
 
         REQUIRE(entity_group.size() == 6);
-        /*REQUIRE(entity_group.at(0).equals(synonyms_in_select_clause.at(0).at(1)));
-        REQUIRE(entity_group.at(1).equals(synonyms_in_select_clause.at(0).at(0)));
-        REQUIRE(entity_group.at(2).equals(synonyms_in_select_clause.at(0).at(2)));
-        REQUIRE(entity_group.at(3).equals(synonyms_in_select_clause.at(0).at(3)));
-        REQUIRE(entity_group.at(4).equals(synonyms_in_select_clause.at(0).at(4)));
-        REQUIRE(entity_group.at(5).equals(synonyms_in_select_clause.at(0).at(5)));*/
     }
 
     SECTION("Sorting test 4.")
@@ -736,11 +687,43 @@ TEST_CASE("Optimizer sorts clauses correctly without table size.")
         Optimizer::sort(entity_group, cache);
 
         REQUIRE(entity_group.size() == 6);
-        /*REQUIRE(entity_group.at(0).equals(synonyms_in_select_clause.at(0).at(0)));
-        REQUIRE(entity_group.at(1).equals(synonyms_in_select_clause.at(0).at(4)));
-        REQUIRE(entity_group.at(2).equals(synonyms_in_select_clause.at(0).at(2)));
-        REQUIRE(entity_group.at(3).equals(synonyms_in_select_clause.at(0).at(1)));
-        REQUIRE(entity_group.at(4).equals(synonyms_in_select_clause.at(0).at(3)));
-        REQUIRE(entity_group.at(5).equals(synonyms_in_select_clause.at(0).at(5)));*/
+    }
+
+    SECTION("Sorting test 5.")
+    {
+        std::string test_query = "variable v; stmt s; Select s such that Modifies(s, v) and Uses(s, \"a\") and Follows (22, s) ";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        CHECK(select_clause.size() == 1);
+        CHECK(such_that_clause.size() == 3);
+        CHECK(pattern_clause.size() == 0);
+        CHECK(with_clause.size() == 0);
+
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+        error = Optimizer::split_clauses_into_groups(select_clause, synonym_clauses, synonyms_in_select_clause, synonyms_not_in_select_clause);
+
+        std::vector<pql_dto::Constraint> entity_group = synonyms_in_select_clause.at(0);
+        Optimizer::sort(entity_group, cache);
+
+        REQUIRE(entity_group.size() == 3);
+    }
+
+    SECTION("Sorting test 6.")
+    {
+        std::string test_query = "variable v; stmt s; Select s such that Modifies(s, v) and Uses(s, \"a\") and Parent (22, s) ";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        CHECK(select_clause.size() == 1);
+        CHECK(such_that_clause.size() == 3);
+        CHECK(pattern_clause.size() == 0);
+        CHECK(with_clause.size() == 0);
+
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+        error = Optimizer::split_clauses_into_groups(select_clause, synonym_clauses, synonyms_in_select_clause, synonyms_not_in_select_clause);
+
+        std::vector<pql_dto::Constraint> entity_group = synonyms_in_select_clause.at(0);
+        Optimizer::sort(entity_group, cache);
+
+        REQUIRE(entity_group.size() == 3);
     }
 }

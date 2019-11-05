@@ -62,6 +62,10 @@ public:
      * @return unordered_map<T, std::vector<S>>.
      */
     std::unordered_map<S, std::vector<T>> get_reverse_bank();
+    /**
+     * Clear bank and reverse bank.
+     */
+    void clear_banks();
 
 protected:
     std::unordered_map<T, std::vector<S>> bank;
