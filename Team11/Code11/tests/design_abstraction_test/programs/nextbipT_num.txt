@@ -1,0 +1,133 @@
+procedure IfIfIf {
+1     if (1 > 0) then {
+2         a0 = a1 + a2;
+3         if (a != b) then {
+4             a1 = a2;
+5             read a3;
+6             a4 = a5;}
+          else {
+7             a5 = 0;
+8             if (c > 0) then {
+9                 print a5;
+10                call IfIfWhile;
+11                read a6;}
+            else {
+12                a7 = a8 - a9;
+13                a10 = a11 % (a12 / a13);}}}
+    else {
+14        a14 = a15;}
+15    a16 = a17;
+}
+
+procedure IfIfWhile {
+16    if (b1 < b2) then {
+17        if (b3 != b1) then {
+18            read b4;
+19            b6 = b4 + b5;
+20            print b5;}
+          else {
+21            while (b6 <= b5) {
+22                read b7;
+23                call IfWhileIf;}
+24            b8 = 1;}}
+    else {
+25        b9 = b10 * b11;
+26        b10 = b12;}
+27    print b10;
+}
+
+procedure IfWhileIf {
+28    if (c1 == c2) then {
+29        while (c3 < c4) {
+30            if (c4 >= c5) then {
+31                c6 = c6 + 22;}
+            else {
+32                read c7;
+33                c8 = 333;}
+34            print c9;}}
+    else {
+35        c10 = c9;}
+}
+
+procedure IfWhileWhile {
+36    if (d1 < d2) then {
+37        while (d3 != d4) {
+38            read d10;
+39            while (d5 == d5) {
+40                call WhileIfIf;
+41                d6 = d7 - d5;
+42                print d6;}}}
+    else {
+43        read d8;}
+44    d9 = 4444;
+}
+
+procedure WhileIfIf{
+45    while (e1 < e2) {
+46        if (e3 >= e4) then {
+47            e5 = e5 - e6;}
+        else {
+48            e7 = e5;
+49            if (e8 != e9) then {
+50                print e10;}
+            else {
+51                read e11;}}}
+52    e12 = e13;
+}
+
+procedure WhileIfWhile {
+53    while (f1 >= f2) {
+54        if (f2 != f3) then {
+55            f4 = f5 - f5 + 0;}
+        else {
+56            while ((f6 < 55555)&&(f7 > 666666)) {
+57                f8 = 7777777;
+58                f9 = 22;}}}
+}
+
+procedure WhileWhileIf {
+59    while ((g1 < g2) || (g3 > g1)) {
+60        while (g3 == g4) {
+61            if (g5 != g6) then {
+62                read g7;
+63                print g8;
+64                call CallCallCall;
+65                call WhileWhileWhile;}
+            else {
+66                g9 = g10;
+67                g10 = g11-0;}}}
+}
+
+procedure WhileWhileWhile {
+68    while (h1 < 333) {
+69        while (h2 <= 4444) {
+70            while (h3 < 22) {
+71                h4 = h5 + h6;
+72                call A;
+73                h7 = h5 - 10;}}}
+74    h8 = 999999999;
+}
+
+procedure CallCallCall {
+75    call WhileWhileWhile;
+76    call WhileWhileWhile;
+77    call WhileWhileWhile;
+}
+
+procedure A {
+78    call B;
+79    call C;
+80    call B;
+}
+
+procedure B {
+81    call C;
+82    call C;
+83    read x;
+84    while (h3 < 22) {
+85        call C; }
+}
+
+procedure C {
+86    print theend;
+}
