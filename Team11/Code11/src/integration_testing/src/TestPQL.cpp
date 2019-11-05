@@ -918,4 +918,11 @@ TEST_CASE("Multiple select, such that, and pattern")
         unordered_set<string> expected_result {"2 computeCentroid 1", "13 readPoint 12", "18 readPoint 17"};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
+
+    SECTION("select tuple, multiple clauses")
+    {
+        string pql_query = "assign a; Select a such that Follows*(a, 1) and Follows*(a, 2) ";
+        unordered_set<string> expected_result {};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
 }
