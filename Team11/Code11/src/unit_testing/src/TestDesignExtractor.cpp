@@ -317,6 +317,7 @@ TEST_CASE("DesignExtractor::extract_next_bip")
     SECTION("SIMPLE SANITY CHECK")
     {
         PKB pkb;
+
         pkb.insert_procedure("B", 4, {5});
         pkb.insert_next(1, 2);
         pkb.insert_next(2, 3);

@@ -128,6 +128,13 @@ std::unordered_map<S, std::vector<T>> Bank<T, S>::get_reverse_bank()
     return reverse_bank;
 }
 
+template<class T, class S>
+void Bank<T, S>::clear_banks()
+{
+    bank.clear();
+    reverse_bank.clear();
+}
+
 template class Bank<int, int>;
 template class Bank<int, std::string>;
 template class Bank<std::string, std::string>;
