@@ -54,77 +54,80 @@ procedure IfWhileWhile {
 37        while (d3 != d4) {
 38            read d10;
 39            while (d5 == d5) {
-40                d6 = d7 - d5;
-41                print d6;}}}
+40                call WhileIfIf;
+41                d6 = d7 - d5;
+42                print d6;}}}
     else {
-42        read d8;}
-43    d9 = 4444;
+43        read d8;}
+44    d9 = 4444;
 }
 
 procedure WhileIfIf{
-44    while (e1 < e2) {
-45        if (e3 >= e4) then {
-46            e5 = e5 - e6;}
+45    while (e1 < e2) {
+46        if (e3 >= e4) then {
+47            e5 = e5 - e6;}
         else {
-47            e7 = e5;
-48            if (e8 != e9) then {
-49                print e10;}
+48            e7 = e5;
+49            if (e8 != e9) then {
+50                print e10;}
             else {
-50                read e11;}}}
-51    e12 = e13;
+51                read e11;}}}
+52    e12 = e13;
 }
 
 procedure WhileIfWhile {
-52    while (f1 >= f2) {
-53        if (f2 != f3) then {
-54            f4 = f5 - f5 + 0;}
+53    while (f1 >= f2) {
+54        if (f2 != f3) then {
+55            f4 = f5 - f5 + 0;}
         else {
-55            while ((f6 < 55555)&&(f7 > 666666)) {
-56                f8 = 7777777;
-57                f9 = 22;}}}
+56            while ((f6 < 55555)&&(f7 > 666666)) {
+57                f8 = 7777777;
+58                f9 = 22;}}}
 }
 
 procedure WhileWhileIf {
-58    while ((g1 < g2) || (g3 > g1)) {
-59        while (g3 == g4) {
-60            if (g5 != g6) then {
-61                read g7;
-62                print g8;
-63                call CallCallCall;
-64                call WhileWhileWhile;}
+59    while ((g1 < g2) || (g3 > g1)) {
+60        while (g3 == g4) {
+61            if (g5 != g6) then {
+62                read g7;
+63                print g8;
+64                call CallCallCall;
+65                call WhileWhileWhile;}
             else {
-65                g9 = g10;
-66                g10 = g11-0;}}}
+66                g9 = g10;
+67                g10 = g11-0;}}}
 }
 
 procedure WhileWhileWhile {
-67    while (h1 < 333) {
-68        while (h2 <= 4444) {
-69            while (h3 < 22) {
-70                h4 = h5 + h6;
-71                call A;
-72                h7 = h5 - 10;}}}
-73    h8 = 999999999;
+68    while (h1 < 333) {
+69        while (h2 <= 4444) {
+70            while (h3 < 22) {
+71                h4 = h5 + h6;
+72                call A;
+73                h7 = h5 - 10;}}}
+74    h8 = 999999999;
 }
 
 procedure CallCallCall {
-74    call WhileWhileWhile;
 75    call WhileWhileWhile;
 76    call WhileWhileWhile;
+77    call WhileWhileWhile;
 }
 
 procedure A {
-77    call B;
-78    call C;
-79    call B;
+78    call B;
+79    call C;
+80    call B;
 }
 
 procedure B {
-80    call C;
 81    call C;
 82    call C;
+83    read x;
+84    while (h3 < 22) {
+85        call C; }
 }
 
 procedure C {
-83    print theend;
+86    print theend;
 }

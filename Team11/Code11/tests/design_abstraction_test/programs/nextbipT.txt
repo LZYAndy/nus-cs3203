@@ -54,6 +54,7 @@ procedure IfWhileWhile {
         while (d3 != d4) {
             read d10;
             while (d5 == d5) {
+                call WhileIfIf;
                 d6 = d7 - d5;
                 print d6;}}}
     else {
@@ -122,7 +123,9 @@ procedure A {
 procedure B {
     call C;
     call C;
-    call C;
+    read x;
+    while (h3 < 22) {
+        call C; }
 }
 
 procedure C {
