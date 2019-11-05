@@ -62,18 +62,18 @@ TEST_CASE("AffectsStarCompute::is_affects_star()")
 
     SECTION("fails")
     {
-        REQUIRE_FALSE(affects_star_compute.is_affects_star(pkb, 1, 4));
-        REQUIRE_FALSE(affects_star_compute.is_affects_star(pkb, 5, 2));
+        REQUIRE_FALSE(affects_star_compute.is_affects_star(pkb, 1, 4, false));
+        REQUIRE_FALSE(affects_star_compute.is_affects_star(pkb, 5, 2, false));
     }
 
     SECTION("success")
     {
-        REQUIRE(affects_star_compute.is_affects_star(pkb, 1, 2));
-        REQUIRE(affects_star_compute.is_affects_star(pkb, 2, 3));
-        REQUIRE(affects_star_compute.is_affects_star(pkb, 1, 3));
-        REQUIRE(affects_star_compute.is_affects_star(pkb, 6, 5));
-        REQUIRE(affects_star_compute.is_affects_star(pkb, 5, 6));
-        REQUIRE(affects_star_compute.is_affects_star(pkb, 10, 11));
+        REQUIRE(affects_star_compute.is_affects_star(pkb, 1, 2, false));
+        REQUIRE(affects_star_compute.is_affects_star(pkb, 2, 3, false));
+        REQUIRE(affects_star_compute.is_affects_star(pkb, 1, 3, false));
+        REQUIRE(affects_star_compute.is_affects_star(pkb, 6, 5, false));
+        REQUIRE(affects_star_compute.is_affects_star(pkb, 5, 6, false));
+        REQUIRE(affects_star_compute.is_affects_star(pkb, 10, 11, false));
     }
 }
 
@@ -123,12 +123,12 @@ TEST_CASE("AffectsStarCompute::get_affected_star()")
 
     SECTION("fails")
     {
-        REQUIRE(affects_star_compute.get_affected_star(pkb, 3).empty());
+        REQUIRE(affects_star_compute.get_affected_star(pkb, 3, false).empty());
     }
 
     SECTION("success")
     {
-        std::vector<int> result = affects_star_compute.get_affected_star(pkb, 1);
+        std::vector<int> result = affects_star_compute.get_affected_star(pkb, 1, false);
         std::vector<int> expected;
         expected.push_back(2);
         expected.push_back(3);

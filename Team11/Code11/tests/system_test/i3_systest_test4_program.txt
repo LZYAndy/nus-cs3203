@@ -1,0 +1,128 @@
+procedure one {
+    if (x > a) then {
+        b = x + 1;
+        while (a > b) {
+            a = a + b;
+            read a;
+            call two;
+            x = a + b;}
+        read y;
+        print y;}
+    else {
+        while (t > a) {
+            i = i + 1;
+            read i;
+            print y;}
+        if (x > y) then {
+            a = b + c - d * e / f % g + i * ((((a + b) * c) - d) % e + g - h) / y + ((((((((((a))))))))));
+            read a;
+            x = a;
+            call three;
+            y = x + a + b;}
+        else {
+            while (x > alpha) {
+                c = a + alpha;
+                while(a > b) {
+                    alpha = alpha + beta;
+                    beta = beta + alpha;
+                    alpha = sigma + a;
+                    a = alpha + b + c;
+                    call two;}
+                call two;
+                y = y + a;}
+            m = m + y;
+            read y;
+            print t;
+            call two;
+            if (x > y) then {
+                q = m + k;
+                k = m + a;
+                read p;
+                read x;
+                read q;}
+            else {
+                read p;
+                call two;
+                call three;
+                while (x > y) {
+                    b = b + a + alpha * c + p;
+                    p = b + p;
+                    a = p + b;}
+                while (s < y) {
+                    l = l + 1;}
+                if (a > y) then {
+                    d = f + p;
+                    call two;
+                    read l;}
+                else {
+                    r = r + p;
+                    a = a + b;}}}}
+    f = f + 1;
+    read x;
+    k = k + 1;
+    while (a > b) {
+        while (a > a ) {
+            while            (          a > c)                               {
+                read x;
+                read h;
+                x = h + g;}}}
+    h = h + 1;
+    while (a > b) {
+        if (a > b) then {
+            x = x + 1;
+            read a;
+            read alpha;}
+        else {
+            true = a;
+            read false;}
+        step = true;
+        calculate = read;
+        print read;}}
+
+procedure two {
+    call three;
+    bus = bus + 1;
+    soc = bus + a;
+    alpha = alpha + a;
+    if (a > b) then {
+        while (a > c) {
+            while (c > d) {
+                read soc;
+                print nus;
+                nus = nus + bus;
+                bus = soc + nus;
+                call three;}
+            if (a > b) then {
+                p = p + bus;}
+            else {
+                e = el + p;}}
+        while = while + p;}
+    else {
+        a = alpha + a + b;}}
+
+procedure three {
+    bus = i + 1;
+    road = bus + people;
+    cs = os + se + networks + more;
+    call four;
+    soc = cs + ba + is + isc + ceg;
+    while (soc > nus) {
+        read impossible;
+        bus = nus;}}
+
+procedure four {
+    alpha = alpha + b;
+    nus = nus + alpha;
+    call five;
+    while (nus > 100) {
+        nus = 2000;
+        c = 1000;
+        cal = 999;
+        workload = infinite;
+        call five;}}
+
+procedure five {
+    exam = at + mpsh + 10000;
+    item = 4;
+    item = exam;
+    nus = bus + road;}
