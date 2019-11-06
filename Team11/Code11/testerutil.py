@@ -3,33 +3,35 @@ import os
 import glob
 
 design_abstraction_program_query_mapping = [
-                        ("follows_parent", "follows"),
-                        ("follows_parent", "followsT"),
-                        ("follows_parent", "parent"),
-                        ("follows_parent", "parentT"),
-                        ("valid_calls", "calls"),
-                        ("valid_calls", "callsT"),
-                        ("invalid_calls_direct", "invalid_calls_direct"),
-                        ("invalid_calls_cyclic", "invalid_calls_cyclic"),
-                        ("invalid_calls_missing_procedure", "invalid_calls_missing_procedure"),
-                        ("modifies_uses", "modifies"),
-                        ("modifies_uses", "uses"),
-                        ("next_affects", "next"),
-                        ("nextT", "nextT"),
-                        ("next_affects", "affects"),
-                        ("next_affects", "affectsT"),
-                        ("pattern", "pattern"),
-                        ("with", "with")]
+                        # ("follows_parent", "follows"),
+                        # ("follows_parent", "followsT"),
+                        # ("follows_parent", "parent"),
+                        # ("follows_parent", "parentT"),
+                        # ("valid_calls", "calls"),
+                        # ("valid_calls", "callsT"),
+                        # ("invalid_calls_direct", "invalid_calls_direct"),
+                        # ("invalid_calls_cyclic", "invalid_calls_cyclic"),
+                        # ("invalid_calls_missing_procedure", "invalid_calls_missing_procedure"),
+                        # ("modifies_uses", "modifies"),
+                        # ("modifies_uses", "uses"),
+                        # ("next_affects", "next"),
+                        # ("nextT", "nextT"),
+                        # ("next_affects", "affects"),
+                        # ("next_affects", "affectsT"),
+                        # ("pattern", "pattern"),
+                        #("with", "with")
+    ]
 
 system_test_program_query_mapping = [
-                        ("i1_systest_test1_program", "i1_systest_test1_query"),
-                        ("i1_systest_test2_program", "i1_systest_test2_query"),
-                        ("i1_systest_test3_program", "i1_systest_test3_query"),
-                        ("i2_systest_test_program", "i2_systest_test_query"),
-                        ("i3_systest_test1_program", "i3_systest_test1_query"),
-                        ("i3_systest_test2_program", "i3_systest_test2_query"),
-                        ("i3_systest_test3_program", "i3_systest_test3_query"),
-                        ("i3_systest_test4_program", "i3_systest_test4_query")]
+                        # ("i1_systest_test1_program", "i1_systest_test1_query"),
+                        # ("i1_systest_test2_program", "i1_systest_test2_query"),
+                        # ("i1_systest_test3_program", "i1_systest_test3_query"),
+                        # ("i2_systest_test_program", "i2_systest_test_query"),
+                        # ("i3_systest_test1_program", "i3_systest_test1_query"),
+                         ("i3_systest_test2_program", "i3_systest_test2_query")
+                        # ("i3_systest_test3_program", "i3_systest_test3_query"),
+                        #("i3_systest_test4_program", "i3_systest_test4_query")
+]
 
 autotest_directory = "./cmake-build-debug/src/autotester/"
 design_abstraction_program_directory = "./tests/design_abstraction_test/programs/"
