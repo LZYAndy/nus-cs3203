@@ -1,5 +1,0 @@
-1 - invalid cyclic
-stmt s;
-Select s
-
-5000
