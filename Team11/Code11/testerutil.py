@@ -2,26 +2,23 @@
 import os
 import glob
 
-design_abstraction_program_query_mapping = [
-                        ("follows_parent", "follows"),
-                        ("follows_parent", "followsT"),
-                        ("follows_parent", "parent"),
-                        ("follows_parent", "parentT"),
-                        ("valid_calls", "calls"),
-                        ("valid_calls", "callsT"),
-                        ("invalid_calls_direct", "invalid_calls_direct"),
-                        ("invalid_calls_cyclic", "invalid_calls_cyclic"),
-                        ("invalid_calls_missing_procedure", "invalid_calls_missing_procedure"),
-                        ("modifies_uses", "modifies"),
-                        ("modifies_uses", "uses"),
-                        ("next_affects", "next"),
-                        ("nextT", "nextT"),
-                        ("next_affects", "affects"),
-                        ("next_affects", "affectsT"),
-                        ("pattern", "pattern"),
-                        ("with", "with")]
-
-system_test_program_query_mapping = [
+program_query_mapping = [("follows_parent", "follows_query"),
+                        ("follows_parent", "followsT_query"),
+                        ("follows_parent", "parent_query"),
+                        ("follows_parent", "parentT_query"),
+                        ("valid_calls", "calls_query"),
+                        ("valid_calls", "callsT_query"),
+                        ("invalid_calls_direct", "invalid_calls_direct_query"),
+                        ("invalid_calls_cyclic", "invalid_calls_cyclic_query"),
+                        ("invalid_calls_missing_procedure", "invalid_calls_missing_procedure_query"),
+                        ("modifies_uses", "modifies_query"),
+                        ("modifies_uses", "uses_query"),
+                        ("next_affects", "next_query"),
+                        ("nextT", "nextT_query"),
+                        ("next_affects", "affects_query"),
+                        ("next_affects", "affectsT_query"),
+                        ("pattern", "pattern_query"),
+                        ("with", "with_query"),
                         ("i1_systest_test1_program", "i1_systest_test1_query"),
                         ("i1_systest_test2_program", "i1_systest_test2_query"),
                         ("i1_systest_test3_program", "i1_systest_test3_query"),
@@ -32,9 +29,7 @@ system_test_program_query_mapping = [
                         ("i3_systest_test4_program", "i3_systest_test4_query")]
 
 autotest_directory = "./cmake-build-debug/src/autotester/"
-design_abstraction_program_directory = "./tests/design_abstraction_test/programs/"
-design_abstraction_queries_directory = "./tests/design_abstraction_test/queries/"
-system_test_program_queries_directory = "./tests/system_test/"
+test_program_queries_directory = "./tests/submission_test/"
 result_directory = "./tests/output/"
 
 def checks():
@@ -53,43 +48,24 @@ def checks():
             print ("Successfully created the directory")        
 
     # File checks
-    for i in design_abstraction_program_query_mapping:
+    for i in program_query_mapping:
         prog_file = i[0]
         query_file = i[1]
-        if not os.path.exists("{}{}.txt".format(design_abstraction_program_directory, prog_file)):
+        if not os.path.exists("{}{}.txt".format(test_program_queries_directory, prog_file)):
             print("{}.txt does not exist.".format(prog_file))
             exit(1)
-        if not os.path.exists("{}{}.txt".format(design_abstraction_queries_directory, query_file)):
+        if not os.path.exists("{}{}.txt".format(test_program_queries_directory, query_file)):
             print("{}.txt does not exist.".format(query_file))
             exit(1)
-
-    for i in system_test_program_query_mapping:
-        prog_file = i[0]
-        query_file = i[1]
-        if not os.path.exists("{}{}.txt".format(system_test_program_queries_directory, prog_file)):
-            print("{}.txt does not exist.".format(prog_file))
-            exit(1)
-        if not os.path.exists("{}{}.txt".format(system_test_program_queries_directory, query_file)):
-            print("{}.txt does not exist.".format(query_file))
-            exit(1)
-
     print("[+] Passed all pre-checks")
 
 def run_test():
-    for i in design_abstraction_program_query_mapping:
+    for i in program_query_mapping:
         prog_file = i[0]
         query_file = i[1]
         os.system("{}autotester {}{}.txt {}{}.txt {}{}_output.xml".format(autotest_directory, 
-        design_abstraction_program_directory, prog_file, 
-        design_abstraction_queries_directory, query_file, 
-        result_directory, query_file))
-
-    for i in system_test_program_query_mapping:
-        prog_file = i[0]
-        query_file = i[1]
-        os.system("{}autotester {}{}.txt {}{}.txt {}{}_output.xml".format(autotest_directory, 
-        system_test_program_queries_directory, prog_file, 
-        system_test_program_queries_directory, query_file, 
+        test_program_queries_directory, prog_file, 
+        test_program_queries_directory, query_file, 
         result_directory, query_file))
 
 def process_result():
