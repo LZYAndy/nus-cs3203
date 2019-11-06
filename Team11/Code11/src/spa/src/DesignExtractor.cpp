@@ -200,6 +200,7 @@ void DesignExtractor::extract_next_bip_helper(PKB &pkb, int previous, std::vecto
                 pkb.insert_next_bip(stmt, next_stmt);
             }
         }
+    }
         std::vector<int> after_calls = pkb.get_statements_next(previous);
         if (after_calls.empty()) // call is at last stmt of procedure
         {
@@ -218,11 +219,15 @@ void DesignExtractor::extract_next_bip_helper(PKB &pkb, int previous, std::vecto
             {
                 for (int end_stmt : callee_end_stmts_no)
                 {
+                    if (pkb.get_statement_type((end_stmt)) == EntityType::CALL)
+                    {
+                        continue;
+                    }
                     pkb.insert_next_bip(end_stmt, after_call);
                 }
                 pkb.insert_call_ingress_egress(previous, after_call);
             }
         }
 
-    }
+
 }
