@@ -137,13 +137,13 @@ bool DesignExtractor::extract_calls_star(CallsBank &bank_in, CallsStarBank &bank
 }
 bool DesignExtractor::extract_next_bip(PKB &pkb)
 {
-    auto all_previous = pkb.get_all_previous();
+    auto all_previous = pkb.get_all_statement_nums();
     auto calls_stmts = pkb.get_all_calls();
     for (auto previous : all_previous)
     {
         if (pkb.get_statement_type(previous) == EntityType::CALL) // check if previous is a call stmt
         {
-            extract_next_bip_helper(pkb, previous);
+            extract_next_bip_helper(pkb, previous, pkb.get_statements_next(previous));
         }
         else
         {
@@ -156,7 +156,7 @@ bool DesignExtractor::extract_next_bip(PKB &pkb)
     return true;
 }
 
-void DesignExtractor::extract_next_bip_helper(PKB &pkb, int previous)
+void DesignExtractor::extract_next_bip_helper(PKB &pkb, int previous, std::vector<int> next_of_old_previous)
 {
     std::string procedure_called = pkb.get_called_by_statement(previous);
     int callee_start_stmt_no = pkb.get_procedure_first_line(procedure_called);
@@ -176,7 +176,20 @@ void DesignExtractor::extract_next_bip_helper(PKB &pkb, int previous)
         visited.insert(stmt);
         if (pkb.get_statement_type(stmt) == EntityType::CALL) // check if previous is a call stmt
         {
-            extract_next_bip_helper(pkb, stmt);
+            std::vector<int> after_calls = pkb.get_statements_next(stmt);
+            if (after_calls.empty())
+            {
+                extract_next_bip_helper(pkb, stmt, next_of_old_previous);
+            }
+            else
+            {
+                extract_next_bip_helper(pkb, stmt, after_calls);
+            }
+            auto next_stmts = pkb.get_statements_next(stmt);
+            for (int next_stmt : next_stmts)
+            {
+                to_visit.push(next_stmt);
+            }
         }
         else
         {
@@ -187,13 +200,29 @@ void DesignExtractor::extract_next_bip_helper(PKB &pkb, int previous)
                 pkb.insert_next_bip(stmt, next_stmt);
             }
         }
-        for (auto after_call : pkb.get_statements_next(previous))
+        std::vector<int> after_calls = pkb.get_statements_next(previous);
+        if (after_calls.empty()) // call is at last stmt of procedure
         {
-            for (int end_stmt : callee_end_stmts_no)
+            for (auto after_call : next_of_old_previous)
             {
-                pkb.insert_next_bip(end_stmt, after_call);
+                for (int end_stmt : callee_end_stmts_no)
+                {
+                    pkb.insert_next_bip(end_stmt, after_call);
+                }
+                pkb.insert_call_ingress_egress(previous, after_call);
             }
-            pkb.insert_call_ingress_egress(previous, after_call);
         }
+        else
+        {
+            for (auto after_call : after_calls)
+            {
+                for (int end_stmt : callee_end_stmts_no)
+                {
+                    pkb.insert_next_bip(end_stmt, after_call);
+                }
+                pkb.insert_call_ingress_egress(previous, after_call);
+            }
+        }
+
     }
 }
