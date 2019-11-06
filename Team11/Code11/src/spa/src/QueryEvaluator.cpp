@@ -131,6 +131,7 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
 
     // Select synonyms
     result = QueryEvaluator::select(select_clause, select_map, final_map, PKB);
+    PKB.clear_cache();
     return result;
 }
 
@@ -150,6 +151,7 @@ unordered_set<string> QueryEvaluator::select(vector<pql_dto::Entity> &select_cla
             return unordered_set<string> ({"TRUE"});
         }
     }
+
     // if the select type is tuple
     unordered_set<string> common_select_synonyms = QueryEvaluator::get_common_synonyms(final_map, select_map);
     unordered_map<string, vector<string>> acc_map;
@@ -164,6 +166,7 @@ unordered_set<string> QueryEvaluator::select(vector<pql_dto::Entity> &select_cla
 
     // cross product
     bool is_first_common_synonym = true;
+
     for (const auto& synonym : select_map)
     {
         unordered_map<string, vector<string>> temp_map;
@@ -172,7 +175,7 @@ unordered_set<string> QueryEvaluator::select(vector<pql_dto::Entity> &select_cla
             is_first_common_synonym = false;
             for (const auto& cs : common_select_synonyms)
             {
-                temp_map[cs] = QueryUtility::change_to_attributes(select_clause.at(QueryEvaluator::get_element_index_in_map(select_map, cs)), select_map.at(cs), PKB);
+                temp_map[cs] = select_map[cs];
             }
         }
         else if (common_select_synonyms.find(synonym.first) != common_select_synonyms.end())
@@ -181,15 +184,17 @@ unordered_set<string> QueryEvaluator::select(vector<pql_dto::Entity> &select_cla
         }
         else
         {
-            temp_map[synonym.first] = QueryUtility::change_to_attributes(select_clause.at(QueryEvaluator::get_element_index_in_map(select_map, synonym.first)), synonym.second, PKB);
+            temp_map[synonym.first] = synonym.second;
         }
         acc_map = QueryEvaluator::merge_two_maps(temp_map, acc_map, QueryEvaluator::get_common_synonyms(temp_map, acc_map));
     }
+
     result_vec.reserve(select_clause.size());
     for (auto entity : select_clause)
     {
-        result_vec.push_back(acc_map.at(entity.get_entity_name()));
+        result_vec.push_back(QueryUtility::change_to_attributes(entity, acc_map.at(entity.get_entity_name()), PKB));
     }
+
     int height = result_vec.at(0).size();
     int width = result_vec.size();
     vector<string> temp_vec;
@@ -243,7 +248,7 @@ bool QueryEvaluator::evaluateBoolGroup(deque<pql_dto::Constraint> &group, PKB &P
     for (pql_dto::Constraint clause : group)
     {
         pql_dto::Relationships relation = clause.get_relationship();
-        result = QueryEvaluator::evaluateSuchThat(relation, PKB, cache).first;
+        result = QueryEvaluator::evaluateSuchThat(clause, relation, PKB, cache).first;
         if (!result)
         {
             return false;
@@ -260,24 +265,20 @@ bool QueryEvaluator::evaluateGroup(vector<pql_dto::Constraint> &group, PKB &PKB,
 
     for (pql_dto::Constraint clause : group)
     {
-        if (!cache.get_similar_clause_map(clause).empty())
-        {
-            intermediary_map = cache.get_similar_clause_map(clause);
-        }
-        else if (clause.is_relationship())
+        if (clause.is_relationship())
         {
             pql_dto::Relationships relation = clause.get_relationship();
-            intermediary_map = QueryEvaluator::evaluateSuchThat(relation, PKB, cache).second;
+            intermediary_map = QueryEvaluator::evaluateSuchThat(clause, relation, PKB, cache).second;
         }
         else if (clause.is_pattern())
         {
             pql_dto::Pattern pattern = clause.get_pattern();
-            intermediary_map = QueryEvaluator::evaluatePattern(pattern, PKB, cache);
+            intermediary_map = QueryEvaluator::evaluatePattern(clause, pattern, PKB, cache);
         }
         else if (clause.is_with())
         {
             pql_dto::With with = clause.get_with();
-            intermediary_map = QueryEvaluator::evaluateWith(with, PKB, cache);
+            intermediary_map = QueryEvaluator::evaluateWith(clause, with, PKB, cache);
         }
         if (QueryEvaluator::is_empty_map(intermediary_map))
         {
@@ -300,7 +301,7 @@ unordered_set<string> QueryEvaluator::evaluateEmptyMap(bool is_select_bool)
     }
 }
 
-pair<bool, unordered_map<string, vector<string>>> QueryEvaluator::evaluateSuchThat(pql_dto::Relationships &relation, PKB &PKB, Cache &cache)
+pair<bool, unordered_map<string, vector<string>>> QueryEvaluator::evaluateSuchThat(pql_dto::Constraint clause, pql_dto::Relationships &relation, PKB &PKB, Cache &cache)
 {
     unordered_map<string, vector<string>> empty_map;
     unordered_map<string, vector<string>> intermediary_map;
@@ -310,7 +311,11 @@ pair<bool, unordered_map<string, vector<string>>> QueryEvaluator::evaluateSuchTh
     pql_dto::Entity first_param = relation.get_first_param();
     pql_dto::Entity second_param = relation.get_second_param();
 
-    if (relation_type == RelationshipType::FOLLOWS)
+    if (first_param.is_entity_declared() && second_param.is_entity_declared() && !cache.get_similar_clause_map(clause).empty())
+    {
+        intermediary_map = cache.get_similar_clause_map(clause);
+    }
+    else if (relation_type == RelationshipType::FOLLOWS)
     {
         if (!relation.is_relationship_star())
         {
@@ -337,8 +342,7 @@ pair<bool, unordered_map<string, vector<string>>> QueryEvaluator::evaluateSuchTh
             }
         }
     }
-
-    if (relation_type == RelationshipType::USES)
+    else if (relation_type == RelationshipType::USES)
     {
         if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
         {
@@ -350,8 +354,7 @@ pair<bool, unordered_map<string, vector<string>>> QueryEvaluator::evaluateSuchTh
             intermediary_map = UsesEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
         }
     }
-
-    if (relation_type == RelationshipType::PARENT)
+    else if (relation_type == RelationshipType::PARENT)
     {
         if (!relation.is_relationship_star())
         {
@@ -378,8 +381,7 @@ pair<bool, unordered_map<string, vector<string>>> QueryEvaluator::evaluateSuchTh
             }
         }
     }
-
-    if (relation_type == RelationshipType::MODIFIES)
+    else if (relation_type == RelationshipType::MODIFIES)
     {
         if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
         {
@@ -391,8 +393,7 @@ pair<bool, unordered_map<string, vector<string>>> QueryEvaluator::evaluateSuchTh
             intermediary_map = ModifiesEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
         }
     }
-
-    if (relation_type == RelationshipType::CALLS)
+    else if (relation_type == RelationshipType::CALLS)
     {
         if (!relation.is_relationship_star())
         {
@@ -419,8 +420,7 @@ pair<bool, unordered_map<string, vector<string>>> QueryEvaluator::evaluateSuchTh
             }
         }
     }
-
-    if (relation_type == RelationshipType::NEXT)
+    else if (relation_type == RelationshipType::NEXT)
     {
         if (!relation.is_relationship_star())
         {
@@ -447,8 +447,7 @@ pair<bool, unordered_map<string, vector<string>>> QueryEvaluator::evaluateSuchTh
             }
         }
     }
-
-    if (relation_type == RelationshipType::NEXTBIP)
+    else if (relation_type == RelationshipType::NEXTBIP)
     {
         if (!relation.is_relationship_star())
         {
@@ -475,8 +474,7 @@ pair<bool, unordered_map<string, vector<string>>> QueryEvaluator::evaluateSuchTh
             }
         }
     }
-
-    if (relation_type == RelationshipType::AFFECTS)
+    else if (relation_type == RelationshipType::AFFECTS)
     {
         if (!relation.is_relationship_star())
         {
@@ -503,27 +501,59 @@ pair<bool, unordered_map<string, vector<string>>> QueryEvaluator::evaluateSuchTh
             }
         }
     }
+    else if (relation_type == RelationshipType::AFFECTSBIP)
+    {
+        if (!relation.is_relationship_star())
+        {
+            if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
+            {
+                trivial_result = AffectsBipEvaluator::evaluate_trivial(first_param, second_param, PKB);
+                return make_pair(trivial_result, empty_map);
+            }
+            else
+            {
+                intermediary_map = AffectsBipEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
+            }
+        }
+        else
+        {
+            if (!first_param.is_entity_declared() && !second_param.is_entity_declared())
+            {
+                trivial_result = AffectsBipStarEvaluator::evaluate_trivial(first_param, second_param, PKB);
+                return make_pair(trivial_result, empty_map);
+            }
+            else
+            {
+                intermediary_map = AffectsBipStarEvaluator::evaluate_non_trivial(first_param, second_param, PKB);
+            }
+        }
+    }
 
     cache.insert_clause(relation, first_param, second_param, intermediary_map);
     return make_pair(trivial_result, intermediary_map);
 }
 
-unordered_map<string, vector<string>> QueryEvaluator::evaluatePattern(pql_dto::Pattern &pattern, PKB &PKB, Cache &cache)
+unordered_map<string, vector<string>> QueryEvaluator::evaluatePattern(pql_dto::Constraint clause, pql_dto::Pattern &pattern, PKB &PKB, Cache &cache)
 {
     unordered_map<string, vector<string>> intermediary_map;
 
     EntityType pattern_type = pattern.get_pattern_entity().get_entity_type();
     pql_dto::Entity first_param = pattern.get_first_param();
     pql_dto::Entity second_param = pattern.get_second_param();
-    if (pattern_type == EntityType::ASSIGN)
+
+    if (first_param.is_entity_declared() && second_param.is_entity_declared() && !cache.get_similar_clause_map(clause).empty())
+    {
+        intermediary_map = cache.get_similar_clause_map(clause);
+    }
+    else if (pattern_type == EntityType::ASSIGN)
     {
         intermediary_map = AssignEvaluator::evaluate(pattern, first_param, second_param, PKB);
     }
-    if (pattern_type == EntityType::IF)
+    else if (pattern_type == EntityType::IF)
     {
         intermediary_map = IfEvaluator::evaluate(pattern, first_param, second_param, PKB);
     }
-    if (pattern_type == EntityType::WHILE)
+    else if (pattern_type == EntityType::WHILE)
     {
         intermediary_map = WhileEvaluator::evaluate(pattern, first_param, second_param, PKB);
     }
@@ -532,12 +562,20 @@ unordered_map<string, vector<string>> QueryEvaluator::evaluatePattern(pql_dto::P
     return intermediary_map;
 }
 
-unordered_map<string, vector<string>> QueryEvaluator::evaluateWith(pql_dto::With &with, PKB &PKB, Cache &cache)
+unordered_map<string, vector<string>> QueryEvaluator::evaluateWith(pql_dto::Constraint clause, pql_dto::With &with, PKB &PKB, Cache &cache)
 {
     unordered_map<string, vector<string>> intermediary_map;
     pql_dto::Entity first_param = with.get_first_param();
     pql_dto::Entity second_param = with.get_second_param();
-    intermediary_map = WithEvaluator::evaluate(first_param, second_param, PKB);
+
+    if (first_param.is_entity_declared() && second_param.is_entity_declared() && !cache.get_similar_clause_map(clause).empty())
+    {
+        intermediary_map = cache.get_similar_clause_map(clause);
+    }
+    else
+    {
+        intermediary_map = WithEvaluator::evaluate(first_param, second_param, PKB);
+    }
     cache.insert_clause(with, first_param, second_param, intermediary_map);
     return intermediary_map;
 }
