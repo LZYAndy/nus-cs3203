@@ -16,8 +16,7 @@ procedure IfIfIf {
 13                a10 = a11 % (a12 / a13);}}}
     else {
 14        a14 = a15;}
-15    a16 = a17;
-}
+15    a16 = a17;}
 
 procedure IfIfWhile {
 16    if (b1 < b2) then {
