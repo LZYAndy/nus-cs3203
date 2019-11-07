@@ -80,23 +80,23 @@ void DesignExtractor::extract_further_parents_child(ParentBank &bank_in, ParentS
 bool DesignExtractor::extract_calls_star(CallsBank &bank_in, CallsStarBank &bank_out, UsesBank &uses_bank, ModifiesBank &modifies_bank, ParentStarBank &parent_star_bank)
 {
     // copy callsBank to CallsStarBank
-    for (std::pair<std::string, std::vector<std::string>> in: bank_in.get_all_procedures_calls_relationship())
+    for (std::pair<std::string, std::vector<std::string>> in : bank_in.get_all_procedures_calls_relationship())
     {
-        for (std::string proc_called: in.second)
+        for (std::string proc_called : in.second)
         {
             bank_out.insert_calls_star(in.first, proc_called);
-            uses_bank.insert_uses_for_call(in.first, proc_called); // insert uses relationship for proc
+            uses_bank.insert_uses_for_call(in.first, proc_called);         // insert uses relationship for proc
             modifies_bank.insert_modifies_for_call(in.first, proc_called); // insert modifies relationship for proc
         }
     }
-    std::vector<std::string> keys  = bank_out.get_all_procedures_calls_star();
+    std::vector<std::string> keys = bank_out.get_all_procedures_calls_star();
     int i = 0;
     while (i < keys.size())
     {
         for (int j = i; j < keys.size(); j++)
         {
             for (std::string proc_call : bank_out.get_procedures_calls_star(keys[j])) // get all proc that calls key (_, key)
-            {  
+            {
                 for (std::string proc_called_by_key : bank_out.get_procedures_called_by_star(keys[j]))
                 {
                     bool insert_result = bank_out.insert_calls_star(proc_call, proc_called_by_key);
@@ -111,7 +111,7 @@ bool DesignExtractor::extract_calls_star(CallsBank &bank_in, CallsStarBank &bank
         }
         i++;
     }
-    
+
     for (auto call_stmt : bank_in.get_all_statements_calls_relationship())
     {
         auto parents = parent_star_bank.get_parent_star(call_stmt.first);
@@ -123,7 +123,7 @@ bool DesignExtractor::extract_calls_star(CallsBank &bank_in, CallsStarBank &bank
                 uses_bank.insert_uses(parent_stmt_num, uses_variable);
             }
         }
-        
+
         for (std::string modifies_variable : modifies_bank.get_modified_by_procedure(call_stmt.second[0]))
         {
             modifies_bank.insert_modifies(call_stmt.first, modifies_variable);
@@ -137,43 +137,13 @@ bool DesignExtractor::extract_calls_star(CallsBank &bank_in, CallsStarBank &bank
 }
 bool DesignExtractor::extract_next_bip(PKB &pkb)
 {
-    auto all_previous = pkb.get_all_previous();
+    auto all_previous = pkb.get_all_statement_nums();
     auto calls_stmts = pkb.get_all_calls();
     for (auto previous : all_previous)
     {
         if (pkb.get_statement_type(previous) == EntityType::CALL) // check if previous is a call stmt
         {
-            std::string procedure_called = pkb.get_called_by_statement(previous);
-            int callee_start_stmt_no = pkb.get_procedure_first_line(procedure_called);
-            std::vector<int> callee_end_stmts_no = pkb.get_procedure_last_lines(procedure_called); 
-            pkb.insert_next_bip(previous, callee_start_stmt_no);
-            std::stack<int> to_visit;
-            std::unordered_set<int> visited;
-            to_visit.push(callee_start_stmt_no);
-            while (!to_visit.empty())
-            {
-                int stmt = to_visit.top();
-                to_visit.pop();
-                if (visited.find(stmt) != visited.end())
-                {
-                    continue;
-                }
-                visited.insert(stmt);
-                auto next_stmts = pkb.get_statements_next(stmt);
-                for (int next_stmt : next_stmts)
-                {
-                    to_visit.push(next_stmt);
-                    pkb.insert_next_bip(stmt, next_stmt);
-                }
-            }
-            for (auto after_call : pkb.get_statements_next(previous))
-            {
-                for (int end_stmt : callee_end_stmts_no)
-                {
-                    pkb.insert_next_bip(end_stmt, after_call);
-                }
-                pkb.insert_call_ingress_egress(previous, after_call);
-            }
+            extract_next_bip_helper(pkb, previous, pkb.get_statements_next(previous));
         }
         else
         {
@@ -184,4 +154,80 @@ bool DesignExtractor::extract_next_bip(PKB &pkb)
         }
     }
     return true;
+}
+
+void DesignExtractor::extract_next_bip_helper(PKB &pkb, int previous, std::vector<int> next_of_old_previous)
+{
+    std::string procedure_called = pkb.get_called_by_statement(previous);
+    int callee_start_stmt_no = pkb.get_procedure_first_line(procedure_called);
+    std::vector<int> callee_end_stmts_no = pkb.get_procedure_last_lines(procedure_called);
+    pkb.insert_next_bip(previous, callee_start_stmt_no);
+    std::stack<int> to_visit;
+    std::unordered_set<int> visited;
+    to_visit.push(callee_start_stmt_no);
+    while (!to_visit.empty())
+    {
+        int stmt = to_visit.top();
+        to_visit.pop();
+        if (visited.find(stmt) != visited.end())
+        {
+            continue;
+        }
+        visited.insert(stmt);
+        if (pkb.get_statement_type(stmt) == EntityType::CALL) // check if previous is a call stmt
+        {
+            std::vector<int> after_calls = pkb.get_statements_next(stmt);
+            if (after_calls.empty())
+            {
+                extract_next_bip_helper(pkb, stmt, next_of_old_previous);
+            }
+            else
+            {
+                extract_next_bip_helper(pkb, stmt, after_calls);
+            }
+            auto next_stmts = pkb.get_statements_next(stmt);
+            for (int next_stmt : next_stmts)
+            {
+                to_visit.push(next_stmt);
+            }
+        }
+        else
+        {
+            auto next_stmts = pkb.get_statements_next(stmt);
+            for (int next_stmt : next_stmts)
+            {
+                to_visit.push(next_stmt);
+                pkb.insert_next_bip(stmt, next_stmt);
+            }
+        }
+    }
+        std::vector<int> after_calls = pkb.get_statements_next(previous);
+        if (after_calls.empty()) // call is at last stmt of procedure
+        {
+            for (auto after_call : next_of_old_previous)
+            {
+                for (int end_stmt : callee_end_stmts_no)
+                {
+                    pkb.insert_next_bip(end_stmt, after_call);
+                }
+                pkb.insert_call_ingress_egress(previous, after_call);
+            }
+        }
+        else
+        {
+            for (auto after_call : after_calls)
+            {
+                for (int end_stmt : callee_end_stmts_no)
+                {
+                    if (pkb.get_statement_type((end_stmt)) == EntityType::CALL)
+                    {
+                        continue;
+                    }
+                    pkb.insert_next_bip(end_stmt, after_call);
+                }
+                pkb.insert_call_ingress_egress(previous, after_call);
+            }
+        }
+
+
 }
