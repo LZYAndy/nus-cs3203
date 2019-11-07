@@ -45,9 +45,9 @@ procedure one {
             if (a > b) then {
                 call three;}
             else {
-                call five;}
+                call five;}}
         else {
-            call five;}
+            call five;}}
     else {
         call four;}
     x = x + a;
@@ -74,7 +74,7 @@ procedure five {
     z = a + b;}
 
 procedure six {
-    read x;
+    read b;
     x = x + a;
     z = a + b;
     call seven;}
