@@ -1,0 +1,94 @@
+procedure one {
+    a = b;
+    call three;
+    b = a + b +c;
+    while (x > y) {
+        a = b + c;
+        c = a + b;
+        p = a + b;
+        x = x + a + y;}
+    f = f + b;
+    x = x + 1;
+    read a;
+    read n;
+    read b;
+    if (a > b) then {
+        a = a + b;
+        a = a - v;
+        c = a + b;
+        v = a + b + c;}
+    else {
+        b = c + d;
+        d = a + b;
+        c = c + b;
+        call two;}
+    call two;
+    call two;
+    call two;
+    while (x > y) {
+        while (x > y) {
+            while (a > b) {
+                call three;
+                call three;
+                call three;}}}
+    call three;
+    print z;
+    x = x + y;
+    y = y +z;
+    z = a + b;
+    if (z > y) then {
+        call five;}
+    else {
+        call six;}
+    if (x > b) then {
+        if (a > b) then {
+            if (a > b) then {
+                call three;}
+            else {
+                call five;}
+        else {
+            call five;}
+    else {
+        call four;}
+    x = x + a;
+    d = d + f;
+    g = g + a;
+    call four;}
+
+procedure two {
+    call three;
+    call three;
+    call three;}
+
+procedure three {
+    x = x + y;
+    y = z + a;
+    z = z + y;}
+
+procedure four {
+    call five;}
+
+procedure five {
+    x = a + b;
+    a = b + x;
+    z = a + b;}
+
+procedure six {
+    read x;
+    x = x + a;
+    z = a + b;
+    call seven;}
+
+procedure seven {
+    call eight;}
+
+procedure eight {
+    call nine;}
+
+procedure nine {
+    call ten;}
+
+procedure ten {
+    x = x + y;
+    a = b;
+    z = a;}
