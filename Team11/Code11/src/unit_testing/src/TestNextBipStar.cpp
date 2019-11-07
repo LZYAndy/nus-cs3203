@@ -22,6 +22,12 @@ TEST_CASE("NextBipStarCompute::is_next_bip_star")
     type_bank.insert_type(7, EntityType::ASSIGN);
     type_bank.insert_type(8, EntityType::CALL);
     type_bank.insert_type(9, EntityType::ASSIGN);
+    next_bank.insert_next(1, 2);
+    next_bank.insert_next(2, 6);
+    next_bank.insert_next(6, 7);
+    next_bank.insert_next(8, 9);
+    next_bank.insert_next(4, 5);
+    next_bank.insert_next(5, 4);
 
     NextBipStarCompute next_bip_star_compute(&next_bip_bank, &type_bank, &next_bank);
     next_bip_bank.insert_call_ingress_egress(2, 6);
@@ -66,6 +72,19 @@ TEST_CASE("NextBipStarCompute::get_next_bip_star")
     type_bank.insert_type(7, EntityType::ASSIGN);
     type_bank.insert_type(8, EntityType::CALL);
     type_bank.insert_type(9, EntityType::ASSIGN);
+    next_bank.insert_next(1, 2);
+    next_bank.insert_next(2, 6);
+    next_bank.insert_next(6, 7);
+    next_bank.insert_next(8, 9);
+    next_bank.insert_next(4, 5);
+    next_bank.insert_next(5, 4);
+    next_bank.insert_next(1, 2);
+    next_bank.insert_next(2, 6);
+    next_bank.insert_next(6, 7);
+    next_bank.insert_next(8, 9);
+    next_bank.insert_next(4, 5);
+    next_bank.insert_next(5, 4);
+
     NextBipStarCompute next_bip_star_compute(&next_bip_bank, &type_bank, &next_bank);
     next_bip_bank.insert_call_ingress_egress(2, 6);
     next_bip_bank.insert_call_ingress_egress(8, 9);
@@ -114,6 +133,12 @@ TEST_CASE("NextBipStarCompute::get_previous_bip_star")
     type_bank.insert_type(7, EntityType::ASSIGN);
     type_bank.insert_type(8, EntityType::CALL);
     type_bank.insert_type(9, EntityType::ASSIGN);
+    next_bank.insert_next(1, 2);
+    next_bank.insert_next(2, 6);
+    next_bank.insert_next(6, 7);
+    next_bank.insert_next(8, 9);
+    next_bank.insert_next(4, 5);
+    next_bank.insert_next(5, 4);
     NextBipStarCompute next_bip_star_compute(&next_bip_bank, &type_bank, &next_bank);
     next_bip_bank.insert_call_ingress_egress(2, 6);
     next_bip_bank.insert_call_ingress_egress(8, 9);
@@ -169,6 +194,12 @@ TEST_CASE("NextBipStarCompute::get_all_next_bip_star_relationship")
     type_bank.insert_type(7, EntityType::ASSIGN);
     type_bank.insert_type(8, EntityType::CALL);
     type_bank.insert_type(9, EntityType::ASSIGN);
+    next_bank.insert_next(1, 2);
+    next_bank.insert_next(2, 6);
+    next_bank.insert_next(6, 7);
+    next_bank.insert_next(8, 9);
+    next_bank.insert_next(4, 5);
+    next_bank.insert_next(5, 4);
     next_bip_bank.insert_call_ingress_egress(2, 6);
     next_bip_bank.insert_call_ingress_egress(8, 9);
 

@@ -1,7 +1,7 @@
 #include "catch.hpp"
 #include "AffectsBipStarCompute.h"
 
-TEST_CASE("AffectsBipStarCompute::is_affects_bip_star()")
+TEST_CASE("AffectsBipStarCompute::is_affects_bip_star()", "[.]")
 {
     NextBipBank next_bip_bank;
     TypeBank type_bank;
@@ -63,7 +63,7 @@ TEST_CASE("AffectsBipStarCompute::is_affects_bip_star()")
     }
 }
 
-TEST_CASE("AffectsBipStarCompute::get_affects_bip_star()")
+TEST_CASE("AffectsBipStarCompute::get_affects_bip_star()", "[.]")
 {
     NextBipBank next_bip_bank;
     TypeBank type_bank;
@@ -130,7 +130,7 @@ TEST_CASE("AffectsBipStarCompute::get_affects_bip_star()")
     }
 }
 
-TEST_CASE("AffectsBipStarCompute::get_affected_bip_star()")
+TEST_CASE("AffectsBipStarCompute::get_affected_bip_star()", "[.]")
 {
     NextBipBank next_bip_bank;
     TypeBank type_bank;
@@ -197,7 +197,7 @@ TEST_CASE("AffectsBipStarCompute::get_affected_bip_star()")
     }
 }
 
-TEST_CASE("AffectsBipStarCompute::get_all_affects_bip_star_relationship()")
+TEST_CASE("AffectsBipStarCompute::get_all_affects_bip_star_relationship()", "[.]")
 {
     NextBipBank next_bip_bank;
     TypeBank type_bank;

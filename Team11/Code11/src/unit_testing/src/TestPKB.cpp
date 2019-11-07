@@ -4509,7 +4509,12 @@ TEST_CASE("PKB::is_next_bip_star")
     pkb.insert_type(7, EntityType::ASSIGN);
     pkb.insert_type(8, EntityType::CALL);
     pkb.insert_type(9, EntityType::ASSIGN);
-
+    pkb.insert_next(1, 2);
+    pkb.insert_next(2, 6);
+    pkb.insert_next(6, 7);
+    pkb.insert_next(8, 9);
+    pkb.insert_next(4, 5);
+    pkb.insert_next(5, 4);
     pkb.insert_call_ingress_egress(2, 6);
     pkb.insert_call_ingress_egress(8, 9);
 
@@ -4552,6 +4557,12 @@ TEST_CASE("PKB::get_next_bip_star")
     pkb.insert_type(9, EntityType::ASSIGN);
     pkb.insert_call_ingress_egress(2, 6);
     pkb.insert_call_ingress_egress(8, 9);
+    pkb.insert_next(1, 2);
+    pkb.insert_next(2, 6);
+    pkb.insert_next(6, 7);
+    pkb.insert_next(8, 9);
+    pkb.insert_next(4, 5);
+    pkb.insert_next(5, 4);
 
     SECTION("empty")
     {
@@ -4597,6 +4608,12 @@ TEST_CASE("PKB::get_previous_bip_star")
     pkb.insert_type(9, EntityType::ASSIGN);
     pkb.insert_call_ingress_egress(2, 6);
     pkb.insert_call_ingress_egress(8, 9);
+    pkb.insert_next(1, 2);
+    pkb.insert_next(2, 6);
+    pkb.insert_next(6, 7);
+    pkb.insert_next(8, 9);
+    pkb.insert_next(4, 5);
+    pkb.insert_next(5, 4);
 
     SECTION("empty")
     {
@@ -4648,6 +4665,12 @@ TEST_CASE("PKB::get_all_next_bip_star_relationship")
     pkb.insert_type(9, EntityType::ASSIGN);
     pkb.insert_call_ingress_egress(2, 6);
     pkb.insert_call_ingress_egress(8, 9);
+    pkb.insert_next(1, 2);
+    pkb.insert_next(2, 6);
+    pkb.insert_next(6, 7);
+    pkb.insert_next(8, 9);
+    pkb.insert_next(4, 5);
+    pkb.insert_next(5, 4);
 
     SECTION(">1")
     {
@@ -4671,7 +4694,7 @@ TEST_CASE("PKB::get_all_next_bip_star_relationship")
     }
 }
 
-TEST_CASE("PKB::is_affects_bip()")
+TEST_CASE("PKB::is_affects_bip()", "[.]")
 {
     PKB pkb;
 
@@ -4730,7 +4753,7 @@ TEST_CASE("PKB::is_affects_bip()")
     }
 }
 
-TEST_CASE("PKB::get_all_assigns_affects_bip()")
+TEST_CASE("PKB::get_all_assigns_affects_bip()", "[.]")
 {
     PKB pkb;
 
@@ -4791,7 +4814,7 @@ TEST_CASE("PKB::get_all_assigns_affects_bip()")
     }
 }
 
-TEST_CASE("PKB::get_all_assigns_affected_bip()")
+TEST_CASE("PKB::get_all_assigns_affected_bip()", "[.]")
 {
     PKB pkb;
 
@@ -4852,7 +4875,7 @@ TEST_CASE("PKB::get_all_assigns_affected_bip()")
     }
 }
 
-TEST_CASE("PKB::get_all_affects_bip_relationship()")
+TEST_CASE("PKB::get_all_affects_bip_relationship()", "[.]")
 {
     PKB pkb;
 
@@ -4915,7 +4938,7 @@ TEST_CASE("PKB::get_all_affects_bip_relationship()")
     }
 }
 
-TEST_CASE("PKB::does_affects_bip_exist()")
+TEST_CASE("PKB::does_affects_bip_exist()", "[.]")
 {
     PKB pkb;
 
@@ -4971,7 +4994,7 @@ TEST_CASE("PKB::does_affects_bip_exist()")
     }
 }
 
-TEST_CASE("PKB::get_assigns_affected_bip_by()")
+TEST_CASE("PKB::get_assigns_affected_bip_by()", "[.]")
 {
     PKB pkb;
 
@@ -5029,7 +5052,7 @@ TEST_CASE("PKB::get_assigns_affected_bip_by()")
     }
 }
 
-TEST_CASE("PKB::get_assigns_affects_bip()")
+TEST_CASE("PKB::get_assigns_affects_bip()", "[.]")
 {
     PKB pkb;
 
@@ -5088,7 +5111,7 @@ TEST_CASE("PKB::get_assigns_affects_bip()")
 }
 
 
-TEST_CASE("PKB::is_affects_bip_star()")
+TEST_CASE("PKB::is_affects_bip_star()", "[.]")
 {
     PKB pkb;
     pkb.insert_next_bip(1, 2);
@@ -5145,7 +5168,7 @@ TEST_CASE("PKB::is_affects_bip_star()")
     }
 }
 
-TEST_CASE("PKB::get_affects_bip_star()")
+TEST_CASE("PKB::get_affects_bip_star()", "[.]")
 {
     PKB pkb;
     pkb.insert_next_bip(1, 2);
@@ -5207,7 +5230,7 @@ TEST_CASE("PKB::get_affects_bip_star()")
     }
 }
 
-TEST_CASE("PKB::get_affected_bip_star()")
+TEST_CASE("PKB::get_affected_bip_star()", "[.]")
 {
     PKB pkb;
     pkb.insert_next_bip(1, 2);
@@ -5269,7 +5292,7 @@ TEST_CASE("PKB::get_affected_bip_star()")
     }
 }
 
-TEST_CASE("PKB::get_all_affects_bip_star_relationship()")
+TEST_CASE("PKB::get_all_affects_bip_star_relationship()", "[.]")
 {
     PKB pkb;
 
