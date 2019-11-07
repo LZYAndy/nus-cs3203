@@ -5110,7 +5110,6 @@ TEST_CASE("PKB::get_assigns_affects_bip()", "[.]")
     }
 }
 
-
 TEST_CASE("PKB::is_affects_bip_star()", "[.]")
 {
     PKB pkb;

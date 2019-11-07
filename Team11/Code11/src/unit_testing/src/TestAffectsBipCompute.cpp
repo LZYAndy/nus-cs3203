@@ -370,14 +370,14 @@ TEST_CASE("AffectsBipCompute::get_assigns_affected_bip_by()", "[.]")
 
     SECTION("empty")
     {
-        REQUIRE(affects_bip_compute.get_assigns_affected_bip_by(2, false).empty());
-        REQUIRE(affects_bip_compute.get_assigns_affected_bip_by(9, false).empty());
+        REQUIRE(affects_bip_compute.get_assigns_affected_bip_by(2).empty());
+        REQUIRE(affects_bip_compute.get_assigns_affected_bip_by(9).empty());
     }
 
     SECTION("return 1")
     {
-        REQUIRE(affects_bip_compute.get_assigns_affected_bip_by(10, false) == std::vector<int>({9}));
-        REQUIRE(affects_bip_compute.get_assigns_affected_bip_by(5, false) == std::vector<int>({5}));
+        REQUIRE(affects_bip_compute.get_assigns_affected_bip_by(10) == std::vector<int>({9}));
+        REQUIRE(affects_bip_compute.get_assigns_affected_bip_by(5) == std::vector<int>({5}));
     }
 }
 
