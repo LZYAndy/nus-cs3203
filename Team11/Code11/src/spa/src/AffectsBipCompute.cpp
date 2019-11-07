@@ -74,7 +74,7 @@ bool AffectsBipCompute::is_affects_bip(int stmt1, int stmt2)
         }
         if (stmt_type == EntityType::CALL)
         {
-            call_stack.push(next_bip_bank->get_egress(stmt));
+//            call_stack.push(next_bip_bank->get_egress(stmt));
         }
         std::vector<int> next_bip_stmts = next_bip_bank->get_next_bip(stmt);
         if (!call_stack.empty())

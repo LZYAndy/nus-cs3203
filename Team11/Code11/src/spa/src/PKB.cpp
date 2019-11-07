@@ -3,7 +3,7 @@
 using namespace std;
 PKB::PKB()
 {
-    next_bip_star_compute = NextBipStarCompute(&next_bip_bank, &type_bank);
+    next_bip_star_compute = NextBipStarCompute(&next_bip_bank, &type_bank, &next_bank);
     affects_bip_compute = AffectsBipCompute(&next_bip_bank, &modifies_bank, &uses_bank, &type_bank);
     affects_bip_star_compute = AffectsBipStarCompute(&affects_bip_compute, &type_bank);
 }
