@@ -30,7 +30,7 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
     // syntactic or symmetric errors
     if (!error_msg.empty())
     {
-        if (select_clause.at(0).get_entity_type() == EntityType::BOOLEAN)
+        if (!select_clause.empty() && select_clause.at(0).get_entity_type() == EntityType::BOOLEAN)
         {
             return unordered_set<string> {"FALSE"};
         }
