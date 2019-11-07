@@ -576,6 +576,7 @@ unordered_map<string, vector<string>> QueryEvaluator::evaluateWith(pql_dto::Cons
     {
         intermediary_map = WithEvaluator::evaluate(first_param, second_param, PKB);
     }
+
     cache.insert_clause(with, first_param, second_param, intermediary_map);
     return intermediary_map;
 }

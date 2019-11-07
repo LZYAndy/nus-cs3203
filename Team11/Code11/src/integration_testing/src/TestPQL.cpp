@@ -939,4 +939,11 @@ TEST_CASE("Multiple select, such that, and pattern")
         unordered_set<string> expected_result {"2 2 2", "3 3 3", "13 13 13", "18 18 18"};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
+
+    SECTION("select tuple, multiple clauses")
+    {
+        string pql_query = "constant c; Select c.value with c.value = 0";
+        unordered_set<string> expected_result {"0"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
 }
