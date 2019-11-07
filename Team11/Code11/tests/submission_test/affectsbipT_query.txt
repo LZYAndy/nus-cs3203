@@ -1,0 +1,100 @@
+1 - Select AffectsbipT
+
+Select BOOLEAN such that Affectsbip*(15, 16)
+TRUE
+5000
+2 - Select AffectsbipT
+
+Select BOOLEAN such that Affectsbip*(15, 17)
+TRUE
+5000
+3 - Select AffectsbipT
+
+Select BOOLEAN such that Affectsbip*(15, 18)
+TRUE
+5000
+4 - Select AffectsbipT
+
+Select BOOLEAN such that Affectsbip*(16, 17)
+TRUE
+5000
+5 - Select AffectsbipT
+
+Select BOOLEAN such that Affectsbip*(16, 18)
+TRUE
+5000
+6 - Select AffectsbipT
+
+Select BOOLEAN such that Affectsbip*(17, 18)
+TRUE
+5000
+7 - Select AffectsbipT
+
+Select BOOLEAN such that Affectsbip*(16, 18)
+TRUE
+5000
+8 - Select AffectsbipT
+
+Select BOOLEAN such that Affectsbip*(1, 55)
+TRUE
+5000
+9 - Select AffectsbipT
+
+Select BOOLEAN such that Affectsbip*(69, 55)
+TRUE
+5000
+10 - Select AffectsbipT
+
+Select BOOLEAN such that Affectsbip*(54, 47)
+TRUE
+5000
+11 - Select AffectsbipT
+
+Select BOOLEAN such that Affectsbip*(69, 58)
+TRUE
+5000
+12 - Select AffectsbipT
+
+Select BOOLEAN such that Affectsbip*(59, 59)
+TRUE
+5000
+13 - Select AffectsbipT
+
+Select BOOLEAN such that Affectsbip*(58, 59)
+TRUE
+5000
+14 - Select AffectsbipT
+
+Select BOOLEAN such that Affectsbip*(58, 60)
+TRUE
+5000
+15 - Select AffectsbipT
+stmt s;
+Select s such that Affectsbip*(47, s)
+
+5000
+16 - Select AffectsbipT
+stmt s;
+Select s such that Affectsbip*(48, s)
+
+5000
+17 - Select AffectsbipT
+
+Select BOOLEAN such that Affectsbip*(19, 36)
+TRUE
+5000
+18 - Select AffectsbipT
+
+Select BOOLEAN such that Affectsbip*(19, 63)
+FALSE
+5000
+19 - Select AffectsbipT
+
+Select BOOLEAN such that Affectsbip*(16, 20)
+FALSE
+5000
+20 - Select AffectsbipT
+
+Select BOOLEAN such that Affectsbip*(68, 54)
+TRUE
+5000

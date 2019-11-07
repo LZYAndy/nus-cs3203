@@ -113,3 +113,38 @@ TRUE
 Select BOOLEAN such that AffectsBip(62, 68)
 TRUE
 5000
+24 - Select affectsbip
+
+Select BOOLEAN such that AffectsBip(59, 58)
+TRUE
+5000
+25 - Select affectsbip
+
+Select BOOLEAN such that AffectsBip(19, 58)
+TRUE
+5000
+26 - Select affectsbip
+
+Select BOOLEAN such that AffectsBip(19, 59)
+TRUE
+5000
+27 - Select affectsbip
+
+Select BOOLEAN such that AffectsBip(19, 60)
+TRUE
+5000
+28 - Select affectsbip
+
+Select BOOLEAN such that AffectsBip(3, 60)
+FALSE
+5000
+29 - Select affectsbip
+
+Select BOOLEAN such that AffectsBip(3, 15)
+FALSE
+5000
+30 - Select affectsbip
+
+Select BOOLEAN such that AffectsBip(47, 47)
+FALSE
+5000

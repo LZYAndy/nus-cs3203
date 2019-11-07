@@ -2,35 +2,32 @@
 import os
 import glob
 
-program_query_mapping = [
-                        ("affectsbip", "affectsbip_query")
-                        # ("follows_parent", "follows_query"),
-                        # ("follows_parent", "followsT_query"),
-                        # ("follows_parent", "parent_query"),
-                        # ("follows_parent", "parentT_query"),
-                        # ("valid_calls", "calls_query"),
-                        # ("valid_calls", "callsT_query"),
-                        # ("invalid_calls_direct", "invalid_calls_direct_query"),
-                        # ("invalid_calls_cyclic", "invalid_calls_cyclic_query"),
-                        # ("invalid_calls_missing_procedure", "invalid_calls_missing_procedure_query"),
-                        # ("modifies_uses", "modifies_query"),
-                        # ("modifies_uses", "uses_query"),
-                        # ("next_affects", "next_query"),
-                        # ("nextbipT", "nextbip_query"),
-                        # ("nextT", "nextT_query"),
-                        # ("next_affects", "affects_query"),
-                        # ("next_affects", "affectsT_query"),
-                        # ("pattern", "pattern_query"),
-                        # ("with", "with_query"),
-                        # ("i1_systest_test1_program", "i1_systest_test1_query"),
-                        # ("i1_systest_test2_program", "i1_systest_test2_query"),
-                        # ("i1_systest_test3_program", "i1_systest_test3_query"),
-                        # ("i2_systest_test_program", "i2_systest_test_query"),
-                        # ("i3_systest_test1_program", "i3_systest_test1_query"),
-                        # ("i3_systest_test2_program", "i3_systest_test2_query"),
-                        # ("i3_systest_test3_program", "i3_systest_test3_query"),
-                        # ("i3_systest_test4_program", "i3_systest_test4_query")
-                         ]
+program_query_mapping = [("follows_parent", "follows_query"),
+                        ("follows_parent", "followsT_query"),
+                        ("follows_parent", "parent_query"),
+                        ("follows_parent", "parentT_query"),
+                        ("valid_calls", "calls_query"),
+                        ("valid_calls", "callsT_query"),
+                        ("invalid_calls_direct", "invalid_calls_direct_query"),
+                        ("invalid_calls_cyclic", "invalid_calls_cyclic_query"),
+                        ("invalid_calls_missing_procedure", "invalid_calls_missing_procedure_query"),
+                        ("modifies_uses", "modifies_query"),
+                        ("modifies_uses", "uses_query"),
+                        ("next_affects", "next_query"),
+                        ("nextbipT", "nextbip_query"),
+                        ("nextT", "nextT_query"),
+                        ("next_affects", "affects_query"),
+                        ("next_affects", "affectsT_query"),
+                        ("pattern", "pattern_query"),
+                        ("with", "with_query"),
+                        ("i1_systest_test1_program", "i1_systest_test1_query"),
+                        ("i1_systest_test2_program", "i1_systest_test2_query"),
+                        ("i1_systest_test3_program", "i1_systest_test3_query"),
+                        ("i2_systest_test_program", "i2_systest_test_query"),
+                        ("i3_systest_test1_program", "i3_systest_test1_query"),
+                        ("i3_systest_test2_program", "i3_systest_test2_query"),
+                        ("i3_systest_test3_program", "i3_systest_test3_query"),
+                        ("i3_systest_test4_program", "i3_systest_test4_query")]
 
 autotest_directory = "./cmake-build-debug/src/autotester/"
 test_program_queries_directory = "./tests/submission_test/"
