@@ -569,7 +569,7 @@ Select BOOLEAN such that Modifies(_, _)
 FALSE
 5000
 66 - Modifies, lhs wc, rhs wc
-procedure pl
+procedure p;
 Select p such that Modifies(_, _)
 
 5000
@@ -699,7 +699,7 @@ Select BOOLEAN such that Calls(_, _)
 TRUE
 5000
 77 - Calls, lhs wc, rhs wc
-
+while w;
 Select w such that Calls(_, _)
 8, 21, 22, 38, 42
 5000
