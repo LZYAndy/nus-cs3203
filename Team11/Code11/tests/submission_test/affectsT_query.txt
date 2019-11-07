@@ -101,7 +101,7 @@ FALSE
 21 - Select invalid AffectsT, different procedures
 
 Select BOOLEAN such that Affects*(2, 71)
-FALSE
+TRUE
 5000
 22 - Select invalid AffectsT, different procedures
 
@@ -146,12 +146,12 @@ TRUE
 30 - Select normal Affects, but also holds for AffectT, RHS wildcard
 stmt s;
 Select s such that Affects*(21, s)
-22, 24, 26, 38
+13, 15, 22, 24, 25, 26, 29, 31, 32, 35, 36, 38, 46, 48, 57, 65, 66, 68, 71
 5000
 31 - Select normal Affects, but also holds for AffectT, RHS wildcard
 stmt s;
 Select s such that Affects*(39, s)
-26, 38
+13, 15, 25, 26, 29, 31, 32, 36, 38, 46, 48, 57, 65, 66, 71
 5000
 32 - Select normal Affects, but also holds for AffectT, complicated while and if
 
@@ -176,7 +176,7 @@ TRUE
 36 - Select normal Affects, but also holds for AffectT, complicated while and if
 
 Select BOOLEAN such that Affects*(28, 27)
-TRUE
+FALSE
 5000
 37 - Select normal AffectsT
 

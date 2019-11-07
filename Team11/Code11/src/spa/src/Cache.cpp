@@ -1,8 +1,9 @@
 #include "Cache.h"
 
 bool Cache::insert_clause(pql_dto::Relationships &relation, pql_dto::Entity &first_param,
-        pql_dto::Entity &second_param, unordered_map<string, vector<string>> &intermediary_map)
+        pql_dto::Entity &second_param, unordered_map<string, vector<string>> intermediary_map)
 {
+    map<string, vector<string>> order_map;
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
     string first_type_name = QueryUtility::get_entity_type_name(first_param);
@@ -10,15 +11,21 @@ bool Cache::insert_clause(pql_dto::Relationships &relation, pql_dto::Entity &fir
     string clause_name = QueryUtility::get_clause_type_name(relation);
     string explicit_key = clause_name + " " + first_name + " " + second_name;
     string implicit_key = clause_name + " " + first_type_name + " " + second_type_name;
+    if (first_param.is_entity_declared() && second_param.is_entity_declared())
+    {
+        order_map.insert(pair<string, vector<string>> (first_name, intermediary_map[first_name]));
+        order_map.insert(pair<string, vector<string>> (second_name, intermediary_map[second_name]));
+    }
     explicit_relation_cache[explicit_key] = intermediary_map;
-    implicit_relation_cache[implicit_key] = intermediary_map;
+    implicit_relation_cache[implicit_key] = order_map;
 
     return true;
 }
 
 bool Cache::insert_clause(pql_dto::Pattern &pattern, pql_dto::Entity &first_param,
-        pql_dto::Entity &second_param, unordered_map<string, vector<string>> &intermediary_map)
+        pql_dto::Entity &second_param, unordered_map<string, vector<string>> intermediary_map)
 {
+    map<string, vector<string>> order_map;
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
     string first_type_name = QueryUtility::get_entity_type_name(first_param);
@@ -26,15 +33,21 @@ bool Cache::insert_clause(pql_dto::Pattern &pattern, pql_dto::Entity &first_para
     string clause_name = QueryUtility::get_clause_type_name(pattern);
     string explicit_key = clause_name + " " + first_name + " " + second_name;
     string implicit_key = clause_name + " " + first_type_name + " " + second_type_name;
+    if (first_param.is_entity_declared() && second_param.is_entity_declared())
+    {
+        order_map.insert(pair<string, vector<string>> (first_name, intermediary_map[first_name]));
+        order_map.insert(pair<string, vector<string>> (second_name, intermediary_map[second_name]));
+    }
     explicit_pattern_cache[explicit_key] = intermediary_map;
-    implicit_pattern_cache[implicit_key] = intermediary_map;
+    implicit_pattern_cache[implicit_key] = order_map;
 
     return true;
 }
 
 bool Cache::insert_clause(pql_dto::With &with, pql_dto::Entity &first_param,
-        pql_dto::Entity &second_param, unordered_map<string, vector<string>> &intermediary_map)
+        pql_dto::Entity &second_param, unordered_map<string, vector<string>> intermediary_map)
 {
+    map<string, vector<string>> order_map;
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
     string first_type_name = QueryUtility::get_entity_type_name(first_param);
@@ -42,14 +55,21 @@ bool Cache::insert_clause(pql_dto::With &with, pql_dto::Entity &first_param,
     string clause_name = QueryUtility::get_clause_type_name(with);
     string explicit_key = clause_name + " " + first_name + " " + second_name;
     string implicit_key = clause_name + " " + first_type_name + " " + second_type_name;
+    if (first_param.is_entity_declared() && second_param.is_entity_declared())
+    {
+        order_map.insert(pair<string, vector<string>> (first_name, intermediary_map[first_name]));
+        order_map.insert(pair<string, vector<string>> (second_name, intermediary_map[second_name]));
+    }
     explicit_with_cache[explicit_key] = intermediary_map;
-    implicit_with_cache[implicit_key] = intermediary_map;
+    implicit_with_cache[implicit_key] = order_map;
 
     return true;
 }
 
 unordered_map<string, vector<string>> Cache::get_similar_clause_map(pql_dto::Constraint &clause)
 {
+    map<string, vector<string>> temp_map;
+    unordered_map<string, vector<string>> result;
     pql_dto::Entity first_param;
     pql_dto::Entity second_param;
     string first_type_name;
@@ -66,7 +86,20 @@ unordered_map<string, vector<string>> Cache::get_similar_clause_map(pql_dto::Con
         second_type_name = QueryUtility::get_entity_type_name(second_param);
         clause_name = QueryUtility::get_clause_type_name(relation);
         implicit_key = clause_name + " " + first_type_name + " " + second_type_name;
-        return implicit_relation_cache[implicit_key];
+        temp_map = implicit_relation_cache[implicit_key];
+        bool is_first = true;
+        for (const auto& iter : temp_map)
+        {
+            if (is_first)
+            {
+                result[first_param.get_entity_name()] = iter.second;
+                is_first = false;
+            }
+            else
+            {
+                result[second_param.get_entity_name()] = iter.second;
+            }
+        }
     }
     if (clause.is_pattern())
     {
@@ -77,7 +110,20 @@ unordered_map<string, vector<string>> Cache::get_similar_clause_map(pql_dto::Con
         second_type_name = QueryUtility::get_entity_type_name(second_param);
         clause_name = QueryUtility::get_clause_type_name(pattern);
         implicit_key = clause_name + " " + first_type_name + " " + second_type_name;
-        return implicit_pattern_cache[implicit_key];
+        temp_map = implicit_pattern_cache[implicit_key];
+        bool is_first = true;
+        for (const auto& iter : temp_map)
+        {
+            if (is_first)
+            {
+                result[first_param.get_entity_name()] = iter.second;
+                is_first = false;
+            }
+            else
+            {
+                result[second_param.get_entity_name()] = iter.second;
+            }
+        }
     }
     if (clause.is_with())
     {
@@ -88,10 +134,23 @@ unordered_map<string, vector<string>> Cache::get_similar_clause_map(pql_dto::Con
         second_type_name = QueryUtility::get_entity_type_name(second_param);
         clause_name = QueryUtility::get_clause_type_name(with);
         implicit_key = clause_name + " " + first_type_name + " " + second_type_name;
-        return implicit_with_cache[implicit_key];
+        temp_map = implicit_with_cache[implicit_key];
+        bool is_first = true;
+        for (const auto& iter : temp_map)
+        {
+            if (is_first)
+            {
+                result[first_param.get_entity_name()] = iter.second;
+                is_first = false;
+            }
+            else
+            {
+                result[second_param.get_entity_name()] = iter.second;
+            }
+        }
     }
 
-    return unordered_map<string, vector<string>>();
+    return result;
 }
 
 unordered_map<string, vector<string>> Cache::get_clause_map(pql_dto::Constraint &clause)

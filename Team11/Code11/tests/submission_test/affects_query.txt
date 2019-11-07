@@ -101,7 +101,7 @@ FALSE
 21 - Select invalid Affects, different procedures
 
 Select BOOLEAN such that Affects(2, 71)
-FALSE
+TRUE
 5000
 22 - Select invalid Affects, different procedures
 
@@ -171,10 +171,10 @@ TRUE
 35 - Select normal Affects, not exist case
 assign a1, a2;
 Select BOOLEAN such that Affects(a1, a2) with a1.stmt# = a2.stmt#
-TRUE
+FALSE
 5000
 36 - Select normal Affects, complicated while and if
 
 Select BOOLEAN such that Affects(28, 27)
-TRUE
+FALSE
 5000
