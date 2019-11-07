@@ -1,31 +1,31 @@
 1 - Select procedure with name "main"
 procedure p;
-Select p with p.proc_name = "main"
+Select p with p.procName = "main"
 main
 5000
 2 - Select all procedure names
 procedure p;
-Select p.proc_name
+Select p.procName
 main, calculate, printData
 5000
 3 - Select variable with name "x"
 variable v;
-Select v with v.var_name = "x"
+Select v with v.varName = "x"
 x
 5000
 4 - Select all variable names
 variable v;
-Select v.var_name
+Select v.varName
 x, y, z, a, b, c, d, e, f, g, h, i, j
 5000
 5 - Select constant with value 909090
 constant c;
-Select c with c.const_value = 909090
+Select c with c.value = 909090
 909090
 5000
 6 - Select all constant values
 constant c;
-Select c.const_value
+Select c.value
 1, 2, 5, 9, 10, 20, 100, 909090, 8765
 5000
 7 - Select statement with statement number 1
@@ -84,9 +84,9 @@ Select r with r.stmt# = 13
 13
 5000
 18 - Select print with certain statement number
-print p;
-Select p with p.stmt# = 19
-19
+print pr;
+Select pr with pr.stmt# = 16
+16
 5000
 19 - Select if with certain statement number
 if ifs;
@@ -95,13 +95,13 @@ Select ifs with ifs.stmt# = 7
 5000
 20 - Select while with certain statement number
 while w;
-Select w with w.stmt# = 15
-15
+Select w with w.stmt# = 12
+12
 5000
 21 - Select call with certain statement number
 call cl;
-Select cl with cl.stmt# = 21
-21
+Select cl with cl.stmt# = 15
+15
 5000
 22 - Select assign with certain statement number
 assign a;
