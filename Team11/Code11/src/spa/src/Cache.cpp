@@ -11,12 +11,9 @@ bool Cache::insert_clause(pql_dto::Relationships &relation, pql_dto::Entity &fir
     string clause_name = QueryUtility::get_clause_type_name(relation);
     string explicit_key = clause_name + " " + first_name + " " + second_name;
     string implicit_key = clause_name + " " + first_type_name + " " + second_type_name;
-    if (first_param.is_entity_declared())
+    if (first_param.is_entity_declared() && second_param.is_entity_declared())
     {
         order_map.insert(pair<string, vector<string>> (first_name, intermediary_map[first_name]));
-    }
-    if (second_param.is_entity_declared())
-    {
         order_map.insert(pair<string, vector<string>> (second_name, intermediary_map[second_name]));
     }
     explicit_relation_cache[explicit_key] = intermediary_map;
@@ -36,12 +33,9 @@ bool Cache::insert_clause(pql_dto::Pattern &pattern, pql_dto::Entity &first_para
     string clause_name = QueryUtility::get_clause_type_name(pattern);
     string explicit_key = clause_name + " " + first_name + " " + second_name;
     string implicit_key = clause_name + " " + first_type_name + " " + second_type_name;
-    if (first_param.is_entity_declared())
+    if (first_param.is_entity_declared() && second_param.is_entity_declared())
     {
         order_map.insert(pair<string, vector<string>> (first_name, intermediary_map[first_name]));
-    }
-    if (second_param.is_entity_declared())
-    {
         order_map.insert(pair<string, vector<string>> (second_name, intermediary_map[second_name]));
     }
     explicit_pattern_cache[explicit_key] = intermediary_map;
@@ -61,12 +55,9 @@ bool Cache::insert_clause(pql_dto::With &with, pql_dto::Entity &first_param,
     string clause_name = QueryUtility::get_clause_type_name(with);
     string explicit_key = clause_name + " " + first_name + " " + second_name;
     string implicit_key = clause_name + " " + first_type_name + " " + second_type_name;
-    if (first_param.is_entity_declared())
+    if (first_param.is_entity_declared() && second_param.is_entity_declared())
     {
         order_map.insert(pair<string, vector<string>> (first_name, intermediary_map[first_name]));
-    }
-    if (second_param.is_entity_declared())
-    {
         order_map.insert(pair<string, vector<string>> (second_name, intermediary_map[second_name]));
     }
     explicit_with_cache[explicit_key] = intermediary_map;
