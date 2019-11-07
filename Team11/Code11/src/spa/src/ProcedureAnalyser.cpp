@@ -33,7 +33,7 @@ std::vector<Procedure> ProcedureAnalyser::analyse()
             source = StringUtil::trim_left(source);
 
             std::string proc_name = "";
-            while (source.substr(0, 1) != " " && source.substr(0, 1) != "{")
+            while (source.substr(0, 1) != " " && source.substr(0, 1) != "{" && source.substr(0, 1) != "\n")
             {
                 proc_name = proc_name + source.substr(0, 1);
                 source = source.substr(1);
