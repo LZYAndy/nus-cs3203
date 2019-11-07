@@ -1,5 +1,0 @@
-1 - invalid calls* cyclic
-stmt s;
-Select s
-
-5000
