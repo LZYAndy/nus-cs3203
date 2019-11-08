@@ -18,7 +18,7 @@ std::string ConverterUtil::convert_infix_prefix(std::string infix)
     for (int i = 0; i < elements.size(); i++) {
         if (CheckerUtil::is_const_valid(elements[i]))
         {
-            elements[i] = StringUtil::remove_trailing_zero(elements[i]);
+            elements[i] = StringUtil::process_constant(elements[i]);
         }
     }
 

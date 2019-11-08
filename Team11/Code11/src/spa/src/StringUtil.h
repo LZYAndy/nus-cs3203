@@ -82,5 +82,5 @@ public:
     * @param input A string
     * @return A string with trailing zero removed.
     */
-    static std::string remove_trailing_zero(std::string input);
+    static std::string process_constant(std::string input);
 };

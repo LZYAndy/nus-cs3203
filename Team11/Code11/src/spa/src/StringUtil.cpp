@@ -102,7 +102,7 @@ std::vector<std::string> StringUtil::get_all_const(std::string statement)
         statement = match.suffix().str();
         if (CheckerUtil::is_const_valid(current_word))
         {
-            all_const.push_back(remove_trailing_zero(current_word));
+            all_const.push_back(process_constant(current_word));
         }
     }
 
@@ -131,14 +131,15 @@ std::string StringUtil::preprocess_expr_string(std::string input)
     return result;
 }
 
-std::string StringUtil::remove_trailing_zero(std::string input)
+std::string StringUtil::process_constant(std::string input)
 {
-    int i = 0;
-    while (input[i] == '0')
-    {
-        i++;
+    if (std::regex_match(input, std::regex("^0+$"))){
+        return "0";
     }
-    input.erase(0, i);
+
+    if (std::regex_match(input, std::regex("^(0+)(.*)$"))){
+        return regex_replace(input, std::regex("^(0+)(.*)$"), "$2");
+    }
 
     return input;
 }
