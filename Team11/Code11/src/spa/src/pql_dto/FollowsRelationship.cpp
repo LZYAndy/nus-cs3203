@@ -31,7 +31,14 @@ private:
         std::vector<EntityType> follows_first_param_type = relationships_table.at(RelationshipType::FOLLOWS).front();
         if (std::find(follows_first_param_type.begin(), follows_first_param_type.end(), param.get_entity_type()) == follows_first_param_type.end())
         {
-            throw std::runtime_error(error_messages::invalid_follows_relationship_first_param);
+            if (param.is_entity_declared())
+            {
+                throw std::runtime_error(error_messages::invalid_follows_relationship_first_param);
+            }
+            else
+            {
+                throw std::runtime_error(error_messages::invalid_follows_relationship_first_param_syntax);
+            }
         }
 
         first_param = param;
@@ -42,7 +49,14 @@ private:
         std::vector<EntityType> follows_second_param_type = relationships_table.at(RelationshipType::FOLLOWS).back();
         if (std::find(follows_second_param_type.begin(), follows_second_param_type.end(), param.get_entity_type()) == follows_second_param_type.end())
         {
-            throw std::runtime_error(error_messages::invalid_follows_relationship_second_param);
+            if (param.is_entity_declared())
+            {
+                throw std::runtime_error(error_messages::invalid_follows_relationship_second_param);
+            }
+            else
+            {
+                throw std::runtime_error(error_messages::invalid_follows_relationship_second_param_syntax);
+            }
         }
 
         second_param = param;

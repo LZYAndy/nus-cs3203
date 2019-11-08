@@ -538,7 +538,7 @@ pql_dto::Entity PQLParserHelper::create_entity(std::string& var_name, std::unord
         }
         else
         {
-            throw std::runtime_error(error_messages::invalid_declared_entity_name);
+            throw std::runtime_error(error_messages::invalid_query_variables_not_declared);
         }
     }
     else
