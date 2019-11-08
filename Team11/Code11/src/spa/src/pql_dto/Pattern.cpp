@@ -51,7 +51,14 @@ void Pattern::set_first_param(Entity first_entity_param)
     if (std::find(pattern_first_param_type.begin(), pattern_first_param_type.end(), first_entity_param.get_entity_type())
         == pattern_first_param_type.end())
     {
-        throw std::runtime_error(error_messages::invalid_pattern_first_param);
+        if (first_entity_param.is_entity_declared())
+        {
+            throw std::runtime_error(error_messages::invalid_pattern_first_param);
+        }
+        else
+        {
+            throw std::runtime_error(error_messages::invalid_pattern_first_param_syntax);
+        }
     }
 
     first_param = first_entity_param;
@@ -63,7 +70,14 @@ void Pattern::set_second_param(Entity second_entity_param)
     if (std::find(pattern_second_param_type.begin(), pattern_second_param_type.end(), second_entity_param.get_entity_type())
         == pattern_second_param_type.end())
     {
-        throw std::runtime_error(error_messages::invalid_pattern_second_param);
+        if (second_entity_param.is_entity_declared())
+        {
+            throw std::runtime_error(error_messages::invalid_pattern_second_param_syntax);
+        }
+        else
+        {
+            throw std::runtime_error(error_messages::invalid_pattern_second_param);
+        }
     }
 
     second_param = second_entity_param;

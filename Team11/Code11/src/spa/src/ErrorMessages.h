@@ -37,28 +37,49 @@ constexpr const char* invalid_undeclared_entity_name(R"(Syntax Error: Invalid Un
 // Error messages for Relationships.cpp
 constexpr const char* invalid_follows_relationship_first_param(R"(Semantic Error: Invalid Follows Relationship First Parameter Type!)");
 constexpr const char* invalid_follows_relationship_second_param(R"(Semantic Error: Invalid Follows Relationship Second Parameter Type!)");
+constexpr const char* invalid_follows_relationship_first_param_syntax(R"(Syntax Error: Invalid Follows Relationship First Parameter Type!)");
+constexpr const char* invalid_follows_relationship_second_param_syntax(R"(Syntax Error: Invalid Follows Relationship Second Parameter Type!)");
 constexpr const char* invalid_modifies_relationship_first_param(R"(Semantic Error: Invalid Modifies Relationship First Parameter Type!)");
 constexpr const char* invalid_modifies_relationship_second_param(R"(Semantic Error: Invalid Modifies Relationship Second Parameter Type!)");
+constexpr const char* invalid_modifies_relationship_first_param_syntax(R"(Syntax Error: Invalid Modifies Relationship First Parameter Type!)");
+constexpr const char* invalid_modifies_relationship_second_param_syntax(R"(Syntax Error: Invalid Modifies Relationship Second Parameter Type!)");
 constexpr const char* invalid_parent_relationship_first_param(R"(Semantic Error: Invalid Parent Relationship First Parameter Type!)");
 constexpr const char* invalid_parent_relationship_second_param(R"(Semantic Error: Invalid Parent Relationship Second Parameter Type!)");
+constexpr const char* invalid_parent_relationship_first_param_syntax(R"(Syntax Error: Invalid Parent Relationship First Parameter Type!)");
+constexpr const char* invalid_parent_relationship_second_param_syntax(R"(Syntax Error: Invalid Parent Relationship Second Parameter Type!)");
 constexpr const char* invalid_uses_relationship_first_param(R"(Semantic Error: Invalid Uses Relationship First Parameter Type!)");
 constexpr const char* invalid_uses_relationship_second_param(R"(Semantic Error: Invalid Uses Relationship Second Parameter Type!)");
+constexpr const char* invalid_uses_relationship_first_param_syntax(R"(Syntax Error: Invalid Uses Relationship First Parameter Type!)");
+constexpr const char* invalid_uses_relationship_second_param_syntax(R"(Syntax Error: Invalid Uses Relationship Second Parameter Type!)");
 constexpr const char* invalid_calls_relationship_first_param(R"(Semantic Error: Invalid Calls Relationship First Parameter Type!)");
 constexpr const char* invalid_calls_relationship_second_param(R"(Semantic Error: Invalid Calls Relationship Second Parameter Type!)");
+constexpr const char* invalid_calls_relationship_first_param_syntax(R"(Syntax Error: Invalid Calls Relationship First Parameter Type!)");
+constexpr const char* invalid_calls_relationship_second_param_syntax(R"(Syntax Error: Invalid Calls Relationship Second Parameter Type!)");
 constexpr const char* invalid_next_relationship_first_param(R"(Semantic Error: Invalid Next Relationship First Parameter Type!)");
 constexpr const char* invalid_next_relationship_second_param(R"(Semantic Error: Invalid Next Relationship Second Parameter Type!)");
+constexpr const char* invalid_next_relationship_first_param_syntax(R"(Syntax Error: Invalid Next Relationship First Parameter Type!)");
+constexpr const char* invalid_next_relationship_second_param_syntax(R"(Syntax Error: Invalid Next Relationship Second Parameter Type!)");
 constexpr const char* invalid_affects_relationship_first_param(R"(Semantic Error: Invalid Affects Relationship First Parameter Type!)");
 constexpr const char* invalid_affects_relationship_second_param(R"(Semantic Error: Invalid Affects Relationship Second Parameter Type!)");
+constexpr const char* invalid_affects_relationship_first_param_syntax(R"(Syntax Error: Invalid Affects Relationship First Parameter Type!)");
+constexpr const char* invalid_affects_relationship_second_param_syntax(R"(Syntax Error: Invalid Affects Relationship Second Parameter Type!)");
 constexpr const char* invalid_next_bip_relationship_first_param(R"(Semantic Error: Invalid NextBip Relationship First Parameter Type!)");
 constexpr const char* invalid_next_bip_relationship_second_param(R"(Semantic Error: Invalid NextBip Relationship Second Parameter Type!)");
+constexpr const char* invalid_next_bip_relationship_first_param_syntax(R"(Syntax Error: Invalid NextBip Relationship First Parameter Type!)");
+constexpr const char* invalid_next_bip_relationship_second_param_syntax(R"(Syntax Error: Invalid NextBip Relationship Second Parameter Type!)");
 constexpr const char* invalid_affects_bip_relationship_first_param(R"(Semantic Error: Invalid AffectsBip Relationship First Parameter Type!)");
 constexpr const char* invalid_affects_bip_relationship_second_param(R"(Semantic Error: Invalid AffectsBip Relationship Second Parameter Type!)");
+constexpr const char* invalid_affects_bip_relationship_first_param_syntax(R"(Syntax Error: Invalid AffectsBip Relationship First Parameter Type!)");
+constexpr const char* invalid_affects_bip_relationship_second_param_syntax(R"(Syntax Error: Invalid AffectsBip Relationship Second Parameter Type!)");
 constexpr const char* invalid_order_of_params(R"(First param for Relationship is greater than the second param.)");
 
 // Error messages for Pattern.cpp
 constexpr const char* invalid_pattern_entity(R"(Semantic Error: Invalid Pattern Entity Type!)");
 constexpr const char* invalid_pattern_first_param(R"(Semantic Error: Invalid Pattern First Parameter Type!)");
 constexpr const char* invalid_pattern_second_param(R"(Semantic Error: Invalid Pattern Second Parameter Type!)");
+constexpr const char* invalid_pattern_entity_syntax(R"(Syntax Error: Invalid Pattern Entity Type!)");
+constexpr const char* invalid_pattern_first_param_syntax(R"(Syntax Error: Invalid Pattern First Parameter Type!)");
+constexpr const char* invalid_pattern_second_param_syntax(R"(Syntax Error: Invalid Pattern Second Parameter Type!)");
 constexpr const char* not_a_pattern_object(R"(Not a Pattern Object!)");
 
 // Error messages for With.cpp
