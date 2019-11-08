@@ -1,100 +1,100 @@
-1 - Select AffectsbipT
+1 - Select AffectsBipT
 
-Select BOOLEAN such that Affectsbip*(15, 16)
+Select BOOLEAN such that AffectsBip*(15, 16)
 TRUE
 5000
-2 - Select AffectsbipT
+2 - Select AffectsBipT
 
-Select BOOLEAN such that Affectsbip*(15, 17)
+Select BOOLEAN such that AffectsBip*(15, 17)
 TRUE
 5000
-3 - Select AffectsbipT
+3 - Select AffectsBipT
 
-Select BOOLEAN such that Affectsbip*(15, 18)
+Select BOOLEAN such that AffectsBip*(15, 18)
 TRUE
 5000
-4 - Select AffectsbipT
+4 - Select AffectsBipT
 
-Select BOOLEAN such that Affectsbip*(16, 17)
+Select BOOLEAN such that AffectsBip*(16, 17)
 TRUE
 5000
-5 - Select AffectsbipT
+5 - Select AffectsBipT
 
-Select BOOLEAN such that Affectsbip*(16, 18)
+Select BOOLEAN such that AffectsBip*(16, 18)
 TRUE
 5000
-6 - Select AffectsbipT
+6 - Select AffectsBipT
 
-Select BOOLEAN such that Affectsbip*(17, 18)
+Select BOOLEAN such that AffectsBip*(17, 18)
 TRUE
 5000
-7 - Select AffectsbipT
+7 - Select AffectsBipT
 
-Select BOOLEAN such that Affectsbip*(16, 18)
+Select BOOLEAN such that AffectsBip*(16, 18)
 TRUE
 5000
-8 - Select AffectsbipT
+8 - Select AffectsBipT
 
-Select BOOLEAN such that Affectsbip*(1, 55)
+Select BOOLEAN such that AffectsBip*(1, 55)
 TRUE
 5000
-9 - Select AffectsbipT
+9 - Select AffectsBipT
 
-Select BOOLEAN such that Affectsbip*(69, 55)
+Select BOOLEAN such that AffectsBip*(69, 55)
 TRUE
 5000
-10 - Select AffectsbipT
+10 - Select AffectsBipT
 
-Select BOOLEAN such that Affectsbip*(54, 47)
+Select BOOLEAN such that AffectsBip*(54, 47)
 TRUE
 5000
-11 - Select AffectsbipT
+11 - Select AffectsBipT
 
-Select BOOLEAN such that Affectsbip*(69, 58)
+Select BOOLEAN such that AffectsBip*(69, 58)
 TRUE
 5000
-12 - Select AffectsbipT
+12 - Select AffectsBipT
 
-Select BOOLEAN such that Affectsbip*(59, 59)
+Select BOOLEAN such that AffectsBip*(59, 59)
 TRUE
 5000
-13 - Select AffectsbipT
+13 - Select AffectsBipT
 
-Select BOOLEAN such that Affectsbip*(58, 59)
+Select BOOLEAN such that AffectsBip*(58, 59)
 TRUE
 5000
-14 - Select AffectsbipT
+14 - Select AffectsBipT
 
-Select BOOLEAN such that Affectsbip*(58, 60)
+Select BOOLEAN such that AffectsBip*(58, 60)
 TRUE
 5000
-15 - Select AffectsbipT
+15 - Select AffectsBipT
 stmt s;
-Select s such that Affectsbip*(47, s)
+Select s such that AffectsBip*(47, s)
 
 5000
-16 - Select AffectsbipT
+16 - Select AffectsBipT
 stmt s;
-Select s such that Affectsbip*(48, s)
+Select s such that AffectsBip*(48, s)
 
 5000
-17 - Select AffectsbipT
+17 - Select AffectsBipT
 
-Select BOOLEAN such that Affectsbip*(19, 36)
+Select BOOLEAN such that AffectsBip*(19, 36)
 TRUE
 5000
-18 - Select AffectsbipT
+18 - Select AffectsBipT
 
-Select BOOLEAN such that Affectsbip*(19, 63)
+Select BOOLEAN such that AffectsBip*(19, 63)
 FALSE
 5000
-19 - Select AffectsbipT
+19 - Select AffectsBipT
 
-Select BOOLEAN such that Affectsbip*(16, 20)
+Select BOOLEAN such that AffectsBip*(16, 20)
 FALSE
 5000
-20 - Select AffectsbipT
+20 - Select AffectsBipT
 
-Select BOOLEAN such that Affectsbip*(68, 54)
+Select BOOLEAN such that AffectsBip*(68, 54)
 TRUE
 5000
