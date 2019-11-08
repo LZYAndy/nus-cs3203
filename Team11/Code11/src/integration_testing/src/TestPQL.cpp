@@ -946,4 +946,18 @@ TEST_CASE("Multiple select, such that, and pattern")
         unordered_set<string> expected_result {"0"};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
+
+    SECTION("select tuple, multiple clauses")
+    {
+        string pql_query = "stmt s,s1; assign a; Select s1 such that Affects(s,s1) pattern a(_,\"cenX / count\")";
+        unordered_set<string> expected_result {"15", "16", "17", "20", "21", "22", "23", "28"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("select tuple, multiple clauses")
+    {
+        string pql_query = "variable v; if ifs; assign a; Select v pattern ifs(v, _,_) and a(v, _\"cenX\"_)";
+        unordered_set<string> expected_result {"cenX"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
 }
