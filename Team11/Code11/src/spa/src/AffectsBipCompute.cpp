@@ -451,6 +451,13 @@ bool AffectsBipCompute::dfs_checking_assigns_affect(int stmt, int target)
                     }
                 }
             }
+            if (!possible_prog_lines.empty())
+            {
+                if (possible_prog_lines.front() == -1)
+                {
+                    call_stack.push_back(-1);
+                }
+            }
 
         }
         std::vector<int> next_possible_stmts = next_bip_bank->get_next_bip(next_stmt);
@@ -465,9 +472,24 @@ bool AffectsBipCompute::dfs_checking_assigns_affect(int stmt, int target)
                 {
                     return true;
                 }
-
                 next_stmts.push_back(return_statement);
                 for (int next_possible_stmt : next_possible_stmts) // only add next statement if is not a return statement
+                {
+                    if (next_bip_bank->get_ingress(next_possible_stmt).empty())
+                    {
+                        if (next_possible_stmt == target)
+                        {
+                            return true;
+                        }
+                        next_stmts.push_back(next_possible_stmt);
+                    }
+                }
+                continue;
+            }
+            if (call_stack.back() == -1)
+            {
+                std::vector<int> possible_exits;
+                for (int next_possible_stmt : next_possible_stmts)
                 {
                     if (next_bip_bank->get_ingress(next_possible_stmt).empty())
                     {
@@ -475,7 +497,14 @@ bool AffectsBipCompute::dfs_checking_assigns_affect(int stmt, int target)
                         {
                             return true;
                         }
-                        next_stmts.push_back(next_possible_stmt);
+                        possible_exits.push_back(next_possible_stmt);
+                    }
+                }
+                if (!possible_exits.empty())
+                {
+                    for (int possible_exit : possible_exits)
+                    {
+                        next_stmts.push_back(possible_exit);
                     }
                 }
                 continue;
