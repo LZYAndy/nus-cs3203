@@ -7,6 +7,7 @@ TEST_CASE("AffectsBipStarCompute::is_affects_bip_star()", "[.]")
     TypeBank type_bank;
     ModifiesBank modifies_bank;
     UsesBank uses_bank;
+    NextBank next_bank;
     next_bip_bank.insert_next_bip(1, 2);
     next_bip_bank.insert_next_bip(2, 4);
     next_bip_bank.insert_next_bip(4, 5);
@@ -46,7 +47,7 @@ TEST_CASE("AffectsBipStarCompute::is_affects_bip_star()", "[.]")
     modifies_bank.insert_modifies(2, "five");
     modifies_bank.insert_modifies(4, "five");
     modifies_bank.insert_modifies(8, "five");
-    AffectsBipCompute affects_bip_compute(&next_bip_bank, &modifies_bank, &uses_bank, &type_bank);
+    AffectsBipCompute affects_bip_compute(&next_bip_bank, &modifies_bank, &uses_bank, &type_bank, &next_bank);
     AffectsBipStarCompute affects_bip_star_compute(&affects_bip_compute, &type_bank);
 
     SECTION("false")
@@ -69,6 +70,7 @@ TEST_CASE("AffectsBipStarCompute::get_affects_bip_star()", "[.]")
     TypeBank type_bank;
     ModifiesBank modifies_bank;
     UsesBank uses_bank;
+    NextBank next_bank;
     next_bip_bank.insert_next_bip(1, 2);
     next_bip_bank.insert_next_bip(2, 4);
     next_bip_bank.insert_next_bip(4, 5);
@@ -108,7 +110,7 @@ TEST_CASE("AffectsBipStarCompute::get_affects_bip_star()", "[.]")
     modifies_bank.insert_modifies(2, "five");
     modifies_bank.insert_modifies(4, "five");
     modifies_bank.insert_modifies(8, "five");
-    AffectsBipCompute affects_bip_compute(&next_bip_bank, &modifies_bank, &uses_bank, &type_bank);
+    AffectsBipCompute affects_bip_compute(&next_bip_bank, &modifies_bank, &uses_bank, &type_bank, &next_bank);
     AffectsBipStarCompute affects_bip_star_compute(&affects_bip_compute, &type_bank);
 
     SECTION("empty")
@@ -136,6 +138,7 @@ TEST_CASE("AffectsBipStarCompute::get_affected_bip_star()", "[.]")
     TypeBank type_bank;
     ModifiesBank modifies_bank;
     UsesBank uses_bank;
+    NextBank next_bank;
     next_bip_bank.insert_next_bip(1, 2);
     next_bip_bank.insert_next_bip(2, 4);
     next_bip_bank.insert_next_bip(4, 5);
@@ -175,7 +178,7 @@ TEST_CASE("AffectsBipStarCompute::get_affected_bip_star()", "[.]")
     modifies_bank.insert_modifies(2, "five");
     modifies_bank.insert_modifies(4, "five");
     modifies_bank.insert_modifies(8, "five");
-    AffectsBipCompute affects_bip_compute(&next_bip_bank, &modifies_bank, &uses_bank, &type_bank);
+    AffectsBipCompute affects_bip_compute(&next_bip_bank, &modifies_bank, &uses_bank, &type_bank, &next_bank);
     AffectsBipStarCompute affects_bip_star_compute(&affects_bip_compute, &type_bank);
 
     SECTION("empty")
@@ -203,8 +206,9 @@ TEST_CASE("AffectsBipStarCompute::get_all_affects_bip_star_relationship()", "[.]
     TypeBank type_bank;
     ModifiesBank modifies_bank;
     UsesBank uses_bank;
+    NextBank next_bank;
 
-    AffectsBipCompute affects_bip_compute(&next_bip_bank, &modifies_bank, &uses_bank, &type_bank);
+    AffectsBipCompute affects_bip_compute(&next_bip_bank, &modifies_bank, &uses_bank, &type_bank, &next_bank);
     AffectsBipStarCompute affects_bip_star_compute(&affects_bip_compute, &type_bank);
 
     SECTION("empty")
