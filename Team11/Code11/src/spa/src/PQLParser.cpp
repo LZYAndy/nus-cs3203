@@ -34,6 +34,16 @@ std::string PQLParser::pql_parse_query(std::string query, std::vector<pql_dto::E
         error = PQLParserHelper::parse_declaration_clause(query.substr(0, last_semi_colon), declared_variables);
         if (!error.empty())
         {
+            // Checks if Select clause is BOOLEAN
+            if (error.find("Semantic Error:") != std::string::npos)
+            {
+                std::string select_clause_string = StringUtil::trim(query.substr(last_semi_colon + 1), whitespace);
+                if (select_clause_string.find("Select BOOLEAN") == 0)
+                {
+                    pql_dto::Entity entity = pql_dto::Entity(boolean_keyword, "BOOLEAN", false);
+                    select_clause.push_back(entity);
+                }
+            }
             return error;
         }
     }
@@ -111,7 +121,6 @@ std::string PQLParser::pql_parse_query(std::string query, std::vector<pql_dto::E
                 return error_messages::invalid_query_mismatch_brackets;
             }
 
-            ///std::string pattern_query = condition_query.substr(0, closing_bracket_index + 1);
             /// Validates the pattern string
             error = PQLParserHelper::parse_pattern_clause(condition_query, pattern_clause, declared_variables);
             if (!error.empty())
@@ -119,7 +128,6 @@ std::string PQLParser::pql_parse_query(std::string query, std::vector<pql_dto::E
                 return error;
             }
 
-            ///condition_query = StringUtil::trim(condition_query.substr(closing_bracket_index + 1), whitespace);
             while (!condition_query.empty())
             {
                 size_t and_index = condition_query.find(and_keyword);
@@ -134,15 +142,12 @@ std::string PQLParser::pql_parse_query(std::string query, std::vector<pql_dto::E
                     return error_messages::invalid_query_mismatch_brackets;
                 }
 
-                ///std::string pattern_query = condition_query.substr(0, closing_bracket_index + 1);
                 /// Validates the pattern string
                 error = PQLParserHelper::parse_pattern_clause(condition_query, pattern_clause, declared_variables);
                 if (!error.empty())
                 {
                     return error;
                 }
-
-                ///condition_query = StringUtil::trim(condition_query.substr(closing_bracket_index + 1), whitespace);
             }
 
             continue;
