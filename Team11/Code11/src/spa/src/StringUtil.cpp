@@ -95,6 +95,7 @@ std::vector<std::string> StringUtil::get_all_const(std::string statement)
 {
     std::smatch match;
     std::vector<std::string> all_const;
+    std::regex trailing_zero("^(0*)[0-9]*$");
 
     while (regex_search(statement, match, all_word))
     {
@@ -102,7 +103,8 @@ std::vector<std::string> StringUtil::get_all_const(std::string statement)
         statement = match.suffix().str();
         if (CheckerUtil::is_const_valid(current_word))
         {
-            all_const.push_back(current_word);
+
+            all_const.push_back(remove_trailing_zero(current_word));
         }
     }
 
@@ -129,4 +131,16 @@ std::string StringUtil::preprocess_expr_string(std::string input)
     result = StringUtil::trim(result, " \n\t\r\f\v");
 
     return result;
+}
+
+std::string StringUtil::remove_trailing_zero(std::string input)
+{
+    int i = 0;
+    while (input[i] == '0')
+    {
+        i++;
+    }
+    input.erase(0, i);
+
+    return input;
 }

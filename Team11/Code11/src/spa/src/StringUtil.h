@@ -76,4 +76,11 @@ public:
      * @return An infix expression with no whitespaces except a single space before and after an operator.
      */
     static std::string preprocess_expr_string(std::string input);
+
+    /**
+    * Removes any trailing zero character in a string.
+    * @param input A string
+    * @return A string with trailing zero removed.
+    */
+    static std::string remove_trailing_zero(std::string input);
 };

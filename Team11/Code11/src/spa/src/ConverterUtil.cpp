@@ -14,6 +14,14 @@ std::string ConverterUtil::convert_infix_prefix(std::string infix)
     // Split by white spaces
     std::vector<std::string> elements = StringUtil::split(processed_infix_expr, ' ');
 
+    // Remove trailing zero in constant
+    for (int i = 0; i < elements.size(); i++) {
+        if (CheckerUtil::is_const_valid(elements[i]))
+        {
+            elements[i] = StringUtil::remove_trailing_zero(elements[i]);
+        }
+    }
+
     std::stack<std::string> operator_stack;
     std::stack<std::string> operand_stack;
 
