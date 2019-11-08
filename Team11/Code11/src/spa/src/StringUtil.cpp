@@ -95,7 +95,6 @@ std::vector<std::string> StringUtil::get_all_const(std::string statement)
 {
     std::smatch match;
     std::vector<std::string> all_const;
-    std::regex trailing_zero("^(0*)[0-9]*$");
 
     while (regex_search(statement, match, all_word))
     {
@@ -103,7 +102,6 @@ std::vector<std::string> StringUtil::get_all_const(std::string statement)
         statement = match.suffix().str();
         if (CheckerUtil::is_const_valid(current_word))
         {
-
             all_const.push_back(remove_trailing_zero(current_word));
         }
     }
