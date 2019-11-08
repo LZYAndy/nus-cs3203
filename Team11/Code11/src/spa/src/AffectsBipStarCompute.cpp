@@ -68,7 +68,7 @@ bool AffectsBipStarCompute::is_affects_bip_star_helper(int assignment1, int assi
             return false;
         }
         // recursive depth-approach
-        for (int affects_assignment : affects_bip_compute->get_assigns_affected_bip_by(assignment1))
+        for (int affects_assignment : affects_bip_compute->get_assigns_affected_bip_by(assignment1, false))
         {
             if (is_affects_bip_star_helper(affects_assignment, assignment2, states))
             {
@@ -78,6 +78,20 @@ bool AffectsBipStarCompute::is_affects_bip_star_helper(int assignment1, int assi
     }
     return false;
 }
+
+bool AffectsBipCompute::does_affects_bip_exist()
+{
+    if (!affects_cache.empty())
+    {
+        return true;
+    }
+    else
+    {
+        get_all_affects_bip_relationship();
+        return !affects_cache.empty();
+    }
+}
+
 AffectsBipStarCompute::AffectsBipStarCompute(AffectsBipCompute* affects_bip_compute, TypeBank* type_bank)
 {
     this->affects_bip_compute = affects_bip_compute;
