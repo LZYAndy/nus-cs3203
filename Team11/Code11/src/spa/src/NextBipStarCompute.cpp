@@ -97,7 +97,7 @@ bool NextBipStarCompute::is_next_bip_star(int previous, int next)
                 {
                     for (int possible_exit : possible_exits)
                     {
-                        next_stmts.push_back(possible_exit);
+                        to_visit.push_back(possible_exit);
                     }
                 }
                 continue;
