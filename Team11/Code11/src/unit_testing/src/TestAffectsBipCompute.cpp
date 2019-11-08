@@ -1,7 +1,7 @@
 #include "catch.hpp"
 #include "AffectsBipCompute.h"
 
-TEST_CASE("AffectsBipCompute::is_affects_bip()")
+TEST_CASE("AffectsBipCompute::is_affects_bip()", "[.]")
 {
     NextBipBank next_bip_bank;
     TypeBank type_bank;
@@ -63,7 +63,7 @@ TEST_CASE("AffectsBipCompute::is_affects_bip()")
     }
 }
 
-TEST_CASE("AffectsBipCompute::get_all_assigns_affects_bip()")
+TEST_CASE("AffectsBipCompute::get_all_assigns_affects_bip()", "[.]")
 {
     NextBipBank next_bip_bank;
     TypeBank type_bank;
@@ -128,7 +128,7 @@ TEST_CASE("AffectsBipCompute::get_all_assigns_affects_bip()")
     }
 }
 
-TEST_CASE("AffectsBipCompute::get_all_assigns_affected_bip()")
+TEST_CASE("AffectsBipCompute::get_all_assigns_affected_bip()", "[.]")
 {
     NextBipBank next_bip_bank;
     TypeBank type_bank;
@@ -193,7 +193,7 @@ TEST_CASE("AffectsBipCompute::get_all_assigns_affected_bip()")
     }
 }
 
-TEST_CASE("AffectsBipCompute::get_all_affects_bip_relationship()")
+TEST_CASE("AffectsBipCompute::get_all_affects_bip_relationship()", "[.]")
 {
     NextBipBank next_bip_bank;
     TypeBank type_bank;
@@ -246,7 +246,6 @@ TEST_CASE("AffectsBipCompute::get_all_affects_bip_relationship()")
     modifies_bank.insert_modifies(4, "five");
     modifies_bank.insert_modifies(8, "five");
 
-
     SECTION(">1")
     {
         std::unordered_map<int, std::vector<int>> result = affects_bip_compute.get_all_affects_bip_relationship();
@@ -260,7 +259,7 @@ TEST_CASE("AffectsBipCompute::get_all_affects_bip_relationship()")
     }
 }
 
-TEST_CASE("AffectsBipCompute::does_affects_bip_exist()")
+TEST_CASE("AffectsBipCompute::does_affects_bip_exist()", "[.]")
 {
     NextBipBank next_bip_bank;
     TypeBank type_bank;
@@ -320,7 +319,7 @@ TEST_CASE("AffectsBipCompute::does_affects_bip_exist()")
     }
 }
 
-TEST_CASE("AffectsBipCompute::get_assigns_affected_bip_by()")
+TEST_CASE("AffectsBipCompute::get_assigns_affected_bip_by()", "[.]")
 {
     NextBipBank next_bip_bank;
     TypeBank type_bank;
@@ -382,7 +381,7 @@ TEST_CASE("AffectsBipCompute::get_assigns_affected_bip_by()")
     }
 }
 
-TEST_CASE("AffectsBipCompute::get_assigns_affects_bip()")
+TEST_CASE("AffectsBipCompute::get_assigns_affects_bip()", "[.]")
 {
     NextBipBank next_bip_bank;
     TypeBank type_bank;

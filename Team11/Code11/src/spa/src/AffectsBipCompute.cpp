@@ -35,7 +35,7 @@ bool AffectsBipCompute::is_affects_bip(int stmt1, int stmt2)
     }
 
     // search bottom-up
-    std::stack<int> visited;
+    std::unordered_set<int> visited;
     std::stack<int> to_visit;
     std::stack<int> call_stack;
     for (int next_stmt : next_bip_bank->get_next_bip(stmt1))
@@ -50,6 +50,11 @@ bool AffectsBipCompute::is_affects_bip(int stmt1, int stmt2)
         {
             return true;
         }
+        if (visited.find(stmt) != visited.end())
+        {
+            continue;
+        }
+        visited.insert(stmt);
         EntityType stmt_type = type_bank->get_statement_type(stmt);
         if (stmt_type == EntityType::ASSIGN || stmt_type == EntityType::READ)
         {
@@ -69,7 +74,7 @@ bool AffectsBipCompute::is_affects_bip(int stmt1, int stmt2)
         }
         if (stmt_type == EntityType::CALL)
         {
-            call_stack.push(next_bip_bank->get_egress(stmt));
+//            call_stack.push(next_bip_bank->get_egress(stmt));
         }
         std::vector<int> next_bip_stmts = next_bip_bank->get_next_bip(stmt);
         if (!call_stack.empty())

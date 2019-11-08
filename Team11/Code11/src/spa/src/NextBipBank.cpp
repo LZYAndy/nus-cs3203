@@ -66,22 +66,19 @@ std::unordered_map<int, std::vector<int>> NextBipBank::get_all_next_bip_relation
     return next_bip_bank.copy();
 }
 
-int NextBipBank::get_egress(int ingress_prog)
+std::vector<int> NextBipBank::get_egress(int ingress_prog)
 {
-    auto result = ingress_egress_bank.get(ingress_prog);
-    if (result.size() == 1)
-    {
-        return result.back();
-    }
-    return -1;
+    return ingress_egress_bank.get(ingress_prog);
+
 } 
 
-int NextBipBank::get_ingress(int egress_prog)
+std::vector<int> NextBipBank::get_ingress(int egress_prog)
 {
+    return ingress_egress_bank.get_reverse(egress_prog);
     auto result = ingress_egress_bank.get_reverse(egress_prog);
-    if (result.size() == 1)
+    if (!result.empty())
     {
-        return result.back();
+        return result;
     }
-    return -1;
+    return std::vector<int>({-1});
 } 
