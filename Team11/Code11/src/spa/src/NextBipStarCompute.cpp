@@ -44,6 +44,13 @@ bool NextBipStarCompute::is_next_bip_star(int previous, int next)
                     }
                 }
             }
+            if (!possible_prog_lines.empty())
+            {
+                if (possible_prog_lines.front() == -1)
+                {
+                    call_stack.push_back(-1);
+                }
+            }
 
         }
         std::vector<int> next_stmts = bip_bank->get_next_bip(curr_prog_line);
@@ -68,6 +75,29 @@ bool NextBipStarCompute::is_next_bip_star(int previous, int next)
                             return true;
                         }
                         to_visit.push_back(next_stmt);
+                    }
+                }
+                continue;
+            }
+            if (call_stack.back() == -1)
+            {
+                std::vector<int> possible_exits;
+                for (int next_possible_stmt : next_stmts)
+                {
+                    if (bip_bank->get_ingress(next_possible_stmt).empty())
+                    {
+                        if (next_possible_stmt == next)
+                        {
+                            return true;
+                        }
+                        possible_exits.push_back(next_possible_stmt);
+                    }
+                }
+                if (!possible_exits.empty())
+                {
+                    for (int possible_exit : possible_exits)
+                    {
+                        next_stmts.push_back(possible_exit);
                     }
                 }
                 continue;

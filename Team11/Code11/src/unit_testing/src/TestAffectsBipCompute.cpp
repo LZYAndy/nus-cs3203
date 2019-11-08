@@ -7,6 +7,7 @@ TEST_CASE("AffectsBipCompute::is_affects_bip()", "[.]")
     TypeBank type_bank;
     ModifiesBank modifies_bank;
     UsesBank uses_bank;
+    NextBank next_bank;
     next_bip_bank.insert_next_bip(1, 2);
     next_bip_bank.insert_next_bip(2, 4);
     next_bip_bank.insert_next_bip(4, 5);
@@ -46,7 +47,7 @@ TEST_CASE("AffectsBipCompute::is_affects_bip()", "[.]")
     modifies_bank.insert_modifies(2, "five");
     modifies_bank.insert_modifies(4, "five");
     modifies_bank.insert_modifies(8, "five");
-    AffectsBipCompute affects_bip_compute(&next_bip_bank, &modifies_bank, &uses_bank, &type_bank);
+    AffectsBipCompute affects_bip_compute(&next_bip_bank, &modifies_bank, &uses_bank, &type_bank, &next_bank);
 
     SECTION("false")
     {
@@ -69,7 +70,8 @@ TEST_CASE("AffectsBipCompute::get_all_assigns_affects_bip()", "[.]")
     TypeBank type_bank;
     ModifiesBank modifies_bank;
     UsesBank uses_bank;
-    AffectsBipCompute affects_bip_compute(&next_bip_bank, &modifies_bank, &uses_bank, &type_bank);
+    NextBank next_bank;
+    AffectsBipCompute affects_bip_compute(&next_bip_bank, &modifies_bank, &uses_bank, &type_bank, &next_bank);
 
     SECTION("empty")
     {
@@ -134,7 +136,8 @@ TEST_CASE("AffectsBipCompute::get_all_assigns_affected_bip()", "[.]")
     TypeBank type_bank;
     ModifiesBank modifies_bank;
     UsesBank uses_bank;
-    AffectsBipCompute affects_bip_compute(&next_bip_bank, &modifies_bank, &uses_bank, &type_bank);
+    NextBank next_bank;
+    AffectsBipCompute affects_bip_compute(&next_bip_bank, &modifies_bank, &uses_bank, &type_bank, &next_bank);
 
     SECTION("empty")
     {
@@ -199,7 +202,8 @@ TEST_CASE("AffectsBipCompute::get_all_affects_bip_relationship()", "[.]")
     TypeBank type_bank;
     ModifiesBank modifies_bank;
     UsesBank uses_bank;
-    AffectsBipCompute affects_bip_compute(&next_bip_bank, &modifies_bank, &uses_bank, &type_bank);
+    NextBank next_bank;
+    AffectsBipCompute affects_bip_compute(&next_bip_bank, &modifies_bank, &uses_bank, &type_bank, &next_bank);
 
     SECTION("empty")
     {
@@ -265,7 +269,8 @@ TEST_CASE("AffectsBipCompute::does_affects_bip_exist()", "[.]")
     TypeBank type_bank;
     ModifiesBank modifies_bank;
     UsesBank uses_bank;
-    AffectsBipCompute affects_bip_compute(&next_bip_bank, &modifies_bank, &uses_bank, &type_bank);
+    NextBank next_bank;
+    AffectsBipCompute affects_bip_compute(&next_bip_bank, &modifies_bank, &uses_bank, &type_bank, &next_bank);
 
     SECTION("false")
     {
@@ -325,7 +330,8 @@ TEST_CASE("AffectsBipCompute::get_assigns_affected_bip_by()", "[.]")
     TypeBank type_bank;
     ModifiesBank modifies_bank;
     UsesBank uses_bank;
-    AffectsBipCompute affects_bip_compute(&next_bip_bank, &modifies_bank, &uses_bank, &type_bank);
+    NextBank next_bank;
+    AffectsBipCompute affects_bip_compute(&next_bip_bank, &modifies_bank, &uses_bank, &type_bank, &next_bank);
 
     next_bip_bank.insert_next_bip(1, 2);
     next_bip_bank.insert_next_bip(2, 4);
@@ -370,14 +376,14 @@ TEST_CASE("AffectsBipCompute::get_assigns_affected_bip_by()", "[.]")
 
     SECTION("empty")
     {
-        REQUIRE(affects_bip_compute.get_assigns_affected_bip_by(2).empty());
-        REQUIRE(affects_bip_compute.get_assigns_affected_bip_by(9).empty());
+        REQUIRE(affects_bip_compute.get_assigns_affected_bip_by(2, false).empty());
+        REQUIRE(affects_bip_compute.get_assigns_affected_bip_by(9, false).empty());
     }
 
     SECTION("return 1")
     {
-        REQUIRE(affects_bip_compute.get_assigns_affected_bip_by(10) == std::vector<int>({9}));
-        REQUIRE(affects_bip_compute.get_assigns_affected_bip_by(5) == std::vector<int>({5}));
+        REQUIRE(affects_bip_compute.get_assigns_affected_bip_by(10, false) == std::vector<int>({9}));
+        REQUIRE(affects_bip_compute.get_assigns_affected_bip_by(5, false) == std::vector<int>({5}));
     }
 }
 
@@ -387,7 +393,8 @@ TEST_CASE("AffectsBipCompute::get_assigns_affects_bip()", "[.]")
     TypeBank type_bank;
     ModifiesBank modifies_bank;
     UsesBank uses_bank;
-    AffectsBipCompute affects_bip_compute(&next_bip_bank, &modifies_bank, &uses_bank, &type_bank);
+    NextBank next_bank;
+    AffectsBipCompute affects_bip_compute(&next_bip_bank, &modifies_bank, &uses_bank, &type_bank, &next_bank);
 
     next_bip_bank.insert_next_bip(1, 2);
     next_bip_bank.insert_next_bip(2, 4);

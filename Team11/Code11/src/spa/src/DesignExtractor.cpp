@@ -153,6 +153,7 @@ bool DesignExtractor::extract_next_bip(PKB &pkb)
             }
         }
     }
+
     return true;
 }
 
@@ -228,6 +229,24 @@ void DesignExtractor::extract_next_bip_helper(PKB &pkb, int previous, std::vecto
                 pkb.insert_call_ingress_egress(previous, after_call);
             }
         }
+    std::vector<std::string> procs_calls = pkb.get_all_procedures_calls_star();
+    std::vector<std::string> procs_called = pkb.get_all_procedures_called_star();
+    std::vector<std::string> calls_but_not_called;
+    for (std::string proc_called : procs_called)
+    {
+        if (std::find(procs_calls.begin(), procs_calls.end(), proc_called) == procs_calls.end())
+        {
+            calls_but_not_called.push_back(proc_called);
+        }
+    }
 
+    for (std::string root_proc : calls_but_not_called)
+    {
+        std::vector<int> end_of_stmts = pkb.get_procedure_last_lines(root_proc);
+        for (int end_stmt : end_of_stmts)
+        {
+            pkb.insert_call_ingress_egress(end_stmt, -1);
+        }
+    }
 
 }
