@@ -177,7 +177,7 @@ TEST_CASE("Parent Relationships throws error for incorrect entity types.")
         pql_dto::Entity first_param_entity = pql_dto::Entity("variable", "a", false);
         pql_dto::Entity second_param_entity = pql_dto::Entity("stmt", "2", false);
         REQUIRE_THROWS_WITH(pql_dto::ParentRelationship(first_param_entity,
-                            second_param_entity, false), error_messages::invalid_parent_relationship_first_param);
+                            second_param_entity, false), error_messages::invalid_parent_relationship_first_param_syntax);
     }
 
     SECTION("Parent Relationship with invalid pattern expression second param entity.", "Parent(7,_\"x + y\"_)")
@@ -185,7 +185,7 @@ TEST_CASE("Parent Relationships throws error for incorrect entity types.")
         pql_dto::Entity first_param_entity = pql_dto::Entity("stmt", "7", false);
         pql_dto::Entity second_param_entity = pql_dto::Entity("pattexpr", "x+y", false);
         REQUIRE_THROWS_WITH(pql_dto::ParentRelationship(first_param_entity,
-                            second_param_entity, false), error_messages::invalid_parent_relationship_second_param);
+                            second_param_entity, false), error_messages::invalid_parent_relationship_second_param_syntax);
     }
 
     SECTION("Parent Relationship with invalid string of pattern first param entity.", "Parent(\"x+y\", s1)")
@@ -193,7 +193,7 @@ TEST_CASE("Parent Relationships throws error for incorrect entity types.")
         pql_dto::Entity first_param_entity = pql_dto::Entity("matchexpr", "x+y", false);
         pql_dto::Entity second_param_entity = pql_dto::Entity("stmt", "s1", true);
         REQUIRE_THROWS_WITH(pql_dto::ParentRelationship(first_param_entity,
-                            second_param_entity, false), error_messages::invalid_parent_relationship_first_param);
+                            second_param_entity, false), error_messages::invalid_parent_relationship_first_param_syntax);
     }
 }
 
@@ -247,7 +247,7 @@ TEST_CASE("Uses Relationships throws error for incorrect entity types.")
         pql_dto::Entity first_param_entity = pql_dto::Entity("stmt", "7", false);
         pql_dto::Entity second_param_entity = pql_dto::Entity("stmt", "2", false);
         REQUIRE_THROWS_WITH(pql_dto::UsesRelationship(first_param_entity,
-                            second_param_entity, false), error_messages::invalid_uses_relationship_second_param);
+                            second_param_entity, false), error_messages::invalid_uses_relationship_second_param_syntax);
     }
 
     SECTION("Uses Relationship with invalid any first param entity.", "Uses(_,v)")
@@ -255,7 +255,7 @@ TEST_CASE("Uses Relationships throws error for incorrect entity types.")
         pql_dto::Entity first_param_entity = pql_dto::Entity("any", "_", false);
         pql_dto::Entity second_param_entity = pql_dto::Entity("variable", "v", true);
         REQUIRE_THROWS_WITH(pql_dto::UsesRelationship(first_param_entity,
-                            second_param_entity, false), error_messages::invalid_uses_relationship_first_param);
+                            second_param_entity, false), error_messages::invalid_uses_relationship_first_param_syntax);
     }
 
     SECTION("Uses Relationship with invalid stmt second param entity.", "Uses(2,s1)")
@@ -341,7 +341,7 @@ TEST_CASE("Modifies Relationships throws error for incorrect entity types.")
         pql_dto::Entity first_param_entity = pql_dto::Entity("stmt", "7", false);
         pql_dto::Entity second_param_entity = pql_dto::Entity("stmt", "2", false);
         REQUIRE_THROWS_WITH(pql_dto::ModifiesRelationship(first_param_entity,
-                            second_param_entity, false), error_messages::invalid_modifies_relationship_second_param);
+                            second_param_entity, false), error_messages::invalid_modifies_relationship_second_param_syntax);
     }
 
     SECTION("Modifies Relationship with invalid any first param entity.", "Modifies(_,v)")
@@ -349,7 +349,7 @@ TEST_CASE("Modifies Relationships throws error for incorrect entity types.")
         pql_dto::Entity first_param_entity = pql_dto::Entity("any", "_", false);
         pql_dto::Entity second_param_entity = pql_dto::Entity("variable", "v", true);
         REQUIRE_THROWS_WITH(pql_dto::ModifiesRelationship(first_param_entity,
-                            second_param_entity, false), error_messages::invalid_modifies_relationship_first_param);
+                            second_param_entity, false), error_messages::invalid_modifies_relationship_first_param_syntax);
     }
 
     SECTION("Modifies Relationship with invalid stmt second param entity.", "Modifies(2,s1)")
@@ -427,7 +427,7 @@ TEST_CASE("Calls Relationships throws error for incorrect entity types.")
         pql_dto::Entity first_param_entity = pql_dto::Entity("stmt", "7", false);
         pql_dto::Entity second_param_entity = pql_dto::Entity("stmt", "2", false);
         REQUIRE_THROWS_WITH(pql_dto::CallsRelationship(first_param_entity,
-            second_param_entity, false), error_messages::invalid_calls_relationship_first_param);
+            second_param_entity, false), error_messages::invalid_calls_relationship_first_param_syntax);
     }
 
     SECTION("Calls Relationship with invalid stmt second param entity.", "Calls(p1,s1)")

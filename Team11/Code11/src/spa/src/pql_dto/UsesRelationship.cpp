@@ -29,7 +29,14 @@ private:
         std::vector<EntityType> uses_first_param_type = relationships_table.at(RelationshipType::USES).front();
         if (std::find(uses_first_param_type.begin(), uses_first_param_type.end(), param.get_entity_type()) == uses_first_param_type.end())
         {
-            throw std::runtime_error(error_messages::invalid_uses_relationship_first_param);
+            if (param.is_entity_declared())
+            {
+                throw std::runtime_error(error_messages::invalid_uses_relationship_first_param);
+            }
+            else
+            {
+                throw std::runtime_error(error_messages::invalid_uses_relationship_first_param_syntax);
+            }            
         }
 
         first_param = param;
@@ -40,7 +47,14 @@ private:
         std::vector<EntityType> uses_second_param_type = relationships_table.at(RelationshipType::USES).back();
         if (std::find(uses_second_param_type.begin(), uses_second_param_type.end(), param.get_entity_type()) == uses_second_param_type.end())
         {
-            throw std::runtime_error(error_messages::invalid_uses_relationship_second_param);
+            if (param.is_entity_declared())
+            {
+                throw std::runtime_error(error_messages::invalid_uses_relationship_second_param);
+            }
+            else
+            {
+                throw std::runtime_error(error_messages::invalid_uses_relationship_second_param_syntax);
+            }
         }
         second_param = param;
     }
