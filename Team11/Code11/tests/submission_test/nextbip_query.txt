@@ -1,12 +1,12 @@
 1 - NextBip with lhs syn, rhs syn
 assign a1,a2;
 Select <a1,a2> such that NextBip(a1,a2)
-12 13,13 15,14 15,25 26,57 58,66 67
+6 15,12 13,13 15,14 15,25 26,52 41,57 58,66 67
 5000
 2 - NextBip with lhs syn, rhs wildcard (74,75 excluded)
 assign a;
 Select a such that NextBip(a,_)
-2,4,6,7,12,13,14,15,19,24,25,26,31,33,35,41,44,47,48,52,55,57,66,71,73,74
+2,4,6,7,12,13,14,19,24,25,26,31,33,35,41,47,48,52,55,57,58,66,67,71,73,74
 5000
 3 - NextBip with lhs syn, rhs integer
 assign a;
