@@ -83,7 +83,7 @@ bool CallsStarEvaluator::evaluate_trivial(pql_dto::Entity &first_param,
         }
         else if (QueryUtility::is_proc_name(second_param))
         {
-            // e.g. Calls("main", "sub")
+            // e.g. Calls*("main", "sub")
             result = PKB.is_calls_star(first_name, second_name);
         }
     }
