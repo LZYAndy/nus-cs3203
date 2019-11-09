@@ -22,3 +22,13 @@ Procedure::Procedure(std::string name, std::string body)
     }
     body_of_proc = body;
 }
+
+void Procedure::set_statement_list(std::vector<Statement> stmt_list)
+{
+    statement_list = stmt_list;
+}
+
+std::vector<Statement> Procedure::get_statement_list()
+{
+    return statement_list;
+}

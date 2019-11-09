@@ -982,10 +982,24 @@ TEST_CASE("Multiple select, such that, and pattern")
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 
-//    SECTION("select BOOLEAN, multiple clauses")
-//    {
-//        string pql_query = R"(procedure pcd1; stmt sd1; assign ad1; call cd1; while wd1; if ifsd1; read rd1; print pd1; variable vd1; procedure pc1; stmt s1; assign a1; call c1; while w1; if ifs1; read r1; print p1; variable v1; procedure pc2; stmt s2; assign a2; call c2; while w2; if ifs2; read r2; print p2; variable v2; procedure pc3; stmt s3; assign a3; call c3; while w3; if ifs3; read r3; print p3; variable v3; procedure pc4; stmt s4; assign a4; call c4; while w4; if ifs4; read r4; print p4; variable v4; Select BOOLEAN such that Calls*("main", pc1) with pc1.procName = "readPoint")";
-//        unordered_set<string> expected_result {"TRUE"};
-//        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
-//    }
+    SECTION("select BOOLEAN, multiple clauses")
+    {
+        string pql_query = R"(procedure pcd1; stmt sd1; assign ad1; call cd1; while wd1; if ifsd1; read rd1; print pd1; variable vd1; procedure pc1; stmt s1; assign a1; call c1; while w1; if ifs1; read r1; print p1; variable v1; procedure pc2; stmt s2; assign a2; call c2; while w2; if ifs2; read r2; print p2; variable v2; procedure pc3; stmt s3; assign a3; call c3; while w3; if ifs3; read r3; print p3; variable v3; procedure pc4; stmt s4; assign a4; call c4; while w4; if ifs4; read r4; print p4; variable v4; Select BOOLEAN such that Calls*("main", pc1) with pc1.procName = "readPoint")";
+        unordered_set<string> expected_result {"TRUE"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("select tuple, multiple clauses")
+    {
+        string pql_query = "while w; if ifs; assign a; variable v; Select <a, ifs, w> pattern ifs(v, _, _) and a(v, _) and w(v, _) with v.varName = \"count\"";
+        unordered_set<string> expected_result {"29 19 26", "31 19 26", "28 19 26", "15 19 26", "10 19 26"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("select tuple, multiple clauses")
+    {
+        string pql_query = "assign a1, a2, a3; Select <a1, a2, a3> such that Affects(a1, a2) and Affects(a2, a3) and Affects(a3, a1)";
+        unordered_set<string> expected_result {"16 16 16", "15 15 15", "17 17 17"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
 }

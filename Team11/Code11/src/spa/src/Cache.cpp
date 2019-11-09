@@ -3,8 +3,8 @@
 bool Cache::insert_clause(pql_dto::Relationships &relation, pql_dto::Entity &first_param,
         pql_dto::Entity &second_param, unordered_map<string, vector<string>> intermediary_map)
 {
-    map<string, vector<string>> order_map;
-    map<string, vector<string>> order_same_map;
+    vector<vector<string>> order_vec;
+    vector<vector<string>> order_same_vec;
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
     string first_type_name = QueryUtility::get_entity_type_name(first_param);
@@ -14,17 +14,17 @@ bool Cache::insert_clause(pql_dto::Relationships &relation, pql_dto::Entity &fir
     string implicit_key = clause_name + " " + first_type_name + " " + second_type_name;
     if (first_param.is_entity_declared() && second_param.is_entity_declared() && first_name != second_name)
     {
-        order_map.insert(pair<string, vector<string>> (first_name, intermediary_map[first_name]));
-        order_map.insert(pair<string, vector<string>> (second_name, intermediary_map[second_name]));
+        order_vec.push_back(intermediary_map[first_name]);
+        order_vec.push_back(intermediary_map[second_name]);
     }
     if (first_param.is_entity_declared() && second_param.is_entity_declared() && first_name == second_name)
     {
-        order_same_map.insert(pair<string, vector<string>> (first_name, intermediary_map[first_name]));
-        order_same_map.insert(pair<string, vector<string>> (second_name, intermediary_map[second_name]));
+        order_same_vec.push_back(intermediary_map[first_name]);
+        order_same_vec.push_back(intermediary_map[second_name]);
     }
     explicit_relation_cache[explicit_key] = intermediary_map;
-    implicit_relation_cache[implicit_key] = order_map;
-    implicit_same_relation_cache[implicit_key] = order_same_map;
+    implicit_relation_cache[implicit_key] = order_vec;
+    implicit_same_relation_cache[implicit_key] = order_same_vec;
 
     return true;
 }
@@ -32,8 +32,8 @@ bool Cache::insert_clause(pql_dto::Relationships &relation, pql_dto::Entity &fir
 bool Cache::insert_clause(pql_dto::Pattern &pattern, pql_dto::Entity &first_param,
         pql_dto::Entity &second_param, unordered_map<string, vector<string>> intermediary_map)
 {
-    map<string, vector<string>> order_map;
-    map<string, vector<string>> order_same_map;
+    vector<vector<string>> order_vec;
+    vector<vector<string>> order_same_vec;
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
     string first_type_name = QueryUtility::get_entity_type_name(first_param);
@@ -43,17 +43,17 @@ bool Cache::insert_clause(pql_dto::Pattern &pattern, pql_dto::Entity &first_para
     string implicit_key = clause_name + " " + first_type_name + " " + second_type_name;
     if (first_param.is_entity_declared() && second_param.is_entity_declared() && first_name != second_name)
     {
-        order_map.insert(pair<string, vector<string>> (first_name, intermediary_map[first_name]));
-        order_map.insert(pair<string, vector<string>> (second_name, intermediary_map[second_name]));
+        order_vec.push_back(intermediary_map[first_name]);
+        order_vec.push_back(intermediary_map[second_name]);
     }
     if (first_param.is_entity_declared() && second_param.is_entity_declared() && first_name == second_name)
     {
-        order_same_map.insert(pair<string, vector<string>> (first_name, intermediary_map[first_name]));
-        order_same_map.insert(pair<string, vector<string>> (second_name, intermediary_map[second_name]));
+        order_same_vec.push_back(intermediary_map[first_name]);
+        order_same_vec.push_back(intermediary_map[second_name]);
     }
     explicit_pattern_cache[explicit_key] = intermediary_map;
-    implicit_pattern_cache[implicit_key] = order_map;
-    implicit_same_pattern_cache[implicit_key] = order_same_map;
+    implicit_pattern_cache[implicit_key] = order_vec;
+    implicit_same_pattern_cache[implicit_key] = order_same_vec;
 
     return true;
 }
@@ -61,8 +61,8 @@ bool Cache::insert_clause(pql_dto::Pattern &pattern, pql_dto::Entity &first_para
 bool Cache::insert_clause(pql_dto::With &with, pql_dto::Entity &first_param,
         pql_dto::Entity &second_param, unordered_map<string, vector<string>> intermediary_map)
 {
-    map<string, vector<string>> order_map;
-    map<string, vector<string>> order_same_map;
+    vector<vector<string>> order_vec;
+    vector<vector<string>> order_same_vec;
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
     string first_type_name = QueryUtility::get_entity_type_name(first_param);
@@ -72,24 +72,24 @@ bool Cache::insert_clause(pql_dto::With &with, pql_dto::Entity &first_param,
     string implicit_key = clause_name + " " + first_type_name + " " + second_type_name;
     if (first_param.is_entity_declared() && second_param.is_entity_declared() && first_name != second_name)
     {
-        order_map.insert(pair<string, vector<string>> (first_name, intermediary_map[first_name]));
-        order_map.insert(pair<string, vector<string>> (second_name, intermediary_map[second_name]));
+        order_vec.push_back(intermediary_map[first_name]);
+        order_vec.push_back(intermediary_map[second_name]);
     }
     if (first_param.is_entity_declared() && second_param.is_entity_declared() && first_name == second_name)
     {
-        order_same_map.insert(pair<string, vector<string>> (first_name, intermediary_map[first_name]));
-        order_same_map.insert(pair<string, vector<string>> (second_name, intermediary_map[second_name]));
+        order_same_vec.push_back(intermediary_map[first_name]);
+        order_same_vec.push_back(intermediary_map[second_name]);
     }
     explicit_with_cache[explicit_key] = intermediary_map;
-    implicit_with_cache[implicit_key] = order_map;
-    implicit_same_with_cache[implicit_key] = order_same_map;
+    implicit_with_cache[implicit_key] = order_vec;
+    implicit_same_with_cache[implicit_key] = order_same_vec;
 
     return true;
 }
 
 unordered_map<string, vector<string>> Cache::get_similar_clause_map(pql_dto::Constraint &clause)
 {
-    map<string, vector<string>> temp_map;
+    vector<vector<string>> temp_vec;
     unordered_map<string, vector<string>> result;
     pql_dto::Entity first_param;
     pql_dto::Entity second_param;
@@ -109,23 +109,23 @@ unordered_map<string, vector<string>> Cache::get_similar_clause_map(pql_dto::Con
         implicit_key = clause_name + " " + first_type_name + " " + second_type_name;
         if (first_param.get_entity_name() == second_param.get_entity_name())
         {
-            temp_map = implicit_same_relation_cache[implicit_key];
+            temp_vec = implicit_same_relation_cache[implicit_key];
         }
         else
         {
-            temp_map = implicit_relation_cache[implicit_key];
+            temp_vec = implicit_relation_cache[implicit_key];
         }
         bool is_first = true;
-        for (const auto& iter : temp_map)
+        for (const auto& iter : temp_vec)
         {
             if (is_first)
             {
-                result[first_param.get_entity_name()] = iter.second;
+                result[first_param.get_entity_name()] = iter;
                 is_first = false;
             }
             else
             {
-                result[second_param.get_entity_name()] = iter.second;
+                result[second_param.get_entity_name()] = iter;
             }
         }
     }
@@ -140,23 +140,23 @@ unordered_map<string, vector<string>> Cache::get_similar_clause_map(pql_dto::Con
         implicit_key = clause_name + " " + first_type_name + " " + second_type_name;
         if (first_param.get_entity_name() == second_param.get_entity_name())
         {
-            temp_map = implicit_same_pattern_cache[implicit_key];
+            temp_vec = implicit_same_pattern_cache[implicit_key];
         }
         else
         {
-            temp_map = implicit_pattern_cache[implicit_key];
+            temp_vec = implicit_pattern_cache[implicit_key];
         }
         bool is_first = true;
-        for (const auto& iter : temp_map)
+        for (const auto& iter : temp_vec)
         {
             if (is_first)
             {
-                result[first_param.get_entity_name()] = iter.second;
+                result[first_param.get_entity_name()] = iter;
                 is_first = false;
             }
             else
             {
-                result[second_param.get_entity_name()] = iter.second;
+                result[second_param.get_entity_name()] = iter;
             }
         }
     }
@@ -171,23 +171,23 @@ unordered_map<string, vector<string>> Cache::get_similar_clause_map(pql_dto::Con
         implicit_key = clause_name + " " + first_type_name + " " + second_type_name;
         if (first_param.get_entity_name() == second_param.get_entity_name())
         {
-            temp_map = implicit_same_with_cache[implicit_key];
+            temp_vec = implicit_same_with_cache[implicit_key];
         }
         else
         {
-            temp_map = implicit_with_cache[implicit_key];
+            temp_vec = implicit_with_cache[implicit_key];
         }
         bool is_first = true;
-        for (const auto& iter : temp_map)
+        for (const auto& iter : temp_vec)
         {
             if (is_first)
             {
-                result[first_param.get_entity_name()] = iter.second;
+                result[first_param.get_entity_name()] = iter;
                 is_first = false;
             }
             else
             {
-                result[second_param.get_entity_name()] = iter.second;
+                result[second_param.get_entity_name()] = iter;
             }
         }
     }
