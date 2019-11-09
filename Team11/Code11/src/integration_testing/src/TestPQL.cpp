@@ -25,7 +25,7 @@ TEST_CASE("No such that or pattern clauses")
     SECTION("constant")
     {
         string pql_query = "constant c; Select c";
-        unordered_set<string> expected_result {"0", "1", "2", "3"};
+        unordered_set<string> expected_result {"0", "1", "2", "24"};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 }
@@ -675,7 +675,7 @@ TEST_CASE("With clause")
     SECTION("with c.value = cl.stmt#")
     {
         string pql_query = "constant c; call cl; Select cl with c.value = cl.stmt#";
-        unordered_set<string> expected_result {"2", "3"};
+        unordered_set<string> expected_result {"2"};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 
@@ -1000,6 +1000,20 @@ TEST_CASE("Multiple select, such that, and pattern")
     {
         string pql_query = "assign a1, a2, a3; Select <a1, a2, a3> such that Affects(a1, a2) and Affects(a2, a3) and Affects(a3, a1)";
         unordered_set<string> expected_result {"16 16 16", "15 15 15", "17 17 17"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("select tuple, multiple clauses")
+    {
+        string pql_query = "while w; Select w with 05 = 0005";
+        unordered_set<string> expected_result {"14", "24", "26"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("select tuple, multiple clauses")
+    {
+        string pql_query = R"(while w1, w2; if ifs; assign a1,a2; constant c; Select <ifs, a2> such that Parent(w1, ifs) and Next*(w1, a1) pattern a1(_, _"y"_) such that Next*(a1, a2) pattern a2(_, _"y"_) with w1.stmt# = c.value)";
+        unordered_set<string> expected_result {"25 28"};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 }
