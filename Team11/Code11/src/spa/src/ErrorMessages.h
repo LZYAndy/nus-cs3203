@@ -23,11 +23,13 @@ constexpr const char* invalid_read_type(R"(Invalid read type.)");
 constexpr const char* invalid_expr(R"(Invalid expression!)");
 constexpr const char* invalid_SIMPLE(R"(Invalid SIMPLE code.)");
 constexpr const char* cyclic_call(R"(Invalid SIMPLE code, contains cyclic calls.)");
+constexpr const char* call_does_not_exist(R"(Invalid SIMPLE code, contains call statement calling to a non-exist procedure.)");
 
 
 // Error messages for Entity.cpp
 constexpr const char* invalid_entity_type(R"(Syntax Error: Invalid Entity Type!)");
 constexpr const char* invalid_entity_attr(R"(Syntax Error: Invalid Entity Attribute!)");
+constexpr const char* invalid_entity_attr_to_type(R"(Semantic Error: Invalid Entity Attribute To EntityType!)");
 constexpr const char* invalid_declared_entity_name(R"(Syntax Error: Invalid Declared Entity Name!)");
 constexpr const char* invalid_pattern_expression_format(R"(Syntax Error: Invalid Format For Pattern Expression!)");
 constexpr const char* invalid_synonym_name(R"(Syntax Error: Invalid Synonym Name!)");
@@ -71,7 +73,7 @@ constexpr const char* invalid_affects_bip_relationship_first_param(R"(Semantic E
 constexpr const char* invalid_affects_bip_relationship_second_param(R"(Semantic Error: Invalid AffectsBip Relationship Second Parameter Type!)");
 constexpr const char* invalid_affects_bip_relationship_first_param_syntax(R"(Syntax Error: Invalid AffectsBip Relationship First Parameter Type!)");
 constexpr const char* invalid_affects_bip_relationship_second_param_syntax(R"(Syntax Error: Invalid AffectsBip Relationship Second Parameter Type!)");
-constexpr const char* invalid_order_of_params(R"(First param for Relationship is greater than the second param.)");
+constexpr const char* invalid_order_of_params(R"(Semantic Error: First param for Relationship is greater than the second param.)");
 
 // Error messages for Pattern.cpp
 constexpr const char* invalid_pattern_entity(R"(Semantic Error: Invalid Pattern Entity Type!)");
@@ -85,8 +87,9 @@ constexpr const char* not_a_pattern_object(R"(Not a Pattern Object!)");
 // Error messages for With.cpp
 constexpr const char* invalid_with_first_param(R"(Semantic Error: Invalid With First Parameter Type!)");
 constexpr const char* invalid_with_second_param(R"(Semantic Error: Invalid With Second Parameter Type!)");
+constexpr const char* invalid_with_param(R"(Semantic Error: Invalid With Parameter!)");
 constexpr const char* invalid_with_mismatch_type(R"(Semantic Error: Invalid With Mismatch Type!)");
-constexpr const char* with_trivial_false(R"(Different string/integer for With!)");
+constexpr const char* with_trivial_false(R"(Semantic Error: Different string/integer for With!)");
 
 // Error message for PQLParser.cpp
 constexpr const char* invalid_query_not_exists(R"(Syntax Error: Invalid Query! Query does not exists.)");
@@ -104,4 +107,5 @@ constexpr const char* invalid_query_with_clause_syntax(R"(Syntax Error: Invalid 
 constexpr const char* invalid_query_wrong_pattern_entity(R"(Semantic Error: Invalid Entity for pattern.)");
 constexpr const char* invalid_relationship_type(R"(Syntax Error: Invalid Relationship Type!)");
 constexpr const char* invalid_query_missing_equal_with_clause(R"(Syntax Error: Invalid Query! Missing equal in with clause.)");
+constexpr const char* invalid_attribute_syntax(R"(Syntax Error: Invalid Query! Attribute Syntax Error.)");
 }

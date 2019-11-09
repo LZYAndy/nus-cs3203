@@ -369,6 +369,18 @@ TEST_CASE("Pql query parser parse and validate valid query correctly.")
         REQUIRE(pattern_clause.size() == 1);
         REQUIRE(with_clause.size() == 0);
     }
+
+    SECTION("Valid query 31.")
+    {
+        std::string test_query = "while w; Select w with 05 = 0005";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == "");
+        REQUIRE(select_clause.size() == 1);
+        REQUIRE(such_that_clause.size() == 0);
+        REQUIRE(pattern_clause.size() == 0);
+        REQUIRE(with_clause.size() == 0);
+    }
 }
 
 TEST_CASE("Pql query parser parse and validate invalid query correctly.")
@@ -480,6 +492,118 @@ TEST_CASE("Pql query parser parse and validate invalid query correctly.")
         std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
 
         REQUIRE(error == error_messages::invalid_query_variables_not_declared);
+    }
+
+    SECTION("Invalid query 14.")
+    {
+        std::string test_query = "procedure p; Select BOOLEAN with \"AlPhA\" = 2.procName";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == error_messages::invalid_attribute_syntax);
+    }
+
+    SECTION("Invalid query 15.")
+    {
+        std::string test_query = "variable v1, v2; variable v; Select BOOLEAN with \"deTeRmI\" = _.varName";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == error_messages::invalid_attribute_syntax);
+    }
+
+    SECTION("Invalid query 16.")
+    {
+        std::string test_query = "procedure p; Select BOOLEAN with _.procName = \"AlPhA\"";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == error_messages::invalid_attribute_syntax);
+    }
+
+    SECTION("Invalid query 17.")
+    {
+        std::string test_query = "procedure p; Select BOOLEAN with _ = _";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == error_messages::invalid_attribute_syntax);
+    }
+
+    SECTION("Invalid query 18.")
+    {
+        std::string test_query = "while w; Select BOOLEAN pattern w(_, w, _)";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == error_messages::invalid_query_such_that_clause_syntax);
+    }
+
+    SECTION("Invalid query 19.")
+    {
+        std::string test_query = "while w; variable v; Select BOOLEAN pattern w(_, _v_)";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == error_messages::invalid_query_such_that_clause_syntax);
+    }
+
+    SECTION("Invalid query 20.")
+    {
+        std::string test_query = "Select BOOLEAN such that Uses(_, _)";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == error_messages::invalid_uses_relationship_first_param);
+    }
+
+    SECTION("Invalid query 21.")
+    {
+        std::string test_query = "Select BOOLEAN such that Modifies(_, _)";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == error_messages::invalid_modifies_relationship_first_param);
+    }
+
+    SECTION("Invalid query 22.")
+    {
+        std::string test_query = "stmt s1; Select BOOLEAN with s1.stmt# = -1";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == error_messages::invalid_attribute_syntax);
+    }
+
+    SECTION("Invalid query 23.")
+    {
+        std::string test_query = "while w; if ifs; Select BOOLEAN with w = ifs";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == error_messages::invalid_with_param);
+    }
+
+    SECTION("Invalid query 24.")
+    {
+        std::string test_query = "stmt ring; Select BOOLEAN with ring = \"ring\"";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == error_messages::invalid_with_param);
+    }
+
+    SECTION("Invalid query 25.")
+    {
+        std::string test_query = " Select BOOLEAN with \"not\" = \"same\"";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == error_messages::with_trivial_false);
+    }
+
+    SECTION("Invalid query 26.")
+    {
+        std::string test_query = "Select BOOLEAN with -1 = -1";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == error_messages::invalid_attribute_syntax);
+    }
+
+    SECTION("Invalid query 27.")
+    {
+        std::string test_query = "stmt s; Select BOOLEAN with s.procName = \"E\"";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == error_messages::invalid_entity_attr_to_type);
     }
 }
 

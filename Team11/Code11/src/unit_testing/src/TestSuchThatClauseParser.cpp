@@ -82,7 +82,7 @@ TEST_CASE("Parses and validate Follows such that clause.")
         std::string test_query = "such that Follows(a, )";
         std::string error = PQLParserHelper::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == error_messages::invalid_query_variables_not_declared);
+        REQUIRE(error == error_messages::invalid_query_such_that_clause_syntax);
     }
 
     SECTION("Invalid Such that Clause with Follows variables. Invalid Syntax. Missing Params.")
@@ -197,7 +197,7 @@ TEST_CASE("Parses and validate Parent such that clause.")
         std::string test_query = "such that Parent(a, )";
         std::string error = PQLParserHelper::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == error_messages::invalid_query_variables_not_declared);
+        REQUIRE(error == error_messages::invalid_query_such_that_clause_syntax);
     }
 
     SECTION("Invalid Such that Clause with Parent variables. Invalid Syntax. Missing Params.")

@@ -152,27 +152,27 @@ TEST_CASE("Entity params with wrong attribute value throws error correctly")
         SECTION("Set entity with incorrect type.")
     {
         pql_dto::Entity var_entity = pql_dto::Entity("variable", "v", true);
-        REQUIRE_THROWS_WITH(var_entity.set_entity_attr("stmt#"), error_messages::invalid_entity_attr);
+        REQUIRE_THROWS_WITH(var_entity.set_entity_attr("stmt#"), error_messages::invalid_entity_attr_to_type);
 
         pql_dto::Entity stmt_entity = pql_dto::Entity("stmt", "v", true);
-        REQUIRE_THROWS_WITH(stmt_entity.set_entity_attr("procName"), error_messages::invalid_entity_attr);
+        REQUIRE_THROWS_WITH(stmt_entity.set_entity_attr("procName"), error_messages::invalid_entity_attr_to_type);
 
         pql_dto::Entity proc_entity = pql_dto::Entity("procedure", "v", true);
-        REQUIRE_THROWS_WITH(proc_entity.set_entity_attr("stmt#"), error_messages::invalid_entity_attr);
+        REQUIRE_THROWS_WITH(proc_entity.set_entity_attr("stmt#"), error_messages::invalid_entity_attr_to_type);
 
         pql_dto::Entity const_entity = pql_dto::Entity("constant", "c", true);
-        REQUIRE_THROWS_WITH(const_entity.set_entity_attr("stmt#"), error_messages::invalid_entity_attr);
+        REQUIRE_THROWS_WITH(const_entity.set_entity_attr("stmt#"), error_messages::invalid_entity_attr_to_type);
 
         pql_dto::Entity call_entity = pql_dto::Entity("call", "c", true);
-        REQUIRE_THROWS_WITH(call_entity.set_entity_attr("value"), error_messages::invalid_entity_attr);
-        REQUIRE_THROWS_WITH(call_entity.set_entity_attr("varName"), error_messages::invalid_entity_attr);
+        REQUIRE_THROWS_WITH(call_entity.set_entity_attr("value"), error_messages::invalid_entity_attr_to_type);
+        REQUIRE_THROWS_WITH(call_entity.set_entity_attr("varName"), error_messages::invalid_entity_attr_to_type);
 
         pql_dto::Entity print_entity = pql_dto::Entity("print", "v", true);
-        REQUIRE_THROWS_WITH(print_entity.set_entity_attr("value"), error_messages::invalid_entity_attr);
-        REQUIRE_THROWS_WITH(print_entity.set_entity_attr("procName"), error_messages::invalid_entity_attr);
+        REQUIRE_THROWS_WITH(print_entity.set_entity_attr("value"), error_messages::invalid_entity_attr_to_type);
+        REQUIRE_THROWS_WITH(print_entity.set_entity_attr("procName"), error_messages::invalid_entity_attr_to_type);
 
         pql_dto::Entity read_entity = pql_dto::Entity("read", "r", true);
-        REQUIRE_THROWS_WITH(read_entity.set_entity_attr("value"), error_messages::invalid_entity_attr);
-        REQUIRE_THROWS_WITH(read_entity.set_entity_attr("procName"), error_messages::invalid_entity_attr);
+        REQUIRE_THROWS_WITH(read_entity.set_entity_attr("value"), error_messages::invalid_entity_attr_to_type);
+        REQUIRE_THROWS_WITH(read_entity.set_entity_attr("procName"), error_messages::invalid_entity_attr_to_type);
     }
 }

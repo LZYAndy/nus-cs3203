@@ -209,7 +209,7 @@ TEST_CASE("Parses and validate select clause.")
         std::string test_query = "Select \"v1 \" such that Modifies(4, v1) pattern a(_,_) ";
         std::string error = PQLParserHelper::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
-        REQUIRE(error == error_messages::invalid_query_variables_not_declared);
+        REQUIRE(error == error_messages::invalid_attribute_syntax);
     }
 
     SECTION("Invalid Select Clause with wrong attribute value.")
@@ -217,12 +217,28 @@ TEST_CASE("Parses and validate select clause.")
         std::string test_query = "Select v1.stmt# such that Modifies(4, v1) pattern a(_,_) ";
         std::string error = PQLParserHelper::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
-        REQUIRE(error == error_messages::invalid_entity_attr);
+        REQUIRE(error == error_messages::invalid_entity_attr_to_type);
     }
 
     SECTION("Invalid Select Clause with multiple attribute value.")
     {
         std::string test_query = "Select v1.stmt#.value such that Modifies(4, v1) pattern a(_,_) ";
+        std::string error = PQLParserHelper::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
+
+        REQUIRE(error == error_messages::invalid_query_select_attr_syntax);
+    }
+
+    SECTION("Invalid Select Clause syntax with wrong synonym 1.")
+    {
+        std::string test_query = "Select 2.stmt#.value such that Modifies(4, v1) pattern a(_,_) ";
+        std::string error = PQLParserHelper::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
+
+        REQUIRE(error == error_messages::invalid_query_select_attr_syntax);
+    }
+
+    SECTION("Invalid Select Clause syntax with wrong synonym 2.")
+    {
+        std::string test_query = "Select _.stmt#.value such that Modifies(4, v1) pattern a(_,_) ";
         std::string error = PQLParserHelper::parse_select_clause(test_query, select_clause, declared_variables, condition_query);
 
         REQUIRE(error == error_messages::invalid_query_select_attr_syntax);
