@@ -1,0 +1,150 @@
+1 - NextBip 
+stmt s;
+Select s such that NextBip(10, s)
+16
+5000
+2 - NextBip 
+stmt s;
+Select s such that NextBip(s, 11)
+27
+5000
+3 - NextBip 
+stmt s;
+Select s such that NextBip(23, s)
+28
+5000
+4 - NextBip 
+stmt s;
+Select s such that NextBip(s, 21)
+29, 35, 17
+5000
+5 - NextBip 
+stmt s;
+Select s such that NextBip(40, s)
+45
+5000
+6 - NextBip 
+stmt s;
+Select s such that NextBip(s, 45)
+40, 51, 50, 47
+5000
+7 - NextBip 
+stmt s;
+Select s such that NextBip(s, 41)
+52
+5000
+8 - NextBip 
+stmt s;
+Select s such that NextBip(64, s)
+75
+5000
+9 - NextBip 
+stmt s;
+Select s such that NextBip(s, 65)
+74
+5000
+10 - NextBip 
+stmt s;
+Select s such that NextBip(65, s)
+68
+5000
+11 - NextBip 
+stmt s;
+Select s such that NextBip(72, s)
+78
+5000
+12 - NextBip 
+stmt s;
+Select s such that NextBip(s, 73)
+84
+5000
+13 - NextBip 
+stmt s;
+Select s such that NextBip(75, s)
+68
+5000
+14 - NextBip 
+stmt s;
+Select s such that NextBip(s, 76)
+74
+5000
+15 - NextBip 
+stmt s;
+Select s such that NextBip(76, s)
+68
+5000
+16 - NextBip 
+stmt s;
+Select s such that NextBip(s, 77)
+74
+5000
+17 - NextBip 
+stmt s;
+Select s such that NextBip(77, s)
+68
+5000
+18 - NextBip 
+stmt s;
+Select s such that NextBip(s, 68)
+69, 65, 75, 76, 77
+5000
+19 - NextBip 
+stmt s;
+Select s such that NextBip(68, s)
+69, 74
+5000
+20 - NextBip 
+stmt s;
+Select s such that NextBip(74, s)
+65, 76, 77, 60
+5000
+21 - NextBip 
+stmt s;
+Select s such that NextBip(78, s)
+81
+5000
+22 - NextBip 
+stmt s;
+Select s such that NextBip(s, 79)
+84
+5000
+23 - NextBip 
+stmt s;
+Select s such that NextBip(79, s)
+86
+5000
+24 - NextBip 
+stmt s;
+Select s such that NextBip(s, 86)
+79, 81, 82, 85
+5000
+25 - NextBip 
+stmt s;
+Select s such that NextBip(s, 80)
+86
+5000
+26 - NextBip 
+stmt s;
+Select s such that NextBip(86, s)
+80, 82, 83, 84
+5000
+27 - NextBip 
+stmt s;
+Select s such that NextBip(s, 81)
+80, 78
+5000
+28 - NextBip 
+stmt s;
+Select s such that NextBip(s, 84)
+83, 86
+5000
+28 - NextBip 
+stmt s;
+Select s such that NextBip(84, s)
+85, 79, 73
+5000
+29 - NextBip 
+stmt s;
+Select s such that NextBip(s, 60)
+67, 74, 59
+5000

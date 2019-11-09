@@ -32,7 +32,10 @@ unordered_set<string> QueryEvaluator::get_result(string &query, PKB &PKB)
     {
         if (!select_clause.empty() && select_clause.at(0).get_entity_type() == EntityType::BOOLEAN)
         {
-            return unordered_set<string> {"FALSE"};
+            if (error_msg.find("Semantic Error:") != string::npos)
+            {
+                return unordered_set<string> {"FALSE"};
+            }
         }
         return empty_set;
     }

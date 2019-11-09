@@ -34,7 +34,14 @@ namespace pql_dto
             std::vector<EntityType> calls_first_param_type = relationships_table.at(RelationshipType::CALLS).front();
             if (std::find(calls_first_param_type.begin(), calls_first_param_type.end(), param.get_entity_type()) == calls_first_param_type.end())
             {
-                throw std::runtime_error(error_messages::invalid_calls_relationship_first_param);
+                if (param.is_entity_declared())
+                {
+                    throw std::runtime_error(error_messages::invalid_calls_relationship_first_param);
+                }
+                else
+                {
+                    throw std::runtime_error(error_messages::invalid_calls_relationship_first_param_syntax);
+                }
             }
 
             first_param = param;
@@ -45,7 +52,14 @@ namespace pql_dto
             std::vector<EntityType> calls_second_param_type = relationships_table.at(RelationshipType::CALLS).back();
             if (std::find(calls_second_param_type.begin(), calls_second_param_type.end(), param.get_entity_type()) == calls_second_param_type.end())
             {
-                throw std::runtime_error(error_messages::invalid_calls_relationship_second_param);
+                if (param.is_entity_declared())
+                {
+                    throw std::runtime_error(error_messages::invalid_calls_relationship_second_param);
+                }
+                else
+                {
+                    throw std::runtime_error(error_messages::invalid_calls_relationship_second_param_syntax);
+                }   
             }
 
             second_param = param;

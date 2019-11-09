@@ -60,6 +60,7 @@ public:
 private:
     static void extract_further_parents_child(ParentBank &bank_in, ParentStarBank &bank_out,
             UsesBank &uses_bank, ModifiesBank &modifies_bank, std::vector<int> parents, int child);
+    static void extract_next_bip_helper(PKB& pkb, int previous, std::vector<int> next_of_old_previous);
 };
 
 #endif //AUTOTESTER_DESIGNEXTRACTOR_H

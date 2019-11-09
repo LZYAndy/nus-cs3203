@@ -3,9 +3,9 @@
 using namespace std;
 PKB::PKB()
 {
-    next_bip_star_compute = NextBipStarCompute(&next_bip_bank, &type_bank);
-    affects_bip_compute = AffectsBipCompute(&next_bip_bank, &modifies_bank, &uses_bank, &type_bank);
-    affects_bip_star_compute = AffectsBipStarCompute(&affects_bip_compute, &type_bank);
+    next_bip_star_compute = NextBipStarCompute(&next_bip_bank, &type_bank, &next_bank);
+    affects_bip_compute = AffectsBipCompute(&next_bip_bank, &modifies_bank, &uses_bank, &type_bank, &next_bank);
+    affects_bip_star_compute = AffectsBipStarCompute(&affects_bip_compute, &type_bank, &next_bip_bank, &next_bank, &uses_bank, &modifies_bank);
 }
 
 bool PKB::insert_procedure(string name, int first_prog, vector<int> last_progs)
@@ -802,7 +802,7 @@ vector<int> PKB::get_assigns_affects_bip(int stmt)
 }
 vector<int> PKB::get_assigns_affected_bip_by(int stmt)
 {
-    return affects_bip_compute.get_assigns_affected_bip_by(stmt);
+    return affects_bip_compute.get_assigns_affected_bip_by(stmt, false);
 }
 
 vector<int> PKB::get_all_assigns_affects_bip()

@@ -1,4 +1,4 @@
-1 - Select procedure with name "main"
+1 - Select procedure with name main
 procedure p;
 Select p with p.procName = "main"
 main
@@ -8,7 +8,7 @@ procedure p;
 Select p.procName
 main, calculate, printData
 5000
-3 - Select variable with name "x"
+3 - Select variable with name x
 variable v;
 Select v with v.varName = "x"
 x

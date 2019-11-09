@@ -6,6 +6,7 @@
 
 #include "NextBipBank.h"
 #include "TypeBank.h"
+#include "NextBank.h"
 
 class NextBipStarCompute
 {
@@ -18,8 +19,9 @@ public:
      * Constructor for NextBipStarCompute.
      * @param bip_bank pointer to NextBipBank
      * @param type_bank pointer to TypeBank
+     * @param next_bank pointer to NextBank
      */
-    NextBipStarCompute(NextBipBank *bip_bank, TypeBank *type_bank);
+    NextBipStarCompute(NextBipBank *bip_bank, TypeBank *type_bank, NextBank *next_bank);
     /**
      * Check if NextBip* exists between two program line.
      * @param previous
@@ -46,6 +48,7 @@ public:
     std::unordered_map<int, std::vector<int>> get_all_next_bip_star_relationship();
 private:
     NextBipBank *bip_bank;
+    NextBank *next_bank;
     TypeBank *type_bank;
 };
 #endif

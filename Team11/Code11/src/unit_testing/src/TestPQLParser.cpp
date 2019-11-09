@@ -357,6 +357,18 @@ TEST_CASE("Pql query parser parse and validate valid query correctly.")
         REQUIRE(pattern_clause.size() == 0);
         REQUIRE(with_clause.size() == 0);
     }
+
+    SECTION("Valid query 30.")
+    {
+        std::string test_query = "stmt s, s1; assign a; Select s1 such that Affects (s,s1) pattern a(_, \"elf+073/flip*slime\")";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == "");
+        REQUIRE(select_clause.size() == 1);
+        REQUIRE(such_that_clause.size() == 1);
+        REQUIRE(pattern_clause.size() == 1);
+        REQUIRE(with_clause.size() == 0);
+    }
 }
 
 TEST_CASE("Pql query parser parse and validate invalid query correctly.")
@@ -459,7 +471,7 @@ TEST_CASE("Pql query parser parse and validate invalid query correctly.")
         std::string test_query = "variable v1, v2; assign a; while w; Select v1 pattern w (v2,v1)";
         std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
 
-        REQUIRE(error == error_messages::invalid_pattern_second_param);
+        REQUIRE(error == error_messages::invalid_pattern_second_param_syntax);
     }
 
     SECTION("Invalid query 13.")
@@ -467,7 +479,7 @@ TEST_CASE("Pql query parser parse and validate invalid query correctly.")
         std::string test_query = "variable v1, v2; assign a; while w; Select v1 pattern w (v,_)";
         std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
 
-        REQUIRE(error == error_messages::invalid_declared_entity_name);
+        REQUIRE(error == error_messages::invalid_query_variables_not_declared);
     }
 }
 

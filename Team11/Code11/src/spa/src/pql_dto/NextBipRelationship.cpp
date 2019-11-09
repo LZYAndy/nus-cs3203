@@ -34,7 +34,14 @@ namespace pql_dto
             std::vector<EntityType> next_first_param_type = relationships_table.at(RelationshipType::NEXTBIP).front();
             if (std::find(next_first_param_type.begin(), next_first_param_type.end(), param.get_entity_type()) == next_first_param_type.end())
             {
-                throw std::runtime_error(error_messages::invalid_next_bip_relationship_first_param);
+                if (param.is_entity_declared())
+                {
+                    throw std::runtime_error(error_messages::invalid_next_bip_relationship_first_param);
+                }
+                else
+                {
+                    throw std::runtime_error(error_messages::invalid_next_bip_relationship_first_param_syntax);
+                }
             }
 
             first_param = param;
@@ -45,7 +52,14 @@ namespace pql_dto
             std::vector<EntityType> next_second_param_type = relationships_table.at(RelationshipType::NEXTBIP).back();
             if (std::find(next_second_param_type.begin(), next_second_param_type.end(), param.get_entity_type()) == next_second_param_type.end())
             {
-                throw std::runtime_error(error_messages::invalid_next_bip_relationship_second_param);
+                if (param.is_entity_declared())
+                {
+                    throw std::runtime_error(error_messages::invalid_next_bip_relationship_second_param);
+                }
+                else
+                {
+                    throw std::runtime_error(error_messages::invalid_next_bip_relationship_second_param_syntax);
+                }
             }
 
             second_param = param;

@@ -10,9 +10,9 @@ class AffectsBipStarCompute
 {
 public:
     AffectsBipStarCompute();
-    AffectsBipStarCompute(AffectsBipCompute *affects_bip_compute, TypeBank *type_bank);
+    AffectsBipStarCompute(AffectsBipCompute* affects_bip_compute, TypeBank* type_bank, NextBipBank* bip_bank, NextBank* next_bank, UsesBank* uses_bank, ModifiesBank* modifies_bank);
     /**
-     * Check if AffectsBip* relationship is valid between 2 assignment statement.
+     * Check if AffectsBip* relatiopnship is valid between 2 assignment statement.
      * @param stmt1 affected_bip stmt
      * @param stmt2 stmt to be affected_bip
      * @return true if the relationship is true. else false.
@@ -39,6 +39,10 @@ public:
 private:
     AffectsBipCompute *affects_bip_compute;
     TypeBank *type_bank;
+    NextBipBank *bip_bank;
+    ModifiesBank *modifies_bank;
+    UsesBank *uses_bank;
+    NextBank *next_bank;
     bool is_affects_bip_star_helper(int assignment1, int assignment2, std::unordered_set<std::string> &states);
 };
 #endif
