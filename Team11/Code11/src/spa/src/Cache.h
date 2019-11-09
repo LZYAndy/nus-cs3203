@@ -23,13 +23,13 @@ private:
     unordered_map<string, unordered_map<string, vector<string>>> explicit_pattern_cache;
     unordered_map<string, unordered_map<string, vector<string>>> explicit_with_cache;
 
-    unordered_map<string, map<string, vector<string>>> implicit_relation_cache;
-    unordered_map<string, map<string, vector<string>>> implicit_pattern_cache;
-    unordered_map<string, map<string, vector<string>>> implicit_with_cache;
+    unordered_map<string, vector<vector<string>>> implicit_relation_cache;
+    unordered_map<string, vector<vector<string>>> implicit_pattern_cache;
+    unordered_map<string, vector<vector<string>>> implicit_with_cache;
 
-    unordered_map<string, map<string, vector<string>>> implicit_same_relation_cache;
-    unordered_map<string, map<string, vector<string>>> implicit_same_pattern_cache;
-    unordered_map<string, map<string, vector<string>>> implicit_same_with_cache;
+    unordered_map<string, vector<vector<string>>> implicit_same_relation_cache;
+    unordered_map<string, vector<vector<string>>> implicit_same_pattern_cache;
+    unordered_map<string, vector<vector<string>>> implicit_same_with_cache;
 
 public:
     bool insert_clause(pql_dto::Relationships &relation, pql_dto::Entity &first_param, pql_dto::Entity &second_param,
