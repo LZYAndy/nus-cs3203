@@ -332,8 +332,8 @@ public:
 
         insert_type(32, EntityType::ASSIGN);
         insert_variable("y");
-        insert_assign(32, "y", "3");
-        insert_constant("3");
+        insert_assign(32, "y", "24");
+        insert_constant("24");
         insert_modifies("whileIfProc", "y");
         insert_modifies(24, "y");
         insert_modifies(25, "y");

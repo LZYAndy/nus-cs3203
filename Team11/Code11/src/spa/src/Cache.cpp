@@ -34,13 +34,19 @@ bool Cache::insert_clause(pql_dto::Pattern &pattern, pql_dto::Entity &first_para
 {
     vector<vector<string>> order_vec;
     vector<vector<string>> order_same_vec;
+    string entity_name = pattern.get_pattern_entity().get_entity_name();
     string first_name = first_param.get_entity_name();
     string second_name = second_param.get_entity_name();
+    if (second_param.get_entity_type() == EntityType::PATTEXPR)
+    {
+        second_name = "_" + second_name + "_";
+    }
+    string entity_type_name = QueryUtility::get_entity_type_name(pattern.get_pattern_entity());
     string first_type_name = QueryUtility::get_entity_type_name(first_param);
     string second_type_name = QueryUtility::get_entity_type_name(second_param);
     string clause_name = QueryUtility::get_clause_type_name(pattern);
-    string explicit_key = clause_name + " " + first_name + " " + second_name;
-    string implicit_key = clause_name + " " + first_type_name + " " + second_type_name;
+    string explicit_key = clause_name + " " + entity_name + " " + first_name + " " + second_name;
+    string implicit_key = clause_name + " " + entity_type_name + " " + first_type_name + " " + second_name;
     if (first_param.is_entity_declared() && second_param.is_entity_declared() && first_name != second_name)
     {
         order_vec.push_back(intermediary_map[first_name]);
@@ -134,10 +140,16 @@ unordered_map<string, vector<string>> Cache::get_similar_clause_map(pql_dto::Con
         pql_dto::Pattern pattern = clause.get_pattern();
         first_param = pattern.get_first_param();
         second_param = pattern.get_second_param();
+        pql_dto::Entity entity = pattern.get_pattern_entity();
+        string entity_type_name = QueryUtility::get_entity_type_name(entity);
+        string second_name = pattern.get_second_param().get_entity_name();
         first_type_name = QueryUtility::get_entity_type_name(first_param);
-        second_type_name = QueryUtility::get_entity_type_name(second_param);
+        if (second_param.get_entity_type() == EntityType::PATTEXPR)
+        {
+            second_name = "_" + second_name + "_";
+        }
         clause_name = QueryUtility::get_clause_type_name(pattern);
-        implicit_key = clause_name + " " + first_type_name + " " + second_type_name;
+        implicit_key = clause_name + " " + entity_type_name + " " + first_type_name + " " + second_name;
         if (first_param.get_entity_name() == second_param.get_entity_name())
         {
             temp_vec = implicit_same_pattern_cache[implicit_key];
@@ -220,10 +232,15 @@ unordered_map<string, vector<string>> Cache::get_clause_map(pql_dto::Constraint 
         pql_dto::Pattern pattern = clause.get_pattern();
         first_param = pattern.get_first_param();
         second_param = pattern.get_second_param();
+        string entity_name = pattern.get_pattern_entity().get_entity_name();
         first_name = first_param.get_entity_name();
         second_name = second_param.get_entity_name();
+        if (second_param.get_entity_type() == EntityType::PATTEXPR)
+        {
+            second_name = "_" + second_name + "_";
+        }
         clause_name = QueryUtility::get_clause_type_name(pattern);
-        explicit_key = clause_name + " " + first_name + " " + second_name;
+        explicit_key = clause_name + " " + entity_name + " " + first_name + " " + second_name;
         return explicit_pattern_cache[explicit_key];
     }
     if (clause.is_with())
@@ -245,7 +262,7 @@ int Cache::get_clause_size(pql_dto::Constraint &clause)
 {
     int size = 0;
     unordered_map<string, vector<string>> clause_map = Cache::get_clause_map(clause);
-    for (auto iter : clause_map)
+    for (const auto& iter : clause_map)
     {
         size = iter.second.size();
         break;
