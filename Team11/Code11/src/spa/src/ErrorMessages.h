@@ -76,7 +76,7 @@ constexpr const char* invalid_affects_bip_relationship_second_param_syntax(R"(Sy
 constexpr const char* invalid_order_of_params(R"(Semantic Error: First param for Relationship is greater than the second param.)");
 
 // Error messages for Pattern.cpp
-constexpr const char* invalid_pattern_entity(R"(Semantic Error: Invalid Pattern Entity Type!)");
+constexpr const char* invalid_pattern_entity(R"(Syntax Error: Invalid Pattern Entity Type!)");
 constexpr const char* invalid_pattern_first_param(R"(Semantic Error: Invalid Pattern First Parameter Type!)");
 constexpr const char* invalid_pattern_second_param(R"(Semantic Error: Invalid Pattern Second Parameter Type!)");
 constexpr const char* invalid_pattern_entity_syntax(R"(Syntax Error: Invalid Pattern Entity Type!)");
@@ -104,7 +104,7 @@ constexpr const char* invalid_query_mismatch_brackets(R"(Syntax Error: Invalid S
 constexpr const char* invalid_query_such_that_clause_syntax(R"(Syntax Error: Invalid Query! Such That Clause Syntax Error.)");
 constexpr const char* invalid_query_pattern_clause_syntax(R"(Syntax Error: Invalid Query! Pattern Clause Syntax Error.)");
 constexpr const char* invalid_query_with_clause_syntax(R"(Syntax Error: Invalid Query! With Clause Syntax Error.)");
-constexpr const char* invalid_query_wrong_pattern_entity(R"(Semantic Error: Invalid Entity for pattern.)");
+constexpr const char* invalid_query_wrong_pattern_entity(R"(Syntax Error: Invalid Entity for pattern.)");
 constexpr const char* invalid_relationship_type(R"(Syntax Error: Invalid Relationship Type!)");
 constexpr const char* invalid_query_missing_equal_with_clause(R"(Syntax Error: Invalid Query! Missing equal in with clause.)");
 constexpr const char* invalid_attribute_syntax(R"(Syntax Error: Invalid Query! Attribute Syntax Error.)");
