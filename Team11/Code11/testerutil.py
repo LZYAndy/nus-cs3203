@@ -10,7 +10,7 @@ program_query_mapping = [("follows_parent", "follows_query"),
                         ("valid_calls", "callsT_query"),
                         ("invalid_calls_direct", "invalid_calls_direct_query"),
                         ("invalid_calls_cyclic", "invalid_calls_cyclic_query"),
-                        ("invalid_calls_missing_procedure", "invalid_calls_missing_procedure_query")
+                        ("invalid_calls_missing_procedure", "invalid_calls_missing_procedure_query"),
                         ("modifies_uses", "modifies_query"),
                         ("modifies_uses", "uses_query"),
                         ("next_affects", "next_query"),
