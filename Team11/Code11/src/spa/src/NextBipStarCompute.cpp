@@ -5,13 +5,16 @@ bool NextBipStarCompute::is_next_bip_star(int previous, int next)
     std::vector<int> to_visit;
     std::unordered_set<int> visited;
     std::vector<int> call_stack;
-    std::vector<int> before_call_stack;
+    std::vector<std::vector<int>> call_state_stack;
 
     to_visit.push_back(previous);
+    call_state_stack.push_back(call_stack);
     while (!to_visit.empty())
     {
         int curr_prog_line = to_visit.back();
         to_visit.pop_back();
+        call_stack = call_state_stack.back();
+        call_state_stack.pop_back();
         bool new_call = false;
         auto visited_result = visited.emplace(curr_prog_line);
         if (!visited_result.second)
@@ -19,8 +22,9 @@ bool NextBipStarCompute::is_next_bip_star(int previous, int next)
             if (!call_stack.empty())
             {
                 int after_call = call_stack.back();
-                to_visit.push_back(after_call);
                 call_stack.pop_back();
+                to_visit.push_back(after_call);
+                call_state_stack.push_back(call_stack);
                 if (after_call == next)
                 {
                     return true;
@@ -31,7 +35,6 @@ bool NextBipStarCompute::is_next_bip_star(int previous, int next)
         }
         if (type_bank->get_statement_type(curr_prog_line) == EntityType::CALL)
         {
-            before_call_stack.push_back(curr_prog_line);
             std::vector<int> possible_prog_lines = bip_bank->get_egress(curr_prog_line);
             std::vector<int> normal_next_stmts = next_bank->get_statements_next(curr_prog_line);
             if (!normal_next_stmts.empty())
@@ -69,6 +72,7 @@ bool NextBipStarCompute::is_next_bip_star(int previous, int next)
                     return true;
                 }
                 to_visit.push_back(return_statement);
+                call_state_stack.push_back(call_stack);
                 for (int next_stmt : next_stmts) // only add next statement if is not a return statement
                 {
                     if (bip_bank->get_ingress(next_stmt).empty())
@@ -78,6 +82,7 @@ bool NextBipStarCompute::is_next_bip_star(int previous, int next)
                             return true;
                         }
                         to_visit.push_back(next_stmt);
+                        call_state_stack.push_back(call_stack);
                     }
                 }
                 continue;
@@ -101,6 +106,7 @@ bool NextBipStarCompute::is_next_bip_star(int previous, int next)
                     for (int possible_exit : possible_exits)
                     {
                         to_visit.push_back(possible_exit);
+                        call_state_stack.push_back(call_stack);
                     }
                 }
                 continue;
@@ -113,6 +119,7 @@ bool NextBipStarCompute::is_next_bip_star(int previous, int next)
             {
                 return true;
             }
+            call_state_stack.push_back(call_stack);
             to_visit.push_back(next_stmt);
         }
     }
