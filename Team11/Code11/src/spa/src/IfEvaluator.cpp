@@ -10,7 +10,13 @@ unordered_map<string, vector<string>> IfEvaluator::evaluate(pql_dto::Pattern &pa
 
     if (first_param.get_entity_type() == EntityType::ANY)
     { // pattern ifs(_, _, _)
-        vector<int> int_vec = PKB.get_all_ifs();
+        unordered_map<int, vector<string>> int_str_map = PKB.get_all_if_and_control_variables_map();
+        vector<int> int_vec;
+        int_vec.reserve(int_str_map.size());
+        for (const auto& iter : int_str_map)
+        {
+            int_vec.push_back(iter.first);
+        }
         result = QueryUtility::mapping(pattern_name, int_vec);
     }
     else if (QueryUtility::is_var_name(first_param))
