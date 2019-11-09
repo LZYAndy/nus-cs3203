@@ -70,14 +70,7 @@ void Pattern::set_second_param(Entity second_entity_param)
     if (std::find(pattern_second_param_type.begin(), pattern_second_param_type.end(), second_entity_param.get_entity_type())
         == pattern_second_param_type.end())
     {
-        if (second_entity_param.is_entity_declared())
-        {
-            throw std::runtime_error(error_messages::invalid_pattern_second_param_syntax);
-        }
-        else
-        {
-            throw std::runtime_error(error_messages::invalid_pattern_second_param);
-        }
+        throw std::runtime_error(error_messages::invalid_pattern_second_param_syntax);
     }
 
     second_param = second_entity_param;

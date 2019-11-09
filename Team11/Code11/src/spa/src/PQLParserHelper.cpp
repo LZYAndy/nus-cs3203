@@ -446,6 +446,15 @@ std::string PQLParserHelper::parse_with_clause(std::string& query, std::vector<p
 
             right_reference.append(".");
             right_reference.append(var_attr);
+
+            if (remaining_condition_query.find_first_of(whitespace) != std::string::npos)
+            {
+                remaining_condition_query = StringUtil::trim(remaining_condition_query.substr(remaining_condition_query.find_first_of(whitespace)), whitespace);
+            }
+            else
+            {
+                remaining_condition_query = "";
+            }
         }
 
         query = remaining_condition_query;

@@ -381,6 +381,18 @@ TEST_CASE("Pql query parser parse and validate valid query correctly.")
         REQUIRE(pattern_clause.size() == 0);
         REQUIRE(with_clause.size() == 0);
     }
+
+    SECTION("Valid query 32.")
+    {
+        std::string test_query = "stmt s1, s2; variable v1, v2; Select < s1  .  stmt#, v2, v1 . varName, s2> such that Uses(s1, v1) with v1 . varName = v2 . varName such that Modifies(s2, v2) with \"boredom\" = v2 . varName";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == "");
+        REQUIRE(select_clause.size() == 4);
+        REQUIRE(such_that_clause.size() == 2);
+        REQUIRE(pattern_clause.size() == 0);
+        REQUIRE(with_clause.size() == 2);
+    }
 }
 
 TEST_CASE("Pql query parser parse and validate invalid query correctly.")
@@ -604,6 +616,30 @@ TEST_CASE("Pql query parser parse and validate invalid query correctly.")
         std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
 
         REQUIRE(error == error_messages::invalid_entity_attr_to_type);
+    }
+
+    SECTION("Invalid query 28.")
+    {
+        std::string test_query = "stmt s; Select BOOLEAN pattern s (_,_)";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == error_messages::invalid_query_wrong_pattern_entity);
+    }
+
+    SECTION("Invalid query 29.")
+    {
+        std::string test_query = "while w; variable v; Select BOOLEAN pattern w (_, 23)";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == error_messages::invalid_pattern_second_param_syntax);
+    }
+
+    SECTION("Invalid query 30.")
+    {
+        std::string test_query = "while w; variable v; Select BOOLEAN pattern w (_, v)";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        REQUIRE(error == error_messages::invalid_pattern_second_param_syntax);
     }
 }
 
