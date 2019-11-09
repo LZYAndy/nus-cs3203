@@ -209,7 +209,10 @@ void DesignExtractor::extract_next_bip_helper(PKB &pkb, int previous, std::vecto
             {
                 for (int end_stmt : callee_end_stmts_no)
                 {
-                    pkb.insert_next_bip(end_stmt, after_call);
+                    if (pkb.get_statement_type(end_stmt) != EntityType::CALL)
+                    {
+                        pkb.insert_next_bip(end_stmt, after_call);
+                    }
                 }
                 pkb.insert_call_ingress_egress(previous, after_call);
             }

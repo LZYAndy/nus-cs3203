@@ -445,6 +445,13 @@ TEST_CASE("One such that clause: Calls and Calls*")
         unordered_set<string> expected_result_1 {"TRUE"};
         REQUIRE(QueryEvaluator::get_result(pql_query_1, PKB) == expected_result_1);
     }
+
+    SECTION("Calls*(\"main\", p)")
+    {
+        string pql_query = "procedure p; Select p such that Calls*(\"main\", p)";
+        unordered_set<string> expected_result {"computeCentroid", "printResults", "readPoint"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
 }
 
 TEST_CASE("One such that clause: Next and Next*")
@@ -949,8 +956,8 @@ TEST_CASE("Multiple select, such that, and pattern")
 
     SECTION("select tuple, multiple clauses")
     {
-        string pql_query = "stmt s,s1; assign a; Select s1 such that Affects(s,s1) pattern a(_,\"cenX / count\")";
-        unordered_set<string> expected_result {"15", "16", "17", "20", "21", "22", "23", "28"};
+        string pql_query = "variable v; if ifs; assign a; Select v pattern ifs(v, _,_) and a(v, _\"cenX\"_)";
+        unordered_set<string> expected_result {"cenX"};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
 
@@ -960,4 +967,25 @@ TEST_CASE("Multiple select, such that, and pattern")
         unordered_set<string> expected_result {"cenX"};
         REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
     }
+
+    SECTION("error")
+    {
+        string pql_query = "procedure p; stmt s; Select s such that Affects(s, p)";
+        unordered_set<string> expected_result {};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+    SECTION("select tuple, multiple clauses")
+    {
+        string pql_query = "assign a, a1; Select BOOLEAN with a.stmt# = a1.stmt# and a1.stmt# = a1.stmt# and a.stmt# = a.stmt#";
+        unordered_set<string> expected_result {"TRUE"};
+        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+    }
+
+//    SECTION("select BOOLEAN, multiple clauses")
+//    {
+//        string pql_query = R"(procedure pcd1; stmt sd1; assign ad1; call cd1; while wd1; if ifsd1; read rd1; print pd1; variable vd1; procedure pc1; stmt s1; assign a1; call c1; while w1; if ifs1; read r1; print p1; variable v1; procedure pc2; stmt s2; assign a2; call c2; while w2; if ifs2; read r2; print p2; variable v2; procedure pc3; stmt s3; assign a3; call c3; while w3; if ifs3; read r3; print p3; variable v3; procedure pc4; stmt s4; assign a4; call c4; while w4; if ifs4; read r4; print p4; variable v4; Select BOOLEAN such that Calls*("main", pc1) with pc1.procName = "readPoint")";
+//        unordered_set<string> expected_result {"TRUE"};
+//        REQUIRE(QueryEvaluator::get_result(pql_query, PKB) == expected_result);
+//    }
 }
