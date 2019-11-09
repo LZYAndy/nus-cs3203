@@ -12,6 +12,7 @@ bool NextBipStarCompute::is_next_bip_star(int previous, int next)
     {
         int curr_prog_line = to_visit.back();
         to_visit.pop_back();
+        bool new_call = false;
         auto visited_result = visited.emplace(curr_prog_line);
         if (!visited_result.second)
         {
@@ -41,6 +42,7 @@ bool NextBipStarCompute::is_next_bip_star(int previous, int next)
                     if (possible_prog_line == normal_next_stmt)
                     {
                         call_stack.push_back(normal_next_stmt);
+                        new_call = true;
                     }
                 }
             }
@@ -49,6 +51,7 @@ bool NextBipStarCompute::is_next_bip_star(int previous, int next)
                 if (possible_prog_lines.front() == -1)
                 {
                     call_stack.push_back(-1);
+                    new_call = true;
                 }
             }
 
@@ -79,7 +82,7 @@ bool NextBipStarCompute::is_next_bip_star(int previous, int next)
                 }
                 continue;
             }
-            if (call_stack.back() == -1)
+            if (call_stack.back() == -1 && !new_call)
             {
                 std::vector<int> possible_exits;
                 for (int next_possible_stmt : next_stmts)
