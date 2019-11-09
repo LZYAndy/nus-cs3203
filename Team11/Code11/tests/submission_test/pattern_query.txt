@@ -101,7 +101,7 @@ Select a pattern a("b2",_"d % g"_)
 21 - select if pattern, wild card
 if ifs;
 Select ifs pattern ifs(_,_,_)
-2,5,12
+2,12
 5000
 22 - select if pattern, syn
 if ifs; variable v;
@@ -116,7 +116,7 @@ Select ifs pattern ifs("b2",_,_)
 24 - select while pattern, wild card
 while w;
 Select w pattern w(_,_)
-6,11,13,15
+6,13,15
 5000
 25 - select while pattern, syn
 while w; variable v;
