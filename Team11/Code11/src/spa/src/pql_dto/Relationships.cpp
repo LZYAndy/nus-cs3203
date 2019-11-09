@@ -53,7 +53,14 @@ namespace pql_dto
         }
         else
         {
-            first_param.set_entity_type(EntityType::VARIABLE);
+            if (relationship_type == RelationshipType::USES || relationship_type == RelationshipType::MODIFIES)
+            {
+                first_param.set_entity_type(EntityType::PROCEDURE);
+            }
+            else
+            {
+                first_param.set_entity_type(EntityType::VARIABLE);
+            }
         }
         first_param.set_entity_name(value);
     }
