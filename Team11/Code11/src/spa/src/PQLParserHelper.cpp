@@ -461,6 +461,7 @@ std::string PQLParserHelper::parse_with_clause(std::string& query, std::vector<p
         pql_dto::Entity left_entity = create_with_entity(left_reference, declared_variables);
         pql_dto::Entity right_entity = create_with_entity(right_reference, declared_variables);
         pql_dto::With with = pql_dto::With(left_entity, right_entity);
+        /// Remove undeclared references. 5 = 5
         if (left_entity.is_entity_declared() || right_entity.is_entity_declared())
         {
             with_clause.push_back(with);
@@ -491,7 +492,14 @@ pql_dto::Entity PQLParserHelper::parse_variable_to_entity(std::string& var, std:
         /// Checks if variable in select clause exists
         if (declared_variables.find(var_name) == declared_variables.end())
         {
-            throw std::runtime_error(error_messages::invalid_query_variables_not_declared);
+            if (CheckerUtil::is_name_valid(var_name))
+            {
+                throw std::runtime_error(error_messages::invalid_query_variables_not_declared);
+            }
+            else
+            {
+                throw std::runtime_error(error_messages::invalid_attribute_syntax);
+            }
         }
 
         std::string entity_type = declared_variables.at(var_name);
@@ -505,7 +513,14 @@ pql_dto::Entity PQLParserHelper::parse_variable_to_entity(std::string& var, std:
         /// Checks if variable in select clause exists
         if (declared_variables.find(var) == declared_variables.end())
         {
-            throw std::runtime_error(error_messages::invalid_query_variables_not_declared);
+            if (CheckerUtil::is_name_valid(var))
+            {
+                throw std::runtime_error(error_messages::invalid_query_variables_not_declared);
+            }
+            else
+            {
+                throw std::runtime_error(error_messages::invalid_attribute_syntax);
+            }
         }
 
         std::string entity_type = declared_variables.at(var);
@@ -538,7 +553,14 @@ pql_dto::Entity PQLParserHelper::create_entity(std::string& var_name, std::unord
         }
         else
         {
-            throw std::runtime_error(error_messages::invalid_query_variables_not_declared);
+            if (CheckerUtil::is_name_valid(var_name))
+            {
+                throw std::runtime_error(error_messages::invalid_query_variables_not_declared);
+            }
+            else
+            {
+                throw std::runtime_error(error_messages::invalid_query_such_that_clause_syntax);
+            }
         }
     }
     else
@@ -575,6 +597,7 @@ pql_dto::Entity PQLParserHelper::create_with_entity(std::string& var_name, std::
         /// Checks if variable name is an INTEGER
         if (!var_name.empty() && std::all_of(var_name.begin(), var_name.end(), ::isdigit))
         {
+            var_name = StringUtil::process_constant(var_name);
             return pql_dto::Entity(prog_line_keyword, var_name, false);
         }
 

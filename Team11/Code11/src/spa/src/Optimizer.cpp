@@ -292,6 +292,8 @@ void Optimizer::replace_with_synonyms(std::vector<pql_dto::Entity>& select_claus
                     pattern.update_second_param(right_ref.get_entity_name());
                     pattern_clause.at(index) = pattern;
                 }
+
+                index++;
             }
         }
     }

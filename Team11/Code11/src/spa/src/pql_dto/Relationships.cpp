@@ -53,7 +53,8 @@ namespace pql_dto
         }
         else
         {
-            if (relationship_type == RelationshipType::USES || relationship_type == RelationshipType::MODIFIES)
+            if (relationship_type == RelationshipType::USES || relationship_type == RelationshipType::MODIFIES
+                || relationship_type == RelationshipType::CALLS)
             {
                 first_param.set_entity_type(EntityType::PROCEDURE);
             }
@@ -87,7 +88,14 @@ namespace pql_dto
         }
         else
         {
-            second_param.set_entity_type(EntityType::VARIABLE);
+            if (relationship_type == RelationshipType::CALLS)
+            {
+                second_param.set_entity_type(EntityType::PROCEDURE);
+            }
+            else
+            {
+                second_param.set_entity_type(EntityType::VARIABLE);
+            }
         }
         second_param.set_entity_name(value);
     }

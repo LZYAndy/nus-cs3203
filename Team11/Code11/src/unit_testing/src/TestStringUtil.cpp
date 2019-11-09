@@ -120,3 +120,21 @@ TEST_CASE("Test preprocess_expr_string")
     std::string result_space = StringUtil::preprocess_expr_string(to_process_space);
     REQUIRE(result_space == expected);
 }
+
+TEST_CASE("Test removing zeros")
+{
+    std::string input_string = "00000000000005";
+    std::string result = StringUtil::process_constant(input_string);
+    std::string expected = "5";
+    REQUIRE(result == expected);
+
+    input_string = "0000050000";
+    result = StringUtil::process_constant(input_string);
+    expected = "50000";
+    REQUIRE(result == expected);
+
+    input_string = "000000000";
+    result = StringUtil::process_constant(input_string);
+    expected = "0";
+    REQUIRE(result == expected);
+}

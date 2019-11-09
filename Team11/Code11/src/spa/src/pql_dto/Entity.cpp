@@ -205,7 +205,7 @@ void Entity::set_entity_attr(std::string attr)
     std::vector<EntityType> proc_name_attr = attributes_table.at(entity_attr);
     if (std::find(proc_name_attr.begin(), proc_name_attr.end(), entity_type) == proc_name_attr.end())
     {
-        throw std::runtime_error(error_messages::invalid_entity_attr);
+        throw std::runtime_error(error_messages::invalid_entity_attr_to_type);
     }
 }
 
