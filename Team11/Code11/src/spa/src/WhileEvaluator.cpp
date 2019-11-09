@@ -10,7 +10,13 @@ unordered_map<string, vector<string>> WhileEvaluator::evaluate(pql_dto::Pattern 
 
     if (first_param.get_entity_type() == EntityType::ANY)
     { // pattern w(_, _)
-        vector<int> int_vec = PKB.get_all_whiles();
+        unordered_map<int, vector<string>> int_str_map = PKB.get_all_whilestmt_and_control_var();
+        vector<int> int_vec;
+        int_vec.reserve(int_str_map.size());
+        for (const auto& iter : int_str_map)
+        {
+            int_vec.push_back(iter.first);
+        }
         result = QueryUtility::mapping(pattern_name, int_vec);
     }
     else if (QueryUtility::is_var_name(first_param))
