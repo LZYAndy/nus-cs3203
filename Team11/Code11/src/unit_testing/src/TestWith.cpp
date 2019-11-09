@@ -125,7 +125,7 @@ TEST_CASE("With throws error for incorrect entity types.")
         pql_dto::Entity first_param_entity = pql_dto::Entity("procedure", "proc", true);
         pql_dto::Entity second_param_entity = pql_dto::Entity("prog_line", "5", false);
         REQUIRE_THROWS_WITH(pql_dto::With(first_param_entity, second_param_entity),
-            error_messages::invalid_query_with_clause_syntax);
+            error_messages::invalid_with_param);
     }
 
     SECTION("With with same type but different strings.", "With \"count\" = \"long\"")

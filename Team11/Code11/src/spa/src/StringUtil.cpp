@@ -133,13 +133,13 @@ std::string StringUtil::preprocess_expr_string(std::string input)
 
 std::string StringUtil::process_constant(std::string input)
 {
-    if (std::regex_match(input, std::regex("^0+$"))){
-        return "0";
+    for (int i = 0; i < input.length(); i++)
+    {
+        if (input.at(i) != '0')
+        {
+            return input.substr(i);
+        }
     }
 
-    if (std::regex_match(input, std::regex("^(0+)(.*)$"))){
-        return regex_replace(input, std::regex("^(0+)(.*)$"), "$2");
-    }
-
-    return input;
+    return "0";
 }

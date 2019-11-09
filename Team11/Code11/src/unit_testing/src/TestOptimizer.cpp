@@ -497,7 +497,7 @@ TEST_CASE("Optimizer splits clauses into groups in select and not in select corr
         REQUIRE(synonyms_not_in_select_clause.size() == 0);
     }
 
-    SECTION("Multiple links in select clause.")
+    SECTION("Multiple links in select clause 1.")
     {
         std::string test_query = "stmt s, s1, s2, s3, s4, s5, s6; Select s1 such that Follows(s6, s5) and Follows(s4, s3) and Follows(s6, s2) and Follows(s1, s4) and Follows(s3, s5) and Follows(6, s3)";
         std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
@@ -516,6 +516,26 @@ TEST_CASE("Optimizer splits clauses into groups in select and not in select corr
         REQUIRE(synonyms_in_select_clause.size() == 1);
         REQUIRE(synonyms_in_select_clause.at(0).size() == 6);
         REQUIRE(synonyms_not_in_select_clause.size() == 0);
+    }
+
+    SECTION("Multiple links in select clause 2.")
+    {
+        std::string test_query = "while w; if ifs; assign a; variable v; Select <a, ifs, w> pattern ifs(v, _, _) and a(v, _) and w(v, _) with v.varName = \"c\"";
+        std::string error = PQLParser::pql_parse_query(test_query, select_clause, such_that_clause, pattern_clause, with_clause);
+
+        CHECK(select_clause.size() == 3);
+        CHECK(such_that_clause.size() == 0);
+        CHECK(pattern_clause.size() == 3);
+        CHECK(with_clause.size() == 1);
+
+        error = Optimizer::split_clauses_with_no_synonyms(select_clause, such_that_clause, pattern_clause, with_clause, no_synonym_clauses, synonym_clauses);
+
+        CHECK(synonym_clauses.size() == 4);
+
+        error = Optimizer::split_clauses_into_groups(select_clause, synonym_clauses, synonyms_in_select_clause, synonyms_not_in_select_clause);
+
+        REQUIRE(synonyms_in_select_clause.size() == 3);
+        REQUIRE(synonyms_not_in_select_clause.size() == 1);
     }
 
     SECTION("Multiple links in with and pattern clause.")

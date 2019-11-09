@@ -5,7 +5,7 @@ TEST_CASE("Parses and validate Pattern clause.")
 {
     /// Initialise declared variables for select clause
     std::unordered_map<std::string, std::string> declared_variables;
-    std::string declaration_query = "variable v1, v2; print prt; assign a; procedure p";
+    std::string declaration_query = "variable v1, v2; print prt; assign a; procedure p; while w; if ifs;";
     std::vector<pql_dto::Pattern> pattern_clause;
     std::string declaration_error = PQLParserHelper::parse_declaration_clause(declaration_query, declared_variables);
 
@@ -89,5 +89,29 @@ TEST_CASE("Parses and validate Pattern clause.")
         std::string error = PQLParserHelper::parse_pattern_clause(test_query, pattern_clause, declared_variables);
 
         REQUIRE(error == error_messages::invalid_query_pattern_clause_syntax);
+    }
+
+    SECTION("Invalid Pattern Clause. Wrong Format 1.")
+    {
+        std::string test_query = "pattern w (_, _v_)";
+        std::string error = PQLParserHelper::parse_pattern_clause(test_query, pattern_clause, declared_variables);
+
+        REQUIRE(error == error_messages::invalid_query_such_that_clause_syntax);
+    }
+
+    SECTION("Invalid Pattern Clause. Wrong Format 2.")
+    {
+        std::string test_query = "pattern ifs (_, _v_)";
+        std::string error = PQLParserHelper::parse_pattern_clause(test_query, pattern_clause, declared_variables);
+
+        REQUIRE(error == error_messages::invalid_query_pattern_clause_syntax);
+    }
+
+    SECTION("Invalid Pattern Clause. Wrong Format 3.")
+    {
+        std::string test_query = "pattern w (_, _, _)";
+        std::string error = PQLParserHelper::parse_pattern_clause(test_query, pattern_clause, declared_variables);
+
+        REQUIRE(error == error_messages::invalid_query_such_that_clause_syntax);
     }
 }
