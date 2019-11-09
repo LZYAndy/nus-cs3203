@@ -3,6 +3,7 @@
 
 #include <string>
 #include "CheckerUtil.h"
+#include "Statement.h"
 #include "ErrorMessages.h"
 
 class Procedure
@@ -10,6 +11,7 @@ class Procedure
 private:
     std::string proc_name;
     std::string body_of_proc;
+    std::vector<Statement> statement_list;
 
 public:
     /**
@@ -30,6 +32,18 @@ public:
      * @return the body of the procedure.
      */
     std::string get_body();
+
+    /**
+     * The statement list getter, which is basically the parsed body.
+     * @return A statement list.
+     */
+    std::vector<Statement> get_statement_list();
+
+    /**
+     * Set the statement list for this procedure.
+     * @param stmt_list The statement list to be set.
+     */
+    void set_statement_list(std::vector<Statement> stmt_list);
 };
 
 #endif //AUTOTESTER_PROCEDURE_H

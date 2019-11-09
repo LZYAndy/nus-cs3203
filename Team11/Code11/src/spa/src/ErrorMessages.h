@@ -23,6 +23,7 @@ constexpr const char* invalid_read_type(R"(Invalid read type.)");
 constexpr const char* invalid_expr(R"(Invalid expression!)");
 constexpr const char* invalid_SIMPLE(R"(Invalid SIMPLE code.)");
 constexpr const char* cyclic_call(R"(Invalid SIMPLE code, contains cyclic calls.)");
+constexpr const char* call_does_not_exist(R"(Invalid SIMPLE code, contains call statement calling to a non-exist procedure.)");
 
 
 // Error messages for Entity.cpp
