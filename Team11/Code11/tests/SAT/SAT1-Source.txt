@@ -1,0 +1,54 @@
+procedure AlPhA {
+	boredom= 1;
+	interesting =boredom;
+	print boredom;
+	print interesting;
+	pay = (attention/5)+ 999*998;
+	if(tom != 6)then{
+		pay = (attention/ 7) %998;
+		while(unbelievably>=8){
+			read my;
+			if (( it== attention) && (10 !=gets ))then{
+				print pay;
+				read will;
+			} else {
+				read deTeRmI;
+				print interesting; }
+			When = (you*15) + (999/ 991) ; }
+		while (attention > 16){
+			interesting = 997* deTeRmI /17;
+			read deTeRmI;
+			When = (you *19) + 996;
+			print boredom; }
+		strong = (enough-21) +  997; 
+	}else{
+		read overtake;
+		while((never == attention) && (23  == pay)) {
+			print When;
+			while (25  <boredom) {
+				Failure = 26+ (will  +  989);
+				never = overtake- (27+   988);
+				read will;
+				read succeed; }
+			print it; }
+		read ift; }
+	if (( (interesting + interesting)> 995) ||(Failure== 32) ) then{
+		print you;
+		if (  ((never *succeed) < 34)|| (994 !=my) ) then {
+			you = (pay / 35)* attention;
+		} else {
+			it = (36 / gets) *993; }
+		read will;
+	} else{
+		while ((never> attention) && (38 <pay)) {
+			my = (992 * deTeRmI)- (39 - 990); }
+		if((Failure - boredom)* 991 >= 40) then{
+			is = (succeed * 41) -unbelievably;
+		}else {
+			you = (  boredom/42  )  -  gets; }
+		while ((it  >=  43)&& (991<= gets)) {
+			interesting = (44 / When )  - 990  ; }
+		will = ( never * 45) / overtake * tom; 
+		pay = (never * succeed / interesting) + my * (46 + 999); }
+	print boredom;
+}

@@ -311,7 +311,7 @@ pair<bool, unordered_map<string, vector<string>>> QueryEvaluator::evaluateSuchTh
     pql_dto::Entity first_param = relation.get_first_param();
     pql_dto::Entity second_param = relation.get_second_param();
 
-    if (first_param.is_entity_declared() && second_param.is_entity_declared() && !cache.get_similar_clause_map(clause).empty())
+    if (first_param.is_entity_declared() && second_param.is_entity_declared() && !QueryEvaluator::is_empty_map(cache.get_similar_clause_map(clause)))
     {
         intermediary_map = cache.get_similar_clause_map(clause);
     }
@@ -541,7 +541,7 @@ unordered_map<string, vector<string>> QueryEvaluator::evaluatePattern(pql_dto::C
     pql_dto::Entity first_param = pattern.get_first_param();
     pql_dto::Entity second_param = pattern.get_second_param();
 
-    if (first_param.is_entity_declared() && second_param.is_entity_declared() && !cache.get_similar_clause_map(clause).empty())
+    if (first_param.is_entity_declared() && second_param.is_entity_declared() && !QueryEvaluator::is_empty_map(cache.get_similar_clause_map(clause)))
     {
         intermediary_map = cache.get_similar_clause_map(clause);
     }
@@ -568,7 +568,7 @@ unordered_map<string, vector<string>> QueryEvaluator::evaluateWith(pql_dto::Cons
     pql_dto::Entity first_param = with.get_first_param();
     pql_dto::Entity second_param = with.get_second_param();
 
-    if (first_param.is_entity_declared() && second_param.is_entity_declared() && !cache.get_similar_clause_map(clause).empty())
+    if (first_param.is_entity_declared() && second_param.is_entity_declared() && !QueryEvaluator::is_empty_map(cache.get_similar_clause_map(clause)))
     {
         intermediary_map = cache.get_similar_clause_map(clause);
     }
@@ -596,7 +596,7 @@ int QueryEvaluator::get_element_index_in_map(map<string, vector<string>> &map, s
     return result;
 }
 
-bool QueryEvaluator::is_empty_map(unordered_map<string, vector<string>> &map)
+bool QueryEvaluator::is_empty_map(unordered_map<string, vector<string>> map)
 {
     if (map.empty())
     {

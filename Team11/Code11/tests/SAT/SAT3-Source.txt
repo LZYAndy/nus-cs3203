@@ -1,0 +1,232 @@
+procedure main {
+	alpha= 1;
+	beta = charlie + 384;
+	alpha = beta + 3;
+	read delta;
+	read echo;
+	charlie = 6 - 3*alpha;
+	while ( (charlie >beta)|| (alpha<     53)){
+		delta=(8*alpha);
+		print delta;
+		alpha    =  10 % beta;
+		beta = alpha/beta%11;
+	}
+
+
+	call second;
+	read charlie;
+	charlie = 14 + beta;
+	delta = alpha-15;
+	if(echo >16)then
+	
+	{
+		beta =17* 2345;
+		read beta;
+		echo =    beta*alpha + delta;
+		print second;
+
+		read alpha;
+	} else{
+		delta=echo+beta*delta - 22 ;
+		print echo;
+	}
+
+	echo = delta/ 24 + 382 + beta;
+	print echo;
+	read    alpha;
+	beta = echo +27* alpha;
+	delta= 3;
+	while ((!(delta < charlie)) && (charlie> 29)){
+		if(alpha<2) then{
+			delta =31*echo+   delta;
+			print echo;
+		}else
+		{
+				alpha = delta/ 33;
+				delta = happenIs + 34% alpha;
+		}
+
+		happenIs = 35/ happenIs;
+		echo = happenIs           * delta; print echo;
+	}
+
+
+}
+
+procedure second{
+	happenIs = 38;
+	if (happenIs != 39)then   {
+		papika = happenIs+happenIs * 40/happenIs- flip;
+
+		while(papika>= echo	   ){
+			happenIs = papika;
+			papika = 43 * flip;
+			print flip;
+			flip =alpha/ 45;
+		}
+	}
+
+	else{
+		flip = 46;
+	}
+
+	while (flip> flip){
+		happenIs = flip;
+		flip	 = 49 * beta;
+		while (happenIs<=   theHappenIs2){
+			elf = papika/51;
+			theHappenIs2   = happenIs- theHappenIs2/ 52;
+
+			papika = papika;
+		}
+
+		while(alpha == beta){
+			happenIs = flip% 55   - papika;
+			while(teehee <= omg)        { print theHappenIs2; read teehee;
+			
+			while (omg > 59){ while(papika == omg){
+				elf = papika + 61;
+				while(elf ==62){
+					read papika;
+					theHappenIs2 = theHappenIs2 + 64;
+				}
+			}}}
+		}
+
+		papika = happenIs;
+	}
+
+	elf = 66 % 1835* 193;
+
+	if ((omg > theHappenIs2) &&((papika < omg)|| (hi == papika)))then{
+		elf = 68 + flip;
+	} else{
+		if (elf == 69) then{
+			elf = elf /papika;
+		} else{
+			while (echo == echo){ elf = 72;}
+		}
+	}
+
+	theHappenIs2 = elf+ 000073/ (((((flip))))) * slime;
+}
+
+procedure third{
+	call main;
+	papika = 75;
+	goblin = 76+ 414;
+	slime = papika * beta;
+	dog = goblin + dog * papika+slime % fox;
+
+	beta = 79;
+	read fox	;
+
+	print goblin;
+
+	call second;
+
+	goblin		= papika +dog/83;
+
+	while(goblin > 84){
+		call main;
+		call second;
+	}
+
+	papika = beta;
+	beta= 88;
+
+	if(goblin < 89)then{
+		read beta;
+	}else{
+		call main;
+	}
+	fox = beta + papika/ 92;
+	while(fox >= dog){
+		if (dog == dog)    then{
+			read beta;
+
+			goblin = fox+ 96;
+		}
+		else{
+			while(papika == dog){
+				slime = papika- 98;
+				papika = 99/ goblin;
+			}
+		}
+
+		beta = goblin+100;
+		goblin = papika / slime* goblin;
+	}
+
+	papika = 102;
+	if (goblin < slime) then
+	{
+		print papika;
+	}
+	else {
+		papika = slime - 105;
+	}
+
+	beta = papika / dog + 106;
+}
+
+procedure sTress{
+	a = 107/ alpha;
+	while (slime < a)
+	{
+		b = b/ 109 + c;
+		c = 110;
+		d = a  / b * 111;
+		while	((112 < beta) || ((d==c)&&(b<a))) {
+			print c;
+			e = f/c * 114+ c;
+			call second;
+			c = 116 * b;
+			if (slime!=    dog)then
+			{
+				call main;
+				e = c/ 119;
+				d = dog + c;
+			} else {
+				while(isTrue <99999){
+					d = 122% 239;
+					b = e + 123* happenIs;
+					read d;
+					print b;
+					d = 126- b+f;
+					print d;
+					while (e != e)
+						{
+						c = 129 - c+f;
+						while(main <=isTrue)
+						{
+							e = a+b+c*d/e-f;
+							call second;
+							print e;
+							read c;
+							d = d/ 135;
+							e = a*b/c+d*e - f;
+							Affects = Parent;
+							while (Follows<138)
+							{
+								Parent = Follows;
+								Next = Next - 140;
+								c = Parent;
+								d = 142 / e;
+							}
+
+							Parent = e - Next+ 143;
+						}
+					}
+					b = Next+ d;
+					e = c- 144/ papika;
+				}
+			a = Follows + 146/Parent;
+
+			}
+		}
+
+		a = b + c/ d;
+		a = alpha - 148;
+	}
+}

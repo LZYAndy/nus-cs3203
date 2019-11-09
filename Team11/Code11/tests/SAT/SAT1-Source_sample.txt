@@ -1,0 +1,54 @@
+procedure AlPhA {
+	boredom= 1;												//1
+	interesting =boredom;											//2
+	print boredom;												//3
+	print interesting;											//4
+	pay = (attention/5)+ 999*998;										//5
+	if(tom != 6)then{											//6
+		pay = (attention/ 7) %998;									//7
+		while(unbelievably>=8){										//8
+			read my;										//9
+			if (( it== attention) && (10 !=gets ))then{						//10
+				print pay;									//11
+				read will;									//12
+			} else {
+				read deTeRmI;								/	//13
+				print interesting; }								//14
+			When = (you*15) + (999/ 991) ; }							//15
+		while (attention > 16){										//16
+			interesting = 997* deTeRmI /17;								//17
+			read deTeRmI;										//18
+			When = (you *19) + 996;									//19
+			print boredom; }									//20
+		strong = (enough-21) +  997; 									//21
+	}else{
+		read overtake;											//22
+		while((never == attention) && (23 == pay)) {							//23
+			print When;										//24
+			while (25  <boredom) {									//25
+				Failure = 26+ (will  +  989);							//26
+				never = overtake- (27+   988);							//27
+				read will;									//28
+				read succeed; }									//29
+			print it; }										//30
+		read ift; }											//31
+	if (( (interesting + interesting)> 995) ||(Failure== 32) ) then{					//32
+		print you;											//33
+		if (  ((never *succeed) < 34)|| (994 !=my) ) then {						//34
+			you = (pay / 35)* attention;								//35
+		} else {								
+			it = (36 / gets) *993; }								//36
+		read will;											//37
+	} else{
+		while ((never> attention) && (38 <pay)) {							//38
+			my = (992 * deTeRmI)- (39 - 990); }							//39
+		if((Failure - boredom)* 991 >= 40) then{							//40
+			is = (succeed * 41) -unbelievably;							//41
+		}else {
+			you = (  boredom/42  )  -  gets; }							//42
+		while ((it  >=  43)&& (991<= gets)) {								//43
+			interesting = (44 / When )  - 990  ; }							//44
+		will = ( never * 45) / overtake * tom; 								//45
+		pay = (never * succeed / interesting) + my * (46 + 999); }					//46
+	print boredom;												//47
+}

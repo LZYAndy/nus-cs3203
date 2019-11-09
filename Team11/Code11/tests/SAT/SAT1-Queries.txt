@@ -1,0 +1,2500 @@
+1 - 0 or more spaces within such that clause
+procedure p;
+Select p such that Follows*(1,32) and Uses(16 , _) such that Modifies( 16,_ )
+AlPhA
+5000
+2 - 0 or more spaces within pattern clause
+assign a; while w; variable v1, v2, v3; if ifs;
+Select BOOLEAN pattern a(v1, _ ) and w( v2,_ ) pattern ifs(v3, _, _)
+TRUE
+5000
+3 - 0 or more spaces within with clause
+stmt s; while w; variable v;
+Select BOOLEAN with s . stmt# = 2 and w .stmt#= 16 with v. varName ="boredom"
+TRUE
+5000
+4 - Such that clauses without comma
+procedure p;
+Select p such that Follows*(1,32) and Uses(16 _)
+none
+5000
+5 - Such that clauses without opening bracket
+procedure p;
+Select p such that Follows*(1,32) and Uses 16 _)
+none
+5000
+6 - Such that clauses without closing bracket
+procedure p;
+Select p such that Follows*(1,32) and Uses(16 _
+none
+5000
+7 - Such that clauses without any brackets
+procedure p;
+Select p such that Follows*(1,32) and Uses 16 _
+none
+5000
+8 - Tuples without opening bracket
+procedure p;
+Select p, p.procName>
+none
+5000
+9 - Tuples without closing bracket
+procedure p;
+Select <p, p.procName
+none
+5000
+10 - Tuples without any brackets
+procedure p;
+Select p, p.procName
+none
+5000
+11 - Follows p s
+procedure p; stmt s;
+Select p such that Follows(p, s)
+none
+5000
+12 - Follows v ifs
+variable v; if ifs;
+Select BOOLEAN such that Follows(v, ifs)
+FALSE
+5000
+13 - Follows varName w
+while w;
+Select w such that Follows("strong", w)
+none
+5000
+14 - Follows procName a
+assign a;
+Select BOOLEAN such that Follows("AlPhA", a)
+none
+5000
+15 - Follows cn INT
+constant cn;
+Select cn such that Follows(cn, 23)
+none
+5000
+16 - Follows pn p
+print pn; procedure p;
+Select BOOLEAN such that Follows(pn, p)
+FALSE
+5000
+17 - Follows rd v
+read rd; variable v;
+Select rd such that Follows(rd, v)
+none
+5000
+18 - Follows n varName
+prog_line n;
+Select BOOLEAN such that Follows(n, "strong")
+none
+5000
+19 - Follows INT procName
+stmt s;
+Select s such that Follows(1, "When")
+none
+5000
+20 - Follows INT cn
+constant cn;
+Select BOOLEAN such that Follows(1, cn)
+FALSE
+5000
+21 - Follows s p
+stmt s; procedure p;
+Select s such that Follows(s, p)
+none
+5000
+22 - Follows ifs v
+if ifs; variable v;
+Select BOOLEAN such that Follows(ifs, v)
+FALSE
+5000
+23 - Follows w varName
+while w;
+Select w such that Follows(w, "attention")
+none
+5000
+24 - Follows a procName
+assign a;
+Select BOOLEAN such that Follows(a, "AlPhA")
+none
+5000
+25 - Follows p pn
+procedure p; print pn;
+Select p such that Follows(p, pn)
+none
+5000
+26 - Follows v rd
+variable v; read rd;
+Select BOOLEAN such that Follows(v, rd)
+FALSE
+5000
+27 - Follows varName n
+prog_line n;
+Select n such that Follows("attention", n)
+none
+5000
+28 - Follows procName INT 
+stmt s;
+Select BOOLEAN such that Follows("AlPhA", 2)
+none
+5000
+29 - Follows* p s
+procedure p; stmt s;
+Select BOOLEAN such that Follows*(p, s)
+FALSE
+5000
+30 - Follows* v ifs
+variable v; if ifs;
+Select v such that Follows*(v, ifs)
+none
+5000
+31 - Follows* varName w
+while w;
+Select BOOLEAN such that Follows*("strong", w)
+none
+5000
+32 - Follows* procName a
+assign a;
+Select a such that Follows*("AlPhA", a)
+none
+5000
+33 - Follows* cn INT
+constant cn;
+Select BOOLEAN such that Follows*(cn, 23)
+FALSE
+5000
+34 - Follows* pn p
+print pn; procedure p;
+Select pn such that Follows*(pn, p)
+none
+5000
+35 - Follows* rd v
+read rd; variable v;
+Select BOOLEAN such that Follows*(rd, v)
+FALSE
+5000
+36 - Follows* _ varName
+stmt s;
+Select s such that Follows*(_, "attention")
+none
+5000
+37 - Follows* INT procName
+stmt s;
+Select BOOLEAN such that Follows*(1, "AlPhA")
+none
+5000
+38 - Follows* s p
+stmt s; procedure p;
+Select p such that Follows*(s, p)
+none
+5000
+39 - Follows* ifs v
+if ifs; variable v;
+Select BOOLEAN such that Follows*(ifs, v)
+FALSE
+5000
+40 - Follows* w varName
+while w;
+Select w such that Follows*(w, "strong")
+none
+5000
+41 - Follows* a procName
+assign a;
+Select BOOLEAN such that Follows*(a, "AlPhA")
+none
+5000
+42 - Follows* p pn
+procedure p; print pn;
+Select p such that Follows*(p, pn)
+none
+5000
+43 - Follows* v rd
+variable v; read rd;
+Select BOOLEAN such that Follows*(v, rd)
+FALSE
+5000
+44 - Follows* varName _
+stmt s;
+Select s such that Follows*("strong", _)
+none
+5000
+45 - Follows* procName INT
+stmt s;
+Select BOOLEAN such that Follows*("AlPhA", 2)
+none
+5000
+46 - Follows* INT cn
+constant cn;
+Select cn such that Follows*(1, cn)
+none
+5000
+47 - Uses _ v
+variable v;
+Select BOOLEAN such that Uses(_, v)
+none
+5000
+48 - Uses rd varName
+read rd;
+Select rd such that Uses(rd, "deTeRmI")
+none
+5000
+49 - Uses v v
+variable v1, v2;
+Select BOOLEAN such that Uses(v1, v2)
+FALSE
+5000
+50 - Uses varName varName
+variable v;
+Select v such that Uses("boredom", "deTeRmI")
+none
+5000
+51 - Uses cn varName
+constant cn;
+Select BOOLEAN such that Uses(cn, "deTeRmI")
+FALSE
+5000
+52 - Uses p INT
+procedure p;
+Select p such that Uses(p, 3)
+none
+5000
+53 - Uses n s
+prog_line n; stmt s;
+Select BOOLEAN such that Uses(n, s)
+FALSE
+5000
+54 - Uses pn a
+print pn; assign a;
+Select <pn, a> such that Uses(pn, a)
+none
+5000
+55 - Uses c ifs
+call c; if ifs;
+Select BOOLEAN such that Uses(c, ifs)
+FALSE
+5000
+56 - Uses w w
+while w1, w2;
+Select <w1, w2> such that Uses(w1, w2)
+none
+5000
+57 - Uses ifs c
+if ifs; call c;
+Select BOOLEAN such that Uses(ifs, c)
+FALSE
+5000
+58 - Uses a pn
+assign a; print pn;
+Select <a, pn> such that Uses(a, pn)
+none
+5000
+59 - Uses s n
+stmt s; prog_line n;
+Select BOOLEAN such that Uses(s, n)
+FALSE
+5000
+60 - Uses s cn
+stmt s; constant cn;
+Select <s, cn> such that Uses(s, cn)
+none
+5000
+61 - Uses INT p
+procedure p;
+Select BOOLEAN such that Uses(1, p)
+FALSE
+5000
+62 - Uses INT rd
+read rd;
+Select rd such that Uses(12, rd)
+none
+5000
+63 - With _ = _
+procedure p;
+Select BOOLEAN with _ = _
+none
+5000
+64 - With INT = _.stmt#
+procedure p;
+Select p with 1 = _.stmt#
+none
+5000
+65 - With _.procName = procName
+procedure p;
+Select BOOLEAN with _.procName = "AlPhA"
+none
+5000
+66 - With _.value = INT
+procedure p;
+Select p with _.value = 1
+none
+5000
+67 - With varName = _.varName
+variable v;
+Select BOOLEAN with "deTeRmI" = _.varName
+none
+5000
+68 - With INT.stmt# = INT
+stmt s;
+Select s with 1.stmt# = 1
+none
+5000
+69 - With procName =  INT.procName
+procedure p;
+Select BOOLEAN with "AlPhA" = 2.procName
+none
+5000
+70 - With INT.varName = varName
+variable v;
+Select v with 2.varName = "deTeRmI"
+none
+5000
+71 - With INT = INT.value
+stmt statement;
+Select BOOLEAN with 1 = 2.value
+none
+5000
+72 - With s.procName = procName
+stmt s;
+Select s with s.procName = "AlPhA"
+none
+5000
+73 - With varName = s.varName
+stmt s;
+Select BOOLEAN with "deTeRmI" = s.varName
+FALSE
+5000
+74 - With s.value = INT
+stmt s;
+Select s with s.value = 1
+none
+5000
+75 - With a.procName = procName
+assign a;
+Select BOOLEAN with a.procName = "AlPhA"
+FALSE
+5000
+76 - With varName = a.varName
+assign a;
+Select a with "deTeRmI" = a.varName
+none
+5000
+77 - With a.value = INT
+assign a;
+Select BOOLEAN with a.value = 3
+FALSE
+5000
+78 - With ifs.procName = procName
+if ifs;
+Select ifs with ifs.procName = "AlPhA"
+none
+5000
+79 - With varName = ifs.varName
+if ifs;
+Select BOOLEAN with "deTeRmI" = ifs.varName
+FALSE
+5000
+80 - With ifs.value = INT
+if ifs;
+Select ifs with ifs.value = 1
+none
+5000
+81 - With w.procName = procName
+while w;
+Select BOOLEAN with w.procName = "AlPhA"
+FALSE
+5000
+82 - With varName = w.varName
+while w;
+Select w with "deTeRmI" = w.varName
+none
+5000
+83 - With w.value = INT
+while w;
+Select BOOLEAN with w.value = 8
+FALSE
+5000
+84 - With c.varName = varName
+call c;
+Select c with c.varName = "AlPhA"
+none
+5000
+85 - With INT = c.value
+call c;
+Select BOOLEAN with 10 = c.value
+FALSE
+5000
+86 - With rd.procName = procName
+read rd;
+Select rd with rd.procName = "AlPhA"
+none
+5000
+87 - With INT = rd.value
+read rd;
+Select BOOLEAN with 9 = rd.value
+FALSE
+5000
+88 - With pn.procName = procName
+print pn;
+Select pn with pn.procName = "AlPhA"
+none
+5000
+89 - With INT = pn.value
+print pn;
+Select BOOLEAN with 3 = pn.value
+FALSE
+5000
+90 - With n.procName = procName
+prog_line n;
+Select n with n.procName = "AlPhA"
+none
+5000
+91 - With INT = n.value
+prog_line n;
+Select BOOLEAN with 1 = n.value
+FALSE
+5000
+92 - With n.varName = varName
+prog_line n;
+Select n with n.varName = "deTeRmI"
+none
+5000
+93 - With p.stmt# = INT
+procedure p;
+Select BOOLEAN with p.stmt# = 1
+FALSE
+5000
+94 - With INT = p.value
+procedure p;
+Select p with 2 = p.value
+none
+5000
+95 - With p.varName = varName
+procedure p;
+Select BOOLEAN with p.varName = "AlPhA"
+FALSE
+5000
+96 - With cn.stmt# = INT
+constant cn;
+Select cn with cn.stmt# = 1
+none
+5000
+97 - With procName = cn.procName
+constant cn;
+Select BOOLEAN with "AlPhA" = cn.procName
+FALSE
+5000
+98 - With cn.varName = varName
+constant cn;
+Select cn with cn.varName = "deTeRmI"
+none
+5000
+99 - With INT = varName
+stmt s;
+Select BOOLEAN with 2 = "boredom"
+FALSE
+5000
+100 - With procName = INT
+procedure p;
+Select p with "AlPhA" = 1
+none
+5000
+101 - With c.stmt# = c.procName
+call c;
+Select BOOLEAN with c.stmt# = c.procName
+FALSE
+5000
+102 - With rd.stmt# = rd.varName
+read rd;
+Select rd with rd.stmt# = rd.varName
+none
+5000
+103 - With pn.varName = pn.stmt#
+print pn;
+Select BOOLEAN with pn.varName = pn.stmt#
+FALSE
+5000
+104 - With s = _
+stmt s;
+Select s with s.stmt# = _
+none
+5000
+105 - With _ = varName
+stmt s;
+Select BOOLEAN with _ = "deTeRmI"
+none
+5000
+106 - _ pattern
+assign a;
+Select a pattern _(_, _)
+none
+5000
+107 - INT pattern
+assign a;
+Select BOOLEAN pattern 23(_, _)
+none
+5000
+108 - s pattern
+stmt s;
+Select s pattern s(_, _)
+none
+5000
+109 - c pattern
+call c;
+Select BOOLEAN pattern c(_, _)
+none
+5000
+110 - rd pattern
+read rd;
+Select rd pattern rd(_, _)
+none
+5000
+111 - pn pattern
+print pn;
+Select BOOLEAN pattern pn(_, _)
+none
+5000
+112 - n pattern
+prog_line n;
+Select n pattern n(_, _)
+none
+5000
+113 - p pattern
+procedure p;
+Select BOOLEAN pattern p(_, _)
+none
+5000
+114 - v pattern
+variable v;
+Select v pattern v(_, _)
+none
+5000
+115 - cn pattern
+constant cn;
+Select BOOLEAN pattern cn(_, _)
+none
+5000
+116 - varName pattern
+stmt s;
+Select s pattern "boredom"(_, _)
+none
+5000
+117 - a pattern INT _
+assign a;
+Select BOOLEAN pattern a(1, _)
+none
+5000
+118 - a pattern s v
+assign a; stmt s; variable v;
+Select a pattern a(s, v)
+none
+5000
+119 - a pattern a varName
+assign a1, a2;
+Select BOOLEAN pattern a1(a2, "deTeRmI")
+FALSE
+5000
+120 - a pattern ifs _varName_ 
+assign a; if ifs;
+Select a pattern a(ifs, _"overtake"_)
+none
+5000
+121 - a pattern w _ 
+assign a; while w;
+Select a pattern a(w, _)
+none
+5000
+122 - a pattern c v
+assign a; call c; variable v;
+Select a pattern a(c, v)
+none
+5000
+123 - a pattern rd varName 
+assign a; read rd;
+Select BOOLEAN pattern a(rd, "my")
+FALSE
+5000
+124 - a pattern pn _varName_ 
+assign a; print pn;
+Select a pattern a(pn, _"overtake"_)
+none
+5000
+125 - a pattern n _ 
+assign a; prog_line n;
+Select BOOLEAN pattern a(n, _)
+FALSE
+5000
+126 - a pattern p v 
+assign a; procedure p; variable v;
+Select a pattern a(p, v)
+none
+5000
+127 - a pattern cn varName
+constant cn; assign a;
+Select BOOLEAN pattern a(cn, "my")
+FALSE
+5000
+128 - a pattern _ INT
+assign a;
+Select a pattern a(_, 1)
+none
+5000
+129 - a pattern v s
+assign a; variable v; stmt s;
+Select BOOLEAN pattern a(v, s)
+none
+5000
+130 - a pattern varName a
+assign a1, a2;
+Select a1 pattern a1("my", a2)
+none
+5000
+131 - a pattern _varName_ ifs
+assign a; if ifs;
+Select BOOLEAN pattern a(_"overtake"_, ifs)
+none
+5000
+132 - a pattern _ w
+assign a; while w;
+Select a pattern a(_, w)
+none
+5000
+133 - a pattern v c
+assign a; variable v; call c;
+Select BOOLEAN pattern a(v, c)
+none
+5000
+134 - a pattern varName rd
+assign a; read rd;
+Select a pattern a("my", rd)
+none
+5000
+135 - a pattern _varName_ pn
+assign a; print pn;
+Select BOOLEAN pattern a(_"overtake"_, pn)
+none
+5000
+136 - a pattern _ n
+assign a; prog_line n;
+Select n pattern a(_, n)
+none
+5000
+137 - a pattern v p
+assign a; variable v; procedure p;
+Select BOOLEAN pattern a(v, p)
+none
+5000
+138 - a pattern varName cn
+assign a; constant cn;
+Select cn pattern a("my", cn)
+none
+5000
+139 - ifs pattern varName varName _
+if ifs;
+Select BOOLEAN pattern ifs("it", "attention", _)
+none
+5000
+140 - ifs pattern varName _ INT
+if ifs;
+Select ifs pattern ifs("it", _, 10)
+none
+5000
+141 - ifs pattern varName INT varName
+if ifs;
+Select BOOLEAN pattern ifs("it", 10, "attention")
+none
+5000
+142 - ifs pattern s
+if ifs; stmt s;
+Select s pattern ifs(s, _, _)
+none
+5000
+143 - ifs pattern a
+if ifs; assign a;
+Select BOOLEAN pattern ifs(a, _, _)
+FALSE
+5000
+144 - ifs pattern ifs
+if ifs1, ifs2;
+Select ifs1 pattern ifs2(ifs1, _, _)
+none
+5000
+145 - ifs pattern w
+if ifs; while w;
+Select BOOLEAN pattern ifs(w, _, _)
+FALSE
+5000
+146 - ifs pattern c
+if ifs; call c;
+Select c pattern ifs(c, _, _)
+none
+5000
+147 - ifs pattern rd
+if ifs; read rd;
+Select BOOLEAN pattern ifs(rd, _, _)
+FALSE
+5000
+148 - ifs pattern pn
+if ifs; print pn;
+Select pn pattern ifs(pn, _, _)
+none
+5000
+149 - ifs pattern n
+if ifs; prog_line n;
+Select BOOLEAN pattern ifs(n, _, _)
+FALSE
+5000
+150 - ifs pattern p
+if ifs; procedure p;
+Select p pattern ifs(p, _, _)
+none
+5000
+151 - ifs pattern cn
+if ifs; constant cn;
+Select BOOLEAN pattern ifs(cn, _, _)
+FALSE
+5000
+152 - w pattern varName varName
+while w;
+Select w pattern w("never", "attention")
+none
+5000
+153 - w pattern varName INT
+while w;
+Select BOOLEAN pattern w("attention", 23)
+none
+5000
+154 - w pattern s
+while w; stmt s;
+Select s pattern w(s, _)
+none
+5000
+155 - w pattern a
+while w; assign a;
+Select BOOLEAN pattern w(a, _)
+FALSE
+5000
+156 - w pattern ifs
+while w; if ifs;
+Select ifs pattern w(ifs, _)
+none
+5000
+157 - w pattern w
+while w1, w2;
+Select <w1, w2> pattern w1(w2, _)
+none
+5000
+158 - w pattern c
+while w; call c;
+Select BOOLEAN pattern w(c, _)
+FALSE
+5000
+159 - w pattern rd
+while w; read rd;
+Select <w, rd> pattern w(rd, _)
+none
+5000
+160 - w pattern pn
+while w; print pn;
+Select BOOLEAN pattern w(pn, _)
+FALSE
+5000
+161 - w pattern n
+while w; prog_line n;
+Select <w, n> pattern w(n, _)
+none
+5000
+162 - w pattern p
+while w; procedure p;
+Select BOOLEAN pattern w(p, _)
+FALSE
+5000
+163 - w pattern cn
+while w; constant cn;
+Select <w, cn> pattern w(cn, _)
+none
+5000
+164 - Follows _ _
+stmt s1271250;
+Select BOOLEAN such that Follows(_, _)
+TRUE
+5000
+165 - Follows _ INT
+procedure p102150;
+Select p102150 such that Follows(_, 19)
+AlPhA
+5000
+166 - Follows _ s
+stmt state;
+Select state such that Follows(_, state)
+2, 3, 4, 5, 6, 8, 10, 12, 14, 15, 16, 18, 19, 20, 21, 23, 25, 27, 28, 29, 30, 31, 32, 34, 37, 40, 43, 45, 46, 47
+5000
+167 - Follows _ a
+assign ass;
+Select ass such that Follows(_, ass)
+2, 5, 15, 19, 21, 27, 45, 46
+5000
+168 - Follows _ ifs
+if ifste;
+Select ifste such that Follows(_, ifste)
+6, 10, 32, 34, 40
+5000
+169 - Follows _ w
+while wi65m;
+Select wi65m such that Follows(_, wi65m)
+8, 16, 23, 25, 43
+5000
+170 - Follows _ rd
+read r0p0;
+Select r0p0 such that Follows(_, r0p0)
+12, 18, 28, 29, 31, 37
+5000
+171 - Follows _ pn
+print pprintpp;
+Select pprintpp such that Follows(_, pprintpp)
+3, 4, 14, 20, 30, 47
+5000
+172 - Follows _ n
+prog_line n;
+Select BOOLEAN such that Follows(_, n)
+TRUE
+5000
+173 - Follows INT _ 
+stmt s;
+Select BOOLEAN such that Follows(47, _)
+FALSE
+5000
+175 - Follows s _ 
+stmt s;
+Select s such that Follows(s, _)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 16, 17, 18, 19, 22, 23, 24, 25, 26, 27, 28, 32, 33, 34, 38, 40, 43, 45
+5000
+176 - Follows a _ 
+assign a;
+Select a such that Follows(a, _)
+1, 2, 5, 7, 17, 19, 26, 27, 45
+5000
+177 - Follows ifs _ 
+if ifs;
+Select ifs such that Follows(ifs, _)
+6, 10, 32, 34, 40
+5000
+178 - Follows w _ 
+while w;
+Select w such that Follows(w, _)
+8, 16, 23, 25, 38, 43
+5000
+179 - Follows rd _ 
+read rd;
+Select rd such that Follows(rd, _)
+9, 13, 18, 22, 28
+5000
+180 - Follows pn _
+print pn;
+Select pn such that Follows(pn, _)
+3, 4, 11, 24, 33
+5000
+181 - Follows n _ 
+prog_line n;
+Select BOOLEAN such that Follows(n, _)
+TRUE
+5000
+182 - Follows INT _
+stmt s;
+Select s such that Follows(33, _)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47
+5000
+183 - Follows INT INT
+stmt s;
+Select BOOLEAN such that Follows(6, 32)
+TRUE
+5000
+184 - Follows INT s
+stmt s;
+Select s such that Follows(21, s)
+none
+5000
+185 - Follows INT a
+assign a;
+Select a such that Follows(16, a)
+21
+5000
+186 - Follows INT ifs
+if ifs;
+Select ifs such that Follows(38, ifs)
+40
+5000
+187 - Follows INT w
+while w;
+Select w such that Follows(40, w)
+43
+5000
+188 - Follows INT rd
+read rd;
+Select rd such that Follows(11, rd)
+12
+5000
+189 - Follows INT pn
+print pn;
+Select pn such that Follows(13, pn)
+14
+5000
+190 - Follows INT n
+prog_line n;
+Select n such that Follows(31, n)
+none
+5000
+191 - Follows _ INT 
+stmt s;
+Select BOOLEAN such that Follows(_, 22)
+FALSE
+5000
+192 - Follows s INT 
+stmt s;
+Select s such that Follows(s, 8)
+7
+5000
+193 - Follows a INT
+assign a;
+Select a such that Follows(a, 36)
+none
+5000
+194 - Follows ifs INT
+if ifs;
+Select ifs such that Follows(ifs, 43)
+40
+5000
+195 - Follows w INT 
+while w;
+Select w such that Follows(w, 40)
+38
+5000
+196 - Follows rd INT
+read rd;
+Select rd such that Follows(rd, 32)
+none
+5000
+197 - Follows pn INT
+print pn;
+Select pn such that Follows(pn, 5)
+4
+5000
+198 - Follows n INT 
+prog_line n;
+Select n such that Follows(n, 55)
+none
+5000
+199 - Follows s s
+stmt s1, s2;
+Select <s1, s2> such that Follows(s1, s2) with s1.stmt# = 5
+5 6
+5000
+200 - Follows s a
+stmt s, assign a;
+Select <s, a> such that Follows(s, a) with a.stmt# = 35
+none
+5000
+201 - Follows s ifs
+stmt s; if ifs;
+Select BOOLEAN such that Follows(s, ifs)
+TRUE
+5000
+202 - Follows s w
+stmt s, s1; while w;
+Select <s, w> such that Follows(s1, w) with s.stmt# = 20
+20 8, 20 16, 20 23, 20 25, 20 43 
+5000
+203 - Follows s rd
+stmt s1, s2; read rd;
+Select <s1, rd> such that Follows(s2, rd) with s1.stmt# = 60
+none
+5000
+204 - Follows s pn
+stmt s; print pn;
+Select <s, pn> such that Follows(s, pn) with s.stmt# = 20
+none
+5000
+205 - Follows s n
+stmt s; prog_line n;
+Select s such that Follows(s, n) with n = 20
+19
+5000
+206 - Follows a s 
+assign a; stmt s;
+Select a such that Follows(a, s)
+1, 2, 5, 7, 17, 19, 26, 27, 45
+5000
+207 - Follows ifs s
+if ifs; stmt s;
+Select ifs such that Follows(ifs, s)
+6, 10, 32, 34, 40
+5000
+208 - Follows w s 
+while w; stmt s;
+Select w such that Follows(w, s)
+8, 16, 23, 25, 38, 43
+5000
+209 - Follows rd s 
+read rd; stmt s;
+Select BOOLEAN such that Follows(rd, s) with rd.stmt# = 31
+FALSE
+5000
+210 - Follows pn s 
+print pn; stmt s;
+Select <pn, pn> such that Follows(pn, s)
+3 3, 4 4, 11 11, 24 24, 33 33
+5000
+211 - Follows n s
+prog_line n; stmt s;
+Select s such that Follows(n, s) with n = 45
+46
+5000
+212 - Follows a a
+assign a1, a2;
+Select <a1, a2> such that Follows(a1, a2)
+1 2, 26 27, 45 46
+5000
+213 - Follows a ifs
+assign a; if ifs;
+Select <a, ifs> such that Follows(a, ifs)
+5 6
+5000
+214 - Follows a w
+assign a; while w;
+Select <a, w> such that Follows(a, w)
+7 8
+5000
+215 - Follows a rd
+assign a; read rd;
+Select <a, rd> such that Follows(a, rd)
+17 18, 27 28
+5000
+216 - Follows a pn
+assign a; print pn;
+Select <a, pn> such that Follows(a, pn)
+19 20, 2 3
+5000
+217 - Follows a n
+assign a; prog_line n1, n2;
+Select <a, n1> such that Follows(a, n2) with n1 = 20
+1 20, 2 20, 5 20, 7 20, 17 20, 19 20, 26 20, 27 20, 45 20
+5000
+218 - Follows ifs a 
+if ifs; assign a;
+Select <ifs, a> such that Follows(ifs, a)
+10 15
+5000
+219 - Follows w a 
+while w; assign a;
+Select <w, a> such that Follows(w, a)
+16 21, 43 45
+5000
+220 - Follows rd a 
+read rd; assign a;
+Select <rd, a> such that Follows(rd, a)
+18 19
+5000
+221 - Follows pn a
+print pn; assign a;
+Select <pn, a> such that Follows(pn, a)
+4 5
+5000
+222 - Follows n a 
+prog_line n; assign a;
+Select BOOLEAN such that Follows(n, a) with a.stmt# = 25
+FALSE
+5000
+223 - Follows ifs ifs
+if ifs1, ifs2;
+Select <ifs1, ifs2> such that Follows(ifs1, ifs2)
+6 32
+5000
+224 - Follows ifs w
+if ifs; while w;
+Select <ifs, w> such that Follows(ifs, w)
+40 43
+5000
+225 - Follows ifs rd
+if ifs; read rd;
+Select <ifs, rd> such that Follows(ifs, rd)
+34 37
+5000
+226 - Follows ifs pn
+if ifs; print pn;
+Select <ifs, pn> such that Follows(ifs, pn)
+32 47
+5000
+227 - Follows ifs n
+if ifs; prog_line n;
+Select <ifs, n> such that Follows(ifs, n) with ifs.stmt# = 10
+10 15
+5000
+228 - Follows w ifs 
+while w; if ifs;
+Select <w, ifs> such that Follows(w, ifs)
+38 40
+5000
+229 - Follows rd ifs 
+read rd; if ifs;
+Select <rd, ifs> such that Follows(rd, ifs)
+9 10
+5000
+230 - Follows pn ifs 
+print pn; if ifs;
+Select <pn, ifs> such that Follows(pn, ifs)
+33 34
+5000
+231 - Follows n ifs 
+prog_line n, if ifs;
+Select <n, ifs> such that Follows(n, ifs) with ifs.stmt# = 13
+none
+5000
+232 - Follows w w
+while w1, w2;
+Select <w1, w2> such that Follows(w1, w2)
+8 16
+5000
+233 - Follows w rd
+while w; read rd;
+Select <w, rd> such that Follows(w, rd)
+23 31
+5000
+234 - Follows w pn
+while w; print pn;
+Select <w, pn> such that Follows(w, pn)
+25 30
+5000
+235 - Follows w n
+while w; prog_line n;
+Select BOOLEAN such that Follows(w, n)
+TRUE
+5000
+236 - Follows rd w 
+read rd; while w;
+Select <rd, w> such that Follows(rd, w)
+22 23
+5000
+237 - Follows pn w 
+print pn; while w;
+Select <pn, w> such that Follows(pn, w)
+24 25
+5000
+238 - Follows n w
+prog_line n; while w;
+Select <n, w> such that Follows(n, w) with w1.stmt# = 38
+none
+5000
+239 - Follows rd rd
+read rd1, rd2;
+Select <rd1, rd2> such that Follows(rd1, rd2)
+28 29
+5000
+240 - Follows rd pn
+read rd; print pn;
+Select <rd, pn> such that Follows(rd, pn)
+13 14
+5000
+241 - Follows rd n
+read rd; prog_line n;
+Select <rd, n> such that Follows(rd, n) with rd.stmt# = 30
+none
+5000
+242 - Follows pn rd
+print pn; read rd;
+Select <pn, rd> such that Follows(pn, rd)
+11 12
+5000
+243 - Follows n rd
+prog_line n; read rd;
+Select BOOLEAN such that Follows(n, rd) with rd.stmt# = 22
+FALSE
+5000
+244 - Follows pn pn
+print pn1, pn2;
+Select <pn1, pn2> such that Follows(pn1, pn2)
+3 4
+5000
+245 - Follows pn n
+print pn; prog_line n;
+Select <pn, n> such that Follows(pn, n) with pn.stmt# = 47
+none
+5000
+246 - Follows n pn
+prog_line n; print pn;
+Select <n, pn> such that Follows(n, pn)
+2 3, 3 4, 13 14, 19 20, 25 30, 32 47
+5000
+247 - Follows n n
+prog_line n1, n2;
+Select BOOLEAN such that Follows(n1, n2) with n1 = n2
+FALSE
+5000
+248 - Follows* _ _
+variable v;
+Select v such that Follows*(_, _)
+boredom, interesting, attention, tom, pay, unbelievably, my, gets, will, deTeRmI, When, you, enough, strong, overtake, never, succeed, Failure, ift, is, it
+5000
+249 - Follows* _ INT
+procedure p, ppp; variable v;
+Select <p, p.procName, v, ppp, ppp.procName, v.varName> such that Follows*(_, 47) with v.varName = "boredom"
+AlPhA AlPhA boredom AlPhA AlPhA boredom
+5000
+250 - Follows* _ s
+stmt s;
+Select s such that Follows*(_, s) with s.stmt# = 1
+none
+5000
+251 - Follows* _ a
+assign a;
+Select BOOLEAN such that Follows*(_, a)
+TRUE
+5000
+252 - Follows* _ ifs
+if ifs;
+Select ifs such that Follows*(_, ifs)
+6, 10, 32, 34, 40
+5000
+253 - Follows* _ w
+while w; procedure p;
+Select <p, w> such that Follows*(_, w)
+AlPhA 8, AlPhA 16, AlPhA 23, AlPhA 25, AlPhA 43
+5000
+254 - Follows* _ rd
+read rd;
+Select BOOLEAN such that Follows*(_, rd) with rd.stmt# = 4
+FALSE
+5000
+255 - Follows* _ pn
+print pn1, pn2;
+Select <pn1, pn2> such that Follows*(_, pn1)
+3 3, 3 4, 3 11, 3 14, 3 20, 3 24, 3 30, 3 47, 4 3, 4 4, 4 11, 4 14, 4 20, 4 24, 4 30, 4 47, 14 3, 14 4, 14 11, 14 14, 14 20, 14 24, 14 30, 14 47, 20 3, 20 4, 20 11, 20 14, 20 20, 20 24, 20 30, 20 47, 30 3, 30 4, 30 11, 30 14, 30 20, 30 24, 30 30, 30 47, 47 3, 47 4, 47 11, 47 14, 47 20, 47 24, 47 30, 47 47, 14 33, 20 33, 3 33, 47 33, 30 33, 4 33
+5000 
+256 - Follows* _ n
+prog_line n;
+Select BOOLEAN such that Follows*(_, n) with n = 31
+TRUE
+5000
+257 - Follows* INT _ 
+stmt s;
+Select s such that Follows*(47, _) with s.stmt# = 6
+none
+5000
+258 - Follows* s _ 
+stmt s;
+Select s such that Follows*(s, _) with s.stmt# = 60
+none
+5000
+259 - Follows* a _ 
+assign a; procedure pp0;
+Select <a, pp0> such that Follows*(a, _)
+1 AlPhA, 2 AlPhA, 5 AlPhA, 7 AlPhA, 17 AlPhA, 19 AlPhA, 26 AlPhA, 27 AlPhA, 45 AlPhA
+5000
+260 - Follows* ifs _ 
+if ifs;
+Select ifs such that Follows*(ifs, _)
+6, 10, 32, 34, 40
+5000
+261 - Follows* w _
+while w; if ifs;
+Select <w, ifs> such that Follows*(w, _)
+8 6, 8 10, 8 32, 8 34, 8 40, 16 6, 16 10, 16 32, 16 34, 16 40, 23 6, 23 10, 23 32, 23 34, 23 40, 25 6, 25 10, 25 32, 25 34, 25 40, 38 6, 38 10, 38 32, 38 34, 38 40, 43 6, 43 10, 43 32, 43 34, 43 40
+5000 
+262 - Follows* rd _ 
+read rd;
+Select BOOLEAN such that Follows*(rd, _)
+TRUE
+5000
+263 - Follows* pn _ 
+print pn;
+Select BOOLEAN such that Follows*(pn, _) with pn.stmt# = 47
+FALSE
+5000
+264 - Follows* n _ 
+prog_line n;
+Select n such that Follows*(n, _)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 16, 17, 18, 19, 22, 23, 24, 25, 26, 27, 28, 32, 33, 34, 38, 40, 43, 45
+5000
+265 - Follows* INT _
+constant cnn;
+Select cnn such that Follows*(34, _)
+1, 5, 6, 7, 8, 10, 15, 16, 17, 19, 21, 23, 25, 26, 27, 32, 34, 35, 36, 38, 39, 40, 41, 42, 43, 44, 45, 46, 999, 998, 997, 996, 989, 988, 995, 993, 994, 992, 991, 990
+5000
+266 - Follows* INT INT
+stmt s;
+Select BOOLEAN such that Follows*(6, 22)
+FALSE
+5000
+267 - Follows* INT s
+stmt s;
+Select s such that Follows*(7, s)
+8, 16, 21
+5000
+268 - Follows* INT a
+assign a;
+Select a such that Follows*(38, a)
+45, 46
+5000
+269 - Follows* INT ifs
+if ifs;
+Select ifs such that Follows*(33, ifs)
+34
+5000
+270 - Follows* INT w
+while w;
+Select w such that Follows*(7, w)
+8, 16
+5000
+271 - Follows* INT rd
+read rd;
+Select rd such that Follows*(26, rd)
+28, 29
+5000
+272 - Follows* INT pn
+print pn;
+Select pn such that Follows*(2, pn)
+3, 4, 47
+5000
+273 - Follows* INT n
+prog_line n;
+Select BOOLEAN such that Follows*(70, n)
+FALSE
+5000
+274 - Follows* _ INT
+stmt sam0t; 
+Select BOOLEAN such that Follows*(_, 1)
+FALSE
+5000
+275 - Follows* s INT 
+stmt s;
+Select s such that Follows*(s, 30)
+24, 25
+5000
+276 - Follows* a INT 
+assign a;
+Select a such that Follows*(a, 37)
+none
+5000
+277 - Follows* ifs INT 
+if ifs;
+Select ifs such that Follows*(ifs, 47)
+6, 32
+5000
+278 - Follows* w INT 
+while w;
+Select w such that Follows*(w, 46) with w.stmt# = 38
+38
+5000
+279 - Follows* rd INT
+read rd;
+Select rd such that Follows*(rd, 14) with rd.stmt# = 12
+none
+5000
+280 - Follows* pn INT
+print pn;
+Select pn such that Follows*(pn, 47)
+3, 4
+5000
+281 - Follows* n INT 
+prog_line np; procedure pn;
+Select <np, pn> such that Follows*(np, np)
+none
+5000
+282 - Follows* s s
+stmt s1, s2;
+Select <s1, s2> such that Follows*(s1, s2) with s2.stmt# = 46
+38 46, 40 46, 43 46, 45 46
+5000
+283 - Follows* s a
+stmt s; assign a;
+Select <s, a> such that Follows*(s, a) with a.stmt# = 6
+none
+5000
+284 - Follows* s ifs
+stmt s; if ifs;
+Select s such that Follows*(s, ifs)
+1, 2, 3, 4, 5, 6, 9, 33, 38
+5000
+285 - Follows* s w
+stmt s; while w;
+Select s such that Follows*(s, w)
+7, 8, 22, 24, 38, 40
+5000
+286 - Follows* s rd
+stmt s; read rd;
+Select s such that Follows*(s, rd)
+11, 17, 26, 27, 28, 22, 23, 33, 34
+5000
+287 - Follows* s pn
+stmt s; print pn;
+Select s such that Follows*(s, pn)
+1, 2, 3, 13, 17, 18, 19, 24, 25, 4, 5, 6, 32
+5000
+288 - Follows* s n
+stmt s; prog_line n;
+Select s such that Follows*(s, n) with n = 21
+7, 8, 16
+5000
+289 - Follows* a s 
+assign a; stmt s;
+Select <a.stmt#, s> such that Follows*(a, s) with a.stmt# = 2
+2 3, 2 4, 2 5, 2 6, 2 32, 2 47
+5000
+290 - Follows* ifs s 
+if ifs; stmt s;
+Select ifs such that Follows*(ifs, s)
+6, 10, 32, 34, 40
+5000
+291 - Follows* w s
+while w; stmt s;
+Select <w, s.stmt#> such that Follows*(w, s) with s.stmt# = 21
+8 21, 16 21
+5000 
+292 - Follows* rd s 
+read rd; stmt s;
+Select <rd.stmt#, s> such that Follows*(rd, s) with rd.stmt# = s.stmt#
+none
+5000
+293 - Follows* pn s 
+print pn; stmt s;
+Select <pn.stmt#, s> such that Follows*(pn, s)
+3 4, 3 5, 3 6, 3 32, 3 47, 4 5, 4 6, 4 32, 4 47, 11 12, 24 25, 24 30, 33 34, 33 37
+5000
+294 - Follows* n s
+prog_line n; stmt s;
+Select <n, s> such that Follows*(n, s) with s.stmt# = 15
+9 15, 10 15
+5000
+295 - Follows* a a
+assign a1, a2;
+Select <a1, a2> such that Follows*(a1, a2)
+1 2, 1 5, 2 5, 7 21, 17 19, 26 27, 45 46
+5000
+296 - Follows* a ifs
+assign a; if ifs;
+Select <a, ifs> such that Follows*(a, ifs)
+1 6, 1 32, 2 6, 2 32, 5 6, 5 32
+5000
+297 - Follows* a w
+assign a; while w;
+Select <a, w> such that Follows*(a, w)
+7 8, 7 16
+5000
+298 - Follows* a rd
+assign a; read rd;
+Select <a, rd> such that Follows*(a, rd) with rd.stmt# = 18
+17 18
+5000
+299 - Follows* a pn
+assign a; print pn;
+Select <a.stmt#, pn.stmt#> such that Follows*(a, pn)
+1 3, 1 4, 1 47, 2 3, 2 4, 2 47, 5 47, 17 20, 19 20
+5000
+300 - Follows* a n
+assign a; prog_line n;
+Select <a, n> such that Follows*(a, n) with a.stmt# = 1
+1 2, 1 3, 1 4, 1 5, 1 6, 1 32, 1 47
+5000
+301 - Follows* ifs a 
+if ifs; assign a;
+Select <ifs, a> such that Follows*(ifs, a)
+40 45, 40 46, 10 15
+5000
+302 - Follows* w a 
+while w; assign a;
+Select <w, a> such that Follows*(w, a)
+8 21, 16 21, 38 45, 38 46, 43 45, 43 46
+5000
+303 - Follows* rd a
+read rd; assign a;
+Select <rd, a> such that Follows*(rd, a)
+18 19, 9 15
+5000
+304 - Follows* pn a 
+print pn; assign a;
+Select <pn, a> such that Follows*(pn, a)
+3 5, 4 5
+5000
+305 - Follows* n a 
+prog_line n; assign a;
+Select <n, a> such that Follows*(n, a) with n = 2
+2 5
+5000
+306 - Follows* ifs ifs
+if ifs1, ifs2;
+Select <ifs1, ifs2> such that Follows*(ifs1, ifs2)
+6 32
+5000
+307 - Follows* ifs w
+if ifs; while w;
+Select <ifs, w> such that Follows*(ifs, w)
+40 43
+5000
+308 - Follows* ifs rd
+if ifs; read rd;
+Select <ifs, rd> such that Follows*(ifs, rd)
+34 37
+5000
+309 - Follows* ifs pn
+if ifs; print pn;
+Select <ifs, pn> such that Follows*(ifs, pn)
+6 47, 32 47
+5000
+310 - Follows* ifs n
+if ifs; prog_line n;
+Select <ifs, n> such that Follows*(ifs, n) with n = 32
+6 32
+5000
+311 - Follows* w ifs 
+while w; if ifs;
+Select <w, ifs> such that Follows*(w, ifs)
+38 40
+5000
+312 - Follows* rd ifs 
+read rd; if ifs;
+Select <rd, ifs> such that Follows*(rd, ifs)
+9 10
+5000
+313 - Follows* pn ifs 
+print pn; if ifs;
+Select <pn, ifs> such that Follows*(pn, ifs)
+3 6, 4 6, 3 32, 4 32, 33 34
+5000
+314 - Follows* n ifs 
+prog_line n; if ifs;
+Select BOOLEAN such that Follows*(n, ifs) with n = 6
+TRUE
+5000
+315 - Follows* w w
+while w1, w2;
+Select <w1, w2> such that Follows*(w1, w2)
+8 16, 38 43
+5000
+316 - w1 follows w2 then w2 does not follows w1
+while w1, w2;
+Select BOOLEAN such that Follows(w1, w2) and Follows(w2, w1)
+FALSE
+5000
+317 - Follows* w rd
+while w; read rd;
+Select <w, rd> such that Follows*(w, rd)
+23 31
+5000
+319 - Follows* w pn
+while w; print pn;
+Select <w, pn> such that Follows*(w, pn)
+25 30
+5000
+318 - Follows* w n
+while w; prog_line n;
+Select <w, n> with w.stmt# = 43 such that Follows*(w, n)
+43 45, 43 46
+5000
+319 - Follows* rd w 
+read rd; while w;
+Select <rd, w> such that Follows*(rd, w)
+22 23
+5000
+320 - Follows* pn w 
+print pn; while w;
+Select <pn, w> such that Follows*(pn, w)
+24 25
+5000
+321 - Follows* n w
+prog_line n; while w;
+Select <n, w> such that Follows*(n, w) with n = w.stmt#
+none
+5000
+322 - Follows* rd rd
+read rd1, rd2;
+Select <rd1, rd2> such that Follows*(rd1, rd2)
+28 29, 22 31
+5000
+323 - Follows* rd pn
+read rd; print pn;
+Select <rd, pn> such that Follows*(rd, pn)
+13 14, 18 20
+5000
+324 - Follows* rd n
+read rd; prog_line n;
+Select <rd, n> such that Follows*(rd, n) with rd.stmt# = 51
+none
+5000
+325 - Follows* pn rd
+print pn; read rd;
+Select <pn, rd> such that Follows*(pn, rd)
+11 12, 33 37
+5000
+326 - Follows* n rd
+prog_line n; read rd;
+Select <n, rd> such that Follows*(n, rd) with rd.stmt# = 9
+none
+5000
+327 - Follows* pn pn
+print pn1, pn2;
+Select <pn1, pn2> such that Follows*(pn1, pn2)
+3 4, 3 47, 4 47, 24 30
+5000
+328 - Follows* pn n
+print pn; prog_line n;
+Select BOOLEAN such that Follows*(pn, n) with pn.stmt# = 10
+FALSE
+5000
+329 - Follows* n pn
+prog_line n; print pn;
+Select <n, pn> such that Follows*(n, pn) with pn.stmt# = 30
+24 30, 25 30
+5000
+330 - Follows* n n
+prog_line n1, n2;
+Select <n1, n2> such that Follows*(n1, n2) with n1 = 7
+7 8, 7 16, 7 21
+5000
+331 - Follows* no statement follow from if block to else block
+prog_line n1, n2;
+Select <n1, n2> such that Follows*(n1, n2) with n1 = 41 and n2 = 42
+none
+5000
+332 - Follows* no statement follows from if block to other while block
+prog_line n1, n2;
+Select <n1, n2> with n1 = 42 and 44 = n2 such that Follows*(n1, n2)
+none
+5000
+333 - Uses INT _
+variable v;
+Select BOOLEAN such that Uses(11, _)
+TRUE
+5000
+334 - Uses INT v
+variable v;
+Select v such that Uses(25, v)
+boredom, will, overtake
+5000
+335 - Uses INT varName
+procedure p;
+Select p such that Uses(30, "it")
+AlPhA
+5000
+336 - Uses s _
+stmt s;
+Select s such that Uses(s, _)
+2, 3, 4, 5, 6, 7, 8, 10, 11, 14, 15, 16, 17, 19, 20, 21, 23, 24, 25, 26, 27, 30, 32, 33, 34, 35, 36, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47
+5000
+337 - Uses s v
+stmt s; variable v;
+Select <s, v> such that Uses(s, v) with v.varName = "boredom"
+2 boredom, 3 boredom, 6 boredom, 16 boredom, 20 boredom, 25 boredom, 40 boredom, 42 boredom, 47 boredom, 23 boredom, 32 boredom
+5000
+338 - Uses s varName
+stmt s;
+Select s such that Uses(s, "pay")
+6, 8, 10, 11, 23, 32, 34, 35, 38
+5000
+339 - Uses a _
+assign a;
+Select a such that Uses(a, _) with a.stmt# = 48
+none
+5000
+340 - Uses a v
+assign a; variable v;
+Select BOOLEAN such that Uses(a, v) with v.varName = "ift"
+FALSE
+5000
+341 - Uses a varName
+assign a;
+Select a such that Uses(a, "overtake")
+27, 45
+5000
+342 - Uses ifs _
+if ifs;
+Select ifs such that Uses(ifs, _)
+6, 10, 32, 34, 40
+5000
+343 - Uses ifs v
+if ifs; variable v;
+Select <ifs, v> such that Uses(ifs, v) with ifs.stmt# = 32
+32 interesting, 32 Failure, 32 never, 32 succeed, 32 my, 32 pay, 32 attention, 32 gets, 32 boredom, 32 unbelievably, 32 deTeRmI, 32 When, 32 overtake, 32 it, 32 you, 32 tom
+5000
+344 - Uses ifs varName
+if ifs;
+Select ifs such that Uses(ifs, "Failure")
+32, 40
+5000
+345 - Uses w _
+while w;
+Select w such that Uses(w, _)
+8, 16, 23, 25, 38, 43
+5000
+346 - Uses w v
+while w; variable v;
+Select <w, v> such that Uses(w, v) with w.stmt# = 38
+38 never, 38 attention, 38 pay, 38 deTeRmI
+5000
+347 - Uses w varName
+while w;
+Select w such that Uses(w, "strong")
+none
+5000
+348 - Uses pn _
+print pn;
+Select BOOLEAN such that Uses(pn, _)
+TRUE
+5000
+349 - Uses pn v
+print pn; variable v;
+Select <pn, v> such that Uses(pn, v) with v.varName = "boredom"
+3 boredom, 20 boredom, 47 boredom
+5000
+350 - Uses pn varName
+print pn;
+Select pn such that Uses(pn, "When")
+24
+5000
+351 - Uses n _
+prog_line n; procedure p;
+Select <n, p> such that Uses(n, _) with n = 23
+23 AlPhA
+5000
+352 - Uses n v
+prog_line n; variable v;
+Select <n, v> such that Uses(n, v) with n = 13
+none
+5000
+353 - Uses n varName
+prog_line n;
+Select n such that Uses(n, "interesting")
+4, 6, 8, 10, 14, 32, 46
+5000
+354 - Uses p _
+procedure p;
+Select p such that Uses(p, _)
+AlPhA
+5000
+355 - Uses p v
+procedure p; variable v;
+Select BOOLEAN such that Uses(p, v)
+TRUE
+5000
+356 - Uses p varName
+procedure p;
+Select p such that Uses(p, "nonsense")
+none
+5000
+357 - With INT = INT
+procedure p;
+Select p with 1 = 2
+none
+5000
+358 - With s = INT
+stmt s;
+Select BOOLEAN with s.stmt# = 48
+FALSE
+5000
+359 - With a = INT
+assign a;
+Select a with a.stmt# = 1
+1
+5000
+360 - With ifs = INT
+if ifs;
+Select ifs with ifs.stmt# = 34
+34
+5000
+361 - With w = INT
+while w;
+Select <w, w> with w.stmt# = 43
+43 43
+5000
+362 - With rd = INT
+read rd;
+Select <rd, rd, rd> with rd.stmt# = 18
+18 18 18
+5000
+363 - With pn = INT
+print pn; procedure p;
+Select <pn, p, pn> with pn.stmt# = 11
+11 AlPhA 11
+5000
+364 - With n = INT
+prog_line n; procedure p;
+Select <p, n, p> with n = 28
+AlPhA 28 AlPhA
+5000
+365 - With cn = INT
+constant cn1, cn2;
+Select <cn1, cn2> with cn1.value = 900
+none
+5000
+366 - With INT = s
+stmt s;
+Select <s.stmt#, s> with 46 = s.stmt#
+46 46
+5000
+367 - With s = s
+stmt s1, s2;
+Select <s1, s2> with s1.stmt#=s2.stmt#
+1 1, 2 2, 3 3, 4 4, 5 5, 6 6, 7 7, 8 8, 9 9, 10 10, 11 11, 12 12, 13 13, 14 14, 15 15, 16 16, 17 17, 18 18, 19 19, 20 20, 21 21, 22 22, 23 23, 24 24, 25 25, 26 26, 27 27, 28 28, 29 29, 30 30, 31 31, 32 32, 33 33, 34 34, 35 35, 36 36, 37 37, 38 38, 39 39, 40 40, 41 41, 42 42, 43 43, 44 44, 45 45, 46 46, 47 47
+5000
+368 - With a = s
+stmt s; assign a;
+Select <a, s> with a.stmt# = 1 and s.stmt# = 1 and a.stmt# = s.stmt#
+1 1
+5000
+369 - With ifs = s
+if ifs; stmt s;
+Select <ifs.stmt#,s.stmt#> with ifs.stmt# = 6 with ifs.stmt# = s.stmt#
+6 6
+5000
+370 - With w = s
+while w; stmt s;
+Select <w.stmt#, s> with w.stmt# = s.stmt# with w.stmt# = 15
+none
+5000
+371 - With rd = s
+read rd; stmt s;
+Select <rd, s.stmt#> with rd.stmt# = s.stmt# and s.stmt# = 31
+31 31
+5000
+372 - With pn = s
+print pn; stmt s;
+Select <pn, s> with pn.stmt# = s.stmt# and pn.stmt# = 3 with pn.stmt# = 4
+none
+5000
+373 - With n = s
+prog_line n; stmt s;
+Select <n, s> with n = s.stmt# and n = 10 and s.stmt# = 10
+10 10
+5000
+374 - With cn = s
+constant cn; stmt s;
+Select <cn, s> with s.stmt# = 5
+1 5, 5 5, 6 5, 7 5, 8 5, 10 5, 15 5, 16 5, 17 5, 19 5, 21 5, 23 5, 25 5, 26 5, 27 5, 32 5, 34 5, 36 5, 38 5, 39 5, 40 5, 41 5, 42 5, 43 5, 44 5, 45 5, 46 5, 999 5, 998 5, 997 5, 996 5, 994 5, 993 5, 992 5, 991 5, 990 5, 989 5, 988 5, 35 5, 995 5
+5000
+375 - With INT = a
+assign a;
+Select a.stmt# with 17 = a.stmt#
+17
+5000
+376 - With s = a
+stmt s; assign a;
+Select <s, a> with s.stmt# = a.stmt# with a.stmt# = 48
+none
+5000
+378 - With a = a
+assign a1, a2;
+Select <a1, a2> with a1.stmt# = 1 and 2 = a2.stmt# and a1.stmt# = a2.stmt#
+none
+5000
+379 - With ifs = a
+if ifs; assign a;
+Select BOOLEAN with ifs.stmt# = a.stmt#
+FALSE
+5000
+380 - With w = a
+while w; assign a;
+Select <w, a> with w.stmt# = a.stmt#
+none
+5000
+381 - With rd = a
+read rd; assign a;
+Select <rd, rd.stmt#, a, a.stmt#> with rd.stmt# = a.stmt#
+none
+5000
+382 - With pn = a
+print pn; assign a;
+Select <pn, a> with pn.stmt# = 3 with a.stmt# = 3 with pn.stmt# = a.stmt#
+none
+5000
+383 - With n = a
+prog_line n; assign a;
+Select BOOLEAN with n = 3 and a.stmt# = 3 and n = a.stmt#
+FALSE
+5000
+384 - With cn = a
+constant cn; assign a;
+Select <cn, a> with cn.value = a.stmt# with a.stmt# = 42
+42 42
+5000
+385 - With INT = ifs
+if ifs;
+Select ifs.stmt# with 10 = ifs.stmt#
+10
+5000
+386 - With s = ifs
+stmt s; if ifs;
+Select <s, ifs> with s.stmt# = ifs.stmt# with ifs.stmt# = 10
+10 10
+5000
+387 - With a = ifs
+assign a; if ifs;
+Select <a, ifs> with a.stmt# = ifs.stmt#
+none
+5000
+388 - With ifs = ifs
+if ifs1, ifs2;
+Select <ifs1, ifs2> with ifs1.stmt# = ifs2.stmt#
+6 6, 10 10, 32 32, 34 34, 40 40
+5000
+389 - With w = ifs
+while w; if ifs;
+Select BOOLEAN with w.stmt# = ifs.stmt#
+FALSE
+5000
+390 - With rd = ifs
+read rd; if ifs;
+Select BOOLEAN with rd.stmt# = 12 and ifs.stmt# = 12 with rd.stmt# = ifs.stmt#
+FALSE
+5000
+391 - With pn = ifs
+print pn; if ifs;
+Select <pn, ifs> with pn.stmt# = ifs.stmt# and pn.stmt# = 6
+none
+5000
+392 - With n = ifs
+prog_line n; if ifs;
+Select <n, ifs> with n = ifs.stmt#
+6 6, 10 10, 32 32, 34 34, 40 40
+5000
+393 - With cn = ifs
+constant cn; if ifs;
+Select <cn, ifs> with cn.value = ifs.stmt#
+6 6, 10 10, 32 32, 34 34, 40 40
+5000
+394 - With INT = w
+while w;
+Select w such that 24 = w.stmt#
+none
+5000
+395 - With s = w
+stmt s; while w;
+Select <s, w> with s.stmt# = 25 and w.stmt#=s.stmt#
+25 25
+5000
+396 - With a = w
+assign a; while w;
+Select BOOLEAN with a.stmt# = w.stmt#
+FALSE
+5000
+397 - With ifs = w
+if ifs; while w;
+Select <ifs, w> with ifs.stmt# = w.stmt# with ifs.stmt# = 25
+none
+5000
+398 - With w = w
+while w1, w2;
+Select <w1, w2.stmt#> with w1.stmt# = w2.stmt#
+8 8, 16 16, 23 23, 25 25, 38 38, 43 43
+5000
+399 - With rd = w
+read rd; while w;
+Select <rd.stmt#, w.stmt#> with w.stmt# = 38 and rd.stmt# = w.stmt#
+none
+5000
+400 - With pn = w
+print pn; while w;
+Select BOOLEAN with pn.stmt# = w.stmt# with 43 = w.stmt#
+FALSE
+5000
+401 - With n = w
+prog_line n; while w;
+Select <n, w> with n = w.stmt# and w.stmt# = n
+8 8, 16 16, 23 23, 25 25, 38 38, 43 43
+5000
+402 - With cn = w
+constant cn; while w;
+Select <cn, w> with cn.value = w.stmt#
+8 8, 16 16, 23 23, 25 25, 38 38, 43 43
+5000
+403 - With INT = rd
+read rd;
+Select rd.stmt# with 998 = rd.stmt#
+none
+5000
+404 - With s = rd
+stmt s; read rd;
+Select BOOLEAN with s.stmt# = rd.stmt# and s.stmt# = 28 with rd.stmt# = 29
+FALSE
+5000
+405 - With a = rd
+assign a; read rd;
+Select <a, rd> with a.stmt# = rd.stmt#
+none
+5000
+406 - With ifs = rd
+if ifs; read rd;
+Select <ifs, rd> with ifs.stmt# = 29 and ifs.stmt# = rd.stmt#
+none
+5000
+407 - With w = rd
+while w; read rd;
+Select BOOLEAN with w.stmt# = rd.stmt# with w.stmt# = 28
+FALSE
+5000
+408 - With rd = rd
+read rd1, rd2;
+Select BOOLEAN with rd1.stmt# = rd2.stmt# with rd2.stmt# = 37
+TRUE
+5000
+409 - With pn = rd
+print pn; read rd;
+Select <pn, rd> with pn.stmt# = rd.stmt# with rd.stmt# = 37
+none
+5000
+410 - With n = rd
+prog_line n; read rd;
+Select <n, rd> with n = rd.stmt# with n = 13
+13 13
+5000
+411 - With cn = rd
+constant cn, read rd;
+Select <cn.value, rd.stmt#> with cn.value = 12 and cn.value = rd.stmt#
+none
+5000
+412 - With INT = pn
+print pn;
+Select BOOLEAN with 47 = pn.stmt#
+TRUE
+5000
+413 - With s = pn
+stmt s; print pn;
+Select BOOLEAN with s.stmt#=pn.stmt# with s.stmt# = 50
+FALSE
+5000
+414 - With a = pn
+assign a; print pn;
+Select BOOLEAN with a.stmt# = pn.stmt#
+FALSE
+5000
+415 - With ifs = pn
+if ifs; print pn;
+Select <ifs, pn> with ifs.stmt# = pn.stmt#
+none
+5000
+416 - With w = pn
+while w; print pn;
+Select <w, pn> with w.stmt# = pn.stmt# with w.stmt# = 3
+none
+5000
+417 - With rd = pn
+read rd; print pn;
+Select <rd, pn> with rd.stmt# = pn.stmt# with pn.stmt# = 4
+none
+5000
+418 - With pn = pn
+print pn1, pn2;
+Select <pn1, pn2, pn1.stmt#> with pn1.stmt# = pn2.stmt# and pn2.stmt# = 33
+33 33 33
+5000
+419 - With n = pn
+prog_line n; print pn;
+Select <n, pn.stmt#> with n = 20 and n = pn.stmt#
+20 20
+5000
+420 - With cn = pn
+constant cn; print pn;
+Select <cn, pn> with cn.value = pn.stmt#
+none
+5000
+421 - With INT = n
+prog_line n;
+Select n with 48 = n
+none
+5000
+422 - With s = n
+stmt s; prog_line n;
+Select <s.stmt#, n> with s.stmt# = n and n = 47 and n = 33
+none
+5000
+423 - With a = n
+assign a; prog_line n;
+Select <a.stmt#, n> with a.stmt# = n and n = 3
+none
+5000
+424 - With ifs = n
+if ifs; prog_line n;
+Select BOOLEAN with 23 = n and ifs.stmt# = n
+FALSE
+5000
+425 - With w = n
+while w; prog_line n;
+Select <w, n> with w.stmt# = n
+8 8, 16 16, 23 23, 25 25, 38 38, 43 43
+5000
+426 - With rd = n
+read rd; prog_line n;
+Select rd.stmt# with rd.stmt# = n and rd.stmt# = 1
+none
+5000
+427 - With pn = n
+print pn; prog_line n;
+Select pn with pn.stmt# = n and 3 = pn.stmt#
+3
+5000
+428 - With n = n
+prog_line n1, n2;
+Select <n1, n2> with n1 = 3 and 22 = n2 with n1 = n2
+none
+5000
+429 - With cn = n
+constant cn, prog_line n;
+Select <cn.value, n> with cn.value = n and cn.value = 1000
+none
+5000
+430 - With INT = cn
+constant cn;
+Select BOOLEAN with 999 = cn.value
+TRUE
+5000
+431 - With s = cn
+stmt s; constant cn;
+Select cn.value with s.stmt# = cn.value and cn.value = 989
+none
+5000
+432 - With a = cn
+assign a; constant cn;
+Select <a, cn.value> with a.stmt# = cn.value
+1 1, 5 5, 7 7, 15 15, 17 17, 19 19, 21 21, 26 26, 27 27, 35 35, 36 36, 39 39, 41 41, 42 42, 44 44, 45 45, 46 46
+5000
+433 - With ifs = cn
+if ifs; constant cn;
+Select <ifs, cn.value> with ifs.stmt# = cn.value and 998 = cn.value
+none
+5000
+434 - With w = cn
+while w; constant cn;
+Select <w, cn.value> with w.stmt# = cn.value and 15 = w.stmt#
+none
+5000
+435 - With rd = cn
+read rd; constant cn;
+Select BOOLEAN with rd.stmt# = cn.value
+FALSE
+5000
+436 - With pn = cn
+print pn; constant cn;
+Select <pn, cn.value> with pn.stmt# = cn.value
+none
+5000
+437 - With n = cn
+prog_line n; constant cn;
+Select <n, cn.value> with n = 7 and n = cn.value
+7 7
+5000
+438 - With cn = cn
+constant cn1, cn2;
+Select <cn1.value, cn2.value> with cn1.value = 995 and cn2.value = 994 with cn1.value = cn2.value
+none
+5000
+439 - With rd.varName = rd.varName
+read rd1, rd2;
+Select <rd1.varName, rd2> with rd1.varName = rd2.varName
+deTeRmI 13, deTeRmI 18, will 12, will 28, will 37, ift 31, my 9, overtake 22, succeed 29
+5000
+440 - With rd.varName = pn.varName
+read rd; print pn;
+Select <rd.varName, pn.stmt#> with rd.varName = pn.varName
+none
+5000
+441 - With rd.varName = p.procName
+read rd; procedure p;
+Select BOOLEAN with rd.varName = p.procName
+FALSE
+5000
+442 - With rd.varName = v.varName
+read rd; variable v;
+Select <rd.varName, v> with rd.varName = v.varName and v.varName = "overtake"
+overtake overtake
+5000
+443 - With pn.varName = rd.varName
+print pn; read rd;
+Select <pn.varName, rd> with pn.varName = rd.varName with pn.varName = "When" and rd.varName = "When"
+none
+5000
+444 - With pn.varName = pn.varName
+print pn1, pn2;
+Select <pn1, pn2.varName> with pn1.varName = pn2.varName
+3 boredom, 20 boredom, 47 boredom, 4 interesting, 14 interesting, 11 pay, 24 When, 30 it, 33 you
+5000
+445 - With pn.varName = p.procName
+print pn; procedure p;
+Select BOOLEAN with pn.varName = p.procName
+FALSE
+5000
+446 - With pn.varName = v.varName
+print pn; variable v;
+Select <pn.varName, v> with pn.varName = v.varName and pn.stmt# = 33
+you you
+5000
+447 - With p.procName = rd.varName
+procedure p; read rd;
+Select <p.procName> with p.procName = rd.varName
+none
+5000
+448 - With p.procName = pn.varName
+procedure p; print pn;
+Select <p, pn.varName> with p.procName = pn.varName
+none
+5000
+449 - With p.procName = p.procName
+procedure p1, p2, p3;
+Select <p1, p2.procName, p3> with p1.procName = p2.procName and p2.procName = p3.procName
+AlPhA AlPhA AlPhA
+5000
+450 - With p.procName = v.varName
+procedure p; variable v;
+Select BOOLEAN with p.procName = v.varName
+FALSE
+5000
+451 - With v.varName = rd.varName
+variable v; read rd;
+Select <v, rd.varName> with v.varName = rd.varName
+my my, will will, deTeRmI deTeRmI, overtake overtake, succeed succeed, ift ift 
+5000
+452 - With v.varName = pn.varName
+variable v, v0213v; print pn, pn2;
+Select <v0213v.varName, pn.stmt#> with v.varName = pn.varName and v0213v.varName = pn2.varName
+boredom 3, boredom 4, boredom 11, boredom 14, boredom 20, boredom 24, boredom 30, boredom 33, boredom 47, interesting 3, interesting 4, interesting 11, interesting 14, interesting 20, interesting 24, interesting 30, interesting 33, interesting 47, pay 3, pay 4, pay 11, pay 14, pay 20, pay 24, pay 30, pay 33, pay 47, When 3, When 4, When 11, When 14, When 20, When 24, When 30, When 33, When 47, it 3, it 4, it 11, it 14, it 20, it 24, it 30, it 33, it 47, you 3, you 4, you 11, you 14, you 20, you 24, you 30, you 33, you 47
+5000
+453 - With v.varName = p.procName
+variable v; procedure p;
+Select BOOLEAN with v.varName = p.procName
+FALSE
+5000
+454 - With v.varName = v.varName
+variable v1, v2;
+Select <v1, v2.varName> with v1.varName = v1.varName and v1.varName = "attention"
+attention Failure, attention When, attention boredom, attention deTeRmI, attention enough, attention gets, attention ift, attention interesting, attention is, attention it, attention my, attention never, attention overtake, attention pay, attention strong, attention succeed, attention tom, attention unbelievably, attention will, attention you, attention attention
+5000
+455 - a pattern _ _
+assign a;
+Select a pattern a(_, _)
+1, 2, 5, 7, 15, 17, 19, 21, 26, 27, 35, 36, 39, 41, 42, 44, 45, 46
+5000
+456 - a pattern v _
+assign a; variable v;
+Select <a, v> pattern a(v, _) with v.varName = "boredom"
+1 boredom
+5000
+457 - a pattern varName _
+assign a;
+Select a.stmt# pattern a("you", _)
+35, 42
+5000
+458 - a pattern _ varName
+assign a;
+Select a pattern a(_, "boredom")
+2
+5000
+459 - a pattern v varName
+assign a; variable v;
+Select <a, v.varName> pattern a(v, "1")
+1 boredom
+5000
+460 - a pattern varName varName
+assign a;
+Select a pattern a("interesting", "boredom")
+2
+5000
+461 - a pattern _ _varName_
+assign a;
+Select a pattern a(_, _"gets"_)
+36, 42
+5000
+462 - a pattern v _varName_
+assign a; variable v;
+Select <a.stmt#, v.varName> pattern a(v, _"992*deTeRmI"_)
+39 my
+5000
+463 - a pattern varName _varName_
+assign a;
+Select a pattern a("When", _"(  you * 15 )"_)
+15
+5000
+464 - ifs pattern _ _ _
+if ifs;
+Select <ifs, ifs.stmt#> pattern ifs(_, _, _)
+6 6, 10 10, 32 32, 34 34, 40 40
+5000
+465 - ifs pattern v _ _
+if ifs; variable v;
+Select <ifs.stmt#, v> pattern ifs(v, _, _) with ifs.stmt#=40
+40 Failure, 40 boredom
+5000
+466 - ifs pattern varName _ _
+if ifs;
+Select ifs pattern ifs("never", _, _)
+34
+5000
+467 - w pattern _ _
+while w;
+Select w.stmt# pattern w(_, _)
+8, 16, 23, 25, 38, 43
+5000
+468 - w pattern v _
+while w; variable v;
+Select <w, v.varName> pattern w(v, _)
+8 unbelievably, 16 attention, 23 attention, 23 never, 23 pay, 25 boredom, 38 attention, 38 never, 38 pay, 43 it, 43 gets
+5000
+469 - w pattern varName _
+while w;
+Select w pattern w("gets", _)
+43
+5000
+470 - a pattern v varName+varName
+assign a; variable v;
+Select <a.stmt#, v> pattern a(v, " 26 + ( will  +  989 )")
+26 Failure
+5000
+471 - a pattern v varName-varName
+assign a; variable v;
+Select <a, v.varName> pattern a(v, " (boredom/42  )-gets")
+42 you
+5000
+472 - a pattern v varName*varName
+assign a; variable v;
+Select <a, v> pattern a(v, "997 *deTeRmI/ 17 ")
+17 interesting
+5000
+473 - a pattern v varName/varName
+assign a; variable v;
+Select BOOLEAN pattern a(v, " ( attention / 5 ) +999 * 998")
+TRUE
+5000
+474 - a pattern v varName+INT
+assign a; variable v;
+Select <a, v> pattern a(v, _"will+989"_)
+26 Failure
+5000
+475 - a pattern v varName-INT
+assign a; variable v;
+Select <v, a> pattern a(v, _" enough - 21 "_)
+strong 21
+5000
+476 - a pattern v varName*INT
+assign a; variable v;
+Select <v.varName, a> pattern a(v, _" you* 19 "_)
+When 19
+5000
+477 - a pattern v varName/INT
+assign a; variable v;
+Select <v, a.stmt#> pattern a(v, _"( attention /7 )"_)
+pay 7
+5000
+478 - a pattern v INT+INT
+assign a; variable v;
+Select <a, a> pattern a(v, _"46+999"_)
+46 46
+5000
+479 - a pattern v INT-INT
+assign a; variable v;
+Select <v, v.varName> pattern a(v, _"( 39-990 )"_)
+my my
+5000
+480 - a pattern v INT*INT
+assign a; variable v;
+Select <a.stmt#, a.stmt#> pattern a(v, _" 999 *  998 "_)
+5 5
+5000
+481 - a pattern v INT/INT
+assign a; variable v;
+Select a pattern a(v, _"( 999 /991)"_)
+15
+5000
+482 - a pattern v (varName/INT)+INT*INT
+assign a; variable v;
+Select a pattern a(v, " ( attention / 5 ) +999 * 998 ")
+5
+5000
+483 - a pattern v (INT*varName)/INT
+assign a; variable v;
+Select a pattern a(v, _"  never*succeed /interesting "_)
+46
+5000
+484 - a pattern v (INT*varName)-INT
+assign a; variable v;
+Select a pattern a(v, "  ( succeed*41 )- unbelievably ")
+41
+5000
+485 - a pattern v (varName/INT)-varName
+assign a; variable v;
+Select <a, v> pattern a(v, "(boredom / 42)-gets    ")
+42 you
+5000
+486 - Follows and Follows*
+stmt s1, s2, s3;
+Select <s1, s2.stmt#, s3> such that Follows(s1, s2) and Follows*(s1, s3)
+1 2 2, 1 2 3, 1 2 4, 1 2 5, 1 2 6, 1 2 32, 1 2 47, 2 3 3, 2 3 4, 2 3 5, 2 3 6, 2 3 32, 2 3 47, 3 4 4, 3 4 5, 3 4 6, 3 4 32, 3 4 47, 4 5 5, 4 5 6, 4 5 32, 4 5 47, 5 6 6, 5 6 32, 5 6 47, 6 32 32, 6 32 47, 32 47 47, 7 8 8, 7 8 16, 7 8 21, 8 16 16, 8 16 21, 16 21 21, 9 10 10, 9 10 15, 10 15 15, 11 12 12, 13 14 14, 17 18 18, 17 18 19, 17 18 20, 18 19 19, 18 19 20, 19 20 20, 22 23 23, 22 23 31, 23 31 31, 24 25 25, 24 25 30, 25 30 30, 26 27 27, 26 27 28, 26 27 29, 27 28 28, 27 28 29, 28 29 29, 33 34 34, 33 34 37, 34 37 37, 38 40 40, 38 40 43, 38 40 45, 38 40 46, 40 43 43, 40 43 45, 40 43 46, 43 45 45, 43 45 46, 45 46 46
+5000
+487 - Follows and Uses and With
+stmt s; variable v;
+Select <s, v . varName> such that Follows(_, s) with v.varName = "pay" such that Uses(s, v)
+6 pay, 8 pay, 10 pay, 23 pay, 32 pay, 34 pay
+5000
+488 - Follows and Modifies and With
+stmt s; variable v;
+Select <v . varName, s> with v.varName = "will" such that Follows(s, _) and Modifies(s, v)
+will 6, will 8, will 10, will 23, will 25, will 28, will 32, will 45
+5000
+489 - Follows and Parent
+stmt s1, s2;
+Select <s1. stmt#, s2 .stmt#> such that Parent(s1, s2) such that Follows(_, s1)
+6 7, 6 8, 6 16, 6 21, 6 22, 6 23, 6 31, 8 9, 8 10, 8 15, 10 11, 10 12, 10 13, 10 14, 16 17, 16 18, 16 19, 16 20, 23 24, 23 25, 23 30, 25 26, 25 27, 25 28, 25 29, 32 33, 32 34, 32 37, 32 38, 32 40, 32 43, 32 45, 32 46, 34 35, 34 36, 40 41, 40 42, 43 44
+5000
+490 - Follows and pattern and with
+stmt s; assign a;
+Select s.stmt# pattern a(_, _"you"_) such that Follows(s, _) with s.stmt# = a.stmt#
+19
+5000
+491 - Uses and Modifies same variable
+stmt s1, s2; variable v1, v2;
+Select < s1 . stmt#, v2 ,v1 . varName,s2> such that Uses(s1 , v1 ) with v1 .varName = v2.varName such that Modifies( s2, v2) with "boredom" = v2 . varName
+2 boredom boredom 1, 3 boredom boredom 1, 6 boredom boredom 1, 16 boredom boredom 1, 23 boredom boredom 1, 25 boredom boredom 1, 32 boredom boredom 1, 40 boredom boredom 1, 42 boredom boredom 1, 20 boredom boredom 1, 47 boredom boredom 1
+5000
+492 - statement Uses variable but is a Parent statement
+stmt salad; variable v00vovo;
+Select <  salad  ,  v00vovo.varName  > such that Uses(salad, v00vovo) and Parent(salad, _) with "you"=v00vovo.varName
+6 you, 8 you, 16 you, 32 you
+5000
+493 - No call statement in single procedure
+call c;
+Select c
+none
+5000
+494 - No procedure being called in single procedure
+procedure p1, p2;
+Select <p1 , p2 . procName> such that Calls(p1, p2)
+none
+5000
+495 - With clauses with attrName for stmt
+stmt s; assign a;
+Select BOOLEAN with s = a
+FALSE
+5000
+496 - With clauses with attrName for varName and procName
+variable v; procedure p;
+Select BOOLEAN with v = p
+FALSE
+5000
+497 - pattern with modulo
+assign a;
+Select a pattern a (" pay ", " ( attention /7 ) %  998 ")
+7
+5000
+498 - Multiple pattern with same variable matching
+assign a; variable v; if ifs;
+Select <a . stmt#,v.varName,ifs> pattern a( v,_"tom"_ ) and ifs ("tom" , _,_ )
+45 will 6
+5000
+499 - Select only multiple constants but one does not exist
+constant cn1, cn2, cn3;
+Select <cn1, cn2, cn3> with cn1.value =999 and 41= cn2.value and cn3.value = 1000
+none
+5000
+500 - All variables in a particular if condition
+if ifs; variable v;
+Select v with ifs.stmt#=32 pattern ifs (v, _, _)
+interesting, Failure
+5000
+501 - All variables in a particular while condition
+while w; variable v;
+Select v.varName pattern w(   v,_) with w . stmt#=23
+never, attention, pay
+5000
