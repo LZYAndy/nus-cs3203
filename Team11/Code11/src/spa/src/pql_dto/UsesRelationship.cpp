@@ -29,7 +29,7 @@ private:
         std::vector<EntityType> uses_first_param_type = relationships_table.at(RelationshipType::USES).front();
         if (std::find(uses_first_param_type.begin(), uses_first_param_type.end(), param.get_entity_type()) == uses_first_param_type.end())
         {
-            if (param.is_entity_declared())
+            if (param.is_entity_declared() || param.get_entity_type() == EntityType::ANY)
             {
                 throw std::runtime_error(error_messages::invalid_uses_relationship_first_param);
             }

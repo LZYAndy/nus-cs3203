@@ -348,7 +348,7 @@ TEST_CASE("Parses and validate Uses such that clause.")
         std::string test_query = "such that Uses(_, v1)";
         std::string error = PQLParserHelper::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == error_messages::invalid_uses_relationship_first_param_syntax);
+        REQUIRE(error == error_messages::invalid_uses_relationship_first_param);
     }
 }
 
@@ -455,6 +455,6 @@ TEST_CASE("Parses and validate Modifies such that clause.")
         std::string test_query = "such that Modifies(_, v1)";
         std::string error = PQLParserHelper::parse_such_that_clause(test_query, such_that_clause, declared_variables);
 
-        REQUIRE(error == error_messages::invalid_modifies_relationship_first_param_syntax);
+        REQUIRE(error == error_messages::invalid_modifies_relationship_first_param);
     }
 }

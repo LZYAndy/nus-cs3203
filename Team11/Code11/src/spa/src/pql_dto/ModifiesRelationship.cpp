@@ -29,7 +29,7 @@ private:
         std::vector<EntityType> modifies_first_param_type = relationships_table.at(RelationshipType::MODIFIES).front();
         if (std::find(modifies_first_param_type.begin(), modifies_first_param_type.end(), param.get_entity_type()) == modifies_first_param_type.end())
         {
-            if (param.is_entity_declared())
+            if (param.is_entity_declared() || param.get_entity_type() == EntityType::ANY)
             {
                 throw std::runtime_error(error_messages::invalid_modifies_relationship_first_param);
             }
